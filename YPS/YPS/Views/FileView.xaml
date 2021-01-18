@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="YPS.Views.FileView" BackgroundColor="White">
+
+    <NavigationPage.TitleView >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout Orientation="Vertical" Grid.Column="0">
+                <Label x:Name="Groupname"  LineBreakMode="TailTruncation" FontSize="18" TextColor="White" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+                <Label x:Name="Usernames"  FontSize="Small" LineBreakMode="TailTruncation" TextColor="White" VerticalTextAlignment="Center" />
+            </StackLayout>
+        </Grid>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <cards:SfCardLayout x:Name="imageViewList" BindableLayout.ItemsSource="{Binding photoListData}" SwipeDirection="Right" VisibleCardIndex="{Binding VisibleCardInx}" VisibleCardIndexChanged="ImageViewList_VisibleCardIndexChanged">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <cards:SfCardView>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0.20*"/>
+                            </Grid.RowDefinitions>
+                            <forms:CachedImage Margin="10" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Source="{Binding Image}" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                            <StackLayout Orientation="Vertical" Grid.Row="1" Padding="20,0,5,2" x:Name="Description_Stack" >
+                                <Label Text="{Binding Name}"   TextColor="Black" FontSize="Medium" />
+                                <Label Text="{Binding MessagDateTime}"   TextColor="Black" FontSize="Medium" />
+                            </StackLayout>
+                        </Grid>
+                    </cards:SfCardView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </cards:SfCardLayout>
+    </ContentPage.Content>
+</ContentPage>

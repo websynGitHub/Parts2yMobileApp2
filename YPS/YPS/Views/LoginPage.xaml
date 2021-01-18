@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             NavigationPage.HasNavigationBar="False" 
+             xmlns:behaviors="clr-namespace:YPS.Behaviours"
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             x:Class="YPS.Views.LoginPage"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+             xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:FontAwsm="clr-namespace:YPS.CustomRenders" xmlns:customrender="clr-namespace:YPS.CustomRender">
+    <ContentPage.Content>
+        <RelativeLayout>
+            <Image Source="ypsbg.png" Aspect="AspectFill" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}" 
+                   RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"/>
+            <ScrollView RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}" 
+                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}">
+                <StackLayout VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}" 
+                             RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}" x:Name="mainStack">
+                    <Frame CornerRadius="10" Margin="15,0,15,0" Opacity="0.8" BackgroundColor="White" HasShadow="False" OutlineColor="Black">
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="ypslogo12.png" VerticalOptions="StartAndExpand" HorizontalOptions="Center"/>
+                            <Label Grid.Row="1" Style="{DynamicResource LableWithFont}" Text="Please Login to Proceed" TextColor="Black" FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <BoxView Grid.Row="2" Color="Transparent"/>
+
+                            <sfinput:SfTextInputLayout ContainerType="Outlined"  Padding="2,0,1,0" InputViewPadding="10" FocusedColor="DarkBlue" OutlineCornerRadius="7"
+                             Grid.Row="3" Hint="Login ID" TrailingViewPosition="Inside">
+                                <customrender:MyEntry ClassId="login" AutomationId="EntryForLogin"  x:Name="userEntry" Text="{Binding userName}" TextColor="Black" Keyboard="Email"/>
+                                <sfinput:SfTextInputLayout.TrailingView>
+                                    <Image  Source="personIc.png" />
+                                </sfinput:SfTextInputLayout.TrailingView>
+                            </sfinput:SfTextInputLayout>
+                            <BoxView Grid.Row="4" Color="Transparent"/>
+                            <sfbuttons:SfButton Grid.Row="5" AutomationId="AutoLoginBtn" WidthRequest="200"
+                                                Command="{Binding ILoginCommand}" Style="{StaticResource SfBtnBlue}">
+                                <sfbuttons:SfButton.Content>
+                                    <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Padding="10,0,10,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <FontAwsm:FontAwesomeIconLabel Style="{StaticResource FontAwsmLblSfbutton}"
+                                         Grid.Column="0" Text="{x:Static StaticIcons:Icons.key}"/>
+                                        <Label Text="Login" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    </Grid>
+                                </sfbuttons:SfButton.Content>
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+            <ContentView x:Name="popupLoginView" IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" 
+                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}" 
+                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}">
+                <Frame Style="{StaticResource FmForActivityIndicator}">
+                    <StackLayout Padding="15">
+                        <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>
+                        <Label Style="{StaticResource ActivityIndicatorLbl}"/>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

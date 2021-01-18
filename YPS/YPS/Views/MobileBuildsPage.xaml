@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="YPS.Views.MobileBuildsPage"
+             Title="Mobile Apps"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+             x:Name="xMobileBuilds">
+    
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout BackgroundColor="White" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <Label IsVisible="{Binding HideLabelAndShow}" Text="No data found." FontSize="Large" TextColor="Blue" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand"/>
+                <flv:FlowListView FlowColumnCount="3" IsVisible="{Binding HideListAndShow}" x:Name="listView" FlowItemsSource="{Binding ListOfMobileBuilds,Mode=TwoWay}"
+                        SeparatorVisibility="None" BackgroundColor="White" HasUnevenRows="false" RowHeight="200">
+                    <flv:FlowListView.FlowColumnTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource ListVFrame}">
+                                <Grid RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1.8*"/>
+                                        <RowDefinition Height="6.2*"/>
+                                        <RowDefinition Height="2*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0" BackgroundColor="LightGray" Padding="2,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="30"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding AttachmentName,Mode=TwoWay}" LineBreakMode="TailTruncation" FontSize="Default" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                        <LblIcons:FontAwesomeIconLabel Grid.Column="1" Text="{x:Static StaticIcons:Icons.InfoIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.DescriptionICommand, Source={x:Reference Name=xMobileBuilds} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                        </LblIcons:FontAwesomeIconLabel>
+                                    </Grid>
+                                    <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}"/>
+                                    <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
+                                        <LblIcons:FontAwesomeIconLabel IsVisible="{Binding HideDownloadFileIc}" Text="{x:Static StaticIcons:Icons.DownloadIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.DownloadFileICommand, Source={x:Reference Name=xMobileBuilds} }" CommandParameter="{Binding AttachmentURL,Mode=TwoWay}"/>
+                                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                        </LblIcons:FontAwesomeIconLabel>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </flv:FlowListView.FlowColumnTemplate>
+                </flv:FlowListView>
+            </StackLayout>
+            <ContentView IsVisible="{Binding PopUpForFileDes}" BackgroundColor="#99000000" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Frame CornerRadius="7" BorderColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" Padding="7" Margin="10,0,10,0">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="File info..." VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Medium"/>
+                        <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="1" Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red" HorizontalOptions="EndAndExpand">
+                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Close_DescriptionPopup"/>
+                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        </LblIcons:FontAwesomeIconLabel>
+                        <Label Grid.Row="1" Grid.Column="0" Text="File Name :" FontAttributes="Bold"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding FileName}" TextColor="Black"/>
+                        <Label Grid.Row="2" Grid.Column="0" Text="App Server :" FontAttributes="Bold"/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding AppServerLbl}" TextColor="Black"/>
+                        <Label Grid.Row="3" Grid.Column="0" Text="App Version :" FontAttributes="Bold"/>
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding AppVersionLbl}" TextColor="Black"/>
+                        <Label Grid.Row="4" Grid.Column="0" Text="Uploaded By :" FontAttributes="Bold"/>
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding Uploadedby}" TextColor="Black"/>
+                        <Label Grid.Row="5" Grid.Column="0" Text="Uploaded On :" FontAttributes="Bold"/>
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding UploadedDate}" TextColor="Black"/>
+                        <Label Grid.Row="6" Grid.Column="0" Text="Description :" FontAttributes="Bold"/>
+                        <Label Grid.Row="6" Grid.Column="1" Text="{Binding Description}" TextColor="Black"/>
+                    </Grid>
+                </Frame>
+            </ContentView>
+            <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Frame Style="{StaticResource FmForActivityIndicator}">
+                    <StackLayout Padding="15">
+                        <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>
+                        <Label Style="{StaticResource ActivityIndicatorLbl}"/>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

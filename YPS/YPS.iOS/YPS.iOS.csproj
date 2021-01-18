@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{00662C27-8862-440F-A27B-5AFAA22BA3AB}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>YPS.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>YPS.iOS</AssemblyName>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>
+    </CodesignProvision>
+    <MtouchSdkVersion>13.2</MtouchSdkVersion>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
+    <MtouchExtraArgs>--optimize=experimental-xforms-product-type</MtouchExtraArgs>
+    <CodesignExtraArgs />
+    <CodesignResourceRules />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Distribution: Web Synergies (S) Pte Ltd (E9F546483C)</CodesignKey>
+    <CodesignProvision>YPS_DIST_Ind</CodesignProvision>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARM64</MtouchArch>
+    <CodesignKey>iPhone Developer: Ajay Kumar (X8DV4GCUPD)</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
+    <CodesignProvision>YPS_Mobile_Dev</CodesignProvision>
+    <BuildIpa>false</BuildIpa>
+    <MtouchSdkVersion>13.2</MtouchSdkVersion>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchInterpreter>-all</MtouchInterpreter>
+    <MtouchExtraArgs>--optimize=experimental-xforms-product-type</MtouchExtraArgs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchArch>ARM64</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <BuildIpa>true</BuildIpa>
+    <CodesignProvision>
+    </CodesignProvision>
+    <MtouchExtraArgs>--optimize=experimental-xforms-product-type</MtouchExtraArgs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchArch>ARM64</MtouchArch>
+    <BuildIpa>True</BuildIpa>
+    <CodesignProvision>YPS_DIST_Ind</CodesignProvision>
+    <CodesignKey>iPhone Distribution: Web Synergies (S) Pte Ltd (E9F546483C)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchArch>ARM64</MtouchArch>
+    <CodesignProvision>Parts2y_Prod Dist Profile</CodesignProvision>
+    <CodesignKey>iPhone Distribution: YAMATO ASIA PTE. LTD. (ULCXZ98H2Z)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <BuildIpa>true</BuildIpa>
+    <MtouchSdkVersion>13.2</MtouchSdkVersion>
+    <MtouchExtraArgs>--optimize=experimental-xforms-product-type</MtouchExtraArgs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Custom Renderers\CustomViewCellRenderer.cs" />
+    <Compile Include="Custom Renderers\ExtendedLabelRendereriOS.cs" />
+    <Compile Include="Custom Renderers\HyperlinkLabelRenderer.cs" />
+    <Compile Include="Custom Renderers\IosKeyboardFixPageRenderer .cs" />
+    <Compile Include="Custom Renderers\MyEditorRenderer.cs" />
+    <Compile Include="Custom Renderers\MyEntryRenderer.cs" />
+    <Compile Include="Custom Renderers\MyWebViewRenderer.cs" />
+    <Compile Include="Custom Renderers\NullableDatePickerRenderer.cs" />
+    <Compile Include="Dependencies\iOSDownloader.cs" />
+    <Compile Include="Dependencies\IOSSQLite.cs" />
+    <Compile Include="Dependencies\MessageIOS.cs" />
+    <Compile Include="Dependencies\NotificationModels.cs" />
+    <Compile Include="Dependencies\NotifyCountDB.cs" />
+    <Compile Include="Dependencies\NotifyMessagesCountDB.cs" />
+    <Compile Include="Dependencies\OpenSdcardiOS.cs" />
+    <Compile Include="Dependencies\PdfPrintFile.cs" />
+    <Compile Include="Dependencies\RememberSQLite.cs" />
+    <Compile Include="Dependencies\RetriveLocalData.cs" />
+    <Compile Include="Dependencies\UIDocumentInteractionControllerDelegateClass.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <None Include="Entitlements.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="MasterPageRender\MainPageRenderer.cs" />
+    <Compile Include="PageRenderer\LoginRenderer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <BundleResource Include="Resources\fa-brands-400.ttf" />
+    <BundleResource Include="Resources\fa-regular-400.ttf" />
+    <BundleResource Include="Resources\fa-solid-900.ttf" />
+    <BundleResource Include="Resources\fontawesome-webfont.ttf" />
+    <BundleResource Include="Resources\Montserrat-Bold.ttf" />
+    <BundleResource Include="Resources\Montserrat-Regular.ttf" />
+    <BundleResource Include="Resources\Roboto-Light.ttf" />
+    <BundleResource Include="Resources\SourceSansPro-Regular.ttf" />
+    <BundleResource Include="Resources\fontawesome.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="HorizontalList">
+      <HintPath>..\..\..\Ajay@backup\zip file 1\OSF Svn Mobile\OSF\packages\HorizontalListView1.1.1.1.0\lib\HorizontalList.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\..\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.Forms.CarouselView">
+      <HintPath>..\..\Xamarin.Forms.CarouselView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.1.0.442</Version>
+    </PackageReference>
+    <PackageReference Include="CardsView">
+      <Version>2.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Cryoprison">
+      <Version>1.0.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="DLToolkit.Forms.Controls.FlowListView">
+      <Version>2.0.11</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AppCenter.Analytics">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AppCenter.Crashes">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client">
+      <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="PCLCrypto">
+      <Version>2.0.147</Version>
+    </PackageReference>
+    <PackageReference Include="PCLStorage">
+      <Version>1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.Permissions">
+      <Version>3.0.0.12</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.5.231</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Buttons">
+      <Version>18.1.0.42</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Cards">
+      <Version>18.1.0.42</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Core">
+      <Version>18.1.0.42</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.DataSource">
+      <Version>18.1.0.42</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBadgeView">
+      <Version>16.4.0.54</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator">
+      <Version>16.4.0.54</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox">
+      <Version>18.1.0.42</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid">
+      <Version>18.1.0.42</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfListView">
+      <Version>18.1.0.42</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="WindowsAzure.Storage">
+      <Version>9.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Media">
+      <Version>4.0.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Auth">
+      <Version>1.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Auth.XamarinForms">
+      <Version>1.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.FFImageLoading.Forms">
+      <Version>2.1.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.Analytics">
+      <Version>4.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging">
+      <Version>2.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.Core">
+      <Version>4.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.InstanceID">
+      <Version>2.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>4.7.0.1142</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Plugin.FilePicker">
+      <Version>2.0.135</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\YPS\YPS.csproj">
+      <Project>{B39C0415-8156-4F37-9542-E3B244DDF244}</Project>
+      <Name>YPS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Chatcamera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\chatIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\downarrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lockIc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\menuW48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\chatb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\message.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\personIc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pictureb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tickb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\calendarIc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\notification1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\OpenCam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ChooseFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\attachb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\rightA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\Wsend.png" />
+    <BundleResource Include="Resources\DOC.png" />
+    <BundleResource Include="Resources\DOCX.png" />
+    <BundleResource Include="Resources\JPEG.png" />
+    <BundleResource Include="Resources\JPG.png" />
+    <BundleResource Include="Resources\PDF.png" />
+    <BundleResource Include="Resources\PNG.png" />
+    <BundleResource Include="Resources\TEXT.png" />
+    <BundleResource Include="Resources\TXT.png" />
+    <BundleResource Include="Resources\XLS.png" />
+    <BundleResource Include="Resources\XLSX.png" />
+    <BundleResource Include="Resources\ZIP.png" />
+    <BundleResource Include="Resources\minusIc.png" />
+    <BundleResource Include="Resources\ok.png" />
+    <BundleResource Include="Resources\plusIc.png" />
+    <BundleResource Include="Resources\printerIcon.png" />
+    <BundleResource Include="Resources\ypslogo12.png" />
+    <BundleResource Include="Resources\ypsbg.png" />
+    <BundleResource Include="Resources\plUpload.png" />
+    <BundleResource Include="Resources\notRequiredIc.png" />
+    <BundleResource Include="Resources\requiredIc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\projects.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shipreport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\job.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\BMP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\GIF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TIF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TIFF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Nremove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\wifiNotAvailable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\backIc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\plicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shipicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\reportM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\SPMatM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\supplierM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\yshipM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logouM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\locationM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\menuios.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Yshipcross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Yshipexclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\YshipflagG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\YshipflagO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\YshipflagR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Yshiptick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\CancelShip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\CompleteShipment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\chatbg2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\APK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ISO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ypslogo22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ypslogo33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-1201.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-401.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-402.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-581.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-801.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ChatDocument.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\appstore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Playstore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\EntityMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\jobMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\projectsMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\dropdownarrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\menuusers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Owner.png" />
+  </ItemGroup>
+</Project>

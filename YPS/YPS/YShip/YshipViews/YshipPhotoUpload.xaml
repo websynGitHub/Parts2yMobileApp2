@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:MyContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     mc:Ignorable="d"
+                     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+                     xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                     xmlns:local="clr-namespace:YPS.CustomRenders"
+                     x:Class="YPS.YShip.YshipViews.YshipPhotoUpload" BackgroundColor="White" Title="Upload Photo" x:Name="pholist"
+                     NavigationPage.HasNavigationBar="False"
+                     xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+                     xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+                     xmlns:behaviors="clr-namespace:YPS.Behaviours">
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <RelativeLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Grid RowSpacing="0" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="{OnPlatform iOS=70,Android=55}"/>
+                        <RowDefinition Height="{Binding RowHeightcomplete}" x:Name="removedHeightcomplete"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="{Binding RowHeightOpenCam}"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackTapped"/>
+                        <Grid Grid.Column="1" RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{Binding RowHeightTitle,Mode=TwoWay}"/>
+                                <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" x:Name="Groupname" Text="Product Photos" Style="{StaticResource LblTitleName}"/>
+                            <Label Grid.Row="1" x:Name="Usernames" Text="{Binding Tagnumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                        </Grid>
+                        <local:FontAwesomeIconLabel Grid.Column="2" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}">
+                            <local:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding HomeCommand}"/>
+                            </local:FontAwesomeIconLabel.GestureRecognizers>
+                        </local:FontAwesomeIconLabel>
+                    </Grid>
+                    <StackLayout IsVisible="{Binding ListStack}" Padding="5,3,5,5" Grid.Row="2">
+                        <Grid ClassId="{Binding UploadType}" x:Name="gridData">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="2"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Text="Before Loading" BackgroundColor="LightBlue" Grid.Row="0" Grid.Column="0" Command="{Binding BeforeCommand}" TextColor="White" >
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference gridData},Path=ClassId}" Value="5">
+                                        <Setter Property="BackgroundColor" Value="#269DC9" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <BoxView HeightRequest="3"  Grid.Row="1" Grid.Column="0" IsVisible="False">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding Source={x:Reference gridData},Path=ClassId}" Value="5">
+                                        <Setter Property="IsVisible" Value="True"/>
+                                        <Setter Property="BackgroundColor" Value="#269DC9"/>
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Button Text="After Loading" BackgroundColor="LightBlue" Grid.Row="0" Grid.Column="1" Command="{Binding AfterCommand}"  TextColor="White" >
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference gridData},Path=ClassId}" Value="6">
+                                        <Setter Property="BackgroundColor" Value="#269DC9" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <BoxView HeightRequest="3" Grid.Row="1" Grid.Column="1" IsVisible="False">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding Source={x:Reference gridData},Path=ClassId}" Value="6">
+                                        <Setter Property="IsVisible" Value="True"/>
+                                        <Setter Property="BackgroundColor" Value="#269DC9"/>
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Button Text="After Opening" BackgroundColor="LightBlue" Grid.Row="0" Grid.Column="2" Command="{Binding AfterOpenCommand}"  TextColor="White" >
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference gridData},Path=ClassId}" Value="7">
+                                        <Setter Property="BackgroundColor" Value="#269DC9" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <BoxView HeightRequest="3" Grid.Row="1" Grid.Column="2" IsVisible="False">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding Source={x:Reference gridData},Path=ClassId}" Value="7">
+                                        <Setter Property="IsVisible" Value="True"/>
+                                        <Setter Property="BackgroundColor" Value="#269DC9"/>
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                        </Grid>
+
+                        <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" FlowItemsSource="{Binding FinalPhotoListA,Mode=TwoWay}" 
+                                          BackgroundColor="White" IsVisible="{Binding AStack}" SeparatorVisibility="None" HasUnevenRows="True">
+                            <flv:FlowListView.FlowColumnTemplate >
+                                <DataTemplate>
+                                    <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="80"/>
+                                            </Grid.RowDefinitions>
+                                            <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
+                                                               DownsampleToViewSize="True" RetryCount="3" RetryDelay="3000"
+                                                               Source="{Binding FileURL}" ClassId="{Binding ID}" 
+                                                               HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
+                                                <forms:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.TapOnImge,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                </forms:CachedImage.GestureRecognizers>
+                                            </forms:CachedImage>
+                                            <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000" IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=pholist}}">
+                                                <local:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.DeleteImage,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+
+                        <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" FlowItemsSource="{Binding FinalPhotoListB,Mode=TwoWay}"
+                                          BackgroundColor="White" SeparatorVisibility="None" HasUnevenRows="True" IsVisible="{Binding BStack}">
+                            <flv:FlowListView.FlowColumnTemplate >
+                                <DataTemplate>
+                                    <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="80"/>
+                                            </Grid.RowDefinitions>
+                                            <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
+                                                               DownsampleToViewSize="True" RetryCount="3" RetryDelay="3000"
+                                                               Source="{Binding FileURL}" ClassId="{Binding ID}" 
+                                                               HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
+                                                <forms:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.TapOnImge,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                </forms:CachedImage.GestureRecognizers>
+                                            </forms:CachedImage>
+                                            <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000" IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=pholist}}">
+                                                <local:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}"  FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.DeleteImage,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+
+                        <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" FlowItemsSource="{Binding FinalPhotoListAO,Mode=TwoWay}" 
+                                          BackgroundColor="White" SeparatorVisibility="None" HasUnevenRows="True" IsVisible="{Binding AOStack}">
+                            <flv:FlowListView.FlowColumnTemplate >
+                                <DataTemplate>
+                                    <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="80"/>
+                                            </Grid.RowDefinitions>
+                                            <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
+                                                               DownsampleToViewSize="True" RetryCount="3" RetryDelay="3000"
+                                                               Source="{Binding FileURL}" ClassId="{Binding ID}" 
+                                                               HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
+                                                <forms:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.TapOnImge,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                </forms:CachedImage.GestureRecognizers>
+                                            </forms:CachedImage>
+                                            <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000" IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=pholist}}">
+                                                <local:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}"  FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.DeleteImage,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+                    </StackLayout>
+
+                    <Label Text="No photos available " IsVisible="{Binding NoPhotosVisibility}" TextColor="Blue" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="2" FontSize="Medium"/>
+                    <ScrollView IsVisible="{Binding FirstStack}" Grid.Row="2" Padding="0,5,0,0">
+                        <Image Source="{Binding CaptchaImage1}" x:Name="img"/>
+                    </ScrollView>
+                   
+                    <Grid IsEnabled="{Binding BtnEnable}" IsVisible="{Binding SecondMainStack}" Grid.Row="3"
+                                 VerticalOptions="EndAndExpand" Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <sfbuttons:SfButton Grid.Column="1" x:Name="uploadBtn" Text="Upload" Command="{Binding UploadPic}" 
+                                            HorizontalOptions="EndAndExpand" Padding="{OnPlatform iOS='10,0,10,0',Android=0}"
+                                             Style="{StaticResource SfBtnBlue}">
+                            <sfbuttons:SfButton.Content>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Padding="10,0,10,0">
+                                    <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.upload}" Style="{StaticResource FontAwsmLblSfbutton}"/>
+                                    <Label Text="{Binding labelobjPhoto}" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                </StackLayout>
+                            </sfbuttons:SfButton.Content>
+                            <sfbuttons:SfButton.Behaviors>
+                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            </sfbuttons:SfButton.Behaviors>
+                        </sfbuttons:SfButton>
+                    </Grid>
+                </Grid>
+                <StackLayout Orientation="Horizontal" IsEnabled="{Binding BtnEnable}" IsVisible="{Binding FirstMainStack}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-70}"
+                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-70}">
+                    <Image Source="OpenCam"  HeightRequest="50" WidthRequest="50" Aspect="AspectFit" BackgroundColor="Transparent"  HorizontalOptions="Center" VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectPic}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+            </RelativeLayout>
+            <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Frame Style="{StaticResource FmForActivityIndicator}">
+                    <StackLayout Padding="15">
+                        <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>
+                        <Label Style="{StaticResource ActivityIndicatorLbl}"/>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</local:MyContentPage>

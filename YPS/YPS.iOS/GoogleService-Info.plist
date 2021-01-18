@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>422223475157-5u884p9vap4jjemtas45ed5e3k8pmnsk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.422223475157-5u884p9vap4jjemtas45ed5e3k8pmnsk</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDn-MJZCSvz6Ds8iFbVMLnQvLZchpKTFSg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>422223475157</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.synergies.ypsapp</string>
+	<key>PROJECT_ID</key>
+	<string>ypsmobile-59fbf</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ypsmobile-59fbf.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:422223475157:ios:8b24f24b7ba4c48f</string>
+	<key>DATABASE_URL</key>
+	<string>https://ypsmobile-59fbf.firebaseio.com</string>
+</dict>
+</plist>

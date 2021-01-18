@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Name="yShilFileUpload"
+             x:Class="YPS.YShip.YshipViews.YshipFileUpload"
+             BackgroundColor="White"
+             xmlns:CustomR="clr-namespace:YPS.CustomRender"
+             xmlns:Rendrs="clr-namespace:YPS.CustomRenders"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:behaviors="clr-namespace:YPS.Behaviours">
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <Grid RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="{OnPlatform iOS=70,Android=55}"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--Tollbar grid(layout) start-->
+                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="Back_Tapped"/>
+                    <Grid Grid.Column="1" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28"/>
+                            <RowDefinition Height="18"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
+                        <Label Grid.Row="1" Margin="0" x:Name="yBkgNoLbl" Style="{StaticResource LblSubTitle}"/>
+                    </Grid>
+                    <Rendrs:FontAwesomeIconLabel Grid.Column="2" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}">
+                        <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapYShipHome"/>
+                        </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                    </Rendrs:FontAwesomeIconLabel>
+                </Grid>
+                <!--Tollbar grid(layout) end-->
+
+                <!--InVoice and Packing tabs layout start-->
+                <Grid Grid.Row="1" x:Name="InVoicePackingStack" IsVisible="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="55"/>
+                        <RowDefinition Height="{Binding BrowseFileRowHt}"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" ColumnDefinitions="5*,5*" BackgroundColor="#269DC9">
+                        <StackLayout Grid.Column="0">
+                            <Button Text="Invoice" TextColor="White" FontSize="Medium" Command="{Binding ITabInVoice}" BackgroundColor="{Binding TabBgColor}"
+                            Opacity="{Binding TabOpacityInVoice}" VerticalOptions="CenterAndExpand"/>
+
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabInVoiceVisibility}"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1">
+                            <Button Text="Packing" TextColor="White" FontSize="Medium" Command="{Binding ITabPacking}" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityPacking}" VerticalOptions="CenterAndExpand"/>
+
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabPackingVisibility}"/>
+                        </StackLayout>
+                    </Grid>
+                    <Frame Grid.Row="1" Style="{StaticResource FrameStyleForFileUpload}" Margin="5,3,5,0" IsVisible="{Binding BrowseFileFrm}">
+                        <Grid RowSpacing="0" ColumnDefinitions="*,35,Auto">
+                            <Label Grid.Column="0" Text="{Binding SetFileName}" LineBreakMode="TailTruncation" FontSize="Large" TextColor="Gray" HorizontalTextAlignment="Start" VerticalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PickFileFromDevice}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                           
+                            <Image Grid.Column="1" IsVisible="{Binding IsFolderVisible}" Source="{Binding AddFolder}" HeightRequest="35" WidthRequest="28">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PickFileFromDevice}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+
+                            <Image Grid.Column="1" IsVisible="{Binding IsCrossVisible}" Source="{Binding AddCross}" HeightRequest="35" WidthRequest="28">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ClearSelectFile_Tapped"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <sfbuttons:SfButton x:Name="namePLUploadBtn" Grid.Column="2" Command="{Binding IUploadFile}" 
+                                                Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0">
+                                <sfbuttons:SfButton.Content>
+                                    <StackLayout Style="{StaticResource StackInSfButton}">
+                                        <Rendrs:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.upload}"
+                                                                     Style="{StaticResource FontAwsmLblSfbutton}"/>
+                                        <Label x:Name="pluploadBtnLbl" Text="Upload" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    </StackLayout>
+                                </sfbuttons:SfButton.Content>
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+                        </Grid>
+                    </Frame>
+                    
+                    <StackLayout Grid.Row="2">
+                        <flv:FlowListView FlowColumnCount="3" BackgroundColor="White" IsVisible="{Binding InVoiceStackLayOut}" x:Name="InvoiceListView" FlowItemsSource="{Binding InvoiceList,Mode=TwoWay}" SeparatorVisibility="None" HasUnevenRows="false" RowHeight="180">
+                            <flv:FlowListView.FlowColumnTemplate>
+                                <DataTemplate>
+                                    <Frame Style="{StaticResource ListVFrame}">
+                                        <Grid RowSpacing="0" RowDefinitions="1.8*,6.2*,2*">
+                                           
+                                            <Grid Grid.Row="0" ColumnDefinitions="*,30" BackgroundColor="LightGray" Padding="2,0,0,0">
+                                               
+                                                <Label Grid.Column="0" Text="{Binding AttachmentName,Mode=TwoWay}" Style="{StaticResource LblStyleAttachmentName}"/>
+                                                <Rendrs:FontAwesomeIconLabel Grid.Column="1" Text="{Static StaticIcons:Icons.InfoIc}" Style="{StaticResource LblIconStyleForList}" Padding="0,0,2,0" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDescription, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </Grid>
+                                            <Image Grid.Row="1" Source="{Binding MyImage}" Style="{StaticResource TypesOfImg}"/>
+                                            <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}" IsVisible="{Binding BindingContext.DeleteIconStack, Source={x:Reference Name=yShilFileUpload}}">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDeleteFile, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.DownloadIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDownloadFile, Source={x:Reference Name=yShilFileUpload} }"  CommandParameter="{Binding FileURL,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+                        <flv:FlowListView BackgroundColor="White" FlowColumnCount="3" IsVisible="{Binding PackingStackLayout}" x:Name="PackingListView" FlowItemsSource="{Binding PackingList,Mode=TwoWay}" SeparatorVisibility="None" HasUnevenRows="false" RowHeight="200">
+                            <flv:FlowListView.FlowColumnTemplate>
+                                <DataTemplate>
+                                    <Frame Style="{StaticResource ListVFrame}">
+                                        <Grid RowSpacing="0" RowDefinitions="1.8*,6.2*,2*">
+                                            <Grid Grid.Row="0" ColumnDefinitions="*,30" BackgroundColor="LightGray" Padding="2,0,0,0">
+                                                <Label Grid.Column="0" Text="{Binding AttachmentName,Mode=TwoWay}" LineBreakMode="TailTruncation" FontSize="Default" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                                <Rendrs:FontAwesomeIconLabel Grid.Column="1" Text="{Static StaticIcons:Icons.InfoIc}" Style="{StaticResource LblIconStyleForList}"  Padding="0,0,2,0" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDescription, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </Grid>
+                                            <Image Grid.Row="1" Source="{Binding MyImage}" Style="{StaticResource TypesOfImg}"/>
+                                            <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}" IsVisible="{Binding BindingContext.DeleteIconStack, Source={x:Reference Name=yShilFileUpload}}">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDeleteFile, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.DownloadIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDownloadFile, Source={x:Reference Name=yShilFileUpload} }"  CommandParameter="{Binding FileURL,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+                        <Label IsVisible="{Binding NoDataFoundLbl}" Text="No data found." FontSize="Large" TextColor="Blue" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </Grid>
+                <!--InVoice and Packing tabs layout end-->
+
+                <!--Export, Import and Transmit tabs layout start-->
+                <Grid Grid.Row="1" x:Name="PermitsStack" IsVisible="False" RowSpacing="{Binding PermitsRowSpacing}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="55"/>
+                        <RowDefinition Height="{Binding PermitNoDateHt}"/>
+                        <RowDefinition Height="{Binding BrowseFileRowHtPermits}"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" BackgroundColor="#269DC9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.3*"/>
+                            <ColumnDefinition Width="3.3*"/>
+                            <ColumnDefinition Width="3.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.Column="0">
+                            <Button Text="Export" TextColor="White" FontSize="Medium" Command="{Binding IExport}" VerticalOptions="CenterAndExpand" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityExport}"/>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabExportVisibility}"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1">
+                            <Button Text="Import" TextColor="White" FontSize="Medium" Command="{Binding IImport}" VerticalOptions="CenterAndExpand" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityImport}"/>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabImportVisibility}"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="2">
+                            <Button Text="Transmit" TextColor="White" FontSize="Medium" Command="{Binding ITransmit}" VerticalOptions="CenterAndExpand" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityTransmit}"/>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabTransmitVisibility}"/>
+                        </StackLayout>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="5,3,5,0" IsVisible="{Binding PermitNoDateIsVsble}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Frame Grid.Column="0" Style="{StaticResource FrameStyleForFileUpload}" Margin="0">
+                            <CustomR:MyEntry x:Name="namePermitNo" Text="{Binding PermitsNo}" Keyboard="Text" TextColor="Gray" Placeholder="Permit#" MaxLength="100" VerticalOptions="CenterAndExpand"/>
+                        </Frame>
+                        <Frame Grid.Column="1" Style="{StaticResource FrameStyleForFileUpload}" Margin="0" Padding="5,0.1,1,0">
+                            <Grid RowSpacing="0" VerticalOptions="CenterAndExpand">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Rendrs:NullableDatePicker PlaceHolder="MM/dd/yyyy" x:Name="DatepickerControl"/>
+                                    <StackLayout BackgroundColor="White"/>
+                                </Grid>
+                                <StackLayout Grid.Row="1" Orientation="Horizontal">
+                                    <Label Text="{Binding PermitsDate}" Style="{StaticResource LabelStyle}" TextColor="Gray"/>
+                                    <Rendrs:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.Calender}" FontSize="Large" TextColor="#269DC9" VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" Margin="0,0,10,0"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding IPermitsDate}" CommandParameter="{Reference DatepickerControl}"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                    <Frame Grid.Row="2" Style="{StaticResource FrameStyleForFileUpload}" IsVisible="{Binding BrowseFileFrm}">
+                        <Grid RowSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" RowSpacing="0" ColumnSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding SetFileName}" LineBreakMode="TailTruncation" FontSize="Large" TextColor="Gray" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PickFileFromDevice}"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Image Grid.Column="1" IsVisible="{Binding IsFolderVisible}" Source="{Binding AddFolder}" HeightRequest="35" WidthRequest="28">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PickFileFromDevice}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+
+                            <Image Grid.Column="1" IsVisible="{Binding IsCrossVisible}" Source="{Binding AddCross}" HeightRequest="35" WidthRequest="28" >
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ClearSelectFile_Tapped"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <sfbuttons:SfButton x:Name="namePermitUploadBtn" Grid.Column="2" Command="{Binding IUploadFile}"
+                                                Style="{StaticResource SfBtnBlue}"
+                                                Margin="0,0,1,0">
+                                <sfbuttons:SfButton.Content>
+                                    <StackLayout Style="{StaticResource StackInSfButton}">
+                                        <Rendrs:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.upload}" Style="{StaticResource FontAwsmLblSfbutton}"/>
+                                        <Label x:Name="permitUploadBtnLbl" Text="Upload" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    </StackLayout>
+                                </sfbuttons:SfButton.Content>
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+                        </Grid>
+                    </Frame>
+                    <StackLayout Grid.Row="3">
+                        <flv:FlowListView BackgroundColor="White" FlowColumnCount="3" IsVisible="{Binding ExportIsVisible}" FlowItemsSource="{Binding ExportList}" SeparatorVisibility="None" HasUnevenRows="false" RowHeight="200">
+                            <flv:FlowListView.FlowColumnTemplate>
+                                <DataTemplate>
+                                    <Frame Style="{StaticResource ListVFrame}">
+                                        <Grid RowSpacing="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1.8*"/>
+                                                <RowDefinition Height="6.2*"/>
+                                                <RowDefinition Height="2*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0" BackgroundColor="LightGray" Padding="2,0,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Text="{Binding AttachmentName,Mode=TwoWay}" LineBreakMode="TailTruncation" FontSize="Default" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                                <Rendrs:FontAwesomeIconLabel Grid.Column="1" Text="{Static StaticIcons:Icons.InfoIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDescription, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </Grid>
+                                            <Image Grid.Row="1" Source="{Binding MyImage}" Style="{StaticResource TypesOfImg}"/>
+                                            <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}" IsVisible="{Binding BindingContext.DeleteIconStack, Source={x:Reference Name=yShilFileUpload}}">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDeleteFile, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.DownloadIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDownloadFile, Source={x:Reference Name=yShilFileUpload} }"  CommandParameter="{Binding FileURL,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+                        <flv:FlowListView BackgroundColor="White" FlowColumnCount="3" IsVisible="{Binding ImportIsVisible}" FlowItemsSource="{Binding ImportList}" SeparatorVisibility="None" HasUnevenRows="false" RowHeight="200">
+                            <flv:FlowListView.FlowColumnTemplate>
+                                <DataTemplate>
+                                    <Frame Style="{StaticResource ListVFrame}">
+                                        <Grid RowSpacing="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1.8*"/>
+                                                <RowDefinition Height="6.2*"/>
+                                                <RowDefinition Height="2*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0" BackgroundColor="LightGray" Padding="2,0,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Text="{Binding AttachmentName,Mode=TwoWay}" LineBreakMode="TailTruncation" FontSize="Default" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                                <Rendrs:FontAwesomeIconLabel Grid.Column="1" Text="{Static StaticIcons:Icons.InfoIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDescription, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </Grid>
+                                            <Image Grid.Row="1" Source="{Binding MyImage}" Style="{StaticResource TypesOfImg}"/>
+                                            <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}" IsVisible="{Binding BindingContext.DeleteIconStack, Source={x:Reference Name=yShilFileUpload}}">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDeleteFile, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.DownloadIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDownloadFile, Source={x:Reference Name=yShilFileUpload} }"  CommandParameter="{Binding FileURL,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+                        <flv:FlowListView BackgroundColor="White" FlowColumnCount="3" IsVisible="{Binding TransmitIsVisible}" FlowItemsSource="{Binding TransmitList}" SeparatorVisibility="None" HasUnevenRows="false" RowHeight="200">
+                            <flv:FlowListView.FlowColumnTemplate>
+                                <DataTemplate>
+                                    <Frame Style="{StaticResource ListVFrame}">
+                                        <Grid RowSpacing="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1.8*"/>
+                                                <RowDefinition Height="6.2*"/>
+                                                <RowDefinition Height="2*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0" BackgroundColor="LightGray" Padding="2,0,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Text="{Binding AttachmentName,Mode=TwoWay}" LineBreakMode="TailTruncation" FontSize="Default" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                                <Rendrs:FontAwesomeIconLabel Grid.Column="1" Text="{Static StaticIcons:Icons.InfoIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDescription, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </Grid>
+                                            <Image Grid.Row="1" Source="{Binding MyImage}" Style="{StaticResource TypesOfImg}"/>
+                                            <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}" IsVisible="{Binding BindingContext.DeleteIconStack, Source={x:Reference Name=yShilFileUpload}}">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDeleteFile, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding ID,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                                <Rendrs:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.DownloadIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
+                                                    <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IDownloadFile, Source={x:Reference Name=yShilFileUpload} }" CommandParameter="{Binding FileURL,Mode=TwoWay}"/>
+                                                    </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                                </Rendrs:FontAwesomeIconLabel>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+                        <StackLayout IsVisible="{Binding NoDataFoundLbl}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                            <Label Text="No data found." FontSize="Large" TextColor="Blue" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+                <!--Export, Import and Transmit tabs layout end-->
+            </Grid>
+
+            <!--Loader content view(layout) start-->
+            <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Frame Style="{StaticResource FmForActivityIndicator}">
+                    <StackLayout Padding="15">
+                        <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>
+                        <Label Style="{StaticResource ActivityIndicatorLbl}"/>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
+            <!--Loader content view(layout) end-->
+
+            <!--Info Pop Up content view(layout) start-->
+            <ContentView IsVisible="{Binding PopUpForFileDes}" BackgroundColor="#99000000" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Frame CornerRadius="7" BorderColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" Padding="7" Margin="10,0,10,0">
+                    <Grid Margin="5" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="{Binding PermitNoHeight}"/>
+                            <RowDefinition Height="{Binding PermitOnHeight}"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="File info..." VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Medium"/>
+                        <Rendrs:FontAwesomeIconLabel Grid.Row="0" Grid.Column="1" Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red" HorizontalOptions="EndAndExpand">
+                            <Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Close_Popup"/>
+                            </Rendrs:FontAwesomeIconLabel.GestureRecognizers>
+                        </Rendrs:FontAwesomeIconLabel>
+                        <Label x:Name="nameUploadedBylbl" Grid.Row="1" Grid.Column="0" Text="Uploaded By :" FontAttributes="Bold"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Uploadedby,Mode=TwoWay}" TextColor="Black"/>
+                        <Label x:Name="nameUploadedDatelbl" Grid.Row="2" Grid.Column="0" Text="Uploaded Date :" FontAttributes="Bold"/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"/>
+                        <Label x:Name="namePermitlbl" Grid.Row="3" Grid.Column="0" Text="Permit# : " FontAttributes="Bold"/>
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding PermitNo}" TextColor="Black"/>
+                        <Label x:Name="namePermitOnlbl" Grid.Row="4" Grid.Column="0" Text="Uploaded On : " FontAttributes="Bold"/>
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding PermitOn}" TextColor="Black"/>
+                        <Label x:Name="nameAttachmentlbl" Grid.Row="5" Grid.Column="0" Text="File Name : " FontAttributes="Bold"/>
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding FileName}" TextColor="Black"/>
+                    </Grid>
+                </Frame>
+            </ContentView>
+            <!--Info Pop Up content view(layout) end-->
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

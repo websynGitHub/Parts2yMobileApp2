@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" BackgroundColor="LightGray" Title="About Parts2y"
+             x:Class="YPS.Views.AboutPage">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+            <Frame BackgroundColor="AliceBlue" Margin="10"  VerticalOptions="FillAndExpand"  BorderColor="Black" CornerRadius="10">
+            <Grid VerticalOptions="Center">               
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
+                    <Label Text="About Parts2y" FontSize="25" FontAttributes="Bold"  Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+
+                        <Label Text="Installed version" FontAttributes="Bold" Grid.Row="4"  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Gray" />
+                        <Label x:Name="CVersion" Grid.Row="5"  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Black" />
+
+                    <Label Text="Description" FontAttributes="Bold" Grid.Row="1"  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Gray" />
+                        <Label Grid.Row="2"  TextColor="Black" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span x:Name="aboutbuild"  TextColor="Black"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+
+                    <Label Text="Support Android Versions" Grid.Row="7" FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Gray" />
+                    <Label Text="Android 6.0 (Marshmallow) and above"   Grid.Row="8" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Black" />
+                    <Label Text="Support iOS Versions" Grid.Row="10"  FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Gray" />
+                    <Label Text="iOS 9 and above" Grid.Row="11" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Black" />
+
+                    <Grid Grid.Row="13">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>                                                      
+                            <RowDefinition Height="60"/>                                                      
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="updatetext" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold"/>
+                        <Image x:Name="android" Source="Playstore.png" Grid.Row="1" HorizontalOptions="Center" Grid.Column="0" Aspect="AspectFit" Margin="-5,0,0,3" >
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Playstore_Tapped">                                    
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image x:Name="ios" Source="appstore.png" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center"  Aspect="AspectFit" >
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="appstore_Tapped">
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+                </Grid>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

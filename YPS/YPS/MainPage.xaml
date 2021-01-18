@@ -1,0 +1,431 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Dgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
+             xmlns:sfchecks="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:badge ="clr-namespace:Syncfusion.XForms.BadgeView;assembly=Syncfusion.SfBadgeView.XForms"
+             xmlns:sflistView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:local="clr-namespace:YPS.GridConverters"
+             xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+             x:Class="YPS.MainPage" x:Name="dataGridPage"
+             xmlns:sfPager="clr-namespace:Syncfusion.SfDataGrid.XForms.DataPager;assembly=Syncfusion.SfDataGrid.XForms"
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:behaviors="clr-namespace:YPS.Behaviours">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:GroupCaptionConverter x:Key="SummarytValue" />
+            <local:GridThemeColor x:Key="themeColors" />
+            <local:TextColorConverter x:Key="Textcolor"/>
+            <local:poShipConverter x:Key="poShipNum"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <NavigationPage.TitleView>
+        <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,Auto,40">
+            <Label Text="Home" FontSize="Large" TextColor="White" VerticalTextAlignment="Center" Grid.Column="0"/>
+            <LblIcons:FontAwesomeIconLabel x:Name="Namefilter" AutomationId="AutoSearchToolbarIcon" Grid.Column="1" Text="{x:Static StaticIcons:Icons.SearchIc}" Style="{StaticResource LblIconStyle}"/>
+            <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}" Grid.Column="2" Margin="0,0,0,5">
+                <badge:SfBadgeView.Content>
+                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.Notifications}" HeightRequest="40" WidthRequest="35" Style="{StaticResource LblIconStyle}">
+                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Notification_Tap" />
+                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                    </LblIcons:FontAwesomeIconLabel>
+                </badge:SfBadgeView.Content>
+                <badge:SfBadgeView.BadgeSettings>
+                    <badge:BadgeSetting BadgeType="Error" Offset="-7,2"/>
+                </badge:SfBadgeView.BadgeSettings>
+            </badge:SfBadgeView>
+            <LblIcons:FontAwesomeIconLabel x:Name="MoreItemIcon" Grid.Column="3" Text="{x:Static StaticIcons:Icons.MoreItems}" Style="{StaticResource LblIconStyle}" TextColor="{Binding MoreItemIconColor, Mode=TwoWay}">
+                <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="MoreItems_Tapped"/>
+                </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+            </LblIcons:FontAwesomeIconLabel>
+        </Grid>
+    </NavigationPage.TitleView>
+
+
+    <AbsoluteLayout  Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White">
+        <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout IsVisible="{Binding mainStack}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+            <Frame HasShadow="False" Padding="10,10,10,0" IsVisible="{Binding profileSettingVisible}">
+                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="0">
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                        <Label x:Name="detailsLbl" Text="{Binding CompanyName}" TextColor="Black" FontSize="10" VerticalTextAlignment="Center"/>
+                        <Label x:Name="detailsLb2" Text="{Binding ProNjobName}" LineBreakMode="TailTruncation" TextColor="Black" FontSize="10" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                       
+                        <Label Text="Clear Search" FontAttributes="Bold" IsVisible="{Binding ClearSearchLbl,Mode=TwoWay}" VerticalTextAlignment="Center" Margin="0,0,5,0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding tab_ClearSearch}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Image x:Name="imgPlUploadTopStk" IsVisible="False" HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Source="pluploadTop.png">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding tap_PLfileGroupCommand}" CommandParameter="{x:Reference dataGrid}"></TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <Image x:Name="picRequiredStk1" AutomationId="AutoImgIsRequired" IsVisible="False" HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Source="requiredIc.png">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding IsRequired_Tap_IC}" CommandParameter="{x:Reference dataGrid}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image x:Name="picRequiredStk2" AutomationId="AutoImgIsNotRequired" IsVisible="False" HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Source="notRequiredIc.png">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding IsNotRequired_Tap_IC}" CommandParameter="{x:Reference dataGrid}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+                </StackLayout>
+
+            </Frame>
+            <Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center" Text="No records to display" TextColor="Blue"/>
+
+            <Grid x:Name="grid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <Dgrid:SfDataGrid x:Name="dataGrid" AutomationId="AutoMainDataGrid"
+                                      Grid.Row="0"
+                                  IsVisible="{Binding DataGrid}"
+                           AutoGenerateColumns="False"
+                           
+                           AllowGroupExpandCollapse="True" 
+                           AllowResizingColumn="True"  
+                           RowHeight="35" AllowDraggingRow="False" AllowDraggingColumn="False" AllowDiagonalScrolling="False"
+                           SelectionMode="Multiple" 
+                                  GroupingMode="Multiple"
+                                  GridLoaded="DataGrid_GridLoaded"
+                           QueryCellStyle="DataGrid_QueryCellStyle"
+                           GridStyle="{StaticResource themeColors}"
+                           AlternationCount="1" 
+                           GroupExpanding="DataGrid_GroupExpanding">
+
+                    <Dgrid:SfDataGrid.CaptionSummaryTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="#f7f7f7" Padding="0" AutomationId="AutoRowItem">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <sfchecks:SfCheckBox IsChecked="{Binding Source[0].IsClosed,Mode=TwoWay}" Grid.Column="0"
+                                                 StateChanged="selectAll_checkBox">
+                                    <sfchecks:SfCheckBox.WidthRequest>
+                                        <OnPlatform Android="20" iOS="22"/>
+                                    </sfchecks:SfCheckBox.WidthRequest>
+                                </sfchecks:SfCheckBox>
+                                <Image Source="plicon.png" Grid.Column="1" Margin="0"   ClassId="{Binding Converter={StaticResource SummarytValue}, ConverterParameter = {x:Reference dataGrid} }" >
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="tap_GroupFileUpload"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                                <Image Source="shipicon.png"  x:Name="ShipPrinter" Grid.Column="2" Margin="0"   ClassId="{Binding Converter={StaticResource SummarytValue}, ConverterParameter = {x:Reference dataGrid} }" >
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="tap_shipmarkPrinter"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                                <Label Grid.Column="3" AutomationId="ListRowLbl" Text="{Binding Converter={StaticResource SummarytValue}, ConverterParameter = {x:Reference dataGrid} }"
+              FontSize="11" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                            </Grid>
+
+                        </DataTemplate>
+                    </Dgrid:SfDataGrid.CaptionSummaryTemplate>
+
+                    <Dgrid:SfDataGrid.Columns x:TypeArguments="syncfusion:Columns" >
+
+                        <Dgrid:GridTextColumn HeaderText="" CellTextSize="11" RecordFont="Roboto-Bold.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="10" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start" MappingName="emptyCellValue" />
+                        <Dgrid:GridTextColumn HeaderText="Tag#" MappingName="TagNumber" Width="50" LineBreakMode="TailTruncation" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf" HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Padding="4,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="Ident Code" MappingName="IdentCode" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="BagNumber"  MappingName="BagNumber" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Tag Description" Width="80" MappingName="TagDescription" CellTextSize="11" RecordFont="Roboto-Light.ttf"  HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13"  HeaderFontAttribute="Bold"  LineBreakMode="TailTruncation" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTemplateColumn HeaderText="Chat" HeaderFontAttribute="Bold" MappingName="TagQACount" RecordFont="Roboto-Light.ttf" CellTextSize="11" Width="40" LineBreakMode="TailTruncation" HeaderTextAlignment="Center" TextAlignment="Start">
+                            <Dgrid:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnSpacing="0" ClassId="{Binding TagNumber}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="17"/>
+                                            <ColumnDefinition Width="25"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="8"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image Source="{Binding chatImage}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="4,0,2,0"/>
+                                        <Image Source="tickb.png" Grid.Column="1" Grid.Row="0" Margin="-10,2,0,0" IsVisible="{Binding chatTickVisible}"/>
+                                        <Label Text="{Binding TagQACount}" FontSize="Micro" TextColor="{Binding Conversationcount,Converter={StaticResource Textcolor}}" Grid.Column="1"  Grid.Row="0" IsVisible="{Binding countVisible}"/>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.tap_OnChat,Source={x:Reference Name=dataGridPage}}" CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </DataTemplate>
+                            </Dgrid:GridTemplateColumn.CellTemplate>
+                        </Dgrid:GridTemplateColumn>
+
+                        <Dgrid:GridTemplateColumn HeaderText="B-Photo" HeaderFontAttribute="Bold" MappingName="TagBPhotoCount" RecordFont="Roboto-Light.ttf" CellTextSize="11" LineBreakMode="TailTruncation" HeaderTextAlignment="Center" TextAlignment="Start">
+                            <Dgrid:GridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <Grid ColumnSpacing="0" ClassId="{Binding TagNumber}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="17"/>
+                                            <ColumnDefinition Width="25"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="8"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image Source="{Binding cameImage}" Opacity="{Binding imgCamOpacityB}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"  Margin="4,0,2,0" />
+                                        <Image Source="tickb.png" Opacity="{Binding imgTickOpacityB}" Grid.Column="1" Grid.Row="0" Margin="-10,2,0,0" IsVisible="{Binding photoTickVisible}"/>
+                                        <Label Text="{Binding TagBPhotoCount}" FontSize="Micro" IsVisible="{Binding BPhotoCountVisible}" TextColor="{Binding Conversationcount,Converter={StaticResource Textcolor}}" Grid.Column="1"  Grid.Row="0" />
+
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.tap_OnCamB,Source={x:Reference Name=dataGridPage}}" CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </DataTemplate>
+                            </Dgrid:GridTemplateColumn.CellTemplate>
+                        </Dgrid:GridTemplateColumn>
+
+                        <Dgrid:GridTemplateColumn HeaderText="A-Photo" HeaderFontAttribute="Bold" MappingName="TagAPhotoCount" RecordFont="Roboto-Light.ttf" CellTextSize="11" LineBreakMode="TailTruncation" HeaderTextAlignment="Center" TextAlignment="Start">
+                            <Dgrid:GridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <Grid ColumnSpacing="0" ClassId="{Binding TagNumber}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="17"/>
+                                            <ColumnDefinition Width="25"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="8"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image Source="{Binding cameImage}" Opacity="{Binding imgCamOpacityA}"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"  Margin="4,0,2,0"/>
+                                        <Image Source="tickb.png" Opacity="{Binding imgtickOpacityA}" Grid.Column="1" Grid.Row="0" Margin="-10,2,0,0" IsVisible="{Binding photoTickVisible}"/>
+                                        <Label Text="{Binding TagAPhotoCount}" FontSize="Micro" IsVisible="{Binding APhotoCountVisible}" TextColor="{Binding Conversationcount,Converter={StaticResource Textcolor}}" Grid.Column="1"  Grid.Row="0" />
+
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.tap_OnCamA,Source={x:Reference Name=dataGridPage}}" CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </DataTemplate>
+                            </Dgrid:GridTemplateColumn.CellTemplate>
+                        </Dgrid:GridTemplateColumn>
+
+                        <Dgrid:GridTemplateColumn HeaderFontAttribute="Bold" HeaderText="File" Width="40"  MappingName="TagFilesCount" RecordFont="Roboto-Light.ttf" CellTextSize="11" LineBreakMode="TailTruncation" HeaderTextAlignment="Center" TextAlignment="Start">
+                            <Dgrid:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnSpacing="0" ClassId="{Binding TagNumber}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="17"/>
+                                            <ColumnDefinition Width="25"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="8"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image  Source="{Binding fileImage}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"  Margin="4,0,2,0"/>
+                                        <Image Source="tickb.png" Grid.Column="1" Grid.Row="0" Margin="-10,2,0,0" IsVisible="{Binding fileTickVisible}"/>
+                                        <Label Text="{Binding TagFilesCount}" FontSize="Micro" IsVisible="{Binding filecountVisible}" TextColor="{Binding Conversationcount,Converter={StaticResource Textcolor}}" Grid.Column="1"  Grid.Row="0" />
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.tap_FileUpload,Source={x:Reference Name=dataGridPage}}" CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </DataTemplate>
+                            </Dgrid:GridTemplateColumn.CellTemplate>
+                        </Dgrid:GridTemplateColumn>
+
+                        <Dgrid:GridTextColumn HeaderText="ETD" MappingName="ETD"  CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="ETA" MappingName="ETA" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="PO Issue" MappingName="POIssue" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="KOM" MappingName="KOM"  CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start" />
+
+                        <Dgrid:GridTextColumn HeaderText="Key DWG Received" MappingName="KeyDWGReceived" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Key DWG Returned" MappingName="KeyDWGReturned" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Main Material SubOrder Issue" MappingName="MainMaterialSubOrderIssue" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="70" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="PIM" MappingName="PIM" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="70" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Main Material Received" MappingName="MainMaterialReceived" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="70" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="FAB Start" MappingName="FABStart" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="70" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="FAB Finish" MappingName="FABFinish" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="70" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="IRN" MappingName="IRN" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Delivery Date" MappingName="DeliveryDate" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Itme Comment" MappingName="ITEM_COMMENT" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Port Arrival" MappingName="PortArrival" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Itme Comment Date" MappingName="ITEM_COMMENT_DATE" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Site Arrival" MappingName="SiteArrival" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="70" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="Final Document" MappingName="FinalDocument" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="60" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                        <Dgrid:GridTextColumn HeaderText="ROS" MappingName="ROS" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="POS" MappingName="POS" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="SUB" MappingName="SUB" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="IS_POS" MappingName="IS_POS" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="IS_SUB" MappingName="IS_SUB" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="SIZE1" MappingName="SIZE1" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="SIZE2" MappingName="SIZE2" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="SIZE3" MappingName="SIZE3" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="SIZE4" MappingName="SIZE4" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="COMMODITY_CODE" MappingName="COMMODITY_CODE" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="TEC_CODE" MappingName="TEC_CODE" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="SHIP_RELEASE_NOTE" MappingName="SHIP_RELEASE_NOTE" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="IDENT_DEVIATED_TAG_DESC" MappingName="IDENT_DEVIATED_TAG_DESC" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+                        <Dgrid:GridTextColumn HeaderText="DPL Received Date" MappingName="DPLRECEIVED" CellTextSize="11" RecordFont="Roboto-Light.ttf" HeaderFont="Roboto-Bold.ttf"  HeaderCellTextSize="13" HeaderFontAttribute="Bold"  Width="50" LineBreakMode="TailTruncation"  Padding="5,0,5,0" HeaderTextAlignment="Start" TextAlignment="Start"/>
+
+                    </Dgrid:SfDataGrid.Columns>
+
+
+                </Dgrid:SfDataGrid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <sfPager:SfDataPager x:Name ="dataPager" IsVisible="{Binding DataGrid}"
+                                         HeightRequest="7"  Grid.Column="0" Padding="0,4,0,10" HorizontalOptions="Fill" VerticalOptions="Fill"
+                           PageSize="1" ButtonShape="Rectangle" DisplayMode="PreviousNextNumeric" AutoEllipsisMode="Both" AutoEllipsisText="..."
+                           UseOnDemandPaging="True">
+                    </sfPager:SfDataPager>
+
+                    <Frame Grid.Column="1"  Padding="0,0,3,0" Margin="0,0,3,0" CornerRadius="7" IsVisible="{Binding DataGrid}" HasShadow="False" BorderColor="Gray" HeightRequest="45">
+                        <StackLayout x:Name="pagesizeStackName" Orientation="Horizontal">
+                            <Label x:Name="pageSizeNameYPS" FontSize="Small" FontAttributes="Bold" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="5,0,0,0"/>
+                            <Grid>
+                                <Picker x:Name="PageSize" WidthRequest="0"  IsVisible="False" SelectedIndex="0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" TextColor="Black" />
+                            </Grid>
+                            <Image  Margin="0,0,2,0"  Source="downarrow.png" VerticalOptions="CenterAndExpand"  HorizontalOptions="EndAndExpand"  WidthRequest="7" HeightRequest="30"/>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowPageSizePickerItems}" CommandParameter="{Reference PageSize}"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+            </Grid>
+
+            <StackLayout Padding="0,6,0,8" AbsoluteLayout.LayoutBounds="0,1,1,.15" AbsoluteLayout.LayoutFlags="All" BackgroundColor="#29303B" Orientation="Horizontal">
+                <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckCamera">
+                    <LblIcons:FontAwesomeIconLabel x:Name="imgCamera" Text="{Static StaticIcons:Icons.CameraIc}" Style="{StaticResource LblIconStyle}"/>
+                    <Label Text="Photo Upload" x:Name="CameraLbl" Style="{StaticResource ButtonNavigationBarLabelStyle}"/>
+                </StackLayout>
+                <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckChat">
+                    <LblIcons:FontAwesomeIconLabel x:Name="imgChat" Text="{Static StaticIcons:Icons.ChatIc}" Style="{StaticResource LblIconStyle}" Margin="0,0,0,2"/>
+                    <Label Text="QA Chat" x:Name="ChatLbl" Style="{StaticResource ButtonNavigationBarLabelStyle}"/>
+                </StackLayout>
+                <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckFileUpload">
+                    <LblIcons:FontAwesomeIconLabel x:Name="imgFileUpload" Text="{Static StaticIcons:Icons.FileAttachIc}" Style="{StaticResource LblIconStyle}"/>
+                    <Label Text="File Upload" x:Name="FileUploadLbl" Style="{StaticResource ButtonNavigationBarLabelStyle}"/>
+                </StackLayout>
+                <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckPrinter">
+                    <LblIcons:FontAwesomeIconLabel x:Name="imgPrinter" Text="{Static StaticIcons:Icons.PrintIc}" Style="{StaticResource LblIconStyle}"/>
+                    <Label Text="Print Tag" x:Name="PrinterLbl" Style="{StaticResource ButtonNavigationBarLabelStyle}"/>
+                </StackLayout>
+                <StackLayout x:Name="settingsName" Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" AutomationId="AutoSettings">
+                    <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.SettingsIc}" Style="{StaticResource LblIconStyle}"/>
+                    <Label Text="Settings" Style="{StaticResource ButtonNavigationBarLabelStyle}"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+
+            <ContentView IsVisible="{Binding ToolBarItemPopUp}" BackgroundColor="Transparent" Padding="0"
+                         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.001}"
+                         RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.8, Constant=-140}">
+                <Frame BackgroundColor="Black" CornerRadius="10" x:Name="SetHeightOfFrame">
+                    <Grid RowDefinitions="40,40,40">
+                        <StackLayout x:Name="refreshName" Grid.Row="0" Orientation="Horizontal">
+                            <LblIcons:FontAwesomeIconLabel IsEnabled="{Binding RefreshDisable,Mode=TwoWay}" AutomationId="AutoRefreshToolbarIcon" Text="{x:Static StaticIcons:Icons.RefreshIc}" Style="{StaticResource LblIconStyle}"/>
+                            <Label Text="Refesh" VerticalTextAlignment="Center" Margin="5,0,0,0" FontSize="Medium" TextColor="White"/>
+                        </StackLayout>
+                        <StackLayout x:Name="chooseColumnName" Grid.Row="1" Orientation="Horizontal">
+                            <LblIcons:FontAwesomeIconLabel IsEnabled="{Binding DataGridShowColumn}" AutomationId="AutoCheckBoxToolbarIcon" Text="{x:Static StaticIcons:Icons.CheckBoxIc}" Style="{StaticResource LblIconStyle}"/>
+                            <Label Text="Choose Columns" VerticalTextAlignment="Center" Margin="5,0,0,0" FontSize="Medium" TextColor="White"/>
+                        </StackLayout>
+                        <StackLayout x:Name="archivedchats" IsVisible="{Binding Archivedchat}" Grid.Row="2" Orientation="Horizontal">
+                            <LblIcons:FontAwesomeIconLabel AutomationId="AutoArchivedToolbarIcon" Text="{x:Static StaticIcons:Icons.Archived}" Style="{StaticResource LblIconStyle}"/>
+                            <Label Text="Archived Chat" VerticalTextAlignment="Center" Margin="5,0,0,0" FontSize="Medium" TextColor="White"/>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+            </ContentView>
+        </RelativeLayout>
+        <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding activityIndicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
+                    <StackLayout Padding="15">
+                        <ActivityIndicator IsRunning="True" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                        <Label x:Name="lblLoadingText" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..."></Label>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ContentView>
+
+        <ContentView IsVisible="{Binding popup}" BackgroundColor="#C0808080" Padding="10"  AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Frame Padding="1">
+                <StackLayout>
+                    <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                        <ScrollView VerticalOptions="FillAndExpand">
+                            <sflistView:SfListView x:Name="list" ItemSize="50" ItemsSource="{Binding showColumns}" SelectionBackgroundColor="Transparent" >
+                                <sflistView:SfListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <sfchecks:SfCheckBox Margin="10,0,0,0" x:Name="selectcheckbox" IsChecked="{Binding check}" Text="{Binding headerText}" ClassId="{Binding mappingText}"/>
+                                    </DataTemplate>
+                                </sflistView:SfListView.ItemTemplate>
+                            </sflistView:SfListView>
+                        </ScrollView>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                Padding="2,0,2,3">
+                        <sfbuttons:SfButton Text="Close" Command="{Binding btn_close}"
+                                            Style="{StaticResource SfBtnRed}" HorizontalOptions="FillAndExpand">
+                            <sfbuttons:SfButton.Behaviors>
+                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            </sfbuttons:SfButton.Behaviors>
+                        </sfbuttons:SfButton>
+
+                        <sfbuttons:SfButton Text="Done" Command="{Binding btn_done}" CommandParameter="{x:Reference dataGrid}"
+                                            Style="{StaticResource SfBtnBlue}" HorizontalOptions="FillAndExpand">
+                            <sfbuttons:SfButton.Behaviors>
+                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            </sfbuttons:SfButton.Behaviors>
+                        </sfbuttons:SfButton>
+
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </ContentView>
+    </AbsoluteLayout>
+</ContentPage>

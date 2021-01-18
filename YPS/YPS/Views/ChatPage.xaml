@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local21:MyContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="YPS.Views.ChatPage"
+                       xmlns:local1="clr-namespace:YPS.Helpers"
+                       NavigationPage.HasNavigationBar="False"
+                       xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+                       xmlns:badge="clr-namespace:Syncfusion.XForms.BadgeView;assembly=Syncfusion.SfBadgeView.XForms"
+                       xmlns:local21="clr-namespace:YPS.CustomRenders"
+                       BackgroundColor="Transparent"
+                       xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+                       xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local1:DateConverter x:Key="DateConverter" />
+            <local1:MyDataTemplateSelector x:Key="MessageTemplateSelector"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <AbsoluteLayout>
+        <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Source="chatbg2.png" Aspect="AspectFill"/>
+        <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{OnPlatform iOS=70 , Android=55}"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" Padding="{OnPlatform iOS='0,12,0,0',Android='0,0,0,0'}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"  Style="{StaticResource BackNavBtn}" x:Name="Backchathide" Clicked="BackTapped"/>
+                <Grid Grid.Column="1" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
+                    <Label Grid.Row="1" x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
+                </Grid>
+                <LblIcons:FontAwesomeIconLabel Grid.Column="3" Text="{Static StaticIcons:Icons.RefreshIc}" Style="{StaticResource LblIconStyle}">
+                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RefreshTap"/>
+                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                </LblIcons:FontAwesomeIconLabel>
+                <LblIcons:FontAwesomeIconLabel Grid.Column="2" x:Name="btnchatexit" IsVisible="False" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}">
+                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="QnAClose"/>
+                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                </LblIcons:FontAwesomeIconLabel>
+                <badge:SfBadgeView Grid.Column="4" x:Name="bg" BadgeText="{Binding bgcount}" Padding="{OnPlatform iOS='12,0,0,20',Android='5,0,0,20'}">
+                    <badge:SfBadgeView.Content>
+                        <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.UserCountIc}" Style="{StaticResource LblIconStyle}">
+                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddUserClicked"/>
+                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        </LblIcons:FontAwesomeIconLabel>
+                    </badge:SfBadgeView.Content>
+                    <badge:SfBadgeView.BadgeSettings>
+                        <badge:BadgeSetting BadgeType="Error" Offset="{OnPlatform iOS='-5,5',Android='5,10'}"/>
+                    </badge:SfBadgeView.BadgeSettings>
+                </badge:SfBadgeView>
+                <LblIcons:FontAwesomeIconLabel Grid.Column="5" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoToHomeTapped"/>
+                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                </LblIcons:FontAwesomeIconLabel>
+            </Grid>
+
+            <StackLayout Grid.Row="1" x:Name="ChatStack" IsVisible="False">
+                <ListView x:Name="messageList" HasUnevenRows="True" BackgroundColor="Transparent" SeparatorVisibility="None" ItemTemplate="{StaticResource MessageTemplateSelector}" ItemTapped="MessageListItemSelected"   GroupDisplayBinding="{Binding Key,Converter={StaticResource DateConverter}}" IsGroupingEnabled="True">
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <local21:MyViewCell ios:Cell.DefaultBackgroundColor="#e5ddd5" >
+                                <Frame CornerRadius="10" HasShadow="False" VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" BackgroundColor="#D1EBF8" Padding="10">
+                                    <Label Text="{Binding Key, Converter={StaticResource DateConverter}}" BackgroundColor="#D1EBF8" TextColor="#6C808B" FontSize="Small" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                </Frame>
+                            </local21:MyViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                </ListView>
+                <StackLayout x:Name="MessageEntry" Orientation="Horizontal" Spacing="0" Margin="2">
+                    <Frame IsClippedToBounds="True" OutlineColor="Gray" CornerRadius="15" Padding="5,0,4,2" HasShadow="False" HorizontalOptions="FillAndExpand">
+                        <Grid ColumnSpacing="0" RowSpacing="0" Margin="5,7,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <local21:MyEditor VerticalOptions="FillAndExpand" AutoSize="TextChanges" Keyboard="Chat" IsVisible="{Binding BaseOnPlatformEditorShowAndroid}" Grid.Column="0" x:Name="message_entry" TextColor="Black" Placeholder="Enter your message" PlaceholderColor="Gray" Text="{Binding ChatMessage.Message}" BackgroundColor="White"/>
+                            <local21:MyEditor VerticalOptions="FillAndExpand" IsVisible="{Binding BaseOnPlatformEditorShowiOS}"  Grid.Column="0" x:Name="message_entry_iOS" TextColor="Black" Placeholder="Enter your message" PlaceholderColor="Gray" Text="{Binding ChatMessage.Message}" BackgroundColor ="White"/>
+                            <LblIcons:FontAwesomeIconLabel IsVisible="{Binding IsEmailenable}" Grid.Column="1" Opacity="5" Text="{Static StaticIcons:Icons.MailIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
+                                <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SendEmailImageCommand}"/>
+                                </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            </LblIcons:FontAwesomeIconLabel>
+                            <LblIcons:FontAwesomeIconLabel Grid.Column="3" Opacity="5" Text="{Static StaticIcons:Icons.FileAttachIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
+                                <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SendImageCommand}"/>
+                                </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            </LblIcons:FontAwesomeIconLabel>
+                        </Grid>
+                    </Frame>
+                    <Button Image="Wsend.png" BackgroundColor="Transparent" Opacity="5" WidthRequest="50" HeightRequest="60" HorizontalOptions="End" Command="{Binding SendMessageCommand}"/>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+        <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Frame Style="{StaticResource FmForActivityIndicator}">
+                <StackLayout Padding="15">
+                    <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>
+                    <Label Style="{StaticResource ActivityIndicatorLbl}"/>
+                </StackLayout>
+            </Frame>
+        </ContentView>
+    </AbsoluteLayout>
+</local21:MyContentPage>

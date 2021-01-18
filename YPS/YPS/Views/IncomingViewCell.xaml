@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+          xmlns:borders="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+          xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+          xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+          x:Class="YPS.Views.IncomingViewCell">
+
+    <Grid ColumnSpacing="70" Padding="5" BackgroundColor="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <borders:SfBorder x:Name="border" BorderColor="#D8FECB" Grid.Row="0"  Grid.Column="1" CornerRadius="8,18,0,15" BorderWidth="5" BackgroundColor="#D8FECB" Padding="5,5,5,5">
+            <StackLayout Padding="0" Spacing="0">
+                
+                <forms:CachedImage x:Name="nameIncomingPhoto" LoadingPlaceholder="loader.gif" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  Aspect="AspectFill" RetryCount="3"
+                                                           RetryDelay="3000" HeightRequest="189" WidthRequest="180" ></forms:CachedImage>
+                <Label x:Name="nameIncoming"  TextColor="Black" LineBreakMode="WordWrap" FontSize="14" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"  ></Label>
+                <StackLayout x:Name="nameDocumentIncoming" HeightRequest="35" WidthRequest="180" Orientation="Horizontal">
+                    <Grid>
+                        <Image Source="ChatDocument.png" HeightRequest="35" WidthRequest="35" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <ActivityIndicator x:Name="BusyIndicator" BackgroundColor="Black" Opacity="0.5" IsVisible="False" IsRunning="False"/>
+                    </Grid>
+                    
+                    <StackLayout x:Name="DownloadFile" Padding="5" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                        <Label Text="Download" VerticalOptions="Center" FontSize="Medium"/>
+                        <LblIcons:FontAwesomeIconLabel Margin="2,0,0,0" Text="{x:Static StaticIcons:Icons.DownloadIc}" FontSize="Large" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DownloadFileIcon_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </StackLayout>
+                
+            </StackLayout>
+        </borders:SfBorder>
+        <Label FontSize="Micro" Grid.Row="1" Grid.Column="1" Text="{Binding MessagDateTime}" HorizontalTextAlignment="End" TextColor="Gray" Margin="0,0,5,0" ></Label>
+    </Grid>
+</ViewCell>

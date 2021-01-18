@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pdfViewerSample="clr-namespace:YPS.CustomRenders"
+             x:Class="YPS.Views.PdfViewPage">
+
+    <NavigationPage.TitleView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" x:Name="setTitle" FontSize="Medium" TextColor="White" VerticalOptions="CenterAndExpand"/>
+            <Image Grid.Column="1" Source="home.png" Margin="0,0,5,0">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToHome_Tapped"/>
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>
+    </NavigationPage.TitleView>
+    
+    <Grid VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <pdfViewerSample:PdfView Grid.Row="0" x:Name="PdfDocView" VerticalOptions="FillAndExpand" />
+    </Grid>
+</ContentPage>

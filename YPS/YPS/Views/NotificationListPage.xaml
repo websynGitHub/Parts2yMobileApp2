@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="YPS.Views.NotificationListPage"  Title="Notifications" BackgroundColor="#CFD8E2">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Clear All" Priority="0"  Order="Primary"  Command="{Binding clearall}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="list" HasUnevenRows="True" IsPullToRefreshEnabled="True" IsVisible="{Binding PLHideListAndShow}" SeparatorColor="Transparent" RowHeight="100" ItemTapped="NotifyCountlist_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="{OnPlatform Android=3, iOS=8}">
+                                <Frame Padding="6" BorderColor="Gray" HasShadow="False" CornerRadius="4" BackgroundColor="White">
+                                    <Grid BackgroundColor="White">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                                            <Image Source="chatb.png"  HeightRequest="30" WidthRequest="30" HorizontalOptions="Start" VerticalOptions="Center" />
+                                            <Label  Text="{Binding QATitle}" TextColor="Black" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
+                                        </StackLayout>
+                                        <forms:CachedImage Source="{Binding Message}" LoadingPlaceholder="loader.gif" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding isImageVisible}" Aspect="AspectFill" HeightRequest="189" WidthRequest="180" Grid.Column="0" Grid.Row="1" ></forms:CachedImage>
+                                        <Label  Text="{Binding Message}" IsVisible="{Binding isTextVisible}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" Grid.Column="0" Grid.Row="1"/>
+                                        <StackLayout Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                            <Label  Text="{Binding UserName}"  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="End"/>
+                                            <Label  Text="{Binding NotifiedOn}"  VerticalOptions="CenterAndExpand" HorizontalOptions="End" HorizontalTextAlignment="End" />
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label IsVisible="{Binding HideLabelAndShow}" Text="No Notifications found." FontSize="Large" TextColor="Blue" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

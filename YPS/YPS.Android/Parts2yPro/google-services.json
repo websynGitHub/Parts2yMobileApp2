@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "533229771929",
+    "firebase_url": "https://parts2y.firebaseio.com",
+    "project_id": "parts2y",
+    "storage_bucket": "parts2y.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533229771929:android:ac6e29b728d144ae7fac08",
+        "android_client_info": {
+          "package_name": "com.synergies.parts2yprod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533229771929-l716qrlalndsbic58di1d5q5ftv392vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_RCDbpOQZesVZXZ7s42E2-geMUX2Zgcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533229771929-l716qrlalndsbic58di1d5q5ftv392vl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

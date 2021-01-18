@@ -1,0 +1,2091 @@
+﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
+using YPS.CommonClasses;
+using YPS.CustomRenders;
+using YPS.CustomToastMsg;
+using YPS.Helpers;
+using YPS.Model;
+using YPS.Service;
+using YPS.Views;
+using static YPS.Model.SearchModel;
+
+namespace YPS.ViewModel
+{
+    public class FilterDataViewModel : IBase
+    {
+
+
+        #region ICommands and variables declaration.
+        public INavigation Navigation { get; set; }
+        public YPSService service;
+        private NullableDatePicker myNullableDate;
+        bool checkInternet;
+
+        public ICommand disc_PickerCommand { set; get; }
+        public ICommand eLevel_PickerCommand { set; get; }
+        public ICommand Condition_PickerCommand { set; get; }
+        public ICommand Expeditor_PickerCommand { set; get; }
+        public ICommand Priority_PickerCommand { set; get; }
+        public ICommand DeliveryPlace_Picker_LCommand { set; get; }
+        public ICommand POL_Picker_LCommand { set; get; }
+        public ICommand POD_Picker_LCommand { set; get; }
+        public ICommand PickUp_Picker_LCommand { set; get; }
+        public ICommand DeliveryFromCommand { set; get; }
+        public ICommand ETDFromCommand { set; get; }
+        public ICommand ETAFromCommand { set; get; }
+        public ICommand OnsiteFromCommand { set; get; }
+        public ICommand DeliveryToCommand { set; get; }
+        public ICommand ETDToCommand { set; get; }
+        public ICommand ETAToCommand { set; get; }
+        public ICommand OnsiteToCommand { set; get; }
+        public ICommand resetCommand { set; get; }
+        public ICommand applyCommand { set; get; }
+        public ICommand keyTabCommand { set; get; }
+        public ICommand locationTabCommand { set; get; }
+        public ICommand datesTabCommand { set; get; }
+        #endregion
+
+        #region Properties for dynamic label change
+        public class filtterlabelclass
+        {
+            public filtterlabelFields PO { get; set; } = new filtterlabelFields();
+            public filtterlabelFields REQNo { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ShippingNumber { get; set; } = new filtterlabelFields();
+            public filtterlabelFields DisciplineName { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ELevelName { get; set; } = new filtterlabelFields();
+            public filtterlabelFields Condition { get; set; } = new filtterlabelFields();
+            public filtterlabelFields Expeditor { get; set; } = new filtterlabelFields();
+            public filtterlabelFields PriorityName { get; set; } = new filtterlabelFields();
+            public filtterlabelFields TagNumber { get; set; } = new filtterlabelFields();
+            public filtterlabelFields IdentCode { get; set; } = new filtterlabelFields();
+            public filtterlabelFields BagNumber { get; set; } = new filtterlabelFields();
+            public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields();
+            public filtterlabelFields PickUp { get; set; } = new filtterlabelFields();
+            public filtterlabelFields POL { get; set; } = new filtterlabelFields();
+            public filtterlabelFields POD { get; set; } = new filtterlabelFields();
+            public filtterlabelFields DeliverPlace { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ETD { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ETA { get; set; } = new filtterlabelFields();
+            public filtterlabelFields DeliveryDate { get; set; } = new filtterlabelFields();
+            public filtterlabelFields SiteArrival { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ETDto { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ETAto { get; set; } = new filtterlabelFields();
+            public filtterlabelFields DeliveryDateto { get; set; } = new filtterlabelFields();
+            public filtterlabelFields SiteArrivalto { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
+            public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
+        }
+        public class filtterlabelFields : IBase
+        {
+            public bool Status { get; set; }
+            public string Name { get; set; }
+        }
+
+        public filtterlabelclass _labelobj;
+        public filtterlabelclass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #region DataPlacehlder name
+        string etadatename;
+        string etadatenameto;
+        string etddatename;
+        string etddatenameto;
+        string deliveryDate;
+        string deliveryDateto;
+        string siteArrival;
+        string siteArrivalto;
+        #endregion
+
+        #endregion
+
+        /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="_Navigation"></param>
+        /// <param name="page"></param>
+        public FilterDataViewModel(INavigation _Navigation, Page page)
+        {
+            YPSLogger.TrackEvent("FilterDataViewModel", "Page FilterDataViewModel method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+            try
+            {
+                Navigation = _Navigation;
+                IndicatorVisibility = true;
+                service = new YPSService();
+
+                page.Appearing += Page_Appearing;
+
+                #region Command binding for showing pickers
+                disc_PickerCommand = new Command<View>((view) =>
+                {
+                    view?.Focus();
+                });
+
+                eLevel_PickerCommand = new Command<View>((view) =>
+                {
+                    view?.Focus();
+                });
+
+                Condition_PickerCommand = new Command<View>((view) =>
+                {
+                    view?.Focus();
+                });
+
+                Expeditor_PickerCommand = new Command<View>((view) =>
+                {
+                    view?.Focus();
+                });
+
+                Priority_PickerCommand = new Command<View>((view) =>
+                {
+                    view?.Focus();
+                });
+
+                PickUp_Picker_LCommand = new Command<View>((view) =>
+                {
+                    EntrySearchType = "PickUpSearchL";
+                    if (ListOfPlaceName != null)
+                    {
+                        ListOfPlaceName.Clear();
+                    }
+                    SearchContentView = true;
+                    NoResultsIsVisibleLbl = true;
+                });
+
+                POL_Picker_LCommand = new Command<View>((view) =>
+                {
+                    EntrySearchType = "POLSearchL";
+                    if (ListOfPlaceName != null)
+                    {
+                        ListOfPlaceName.Clear();
+                    }
+                    SearchContentView = true;
+                    NoResultsIsVisibleLbl = true;
+                });
+
+                POD_Picker_LCommand = new Command<View>((view) =>
+                {
+                    EntrySearchType = "PODSearchL";
+                    if (ListOfPlaceName != null)
+                    {
+                        ListOfPlaceName.Clear();
+                    }
+                    SearchContentView = true;
+                    NoResultsIsVisibleLbl = true;
+                });
+
+                DeliveryPlace_Picker_LCommand = new Command<View>((view) =>
+                {
+                    EntrySearchType = "DeliverySearchL";
+                    if (ListOfPlaceName != null)
+                    {
+                        ListOfPlaceName.Clear();
+                    }
+                    SearchContentView = true;
+                    NoResultsIsVisibleLbl = true;
+                });
+                #endregion
+
+                #region BInding tab & click event methods to respective ICommand properties
+                DeliveryFromCommand = new Command(tap_pickupDate);
+                ETDFromCommand = new Command(tap_polDate);
+                ETAFromCommand = new Command(tap_podDate);
+                OnsiteFromCommand = new Command(tap_onsiteDate);
+
+                DeliveryToCommand = new Command(tap_DeliveryToDate);
+                ETDToCommand = new Command(tap_ETDToDate);
+                ETAToCommand = new Command(tap_ETAToDate);
+                OnsiteToCommand = new Command(tap_onsiteFromDate);
+
+                applyCommand = new Command(async () => await ApplyFilter());
+                resetCommand = new Command(async () => await ResetFilter());
+
+                keyTabCommand = new Command(async () => await KeyTabClick());
+                locationTabCommand = new Command(async () => await LocationTabClick());
+                datesTabCommand = new Command(async () => await DateTabClick());
+                #endregion
+
+                ChangeLabel();
+                HeaderFilterData();
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "FilterDataViewModel constructor -> in FilterDataViewModel " + Settings.userLoginID);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets called when page is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Page_Appearing(object sender, EventArgs e)
+        {
+            try
+            {
+                Settings.filterPageCount = 0;
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Page_Appearing method -> in FilterDataViewModel " + Settings.userLoginID);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Search" button.
+        /// </summary>
+        /// <returns></returns>
+        private async Task ApplyFilter()
+        {
+            try
+            {
+                YPSLogger.TrackEvent("FilterDataViewModel", "in applyClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                await Task.Delay(50);
+                UserDialogs.Instance.ShowLoading("Loading...");
+
+                //Verifying internet connection.
+                checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+                    SendPodata SaveUserDS = new SendPodata();
+                    Settings.UserID = Settings.userLoginID;
+
+                    //Getting the entered feild values from Key tab
+                    SaveUserDS.PONumber = Settings.PONumber = poNumber;
+                    SaveUserDS.REQNo = Settings.REQNo = reqNumber;
+                    SaveUserDS.ShippingNo = Settings.ShippingNo = shipNumber;
+                    SaveUserDS.DisciplineID = Settings.DisciplineID;
+                    SaveUserDS.ELevelID = Settings.ELevelID;
+                    SaveUserDS.ConditionID = Settings.ConditionID;
+                    SaveUserDS.ExpeditorID = Settings.ExpeditorID;
+                    SaveUserDS.PriorityID = Settings.PriorityID;
+                    SaveUserDS.TagNo = Settings.TAGNo = tagNumber;
+                    SaveUserDS.IdentCode = Settings.IdentCodeNo = Identcode;
+                    SaveUserDS.BagNo = Settings.BagNo = BagNumber;
+                    SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber;
+
+                    //Getting the entered feild values from Location tab
+                    SaveUserDS.PickUpId = Settings.LocationPickupID;
+                    SaveUserDS.PickUp = Settings.LocationPickupName;
+                    SaveUserDS.POLID = Settings.LocationPOLID;
+                    SaveUserDS.POL = Settings.LocationPOLName;
+                    SaveUserDS.PODID = Settings.LocationPODID;
+                    SaveUserDS.POD = Settings.LocationPODName;
+                    SaveUserDS.DeliveryPlaceID = Settings.LocationDeliverPlaceID;
+                    SaveUserDS.DeliveryPlace = Settings.LocationDeliverPlaceName;
+
+                    //Getting the entered feild values from Date tab
+                    SaveUserDS.ETDFrom = string.IsNullOrEmpty(Settings.ETDFrom) ? null : ETDFromSelectDatetext;
+                    SaveUserDS.ETAFrom = string.IsNullOrEmpty(Settings.ETAFrom) ? null : ETAFromSelectDatetext;
+                    SaveUserDS.DeliveryFrom = string.IsNullOrEmpty(Settings.DeliveryFrom) ? null : DeliveryFromSelectDatetext;
+                    SaveUserDS.OnsiteFrom = string.IsNullOrEmpty(Settings.OnsiteFrom) ? null : OnsiteDSelectDatetext;
+                    SaveUserDS.ETDTo = string.IsNullOrEmpty(Settings.ETDTo) ? null : ETDToSelectDatetext;
+                    SaveUserDS.ETATo = string.IsNullOrEmpty(Settings.ETATo) ? null : ETAToSelectDatetext;
+                    SaveUserDS.DeliveryTo = string.IsNullOrEmpty(Settings.DeliveryTo) ? null : DeliveryToSelectDatetext;
+                    SaveUserDS.OnsiteTo = string.IsNullOrEmpty(Settings.OnsiteTo) ? null : OnsiteToSelectDatetext;
+
+                    //Save the filter field values to DB
+                    SearchPassData defaultData = new SearchPassData();
+                    defaultData.UserID = Settings.userLoginID;
+                    defaultData.CompanyID = Settings.CompanyID;
+                    defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
+                    var responseData = await service.SaveSerchvaluesSetting(defaultData);
+
+                    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ApplyFilter method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+                Settings.ShowSuccessAlert = true;
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Reset" button.
+        /// </summary>
+        private async Task ResetFilter()
+        {
+            try
+            {
+                YPSLogger.TrackEvent("FilterDataViewModel", "in applyClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                await Task.Delay(50);
+                UserDialogs.Instance.ShowLoading("Loading...");
+
+                //Verifying internet connection.
+                checkInternet = await App.CheckInterNetConnection();
+
+                Settings.IsFilterreset = true;
+
+                if (checkInternet)
+                {
+                    SendPodata SaveUserDS = new SendPodata();
+                    SearchPassData defaultData = new SearchPassData();
+                    defaultData.CompanyID = Settings.CompanyID;
+                    defaultData.UserID = Settings.userLoginID;
+
+                    // Setting the default values for fields in Key tab
+                    SaveUserDS.PONumber = Settings.PONumber = poNumber = string.Empty;
+                    SaveUserDS.REQNo = Settings.REQNo = reqNumber = string.Empty;
+                    SaveUserDS.ShippingNo = Settings.ShippingNo = shipNumber = string.Empty;
+                    SaveUserDS.DisciplineID = Settings.DisciplineID = 0;
+                    DisciplineDefaultValue = "ALL";
+                    SaveUserDS.ELevelID = Settings.ELevelID = 0;
+                    ELevelDefaultValue = "ALL";
+                    SaveUserDS.ConditionID = Settings.ConditionID = 0;
+                    ConditionDefaultValue = "ALL";
+                    SaveUserDS.ExpeditorID = Settings.ExpeditorID = 0;
+                    ExpeditorDefaultValue = "ALL";
+                    SaveUserDS.PriorityID = Settings.PriorityID = 0;
+                    PriorityDefaultValue = "ALL";
+                    SaveUserDS.TagNo = Settings.TAGNo = tagNumber = string.Empty;
+                    SaveUserDS.IdentCode = Settings.IdentCodeNo = Identcode = string.Empty;
+                    SaveUserDS.BagNo = Settings.BagNo = BagNumber = string.Empty;
+                    SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber = string.Empty;
+
+                    // Setting the default values for fields in Location tab
+                    SaveUserDS.PickUpId = Settings.LocationPickupID = 0;
+                    PickUpDefaultValue_L = "ALL";
+                    SaveUserDS.POLID = Settings.LocationPOLID = 0;
+                    POLDefaultValue_L = "ALL";
+                    SaveUserDS.PODID = Settings.LocationPODID = 0;
+                    PODDefaultValue_L = "ALL";
+                    SaveUserDS.DeliveryPlaceID = Settings.LocationDeliverPlaceID = 0;
+                    DeliverPlaceDefaultValue_L = "ALL";
+
+                    // Setting the default values for fields in Date tabe
+                    SaveUserDS.DeliveryFrom = Settings.DeliveryFrom = null;
+                    SaveUserDS.ETDFrom = Settings.ETDFrom = null;
+                    SaveUserDS.ETAFrom = Settings.ETAFrom = null;
+                    SaveUserDS.OnsiteFrom = Settings.OnsiteFrom = null;
+                    SaveUserDS.DeliveryTo = Settings.DeliveryTo = null;
+                    SaveUserDS.ETDTo = Settings.ETDTo = null;
+                    SaveUserDS.ETATo = Settings.ETATo = null;
+                    SaveUserDS.OnsiteTo = Settings.OnsiteTo = null;
+                    ETDFromSelectDatetext = etddatename;
+                    ETDToSelectDatetext = etddatenameto;
+                    ETAFromSelectDatetext = etadatename;
+                    ETAToSelectDatetext = etadatenameto;
+                    DeliveryFromSelectDatetext = deliveryDate;
+                    DeliveryToSelectDatetext = deliveryDateto;
+                    OnsiteDSelectDatetext = siteArrival;
+                    OnsiteToSelectDatetext = siteArrivalto;
+
+                    //Saving all the filter fields with default value into the DB
+                    defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
+                    var responseData = await service.SaveSerchvaluesSetting(defaultData);
+
+                    Settings.refreshPage = 1;
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ResetFilter method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Key" tab.
+        /// </summary>
+        /// <returns></returns>
+        private async Task KeyTabClick()
+        {
+            try
+            {
+                headerVisibility = true;
+                locationVisibility = countryVisibility = datesVisibility = false;
+                headerTextColor = locationTextColor = countryTextColor = datesTextColor = Color.White;
+                headerbox = true; locationbox = datebox = false;
+                headerBgColor = Color.FromHex("#269DC9");
+                locationBgColor = countryBgColor = datesBgColor = Color.LightBlue;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "KeyTabClick method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Location" tab.
+        /// </summary>
+        /// <returns></returns>
+        private async Task LocationTabClick()
+        {
+            try
+            {
+                locationVisibility = true;
+                headerVisibility = countryVisibility = datesVisibility = false;
+                locationTextColor = headerTextColor = countryTextColor = datesTextColor = Color.White;
+                locationbox = true; headerbox = datebox = false;
+                locationBgColor = Color.FromHex("#269DC9");
+                headerBgColor = countryBgColor = datesBgColor = Color.LightBlue;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "LocationTabClick method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Date" tab.
+        /// </summary>
+        /// <returns></returns>
+        private async Task DateTabClick()
+        {
+            try
+            {
+                datesVisibility = true;
+                headerVisibility = countryVisibility = locationVisibility = false;
+                datesTextColor = headerTextColor = countryTextColor = locationTextColor = Color.White;
+                datebox = true; headerbox = locationbox = false;
+                datesBgColor = Color.FromHex("#269DC9");
+                headerBgColor = countryBgColor = locationBgColor = Color.LightBlue;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DateTabClick method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "ETD" field.
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_polDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "ETD From";
+                myNullableDate.PropertyChanged += Data_PropertyChanged;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_polDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "ETD To" field.
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_ETDToDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "ETD To";
+                myNullableDate.PropertyChanged += Data_PropertyChanged;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_ETDToDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "ETA From" field.
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_podDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "ETA From";
+                myNullableDate.PropertyChanged += Data_PropertyChanged;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_podDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "ETA To" field.
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_ETAToDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "ETA To";
+                myNullableDate.PropertyChanged += Data_PropertyChanged; ;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_ETAToDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Delivery From" field
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_pickupDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "Delivery From";
+                myNullableDate.PropertyChanged += Data_PropertyChanged;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_pickupDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Delivery To" field
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_DeliveryToDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "Delivery To";
+                myNullableDate.PropertyChanged += Data_PropertyChanged;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_DeliveryToDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get called when clicked on "SiteArrival From" field
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_onsiteDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "Onsite From";
+                myNullableDate.PropertyChanged += Data_PropertyChanged;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_onsiteDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "SiteArrival From" field
+        /// </summary>
+        /// <param name="sender"></param>
+        private async void tap_onsiteFromDate(object sender)
+        {
+            try
+            {
+                myNullableDate = sender as NullableDatePicker;
+                myNullableDate.Focus();
+                Settings.dateBaseOnPickerVal = "Onsite To";
+                myNullableDate.PropertyChanged += Data_PropertyChanged;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_onsiteFromDate method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets Called when Done is clicked on the DatePicker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Data_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            try
+            {
+                var date = sender as NullableDatePicker;
+                string selectedDate = date.Date.ToString(Settings.DateFormatformAPI);
+                
+                if (!string.IsNullOrEmpty(selectedDate))
+                {
+                    if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etdfrom")
+                    {
+                        ETDFromSelectDatetext = selectedDate;
+                        Settings.ETDFrom = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etdto")
+                    {
+                        ETDToSelectDatetext = selectedDate;
+                        Settings.ETDTo = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etafrom")
+                    {
+                        ETAFromSelectDatetext = selectedDate;
+                        Settings.ETAFrom = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etato")
+                    {
+                        ETAToSelectDatetext = selectedDate;
+                        Settings.ETATo = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "deliveryfrom")
+                    {
+                        DeliveryFromSelectDatetext = selectedDate;
+                        Settings.DeliveryFrom = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "deliveryto")
+                    {
+                        DeliveryToSelectDatetext = selectedDate;
+                        Settings.DeliveryTo = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "onsitefrom")
+                    {
+                        OnsiteDSelectDatetext = selectedDate;
+                        Settings.OnsiteFrom = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "onsiteto")
+                    {
+                        OnsiteToSelectDatetext = selectedDate;
+                        Settings.OnsiteTo = selectedDate;
+                        myNullableDate.CleanDate();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Data_PropertyChanged method-> in datechanged event " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// This is used to get the entered/selected field values from DB
+        /// </summary>
+        public async void Searchdatapicker()
+        {
+            try
+            {
+                //Verifying internet connection.
+                checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+                    var filterData = await service.GetHeaderFilterDataService();
+
+                    if (filterData != null)
+                    {
+                        if (filterData.status != 0)
+                        {
+                            Settings.alldropdownvalues = filterData.data;
+                            HeaderFilterData();
+                        }
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Searchdatapicker method-> in datechanged event " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+
+        }
+
+        /// <summary>
+        /// This is for binding the existing entered/selected filed values to their respective fields
+        /// Fires during the page loding
+        /// </summary>
+        private async void HeaderFilterData()
+        {
+            try
+            {
+                IndicatorVisibility = true;
+
+                if (Settings.alldropdownvalues != null)
+                {
+                    var list = Settings.alldropdownvalues.Discipline.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                    DisciplineList = new List<DDLmaster>();
+                    DisciplineList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                    DisciplineList.AddRange(list);
+                    DisciplineNames = DisciplineList.Select(x => x.Name).ToList();
+
+                    var elevllist = Settings.alldropdownvalues.ELevel.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                    ELevelList = new List<DDLmaster>();
+                    ELevelList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                    ELevelList.AddRange(elevllist);
+                    ELevelNames = ELevelList.Select(x => x.Name).ToList();
+
+                    var prioritylist = Settings.alldropdownvalues.Priority.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                    PriorityList = new List<DDLmaster>();
+                    PriorityList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                    PriorityList.AddRange(prioritylist);
+                    PriorityNames = PriorityList.Select(x => x.Name).ToList();
+
+                    var expeditorlist = Settings.alldropdownvalues.Expeditor.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                    Expeditorlist = new List<DDLmaster>();
+                    Expeditorlist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                    Expeditorlist.AddRange(expeditorlist);
+                    ExpeditorNames = Expeditorlist.Select(x => x.Name).ToList();
+
+                    var conditionlist = Settings.alldropdownvalues.Condition.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                    Conditionlist = new List<DDLmaster>();
+                    Conditionlist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                    Conditionlist.AddRange(conditionlist);
+                    ConditionNames = Conditionlist.Select(x => x.Name).ToList();
+
+                    BindKeyTabValues();
+                    BindLocationTabValues();
+                    BindDateTabValues();
+                }
+                else
+                {
+                    try
+                    {
+                        Searchdatapicker();
+                    }
+                    catch (Exception ex)
+                    {
+                        YPSLogger.ReportException(ex, "Inner catch block in HeaderFilterData method-> in datechanged event " + Settings.userLoginID);
+                        await service.Handleexception(ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "HeaderFilterData method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
+            }
+        }
+
+        /// <summary>
+        /// This is for binding the existing Key tab field values
+        /// </summary>
+        private async void BindKeyTabValues()
+        {
+            try
+            {
+                poNumber = !(String.IsNullOrEmpty(Settings.PONumber)) ? Settings.PONumber : poNumber;
+                reqNumber = !(String.IsNullOrEmpty(Settings.REQNo)) ? Settings.REQNo : reqNumber;
+                shipNumber = !(String.IsNullOrEmpty(Settings.ShippingNo)) ? Settings.ShippingNo : shipNumber;
+                tagNumber = !(String.IsNullOrEmpty(Settings.TAGNo)) ? Settings.TAGNo : tagNumber;
+                Identcode = !(String.IsNullOrEmpty(Settings.IdentCodeNo)) ? Settings.IdentCodeNo : Identcode;
+                BagNumber = !(String.IsNullOrEmpty(Settings.BagNo)) ? Settings.BagNo : BagNumber;
+                YbkgNumber = !(String.IsNullOrEmpty(Settings.Ybkgnumber)) ? Settings.Ybkgnumber : YbkgNumber;
+
+                if (Settings.DisciplineID != 0)
+                {
+                    var name = DisciplineList.Where(x => x.ID == Settings.DisciplineID).FirstOrDefault();
+                    DisciplineDefaultValue = Settings.DisciplineName = name.Name;
+                }
+                else
+                {
+                    DisciplineDefaultValue = DisciplineNames.FirstOrDefault();
+                }
+
+                if (Settings.ELevelID != 0)
+                {
+                    var name = ELevelList.Where(x => x.ID == Settings.ELevelID).FirstOrDefault();
+                    ELevelDefaultValue = Settings.ELevelName = name.Name;
+                }
+                else
+                {
+                    ELevelDefaultValue = ELevelNames.FirstOrDefault();
+                }
+
+                if (Settings.ConditionID != 0)
+                {
+                    var name = Conditionlist.Where(x => x.ID == Settings.ConditionID).FirstOrDefault();
+                    ConditionDefaultValue = Settings.ConditionName = name.Name;
+                }
+                else
+                {
+                    ConditionDefaultValue = ConditionNames.FirstOrDefault();
+                }
+
+                if (Settings.ExpeditorID != 0)
+                {
+                    var name = Expeditorlist.Where(x => x.ID == Settings.ExpeditorID).FirstOrDefault();
+                    ExpeditorDefaultValue = Settings.ExpeditorName = name.Name;
+                }
+                else
+                {
+                    ExpeditorDefaultValue = ExpeditorNames.FirstOrDefault();
+                }
+
+                if (Settings.PriorityID != 0)
+                {
+                    var name = PriorityList.Where(x => x.ID == Settings.PriorityID).FirstOrDefault();
+                    PriorityDefaultValue = Settings.PriorityName = name.Name;
+                }
+                else
+                {
+                    PriorityDefaultValue = PriorityNames.FirstOrDefault();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "BindingKeyValues method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// This is for binding the existing Location tab field values
+        /// </summary>
+        private async void BindLocationTabValues()
+        {
+            try
+            {
+                PickUpDefaultValue_L = Settings.LocationPickupID != 0 ? Settings.LocationPickupName : PickUpDefaultValue_L;
+                POLDefaultValue_L = Settings.LocationPOLID != 0 ? Settings.LocationPOLName : POLDefaultValue_L;
+                PODDefaultValue_L = Settings.LocationPODID != 0 ? Settings.LocationPODName : PODDefaultValue_L;
+                DeliverPlaceDefaultValue_L = Settings.LocationDeliverPlaceID != 0 ? Settings.LocationDeliverPlaceName : DeliverPlaceDefaultValue_L;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "BindLocationTabValues method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// This is for binding the existing Date tab field values
+        /// </summary>
+        private async void BindDateTabValues()
+        {
+            try
+            {
+                // Binding for From Dates
+                ETDFromSelectDatetext = !(String.IsNullOrEmpty(Settings.ETDFrom)) ? Settings.ETDFrom : ETDFromSelectDatetext;
+                ETAFromSelectDatetext = !(String.IsNullOrEmpty(Settings.ETAFrom)) ? Settings.ETAFrom : ETAFromSelectDatetext;
+                DeliveryFromSelectDatetext = !(String.IsNullOrEmpty(Settings.DeliveryFrom)) ? Settings.DeliveryFrom : DeliveryFromSelectDatetext;
+                OnsiteDSelectDatetext = !(String.IsNullOrEmpty(Settings.OnsiteFrom)) ? Settings.OnsiteFrom : OnsiteDSelectDatetext;
+
+                //Binding for To Dates
+                ETDToSelectDatetext = !(String.IsNullOrEmpty(Settings.ETDTo)) ? Settings.ETDTo : ETDToSelectDatetext;
+                ETAToSelectDatetext = !(String.IsNullOrEmpty(Settings.ETATo)) ? Settings.ETATo : ETAToSelectDatetext;
+                DeliveryToSelectDatetext = !(String.IsNullOrEmpty(Settings.DeliveryTo)) ? Settings.DeliveryTo : DeliveryToSelectDatetext;
+                OnsiteToSelectDatetext = !(String.IsNullOrEmpty(Settings.OnsiteTo)) ? Settings.OnsiteTo : OnsiteToSelectDatetext;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "BindDateTabValues method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when an item is selected from Discipline DropDownList
+        /// </summary>
+        public async void SelectedDiscipline_TapEvent()
+        {
+            try
+            {
+                if (SelectedDisciplineValue != null)
+                {
+                    DisciplineDefaultValue = SelectedDisciplineValue;
+                    var DisciplineValue = DisciplineList.Where(X => X.Name == DisciplineDefaultValue).FirstOrDefault();
+                    Settings.DisciplineID = DisciplineValue.ID;
+                    Settings.DisciplineName = DisciplineValue.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectedDiscipline_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when an item is selected from ELevel DropDownList
+        /// </summary>
+        public async void SelectedELevel_TapEvent()
+        {
+            try
+            {
+                if (SelectedELevelValue != null)
+                {
+                    ELevelDefaultValue = SelectedELevelValue;
+                    var ELevelListvalue = ELevelList.Where(X => X.Name == ELevelDefaultValue).FirstOrDefault();
+                    Settings.ELevelID = ELevelListvalue.ID;
+                    Settings.ELevelName = ELevelListvalue.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectedELevel_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when an item is selected from Condition DropDownList
+        /// </summary>
+        public async void SelectedCondition_TapEvent()
+        {
+            try
+            {
+                if (SelectedConditionValue != null)
+                {
+                    ConditionDefaultValue = SelectedConditionValue;
+                    var ConditionListvalue = Conditionlist.Where(X => X.Name == ConditionDefaultValue).FirstOrDefault();
+                    Settings.ConditionID = ConditionListvalue.ID;
+                    Settings.ConditionName = ConditionListvalue.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectedCondition_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when an item is selected from Expeditor DropDownList
+        /// </summary>
+        public async void SelectedExpeditor_TapEvent()
+        {
+            try
+            {
+                if (SelectedExpeditorValue != null)
+                {
+                    ExpeditorDefaultValue = SelectedExpeditorValue;
+                    var ExpeditorListvalue = Expeditorlist.Where(X => X.Name == ExpeditorDefaultValue).FirstOrDefault();
+                    Settings.ExpeditorID = ExpeditorListvalue.ID;
+                    Settings.ExpeditorName = ExpeditorListvalue.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectedExpeditor_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Fires when an item is selected from Priority DropDownList
+        /// </summary>
+        public async void SelectedPriority_TapEvent()
+        {
+            try
+            {
+                if (SelectedPrioritytValue != null)
+                {
+                    PriorityDefaultValue = SelectedPrioritytValue;
+                    var PriorityListvalue = PriorityList.Where(X => X.Name == PriorityDefaultValue).FirstOrDefault();
+                    Settings.PriorityID = PriorityListvalue.ID;
+                    Settings.PriorityName = PriorityListvalue.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectedPriority_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// This is for changing the labels dynamically & field Show/Hide
+        /// </summary>
+        public async void ChangeLabel()
+        {
+            try
+            {
+                labelobj = new filtterlabelclass();
+
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Alllabeslvalues> filteredlabel = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                    if (filteredlabel.Count > 0)
+                    {
+                        //Assigning default names to the label properties for comparinf with FieldID 
+                        await AssignValueForComparision();
+
+                        // Selecting Label Text and Status 
+                        var poval = filteredlabel.Where(wr => wr.FieldID == labelobj.PO.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var REQNo = filteredlabel.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ShippingNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var DisciplineName = filteredlabel.Where(wr => wr.FieldID == labelobj.DisciplineName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ELevelName = filteredlabel.Where(wr => wr.FieldID == labelobj.ELevelName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var Condition = filteredlabel.Where(wr => wr.FieldID == labelobj.Condition.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var Expeditor = filteredlabel.Where(wr => wr.FieldID == labelobj.Expeditor.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var PriorityName = filteredlabel.Where(wr => wr.FieldID == labelobj.PriorityName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var TagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var IdentCode = filteredlabel.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var BagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ybkgnumber = filteredlabel.Where(wr => wr.FieldID == labelobj.yBkgNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var PickUp = filteredlabel.Where(wr => wr.FieldID == labelobj.PickUp.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var POL = filteredlabel.Where(wr => wr.FieldID == labelobj.POL.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var POD = filteredlabel.Where(wr => wr.FieldID == labelobj.POD.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var DeliverPlace = filteredlabel.Where(wr => wr.FieldID == labelobj.DeliverPlace.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ETD = filteredlabel.Where(wr => wr.FieldID == labelobj.ETD.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ETA = filteredlabel.Where(wr => wr.FieldID == labelobj.ETA.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var DeliveryDate = filteredlabel.Where(wr => wr.FieldID == labelobj.DeliveryDate.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var SiteArrival = filteredlabel.Where(wr => wr.FieldID == labelobj.SiteArrival.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ResetBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.ResetBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var SearchBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.SearchBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        //Changing label & Show/Hide fields
+                        labelobj.PO.Name = poval != null ? poval.LblText : "Purchase#";
+                        labelobj.PO.Status = (poval == null ? true : false) || (poval != null && poval.Status == 1) ? true : false;
+                        labelobj.REQNo.Name = REQNo != null ? REQNo.LblText : "REQ#";
+                        labelobj.REQNo.Status = (REQNo == null ? true : false) || (REQNo != null && REQNo.Status == 1) ? true : false;
+                        labelobj.ShippingNumber.Name = ShippingNumber != null ? ShippingNumber.LblText : "Shipping#";
+                        labelobj.ShippingNumber.Status = (ShippingNumber == null ? true : false) || (ShippingNumber != null && ShippingNumber.Status == 1) ? true : false;
+                        labelobj.DisciplineName.Name = DisciplineName != null ? DisciplineName.LblText : "Discipline";
+                        labelobj.DisciplineName.Status = (DisciplineName == null ? true : false) || ((DisciplineName != null && DisciplineName.Status == 1) ? true : false);
+                        labelobj.ELevelName.Name = ELevelName != null ? ELevelName.LblText : "ELeavel";
+                        labelobj.ELevelName.Status = (ELevelName == null ? true : false) || (ELevelName != null && ELevelName.Status == 1) ? true : false;
+                        labelobj.Condition.Name = Condition != null ? Condition.LblText : "Condition";
+                        labelobj.Condition.Status = (Condition == null ? true : false) || (Condition != null && Condition.Status == 1) ? true : false;
+                        labelobj.Expeditor.Name = Expeditor != null ? Expeditor.LblText : "Expeditor";
+                        labelobj.Expeditor.Status = (Expeditor == null ? true : false) || (Expeditor != null && Expeditor.Status == 1) ? true : false;
+                        labelobj.PriorityName.Name = PriorityName != null ? PriorityName.LblText : "Priority";
+                        labelobj.PriorityName.Status = (PriorityName == null ? true : false) || (PriorityName != null && PriorityName.Status == 1) ? true : false;
+                        labelobj.TagNumber.Name = TagNumber != null ? TagNumber.LblText : "Tag#";
+                        labelobj.TagNumber.Status = (TagNumber == null ? true : false) || (TagNumber != null && TagNumber.Status == 1) ? true : false;
+                        labelobj.IdentCode.Name = IdentCode != null ? IdentCode.LblText : "Ident Code";
+                        labelobj.IdentCode.Status = (IdentCode == null ? true : false) || (IdentCode != null && IdentCode.Status == 1) ? true : false;
+                        labelobj.BagNumber.Name = BagNumber != null ? BagNumber.LblText : "Outer Package";
+                        labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false;
+                        labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
+                        labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false;
+                        labelobj.PickUp.Name = PickUp != null ? PickUp.LblText : "PickUp";
+                        labelobj.PickUp.Status = (PickUp == null ? true : false) || (PickUp != null && PickUp.Status == 1) ? true : false;
+                        labelobj.POL.Name = POL != null ? POL.LblText : "POL";
+                        labelobj.POL.Status = (POL == null ? true : false) || (POL != null && POL.Status == 1) ? true : false;
+                        labelobj.POD.Name = POD != null ? POD.LblText : "POD";
+                        labelobj.POD.Status = (POD == null ? true : false) || (POD != null && POD.Status == 1) ? true : false;
+                        labelobj.DeliverPlace.Name = DeliverPlace != null ? DeliverPlace.LblText : "Delivery Place";
+                        labelobj.DeliverPlace.Status = (DeliverPlace == null ? true : false) || (DeliverPlace != null && DeliverPlace.Status == 1) ? true : false;
+                        labelobj.ETD.Name = ETD != null ? ETD.LblText + " From" : "ETD From";
+                        labelobj.ETD.Status = (ETD == null ? true : false) || (ETD != null && ETD.Status == 1) ? true : false;
+                        labelobj.ETDto.Name = ETD != null ? ETD.LblText + " To" : "ETD To";
+                        labelobj.ETDto.Status = (ETD == null ? true : false) || (ETD != null && ETD.Status == 1) ? true : false;
+                        labelobj.ETA.Name = ETA != null ? ETA.LblText + " From" : "ETA From";
+                        labelobj.ETA.Status = (ETA == null ? true : false) || (ETA != null && ETA.Status == 1) ? true : false;
+                        labelobj.ETAto.Name = ETA != null ? ETA.LblText + " To" : "ETA To";
+                        labelobj.ETAto.Status = (ETA == null ? true : false) || (ETA != null && ETA.Status == 1) ? true : false;
+                        labelobj.DeliveryDate.Name = DeliveryDate != null ? DeliveryDate.LblText + " From" : "Delivery Date From";
+                        labelobj.DeliveryDate.Status = (DeliveryDate == null ? true : false) || (DeliveryDate != null && DeliveryDate.Status == 1) ? true : false;
+                        labelobj.DeliveryDateto.Name = DeliveryDate != null ? DeliveryDate.LblText + " To" : "Delivery Date To";
+                        labelobj.DeliveryDateto.Status = (DeliveryDate == null ? true : false) || (DeliveryDate != null && DeliveryDate.Status == 1) ? true : false;
+                        labelobj.SiteArrival.Name = SiteArrival != null ? SiteArrival.LblText + " From" : "Site Arrival From";
+                        labelobj.SiteArrival.Status = (SiteArrival == null ? true : false) || (SiteArrival != null && SiteArrival.Status == 1) ? true : false;
+                        labelobj.SiteArrivalto.Name = SiteArrival != null ? SiteArrival.LblText + " To" : "Site Arrival To";
+                        labelobj.SiteArrivalto.Status = (SiteArrival == null ? true : false) || (SiteArrival != null && SiteArrival.Status == 1) ? true : false;
+                        labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
+                        labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
+                        etddatename = ETDFromSelectDatetext = ETD != null ? ETD.LblText : "ETD From";
+                        etddatenameto = ETDToSelectDatetext = ETD != null ? ETD.LblText : "ETD To";
+                        etadatename = ETAFromSelectDatetext = ETA != null ? ETA.LblText : "ETA From";
+                        etadatenameto = ETAToSelectDatetext = ETA != null ? ETA.LblText : "ETA To";
+                        deliveryDate = DeliveryFromSelectDatetext = DeliveryDate != null ? DeliveryDate.LblText : "Delivery Date From";
+                        deliveryDateto = DeliveryToSelectDatetext = DeliveryDate != null ? DeliveryDate.LblText : "Delivery Date To";
+                        siteArrival = OnsiteDSelectDatetext = SiteArrival != null ? SiteArrival.LblText : "Site Arrival From";
+                        siteArrivalto = OnsiteToSelectDatetext = SiteArrival != null ? SiteArrival.LblText : "Site Arrival To";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ChangeLabel method -> FilterDataViewModel" + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Assigning values to dynamic text change properties for comparing with FieldID
+        /// </summary>
+        /// <returns></returns>
+        private async Task AssignValueForComparision()
+        {
+            try
+            {
+                labelobj.PO.Name = "PONumber"; labelobj.REQNo.Name = "REQNo"; labelobj.ShippingNumber.Name = "ShippingNumber"; labelobj.DisciplineName.Name = "DisciplineName";
+                labelobj.ELevelName.Name = "ELevelName"; labelobj.Condition.Name = "ConditionName"; labelobj.Expeditor.Name = "ExpeditorName"; labelobj.PriorityName.Name = "PriorityName";
+                labelobj.TagNumber.Name = "TagNumber"; labelobj.IdentCode.Name = "IdentCode"; labelobj.BagNumber.Name = "BagNumber"; labelobj.PickUp.Name = "PickUp";
+                labelobj.yBkgNumber.Name = "yBkgNumber";
+                labelobj.POL.Name = "POL"; labelobj.POD.Name = "POD";
+                labelobj.DeliverPlace.Name = "DeliverPlace";
+                labelobj.ETD.Name = "ETD";
+                labelobj.ETA.Name = "ETA";
+                labelobj.DeliveryDate.Name = "DeliveryDate";
+                labelobj.SiteArrival.Name = "SiteArrival"; labelobj.ResetBtn.Name = "Reset"; labelobj.SearchBtn.Name = "Search";
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "AssignValueForComparision method -> FilterDataViewModel" + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        #region Properties
+        private bool _SearchContentView = false;
+        public bool SearchContentView
+        {
+            get { return _SearchContentView; }
+            set
+            {
+                _SearchContentView = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _NoResultsLbl = "Please enter 4 or more characters";
+        public string NoResultsLbl
+        {
+            get { return _NoResultsLbl; }
+            set
+            {
+                _NoResultsLbl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _NoResultsIsVisibleLbl = true;
+        public bool NoResultsIsVisibleLbl
+        {
+            get { return _NoResultsIsVisibleLbl; }
+            set
+            {
+                _NoResultsIsVisibleLbl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _DeliverPlaceListViewStack = false;
+        public bool DeliverPlaceListViewStack
+        {
+            get { return _DeliverPlaceListViewStack; }
+            set
+            {
+                _DeliverPlaceListViewStack = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _POLNoResultsFoundLbl = true;
+        public bool POLNoResultsFoundLbl
+        {
+            get { return _POLNoResultsFoundLbl; }
+            set
+            {
+                _POLNoResultsFoundLbl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _POLListViewStack = false;
+        public bool POLListViewStack
+        {
+            get { return _POLListViewStack; }
+            set
+            {
+                _POLListViewStack = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _PODNoResultsFoundLbl = true;
+        public bool PODNoResultsFoundLbl
+        {
+            get { return _PODNoResultsFoundLbl; }
+            set
+            {
+                _PODNoResultsFoundLbl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _PODListViewStack = false;
+        public bool PODListViewStack
+        {
+            get { return _PODListViewStack; }
+            set
+            {
+                _PODListViewStack = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _OnsiteNoResultsFoundLbl = true;
+        public bool OnsiteNoResultsFoundLbl
+        {
+            get { return _OnsiteNoResultsFoundLbl; }
+            set
+            {
+                _OnsiteNoResultsFoundLbl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _OnsiteListViewStack = false;
+        public bool OnsiteListViewStack
+        {
+            get { return _OnsiteListViewStack; }
+            set
+            {
+                _OnsiteListViewStack = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _headerbox = true;
+        public bool headerbox
+        {
+            get { return _headerbox; }
+            set
+            {
+                _headerbox = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _locationbox = false;
+        public bool locationbox
+        {
+            get { return _locationbox; }
+            set
+            {
+                _locationbox = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _datebox = false;
+        public bool datebox
+        {
+            get { return _datebox; }
+            set
+            {
+                _datebox = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _tagNumber = string.Empty;
+        public string tagNumber
+        {
+            get { return _tagNumber; }
+            set
+            {
+                _tagNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _Identcode = string.Empty;
+        public string Identcode
+        {
+            get { return _Identcode; }
+            set
+            {
+                _Identcode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _BagNumber = string.Empty;
+        public string BagNumber
+        {
+            get { return _BagNumber; }
+            set
+            {
+                _BagNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _YbkgNumber = string.Empty;
+        public string YbkgNumber
+        {
+            get { return _YbkgNumber; }
+            set
+            {
+                _YbkgNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #region Date Properties
+        private string _DeliveryFromSelectDatetext = string.Empty;
+        public string DeliveryFromSelectDatetext
+        {
+            get { return _DeliveryFromSelectDatetext; }
+            set
+            {
+                _DeliveryFromSelectDatetext = value;
+                RaisePropertyChanged("DeliveryFromSelectDatetext");
+            }
+        }
+
+        private string _ETDFromSelectDatetext;
+        public string ETDFromSelectDatetext
+        {
+            get { return _ETDFromSelectDatetext; }
+            set
+            {
+                _ETDFromSelectDatetext = value;
+                RaisePropertyChanged("ETDFromSelectDatetext");
+            }
+        }
+
+        private string _ETAFromSelectDatetext;
+        public string ETAFromSelectDatetext
+        {
+            get { return _ETAFromSelectDatetext; }
+            set
+            {
+                _ETAFromSelectDatetext = value;
+                RaisePropertyChanged("ETAFromSelectDatetext");
+            }
+        }
+
+        private string _OnsiteDSelectDatetext;
+        public string OnsiteDSelectDatetext
+        {
+            get { return _OnsiteDSelectDatetext; }
+            set
+            {
+                _OnsiteDSelectDatetext = value;
+                RaisePropertyChanged("OnsiteDSelectDatetext");
+            }
+        }
+
+        private string _DeliveryToSelectDatetext;
+        public string DeliveryToSelectDatetext
+        {
+            get { return _DeliveryToSelectDatetext; }
+            set
+            {
+                _DeliveryToSelectDatetext = value;
+                RaisePropertyChanged("DeliveryToSelectDatetext");
+            }
+        }
+
+        private string _ETDToSelectDatetext;
+        public string ETDToSelectDatetext
+        {
+            get { return _ETDToSelectDatetext; }
+            set
+            {
+                _ETDToSelectDatetext = value;
+                RaisePropertyChanged("ETDToSelectDatetext");
+            }
+        }
+
+        private string _ETAToSelectDatetext;
+        public string ETAToSelectDatetext
+        {
+            get { return _ETAToSelectDatetext; }
+            set
+            {
+                _ETAToSelectDatetext = value;
+                RaisePropertyChanged("ETAToSelectDatetext");
+            }
+        }
+
+        private string _OnsiteToSelectDatetext;
+        public string OnsiteToSelectDatetext
+        {
+            get { return _OnsiteToSelectDatetext; }
+            set
+            {
+                _OnsiteToSelectDatetext = value;
+                RaisePropertyChanged("OnsiteToSelectDatetext");
+            }
+        }
+
+        #endregion
+
+        #region Key tab related field properties
+
+        private string _poNumber = string.Empty;
+        public string poNumber
+        {
+            get { return _poNumber; }
+            set
+            {
+                _poNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _reqNumber = string.Empty;
+        public string reqNumber
+        {
+            get { return _reqNumber; }
+            set
+            {
+                _reqNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _shipNumber = string.Empty;
+        public string shipNumber
+        {
+            get { return _shipNumber; }
+            set
+            {
+                _shipNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<DDLmaster> _DisciplineList;
+        public List<DDLmaster> DisciplineList
+        {
+            get { return _DisciplineList; }
+            set
+            {
+                _DisciplineList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<DDLmaster> _ELevelList;
+        public List<DDLmaster> ELevelList
+        {
+            get { return _ELevelList; }
+            set
+            {
+                _ELevelList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<DDLmaster> _PriorityList;
+        public List<DDLmaster> PriorityList
+        {
+            get { return _PriorityList; }
+            set
+            {
+                _PriorityList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<DDLmaster> _Expeditorlist;
+        public List<DDLmaster> Expeditorlist
+        {
+            get { return _Expeditorlist; }
+            set
+            {
+                _Expeditorlist = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<DDLmaster> _Conditionlist;
+        public List<DDLmaster> Conditionlist
+        {
+            get { return _Conditionlist; }
+            set
+            {
+                _Conditionlist = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _SelectedDisciplineValue;
+        public string SelectedDisciplineValue
+        {
+            get { return _SelectedDisciplineValue; }
+            set
+            {
+                _SelectedDisciplineValue = value;
+                SelectedDiscipline_TapEvent();
+            }
+        }
+
+        private string _SelectedELevelValue;
+        public string SelectedELevelValue
+        {
+            get { return _SelectedELevelValue; }
+            set
+            {
+                _SelectedELevelValue = value;
+                SelectedELevel_TapEvent();
+            }
+        }
+
+        private string _SelectedConditionValue;
+        public string SelectedConditionValue
+        {
+            get { return _SelectedConditionValue; }
+            set
+            {
+                _SelectedConditionValue = value;
+                SelectedCondition_TapEvent();
+            }
+        }
+
+        private string _SelectedExpeditorValue;
+        public string SelectedExpeditorValue
+        {
+            get { return _SelectedExpeditorValue; }
+            set
+            {
+                _SelectedExpeditorValue = value;
+                SelectedExpeditor_TapEvent();
+            }
+        }
+
+        private string _SelectedPrioritytValue;
+        public string SelectedPrioritytValue
+        {
+            get { return _SelectedPrioritytValue; }
+            set
+            {
+                _SelectedPrioritytValue = value;
+                SelectedPriority_TapEvent();
+            }
+        }
+
+        #region Set default values for Picker
+        private string _DisciplineDefaultValue;
+        public string DisciplineDefaultValue
+        {
+            get { return _DisciplineDefaultValue; }
+            set
+            {
+                _DisciplineDefaultValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _ELevelDefaultValue;
+        public string ELevelDefaultValue
+        {
+            get { return _ELevelDefaultValue; }
+            set
+            {
+                _ELevelDefaultValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _ConditionDefaultValue;
+        public string ConditionDefaultValue
+        {
+            get { return _ConditionDefaultValue; }
+            set
+            {
+                _ConditionDefaultValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _ExpeditorDefaultValue;
+        public string ExpeditorDefaultValue
+        {
+            get { return _ExpeditorDefaultValue; }
+            set
+            {
+                _ExpeditorDefaultValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _PriorityDefaultValue;
+        public string PriorityDefaultValue
+        {
+            get { return _PriorityDefaultValue; }
+            set
+            {
+                _PriorityDefaultValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Set default value for Picker Labels
+
+        private string _DeliverPlaceDefaultValue_L = "ALL";
+        public string DeliverPlaceDefaultValue_L
+        {
+            get { return _DeliverPlaceDefaultValue_L; }
+            set
+            {
+                _DeliverPlaceDefaultValue_L = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _EntrySearchType;
+        public string EntrySearchType
+        {
+            get => _EntrySearchType;
+            set
+            {
+                _EntrySearchType = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _POLDefaultValue_L = "ALL";
+        public string POLDefaultValue_L
+        {
+            get { return _POLDefaultValue_L; }
+            set
+            {
+                _POLDefaultValue_L = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _PODDefaultValue_L = "ALL";
+        public string PODDefaultValue_L
+        {
+            get { return _PODDefaultValue_L; }
+            set
+            {
+                _PODDefaultValue_L = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _PickUpDefaultValue_L = "ALL";
+        public string PickUpDefaultValue_L
+        {
+            get { return _PickUpDefaultValue_L; }
+            set
+            {
+                _PickUpDefaultValue_L = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _PickUpDefaultValue_C;
+        public string PickUpDefaultValue_C
+        {
+            get { return _PickUpDefaultValue_C; }
+            set
+            {
+                _PickUpDefaultValue_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _POLDefaultValue_C;
+        public string POLDefaultValue_C
+        {
+            get { return _POLDefaultValue_C; }
+            set
+            {
+                _POLDefaultValue_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _PODDefaultValue_C;
+        public string PODDefaultValue_C
+        {
+            get { return _PODDefaultValue_C; }
+            set
+            {
+                _PODDefaultValue_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _OnsiteDefaultValue_C;
+        public string OnsiteDefaultValue_C
+        {
+            get { return _OnsiteDefaultValue_C; }
+            set
+            {
+                _OnsiteDefaultValue_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        private List<DDLmaster> _CountryList;
+        public List<DDLmaster> CountryList
+        {
+            get { return _CountryList; }
+            set
+            {
+                _CountryList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool _IndicatorVisibility = false;
+        public bool IndicatorVisibility
+        {
+            get { return _IndicatorVisibility; }
+            set
+            {
+                _IndicatorVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #region Picker ItemSources
+
+        private List<string> _DisciplineNames;
+        public List<string> DisciplineNames
+        {
+            get { return _DisciplineNames; }
+            set
+            {
+                _DisciplineNames = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _ELevelNames;
+        public List<string> ELevelNames
+        {
+            get { return _ELevelNames; }
+            set
+            {
+                _ELevelNames = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _PriorityNames;
+        public List<string> PriorityNames
+        {
+            get { return _PriorityNames; }
+            set
+            {
+                _PriorityNames = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _ConditionNames;
+        public List<string> ConditionNames
+        {
+            get { return _ConditionNames; }
+            set
+            {
+                _ConditionNames = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _ExpeditorNames;
+        public List<string> ExpeditorNames
+        {
+            get { return _ExpeditorNames; }
+            set
+            {
+                _ExpeditorNames = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<SearchData> _ListOfPlaceName;
+        public ObservableCollection<SearchData> ListOfPlaceName
+        {
+            get { return _ListOfPlaceName; }
+            set
+            {
+                _ListOfPlaceName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<SearchData> _POLNames_L;
+        public ObservableCollection<SearchData> POLNames_L
+        {
+            get { return _POLNames_L; }
+            set
+            {
+                _POLNames_L = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<SearchData> _PODNames_L;
+        public ObservableCollection<SearchData> PODNames_L
+        {
+            get { return _PODNames_L; }
+            set
+            {
+                _PODNames_L = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<SearchData> _OnsiteNames_L;
+        public ObservableCollection<SearchData> OnsiteNames_L
+        {
+            get { return _OnsiteNames_L; }
+            set
+            {
+                _OnsiteNames_L = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _PickUpNames_C;
+        public List<string> PickUpNames_C
+        {
+            get { return _PickUpNames_C; }
+            set
+            {
+                _PickUpNames_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _POLNames_C;
+        public List<string> POLNames_C
+        {
+            get { return _POLNames_C; }
+            set
+            {
+                _POLNames_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _PODNames_C;
+        public List<string> PODNames_C
+        {
+            get { return _PODNames_C; }
+            set
+            {
+                _PODNames_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _OnsiteNames_C;
+        public List<string> OnsiteNames_C
+        {
+            get { return _OnsiteNames_C; }
+            set
+            {
+                _OnsiteNames_C = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region filter tabs visibility
+        public bool _headerVisibility = true;
+        public bool headerVisibility
+        {
+            get { return _headerVisibility; }
+            set
+            {
+                _headerVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool _locationVisibility = false;
+        public bool locationVisibility
+        {
+            get { return _locationVisibility; }
+            set
+            {
+                _locationVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool _countryVisibility = false;
+        public bool countryVisibility
+        {
+            get { return _countryVisibility; }
+            set
+            {
+                _countryVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool _datesVisibility = false;
+        public bool datesVisibility
+        {
+            get { return _datesVisibility; }
+            set
+            {
+                _datesVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region  tabs text color
+        public Color _headerTextColor = Color.White;
+        public Color headerTextColor
+        {
+            get { return _headerTextColor; }
+            set
+            {
+                _headerTextColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Color _locationTextColor = Color.White;
+        public Color locationTextColor
+        {
+            get { return _locationTextColor; }
+            set
+            {
+                _locationTextColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Color _countryTextColor = Color.White;
+        public Color countryTextColor
+        {
+            get { return _countryTextColor; }
+            set
+            {
+                _countryTextColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Color _datesTextColor = Color.White;
+        public Color datesTextColor
+        {
+            get { return _datesTextColor; }
+            set
+            {
+                _datesTextColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region  tabs background color
+        public Color _headerBgColor = Color.FromHex("#269DC9");
+        public Color headerBgColor
+        {
+            get { return _headerBgColor; }
+            set
+            {
+                _headerBgColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Color _locationBgColor = Color.LightBlue;
+        public Color locationBgColor
+        {
+            get { return _locationBgColor; }
+            set
+            {
+                _locationBgColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Color _countryBgColor = Color.LightBlue;
+        public Color countryBgColor
+        {
+            get { return _countryBgColor; }
+            set
+            {
+                _countryBgColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Color _datesBgColor = Color.LightBlue;
+        public Color datesBgColor
+        {
+            get { return _datesBgColor; }
+            set
+            {
+                _datesBgColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        #endregion
+    }
+}

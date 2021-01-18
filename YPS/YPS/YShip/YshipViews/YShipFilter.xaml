@@ -1,0 +1,957 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="White"
+             Title="Booking Details"
+             x:Class="YPS.Views.YShipFilter"
+             xmlns:local2="clr-namespace:YPS.CustomRenders"
+             xmlns:dateRendr="clr-namespace:YPS.CustomRenders"
+             xmlns:behaviors="clr-namespace:YPS.Behaviours"
+             xmlns:cusEntry="clr-namespace:YPS.CustomRender"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FrameStyleForEditor" TargetType="Frame">
+                <Setter Property="Padding" Value="5,2,5,2"/>
+                <Setter Property="CornerRadius" Value="7"/>
+                <Setter Property="HasShadow" Value="False"/>
+                <Setter Property="BorderColor" Value="Gray"/>
+                <Setter Property="HeightRequest" Value="75"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <AbsoluteLayout>
+        <Grid AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" ColumnSpacing="0" BackgroundColor="#269DC9">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout x:Name="basic" Grid.Column="0">
+                    <Button Text="Basic" TextColor="White" Command="{Binding ITabBasicDetails}" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityBasic}"/>
+                    <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabBasicVisibility}"/>
+                </StackLayout>
+                <StackLayout x:Name="location" Grid.Column="1">
+                    <Button Text="Location" TextColor="White" Command="{Binding ITabLocationDetails}" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityLocation}"/>
+                    <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabLocationVisibility}"/>
+                </StackLayout>
+                <StackLayout x:Name="shipment" Grid.Column="2">
+                    <Button Text="Shipment" TextColor="White" Command="{Binding ITabShipmentDetails}" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityShipment}"/>
+                    <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabShipmentVisibility}"/>
+                </StackLayout>
+                <StackLayout x:Name="other" Grid.Column="3">
+                    <Button Text="Other" TextColor="White" Command="{Binding ITabOtherDetails}" BackgroundColor="{Binding TabBgColor}" Opacity="{Binding TabOpacityOther}"/>
+                    <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding TabOtherVisibility}"/>
+                </StackLayout>
+            </Grid>
+            <ScrollView Grid.Row="1" Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1"/>
+                    </Grid.RowDefinitions>
+                    <!--Basic details tab layout start.-->
+                    <Grid Grid.Row="0" IsVisible="{Binding BasicDetailsStack}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Row="1" IsVisible="{Binding BasicDetailsStack}">
+
+                            <sfinput:SfTextInputLayout Style="{StaticResource SfInputLayout}" Opacity="0.3" Hint="{Binding labelobj.CompanyName}">
+                                <combobox:SfComboBox  HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" DataSource="{Binding CompanylList}"
+                                             x:Name="CompanyPicker" IsEnabled="False" Text="{Binding CompanyDefaultLblValue,Mode=TwoWay}" 
+                                                  SelectedItem="{Binding SelectedCompanyValue,Mode=TwoWay}"  >
+
+                                    <combobox:SfComboBox.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">20</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </combobox:SfComboBox.HeightRequest>
+                                </combobox:SfComboBox>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Style="{StaticResource SfInputLayout}"   Opacity="0.3" Hint="{Binding labelobj.yBkgNumber}"
+                                                   InputViewPadding="12,0,0,0">
+                                <Entry Text="{Binding yBkg}" Opacity="0.3" IsReadOnly="True">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Style="{StaticResource SfInputLayout}" Opacity="0.3"   Hint="{Binding labelobj.yShipBkgNo}" InputViewPadding="12,0,0,0">
+                                <Entry Text="{Binding yShipBkg}"  HeightRequest="50"
+                                             Opacity="0.3" IsReadOnly="True" >
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="bkgrefnamelayout" Style="{StaticResource SfInputLayout}"   InputViewPadding="12,0,0,0"
+                                                    Hint="{Binding labelobj.BkgRefNo}" EnableHintAnimation="True">
+                                <Entry x:Name="bkgrefname" Text="{Binding BkgRef}" MaxLength="50">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="shipmenttypestackname" Style="{StaticResource SfInputLayout}"   Hint="{Binding labelobj.ShipmntType}">
+                                <combobox:SfComboBox HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" DataSource="{Binding ShmtTypeList}"
+                                               x:Name="ShmtTypePicker" Text="{Binding ShmtTypeDefaultLblValue,Mode=TwoWay}" 
+                                                 SelectedItem="{Binding SelectedShmtTypeValue,Mode=TwoWay}"  >
+
+                                    <combobox:SfComboBox.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">20</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </combobox:SfComboBox.HeightRequest>
+                                </combobox:SfComboBox>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Style="{StaticResource SfInputLayout}" Opacity="0.3"   
+                                                  InputViewPadding="12,0,0,0" Hint="{Binding labelobj.EqmtQtyTotal}">
+                                <Entry Text="{Binding TotalEqmtQty}" IsReadOnly="True" Opacity="0.3">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="bkgconfirmstackname" Style="{StaticResource SfInputLayout}"   Hint="{Binding labelobj.BkgConfirmed}">
+
+                                <combobox:SfComboBox HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" DataSource="{Binding BkgCnfrmedList}"
+                                            x:Name="BkgConfirmedPicker" Text="{Binding BkgCnfrmedDfltLblVal,Mode=TwoWay}"
+                                                 SelectedItem="{Binding SelectedBkgCnfrmedValue}"  >
+
+                                    <combobox:SfComboBox.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">20</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </combobox:SfComboBox.HeightRequest>
+                                </combobox:SfComboBox>
+                            </sfinput:SfTextInputLayout>
+
+                            <AbsoluteLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="{Binding ShowHideClCmpltStack}">
+                                <local2:EllipButton x:Name="completeshpbtn" HeightRequest="70" Source="CompleteShipment.png"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    <local2:EllipButton.Behaviors>
+                                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale" Command="{Binding ICompleteBtn}"/>
+                                    </local2:EllipButton.Behaviors>
+                                </local2:EllipButton>
+                                
+                                <StackLayout x:Name="completeshpStack" Margin="50,15,50,0">
+                                    <Grid>
+                                        <Label HorizontalTextAlignment="Center" 
+                                               Text="{Binding labelobj.CompleteShipment}" TextColor="White" 
+                                               FontSize="28">
+                                            <Label.FontFamily>
+                                                <OnPlatform x:TypeArguments="x:String">
+                                                    <On Platform="iOS"/>
+                                                    <On Platform="Android"/>
+                                                </OnPlatform>
+                                            </Label.FontFamily>
+                                        </Label>
+                                    </Grid>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="StackCancelOrComp_Tapped"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </AbsoluteLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="eqmttype1stackname" Style="{StaticResource SfInputLayout}"   Hint="{Binding labelobj.EqmtType1}">
+                                <combobox:SfComboBox HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" DataSource="{Binding EqmtType1List}"
+                                                x:Name="EqmtType1Picker" Text="{Binding EqmtType1DefaultLblValue, Mode=TwoWay}"
+                                                 SelectedItem="{Binding SelectedEqmtType1Value}"  >
+
+                                    <combobox:SfComboBox.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">20</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </combobox:SfComboBox.HeightRequest>
+                                </combobox:SfComboBox>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="framEqmtType1Qty" Style="{StaticResource SfInputLayout}" ErrorColor="Red"
+                                                   InputViewPadding="12,0,0,0"    Hint="{Binding labelobj.Type1Qty}">
+                                <Entry x:Name="eqmttype1fieldname" ClassId="etype1" Text="{Binding EntryEqmtType1Qty,Mode=TwoWay}" MaxLength="5" 
+                        TextChanged="EqmtTypeQty_TextChanged" Keyboard="Numeric">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="eqmttype2stackname" Style="{StaticResource SfInputLayout}"   Hint="{Binding labelobj.EqmtType2}">
+
+                                <combobox:SfComboBox HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" DataSource="{Binding EqmtType2List}"
+                                            x:Name="EqmtType2Picker" Text="{Binding EqmtType2DefaultLblValue,Mode=TwoWay}"
+                                                 SelectedItem="{Binding SelectedEqmtType2Value}"  >
+
+                                    <combobox:SfComboBox.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">20</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </combobox:SfComboBox.HeightRequest>
+                                </combobox:SfComboBox>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="framEqmtType2Qty" Style="{StaticResource SfInputLayout}" ErrorColor="Red"  
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.Type2Qty}">
+                                <Entry x:Name="eqmttype2fieldname" ClassId="etype2" Text="{Binding EntryEqmtType2Qty,Mode=TwoWay}"
+                        MaxLength="5" TextChanged="EqmtTypeQty_TextChanged" Keyboard="Numeric">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="eqmttype3stackname" Style="{StaticResource SfInputLayout}" 
+                                                       Hint="{Binding labelobj.EqmtType3}">
+                                <combobox:SfComboBox x:Name="EqmtType3Picker" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" DataSource="{Binding EqmtType3List}"
+                              Text="{Binding EqmtType3DefaultLblValue,Mode=TwoWay}" SelectedItem="{Binding SelectedEqmtType3Value}"  >
+                                    <combobox:SfComboBox.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">20</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </combobox:SfComboBox.HeightRequest>
+                                </combobox:SfComboBox>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="framEqmtType3Qty" Style="{StaticResource SfInputLayout}" ErrorColor="Red"  
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.Type3Qty}">
+                                <Entry x:Name="eqmttype3fieldname" ClassId="etype3" Text="{Binding EntryEqmtType3Qty,Mode=TwoWay}" MaxLength="5"
+                                             TextChanged="EqmtTypeQty_TextChanged" Keyboard="Numeric">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <AbsoluteLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="{Binding ShowHideClCmpltStack}">
+                                <local2:EllipButton x:Name="cancelshipbtn" Source="CancelShip.png" HeightRequest="70" 
+                                                    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                    <local2:EllipButton.Behaviors>
+                                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale" Command="{Binding ICancelBtn}"/>
+                                    </local2:EllipButton.Behaviors>
+                                </local2:EllipButton>
+
+                                <StackLayout Margin="50,15,50,0">
+                                    <Grid>
+                                        <Label HorizontalTextAlignment="Center" 
+                                               Text="{Binding labelobj.CancelShipment}" TextColor="White" 
+                                               FontSize="28">
+                                            <Label.FontFamily>
+                                                <OnPlatform x:TypeArguments="x:String">
+                                                    <On Platform="iOS"/>
+                                                    <On Platform="Android"/>
+                                                </OnPlatform>
+                                            </Label.FontFamily>
+                                        </Label>
+                                    </Grid>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="StackCancelOrComp_Tapped"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </AbsoluteLayout>
+                            
+                        </StackLayout>
+                    </Grid>
+
+
+                    <!--Basic details tab layout end.-->
+
+                    <!--Location details tab layout start.-->
+                    <Grid Grid.Row="0" IsVisible="{Binding LocatinDetailsStack}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <dateRendr:NullableDatePicker PlaceHolder="MM/dd/yyyy" x:Name="DatepickerControl" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                        <Grid Grid.Row="0">
+                            <TimePicker x:Name="TimePickerControl" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                                <TimePicker.Format>HH:mm tt</TimePicker.Format>
+                            </TimePicker>
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                        <StackLayout Grid.Row="1">
+                            <sfinput:SfTextInputLayout x:Name="shipperfieldnamelayout" Style="{StaticResource SfInputLayout}"  
+                                                      InputViewPadding="12,0,0,0" Hint="{Binding labelobj.Shipper}">
+                                <Entry x:Name="shipperfieldname" Text="{Binding EtyShipper,Mode=TwoWay}"  MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="orgsearchstackname" Style="{StaticResource SfInputLayout}"
+                                                       Hint="{Binding labelobj.OrgSearch}" TrailingViewPosition="Inside"
+                                                       InputViewPadding="0">
+
+                                <StackLayout x:Name="OrgSearchPicker" Orientation="Horizontal" HeightRequest="23">
+                                    <Label Style="{StaticResource LabelStyleInDropDown}" Text="{Binding OrgSearchLocationLbl,Mode=TwoWay}"
+                                           Margin="14,0,0,0"/>
+
+                                    <Image Style="{StaticResource DropDownImg}"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OrgSearchCommand}"/>
+                                    </StackLayout.GestureRecognizers>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3" Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.OrgCntryCode}">
+                                <Entry Text="{Binding EtyOrgCntryCode}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.OrgCntryName}">
+                                <Entry Text="{Binding EtyOrgCntryName}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.OrgLocCode}">
+                                <Entry Text="{Binding EtyOrgLocCode}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3" Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.OrgLocName}">
+                                <Entry Text="{Binding EtyOrgLocName}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="reqpickupaddfieldnamelayout" Style="{StaticResource SfInputLayout}"   Hint="{Binding labelobj.PickupLocation}">
+                                <Editor x:Name="reqpickupaddfieldname" Text="{Binding EtyPickupLocation}" MaxLength="100" AutoSize="TextChanges" ></Editor>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="etddatestacknamelayout" Style="{StaticResource SfInputLayout}"   InputViewPadding="12,0,0,0" 
+                               Hint="{Binding labelobj.ReqPickupDt}" ShowHint="{Binding showreqpicdatehint}">
+                                <StackLayout x:Name="etddatestackname" Orientation="Horizontal" HeightRequest="23">
+                                    <Label Text="{Binding ETDDatePickerLbl,Mode=TwoWay}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource CalendarImg}"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ETDCommandDate}" CommandParameter="{Reference DatepickerControl}"/>
+                                    </StackLayout.GestureRecognizers>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="pickuptimestacknamelayout"  
+                                                      InputViewPadding="12,0,0,0" Style="{StaticResource SfInputLayout}"
+                               Hint="{Binding labelobj.PickUpTime}" ShowHint="{Binding showreqpictimehint}">
+                                <StackLayout x:Name="pickuptimestackname" HeightRequest="23" Orientation="Horizontal">
+                                    <Label Text="{Binding PickUpTimeLbl,Mode=TwoWay}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource TimeImg}"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding PickUpTimeCommand}" CommandParameter="{Reference TimePickerControl}"/>
+                                    </StackLayout.GestureRecognizers>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="pickuppicfieldnamelayout"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.PickupPIC}">
+                                <Entry x:Name="pickuppicfieldname" Text="{Binding EtyPickupPIC,Mode=TwoWay}" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="shiptopartyfieldnamelayout"   Style="{StaticResource SfInputLayout}"
+                                                      InputViewPadding="12,0,0,0" Hint="{Binding labelobj.ShipToParty}">
+                                <Entry x:Name="shiptopartyfieldname" Text="{Binding EtyShipToParty,Mode=TwoWay}" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="destsearchstackname" Hint="{Binding labelobj.DestSearch}"
+                                                       Style="{StaticResource SfInputLayout}" InputViewPadding="0">
+                                <StackLayout x:Name="DestSearchPicker" Orientation="Horizontal" HeightRequest="23">
+                                    <Label Style="{StaticResource LabelStyleInDropDown}" Text="{Binding DestSearchLocationLbl,Mode=TwoWay}"
+                                           Margin="14,0,0,0"/>
+
+                                    <Image Style="{StaticResource DropDownImg}"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DestSearchCommand}"/>
+                                    </StackLayout.GestureRecognizers>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.DestCntryCode}">
+                                <Entry Text="{Binding EtyDestCntryCode}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.DestCntryName}">
+                                <Entry Text="{Binding EtyDestCntryName}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.DestLocCode}">
+                                <Entry Text="{Binding EtyDestLocCode}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout Opacity="0.3"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.DestLocName}">
+                                <Entry Text="{Binding EtyDestLocName}" Opacity="0.3" IsReadOnly="True" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="deliverylocfieldnamelayout" Style="{StaticResource SfInputLayout}"   Hint="{Binding labelobj.DeliveryLocation}">
+                                <Editor x:Name="deliverylocfieldname" Text="{Binding EtyDeliveryLocation}" MaxLength="100" AutoSize="TextChanges"></Editor>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="etadatestacknamelayout" Style="{StaticResource SfInputLayout}"
+                                                      InputViewPadding="12,0,0,0"  
+                               Hint="{Binding labelobj.ReqDeliveryDate}" ShowHint="{Binding showreqdeldatehint}">
+                                <StackLayout x:Name="etadatestackname" Orientation="Horizontal"  HeightRequest="23">
+                                    <Label Text="{Binding ETADatePickerLbl}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource CalendarImg}"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ETACommandDate}" CommandParameter="{Reference DatepickerControl2}"/>
+                                    </StackLayout.GestureRecognizers>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="deliverttimestacknamelayout" Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0"  
+                               Hint="{Binding labelobj.DeliveryTime}" ShowHint="{Binding showreqdeltimehint}">
+                                <StackLayout HeightRequest="23" x:Name="deliverttimestackname" Orientation="Horizontal">
+                                    <Label Text="{Binding DeliveryTimeLbl}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource TimeImg}"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DeliveryTimeCommand}" CommandParameter="{Reference TimePickerControl2}"/>
+                                    </StackLayout.GestureRecognizers>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="destpicnfieldnamelayout"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.DestinationPIC}">
+                                <Entry x:Name="destpicnfieldname" Text="{Binding EtyDestinationPIC,Mode=TwoWay}" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+                        </StackLayout>
+                        <Grid Grid.Row="2">
+                            <dateRendr:NullableDatePicker PlaceHolder="MM/dd/yyyy" x:Name="DatepickerControl2" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                            
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <TimePicker x:Name="TimePickerControl2" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                                <TimePicker.Format>HH:mm tt</TimePicker.Format>
+                            </TimePicker>
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                    </Grid>
+                    <!--Location details tab layout end.-->
+
+                    <!--Shipment details tab layout start.-->
+                    <Grid Grid.Row="0" IsVisible="{Binding ShipmentDetailsStack}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="1"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <dateRendr:NullableDatePicker PlaceHolder="MM/dd/yyyy" x:Name="DatepickerControl4" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                        <Grid Grid.Row="0">
+                            <TimePicker x:Name="TimePickerControl4" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                                <TimePicker.Format>HH:mm tt</TimePicker.Format>
+                            </TimePicker>
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                        <StackLayout Grid.Row="1">
+                            <sfinput:SfTextInputLayout x:Name="shipmentloadedbystackname" Style="{StaticResource SfInputLayout}"   Hint="{Binding labelobj.ShipmentLoadedBy}">
+
+                                <combobox:SfComboBox x:Name="ShipmentLoadedByPicker" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                                 Text="{Binding ShipmentLoadedByDefaultLbl,Mode=TwoWay}"  
+                                                     SelectedItem="{Binding SelectedShipmentLoadedBy}" DataSource="{Binding ShipmentLoadedByList}">
+
+                                    <combobox:SfComboBox.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">20</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </combobox:SfComboBox.HeightRequest>
+                                </combobox:SfComboBox>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout   Opacity="0.3" InputViewPadding="12,0,0,0" Style="{StaticResource SfInputLayout}"
+                                                       Hint="{Binding labelobj.ReqPickupDate}" ShowHint="{Binding showreqpicdatehint}">
+                                <StackLayout Orientation="Horizontal" HeightRequest="23" IsEnabled="False">
+                                    <Label Text="{Binding OriginalRPkupDateLbl}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource CalendarImg}"/>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout   Opacity="0.3" InputViewPadding="12,0,0,0" Style="{StaticResource SfInputLayout}"
+                                                       Hint="{Binding labelobj.PickUpTime}" ShowHint="{Binding showreqpictimehint}">
+                                <StackLayout Orientation="Horizontal" IsEnabled="False" HeightRequest="23" Opacity="0.3">
+                                    <Label Text="{Binding OriginalRPkupTimeLbl}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource TimeImg}"/>
+
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout   Style="{StaticResource SfInputLayout}"
+                                                  Opacity="0.3" Hint="{Binding labelobj.PickupLocation}">
+                                <Editor Text="{Binding EtyPickupLocation}" AutoSize="TextChanges" MaxLength="100" IsReadOnly="True" Opacity="0.3"></Editor>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout   Style="{StaticResource SfInputLayout}"
+                                                       Opacity="0.3" Hint="{Binding labelobj.DeliveryLocation}">
+                                <Editor Text="{Binding EtyDeliveryLocation}" AutoSize="TextChanges" MaxLength="100" IsReadOnly="True" Opacity="0.3"></Editor>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout x:Name="shipmentopenedbyfieldnamelayout"   Style="{StaticResource SfInputLayout}"
+                                                       InputViewPadding="12,0,0,0" Hint="{Binding labelobj.ShipmentOpenedby}">
+                                <Entry x:Name="shipmentopenedbyfieldname" Text="{Binding EtyShipmentOpenedby}" MaxLength="100">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                </Entry>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout    Hint="{Binding labelobj.ReqDeliveryDate}" Style="{StaticResource SfInputLayout}" 
+                                                       Opacity="0.3" ShowHint="{Binding showreqdeldatehint}" InputViewPadding="12,0,0,0">
+                                <StackLayout Orientation="Horizontal" IsEnabled="False" Opacity="0.3" HeightRequest="23">
+                                    <Label Text="{Binding OriginalRDlyDateLbl}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource CalendarImg}"/>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+
+                            <sfinput:SfTextInputLayout   Hint="{Binding labelobj.DeliveryTime}" Opacity="0.3" 
+                                                       ShowHint="{Binding showreqdeltimehint}" InputViewPadding="12,0,0,0" Style="{StaticResource SfInputLayout}">
+                                <StackLayout Orientation="Horizontal" IsEnabled="False" Opacity="0.3" HeightRequest="23">
+                                    <Label Text="{Binding OriginalRDeliveryTimeLbl}" Style="{StaticResource LabelStyle}"/>
+                                    <Image Style="{StaticResource TimeImg}"/>
+                                    <StackLayout.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">47</On>
+                                            <On Platform="Android">50</On>
+                                        </OnPlatform>
+                                    </StackLayout.HeightRequest>
+                                </StackLayout>
+                            </sfinput:SfTextInputLayout>
+                        </StackLayout>
+                        <Grid Grid.Row="2">
+                            <dateRendr:NullableDatePicker PlaceHolder="MM/dd/yyyy" x:Name="DatepickerControl3" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <TimePicker x:Name="TimePickerControl3" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                                <TimePicker.Format>HH:mm tt</TimePicker.Format>
+                            </TimePicker>
+                            <StackLayout BackgroundColor="White"/>
+                        </Grid>
+                    </Grid>
+                    <!--Shipment details tab layout end.-->
+
+                    <!--Other details tab layout start.-->
+                    <StackLayout Grid.Row="0" IsVisible="{Binding OtherDetailsStack}">
+
+                        <sfinput:SfTextInputLayout x:Name="invoicefieldnamelayout"   Style="{StaticResource SfInputLayout}"
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.InvoiceNo}">
+                            <Entry x:Name="invoicefieldname" Text="{Binding EtyInvNo}" MaxLength="50" Keyboard="Text" >
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="custrefnofieldnamelayout"   Style="{StaticResource SfInputLayout}"
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.CustRefNo}">
+                            <Entry x:Name="custrefnofieldname" Text="{Binding EtyCustRefNo}" MaxLength="50" Keyboard="Text" >
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="shmttermstackname"   Hint="{Binding labelobj.ShmtTerm}" Style="{StaticResource SfInputLayout}">
+
+                            <combobox:SfComboBox HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" DataSource="{Binding ShmtTermSelectList}"
+                                            x:Name="ShmtTermPicker" Text="{Binding ShmtTermDefaultValue,Mode=TwoWay}"
+                                                  SelectedItem="{Binding SelectedhmtTermItem}">
+
+                                <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">20</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="specialcargohanfieldnamelayout"   
+                                                   Hint="{Binding labelobj.SpecialCargoHandlingInstr}" Style="{StaticResource SfInputLayout}">
+                            <Editor x:Name="specialcargohanfieldname" AutoSize="TextChanges" Text="{Binding EtySpecialCargoHandlingInstr}"
+                                    MaxLength="500" Keyboard="Text" BackgroundColor="White"/>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="generaldescfieldnamelayout"   Hint="{Binding labelobj.GeneralDesc}" Style="{StaticResource SfInputLayout}">
+                            <Editor x:Name="generaldescfieldname" Text="{Binding EtyGeneralDescription}"
+                                    AutoSize="TextChanges" MaxLength="500" Keyboard="Text"/>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="currencyfieldnamelayout"   Style="{StaticResource SfInputLayout}"
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.Currency}">
+                            <Entry x:Name="currencyfieldname" Text="{Binding EtyCurrency}" MaxLength="50">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="totalamountfieldnamelayout"   InputViewPadding="12,0,0,0"
+                                                 Hint="{Binding labelobj.TotalAmount}" Style="{StaticResource SfInputLayout}">
+                            <Entry x:Name="totalamountfieldname" Text="{Binding EtyTotalAmount,Mode=TwoWay}" HeightRequest="20" MaxLength="16" Keyboard="Numeric" TextChanged="EtyTotalAmount_TextChanged">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="totalpkgfieldnamelayout"   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.TotalPkg}" Style="{StaticResource SfInputLayout}">
+                            <Entry x:Name="totalpkgfieldname" Text="{Binding EtyTotalPkg,Mode=TwoWay}" MaxLength="9" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumberValidation/>
+                                </Entry.Behaviors>
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="EtyPkgUnitlayout"   Style="{StaticResource SfInputLayout}"
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.PkgUnit}">
+                            <Entry x:Name="EtyPkgUnit" Text="{Binding EtyPkgUnit,Mode=TwoWay}" HeightRequest="20" MaxLength="50">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="EtyTotalM3layout"   Style="{StaticResource SfInputLayout}"
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.TotalM3}">
+                            <Entry x:Name="EtyTotalM3" Text="{Binding EtyTotalM3,Mode=TwoWay}" HeightRequest="20" MaxLength="16" Keyboard="Numeric" TextChanged="EtyTotalM3_TextChanged">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="EtyTotalGrossWtlayout"   Style="{StaticResource SfInputLayout}"
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.TotalGrossWt}">
+                            <Entry x:Name="EtyTotalGrossWt" Text="{Binding EtyTotalGrossWt,Mode=TwoWay}" HeightRequest="20" MaxLength="16" Keyboard="Numeric" TextChanged="EtyTotalGrossWt_TextChanged">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout x:Name="EtyTotalNetWtlayout"   Style="{StaticResource SfInputLayout}"
+                                                   InputViewPadding="12,0,0,0" Hint="{Binding labelobj.TotalNetWt}">
+                            <Entry x:Name="EtyTotalNetWt" Text="{Binding EtyTotalNetWt,Mode=TwoWay}" HeightRequest="20" MaxLength="16" Keyboard="Numeric" 
+                                             TextChanged="EtyTotalNetWt_TextChanged">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                        </sfinput:SfTextInputLayout>
+                    </StackLayout>
+                    <!--Other details tab layout end.-->
+                </Grid>
+            </ScrollView>
+            <Label Grid.Row="2" Text="{Binding MessageForClCmpltbl}" IsVisible="{Binding ShowHideClCmpltLbl}" TextColor="{Binding CancelColorLbl}" FontSize="Medium" HorizontalOptions="CenterAndExpand"/>
+
+            <!--Submit button layout start.-->
+            <sfbuttons:SfButton Grid.Row="2" x:Name="sublitbtn" Text="{Binding labelobj.Submit}" BackgroundColor="#269DC9"
+                                CornerRadius="7" FontSize="Medium" Margin="1" HorizontalOptions="CenterAndExpand" Command="{Binding ISubmitBtn}"
+                                VerticalOptions="EndAndExpand" IsVisible="{Binding SubmitStackVisible}" HeightRequest="43" >
+                <sfbuttons:SfButton.Content>
+                    <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Padding="10,0,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <LblIcons:FontAwesomeIconLabel FontFamily="FontAwesome" HorizontalOptions="CenterAndExpand"
+                          Grid.Column="0" VerticalOptions="CenterAndExpand" FontSize="Medium"
+                                  Text="{x:Static StaticIcons:Icons.check}" TextColor="White" />
+                        <Label Text="{Binding labelobj.Submit}" Grid.Column="1" FontSize="Medium" Padding="3,0,0,0" TextColor="White"></Label>
+                    </Grid>
+                </sfbuttons:SfButton.Content>
+                <sfbuttons:SfButton.Behaviors>
+                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                </sfbuttons:SfButton.Behaviors>
+            </sfbuttons:SfButton>
+            <!--Submit button layout end.-->
+        </Grid>
+
+        <!--Search box layout for searching country start-->
+        <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="0" IsVisible="{Binding SearchContentVForAll}">
+            <Frame CornerRadius="8" BorderColor="Gray">
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="350"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                            <border:SfBorder BorderColor = "Black"  CornerRadius="5" BorderWidth="1">
+                                <cusEntry:MyEntry x:Name="SearchBox" Grid.Column="0" Placeholder="Search..." TextColor="Black" TextChanged="Search_TextChanged"></cusEntry:MyEntry>
+                            </border:SfBorder>
+                           
+                            <Image Grid.Column="1" Source="cross.png">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Close_Tapped"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        <Label Grid.Row="1" Text="{Binding NoResultsLbl,Mode=TwoWay}" IsVisible="{Binding NoResultIsVisibleLbl}" VerticalOptions="StartAndExpand"/>
+                        <StackLayout Grid.Row="1" Margin="0,5,0,0" IsVisible="{Binding OrgSearchListStack}">
+                            <ListView x:Name="CVListView" ItemsSource="{Binding SearchListItems}" BackgroundColor="White" ItemTapped="ItemTapped" SeparatorVisibility="None" HasUnevenRows="False">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Padding="0,5,0,5">
+                                                <Label Text="{Binding Name,Mode=TwoWay}" VerticalTextAlignment="Center"/>
+                                                <BoxView BackgroundColor="Gray" HeightRequest="1"/>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+        </ContentView>
+        <!--Search box layout for searching country end.-->
+
+        <!--Loader content view(layout) start.-->
+        <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Frame Style="{StaticResource FmForActivityIndicator}">
+                <StackLayout Padding="15">
+                    <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>
+                    <Label Style="{StaticResource ActivityIndicatorLbl}"/>
+                </StackLayout>
+            </Frame>
+        </ContentView>
+        <!--Loader content view(layout) end.-->
+    </AbsoluteLayout>
+</ContentPage>

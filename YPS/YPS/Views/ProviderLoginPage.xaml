@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YPS.Views.ProviderLoginPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ActivityIndicator Color="#00FF00" IsRunning="true" VerticalOptions="Center" WidthRequest="35" HeightRequest="35" />
+
+            <Label Text="Processing..." FontAttributes="Italic" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

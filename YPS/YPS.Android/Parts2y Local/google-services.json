@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "422223475157",
+    "firebase_url": "https://ypsmobile-59fbf.firebaseio.com",
+    "project_id": "ypsmobile-59fbf",
+    "storage_bucket": "ypsmobile-59fbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422223475157:android:8b24f24b7ba4c48f",
+        "android_client_info": {
+          "package_name": "com.synergies.ypsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422223475157-mab628g2qhclastd4gf6l0brrep83ktt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGvwe4ZzPS3F_AosAYsJMjMlTN2sd0t-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422223475157-mab628g2qhclastd4gf6l0brrep83ktt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "422223475157-5u884p9vap4jjemtas45ed5e3k8pmnsk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.synergies.ypsapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
