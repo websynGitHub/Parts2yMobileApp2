@@ -2,10 +2,12 @@
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.Gms.Common.Apis;
 using Android.Gms.SafetyNet;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Scottyab.Rootbeer;
@@ -72,10 +74,13 @@ namespace YPS.Droid
         {
             try
             {
+                UserDialogs.Init(this);
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;
-
                 base.OnCreate(savedInstanceState);
+                CrossMedia.Current.Initialize();
+                CachedImageRenderer.Init();
+                initFontScale();
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
@@ -105,15 +110,12 @@ namespace YPS.Droid
                 Xamarin.Essentials.Platform.Init(this, savedInstanceState);
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
                 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjY3MTkzQDMxMzgyZTMxMmUzMFhUak9IY0JaYUsrNTlsOXZqTExUeEt3SlNvNEZ6NHcyV3ZnWm1SQlIrM0U9");
-                CachedImageRenderer.Init();
-                CrossMedia.Current.Initialize();
                 FirebaseApp.InitializeApp(this);
                 CardsViewRenderer.Preserve();
 
                 //Appcenter value need to change based on (Alpha,Beta,Production//reference appcenter region)
                 AppCenter.Start(Appcenter_droid, typeof(Analytics), typeof(Crashes));
 
-                UserDialogs.Init(this);
 
                 CreateNotificationChannel();
 
@@ -148,7 +150,13 @@ namespace YPS.Droid
                 YPSLogger.ReportException(ex, "OnCreate  method-> in MainActivity.cs " + Settings.userLoginID);
             }
         }
-        
+
+        public void GetVersionNumber()
+        {
+            PackageInfo pInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(PackageName, 0);
+            YPS.Parts2y.Parts2y_Common_Classes.Settings.VersionName = pInfo.VersionName;
+        }
+
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             var context = Application.Context;
@@ -314,5 +322,17 @@ namespace YPS.Droid
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        private void initFontScale()
+        {
+            Configuration configuration = Resources.Configuration;
+            configuration.FontScale = (float)1;
+            //0.85 small, 1 standard, 1.15 big，1.3 more bigger ，1.45 supper big 
+            DisplayMetrics metrics = new DisplayMetrics();
+            WindowManager.DefaultDisplay.GetMetrics(metrics);
+            metrics.ScaledDensity = configuration.FontScale * metrics.Density;
+            BaseContext.Resources.UpdateConfiguration(configuration, metrics);
+        }
+
     }
 }
