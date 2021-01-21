@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:local="clr-namespace:YPS.Parts2y.Parts2y_View_Models"
+                  xmlns:local1="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
+                  xmlns:local2="clr-namespace:YPS.Parts2y.Parts2y_Common_Classes"
+                  x:Class="YPS.Parts2y.Parts2y_Views.MenuPage" MasterBehavior="Popover">
+    <MasterDetailPage.Master>
+        <ContentPage AutomationId="AutoMenuOpen" Title="menu"  >
+            <ContentPage.IconImageSource>
+                <FontImageSource
+                FontFamily="{StaticResource FontAwesomeRegular}"
+                Glyph="{x:Static local2:Icons.Menubar}"
+                Color="White"
+                Size="24">
+                </FontImageSource>
+            </ContentPage.IconImageSource>
+            <ContentPage.Padding>
+                <OnPlatform Android="0,0,0,0" iOS="0,20,0,0"/>
+            </ContentPage.Padding>
+            <ContentPage.BindingContext>
+                <local:MenuViewModel/>
+            </ContentPage.BindingContext>
+            <StackLayout BackgroundColor="{Binding BgColor}">
+                <Grid BackgroundColor="White" RowSpacing="0">
+                    <Grid.Padding>
+                        <OnPlatform Android="0,12,0,0" iOS="0,12,0,5"/>
+                    </Grid.Padding>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Source="ypslogo12.png" Aspect="AspectFit" Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" />
+                    <StackLayout Grid.Column="1" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
+                        <Label Text="{Binding UserName,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}"/>
+                        <Label Text="{Binding usermail,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}" />
+                        <Label Text="{Binding EntityName,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}"/>
+                    </StackLayout>
+                </Grid>
+                <ListView x:Name="menuList" BackgroundColor="{Binding BgColor}"   ItemsSource="{Binding MenuItems}" ItemTapped="MenuItems_ItemTapped" RowHeight="{OnPlatform iOS='50'}" SeparatorColor="White" Footer="" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid  Padding="10,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <local1:FontAwesomeIconLabel Grid.Column="0" Text="{Binding IconSource}" FontSize="25" TextColor="White"  HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                                    <!--<Image Source="{Binding IconSource}" Grid.Column="0" HeightRequest="25" WidthRequest="25" Margin="{OnPlatform iOS='0,5,0,5',Android='0,10,0,10'}"/>-->
+                                    <Label Text="{Binding Title}" Style="{DynamicResource LableWithLargeFont }" Grid.Column="1" TextColor="#FFFFFF"  VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ContentPage>    
+    </MasterDetailPage.Master>
+</MasterDetailPage>

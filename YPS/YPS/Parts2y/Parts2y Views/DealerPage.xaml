@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
+             xmlns:local1="clr-namespace:YPS.Parts2y.Parts2y_Common_Classes"
+             mc:Ignorable="d" Title="Dealer - Home" BackgroundColor="#E9E9E9"
+             x:Class="YPS.Parts2y.Parts2y_Views.DealerPage" >
+    <NavigationPage.TitleView>
+        <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.search}" FontSize="20" TextColor="White"  HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,15,0" />
+    </NavigationPage.TitleView>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="BoxView" x:Key="StyleBoxView">
+                <Setter Property="HeightRequest" Value="3"/>
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" HeightRequest="80" BackgroundColor="{Binding BgColor}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                <Grid Grid.Row="0" RowSpacing="0" BackgroundColor="{Binding BgColor}"  Padding="70,10,10,30" HorizontalOptions="StartAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Text="Dealer ID" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding Dealer_Id}" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Dealer Name" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="1"  Grid.Column="2" Text="{Binding Dealer_Name}" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Delivery" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                    <Label Grid.Row="2"  Grid.Column="2" Text="{Binding Delivery_Date}" TextColor="#FFFFFF" Style="{DynamicResource LableWithMediumFont}"/>
+                </Grid>
+                <!--</Grid>-->
+                <Grid Grid.Row="1" ColumnSpacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Padding="0" RowSpacing="0" Margin="1,0,1,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.30*"/>
+                        <ColumnDefinition Width="0.30*"/>
+                        <ColumnDefinition Width="0.22*"/>
+                        <ColumnDefinition Width="0.18*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0">
+                        <Label  Text="{Binding INPtext}" BackgroundColor="White" Style="{DynamicResource LableWithMediumFont}" TextColor="{Binding InProgressTxtColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding InProgressCmd}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1">
+                        <Label Text="{Binding Cmptext}" BackgroundColor="White" Style="{DynamicResource LableWithMediumFont}" TextColor="{Binding CompletedTxtColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CompletedCmd}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}" />
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" >
+                        <Label Text="{Binding Pendingtext}" BackgroundColor="White" Style="{DynamicResource LableWithMediumFont}" TextColor="{Binding PendingTxtColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding PendingCmd}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding PendingTabVisibility}"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="3" >
+                        <Label Text="{Binding Alltext}" BackgroundColor="White" Style="{DynamicResource LableWithMediumFont}" TextColor="{Binding AllTxtColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding AllCmd}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding AllTabVisibility}"/>
+                    </StackLayout>
+                </Grid>
+                <ListView x:Name="InPrgrs_List"   Grid.Row="2" SelectedItem="{Binding SelectedDealerId}" BackgroundColor="Transparent" ItemsSource="{Binding InProgressList}" HasUnevenRows="True" Margin="8,5,8,8" SeparatorColor="Transparent" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Margin="0,0,0,5"  Padding="15,12,15,12"  BackgroundColor="White" CornerRadius="4"  HasShadow="False">
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.9*" />
+                                            <ColumnDefinition Width="0.75*"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="20"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackLayout Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"  >
+                                            <StackLayout Spacing="0">
+                                                <Label Text="ETA" TextColor="#4c4c4c" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"  Style="{DynamicResource LableWithMediumFont}"/>
+                                                <Label Text="{Binding Eta}"  TextColor="#000000"  VerticalTextAlignment="Center"  Style="{DynamicResource LableWithMediumFont}"/>
+                                            </StackLayout>
+                                            <StackLayout  Spacing="0" >
+                                                <Label Text="ATA" TextColor="#4c4c4c" HorizontalTextAlignment="Start"  VerticalTextAlignment="Center" Style="{DynamicResource LableWithMediumFont}"/>
+                                                <Label Text="{Binding Ata}" TextColor="#000000"  VerticalTextAlignment="Center"  Style="{DynamicResource LableWithMediumFont}"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" >
+                                            <StackLayout Spacing="0" >
+                                                <Label Text="Invoice" TextColor="#4c4c4c" HorizontalTextAlignment="Start"  VerticalTextAlignment="End" Style="{DynamicResource LableWithMediumFont}"/>
+                                                <Label Text="{Binding Invoicenumber}" TextColor="Black" HorizontalTextAlignment="Start"  Style="{DynamicResource LableWithMediumFont}"/>
+                                            </StackLayout>
+                                            <StackLayout Spacing="0">
+                                                <Label Text="Carrier" TextColor="#4c4c4c" HorizontalTextAlignment="Start" VerticalTextAlignment="End"  Style="{DynamicResource LableWithMediumFont}"/>
+                                                <Label Text="{Binding Carrierno}" TextColor="Black" HorizontalTextAlignment="Start"  Style="{DynamicResource LableWithMediumFont}" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <local:FontAwesomeIconLabel Grid.Column="2" Text="{Binding Status_icon}" FontSize="30" TextColor="Black"  HorizontalOptions="Center" VerticalOptions="Center" />
+
+                                        <!--<Image Grid.Column="2" Source="{Binding Status_icon}" Aspect="AspectFit" HeightRequest="35" WidthRequest="35" HorizontalOptions="Center" VerticalOptions="Center"></Image>-->
+                                        <local:FontAwesomeIconLabel Grid.Column="3" Text="{x:Static local1:Icons.righticon}" FontSize="40" TextColor="#000000" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        <!--<Image Grid.Column="3" Source="greateric.png" Aspect="AspectFit" HeightRequest="35" WidthRequest="35" HorizontalOptions="Center" VerticalOptions="Center"></Image>-->
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
+                        <StackLayout Padding="15">
+                            <ActivityIndicator IsRunning="True" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                            <Label x:Name="lblLoadingText" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..."></Label>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ContentView>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

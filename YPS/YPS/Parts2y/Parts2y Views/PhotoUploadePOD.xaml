@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" BackgroundColor="#E9E9E9"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:local1="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
+             xmlns:local2="clr-namespace:YPS.Parts2y.Parts2y_Common_Classes"
+             x:Class="YPS.Parts2y.Parts2y_Views.PhotoUploadePOD">
+    <ContentPage.Content>
+
+        <AbsoluteLayout >
+            <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                        <StackLayout Grid.Row="0" Orientation="Horizontal" HeightRequest="140" BackgroundColor="{Binding BgColor}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">                        
+                        <!--<Image Source="leftarrow.png"  HeightRequest="50" WidthRequest="50"  HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CrossCommand}"></TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>-->
+                        <local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.arrowLeft}" FontSize="40" TextColor="#FFFFFF" HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
+                            <local1:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CrossCommand}"/>
+                            </local1:FontAwesomeIconLabel.GestureRecognizers>
+                        </local1:FontAwesomeIconLabel>
+                        <Label Text="Photos" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" Style="{StaticResource LableWithMediumFont}" FontSize="25" Margin="10,10,15,10"/>
+
+                    </StackLayout>
+
+                    <StackLayout Padding="5,3,5,5" HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand" Grid.Row="1">
+                        <flv:FlowListView  FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
+                                     FlowItemsSource="{Binding photolist}" IsVisible="{Binding secondStack}"   SeparatorVisibility="None" HasUnevenRows="True" >
+                            <flv:FlowListView.FlowColumnTemplate >
+                                <DataTemplate>
+                                    <Frame Padding="0" Margin="5,5,5,5"  IsClippedToBounds="True" CornerRadius="2">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="110"/>
+                                            </Grid.RowDefinitions>
+                                            <forms:CachedImage  Grid.Row="0" Source="{Binding PhotoURL}"   Aspect="AspectFill"  />
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>                        
+                    </StackLayout>
+
+                    <Label Text="No photos available " IsVisible="{Binding NoPhotos_Visibility}"  TextColor="Blue" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" FontSize="Medium"/>
+                    <StackLayout  IsVisible="{Binding firstStack}" Grid.Row="1" Padding="0,5,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                        <ScrollView>
+                            <Image Source="{Binding CaptchaImage1}" x:Name="img" HeightRequest="600" WidthRequest="500" Margin="5"/>
+                        </ScrollView>
+
+                    </StackLayout>
+                    <StackLayout IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" VerticalOptions="EndAndExpand" Padding="5,10,5,10" Grid.Row="2" >
+                        <Button Text="UPLOAD" HeightRequest="60" Command="{Binding upload_pic}" TextColor="White" BackgroundColor="#269DC9" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                        <!--<Button.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding }"/>
+                                    </Button.GestureRecognizers>
+                                </Button>-->
+
+                    </StackLayout>
+                </Grid>
+                
+
+                <StackLayout  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"  
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-70}"
+                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-70}" >
+                    <!--<Image Source="OpenCam"  HeightRequest="50" WidthRequest="50" Aspect="AspectFit" BackgroundColor="Transparent"  HorizontalOptions="Center" VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="select_picclick"/>
+                            --><!--<TapGestureRecognizer Command="{Binding select_pic}"/>--><!--
+                        </Image.GestureRecognizers>
+                    </Image>-->
+
+                    <local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.Cemera1}" FontSize="40" TextColor="#000000" HorizontalOptions="Center" VerticalOptions="Center" IsEnabled="{Binding CameraEnable}"  Opacity="{Binding Camera_Opacity}">
+                        <local1:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="select_picclick"/>
+                        </local1:FontAwesomeIconLabel.GestureRecognizers>
+                    </local1:FontAwesomeIconLabel>
+
+                </StackLayout>
+            </RelativeLayout>
+            
+            <ContentView x:Name="popupCourseCatView" IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
+                        <StackLayout Padding="15">
+                            <ActivityIndicator IsRunning="True" x:Name="activityIndicator" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                            <Label x:Name="lblLoadingText" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..." TextColor="White"></Label>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

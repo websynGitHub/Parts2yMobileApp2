@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" BackgroundColor="#E9E9E9"
+             xmlns:local1="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
+             xmlns:local2="clr-namespace:YPS.Parts2y.Parts2y_Common_Classes"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="YPS.Parts2y.Parts2y_Views.DriverVehicleDetails">
+
+    <ContentPage.Resources>
+    <ResourceDictionary>
+        <Style TargetType="BoxView" x:Key="StyleScanView">
+            <Setter Property="HeightRequest" Value="2"/>
+            <Setter Property="BackgroundColor" Value="#000000"/>
+            <Setter Property="Margin" Value="0,2,0,0"/>
+        </Style>
+    </ResourceDictionary>
+        <ResourceDictionary>
+            <Style TargetType="BoxView" x:Key="StyleScanBorderView">
+                <Setter Property="HeightRequest" Value="2"/>
+                <!--<Setter Property="BackgroundColor" Value="#000000"/>-->
+                <Setter Property="Margin" Value="0,-1.5,0,0"/>
+            </Style>
+        </ResourceDictionary>
+
+    </ContentPage.Resources>
+    
+    
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" HeightRequest="140" BackgroundColor="{Binding BgColor}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            <StackLayout Orientation="Vertical">
+                <local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.arrowLeft}" FontSize="40" TextColor="#FFFFFF" HorizontalOptions="Start" VerticalOptions="Center" Margin="20,10,10,10">
+                    <local1:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
+                    </local1:FontAwesomeIconLabel.GestureRecognizers>
+                </local1:FontAwesomeIconLabel>
+                <!--<Image Source="leftarrow.png"  HeightRequest="50" WidthRequest="50"  HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Backevnttapped}"></TapGestureRecognizer>
+                    </Image.GestureRecognizers>
+                </Image>-->
+                <Frame CornerRadius="4" HorizontalOptions="Start" BackgroundColor="White" Margin="20,0,0,0" Padding="10,5,10,5" WidthRequest="15" >
+                    <Label Text="{Binding HRLtext}"  Style="{DynamicResource LableWithBoldMediumFont}"  TextColor="Black" HorizontalTextAlignment="Start"/>
+                </Frame>
+            </StackLayout>
+            <Grid Grid.Row="0" RowSpacing="0" BackgroundColor="{Binding BgColor}" Margin="70,0,0,5" Padding="10,0,0,0" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Text="VIN" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="{Binding VIN_NO}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="Model" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="1"  Grid.Column="2" Text="{Binding Model}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="2" Grid.Column="0" Text="Color" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="2"  Grid.Column="2" Text="{Binding Colour}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="3" Grid.Column="0" Text="Trip#" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="3" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="3"  Grid.Column="2" Text="{Binding TripNo}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="4" Grid.Column="0" Text="Load#" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="4" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                <Label Grid.Row="4"  Grid.Column="2" Text="{Binding LOAD}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+
+            </Grid>
+            <Image Source="bus.png"  HeightRequest="70" WidthRequest="70"  HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand" Margin="10,10,10,10">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BusTapCommand}"></TapGestureRecognizer>
+                    </Image.GestureRecognizers>
+                </Image>
+            <Grid  Grid.Row="1" RowSpacing="0" ColumnSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.010*"/>
+                    <ColumnDefinition Width="*"/>
+                    <!--<ColumnDefinition Width="0.01*"/>
+                    <ColumnDefinition Width="*"/>-->
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0" BackgroundColor="{Binding BGfromtabcolor}" >
+                    <BoxView Style="{StaticResource StyleScanBorderView}"  BackgroundColor="{Binding scanfromborderBG}" />
+                    <StackLayout Orientation="Horizontal"  HorizontalOptions="Center"  Spacing="0">
+                        <Label Text="Scan From" TextColor="#000000"  Style="{DynamicResource LableWithQuestionFontBold}"   VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="8,8,2,5">
+                        </Label>
+                        <Image Source="{Binding StatusSource}" Aspect="AspectFit" HeightRequest="10" WidthRequest="20"  IsVisible="{Binding TickVisibility}" Margin="0,5,0,0"/>
+                    </StackLayout>
+                    <BoxView Style="{StaticResource StyleScanView}" IsVisible="{Binding ScanTabVisibility}"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ScanCommand}"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <BoxView Grid.Column="1" BackgroundColor="#000000"/>
+
+                <StackLayout Grid.Column="2" BackgroundColor="{Binding BGtotabcolor}" >
+                    <BoxView Style="{StaticResource StyleScanBorderView}"  BackgroundColor="{Binding scantoborderBG}"/>
+                    <Label  Text="Scan To" TextColor="#000000" Style="{DynamicResource LableWithQuestionFontBold}"   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="8,8,8,5">
+                    </Label>
+                    <BoxView Style="{StaticResource StyleScanView}" IsVisible="{Binding PDITabVisibility}"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ScantoCommand}"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <BoxView Grid.Column="1" BackgroundColor="#000000"/>
+            </Grid>
+            <StackLayout Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0" >
+                <Grid RowSpacing="0" Margin="0"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.8*"/>
+                        <RowDefinition Height="4.6*"/>
+                        <RowDefinition Height="3.7*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Orientation="Vertical"  Grid.Row="0" Spacing="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Center" Padding="20,10,0,5">
+                        <Label Text="{Binding ScanFrom_text,Mode=TwoWay}" HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                        <Label Text="{Binding ScanaFrom_Description1,Mode=TwoWay}" TextColor="Black"  Style="{DynamicResource LableWithMediumFont}"/>
+                    </StackLayout>
+                    <!--<StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="150" IsVisible="{Binding ScanImagestackvisable}" WidthRequest="200"/>-->
+                    <Image Source="qrcode.png"  Grid.Row="0" Grid.Column="1"  HeightRequest="100" IsVisible="{Binding ScanImagevisable1}" WidthRequest="100" Aspect="AspectFit" Margin="0" HorizontalOptions="Center" VerticalOptions="Center"  >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding QrCodeCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <!--<Image Source="qrcode.png" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsVisible="{Binding ScanImagevisable}" Margin="0,80,0,0"  HeightRequest="130" WidthRequest="130" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"  >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding QrCodeCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>-->
+
+                        <!--<maps:Map  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="customMap"  IsVisible="{Binding mapstack}"   MapType="Street"  IsShowingUser="True" />-->
+                        <StackLayout x:Name="MapGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                            <!--<mapscustom:CustomMap Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="customMap"  IsVisible="{Binding mapstack}"   MapType="Street"  IsShowingUser="True" />-->
+                        </StackLayout>
+                        <StackLayout Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal"  Padding="5,5,0,0" Margin="10" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" IsVisible="{Binding QrCodeImageWithDetailsVisibility1}">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Scanned :"  HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                        <Label Grid.Row="0" Grid.Column="1" Text=" Not matched " HorizontalOptions="Center" BackgroundColor="Red" TextColor="White" Style="{DynamicResource LableWithMediumFont}" />
+                    </StackLayout>
+                    <Grid Grid.Row="2" RowSpacing="4" Grid.ColumnSpan="2" Grid.Column="0" Padding="5,5,0,0" Margin="4" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" IsVisible="{Binding QrCodeImageWithDetailsVisibility}" >
+                        <!--<StackLayout Grid.Row="1" BackgroundColor="#CFCFCF" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" >-->
+                        <Grid Padding="5,0,5,0" ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="7*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Text="Scanned"  HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding VIN_NO1}" HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="Date and Time" HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Dateandtime}" HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                            <Label Grid.Row="2" Grid.Column="0" Text="GPS Location" HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                            <Label Grid.Row="2" Grid.Column="1"  Text="{Binding Currentlocation,Mode=TwoWay}" HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                            <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Label Grid.Row="3" Grid.Column="0" Text="Zone Cluster Bay Cell" HorizontalOptions="Start" TextColor="Black" Style="{DynamicResource LableWithMediumFont}" />
+                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding ZoneClusterBayCellfrom}" TextColor="Black"  Style="{DynamicResource LableWithMediumFont}"/>
+                            </StackLayout>
+                            <!--<Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding btntext}" TextColor="Black"  Style="{DynamicResource LableWithMediumFont}" HorizontalOptions="Center" >
+                        <Button.GestureRecognizers>
+                            <TapGestureRecognizer   Command="{Binding Okaytogo}"/>
+                        </Button.GestureRecognizers>-->
+                            <Frame Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" Margin="0,1,4,1" CornerRadius="4" BackgroundColor="{Binding okaytobuttoncolor}" Padding="0" HorizontalOptions="FillAndExpand"  >
+                                <Label  Text="{Binding btntext}" TextColor="White"  Style="{DynamicResource LableWithMediumFont}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Okaytogo}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Frame>
+                            <!--</Button>-->
+                        </Grid>
+                        <!--</StackLayout>-->
+                    </Grid>
+                </Grid>
+            </StackLayout>
+         
+         
+
+        </Grid>
+            <!--<ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding BusSchesulePopup}" BackgroundColor="#E9E9E9">
+
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Orientation="Horizontal" HeightRequest="80"  BackgroundColor="{Binding BgColor}">
+                        --><!--<Image Source="leftarrow.png"  HeightRequest="50" WidthRequest="50"  HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CrossTapCommand}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>--><!--
+                        <local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.arrowLeft}" FontSize="40" TextColor="#FFFFFF" HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
+                            <local1:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BusBackTapCommand}"/>
+                            </local1:FontAwesomeIconLabel.GestureRecognizers>
+                        </local1:FontAwesomeIconLabel>
+                        <Label Text="Bus Schedule" TextColor="White" HorizontalOptions="StartAndExpand" Style="{StaticResource LableWithLargeFont}" VerticalTextAlignment="Center"  Margin="10,10,10,10"/>
+
+                    </StackLayout>
+            </ContentView>-->
+        </AbsoluteLayout>
+    </ContentPage.Content>
+
+</ContentPage>

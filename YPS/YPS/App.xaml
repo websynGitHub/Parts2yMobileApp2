@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sfInputlayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="YPS.App">
 
     <Application.Resources>
@@ -294,6 +297,98 @@
                 <Setter Property="Margin" Value="0,0,2,0"/>
             </Style>
             <!--Sf related styles End-->
+            
+            
+            
+            <!--Parts2y Start-->
+            <Style TargetType="Label" x:Key="LableWithSmallFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelWithSendOTPFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LableWithMicroFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="11"/>
+            </Style>
+            <Style TargetType="Label" x:Key="LableWithMediumFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LableWithLargeFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="21"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LableWithQuestionFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="19"/>
+            </Style>
+
+
+            <Style TargetType="Label" x:Key="LableWithQuestionFontBold">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="FontSize" Value="19"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelWithBusnoFontBold">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="FontSize" Value="25"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LableWithBoldMediumFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style TargetType="input:RadioButton" x:Key="RadioButtonWithOptions">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextFontSize" Value="19"/>
+            </Style>
+
+            <!--<Style TargetType="input:CheckBox" x:Key="CheckBoxWithOptions">
+                <Setter Property="FontName" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+            </Style>-->
+
+
+            <Style TargetType="Button" x:Key="ButtonWithFont">
+                <Setter Property="FontFamily" Value="{DynamicResource RobotoRegular}" />
+                <Setter Property="BorderRadius" Value="5" />
+                <Setter Property="FontSize" Value="17" />
+            </Style>
+
+
+
+            <OnPlatform x:Key="LatoLight"
+      x:TypeArguments="x:String"
+      iOS="Lato-Light"
+      Android="Lato-Light.ttf#Lato-Light"
+      WinPhone="Assets/Fonts/Lato-Light.ttf#Lato-Light"/>
+
+            <OnPlatform x:Key="LatoBold"
+      x:TypeArguments="x:String"
+      iOS="Lato-Light"
+      Android="Lato-Bold.ttf#Lato-Bold"
+      WinPhone="Assets/Fonts/Lato-Bold.ttf#Lato-Bold"/>
+
+            <OnPlatform x:Key="LatoRegular"
+      x:TypeArguments="x:String"
+      iOS="Lato-Regular"
+      Android="Lato-Regular.ttf#Lato-Regular"
+      WinPhone="Assets/Fonts/Lato-Regular.ttf#Lato-Regular"/>
+
+            <OnPlatform x:Key="FontAwesomeRegular"
+      x:TypeArguments="x:String"
+      iOS="FontAwesome"
+      Android="fontawesome-regular.ttf#Lato-fontawesome-regular"
+      WinPhone="Assets/Fonts/Lato-Regular.ttf#Lato-Regular"/>
+            <!--Parts2y End-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

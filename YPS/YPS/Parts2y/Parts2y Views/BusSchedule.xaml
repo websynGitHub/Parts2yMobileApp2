@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local1="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
+             xmlns:local2="clr-namespace:YPS.Parts2y.Parts2y_Common_Classes"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             mc:Ignorable="d"
+             x:Class="YPS.Parts2y.Parts2y_Views.BusSchedule">
+    <!--<ContentPage.Resources>
+        <ResourceDictionary>
+            <local:StringOrIntChecking x:Key="CheckingintorString" />
+        </ResourceDictionary>
+    </ContentPage.Resources>-->
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Orientation="Horizontal"   BackgroundColor="{Binding BgColor}">
+                    <local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.arrowLeft}" FontSize="40" TextColor="#FFFFFF" HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
+                        <local1:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BusBackTapCommand}"/>
+                        </local1:FontAwesomeIconLabel.GestureRecognizers>
+                    </local1:FontAwesomeIconLabel>
+                    <Label Text="Bus Schedule" TextColor="White" HorizontalOptions="StartAndExpand" Style="{StaticResource LableWithLargeFont}" VerticalTextAlignment="Center"  Margin="10,10,10,10"/>
+                </StackLayout>
+                <local2:CustomMap Grid.Row="1" x:Name="mapControl" MapType="Street"   IsShowingUser="True">
+                    <!--<mapscustom:CustomMap.ItemTemplate>
+                        <DataTemplate>
+                            <mapscustom:CustomPin Position="{Binding Position}"
+                              Address="{Binding Address}"
+                              Label="{Binding Description}"
+                                      Type="Place" MarkerClicked="Marker_Tapped" InfoWindowClicked="InfoWindow_Tapped"/>
+                        </DataTemplate>
+                    </mapscustom:CustomMap.ItemTemplate>-->
+                </local2:CustomMap >
+                <!--<maps:Map Grid.Row="1" x:Name="mapControl" MapType="Street"   IsShowingUser="True"   ItemsSource="{Binding LocationsList}">
+                    <maps:Map.ItemTemplate>
+                        <DataTemplate>
+                            <maps:Pin Position="{Binding Position}"
+                              Address="{Binding Address}"
+                              Label="{Binding Description}"
+                                      Type="Place" MarkerClicked="Marker_Tapped" InfoWindowClicked="InfoWindow_Tapped"/>
+                        </DataTemplate>
+                    </maps:Map.ItemTemplate>
+                </maps:Map>-->
+            </Grid>
+            <Frame x:Name="Mainframe" IsVisible="{Binding PopUpVisibility}" BackgroundColor="#E9E9E9" CornerRadius="12" Padding="8,8,8,8" HasShadow="False" >
+                <StackLayout  BackgroundColor="Transparent">
+                    <Frame HasShadow="False" CornerRadius="8" Padding="2" BackgroundColor="#8C8C8C" HorizontalOptions="Center" VerticalOptions="Center">
+                        <BoxView Color="Transparent"  HeightRequest="2" WidthRequest="50"/>
+                    </Frame>
+                    <StackLayout Orientation="Horizontal" Spacing="15" Margin="5">
+                        <local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.bus}" FontSize="40" TextColor="#4c4c4c" HorizontalOptions="Start" VerticalOptions="Center" Margin="5">
+                            <local1:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
+                            </local1:FontAwesomeIconLabel.GestureRecognizers>
+                        </local1:FontAwesomeIconLabel>
+                        <StackLayout Spacing="0">
+                        <Label Text="{Binding BusDetails_No} " TextColor="Black" Style="{StaticResource LableWithBoldMediumFont}"  />
+                        <Label Text="{Binding BusDetails_address}" TextColor="Black" Style="{StaticResource LableWithMediumFont}" />
+                        </StackLayout>
+                    </StackLayout>
+                    <ListView HasUnevenRows="True" x:Name="BusList"  ItemsSource="{Binding ListOfBuses,Mode=TwoWay}"  BackgroundColor="Transparent" Margin="5" SeparatorColor="Transparent" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame Margin="3" Padding="10,15,10,15"  BackgroundColor="White" CornerRadius="5"  HasShadow="False">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <!--<ColumnDefinition Width="30"/>-->
+                                                <ColumnDefinition Width="3.33*"/>
+                                                <!--<ColumnDefinition Width="4*"/>-->
+                                                <ColumnDefinition Width="3.33*"/>
+                                                <ColumnDefinition Width="3.33*"/>
+                                            </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Bus_No}"  TextColor="Black" Style="{StaticResource LableWithBoldMediumFont}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding BusArriving_Time}" TextColor="Black" Style="{StaticResource LableWithBoldMediumFont}"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                                <!--<Label  Text="{Binding BusArrivein_Mins}" TextColor="#4C4C4C" Style="{StaticResource LableWithMicroFont}"/>-->
+                                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding BusDeparture_Time}" TextColor="Black" Style="{StaticResource LableWithBoldMediumFont}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+
+                                                <!--<Label  Text="{Binding BusDeparture_Mins}" TextColor="#4C4C4C" Style="{StaticResource LableWithMicroFont}"/>-->
+                                            <!--<Frame Grid.Row="0" Grid.Column="0"  HasShadow="False" CornerRadius="5" BackgroundColor="#4C4C4C" Padding="2" WidthRequest="65">
+                                                    <Label Text="{Binding Bus_No}"  TextColor="White" Style="{StaticResource LabelWithBusnoFontBold}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                                </Frame>
+                                            <StackLayout Grid.Row="0" Grid.Column="2" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center">
+                                                --><!--<Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="pluseMonitorIc.png" HeightRequest="18" WidthRequest="18"/>--><!--
+                                                <Label  Text="{Binding BusArriving_Time}" TextColor="#4C4C4C" Style="{StaticResource LabelWithBusnoFontBold}"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                                <Label  Text="{Binding BusArriving_Time,Converter={StaticResource CheckingintorString}}" TextColor="#4C4C4C" Style="{StaticResource LableWithMicroFont}"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                                --><!--<Label  Text="{Binding BusArrivein_Mins}" TextColor="#4C4C4C" Style="{StaticResource LableWithMicroFont}"/>--><!--
+                                            </StackLayout>
+                                            <StackLayout Grid.Row="0" Grid.Column="3" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label  Text="{Binding BusDeparture_Time}" TextColor="#4C4C4C" Style="{StaticResource LabelWithBusnoFontBold}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                                <Label  Text="{Binding BusDeparture_Time,Converter={StaticResource CheckingintorString}}" TextColor="#4C4C4C" Style="{StaticResource LableWithMicroFont}"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                                --><!--<Label  Text="{Binding BusDeparture_Mins}" TextColor="#4C4C4C" Style="{StaticResource LableWithMicroFont}"/>--><!--
+                                            </StackLayout>-->
+                                        </Grid>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackLayout.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Frame>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

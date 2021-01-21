@@ -20,6 +20,7 @@ using YPS.Models;
 using Device = Xamarin.Forms.Device;
 using System.Collections.Generic;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 
 [assembly: Xamarin.Forms.Xaml.XamlCompilation(Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
 namespace YPS
@@ -104,7 +105,7 @@ namespace YPS
                             }
                             else
                             {
-                                MyNavigationPage.PushAsync(new LoginPage(), true);
+                                MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
                             }
 
                         }
@@ -141,80 +142,117 @@ namespace YPS
                 MyNavigationPage = new NavigationPage();
                 Current.MainPage = MyNavigationPage;
 
-                var globalResult = Task.Run(async () => await YPSService.GetglobelSettings()).Result; ///Fetching global settings
+                #region YPS Relatesd code
+                //var globalResult = Task.Run(async () => await YPSService.GetglobelSettings()).Result; ///Fetching global settings
 
-                if (globalResult != null && globalResult.status == 1 && (globalResult.data.sSLPinningKeys != null && EncryptManager.Decrypt(globalResult.data.sSLPinningKeys.SecCode) == Settings.CertificateSecCode))
+                //if (globalResult != null && globalResult.status == 1 && (globalResult.data.sSLPinningKeys != null && EncryptManager.Decrypt(globalResult.data.sSLPinningKeys.SecCode) == Settings.CertificateSecCode))
+                //{
+                //    if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
+                //    {
+                //        Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
+                //        SetupCertificatePinningCheck();
+                //    }
+
+                //    FlowListView.Init();
+
+                //    RememberPwdDB Db = new RememberPwdDB();
+                //    var user = Db.GetUserDetails();
+
+                //    if (user.Count == 1)
+                //    {
+                //        var userData = user.FirstOrDefault();
+
+                //        Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                //        Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                //        Settings.LoginID = userData.encLoginID;
+                //        Settings.Sessiontoken = userData.encSessiontoken;
+                //        Settings.AndroidVersion = userData.AndroidVersion;
+                //        Settings.iOSversion = userData.iOSversion;
+                //        Settings.IsIIJEnabled = userData.IIJEnable;
+                //        Settings.IsPNEnabled = userData.IsPNEnabled;
+                //        Settings.IsEmailEnabled = userData.IsEmailEnabled;
+
+                //        var current = Connectivity.NetworkAccess;
+                //        if (current == NetworkAccess.Internet)
+                //        {
+                //            Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+                //            if (Settings.userRoleID != 0)
+                //                App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                //        }
+                //        else
+                //        {
+                //            MyNavigationPage.PushAsync(new CheckInterNetConn());
+                //        }
+                //    }
+                //    else
+                //    {
+                //        Task.Run(async () => await GlobelSettings(globalResult)).Wait();
+
+                //        if (Settings.IsIIJEnabled)
+                //        {
+                //            if (OAuthConfig.User == null)
+                //            {
+                //                MyNavigationPage.PushAsync(new ProviderLoginPage());
+                //            }
+                //        }
+                //        else
+                //        {
+                //            var current = Connectivity.NetworkAccess;
+                //            if (current == NetworkAccess.Internet)
+                //            {
+                //                MyNavigationPage.PushAsync(new LoginPage(), true);
+                //            }
+                //            else
+                //            {
+                //                MyNavigationPage.PushAsync(new CheckInterNetConn());
+                //            }
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    Device.BeginInvokeOnMainThread(async () =>
+                //    {
+                //        await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Close");
+                //        CloudFolderKeyVal.Appredirectloginwithoutlogout(false);
+                //    });
+                //}
+
+                #endregion
+
+                #region Parts2y/ePod related code
+                Parts2y.Parts2y_SQLITE.RememberPwdDB Db = new Parts2y.Parts2y_SQLITE.RememberPwdDB();
+                var user = Db.GetUserDetails();
+
+                if (user.Count != 0)
                 {
-                    if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
-                    {
-                        Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
-                        SetupCertificatePinningCheck();
-                    }
+                    var userData = user.FirstOrDefault();
+                    YPS.Parts2y.Parts2y_Common_Classes.Settings.UserName = userData.username;
+                    YPS.Parts2y.Parts2y_Common_Classes.Settings.UserMail = userData.user_email;
+                    YPS.Parts2y.Parts2y_Common_Classes.Settings.Entity_Name = userData.EntityName;
+                    YPS.Parts2y.Parts2y_Common_Classes.Settings.roleid = userData.roleid;
+                    YPS.Parts2y.Parts2y_Common_Classes.Settings.ID = userData.ID;
+                    YPS.Parts2y.Parts2y_Common_Classes.Settings.Bar_Background = Color.FromHex(userData.Colorcode);
 
-                    FlowListView.Init();
-
-                    RememberPwdDB Db = new RememberPwdDB();
-                    var user = Db.GetUserDetails();
-
-                    if (user.Count == 1)
-                    {
-                        var userData = user.FirstOrDefault();
-
-                        Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-                        Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-                        Settings.LoginID = userData.encLoginID;
-                        Settings.Sessiontoken = userData.encSessiontoken;
-                        Settings.AndroidVersion = userData.AndroidVersion;
-                        Settings.iOSversion = userData.iOSversion;
-                        Settings.IsIIJEnabled = userData.IIJEnable;
-                        Settings.IsPNEnabled = userData.IsPNEnabled;
-                        Settings.IsEmailEnabled = userData.IsEmailEnabled;
-
-                        var current = Connectivity.NetworkAccess;
-                        if (current == NetworkAccess.Internet)
-                        {
-                            Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
-                            if (Settings.userRoleID != 0)
-                                App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                        }
-                        else
-                        {
-                            MyNavigationPage.PushAsync(new CheckInterNetConn());
-                        }
-                    }
-                    else
-                    {
-                        Task.Run(async () => await GlobelSettings(globalResult)).Wait();
-
-                        if (Settings.IsIIJEnabled)
-                        {
-                            if (OAuthConfig.User == null)
-                            {
-                                MyNavigationPage.PushAsync(new ProviderLoginPage());
-                            }
-                        }
-                        else
-                        {
-                            var current = Connectivity.NetworkAccess;
-                            if (current == NetworkAccess.Internet)
-                            {
-                                MyNavigationPage.PushAsync(new LoginPage(), true);
-                            }
-                            else
-                            {
-                                MyNavigationPage.PushAsync(new CheckInterNetConn());
-                            }
-                        }
-                    }
+                    //if (Settings.roleid == 1)
+                    //{
+                    App.Current.MainPage = new MenuPage(typeof(Dashboard));
+                    //}
+                    //else if (Settings.roleid == 2)
+                    //{
+                    //    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                    //}
+                    //else if (Settings.roleid == 3)
+                    //{
+                    //    App.Current.MainPage = new MenuPage(typeof(DealerPage));
+                    //}
                 }
                 else
                 {
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Close");
-                        CloudFolderKeyVal.Appredirectloginwithoutlogout(false);
-                    });
+                    MyNavigationPage.PushAsync(new Parts2y.Parts2y_Views.LoginPage(), true);
+
                 }
+                #endregion
             }
             catch (Exception ex)
             {
