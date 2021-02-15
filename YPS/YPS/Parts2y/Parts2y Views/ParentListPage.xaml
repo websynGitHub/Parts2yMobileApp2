@@ -68,9 +68,16 @@
         <AbsoluteLayout>
             <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                     
-                <Grid RowDefinitions="Auto,*,Auto" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                <Grid  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       Padding="0">
+                    <Grid.RowDefinitions>
+                        <!--<RowDefinition Height="{OnPlatform iOS='100',Android='Auto'}"/>-->
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <!--<RowDefinition Height="{OnPlatform iOS='100',Android='Auto'}"/>-->
+                    </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart"
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
@@ -262,7 +269,7 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <Grid Grid.Row="2" IsVisible="{Binding ISPoDataListVisible}"
+                        <Grid  x:Name="pagingpart" Grid.Row="2" IsVisible="{Binding ISPoDataListVisible}"
                               BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>

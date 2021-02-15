@@ -44,7 +44,7 @@
             <Grid RowDefinitions="Auto,*,Auto" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                   >
 
-                <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" 
+                <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                           RowDefinitions="*" ColumnDefinitions="60,*,Auto">
 

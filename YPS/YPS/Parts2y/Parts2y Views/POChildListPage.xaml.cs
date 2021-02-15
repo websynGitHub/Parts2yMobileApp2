@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
@@ -171,37 +172,39 @@ namespace YPS.Parts2y.Parts2y_Views
         }
 
 
-        ///// <summary>
-        ///// This method gets called when page is appearing.
-        ///// </summary>
-        //protected async override void OnAppearing()
-        //{
-        //    try
-        //    {
-        //        Vm.loadindicator = true;
-        //        //UserDialogs.Instance.ShowLoading("Loading...");
-        //        //var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-        //        //headerpart.Padding = safeAreaInset;
+        /// <summary>
+        /// This method gets called when page is appearing.
+        /// </summary>
+        protected async override void OnAppearing()
+        {
+            try
+            {
+                Vm.loadindicator = true;
+                //UserDialogs.Instance.ShowLoading("Loading...");
+                var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                safeAreaInset.Bottom = 0;
+                safeAreaInset.Top = 30;
+                headerpart.Padding = safeAreaInset;
 
-        //        base.OnAppearing();
-        //        YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
-                
-        //        Vm.loadindicator = false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "OnAppearing method -> in ParentListPage.cs " + Settings.userLoginID);
-        //        await trackService.Handleexception(ex);
-        //        //UserDialogs.Instance.HideLoading();
-        //        Settings.ShowSuccessAlert = false;
-        //        Vm.loadindicator = false;
-        //    }
-        //    finally
-        //    {
-        //        Settings.mutipleTimeClick = false;
-        //        //UserDialogs.Instance.HideLoading();
-        //    }
-        //}
+                base.OnAppearing();
+                YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                Vm.loadindicator = false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnAppearing method -> in ParentListPage.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+                //UserDialogs.Instance.HideLoading();
+                Settings.ShowSuccessAlert = false;
+                Vm.loadindicator = false;
+            }
+            finally
+            {
+                Settings.mutipleTimeClick = false;
+                //UserDialogs.Instance.HideLoading();
+            }
+        }
 
         #region Add gesture after page is loaded
         /// <summary>

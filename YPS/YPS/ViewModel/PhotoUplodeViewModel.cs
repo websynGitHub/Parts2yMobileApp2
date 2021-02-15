@@ -516,6 +516,8 @@ namespace YPS.ViewModel
                                             finalPhotoListA = AllPhotosData.data.Aphotos;
                                             AStack = true;
                                             BStack = false;
+                                            AfterPackingTextColor = Color.Green;
+                                            BeforePackingTextColor = Color.Black;
                                         }
                                         else
                                         {
@@ -523,6 +525,8 @@ namespace YPS.ViewModel
                                             finalPhotoListB = AllPhotosData.data.BPhotos;
                                             AStack = false;
                                             BStack = true;
+                                            AfterPackingTextColor = Color.Black;
+                                            BeforePackingTextColor = Color.Green;
                                         }
 
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
@@ -729,11 +733,15 @@ namespace YPS.ViewModel
                                 {
                                     AStack = true;
                                     NoPhotos_Visibility = finalPhotoListA.Count != 0 ? false : true;
+                                    AfterPackingTextColor = Color.Green;
+                                    BeforePackingTextColor = Color.Black;
                                 }
                                 else
                                 {
                                     BStack = true;
                                     NoPhotos_Visibility = finalPhotoListB.Count != 0 ? false : true;
+                                    AfterPackingTextColor = Color.Black;
+                                    BeforePackingTextColor = Color.Green;
                                 }
 
                                 if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
