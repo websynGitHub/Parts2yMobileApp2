@@ -73,7 +73,7 @@ namespace YPS
                     stckPrinter.GestureRecognizers.Clear();
                     Vm.IsPNenable = false;
                 }
-                else if (Settings.userRoleID == (int)UserRoles.CustomerAdmin || Settings.userRoleID == (int)UserRoles.CustomerUser)
+                else if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
                 {
                     picRequiredStk1.IsVisible = picRequiredStk2.IsVisible = true;
                 }
@@ -86,7 +86,7 @@ namespace YPS
                 }
                 dataGrid.AutoExpandGroups = false;
 
-                if (Settings.userRoleID == (int)UserRoles.CustomerAdmin)
+                if (Settings.userRoleID == (int)UserRoles.OwnerAdmin)
                 {
                     Vm.Archivedchat = true;
                 }
@@ -813,7 +813,7 @@ namespace YPS
                                 sendPodata.UserID = Settings.userLoginID;
                                 sendPodata.PageSize = Settings.pageSizeYPS;
                                 sendPodata.StartPage = Settings.startPageYPS;
-                                Vm.SearchResultGet(sendPodata);
+                                Vm.SearchResultGet(sendPodata); 
 
                                 var result = await trackService.LoadPoDataService(sendPodata);
 
@@ -831,7 +831,7 @@ namespace YPS
                                             if (data.TagNumber != null)
                                             {
                                                 #region Chat
-                                                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.Viewer)
+                                                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
                                                 {
                                                     data.chatImage = "minus.png";
                                                 }
@@ -915,8 +915,8 @@ namespace YPS
                                                 data.photoTickVisible = false;
                                                 data.POS = null;
                                                 data.SUB = null;
-                                                data.IS_POS = null;
-                                                data.IS_SUB = null;
+                                                //data.IS_POS = null;
+                                                //data.IS_SUB = null;
                                                 data.emptyCellValue = "No records to display";
                                             }
                                         }
