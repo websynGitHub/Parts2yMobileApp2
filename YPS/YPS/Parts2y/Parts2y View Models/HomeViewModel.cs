@@ -35,7 +35,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
 
                 Navigation = _Navigation;
-                BgColor = Settings.Bar_Background;
+                BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 InProgressCmd = new Command(async () => await InProgress_Tap());
                 CompletedCmd = new Command(async () => await Complete_Tap());
                 PendingCmd = new Command(async () => await Pending_Tap());
@@ -113,7 +113,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Alert", "No data available", "Ok");
-                    Navigation.PopModalAsync();
+                    Navigation.PopAsync();
                 }
             }
             catch (Exception ex)
@@ -208,7 +208,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (Navigation.ModalStack.Count == 0 ||
                                            Navigation.ModalStack.Last().GetType() != typeof(TransportReportDetails))
                         {
-                            await Navigation.PushModalAsync(new TransportReportDetails());
+                            await Navigation.PushAsync(new TransportReportDetails());
                         }
                     }
                     catch(Exception ex)
@@ -347,7 +347,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             }
         }
-        private Color _BgColor;
+        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

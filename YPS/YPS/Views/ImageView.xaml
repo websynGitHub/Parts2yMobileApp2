@@ -3,79 +3,130 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms1="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
-             x:Class="YPS.Views.ImageView" BackgroundColor="White">
+             x:Class="YPS.Views.ImageView" BackgroundColor="#E9E9E9" NavigationPage.HasNavigationBar="False"
+             xmlns:local="clr-namespace:YPS.CustomRenders"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
 
-    <NavigationPage.TitleView>
-        <StackLayout>
-            <Label x:Name="Groupname" Text="Product Photos" LineBreakMode="TailTruncation" FontSize="18" TextColor="White" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
-            <Label x:Name="Usernames" FontSize="Small" LineBreakMode="TailTruncation" TextColor="White" VerticalTextAlignment="Start"/>
+    <!--<NavigationPage.TitleView>
+        <StackLayout BackgroundColor="Green">
+            <Label x:Name="Groupname" Text="Product Photos" LineBreakMode="TailTruncation" Style="{StaticResource LblTitleName}"
+                   TextColor="White" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
+            <Label x:Name="Usernames" LineBreakMode="TailTruncation" TextColor="White" 
+                   VerticalTextAlignment="Start" Style="{StaticResource LblSubTitle}"/>
         </StackLayout>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
     <AbsoluteLayout>
-        <cards:SfCardLayout IsVisible="{Binding pophoto}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="0,2,0,2" x:Name="synfImageViewList" VisibleCardIndex="{Binding VisibleCardInx}" BindableLayout.ItemsSource="{Binding imageViews}" ShowSwipedCard="True" VisibleCardIndexChanged="SynfImageViewList_VisibleCardIndexChanged" VerticalOptions="Center" BackgroundColor="White">
-            <BindableLayout.ItemTemplate>
-                <DataTemplate>
-                    <cards:SfCardView>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="0.3*"/>
-                            </Grid.RowDefinitions>
-                            <forms1:CachedImage Grid.Row="0" Source="{Binding PhotoURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-                            <StackLayout Grid.Row="1" Padding="20,0,5,2">
-                                <Label Text="{Binding FullName}" TextColor="Black" FontSize="Small"/>
-                                <Label Text="{Binding CreatedDate}" TextColor="Black" FontSize="Small"/>
-                                <StackLayout Spacing="0" IsVisible="{Binding ShowAndHideDescr}">
-                                    <Label IsVisible="{Binding ShowAndHideDescr}" MaxLines="2" LineBreakMode="TailTruncation">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="{Binding descriptionlbl}"  FontAttributes="Bold" TextColor="Black"/>
-                                                <Span Text="{Binding PhotoDescription}"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label IsVisible="{Binding ShowAndHideBtn}" Text="More Description" x:Name="MoreText" TextColor="#269DC9" Margin="0,0,10,5" FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="ShowMoreTextBtn"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
+        <Grid RowSpacing="0" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
+                      >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
+                          RowDefinitions="*" ColumnDefinitions="60,*,40">
+
+                <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Back_Tapped"/>
+                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                </local:FontAwesomeIconLabel>
+
+                <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="{Binding RowHeightTitle,Mode=TwoWay}"/>
+                        <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="Groupname" Grid.Row="0" Text="Product Photos" LineBreakMode="TailTruncation" Style="{StaticResource LblTitleName}"
+                   TextColor="White" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
+                    <Label x:Name="Usernames" Grid.Row="1" LineBreakMode="TailTruncation" TextColor="White" 
+                   VerticalTextAlignment="Start" Style="{StaticResource LblSubTitle}"/>
+                </Grid>
+                <local:FontAwesomeIconLabel Grid.Column="2" Text="{x:Static StaticIcons:Icons.HomeIc}"
+                                                       Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding HomeCommand}"/>
+                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                </local:FontAwesomeIconLabel>
+            </Grid>
+
+
+            <cards:SfCardLayout IsVisible="{Binding pophoto}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" 
+                                Padding="0,2,0,2" x:Name="synfImageViewList" VisibleCardIndex="{Binding VisibleCardInx}"
+                                BindableLayout.ItemsSource="{Binding imageViews}" ShowSwipedCard="True"
+                                VisibleCardIndexChanged="SynfImageViewList_VisibleCardIndexChanged" VerticalOptions="Center" 
+                                BackgroundColor="Transparent" Grid.Row="1" HorizontalOptions="FillAndExpand">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <cards:SfCardView>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0.3*"/>
+                                </Grid.RowDefinitions>
+                                <forms1:CachedImage Grid.Row="0" Source="{Binding PhotoURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                                <StackLayout Grid.Row="1" Padding="20,0,5,2">
+                                    <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
+                                    <Label Text="{Binding CreatedDate}" TextColor="Black"
+                                       Style="{StaticResource LableWithSmallFont}"/>
+                                    <StackLayout Spacing="0" IsVisible="{Binding ShowAndHideDescr}">
+                                        <Label IsVisible="{Binding ShowAndHideDescr}" MaxLines="2" LineBreakMode="TailTruncation">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding descriptionlbl}"  FontAttributes="Bold" TextColor="Black"
+                                                      Style="{StaticResource LabelWithSendOTPFont}"/>
+                                                    <Span Text="{Binding PhotoDescription}" Style="{StaticResource LableWithSmallFont}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label IsVisible="{Binding ShowAndHideBtn}" Text="More Description" x:Name="MoreText" TextColor="#269DC9" Margin="0,0,10,5" FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="ShowMoreTextBtn"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </StackLayout>
                                 </StackLayout>
-                            </StackLayout>
-                        </Grid>
-                    </cards:SfCardView>
-                </DataTemplate>
-            </BindableLayout.ItemTemplate>
-        </cards:SfCardLayout>
+                            </Grid>
+                        </cards:SfCardView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </cards:SfCardLayout>
 
-        <ContentView BackgroundColor="#80000000" IsVisible="{Binding ShowMoreTextpopup}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-            <Frame CornerRadius="7" Padding="7" Margin="20">
-                <StackLayout>
-                    <ScrollView>
-                        <Label Text="{Binding ShowMoreText}" FontSize="Medium"/>
-                    </ScrollView>
-                    <Button Text="Close" Clicked="ClosePop" BackgroundColor="#269DC9" TextColor="White" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand"  WidthRequest="120"/>
-                </StackLayout>
-            </Frame>
-        </ContentView>
+            <ContentView BackgroundColor="#80000000" IsVisible="{Binding ShowMoreTextpopup}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <Frame CornerRadius="7" Padding="7" Margin="20">
+                    <StackLayout>
+                        <ScrollView>
+                            <Label Text="{Binding ShowMoreText}" FontSize="Medium"/>
+                        </ScrollView>
+                        <Button Text="Close" Clicked="ClosePop" BackgroundColor="#269DC9" TextColor="White" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand"  WidthRequest="120"/>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
 
-        <cards:SfCardLayout IsVisible="{Binding Yshipphoto}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="0,2,0,2" x:Name="synfImageViewList1" VisibleCardIndex="{Binding VisibleCardInx}" BindableLayout.ItemsSource="{Binding imageViews1}" ShowSwipedCard="True" VisibleCardIndexChanged="SynfImageViewList1_VisibleCardIndexChanged" VerticalOptions="Center" BackgroundColor="White">
-            <BindableLayout.ItemTemplate>
-                <DataTemplate>
-                    <cards:SfCardView>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="0.20*"/>
-                            </Grid.RowDefinitions>
-                            <forms1:CachedImage Grid.Row="0" Source="{Binding FileURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-                            <StackLayout Orientation="Vertical" Grid.Row="1" Padding="20,0,5,2" x:Name="Description_Stack" >
-                                <Label Text="{Binding FullName}"   TextColor="Black" FontSize="Medium" />
-                                <Label Text="{Binding UploadedDate}"   TextColor="Black" FontSize="Medium" />
-                            </StackLayout>
-                        </Grid>
-                    </cards:SfCardView>
-                </DataTemplate>
-            </BindableLayout.ItemTemplate>
-        </cards:SfCardLayout>
+            <cards:SfCardLayout Grid.Row="1" IsVisible="{Binding Yshipphoto}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="0,2,0,2" x:Name="synfImageViewList1" VisibleCardIndex="{Binding VisibleCardInx}" BindableLayout.ItemsSource="{Binding imageViews1}" ShowSwipedCard="True" VisibleCardIndexChanged="SynfImageViewList1_VisibleCardIndexChanged" VerticalOptions="Center" BackgroundColor="White">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <cards:SfCardView>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0.20*"/>
+                                </Grid.RowDefinitions>
+                                <forms1:CachedImage Grid.Row="0" Source="{Binding FileURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                                <StackLayout Orientation="Vertical" Grid.Row="1" Padding="20,0,5,2" x:Name="Description_Stack" >
+                                    <Label Text="{Binding FullName}"   TextColor="Black" FontSize="Medium" />
+                                    <Label Text="{Binding UploadedDate}"   TextColor="Black" FontSize="Medium" />
+                                </StackLayout>
+                            </Grid>
+                        </cards:SfCardView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </cards:SfCardLayout>
+
+        </Grid>
+
     </AbsoluteLayout>
 </ContentPage>

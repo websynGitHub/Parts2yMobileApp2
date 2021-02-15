@@ -7,20 +7,24 @@
              xmlns:sflistView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:badge ="clr-namespace:Syncfusion.XForms.BadgeView;assembly=Syncfusion.SfBadgeView.XForms"
              x:Class="YPS.Views.ChatUsers"
-             BackgroundColor="White"
+             BackgroundColor="#E9E9E9"
              xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
              NavigationPage.HasNavigationBar="False"
-             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms">
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             >
 
     <ContentPage.Content>
         <AbsoluteLayout>
-            <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
+            <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="Transparent">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="{OnPlatform iOS=70,Android=55}"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}">
+                <Grid Grid.Row="0" RowSpacing="5" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}" 
+                      HorizontalOptions="FillAndExpand" VerticalOptions="Start"
+                          RowDefinitions="*">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="*"/>
@@ -28,8 +32,17 @@
                         <ColumnDefinition Width="38"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackTapped"/>
-                    <Grid Grid.Column="1" RowSpacing="0">
+                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BackTapped"/>
+                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                    </LblIcons:FontAwesomeIconLabel>
+                    <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackTapped" BackgroundColor="Green"/>-->
+                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                              HorizontalOptions="StartAndExpand" IsVisible="{Binding IsGroupAndUserNameVisible}"
+                                        VerticalOptions="CenterAndExpand">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="20"/>
@@ -37,12 +50,13 @@
                         <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
                         <Label Grid.Row="1" x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
                     </Grid>
-                    <LblIcons:FontAwesomeIconLabel Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">
+                    <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding QnACloseICmd}"/>
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
-                    <badge:SfBadgeView Grid.Column="3" BadgeText="{Binding bgcount}" IsVisible="{Binding adduserIcon}" Padding="{OnPlatform iOS='12,0,0,20',Android='5,0,0,20'}">
+                    <badge:SfBadgeView Grid.Row="0" Grid.Column="3" BadgeText="{Binding bgcount}" IsVisible="{Binding adduserIcon}" 
+                                       Padding="{OnPlatform iOS='12,0,0,20',Android='5,0,0,20'}">
                         <badge:SfBadgeView.Content>
                             <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.UserCountIc}" Style="{StaticResource LblIconStyle}">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -54,15 +68,18 @@
                             <badge:BadgeSetting BadgeType="Error" Offset="{OnPlatform iOS='-5,5',Android='5,10'}"/>
                         </badge:SfBadgeView.BadgeSettings>
                     </badge:SfBadgeView>
-                    <LblIcons:FontAwesomeIconLabel Grid.Column="4" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                    <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="4" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             <TapGestureRecognizer Tapped="GoToHomePageTapped"/>
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                 </Grid>
-                <StackLayout Grid.Row="1" x:Name="Userstack" Padding="8,8,8,0" IsVisible="{Binding addchatUserStack,Mode=TwoWay}">
-                    <Frame Style="{StaticResource FrameStyleForFileUpload}" HeightRequest="45">
-                        <Grid RowSpacing="0" VerticalOptions="CenterAndExpand">
+                
+                <StackLayout Grid.Row="1" x:Name="Userstack" IsVisible="{Binding addchatUserStack,Mode=TwoWay}" 
+                             HorizontalOptions="Center" Margin="2,0,2,0">
+                    <Frame Style="{StaticResource FrameStyleForFileUpload}" HeightRequest="45" HorizontalOptions="FillAndExpand"
+                           >
+                        <Grid RowSpacing="0" VerticalOptions="FillAndExpand">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="45"/>
                             </Grid.RowDefinitions>
@@ -71,10 +88,12 @@
                                 <ColumnDefinition x:Name="UpdateBtnTittleClmWidth" Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <local2:MyEntry Grid.Row="0" Grid.Column="0" x:Name="Title_entry" Text="{Binding GroupName,Mode=TwoWay}" 
-                                            TextColor="Black" Placeholder="{Binding labelobjdefval.qatitle}" HorizontalOptions="FillAndExpand"/>
+                                            TextColor="Black" Placeholder="{Binding labelobjdefval.qatitle}"
+                                            HorizontalOptions="FillAndExpand" Style="{StaticResource EntryTextStyle}"/>
                            
                             <sfbuttons:SfButton Grid.Row="0" Grid.Column="1" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
-                                                HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="40">
+                                                HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="40"
+                                                BackgroundColor="DarkGreen">
                                 <sfbuttons:SfButton.Content>
                                   
                                     <StackLayout Style="{StaticResource StackInSfButton}">
@@ -91,55 +110,102 @@
                             </sfbuttons:SfButton>
                         </Grid>
                     </Frame>
-                    <StackLayout x:Name="StartUser" BackgroundColor="White" VerticalOptions="FillAndExpand">
-                        <ScrollView VerticalOptions="FillAndExpand">
-                            <sflistView:SfListView x:Name="ChatUserlist" VerticalOptions="FillAndExpand" ItemsSource="{Binding UserListCollections}" BackgroundColor="White" IsScrollBarVisible="True" AutoFitMode="Height">
+                   
+                    <Grid x:Name="StartUser" BackgroundColor="White" VerticalOptions="FillAndExpand"
+                                RowDefinitions="*,50" >
+                        <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
+                            <sflistView:SfListView x:Name="ChatUserlist" VerticalOptions="FillAndExpand" 
+                                                   ItemsSource="{Binding UserListCollections}" BackgroundColor="White" 
+                                                   IsScrollBarVisible="True" AutoFitMode="Height">
                                 <sflistView:SfListView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackLayout Padding="5">
-                                            <sfchecks:SfCheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" IsChecked="{Binding check}" ClassId="{Binding UserID,Mode=TwoWay}" StateChanged="CheckBoxCheckChanged"/>
+                                        <StackLayout Padding="4,5,0,5">
+                                            <sfchecks:SfCheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
+                                                                 Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
+                                                                 IsChecked="{Binding check}" ClassId="{Binding UserID,Mode=TwoWay}" 
+                                                                 StateChanged="CheckBoxCheckChanged" 
+                                                                 Style="{StaticResource SfCheckBoxTextStyle}"/>
+                                            <!--<input:CheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
+                                                                 Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
+                                                                 IsChecked="{Binding check}" ClassId="{Binding UserID,Mode=TwoWay}" 
+                                                                 CheckChanged="CheckBoxCheckChanged" 
+                                                                 Style="{StaticResource SfCheckBoxTextStyle}"/>-->
                                         </StackLayout>
                                     </DataTemplate>
                                 </sflistView:SfListView.ItemTemplate>
                             </sflistView:SfListView>
                         </ScrollView>
-                    </StackLayout>
+                        
+                        <Grid x:Name="Startstack" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
+                                 Margin="4,0,4,4" Grid.Row="1" >
+
+                            <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="0"
+                                            Text="{Binding labelobjdefval.closeQAStart}" Clicked="CancelClicked1"
+                                             Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+
+                            <sfbuttons:SfButton  x:Name="nameStartChat"  HorizontalOptions="FillAndExpand" Grid.Column="1"
+                                             Text="{Binding labelobjdefval.startQA}" Clicked="AddToChatClicked"
+                                            Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+                        </Grid>
+                    </Grid>
                    
-                    <StackLayout x:Name="Adduser" BackgroundColor="White" Padding="5" VerticalOptions="FillAndExpand">
-                        <ListView BackgroundColor="White" x:Name="Userlist" ItemsSource="{Binding UserListCollections,Mode=TwoWay}" SeparatorColor="Transparent" RowHeight="40" IsEnabled="True">
+                    <StackLayout x:Name="Adduser" BackgroundColor="White"  VerticalOptions="FillAndExpand"
+                               Margin="4,0,4,0"  >
+                        <ListView BackgroundColor="White" x:Name="Userlist"
+                                  ItemsSource="{Binding UserListCollections,Mode=TwoWay}"
+                                  SeparatorColor="Transparent" RowHeight="40" IsEnabled="True">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <Grid Padding="3,0,3,0">
+                                        <Grid Padding="0,0,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="40"/>
                                             </Grid.ColumnDefinitions>
-                                            <Label x:Name="usernme" Margin="5,0,0,0" Grid.Column="0" Text="{Binding FullName}"  HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center" ClassId="{Binding UserID}"/>
-                                            <LblIcons:FontAwesomeIconLabel x:Name="adduser" Grid.Column="1" Text="{Binding img}" TextColor="{Binding IconColor}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End" VerticalOptions="Center" ClassId="{Binding UserID}"/>
+                                            <Label x:Name="usernme" Margin="5,0,0,0" Grid.Column="0" Text="{Binding FullName}"
+                                                   HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center" 
+                                                   ClassId="{Binding UserID}" Style="{DynamicResource LableWithMediumFontt}"/>
+                                            <LblIcons:FontAwesomeIconLabel x:Name="adduser" Grid.Column="1" Text="{Binding img}" 
+                                                                           TextColor="{Binding IconColor}" 
+                                                                           Style="{StaticResource LblIconStyleForList}" 
+                                                                           HorizontalOptions="End" VerticalOptions="Center" 
+                                                                           ClassId="{Binding UserID}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" x:Name="Startstack" HorizontalOptions="CenterAndExpand" Margin="20,0,20,20">
+                    
+                    <!--<Grid x:Name="Startstack" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
+                                 Margin="4,0,4,4" HeightRequest="50" >
 
-                        <sfbuttons:SfButton  Text="{Binding labelobjdefval.closeQAStart}" Clicked="CancelClicked1"
-                                             Style="{StaticResource SfBtnRed}">
+                        <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="0"
+                                            Text="{Binding labelobjdefval.closeQAStart}" Clicked="CancelClicked1"
+                                             Style="{StaticResource SfBtnRed}" >
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
 
-                        <sfbuttons:SfButton  x:Name="nameStartChat" Text="{Binding labelobjdefval.startQA}" Clicked="AddToChatClicked"
+                        <sfbuttons:SfButton  x:Name="nameStartChat"  HorizontalOptions="FillAndExpand" Grid.Column="1"
+                                             Text="{Binding labelobjdefval.startQA}" Clicked="AddToChatClicked"
                                             Style="{StaticResource SfBtnBlue}">
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
-                    </StackLayout>
+                    </Grid>-->
                 </StackLayout>
+                
                 <StackLayout Grid.Row="1" IsVisible="{Binding QnACloseStack,Mode=TwoWay}">
 
                     <Grid>
@@ -151,9 +217,10 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Text="To mark as Q&amp;A Closed, Please click on Q&amp;A Close." FontAttributes="Bold" FontSize="Large" Margin="20" HorizontalOptions="Center"/>
+                        <Label Grid.Row="0" Text="To mark as Q&amp;A Closed, Please click on Q&amp;A Close." FontAttributes="Bold"
+                               Margin="20" HorizontalOptions="Center"  Style="{StaticResource LableWithQuestionFont}" />
 
-                        <sfbuttons:SfButton x:Name="nameQAClosebtn" Grid.Row="1"
+                        <sfbuttons:SfButton x:Name="nameQAClosebtn" Grid.Row="1" BackgroundColor="{Binding BgColor}"
                                             Text="{Binding labelobjdefval.closeQA}" Clicked="QnAClose" HorizontalOptions="Center" 
                                             Style="{StaticResource SfBtnBlue}">
                             <sfbuttons:SfButton.Behaviors>

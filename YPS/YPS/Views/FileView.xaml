@@ -6,7 +6,7 @@
              x:Class="YPS.Views.FileView" BackgroundColor="White">
 
     <NavigationPage.TitleView >
-        <Grid>
+        <Grid BackgroundColor="Green">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -31,6 +31,7 @@
                             <StackLayout Orientation="Vertical" Grid.Row="1" Padding="20,0,5,2" x:Name="Description_Stack" >
                                 <Label Text="{Binding Name}"   TextColor="Black" FontSize="Medium" />
                                 <Label Text="{Binding MessagDateTime}"   TextColor="Black" FontSize="Medium" />
+                                <Label Text="{Binding FileNameWithoutExtention}"   TextColor="Black" FontSize="Medium" />
                             </StackLayout>
                         </Grid>
                     </cards:SfCardView>

@@ -2,9 +2,9 @@
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:local="clr-namespace:YPS.Parts2y.Parts2y_View_Models"
-                  xmlns:local1="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
-                  xmlns:local2="clr-namespace:YPS.Parts2y.Parts2y_Common_Classes"
-                  x:Class="YPS.Parts2y.Parts2y_Views.MenuPage" MasterBehavior="Popover">
+                  xmlns:local1="clr-namespace:YPS.CustomRenders" 
+                  xmlns:local2="clr-namespace:YPS.CommonClasses"
+                  x:Class="YPS.Parts2y.Parts2y_Views.MenuPage" x:Name="menupage" MasterBehavior="Popover">
     <MasterDetailPage.Master>
         <ContentPage AutomationId="AutoMenuOpen" Title="menu"  >
             <ContentPage.IconImageSource>
@@ -18,9 +18,12 @@
             <ContentPage.Padding>
                 <OnPlatform Android="0,0,0,0" iOS="0,20,0,0"/>
             </ContentPage.Padding>
+            
             <ContentPage.BindingContext>
                 <local:MenuViewModel/>
             </ContentPage.BindingContext>
+            
+            
             <StackLayout BackgroundColor="{Binding BgColor}">
                 <Grid BackgroundColor="White" RowSpacing="0">
                     <Grid.Padding>
@@ -31,7 +34,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Image Source="ypslogo12.png" Aspect="AspectFit" Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" />
@@ -41,7 +44,7 @@
                         <Label Text="{Binding EntityName,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}"/>
                     </StackLayout>
                 </Grid>
-                <ListView x:Name="menuList" BackgroundColor="{Binding BgColor}"   ItemsSource="{Binding MenuItems}" ItemTapped="MenuItems_ItemTapped" RowHeight="{OnPlatform iOS='50'}" SeparatorColor="White" Footer="" >
+                <ListView x:Name="menuList" BackgroundColor="{Binding BgColor}" ItemsSource="{Binding MenuItems}" ItemTapped="MenuItems_ItemTapped" RowHeight="{OnPlatform iOS='50'}" SeparatorColor="White" Footer="" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -60,6 +63,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-        </ContentPage>    
+        </ContentPage>
     </MasterDetailPage.Master>
 </MasterDetailPage>

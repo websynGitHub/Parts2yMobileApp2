@@ -10,7 +10,7 @@
                        BackgroundColor="Transparent"
                        xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
                        xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <local1:DateConverter x:Key="DateConverter" />
@@ -22,20 +22,31 @@
         <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Source="chatbg2.png" Aspect="AspectFill"/>
         <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{OnPlatform iOS=70 , Android=55}"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" Padding="{OnPlatform iOS='0,12,0,0',Android='0,0,0,0'}">
+            <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" 
+                  Padding="{OnPlatform iOS='0,12,0,0',Android='0,0,0,0'}" BackgroundColor="{Binding BgColor}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"  Style="{StaticResource BackNavBtn}" x:Name="Backchathide" Clicked="BackTapped"/>
-                <Grid Grid.Column="1" RowSpacing="0">
+                <LblIcons:FontAwesomeIconLabel x:Name="Backchathide" Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Column="0"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="12,10,10,10">
+                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackTapped"/>
+                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                </LblIcons:FontAwesomeIconLabel>
+                <!--<Button Grid.Column="0"  Style="{StaticResource BackNavBtn}" x:Name="Backchathide"
+                        Clicked="BackTapped" />-->
+                <Grid Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                              HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="CenterAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="20"/>
@@ -72,8 +83,12 @@
                 </LblIcons:FontAwesomeIconLabel>
             </Grid>
 
-            <StackLayout Grid.Row="1" x:Name="ChatStack" IsVisible="False">
-                <ListView x:Name="messageList" HasUnevenRows="True" BackgroundColor="Transparent" SeparatorVisibility="None" ItemTemplate="{StaticResource MessageTemplateSelector}" ItemTapped="MessageListItemSelected"   GroupDisplayBinding="{Binding Key,Converter={StaticResource DateConverter}}" IsGroupingEnabled="True">
+            <StackLayout Grid.Row="1" x:Name="ChatStack" IsVisible="False" Padding="6,0,6,4">
+                <ListView x:Name="messageList" HasUnevenRows="True" BackgroundColor="Transparent"
+                          SeparatorVisibility="None" ItemTemplate="{StaticResource MessageTemplateSelector}" 
+                          ItemTapped="MessageListItemSelected"  
+                          GroupDisplayBinding="{Binding Key,Converter={StaticResource DateConverter}}" 
+                          IsGroupingEnabled="True">
                     <ListView.GroupHeaderTemplate>
                         <DataTemplate>
                             <local21:MyViewCell ios:Cell.DefaultBackgroundColor="#e5ddd5" >
@@ -92,17 +107,31 @@
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="5"/>
                                 <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <local21:MyEditor VerticalOptions="FillAndExpand" AutoSize="TextChanges" Keyboard="Chat" IsVisible="{Binding BaseOnPlatformEditorShowAndroid}" Grid.Column="0" x:Name="message_entry" TextColor="Black" Placeholder="Enter your message" PlaceholderColor="Gray" Text="{Binding ChatMessage.Message}" BackgroundColor="White"/>
-                            <local21:MyEditor VerticalOptions="FillAndExpand" IsVisible="{Binding BaseOnPlatformEditorShowiOS}"  Grid.Column="0" x:Name="message_entry_iOS" TextColor="Black" Placeholder="Enter your message" PlaceholderColor="Gray" Text="{Binding ChatMessage.Message}" BackgroundColor ="White"/>
+                            <local21:MyEditor VerticalOptions="FillAndExpand" AutoSize="TextChanges" Keyboard="Chat" 
+                                              IsVisible="{Binding BaseOnPlatformEditorShowAndroid}" Grid.Column="0" x:Name="message_entry"
+                                              TextColor="Black" Placeholder="Enter your message" PlaceholderColor="Gray"
+                                              Text="{Binding ChatMessage.Message}" BackgroundColor="White" Style="{StaticResource EditorTextStyle}"/>
+                            <local21:MyEditor VerticalOptions="FillAndExpand" IsVisible="{Binding BaseOnPlatformEditorShowiOS}"  
+                                              Grid.Column="0" x:Name="message_entry_iOS" TextColor="Black" 
+                                              Placeholder="Enter your message" PlaceholderColor="Gray" Style="{StaticResource EditorTextStyle}"
+                                              Text="{Binding ChatMessage.Message}" BackgroundColor ="White"/>
                             <LblIcons:FontAwesomeIconLabel IsVisible="{Binding IsEmailenable}" Grid.Column="1" Opacity="5" Text="{Static StaticIcons:Icons.MailIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SendEmailImageCommand}"/>
                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             </LblIcons:FontAwesomeIconLabel>
-                            <LblIcons:FontAwesomeIconLabel Grid.Column="3" Opacity="5" Text="{Static StaticIcons:Icons.FileAttachIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
+                            <LblIcons:FontAwesomeIconLabel Grid.Column="3" Opacity="5" x:Name="attachment"
+                                                           Text="{Static StaticIcons:Icons.FileAttachIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SendImageCommand}"/>
+                                    <TapGestureRecognizer Command="{Binding SendImageCommand}" CommandParameter="{x:Reference attachment}"/>
+                                </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            </LblIcons:FontAwesomeIconLabel>
+                            <LblIcons:FontAwesomeIconLabel Grid.Column="4" Opacity="5" x:Name="photo"
+                                                           Text="{Static StaticIcons:Icons.CameraIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
+                                <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SendImageCommand}" CommandParameter="{x:Reference photo}"/>
                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             </LblIcons:FontAwesomeIconLabel>
                         </Grid>

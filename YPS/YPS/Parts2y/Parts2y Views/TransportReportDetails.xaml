@@ -95,7 +95,9 @@
                         <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding AllTabVisibility}"/>
                     </StackLayout>
                 </Grid>
-                <ListView x:Name="InPrgrs_List" SelectedItem="{Binding VehicleDetails}" Grid.Row="2" BackgroundColor="Transparent" ItemsSource="{Binding InProgressList}" HasUnevenRows="True" Margin="8,5,8,8" SeparatorColor="Transparent">
+                <ListView x:Name="InPrgrs_List" SelectedItem="{Binding VehicleDetails}" Grid.Row="2"
+                          BackgroundColor="Transparent" ItemsSource="{Binding InProgressList}" 
+                          HasUnevenRows="True" Margin="8,5,8,8" SeparatorColor="Transparent">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

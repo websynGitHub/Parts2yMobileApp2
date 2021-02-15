@@ -59,7 +59,7 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                
+
                 service = new YPSService();// careating new instance of the YPSService, which is used to call AIP
                 Settings.currentPage = "QnAlistPage";
                 Settings.RedirectPageQA = "QnAlistPage";
@@ -86,7 +86,7 @@ namespace YPS.Views
                 MessagingCenter.Subscribe<string>("ChatconverPage", "Bindchatconvers", (sender) =>
                 {
                     chatUserList.ItemsSource = vm.UserConversations;
-                    
+
                     if (chatUserList.ItemsSource == null || vm.UserConversations.Count == 0)
                     {
                         vm.chatUserList = false;
@@ -182,19 +182,19 @@ namespace YPS.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GoToHomeTapped(object sender, EventArgs e)
-        {
-            try
-            {
-                Navigation.PopAsync();
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "GoToHomeTapped method -> in QnAlistPage.cs " + Settings.userLoginID);
-                service.Handleexception(ex);
-            }
+        //private void GoToHomeTapped(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        Navigation.PopAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        YPSLogger.ReportException(ex, "GoToHomeTapped method -> in QnAlistPage.cs " + Settings.userLoginID);
+        //        service.Handleexception(ex);
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// gets called when clicked on Back icon.
@@ -209,6 +209,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
+                Navigation.PopModalAsync();
                 YPSLogger.ReportException(ex, "BackTapped method -> in QnAlistPage.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }

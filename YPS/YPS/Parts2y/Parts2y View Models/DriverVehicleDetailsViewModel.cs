@@ -45,7 +45,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
 
                 Navigation = _Navigation;
-                BgColor = Settings.Bar_Background;
+                BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 ScanCommand = new Command(async () => await Scan_Tap());
                 ScantoCommand = new Command(async () => await Scanto_Tap());
                 QrCodeCommand = new Command(async () => await QRCode_Tap());
@@ -91,7 +91,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (Navigation.ModalStack.Count == 0 ||
                                        Navigation.ModalStack.Last().GetType() != typeof(BusSchedule))
                 {
-                    await Navigation.PushModalAsync(new BusSchedule());
+                    await Navigation.PushAsync(new BusSchedule());
                 }
             }
             catch (Exception ex)
@@ -162,7 +162,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                Navigation.PopModalAsync();
+                Navigation.PopAsync();
             }
             catch (Exception ex)
             {
@@ -251,7 +251,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Alert", "No data available", "OK");
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopAsync();
 
                 }
             }
@@ -345,7 +345,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     // Alert com o código escaneado
                     Device.BeginInvokeOnMainThread(() =>
                         {
-                            Navigation.PopModalAsync();
+                            Navigation.PopAsync();
                             if (result != null)
                             {
                                 if (Settings.VINNo == "MA3NFG81SJC-191204")
@@ -380,7 +380,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                         });
                     };
-                    await Navigation.PushModalAsync(ScannerPage);
+                    await Navigation.PushAsync(ScannerPage);
                 }
                 else
                 {
@@ -927,7 +927,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
 
-        private Color _BgColor;
+        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

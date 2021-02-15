@@ -16,6 +16,7 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 
 namespace YPS.ViewModel
@@ -183,7 +184,8 @@ namespace YPS.ViewModel
         {
             try
             {
-                await Navigation.PopAsync(true);
+                //await Navigation.PopAsync(true);
+                App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {

@@ -41,7 +41,7 @@ namespace YPS.ViewModels
         int count = 0;
         bool checkMail;
         public string gMessage = string.Empty, gGroupId = string.Empty, uploadType = string.Empty,
-            base64Picture = "", fileName, mediaFile, extension = "";
+            base64Picture = "", fileName, mediaFile, extension = "", fileNameWithoutExtention;
         #endregion
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace YPS.ViewModels
                     {
                         foreach (var item in chatPhotos.data)
                         {
-                            ChatMessageViewModel photoData = new ChatMessageViewModel() { Image = item.MessageBody, Name = item.FullName, MessagDateTime = item.CreatedDate.ToString() };
+                            ChatMessageViewModel photoData = new ChatMessageViewModel() { Image = item.MessageBody, Name = item.FullName, MessagDateTime = item.CreatedDate.ToString(), FileNameWithoutExtention = item.FileName };
                             photoList.Add(photoData);
                         }
                     }
@@ -385,18 +385,22 @@ namespace YPS.ViewModels
                     string FullFilename = null;
                     CMesssage sendchatdata = new CMesssage();
 
-                    if (MediaType.Trim().ToLower() == "photo")
-                    {
-                        FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
-                        BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatphotos), FullFilename, picStream);
-                        sendchatdata.MessageType = "P";
-                    }
-                    else
-                    {
-                        FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
-                        BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatfiles), FullFilename, picStream);
-                        sendchatdata.MessageType = "F";
-                    }
+                    FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
+                    BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatfiles), FullFilename, picStream);
+                    sendchatdata.MessageType = (MediaType.Trim().ToLower()) == "photo" ? "P" : "F";
+
+                    //if (MediaType.Trim().ToLower() == "photo")
+                    //{
+                    //    FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
+                    //    BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatfiles), FullFilename, picStream);
+                    //    sendchatdata.MessageType = "P";
+                    //}
+                    //else
+                    //{
+                    //    FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
+                    //    BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatfiles), FullFilename, picStream);
+                    //    sendchatdata.MessageType = "F";
+                    //}
 
                     if (Chat.Count <= 0)
                     {
@@ -411,7 +415,7 @@ namespace YPS.ViewModels
                     sendchatdata.MessageBody = FullFilename;
                     sendchatdata.CreatedDate = DateTime.Now;
                     sendchatdata.QAType = Settings.QAType;
-
+                    sendchatdata.FileName = fileNameWithoutExtention;
                     await chatServices.Send(sendchatdata);
                     SaveMessageInDB(sendchatdata);
 
@@ -492,82 +496,134 @@ namespace YPS.ViewModels
         /// <summary>
         /// Gets called when clicked on camera icon, to Capture/Choose photo
         /// </summary>
-        public async void ExecuteSendImageCommand()
+        public async void ExecuteSendImageCommand(object commandfrom)
         {
             YPSLogger.TrackEvent("ChatViewModel", "in ExecuteSendImageCommand method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
             try
             {
+                var label = commandfrom as Label;
                 try
                 {
                     //Checking for the OS of teh device
                     if (Device.RuntimePlatform == Device.Android)
                     {
-                        string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery", "Document"); //"Document"
-
-                        if (action.Trim().ToLower() == "camera")
+                        if (label.StyleId == "photo")
                         {
-                            IndicatorVisibility = true;
+                            string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery"); //Only Photo
 
-                            if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+                            if (action.Trim().ToLower() == "camera")
                             {
-                                // Supply media options for saving our photo after it's taken.
-                                var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                                IndicatorVisibility = true;
+
+                                if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
                                 {
-                                    PhotoSize = PhotoSize.Custom,
-                                    CustomPhotoSize = Settings.PhotoSize,
-                                    CompressionQuality = Settings.CompressionQuality
-                                };
-
-                                // Take a photo of the business receipt.
-                                var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
-
-                                if (file != null)
-                                {
-                                    IndicatorVisibility = false;
-                                    extension = System.IO.Path.GetExtension(file.Path);
-                                    picStream = file.GetStreamWithImageRotatedForExternalStorage();//GetStream();
-                                    fileName = System.IO.Path.GetFileName(file.Path);// Get the file name
-                                    mediaFile = file.Path;
-
-                                    if (picStream != null)
+                                    // Supply media options for saving our photo after it's taken.
+                                    var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
                                     {
-                                        selectPhoto("Photo");
+                                        PhotoSize = PhotoSize.Custom,
+                                        CustomPhotoSize = Settings.PhotoSize,
+                                        CompressionQuality = Settings.CompressionQuality
+                                    };
+
+                                    // Take a photo of the business receipt.
+                                    var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
+
+                                    if (file != null)
+                                    {
+                                        IndicatorVisibility = false;
+                                        extension = System.IO.Path.GetExtension(file.Path);
+                                        picStream = file.GetStreamWithImageRotatedForExternalStorage();//GetStream();
+                                        fileName = System.IO.Path.GetFileName(file.Path);// Get the file name
+                                        mediaFile = file.Path;
+                                        fileNameWithoutExtention = Path.GetFileNameWithoutExtension(file.Path);
+
+                                        if (picStream != null)
+                                        {
+                                            selectPhoto("Photo");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        await App.Current.MainPage.DisplayAlert("Oops", "File not available at location.", "OK");
                                     }
                                 }
                                 else
                                 {
-                                    await App.Current.MainPage.DisplayAlert("Oops", "File not available at location.", "OK");
+                                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "OK");
                                 }
                             }
-                            else
+                            else if (action.Trim().ToLower() == "gallery")
                             {
-                                await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "OK");
+                                if (!CrossMedia.Current.IsPickPhotoSupported)
+                                {
+                                    await App.Current.MainPage.DisplayAlert("Permissions Denied", "Unable to pick photos.", "OK");
+                                    return;
+                                }
+                                else
+                                {
+                                    SendImageFromGallery();
+                                }
+                                IndicatorVisibility = false;
                             }
-                        }
-                        else if (action.Trim().ToLower() == "gallery")
-                        {
-                            if (!CrossMedia.Current.IsPickPhotoSupported)
+                            //else if (action.Trim().ToLower() == "document")
+                            //{
+                            //    var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+                            //    var requestedPermissionStatus = requestedPermissions[Permission.Storage];
+                            //    var pass1 = requestedPermissions[Permission.Storage];
+
+                            //    if (pass1 != PermissionStatus.Denied)
+                            //    {
+                            //        FileData fileData = await CrossFilePicker.Current.PickFile();
+
+                            //        if (fileData == null)
+                            //            return; /// user canceled file picking
+
+                            //        string AndroidfileName = fileData.FileName;
+                            //        string AndroidfilePath = fileData.FilePath;
+                            //        extension = Path.GetExtension(AndroidfilePath).ToLower();
+
+                            //        if (extension == "")
+                            //        {
+                            //            extension = Path.GetExtension(AndroidfileName).ToLower();
+                            //        }
+
+                            //        picStream = fileData.GetStream();
+                            //        IndicatorVisibility = true;
+                            //        if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                            //        {
+                            //            if (picStream != null)
+                            //            {
+                            //                selectPhoto("Document");
+                            //            }
+                            //        }
+                            //        else
+                            //        {
+                            //            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "OK");
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings");
+                            //    }
+                            //}
+
+                            if (file == null)
                             {
-                                await App.Current.MainPage.DisplayAlert("Permissions Denied", "Unable to pick photos.", "OK");
+                                IndicatorVisibility = false;
                                 return;
                             }
-                            else
-                            {
-                                SendImageFromGallery();
-                            }
-                            IndicatorVisibility = false;
                         }
-                        else if (action.Trim().ToLower() == "document")
+                        else
                         {
                             var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
                             var requestedPermissionStatus = requestedPermissions[Permission.Storage];
                             var pass1 = requestedPermissions[Permission.Storage];
-                           
+
                             if (pass1 != PermissionStatus.Denied)
                             {
                                 FileData fileData = await CrossFilePicker.Current.PickFile();
-                                
+
                                 if (fileData == null)
                                     return; /// user canceled file picking
 
@@ -599,78 +655,76 @@ namespace YPS.ViewModels
                                 DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings");
                             }
                         }
-
-                        if (file == null)
-                        {
-                            IndicatorVisibility = false;
-                            return;
-                        }
                     }
                     else
                     {
-                        string action = await App.Current.MainPage.DisplayActionSheet("Select", "Cancel", null, "Camera", "Gallery", "Document"); //"Document"
-                        
-                        switch (action)
+                        if (label.StyleId == "photo")
                         {
-                            case "Camera":
+                            string action = await App.Current.MainPage.DisplayActionSheet("Select", "Cancel", null, "Camera", "Gallery"); //Only Photo
 
-                                if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
-                                {
-                                    var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                            switch (action)
+                            {
+                                case "Camera":
+
+                                    if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
                                     {
-
-                                        PhotoSize = PhotoSize.Custom,
-                                        CustomPhotoSize = Settings.PhotoSize,
-                                        CompressionQuality = Settings.CompressionQuality
-                                    };
-                                    var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
-
-                                    if (file != null)
-                                    {
-                                        extension = System.IO.Path.GetExtension(file.Path);
-                                        fileName = System.IO.Path.GetFileName(file.Path);
-                                        picStream = file.GetStreamWithImageRotatedForExternalStorage();
-                                        mediaFile = file.Path;
-
-                                        if (picStream != null)
+                                        var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
                                         {
-                                            selectPhoto("Photo");
+
+                                            PhotoSize = PhotoSize.Custom,
+                                            CustomPhotoSize = Settings.PhotoSize,
+                                            CompressionQuality = Settings.CompressionQuality
+                                        };
+                                        var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
+
+                                        if (file != null)
+                                        {
+                                            extension = System.IO.Path.GetExtension(file.Path);
+                                            fileName = System.IO.Path.GetFileName(file.Path);
+                                            picStream = file.GetStreamWithImageRotatedForExternalStorage();
+                                            mediaFile = file.Path;
+                                            fileNameWithoutExtention = Path.GetFileNameWithoutExtension(file.Path);
+
+                                            if (picStream != null)
+                                            {
+                                                selectPhoto("Photo");
+                                            }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "OK");
-                                }
-
-                                break;
-                            case "Gallery":
-                                SendImageFromGallery();
-                                break;
-                            case "Document":
-
-                                FileData fileDataForiOS = await CrossFilePicker.Current.PickFile();
-
-                                if (fileDataForiOS == null)
-                                    return; /// user canceled file picking
-
-                                string iOSfileName = fileDataForiOS.FileName;
-                                string iOSfilePath = fileDataForiOS.FilePath;
-                                extension = Path.GetExtension(iOSfilePath).ToLower();
-                                picStream = fileDataForiOS.GetStream();
-
-                                if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
-                                {
-                                    if (picStream != null)
+                                    else
                                     {
-                                        selectPhoto("Document");
+                                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "OK");
                                     }
-                                }
-                                else
+
+                                    break;
+                                case "Gallery":
+                                    SendImageFromGallery();
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            FileData fileDataForiOS = await CrossFilePicker.Current.PickFile();
+
+                            if (fileDataForiOS == null)
+                                return; /// user canceled file picking
+
+                            string iOSfileName = fileDataForiOS.FileName;
+                            string iOSfilePath = fileDataForiOS.FilePath;
+                            extension = Path.GetExtension(iOSfilePath).ToLower();
+                            picStream = fileDataForiOS.GetStream();
+
+                            if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                            {
+                                if (picStream != null)
                                 {
-                                    await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "OK");
+                                    selectPhoto("Document");
                                 }
-                                break;
+                            }
+                            else
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "OK");
+                            }
                         }
                     }
                 }
@@ -720,6 +774,7 @@ namespace YPS.ViewModels
                 fileName = System.IO.Path.GetFileName(file.Path);
                 mediaFile = file.Path;
                 extension = System.IO.Path.GetExtension(file.Path);
+                fileNameWithoutExtention = Path.GetFileNameWithoutExtension(file.Path);
 
                 if (picStream != null)
                 {
@@ -838,6 +893,17 @@ namespace YPS.ViewModels
         }
 
         #region Properties
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                NotifyPropertyChanged("BgColor");
+            }
+        }
+
         private ObservableCollection<ChatMessageViewModel> _chat;
         private ObservableCollection<ObservableGroupCollection<DateTime, ChatMessageViewModel>> chat1;
 

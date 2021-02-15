@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YPS.Helpers;
 using YPS.Parts2y.Parts2y_Common_Classes;
 using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
@@ -85,6 +86,22 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
 
+            }
+        }
+
+        /// <summary>
+        /// Gets called when back icon is clicked, to redirect  to the previous page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Back_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
             }
         }
 

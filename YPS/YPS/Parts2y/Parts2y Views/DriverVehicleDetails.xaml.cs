@@ -31,7 +31,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 //md.Name = "FROM";
                 md.Name = Settings.Scanfromtext;
                 md.Address = Settings.Scanfromdscr;
-                 mapview(md);
+                mapview(md);
             }
             catch (Exception ex)
             {
@@ -69,59 +69,59 @@ namespace YPS.Parts2y.Parts2y_Views
                 customMap.CustomPins = new List<CustomPin>();
 
                 var latitudes = new List<double>();
-                    var longitudes = new List<double>();
+                var longitudes = new List<double>();
 
-                    if (ovmAppointmentSlots.Latitude != 0)
+                if (ovmAppointmentSlots.Latitude != 0)
+                {
+                    int ColorNumber = 0;
+                    string HexaColor = string.Empty;
+                    if (ovmAppointmentSlots.SlotColor.ToLower().Contains("marker.png"))
                     {
-                        int ColorNumber = 0;
-                        string HexaColor = string.Empty;
-                        if (ovmAppointmentSlots.SlotColor.ToLower().Contains("marker.png"))
-                        {
-                            ColorNumber = 0;
-                            HexaColor = "red";
-                        }
-                        latitudes.Add(Convert.ToDouble(ovmAppointmentSlots.Latitude));
-                        longitudes.Add(Convert.ToDouble(ovmAppointmentSlots.Longitude));
+                        ColorNumber = 0;
+                        HexaColor = "red";
+                    }
+                    latitudes.Add(Convert.ToDouble(ovmAppointmentSlots.Latitude));
+                    longitudes.Add(Convert.ToDouble(ovmAppointmentSlots.Longitude));
 
-                        var pin = new CustomPin
-                        {
-                            Type = PinType.Place,
-                            //gvmPatientAppointments = gvmPatientAppointments,
-                            Position = new Position(Convert.ToDouble(ovmAppointmentSlots.Latitude), Convert.ToDouble(ovmAppointmentSlots.Longitude)),
-                            Label = ovmAppointmentSlots.Name,
-                            Address=ovmAppointmentSlots.Address,// + "(SGD " + ovmAppointmentSlots.AvailableSlots[i].Price + ")",
-                            BindingContext = ovmAppointmentSlots,
-                            ColorNumber = ColorNumber,
-                            // ScanCentreImage = GlobalSettings.ScanCentreIcon_UAT+ ((!String.IsNullOrEmpty(ovmAppointmentSlots.AvailableSlots[i].LogoName))? ovmAppointmentSlots.AvailableSlots[i].LogoName: "favicon.ico"),
-                            hexStrin = HexaColor,
+                    var pin = new CustomPin
+                    {
+                        Type = PinType.Place,
+                        //gvmPatientAppointments = gvmPatientAppointments,
+                        Position = new Position(Convert.ToDouble(ovmAppointmentSlots.Latitude), Convert.ToDouble(ovmAppointmentSlots.Longitude)),
+                        Label = ovmAppointmentSlots.Name,
+                        Address = ovmAppointmentSlots.Address,// + "(SGD " + ovmAppointmentSlots.AvailableSlots[i].Price + ")",
+                        BindingContext = ovmAppointmentSlots,
+                        ColorNumber = ColorNumber,
+                        // ScanCentreImage = GlobalSettings.ScanCentreIcon_UAT+ ((!String.IsNullOrEmpty(ovmAppointmentSlots.AvailableSlots[i].LogoName))? ovmAppointmentSlots.AvailableSlots[i].LogoName: "favicon.ico"),
+                        hexStrin = HexaColor,
 
-                        };
-                        customMap.Pins.Clear();
-                        customMap.Pins.Add(pin);
-                        customMap.CustomPins.Add(pin);
-                        MapGrid.Children.Add(customMap);
+                    };
+                    customMap.Pins.Clear();
+                    customMap.Pins.Add(pin);
+                    customMap.CustomPins.Add(pin);
+                    MapGrid.Children.Add(customMap);
                     pin.MarkerClicked += Pins_Clicked;
-                        //customMap.Navigation = this.Navigation;
-                    }
-                    double lowestLat = latitudes.Min();
-                    double highestLat = latitudes.Max();
-                    double lowestLong = longitudes.Min();
-                    double highestLong = longitudes.Max();
-                    double finalLat = (lowestLat + highestLat) / 2;
-                    double finalLong = (lowestLong + highestLong) / 2;
-                    double distance = GeoCodeCalc.CalcDistance(lowestLat, lowestLong, highestLat, highestLong, GeoCodeCalcMeasurement.Kilometers);
+                    //customMap.Navigation = this.Navigation;
+                }
+                double lowestLat = latitudes.Min();
+                double highestLat = latitudes.Max();
+                double lowestLong = longitudes.Min();
+                double highestLong = longitudes.Max();
+                double finalLat = (lowestLat + highestLat) / 2;
+                double finalLong = (lowestLong + highestLong) / 2;
+                double distance = GeoCodeCalc.CalcDistance(lowestLat, lowestLong, highestLat, highestLong, GeoCodeCalcMeasurement.Kilometers);
 
 
-                    if (ovmAppointmentSlots.Latitude == 0)
-                    {
-                        //customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(latitudes.FirstOrDefault(), longitudes.FirstOrDefault()), Distance.FromKilometers(10)));
-                        customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(Convert.ToDouble("28.4977705"), Convert.ToDouble("77.0719749")), Distance.FromMeters(100)));
+                if (ovmAppointmentSlots.Latitude == 0)
+                {
+                    //customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(latitudes.FirstOrDefault(), longitudes.FirstOrDefault()), Distance.FromKilometers(10)));
+                    customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(Convert.ToDouble("28.4977705"), Convert.ToDouble("77.0719749")), Distance.FromMeters(100)));
 
-                    }
-                    else
-                    {
-                        customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(finalLat, finalLong), Distance.FromMeters(100)));
-                    }
+                }
+                else
+                {
+                    customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(finalLat, finalLong), Distance.FromMeters(100)));
+                }
                 //}
                 //else
                 //{
@@ -146,6 +146,16 @@ namespace YPS.Parts2y.Parts2y_Views
         private void QrCodeCommand(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Gets called when clicked on "Home" icon.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GoToHome_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PopToRootAsync();
         }
     }
 }

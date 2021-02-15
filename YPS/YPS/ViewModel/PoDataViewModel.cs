@@ -1165,20 +1165,6 @@ namespace YPS.ViewModel
                 SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
                 SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
                 SaveUserDS.BagNo = Settings.BagNo = string.Empty;
-                //Loaction
-                SaveUserDS.PickUpId = Settings.LocationPickupID = 0;
-                SaveUserDS.POLID = Settings.LocationPOLID = 0;
-                SaveUserDS.PODID = Settings.LocationPODID = 0;
-                SaveUserDS.DeliveryPlaceID = Settings.LocationDeliverPlaceID = 0;
-                //Dates
-                SaveUserDS.DeliveryFrom = Settings.DeliveryFrom = string.Empty;
-                SaveUserDS.ETDFrom = Settings.ETDFrom = string.Empty;
-                SaveUserDS.ETAFrom = Settings.ETAFrom = string.Empty;
-                SaveUserDS.OnsiteFrom = Settings.OnsiteFrom = string.Empty;
-                SaveUserDS.DeliveryTo = Settings.DeliveryTo = string.Empty;
-                SaveUserDS.ETDTo = Settings.ETDTo = string.Empty;
-                SaveUserDS.ETATo = Settings.ETATo = string.Empty;
-                SaveUserDS.OnsiteTo = Settings.OnsiteTo = string.Empty;
                 defaultData.CompanyID = Settings.CompanyID;
                 defaultData.UserID = Settings.userLoginID;
                 defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
@@ -1322,28 +1308,6 @@ namespace YPS.ViewModel
                                 sendPodata.BagNo = Settings.BagNo = searchC.BagNo;
                                 sendPodata.yBkgNumber = Settings.Ybkgnumber = searchC.yBkgNumber;
 
-                                //Location
-                                sendPodata.DeliveryPlaceID = Settings.LocationDeliverPlaceID = searchC.DeliveryPlaceID;
-                                Settings.LocationDeliverPlaceName = searchC.DeliveryPlace;
-
-                                sendPodata.POLID = Settings.LocationPOLID = searchC.POLID;
-                                Settings.LocationPOLName = searchC.POL;
-
-                                sendPodata.PODID = Settings.LocationPODID = searchC.PODID;
-                                Settings.LocationPODName = searchC.POD;
-
-                                sendPodata.PickUpId = Settings.LocationPickupID = searchC.PickUpId;
-                                Settings.LocationPickupName = searchC.PickUp;
-
-                                //Date
-                                sendPodata.ETDFrom = Settings.ETDFrom = searchC.ETDFrom;
-                                sendPodata.ETDTo = Settings.ETDTo = searchC.ETDTo;
-                                sendPodata.ETAFrom = Settings.ETAFrom = searchC.ETAFrom;
-                                sendPodata.ETATo = Settings.ETATo = searchC.ETATo;
-                                sendPodata.DeliveryFrom = Settings.DeliveryFrom = searchC.DeliveryFrom;
-                                sendPodata.DeliveryTo = Settings.DeliveryTo = searchC.DeliveryTo;
-                                sendPodata.OnsiteFrom = Settings.OnsiteFrom = searchC.OnsiteFrom;
-                                sendPodata.OnsiteTo = Settings.OnsiteTo = searchC.OnsiteTo;
                                 Settings.SearchWentWrong = false;
                             }
 

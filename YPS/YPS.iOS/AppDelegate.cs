@@ -95,7 +95,7 @@ namespace YPS.iOS
                 Console.WriteLine(exception.ToString());
             };
 
-            jailbreakDetector = Cryoprison.Factory.CreateJailbreakDetector(env, simulatorFriendly: false);
+            jailbreakDetector = Cryoprison.Factory.CreateJailbreakDetector(env, simulatorFriendly: true);
 
             App.isJailBroken = (jailbreakDetector.Violations.Count() == 0 || (jailbreakDetector.Violations.Count() == 1 && jailbreakDetector.Violations.Contains("EMBEDDED_MOBILEPROVISION_SHOULD_BE_PRESENT"))) ? false : true;
 

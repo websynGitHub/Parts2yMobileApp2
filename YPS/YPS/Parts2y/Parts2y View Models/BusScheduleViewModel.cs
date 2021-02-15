@@ -25,7 +25,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             Navigation = _Navigation;
             //busSchedule = busSchedulePage;
-            BgColor = Settings.Bar_Background;
+            BgColor = YPS.CommonClasses.Settings.Bar_Background;
             //var latitudes = new List<double>();
             //var longitudes = new List<double>();
             BusBackTapCommand = new Command(async () => await BusBackTap_Click());
@@ -61,7 +61,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopModalAsync();
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {

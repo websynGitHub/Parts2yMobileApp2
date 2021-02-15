@@ -14,22 +14,32 @@
 
     <ContentPage.Content>
         <AbsoluteLayout>
-            <Grid BackgroundColor="#f2f2f2" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Grid BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="{OnPlatform iOS=70 , Android=55}"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="{Binding RowHeightcomplete}"/>
                     <RowDefinition Height="{Binding RowHeightChooseFile}"/>
                     <RowDefinition Height="{Binding RowHeightUploadFile}"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}">
+                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="Back_Tapped"/>
-                    <Grid Grid.Column="1" RowSpacing="0">
+                    <LblIcons:FontAwesomeIconLabel x:Name="Backchathide" Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Column="0"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Back_Tapped"/>
+                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                    </LblIcons:FontAwesomeIconLabel>
+                    <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="Back_Tapped"
+                            BackgroundColor="Green"/>-->
+                    <Grid Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                              HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="CenterAndExpand">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="{Binding RowHeightUploadFileTitle}"/>
                             <RowDefinition Height="{Binding RowHeightTagNumber}"/>
@@ -37,13 +47,15 @@
                         <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
                         <Label Grid.Row="1" Text="{Binding tagNumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
                     </Grid>
-                    <LblIcons:FontAwesomeIconLabel Grid.Column="2"  Text="{x:Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                    <LblIcons:FontAwesomeIconLabel Grid.Column="2"  Text="{x:Static StaticIcons:Icons.HomeIc}"
+                                                   Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ICommandHome}"/>
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                 </Grid>
-                <Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}">
+                <Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}"
+                       BorderColor="Transparent" Margin="6,1,6,0">
                     <syncfusion:SfRadioGroup  Orientation="Horizontal" Margin="5,0,7,0">
                         <Grid HorizontalOptions="FillAndExpand">
                             <Grid.ColumnDefinitions>
@@ -58,14 +70,17 @@
 
                     </syncfusion:SfRadioGroup>
                 </Frame>
-                <Frame Grid.Row="2" IsVisible="{Binding FrameForChooseFile}" Style="{StaticResource FrameStyleForFileUpload}">
+                <Frame Grid.Row="2" IsVisible="{Binding FrameForChooseFile}" Style="{StaticResource FrameStyleForFileUpload}"
+                       Margin="6,1,6,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="35"/>
                         </Grid.ColumnDefinitions>
                         <StackLayout VerticalOptions="CenterAndExpand" Padding="5,0,0,0">
-                            <Label Text="{Binding SetFileName}" x:Name="SetFileName" LineBreakMode="TailTruncation" FontSize="Large" TextColor="Gray" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                            <Label Text="{Binding SetFileName}" x:Name="SetFileName" LineBreakMode="TailTruncation"
+                                   TextColor="Gray" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                   Style="{StaticResource LableWithMediumFont}"/>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ICommandPickFile}"/>
                             </StackLayout.GestureRecognizers>
@@ -83,16 +98,18 @@
                         </Image>
                     </Grid>
                 </Frame>
-                <Frame Grid.Row="3" IsVisible="{Binding FrameForUploadFile}" Style="{StaticResource FrameStyleForFileUpload}">
+                <Frame Grid.Row="3" IsVisible="{Binding FrameForUploadFile}" Style="{StaticResource FrameStyleForFileUpload}"
+                       Margin="6,1,6,0">
                     <Grid ColumnSpacing="0" RowSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <CustomEntry:MyEntry x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" Text="{Binding FileDescription,Mode=TwoWay}" 
-                                             TextColor="Gray" FontSize="Medium" VerticalOptions="CenterAndExpand" MaxLength="500"/>
+                        <CustomEntry:MyEntry x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
+                                             Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource LableWithMediumFont}"
+                                             TextColor="Gray" VerticalOptions="CenterAndExpand" MaxLength="500"/>
                         <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}"
-                                            Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0">
+                                            Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0" BackgroundColor="DarkGreen">
                             <sfbuttons:SfButton.Content>
                                 <StackLayout Style="{StaticResource StackInSfButton}">
                                     <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.upload}"
@@ -106,8 +123,9 @@
                         </sfbuttons:SfButton>
                     </Grid>
                 </Frame>
-                <StackLayout Grid.Row="4" Padding="5,0,5,5">
-                    <Label IsVisible="{Binding HideLabelAndShow}" Text="No data found." FontSize="Large" TextColor="Blue" HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand"/>
+                <StackLayout Grid.Row="4" Padding="6,0,6,6">
+                    <Label IsVisible="{Binding HideLabelAndShow}" Text="No data found." TextColor="Black" 
+                           HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" Style="{StaticResource LableWithQuestionFont}"/>
                     <flv:FlowListView FlowColumnCount="3" IsVisible="{Binding HideListAndShow}" x:Name="listView" FlowItemsSource="{Binding ListOfFile,Mode=TwoWay}"
                                       SeparatorVisibility="None" BackgroundColor="White" HasUnevenRows="false" RowHeight="200">
                         <flv:FlowListView.FlowColumnTemplate>
@@ -124,7 +142,9 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="30"/>
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Text="{Binding FileName,Mode=TwoWay}" LineBreakMode="TailTruncation" FontSize="Default" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                            <Label Grid.Column="0" Text="{Binding FileName,Mode=TwoWay}" LineBreakMode="TailTruncation" 
+                                                    FontAttributes="Bold" VerticalTextAlignment="Center"
+                                                   Style="{StaticResource LableWithSmallFont}"/>
                                             <LblIcons:FontAwesomeIconLabel Grid.Column="1" Text="{x:Static StaticIcons:Icons.InfoIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="EndAndExpand">
                                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.ICommandDescription, Source={x:Reference Name=xFileUpload} }" CommandParameter="{Binding FileID,Mode=TwoWay}"/>
@@ -207,23 +227,35 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Text="File info..." VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Medium"/>
+                        <Label Grid.Row="0" Grid.Column="0" Text="File info..." VerticalTextAlignment="Center"
+                               FontAttributes="Bold" Style="{DynamicResource LableWithLargeFont}"/>
                         <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="1" Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red" HorizontalOptions="EndAndExpand">
                             <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Close_DescriptionPopup"/>
                             </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         </LblIcons:FontAwesomeIconLabel>
-                        <Label Grid.Row="1" x:Name="nameUploadedBylbl" Grid.Column="0" Text="{Binding labelobjFile.uploadedBy}" FontAttributes="Bold"/>
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Uploadedby,Mode=TwoWay}" TextColor="Black"/>
-                        <Label Grid.Row="2" x:Name="nameUploadedDatelbl" Grid.Column="0" Text="{Binding labelobjFile.uploadeddate}" FontAttributes="Bold"/>
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"/>
-                        <Label Grid.Row="3" x:Name="nameFileNamelbl" Grid.Column="0" Text="{Binding labelobjFile.filename}" FontAttributes="Bold"/>
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding FileName}" TextColor="Black"/>
+                        <Label Grid.Row="1" x:Name="nameUploadedBylbl" Grid.Column="0"
+                               Text="{Binding labelobjFile.uploadedBy}" FontAttributes="Bold"
+                                Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Uploadedby,Mode=TwoWay}" TextColor="Black"
+                               Style="{DynamicResource LableWithSmallFont}"/>
+                        <Label Grid.Row="2" x:Name="nameUploadedDatelbl" Grid.Column="0" 
+                               Text="{Binding labelobjFile.uploadeddate}" FontAttributes="Bold"
+                               Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"
+                               Style="{DynamicResource LableWithSmallFont}"/>
+                        <Label Grid.Row="3" x:Name="nameFileNamelbl" Grid.Column="0"
+                               Text="{Binding labelobjFile.filename}" FontAttributes="Bold"
+                               Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding FileName}" TextColor="Black"
+                               Style="{DynamicResource LableWithSmallFont}"/>
                         <Label Grid.Row="4" Grid.ColumnSpan="2">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} " FontAttributes="Bold"/>
-                                    <Span Text="{Binding Description}" TextColor="Black"/>
+                                    <Span x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
+                                          FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"/>
+                                    <Span Text="{Binding Description}" TextColor="Black"
+                                           Style="{DynamicResource LableWithSmallFont}"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

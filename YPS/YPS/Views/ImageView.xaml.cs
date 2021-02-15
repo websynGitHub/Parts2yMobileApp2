@@ -49,6 +49,24 @@ namespace YPS.Views
         }
 
         /// <summary>
+        /// Gets called when back icon is clicked, to redirect  to the previous page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Back_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Back_Tapped constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
         /// Parameterized constructor.
         /// </summary>
         /// <param name="photosList"></param>

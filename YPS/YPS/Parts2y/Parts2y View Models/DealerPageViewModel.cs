@@ -111,7 +111,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Alert", "No data available", "Ok");
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopAsync();
                     loadindicator = false;
                 }
             }
@@ -203,7 +203,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (Navigation.ModalStack.Count == 0 ||
                                        Navigation.ModalStack.Last().GetType() != typeof(DealerCarrierDetails))
                         {
-                            await Navigation.PushModalAsync(new DealerCarrierDetails());
+                            await Navigation.PushAsync(new DealerCarrierDetails());
                             loadindicator = false;
                         }
                     }

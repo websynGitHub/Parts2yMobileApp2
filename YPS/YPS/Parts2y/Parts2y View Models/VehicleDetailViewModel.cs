@@ -89,7 +89,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
 
                 Navigation = _Navigation;
-                BgColor = Settings.Bar_Background;
+                BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 NextBtnBgColor = Settings.Bar_Background;
                 //cPQuestionsdata = new ObservableCollection<CPQuestionsdata>();
                 ScanCommand = new Command(async () => await Scan_Tap());
@@ -1086,7 +1086,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private Color _BgColor;
+        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

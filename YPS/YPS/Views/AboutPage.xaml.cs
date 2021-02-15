@@ -75,6 +75,25 @@ namespace YPS.Views
         }
 
         /// <summary>
+        /// Gets called when clicked on the back button and redirect to previous page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Back_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in FileUpload.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+            }
+        }
+
+
+        /// <summary>
         /// Gets called when clicked on play store image.
         /// </summary>
         /// <param name="sender"></param>

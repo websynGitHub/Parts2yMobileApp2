@@ -20,8 +20,6 @@ namespace YPS.CustomToastMsg
                     return "tag-files";
                 case (int)BlobContainer.cnttagphotos:
                     return "tag-photos";
-                case (int)BlobContainer.cntchatphotos:
-                    return "chat-photos";
                 case (int)BlobContainer.cntchatfiles:
                     return "chat-files";
                 case (int)BlobContainer.cntplfiles:

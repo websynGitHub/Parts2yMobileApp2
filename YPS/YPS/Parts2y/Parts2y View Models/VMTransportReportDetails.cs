@@ -38,7 +38,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 Navigation = _Navigation;
-                BgColor = Settings.Bar_Background;
+                BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 //InProgressListItems.Add(new TransportDetailsModel { VINNo = "MA3NFGB1SJC-1912003", TripNo = "6019760", ETATime = "11:23", ATATime = "11:25", Status_icon = "tick.png" });
                 //InProgressListItems.Add(new TransportDetailsModel { VINNo = "MA3NFGB1SJC-1912003", TripNo = "6019760", ETATime = "11:23", ATATime = "11:25", Status_icon = "tick.png" });
                 //InProgressListItems.Add(new TransportDetailsModel { VINNo = "MA3NFGB1SJC-1912003", TripNo = "6019760", ETATime = "11:23", ATATime = "11:25", Status_icon = "tick.png" });
@@ -472,7 +472,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
 
-        private Color _BgColor;
+        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

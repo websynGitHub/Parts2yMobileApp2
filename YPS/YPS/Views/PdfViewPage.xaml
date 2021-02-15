@@ -2,28 +2,68 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pdfViewerSample="clr-namespace:YPS.CustomRenders"
-             x:Class="YPS.Views.PdfViewPage">
+             x:Class="YPS.Views.PdfViewPage" BackgroundColor="#E9E9E9"
+             xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+             NavigationPage.HasNavigationBar="False">
 
-    <NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" x:Name="setTitle" FontSize="Medium" TextColor="White" VerticalOptions="CenterAndExpand"/>
+            <Label Grid.Column="0" x:Name="setTitle" TextColor="White" VerticalOptions="CenterAndExpand"
+                   Style="{StaticResource LableWithMediumFont}"/>
             <Image Grid.Column="1" Source="home.png" Margin="0,0,5,0">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="GoToHome_Tapped"/>
                 </Image.GestureRecognizers>
             </Image>
         </Grid>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
+    <Grid RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <LblIcons:FontAwesomeIconLabel x:Name="Backchathide" Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Column="0"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BackTapped"/>
+                </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+            </LblIcons:FontAwesomeIconLabel>
+            <Label Grid.Column="1" x:Name="setTitle" TextColor="White"
+                   Style="{StaticResource LableWithMediumFont}"
+                   Margin="15,15,0,15" HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="CenterAndExpand"/>
+            <LblIcons:FontAwesomeIconLabel Grid.Column="2" Text="{Static StaticIcons:Icons.HomeIc}" HorizontalOptions="End"
+                                           VerticalOptions="Center" Margin="0,0,9,0"
+                                           Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToHome_Tapped"/>
+                </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+            </LblIcons:FontAwesomeIconLabel>
+        </Grid>
+        
+        <pdfViewerSample:PdfView Grid.Row="1" x:Name="PdfDocView" VerticalOptions="FillAndExpand" />
+    </Grid>
     
-    <Grid VerticalOptions="FillAndExpand">
+    <!--<Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <pdfViewerSample:PdfView Grid.Row="0" x:Name="PdfDocView" VerticalOptions="FillAndExpand" />
-    </Grid>
+        
+    </Grid>-->
 </ContentPage>

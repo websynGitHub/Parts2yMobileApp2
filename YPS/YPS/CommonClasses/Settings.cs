@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing;
 using YPS.Model;
 
 namespace YPS.CommonClasses
 {
     public static class Settings
     {
+        public static ObservableCollection<AllPoData> AllPOData { get; set; }
         //public static string ImpTxtCode { get; set; } = "TDdmwPkI+5H5TLnqUfTTow==";
+        public static Color Bar_Background { get; set; } = Color.DarkGreen;
         public static bool EndRefresh2 { get; set; }
         public static string IIJToken { get; set; }
         public static bool IsIIJEnabled { get; set; }
@@ -227,7 +231,7 @@ namespace YPS.CommonClasses
         public static int startPageYPS { get; set; }
         public static int startPageyShip { get; set; }
         public static int previousEndIndex { get; set; }
-        public static int pageSizeYPS { get; set; }
+        public static int pageSizeYPS { get; set; } = 10;
         public static int pageSizeyShip { get; set; }
         public static int selectedIndexyShip { get; set; }
         public static int selectedIndexYPS { get; set; }
@@ -311,34 +315,78 @@ namespace YPS.CommonClasses
 
     enum UserRoles
     {
-        Viewer = 3,
-        CustomerAdmin = 4,
-        CustomerUser = 5,
-        Manufacturer = 8,
         SuperAdmin = 1,
         SuperUser = 2,
         SuperViewer = 3,
-        OwnerAdmin = 4,
-        OwnerUser = 5,
-        SupplierAdmin = 6,
-        SupplierUser = 7,
-        MfrAdmin = 8,
-        MfrUser = 9,
-        DealerAdmin = 10,
-        DealerUser = 11,
-        LogisticsAdmin = 12,
-        LogisticsUser = 13,
-        TruckingAdmin = 14,
-        TruckingDriver = 15,
-        OwnerTPTRep = 16,
-        OwnerDriver = 17,
-        OwnerAuditor = 18
+        SupplierAdmin = 4,
+        SupplierUser = 5,
+        MfrAdmin = 6,
+        MfrUser = 7,
+        DealerAdmin = 8,
+        DealerUser = 9,
+        LogisticsAdmin = 10,
+        LogisticsUser = 11,
+        TruckingAdmin = 12,
+        TruckingDriver = 13,
+        OwnerAdmin = 14,
+        OwnerUser = 15,
     }
 
 
     /// <summary>
     /// Blob Container Name
     /// </summary>
+    //public enum BlobContainer
+    //{
+    //    /// <summary>
+    //    /// Container for Tag-Files
+    //    /// </summary>
+    //    cnttagfiles = 1,
+
+    //    /// <summary>
+    //    /// Container for Tag-Photos 
+    //    /// </summary>
+    //    cnttagphotos = 2,
+
+    //    /// <summary>
+    //    /// Container for Chat Photos
+    //    /// </summary>
+    //    cntchatphotos = 3,
+
+    //    /// <summary>
+    //    /// Container for PL Files
+    //    /// </summary>
+    //    cntplfiles = 4,
+
+    //    /// <summary>
+    //    /// Container for PL Final Files
+    //    /// </summary>
+    //    cntplfinal = 5,
+
+    //    /// <summary>
+    //    /// Container for Location Files
+    //    /// </summary>
+    //    cntlocationfiles = 6,
+
+    //    /// <summary>
+    //    /// Container for SP Mat Files
+    //    /// </summary>
+    //    cntspmatfiles = 7,
+
+    //    /// <summary>
+    //    /// Container for yShip Uploads
+    //    /// </summary>
+    //    cntyshipuploads = 8,
+    //    /// <summary>
+    //    /// Container for Mobile App Builds
+    //    /// </summary>
+    //    cntmobilebuilds = 9,
+    //    /// <summary>
+    //    /// Container for Chat Files
+    //    /// </summary>
+    //    cntchatfiles = 10
+    //}
+
     public enum BlobContainer
     {
         /// <summary>
@@ -352,9 +400,9 @@ namespace YPS.CommonClasses
         cnttagphotos = 2,
 
         /// <summary>
-        /// Container for Chat Photos
+        /// Container for Chat Files and Photos
         /// </summary>
-        cntchatphotos = 3,
+        cntchatfiles = 3,
 
         /// <summary>
         /// Container for PL Files
@@ -380,14 +428,16 @@ namespace YPS.CommonClasses
         /// Container for yShip Uploads
         /// </summary>
         cntyshipuploads = 8,
+
         /// <summary>
         /// Container for Mobile App Builds
         /// </summary>
         cntmobilebuilds = 9,
+
         /// <summary>
-        /// Container for Chat Files
+        /// Container for Task files
         /// </summary>
-        cntchatfiles = 10
+        cnttaskfiles = 10,
     }
 
     /// <summary>

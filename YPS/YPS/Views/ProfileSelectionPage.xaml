@@ -3,30 +3,397 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:YPS.Behaviours"
              x:Class="YPS.Views.ProfileSelectionPage"
-             Title="Settings" 
-             NavigationPage.HasNavigationBar="True" 
+           
+             NavigationPage.HasNavigationBar="False" 
              BackgroundColor="White"
               xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:FontAwsmLbl="clr-namespace:YPS.CustomRenders"
               xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms">
-
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="BoxView" x:Key="StyleBoxView">
+                <Setter Property="HeightRequest" Value="3"/>
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <!--<NavigationPage.TitleView>
+        <Grid HorizontalOptions="StartAndExpand" >
+            <Label Grid.Row="0" Grid.Column="0" Text="Settings" VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="StartAndExpand" TextColor="White"
+                                          Style="{StaticResource LableWithMediumFont}"/>
+        </Grid>
+        
+    </NavigationPage.TitleView>-->
     <ContentPage.Content>
         <AbsoluteLayout>
-            <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <StackLayout Orientation="Horizontal" BackgroundColor="White" VerticalOptions="Center" Padding="30,20,30,0">
-                    <StackLayout x:Name="Poview" HorizontalOptions="FillAndExpand">
-                        <Button Text="Default Setting" Command="{Binding ICommandSettings}" TextColor="{Binding settingsTextColor}" BackgroundColor="{Binding settingsBgColor}" HorizontalOptions="FillAndExpand"/>
-                        <BoxView HeightRequest="3" HorizontalOptions="FillAndExpand" IsVisible="{Binding settingbox}" BackgroundColor="{Binding settingsBgColor}"/>
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                      BackgroundColor="{Binding BgColor}" ColumnDefinitions="60,*">
+                    <!--<StackLayout Grid.Row="0" HeightRequest="10" BackgroundColor="{Binding BgColor}" 
+                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>-->
+
+                    <FontAwsmLbl:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0"
+                                                  TextColor="#FFFFFF" HorizontalOptions="Start" Grid.Column="0"
+                                                  VerticalOptions="Center" Margin="10,10,10,10"  Style="{StaticResource LblIconStyle}">
+                        <FontAwsmLbl:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
+                        </FontAwsmLbl:FontAwesomeIconLabel.GestureRecognizers>
+                    </FontAwsmLbl:FontAwesomeIconLabel>
+
+                    <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="15,0,0,0" Padding="0,0,0,0"
+                      HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Settings" VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="StartAndExpand" TextColor="White"
+                                          Style="{StaticResource LableWithMediumFont}"/>
+                    </Grid>
+
+                </Grid>
+                
+                <Grid Grid.Row="1" ColumnSpacing="2"   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                      BackgroundColor="White" Padding="0" RowSpacing="0" Margin="6,0,6,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.30*"/>
+                        <ColumnDefinition Width="0.30*"/>
+                        <!--<ColumnDefinition Width="0.22*"/>-->
+                        <!--<ColumnDefinition Width="0.18*"/>-->
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0">
+                        <Label Text="Default Setting" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" 
+                                 Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding settingsTextColor}"
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ICommandSettings}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding settingbox}" />
                     </StackLayout>
-                    <StackLayout x:Name="Yshipview" HorizontalOptions="FillAndExpand" >
-                        <Button x:Name="UpdatePBtn" Text="Update Profile" Command="{Binding ICommandProfile}"  TextColor="{Binding profileTextColor}" BackgroundColor="{Binding profileBgColor}" HorizontalOptions="FillAndExpand"/>
-                        <BoxView HeightRequest="3" HorizontalOptions="FillAndExpand" IsVisible="{Binding profilebox}" BackgroundColor="{Binding profileBgColor}"/>
+                    <StackLayout Grid.Column="1">
+                        <Label x:Name="UpdatePBtn" Text="Update Profile" Style="{DynamicResource LableWithMediumFont}" 
+                               BackgroundColor="White" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
+                               HorizontalTextAlignment="Center" TextColor="{Binding profileTextColor}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ICommandProfile}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding profilebox}"/>
+                    </StackLayout>
+                </Grid>
+
+                <StackLayout Grid.Row="2" Orientation="Vertical" VerticalOptions="FillAndExpand"
+                             Margin="6,0,6,0">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Frame">
+                                <Setter Property="HasShadow" Value="False"/>
+                                <Setter Property="OutlineColor" Value="Gray"/>
+                                <Setter Property="CornerRadius" Value="7"/>
+                                <Setter Property="Padding" Value="4"/>
+                            </Style>
+                            <Style TargetType="Label">
+                                <Setter Property="TextColor" Value="Black"/>
+                            </Style>
+                            <Style TargetType="Entry" x:Key="UpdateProfileEty">
+                                <Setter Property="TextColor" Value="Black"/>
+                                <Setter Property="FontSize" Value="Small"/>
+                            </Style>
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+
+                    <StackLayout IsVisible="{Binding settingsVisibility}" Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand">
+                        <ScrollView IsVisible="{Binding settingsVisibility}">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding Companylabel,Mode=TwoWay}"
+                                                      ErrorColor="Red" HasError="{Binding companyHaserror}"
+                                                       Style="{StaticResource SfInputLayout}">
+                                    <combobox:SfComboBox x:Name="pkrCompany" Text="{Binding CompanyName,Mode=TwoWay}" ClassId="CompanyClassID"
+                                                     DisplayMemberPath="Name" DataSource="{Binding CompanyList, Mode=TwoWay}"
+                                                       SelectionChanged="ComapanyList_IndexChanged"
+                                                             Style="{StaticResource SfComboBoxTextStyle}">
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding projectlabel,Mode=TwoWay}" 
+                                                       ErrorColor="Red" HasError="{Binding projectHaserror}"
+                                                       Style="{StaticResource SfInputLayout}">
+                                    <combobox:SfComboBox x:Name="pkrProject" Text="{Binding ProjectName,Mode=TwoWay}" DataSource="{Binding ProjectList, Mode=TwoWay}"
+                                                     DisplayMemberPath="Name" SelectionChanged="ProjectList_IndexChanged"
+                                                             Style="{StaticResource SfComboBoxTextStyle}">
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding joblabel,Mode=TwoWay}" 
+                                                         ErrorColor="Red" HasError="{Binding jobHaserror}"
+                                                       Style="{StaticResource SfInputLayout}">
+                                    <combobox:SfComboBox x:Name="pkrJob" Text="{Binding JobName,Mode=TwoWay}" DataSource="{Binding JobList, Mode=TwoWay}" 
+                                                     DisplayMemberPath="Name" SelectionChanged="JobList_IndexChanged"
+                                                             Style="{StaticResource SfComboBoxTextStyle}">
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="5" 
+                                                        Hint="{Binding supplierlabel,Mode=TwoWay}"
+                                                       Style="{StaticResource SfInputLayout}" InputViewPadding="0">
+                                    <StackLayout x:Name="comboboxSupplier" Orientation="Horizontal" HeightRequest="23">
+                                        <Label Style="{StaticResource LabelStyleInDropDown}" Text="{Binding SupplierName,Mode=TwoWay}" 
+                                                   Margin="12,0,0,0"/>
+
+                                        <Image Style="{StaticResource DropDownImg}"/>
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="Supplier_Tapped"/>
+                                        </StackLayout.GestureRecognizers>
+                                        <StackLayout.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">47</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </StackLayout.HeightRequest>
+                                    </StackLayout>
+                                </sfinput:SfTextInputLayout>
+                            </Grid>
+                        </ScrollView>
+                    </StackLayout>
+                    
+                    <StackLayout IsVisible="{Binding profileVisibility}" Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand">
+                        <ScrollView>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="{Binding UpdateprofiletitleRowHt}"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Text="Update Profile" IsVisible="{Binding UpdateprofiletitleVisibility}" FontSize="Large" HorizontalOptions="Center"/>
+
+                                <sfinput:SfTextInputLayout Hint="{Binding LoginLbl,Mode=TwoWay}" Grid.Row="2"
+                                                       Opacity="0.3" ErrorColor="Red" HasError="{Binding loginIDHaserror}"
+                                                       Style="{StaticResource SfInputLayout}">
+                                    <Entry Text="{Binding LoginID,Mode=TwoWay}" IsReadOnly="True" 
+                                               Style="{StaticResource EntryTextStyle}">
+                                        <Entry.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </Entry.HeightRequest>
+                                    </Entry>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding EmailLbl,Mode=TwoWay}"
+                                                       ErrorColor="Red" HasError="{Binding emailHaserror}"
+                                                       Style="{StaticResource SfInputLayout}">
+                                    <Entry Text="{Binding Email,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
+                                        <Entry.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </Entry.HeightRequest>
+                                    </Entry>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding GivenNameLbl,Mode=TwoWay}"
+                                                       ErrorColor="Red" HasError="{Binding givennameHaserror}"
+                                                       Style="{StaticResource SfInputLayout}">
+                                    <Entry Text="{Binding GivenName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
+                                        <Entry.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </Entry.HeightRequest>
+                                    </Entry>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Grid.Row="5" Hint="{Binding FamilyNameLbl,Mode=TwoWay}" 
+                                                       Style="{StaticResource SfInputLayout}">
+                                    <Entry Text="{Binding FamilyName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
+                                        <Entry.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </Entry.HeightRequest>
+                                    </Entry>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Grid.Row="6"  Hint="{Binding TimeZoneLbl,Mode=TwoWay}"
+                                                       ErrorColor="Red" HasError="{Binding timezoneHaserror}"
+                                                       Style="{StaticResource SfInputLayout}" InputViewPadding="0">
+                                    <StackLayout Orientation="Horizontal" x:Name="TimeZoneLabel">
+                                        <Label Style="{StaticResource LabelStyleInDropDown}" 
+                                                   Text="{Binding TimeZoneTextDisplay,Mode=TwoWay}"
+                                           Margin="12,0,0,0" />
+
+                                        <Image Style="{StaticResource DropDownImg}"/>
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TimeZone_Tapped"/>
+                                        </StackLayout.GestureRecognizers>
+                                        <StackLayout.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">47</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </StackLayout.HeightRequest>
+                                    </StackLayout>
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout x:Name="languagelayout" Hint="{Binding LangaugeLbl,Mode=TwoWay}" 
+                                                               Grid.Row="7"
+                                                       ErrorColor="Red" HasError="{Binding languageHaserror}"
+                                                       Style="{StaticResource SfInputLayout}">
+
+                                    <combobox:SfComboBox x:Name="LanguagePicker" DataSource="{Binding ListOfLanguageName,Mode=TwoWay}" 
+                                                     Text="{Binding LangaugeTextDisplay,Mode=TwoWay}"
+                                                      SelectionChanged="LanguagePicker_SelectedIndexChanged"
+                                                      VerticalOptions="CenterAndExpand" Style="{StaticResource SfComboBoxTextStyle}">
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
+                                </sfinput:SfTextInputLayout>
+                            </Grid>
+                        </ScrollView>
                     </StackLayout>
                 </StackLayout>
-                <ScrollView>
-                    <StackLayout>
+
+                <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                             Grid.Row="3" Margin="6,0,6,0">
+                    <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
+                                        Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Margin="0,0,0,4"
+                                                Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+
+                    <sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding profileVisibility}"
+                                            HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandUpdate}" 
+                                                Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Content>
+                            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Padding="10,0,10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <FontAwsmLbl:FontAwesomeIconLabel Grid.Column="0" Text="{x:Static StaticIcons:Icons.edit}"
+                                                                          Style="{StaticResource FontAwsmLblSfbutton}"/>
+                                <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
+                            </Grid>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                </StackLayout>
+            </Grid>
+
+          
+            <!--<StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                          Orientation="Vertical" Padding="4,0,4,0">
+                --><!--<StackLayout Orientation="Horizontal" BackgroundColor="White" VerticalOptions="Center" Padding="8,5,8,0">
+                    <StackLayout x:Name="Poview" HorizontalOptions="FillAndExpand">
+                        <Button Text="Default Setting" Command="{Binding ICommandSettings}" 
+                                TextColor="{Binding settingsTextColor}" BackgroundColor="{Binding settingsBgColor}" 
+                                HorizontalOptions="FillAndExpand" Style="{StaticResource uploadBtn}" />
+                        <BoxView HeightRequest="3" HorizontalOptions="FillAndExpand" IsVisible="{Binding settingbox}"
+            BackgroundColor="{Binding settingsBgColor}"/>
+                    </StackLayout>
+                    <StackLayout x:Name="Yshipview" HorizontalOptions="FillAndExpand" >
+                        <Button x:Name="UpdatePBtn" Text="Update Profile" Command="{Binding ICommandProfile}"  
+                                TextColor="{Binding profileTextColor}" BackgroundColor="{Binding profileBgColor}" 
+                                HorizontalOptions="FillAndExpand" Style="{StaticResource uploadBtn}"/>
+                        <BoxView HeightRequest="3" HorizontalOptions="FillAndExpand" IsVisible="{Binding profilebox}" BackgroundColor="{Binding profileBgColor}"/>
+                    </StackLayout>
+                </StackLayout>--><!--
+                <Grid Grid.Row="1" ColumnSpacing="2"   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Padding="0" RowSpacing="0" Margin="1,0,1,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.30*"/>
+                        <ColumnDefinition Width="0.30*"/>
+                        <ColumnDefinition Width="0.22*"/>
+                        <ColumnDefinition Width="0.18*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0">
+                        <Label  Text="Default Setting" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" 
+                                TextColor="{Binding InProgressTxtColor}" Padding="0,8,0,0" HorizontalOptions="Center"
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding }"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1">
+                        <Label Text="Update Profile" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" TextColor="{Binding CompletedTxtColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ICommandProfile}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}"/>
+                    </StackLayout>
+                </Grid>
+
+                --><!--<ScrollView>--><!--
+                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
+                                 Padding="8,0,8,0">
                         <StackLayout.Resources>
                             <ResourceDictionary>
                                 <Style TargetType="Frame">
@@ -44,217 +411,232 @@
                                 </Style>
                             </ResourceDictionary>
                         </StackLayout.Resources>
-                        <Grid IsVisible="{Binding settingsVisibility}" Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                        
+                        <StackLayout IsVisible="{Binding settingsVisibility}" Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand">
+                            <ScrollView>
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-                            <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding Companylabel,Mode=TwoWay}"
+                                    <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding Companylabel,Mode=TwoWay}"
                                                       ErrorColor="Red" HasError="{Binding companyHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
-                                <combobox:SfComboBox x:Name="pkrCompany" Text="{Binding CompanyName,Mode=TwoWay}" ClassId="CompanyClassID"
+                                        <combobox:SfComboBox x:Name="pkrCompany" Text="{Binding CompanyName,Mode=TwoWay}" ClassId="CompanyClassID"
                                                      DisplayMemberPath="Name" DataSource="{Binding CompanyList, Mode=TwoWay}"
-                                                       SelectionChanged="ComapanyList_IndexChanged">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
+                                                       SelectionChanged="ComapanyList_IndexChanged"
+                                                             Style="{StaticResource SfComboBoxTextStyle}">
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding projectlabel,Mode=TwoWay}" 
+                                    <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding projectlabel,Mode=TwoWay}" 
                                                        ErrorColor="Red" HasError="{Binding projectHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
-                                <combobox:SfComboBox x:Name="pkrProject" Text="{Binding ProjectName,Mode=TwoWay}" DataSource="{Binding ProjectList, Mode=TwoWay}"
-                                                     DisplayMemberPath="Name" SelectionChanged="ProjectList_IndexChanged">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
+                                        <combobox:SfComboBox x:Name="pkrProject" Text="{Binding ProjectName,Mode=TwoWay}" DataSource="{Binding ProjectList, Mode=TwoWay}"
+                                                     DisplayMemberPath="Name" SelectionChanged="ProjectList_IndexChanged"
+                                                             Style="{StaticResource SfComboBoxTextStyle}">
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding joblabel,Mode=TwoWay}" 
+                                    <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding joblabel,Mode=TwoWay}" 
                                                          ErrorColor="Red" HasError="{Binding jobHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
-                                <combobox:SfComboBox x:Name="pkrJob" Text="{Binding JobName,Mode=TwoWay}" DataSource="{Binding JobList, Mode=TwoWay}" 
-                                                     DisplayMemberPath="Name" SelectionChanged="JobList_IndexChanged">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
+                                        <combobox:SfComboBox x:Name="pkrJob" Text="{Binding JobName,Mode=TwoWay}" DataSource="{Binding JobList, Mode=TwoWay}" 
+                                                     DisplayMemberPath="Name" SelectionChanged="JobList_IndexChanged"
+                                                             Style="{StaticResource SfComboBoxTextStyle}">
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="5" 
+                                    <sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="5" 
                                                         Hint="{Binding supplierlabel,Mode=TwoWay}"
                                                        Style="{StaticResource SfInputLayout}" InputViewPadding="0">
-                                <StackLayout x:Name="comboboxSupplier" Orientation="Horizontal" HeightRequest="23">
-                                    <Label Style="{StaticResource LabelStyleInDropDown}" Text="{Binding SupplierName,Mode=TwoWay}"  Margin="12,0,0,0"/>
+                                        <StackLayout x:Name="comboboxSupplier" Orientation="Horizontal" HeightRequest="23">
+                                            <Label Style="{StaticResource LabelStyleInDropDown}" Text="{Binding SupplierName,Mode=TwoWay}" 
+                                                   Margin="12,0,0,0"/>
 
-                                    <Image Style="{StaticResource DropDownImg}"/>
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="Supplier_Tapped"/>
-                                    </StackLayout.GestureRecognizers>
-                                    <StackLayout.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </StackLayout.HeightRequest>
-                                </StackLayout>
-                            </sfinput:SfTextInputLayout>
+                                            <Image Style="{StaticResource DropDownImg}"/>
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="Supplier_Tapped"/>
+                                            </StackLayout.GestureRecognizers>
+                                            <StackLayout.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">47</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </StackLayout.HeightRequest>
+                                        </StackLayout>
+                                    </sfinput:SfTextInputLayout>
+                                </Grid>
+                            </ScrollView>
+                            
+                        </StackLayout>
 
-                            <sfbuttons:SfButton AutomationId="AutoSetAsDefault" Grid.Row="8" Text="{Binding SetAsDefaultBtn,Mode=TwoWay}"
-                                                Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}">
-                                <sfbuttons:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                </sfbuttons:SfButton.Behaviors>
-                            </sfbuttons:SfButton>
-                        </Grid>
 
-                        <Grid IsVisible="{Binding profileVisibility}" Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="{Binding UpdateprofiletitleRowHt}"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Text="Update Profile" IsVisible="{Binding UpdateprofiletitleVisibility}" FontSize="Large" HorizontalOptions="Center"/>
+                        <StackLayout IsVisible="{Binding profileVisibility}" Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand">
+                            <ScrollView>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="{Binding UpdateprofiletitleRowHt}"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Text="Update Profile" IsVisible="{Binding UpdateprofiletitleVisibility}" FontSize="Large" HorizontalOptions="Center"/>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding LoginLbl,Mode=TwoWay}" Grid.Row="2"
+                                    <sfinput:SfTextInputLayout Hint="{Binding LoginLbl,Mode=TwoWay}" Grid.Row="2"
                                                        Opacity="0.3" ErrorColor="Red" HasError="{Binding loginIDHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
-                                <Entry Text="{Binding LoginID,Mode=TwoWay}" IsReadOnly="True" Style="{StaticResource UpdateProfileEty}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                            </sfinput:SfTextInputLayout>
+                                        <Entry Text="{Binding LoginID,Mode=TwoWay}" IsReadOnly="True" 
+                                               Style="{StaticResource EntryTextStyle}">
+                                            <Entry.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </Entry.HeightRequest>
+                                        </Entry>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding EmailLbl,Mode=TwoWay}"
+                                    <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding EmailLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding emailHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
-                                <Entry Text="{Binding Email,Mode=TwoWay}" Style="{StaticResource UpdateProfileEty}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                            </sfinput:SfTextInputLayout>
+                                    <Entry Text="{Binding Email,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
+                                            <Entry.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </Entry.HeightRequest>
+                                        </Entry>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding GivenNameLbl,Mode=TwoWay}"
+                                    <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding GivenNameLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding givennameHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
-                                <Entry Text="{Binding GivenName,Mode=TwoWay}" Style="{StaticResource UpdateProfileEty}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                            </sfinput:SfTextInputLayout>
+                                    <Entry Text="{Binding GivenName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
+                                            <Entry.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </Entry.HeightRequest>
+                                        </Entry>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Grid.Row="5" Hint="{Binding FamilyNameLbl,Mode=TwoWay}" 
+                                    <sfinput:SfTextInputLayout Grid.Row="5" Hint="{Binding FamilyNameLbl,Mode=TwoWay}" 
                                                        Style="{StaticResource SfInputLayout}">
-                                <Entry Text="{Binding FamilyName,Mode=TwoWay}" Style="{StaticResource UpdateProfileEty}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                            </sfinput:SfTextInputLayout>
+                                    <Entry Text="{Binding FamilyName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
+                                            <Entry.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </Entry.HeightRequest>
+                                        </Entry>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Grid.Row="6"  Hint="{Binding TimeZoneLbl,Mode=TwoWay}"
+                                    <sfinput:SfTextInputLayout Grid.Row="6"  Hint="{Binding TimeZoneLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding timezoneHaserror}"
                                                        Style="{StaticResource SfInputLayout}" InputViewPadding="0">
-                                <StackLayout Orientation="Horizontal" x:Name="TimeZoneLabel">
-                                    <Label Style="{StaticResource LabelStyleInDropDown}" Text="{Binding TimeZoneTextDisplay,Mode=TwoWay}"
+                                        <StackLayout Orientation="Horizontal" x:Name="TimeZoneLabel">
+                                            <Label Style="{StaticResource LabelStyleInDropDown}" 
+                                                   Text="{Binding TimeZoneTextDisplay,Mode=TwoWay}"
                                            Margin="12,0,0,0" />
 
-                                    <Image Style="{StaticResource DropDownImg}"/>
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TimeZone_Tapped"/>
-                                    </StackLayout.GestureRecognizers>
-                                    <StackLayout.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </StackLayout.HeightRequest>
-                                </StackLayout>
-                            </sfinput:SfTextInputLayout>
+                                            <Image Style="{StaticResource DropDownImg}"/>
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="TimeZone_Tapped"/>
+                                            </StackLayout.GestureRecognizers>
+                                            <StackLayout.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">47</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </StackLayout.HeightRequest>
+                                        </StackLayout>
+                                    </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout x:Name="languagelayout" Hint="{Binding LangaugeLbl,Mode=TwoWay}" Grid.Row="7"
+                                    <sfinput:SfTextInputLayout x:Name="languagelayout" Hint="{Binding LangaugeLbl,Mode=TwoWay}" 
+                                                               Grid.Row="7"
                                                        ErrorColor="Red" HasError="{Binding languageHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
 
-                                <combobox:SfComboBox x:Name="LanguagePicker" DataSource="{Binding ListOfLanguageName,Mode=TwoWay}" 
-                                                     Text="{Binding LangaugeTextDisplay,Mode=TwoWay}" SelectionChanged="LanguagePicker_SelectedIndexChanged"
-                                                      VerticalOptions="CenterAndExpand">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
+                                        <combobox:SfComboBox x:Name="LanguagePicker" DataSource="{Binding ListOfLanguageName,Mode=TwoWay}" 
+                                                     Text="{Binding LangaugeTextDisplay,Mode=TwoWay}"
+                                                      SelectionChanged="LanguagePicker_SelectedIndexChanged"
+                                                      VerticalOptions="CenterAndExpand" Style="{StaticResource SfComboBoxTextStyle}">
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
+                                    </sfinput:SfTextInputLayout>
+                                </Grid>
+                            </ScrollView>
+                        </StackLayout>
+                        
+                    <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
+                                        Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Margin="0,0,0,4"
+                                                Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End">
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
 
-                            <sfbuttons:SfButton Grid.Row="8" Grid.Column="0" 
-                                                 Margin="0,10,0,0" Command="{Binding ICommandUpdate}" Style="{StaticResource SfBtnBlue}">
-                                <sfbuttons:SfButton.Content>
-                                    <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                    <sfbuttons:SfButton VerticalOptions="End" IsVisible="{Binding profileVisibility}"
+                                                 Margin="0,0,0,4" Command="{Binding ICommandUpdate}" 
+                                                Style="{StaticResource SfBtnBlue}">
+                        <sfbuttons:SfButton.Content>
+                            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                                  Padding="10,0,10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <FontAwsmLbl:FontAwesomeIconLabel Grid.Column="0" Text="{x:Static StaticIcons:Icons.edit}"
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <FontAwsmLbl:FontAwesomeIconLabel Grid.Column="0" Text="{x:Static StaticIcons:Icons.edit}"
                                                                           Style="{StaticResource FontAwsmLblSfbutton}"/>
-                                        <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                    </Grid>
-                                </sfbuttons:SfButton.Content>
-                                <sfbuttons:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                </sfbuttons:SfButton.Behaviors>
-                            </sfbuttons:SfButton>
-                        </Grid>
-                    </StackLayout>
-                </ScrollView>
-            </StackLayout>
+                                <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
+                            </Grid>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                </StackLayout>
+                --><!--</ScrollView>--><!--
+            </StackLayout>-->
             <ContentView x:Name="SupplierCntntView" IsVisible="False" BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout>
                     <Grid Padding="5">
@@ -292,15 +674,19 @@
                             <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
                         <Frame Grid.Row="0" Grid.Column="0" BorderColor="Gray" Padding="0" HasShadow="False">
-                            <SearchBar x:Name="SearchLoc" Margin="-10" Placeholder="Search..." TextChanged="SearchBar_TextChanged" BackgroundColor="White"/>
+                            <SearchBar x:Name="SearchLoc" Margin="-10" Placeholder="Search..." TextChanged="SearchBar_TextChanged"
+                                       BackgroundColor="White" Style="{StaticResource LableWithMediumFont}"/>
                         </Frame>
-                        <Button Grid.Row="0" Grid.Column="1" Text="Close" WidthRequest="80" BackgroundColor="Transparent" TextColor="Red" Clicked="TimeZoneClosePopUp" FontSize="Medium" VerticalOptions="CenterAndExpand"/>
+                        <Button Grid.Row="0" Grid.Column="1" Text="Close" WidthRequest="80"
+                                BackgroundColor="Transparent" TextColor="Red" Clicked="TimeZoneClosePopUp"
+                                VerticalOptions="CenterAndExpand" Style="{StaticResource uploadBtn}"/>
                     </Grid>
-                    <ListView x:Name="ListViewTimeZ" ItemsSource="{Binding TimeZone,Mode=TwoWay}" ItemTapped="ListView_ItemTapped" Margin="5">
+                    <ListView x:Name="ListViewTimeZ" ItemsSource="{Binding TimeZone,Mode=TwoWay}" ItemTapped="ListView_ItemTapped" 
+                              Margin="5">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Label Text="{Binding .}" VerticalOptions="CenterAndExpand"/>
+                                    <Label Text="{Binding .}" VerticalOptions="CenterAndExpand" Style="{StaticResource LableWithMediumFont}"/>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

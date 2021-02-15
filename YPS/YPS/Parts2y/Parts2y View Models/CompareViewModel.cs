@@ -60,7 +60,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
 
                 var assembly = typeof(App).GetTypeInfo().Assembly;
-                Stream sr = assembly.GetManifestResourceStream("YPSePOD." + "beep.mp3");
+                Stream sr = assembly.GetManifestResourceStream("YPS." + "beep.mp3");
                 ISimpleAudioPlayer playbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
                 playbeep.Load(sr);
 
@@ -95,7 +95,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         // Alert com o código escaneado
                         Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await Navigation.PopModalAsync();
+                        await Navigation.PopAsync();
                         CompareHistoryList comparemodel = new CompareHistoryList();
 
                         if (scanfor == "a")
@@ -453,7 +453,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (Navigation.ModalStack.Count == 0 ||
                                         Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
-                        await Navigation.PushModalAsync(ScannerPage);
+                        await Navigation.PushAsync(ScannerPage);
                     }
                 }
                 else
@@ -484,11 +484,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsScanContentVisible = ScanTabVisibility = true;
                     IsConfigContentVisible = ConfigTabVisibility = false;
+                    ScanTabTextColor = Color.Green;
+                    CompareTabTextColor = Color.Black;
                 }
                 else
                 {
                     IsScanContentVisible = ScanTabVisibility = false;
                     IsConfigContentVisible = ConfigTabVisibility = true;
+                    ScanTabTextColor = Color.Black;
+                    CompareTabTextColor = Color.Green;
                 }
             }
             catch (Exception ex)
@@ -515,6 +519,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsConfigContentVisible = ConfigTabVisibility = false;
                     ScanOpacity = 1;
                     IsTotalValidMsg = false;
+                    ScanTabTextColor = Color.Green;
+                    CompareTabTextColor = Color.Black;
                 }
                 else
                 {
@@ -529,7 +535,29 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
-        private Color _BgColor;
+        private Color _ScanTabTextColor = Color.Black;
+        public Color ScanTabTextColor
+        {
+            get => _ScanTabTextColor;
+            set
+            {
+                _ScanTabTextColor = value;
+                OnPropertyChanged("ScanTabTextColor");
+            }
+        }
+
+        private Color _CompareTabTextColor = Color.Green;
+        public Color CompareTabTextColor
+        {
+            get => _CompareTabTextColor;
+            set
+            {
+                _CompareTabTextColor = value;
+                OnPropertyChanged("CompareTabTextColor");
+            }
+        }
+
+        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

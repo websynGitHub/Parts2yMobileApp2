@@ -221,14 +221,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         await App.Current.MainPage.DisplayAlert("Alert", "No data available", "OK");
-                        await Navigation.PopModalAsync();
+                        await Navigation.PopAsync();
                         loadindicator = false;
                     }
                 }
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Alert", "No data available", "OK");
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopAsync();
                     loadindicator = false;
                 }
             }
@@ -433,7 +433,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (Navigation.ModalStack.Count == 0 ||
                                       Navigation.ModalStack.Last().GetType() != typeof(PhotoUploadePOD))
                 {
-                    Navigation.PushModalAsync(new PhotoUploadePOD());
+                    Navigation.PushAsync(new PhotoUploadePOD());
                 }
 
             }
@@ -447,7 +447,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopModalAsync();
+                await Navigation.PopAsync();
 
             }
             catch (Exception ex)
@@ -589,7 +589,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         // Alert com o código escaneado
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            Navigation.PopModalAsync();
+                            Navigation.PopAsync();
                             if (result != null)
                             {
                                 App.Current.MainPage.DisplayAlert("Alert", result.Text, "OK");
@@ -621,7 +621,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (Navigation.ModalStack.Count == 0 ||
                                      Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
-                        await Navigation.PushModalAsync(ScannerPage);
+                        await Navigation.PushAsync(ScannerPage);
                     }
                 }
                 else
@@ -751,7 +751,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Settings.PDICompleted = DateTime.Now.ToString("h:mm");
                 Settings.LoadCompleted = DateTime.Now.ToString("h:mm");
                 Settings.isPDICompleted = Settings.isLoadCompleted = PODTickVisibility = true;
-                await Navigation.PopModalAsync();
+                await Navigation.PopAsync();
 
 
             }

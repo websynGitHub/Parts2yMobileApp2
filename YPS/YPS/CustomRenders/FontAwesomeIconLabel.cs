@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace YPS.CustomRenders
 {
@@ -11,7 +12,13 @@ namespace YPS.CustomRenders
         /// </summary>
         public FontAwesomeIconLabel()
         {
-            FontFamily = Typeface;
+            try
+            {
+                FontFamily = Typeface;
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         /// <summary>
@@ -20,8 +27,15 @@ namespace YPS.CustomRenders
         /// <param name="fontAwesomeIcon"></param>
         public FontAwesomeIconLabel(string fontAwesomeIcon = null)
         {
-            FontFamily = Typeface; //iOS is happy with this, Android needs a renderer to add ".ttf"
-            Text = fontAwesomeIcon;
+            try
+            {
+                FontFamily = Typeface; //iOS is happy with this, Android needs a renderer to add ".ttf"
+                Text = fontAwesomeIcon;
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

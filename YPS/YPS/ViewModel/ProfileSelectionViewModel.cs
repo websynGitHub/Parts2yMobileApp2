@@ -12,6 +12,7 @@ using YPS.Helpers;
 using YPS.Model;
 using YPS.Service;
 using YPS.Views;
+using YPS.Parts2y.Parts2y_Views;
 
 namespace YPS.ViewModel
 {
@@ -22,6 +23,8 @@ namespace YPS.ViewModel
         public ICommand ICommandProfile { set; get; }
         public ICommand ICommandSettings { set; get; }
         public ICommand ICommandUpdate { get; set; }
+        public ICommand Backevnttapped { set; get; }
+        public INavigation Navigation { get; set; }
 
         YPSService service;
         SaveUserDefaultSettingsModel SaveUDS;
@@ -31,11 +34,14 @@ namespace YPS.ViewModel
         /// <summary>
         /// Parameter less constructor.
         /// </summary>
-        public ProfileSelectionViewModel(int pagetype)
+        public ProfileSelectionViewModel(INavigation _Navigation, int pagetype)
         {
             YPSLogger.TrackEvent("ProfileSelectionViewModel", "page loading " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
+                Navigation = _Navigation;
+                BgColor = YPS.CommonClasses.Settings.Bar_Background;
+
                 service = new YPSService();
 
                 SaveUDS = new SaveUserDefaultSettingsModel();
@@ -43,11 +49,12 @@ namespace YPS.ViewModel
                 ICommandSetAsDefault = new Command(async () => await SetAsDefaultClick(pagetype));
                 ICommandProfile = new Command(async () => await UpdateProfileClick());
                 ICommandSettings = new Command(async () => await DefaultSettingsClick());
+                Backevnttapped = new Command(async () => await Backevnttapped_click());
 
                 profileBgColor = Color.LightBlue;
-                settingsTextColor = Color.White;
+                //settingsTextColor = Color.White;
                 settingsBgColor = Color.FromHex("#269DC9");
-                profileTextColor = Color.White;
+                //profileTextColor = Color.White;
                 settingsVisibility = settingbox = true;
                 profileVisibility = profilebox = false;
 
@@ -61,6 +68,20 @@ namespace YPS.ViewModel
             {
                 service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ProfileSelectionViewModel constructor -> in ProfileSelectionViewModel " + Settings.userLoginID);
+            }
+        }
+
+
+        public async Task Backevnttapped_click()
+        {
+            try
+            {
+                await Navigation.PopAsync();
+
+            }
+            catch (Exception ex)
+            {
+                await Navigation.PopModalAsync();
             }
         }
 
@@ -78,14 +99,14 @@ namespace YPS.ViewModel
             {
                 //Verifying internet connection.
                 checkInternet = await App.CheckInterNetConnection();
-                
+
                 if (checkInternet)
                 {
                     // Calling API to get update profile data for the login user.
                     PDefaultSettingModel = await service.DefaultSettingProfile(Settings.userLoginID);
                     // Calling API to get default settings data for login user.
                     var DBresponse = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
-                    
+
                     if (DBresponse.status != 0)
                     {
                         Settings.VersionID = DBresponse.data.VersionID;
@@ -133,23 +154,23 @@ namespace YPS.ViewModel
                             var companyData = PDefaultSettingModel.data.Company.Where(s => s.ID == DBresponse.data.CompanyID).FirstOrDefault();
                             CompanyName = companyData.Name;
                             Settings.CompanyID = companyData.ID;
-                           
+
                             // List of company
                             CompanyList = PDefaultSettingModel.data.Company;
-                            
+
                             // Getting project data based on project id from a list of the project.
                             var projectData = PDefaultSettingModel.data.Project.Where(s => s.ID == DBresponse.data.ProjectID).FirstOrDefault();
                             ProjectName = projectData.Name;
                             Settings.ProjectID = projectData.ID;
-                            
+
                             // List of project based on company id.
                             ProjectList = PDefaultSettingModel.data.Project.Where(s => s.ParentID == companyData.ID).ToList();
-                            
+
                             // Getting job data based on job id from a list of the job.
                             var jobData = PDefaultSettingModel.data.Job.Where(s => s.ID == DBresponse.data.JobID).FirstOrDefault();
                             JobName = jobData.Name;
                             Settings.JobID = jobData.ID;
-                            
+
                             // List of job based on project id.
                             JobList = PDefaultSettingModel.data.Job.Where(s => s.ParentID == projectData.ID).ToList();
 
@@ -176,7 +197,7 @@ namespace YPS.ViewModel
                                     Settings.SupplierID = 0;
                                 }
                                 List<string> allValues = new List<string>();
-                                
+
                                 //Getting a list of supplier names from a list supplier model.
                                 var list = PDefaultSettingModel.data.Supplier.Select(s => s.Name).ToList();
                                 allValues.Add("ALL");
@@ -195,13 +216,13 @@ namespace YPS.ViewModel
                         {
                             //Getting a list of company name from company list model.
                             CompanyList = PDefaultSettingModel.data.Company;
-                            
+
                             if (Settings.userRoleID == 1 || Settings.userRoleID == 2 || Settings.userRoleID == 3 || Settings.userRoleID == 4 || Settings.userRoleID == 5)
                             {
                                 //Supplier layout showing with a list of suppliers base on supplier id.
                                 SupplierLabelAndFrame = true;
                                 var supplierData = PDefaultSettingModel.data.Supplier.Where(s => s.ID == DBresponse.data.SupplierID).FirstOrDefault();
-                                
+
                                 if (supplierData != null)
                                 {
                                     SupplierName = supplierData.Name;
@@ -213,7 +234,7 @@ namespace YPS.ViewModel
                                     Settings.SupplierID = 0;
                                 }
                                 List<string> allValues = new List<string>();
-                                
+
                                 //Getting a list of supplier name from a list supplier model.
                                 var list = PDefaultSettingModel.data.Supplier.Select(s => s.Name).ToList();
                                 allValues.Add("ALL");
@@ -264,7 +285,7 @@ namespace YPS.ViewModel
             {
                 //Verifying internet connection.
                 checkInternet = await App.CheckInterNetConnection();
-               
+
                 if (checkInternet)
                 {
                     if (CompanyName.ToLower().Trim() == "please select company" || string.IsNullOrEmpty(CompanyName))
@@ -299,20 +320,22 @@ namespace YPS.ViewModel
                         SaveUDS.SupplierID = Settings.SupplierID;
                         // Calling API to save and upadate default settings data.
                         var DBresponse = await service.SaveUserDefaultSettings(SaveUDS);
-                        
+
                         if (DBresponse != null)
                         {
                             if (DBresponse.status != 0) // if user default settings are saved successfully
                             {
-                                if (pagetypeNav == (int)QAType.YS)
-                                {
-                                    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
-                                }
-                                else
-                                {
-                                    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                                //if (pagetypeNav == (int)QAType.YS)
+                                //{
+                                //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
+                                //}
+                                //else
+                                //{
+                                //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
 
-                                }
+                                //}
+
+                                App.Current.MainPage = new MenuPage(typeof(HomePage));
                             }
                             else
                             {
@@ -353,10 +376,10 @@ namespace YPS.ViewModel
         {
             try
             {
-                settingsBgColor = Color.FromHex("#269DC9");
-                settingsTextColor = Color.White;
-                profileBgColor = Color.LightBlue;
-                profileTextColor = Color.White;
+                //settingsBgColor = Color.FromHex("#269DC9");
+                settingsTextColor = Color.Green;
+                //profileBgColor = Color.LightBlue;
+                profileTextColor = Color.Black;
                 settingsVisibility = settingbox = true;
                 profileVisibility = profilebox = false;
             }
@@ -375,10 +398,10 @@ namespace YPS.ViewModel
         {
             try
             {
-                settingsBgColor = Color.LightBlue;
-                settingsTextColor = Color.White;
-                profileBgColor = Color.FromHex("#269DC9");
-                profileTextColor = Color.White;
+                //settingsBgColor = Color.Black;
+                settingsTextColor = Color.Black;
+                //profileBgColor = Color.FromHex("#269DC9");
+                profileTextColor = Color.Green;
                 settingsVisibility = settingbox = false;
                 profileVisibility = profilebox = true;
             }
@@ -400,7 +423,7 @@ namespace YPS.ViewModel
             {
                 //Verifying internet connection.
                 checkInternet = await App.CheckInterNetConnection();
-               
+
                 if (checkInternet)
                 {
                     int loginID = Settings.userLoginID;
@@ -443,7 +466,7 @@ namespace YPS.ViewModel
         public async void GetDefaultSettingsData()
         {
             IndicatorVisibility = true;
-            
+
             try
             {
                 //Verifying internet connection.
@@ -594,14 +617,16 @@ namespace YPS.ViewModel
                             //Upadating user login id in local database.
                             rememberPwd.UpdatePWd(UpdateDb, Settings.userLoginID);
 
-                            if (Settings.RedirectPage == "Yship")
-                            {
-                                App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
-                            }
-                            else
-                            {
-                                App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                            }
+                            //if (Settings.RedirectPage == "Yship")
+                            //{
+                            //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
+                            //}
+                            //else
+                            //{
+                            //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                            //}
+
+                            App.Current.MainPage = new MenuPage(typeof(HomePage));
                         }
                         else
                         {
@@ -629,6 +654,40 @@ namespace YPS.ViewModel
         #endregion
 
         #region Properties
+
+        private Color _SetAsDefaultTextColor = Color.LightBlue;
+        public Color SetAsDefaultTextColor
+        {
+            get => _SetAsDefaultTextColor;
+            set
+            {
+                _SetAsDefaultTextColor = value;
+                RaisePropertyChanged("SetAsDefaultTextColor");
+            }
+        }
+
+        private Color _ProfileSelectionTextColor = Color.Black;
+        public Color ProfileSelectionTextColor
+        {
+            get => _ProfileSelectionTextColor;
+            set
+            {
+                _ProfileSelectionTextColor = value;
+                RaisePropertyChanged("ProfileSelectionTextColor");
+            }
+        }
+
+        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                RaisePropertyChanged("BgColor");
+            }
+        }
+
         ObservableCollection<DDLmaster> _CompanyList;
         public ObservableCollection<DDLmaster> CompanyList
         {
@@ -739,14 +798,14 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private Color _profileTextColor = Color.White;
+        private Color _profileTextColor = Color.Black;
         public Color profileTextColor
         {
             get { return _profileTextColor; }
             set
             {
                 _profileTextColor = value;
-                NotifyPropertyChanged();
+                RaisePropertyChanged("profileTextColor");
             }
         }
         private Color _settingsBgColor = Color.FromHex("#269DC9");
@@ -759,14 +818,14 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private Color _settingsTextColor = Color.White;
+        private Color _settingsTextColor = Color.Green;
         public Color settingsTextColor
         {
             get { return _settingsTextColor; }
             set
             {
                 _settingsTextColor = value;
-                NotifyPropertyChanged();
+                RaisePropertyChanged("settingsTextColor");
             }
         }
 

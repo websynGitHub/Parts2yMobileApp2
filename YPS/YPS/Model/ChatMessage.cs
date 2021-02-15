@@ -114,6 +114,8 @@ namespace YPS.Models
             public int UserCount { get; set; }
             public int? POID { get; set; }
             public int QAType { get; set; }
+            public string FileName { get; set; }
+
         }
 
         public class CMessageResponse

@@ -12,7 +12,7 @@ namespace YPS.Parts2y.Parts2y_Common_Classes
         public static string CarrierNo { get; set; }
         public static string VINNo { get; set; }
         public static int ID { get; set; }
-        public static Color Bar_Background { get; set; }
+        public static Color Bar_Background { get; set; } = Color.DarkGreen;
         public static string UserName { get; set; }
         public static string UserMail { get; set; }
         public static string Entity_Name { get; set; }
@@ -49,9 +49,7 @@ namespace YPS.Parts2y.Parts2y_Common_Classes
         public static bool isPDICompleted { get; set; } = false;
         public static bool isLoadCompleted { get; set; } = false;
 
-        public static string scanQRValueA{ get; set; } = "";
+        public static string scanQRValueA { get; set; } = "";
         public static string scanQRValueB { get; set; } = "";
-
-
     }
 }

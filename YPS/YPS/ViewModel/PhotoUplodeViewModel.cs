@@ -15,6 +15,7 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 
@@ -39,7 +40,7 @@ namespace YPS.ViewModel
         PhotosList AllPhotosData;
         int puid, poid, selectiontype_index, photoCounts = 0;
         string extension = "", fileName, Mediafile, types = string.Empty;
-        bool Access_Photo, multiple_Taps, checkInternet;
+        bool Access_Photo, multiple_Taps, checkInternet, isuploadcompleted;
         #endregion
 
         /// <summary>
@@ -63,6 +64,8 @@ namespace YPS.ViewModel
                 AllPhotosData = new PhotosList();
                 Access_Photo = accessPhoto;
                 types = SelectionType;
+
+                isuploadcompleted = select_items != null ? select_items.isCompleted : allPo_Data.photoTickVisible;
 
                 if (SelectionType.Trim().ToLower() == "initialphoto")
                 {
@@ -106,6 +109,18 @@ namespace YPS.ViewModel
                 {
                     closeLabelText = false;
                     RowHeightcomplete = 0;
+
+
+                    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
+                           Settings.userRoleID == (int)UserRoles.SupplierUser)
+                    {
+                        if (isuploadcompleted == true)
+                        {
+                            DeleteIconStack = false;
+                            closeLabelText = true;
+                            RowHeightcomplete = 0;
+                        }
+                    }
                 }
                 else
                 {
@@ -260,7 +275,8 @@ namespace YPS.ViewModel
         {
             try
             {
-                await Navigation.PopAsync(true);
+                //await Navigation.PopAsync(true);
+                App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
@@ -359,6 +375,8 @@ namespace YPS.ViewModel
             try
             {
                 UploadType = (int)UploadTypeEnums.GoodsPhotos_AP;
+                BeforePackingTextColor = Color.Black;
+                AfterPackingTextColor = Color.Green;
 
                 if (AllPhotosData.data != null)
                 {
@@ -416,7 +434,8 @@ namespace YPS.ViewModel
             try
             {
                 UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;
-
+                BeforePackingTextColor = Color.Green;
+                AfterPackingTextColor = Color.Black;
                 if (AllPhotosData.data != null)
                 {
                     AStack = false;
@@ -564,11 +583,24 @@ namespace YPS.ViewModel
                             }
                             else
                             {
-                                closeLabelText = true;
-                                RowHeightcomplete = 50;
+                                if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
+                                    Settings.userRoleID == (int)UserRoles.SupplierUser)
+                                {
+                                    if (isuploadcompleted == true)
+                                    {
+                                        DeleteIconStack = false;
+                                        closeLabelText = false;
+                                        RowHeightcomplete = 0;
+                                    }
+                                }
+                                else
+                                {
+                                    closeLabelText = true;
+                                    RowHeightcomplete = 50;
+                                }
                             }
 
-                            if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                            if (Settings.userRoleID == (int)UserRoles.MfrAdmin ||
                                     Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
                                     Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
                             {
@@ -711,10 +743,23 @@ namespace YPS.ViewModel
                                 }
                                 else
                                 {
-                                    closeLabelText = true;
-                                    RowHeightcomplete = 50;
+                                    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
+                                    Settings.userRoleID == (int)UserRoles.SupplierUser)
+                                    {
+                                        if (isuploadcompleted == true)
+                                        {
+                                            DeleteIconStack = false;
+                                            closeLabelText = false;
+                                            RowHeightcomplete = 0;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        closeLabelText = true;
+                                        RowHeightcomplete = 50;
+                                    }
 
-                                    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                                    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
                                     Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
                                     Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
                                     {
@@ -1024,6 +1069,30 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+
+        private Color _BeforePackingTextColor = Color.Green;
+        public Color BeforePackingTextColor
+        {
+            get { return _BeforePackingTextColor; }
+            set
+            {
+                _BeforePackingTextColor = value;
+                RaisePropertyChanged("BeforePackingTextColor");
+            }
+        }
+     
+        private Color _AfterPackingTextColor = Color.Black;
+        public Color AfterPackingTextColor
+        {
+            get { return _AfterPackingTextColor; }
+            set
+            {
+                _AfterPackingTextColor = value;
+                RaisePropertyChanged("AfterPackingTextColor");
+            }
+        }
+
+
         private ImageSource _captchaImage1;
         public ImageSource CaptchaImage1
         {

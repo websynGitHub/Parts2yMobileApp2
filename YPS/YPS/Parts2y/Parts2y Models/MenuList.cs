@@ -10,5 +10,10 @@ namespace YPS.Parts2y.Parts2y_Models
 
         public string IconSource { get; set; }
         public List<int> Role { get; set; }
+
+        public double opacity { get; set; }
+        public bool IconType { get; set; }
+        public bool Image { get; set; }
+        public bool Label { get; set; }
     }
 }

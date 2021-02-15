@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Xamarin.Forms;
 using YPS.Service;
 
 namespace YPS.Model
@@ -13,8 +14,6 @@ namespace YPS.Model
         public string DisciplineName { get; set; }
         public string ELevelName { get; set; }
         public string PONumber { get; set; }
-        public string ETD { get; set; }
-        public string ETA { get; set; }
         public string REQNo { get; set; }
         public string PODescription { get; set; }
         public string SupplierCompanyName { get; set; }
@@ -80,6 +79,36 @@ namespace YPS.Model
                 RaisePropertyChanged("TagAPhotoCount");
             }
         }
+
+        private Color _SelectedTagBorderColor = Color.Transparent;
+        public Color SelectedTagBorderColor
+        {
+            get
+            {
+                return _SelectedTagBorderColor;
+            }
+            set
+            {
+                this._SelectedTagBorderColor = value;
+                RaisePropertyChanged("SelectedTagBorderColor");
+            }
+        }
+
+        private bool _IsChecked;
+        public bool IsChecked
+        {
+            get
+            {
+                return _IsChecked;
+            }
+            set
+            {
+                this._IsChecked = value;
+                RaisePropertyChanged("IsChecked");
+            }
+        }
+
+
         public int FUID { get; set; }
 
         private int _TagFilesCount;
@@ -96,20 +125,6 @@ namespace YPS.Model
             }
         }
         public int TagQAClosedCount { get; set; }
-        public string POIssue { get; set; }
-        public string KOM { get; set; }
-        public string KeyDWGReceived { get; set; }
-        public string KeyDWGReturned { get; set; }
-        public string MainMaterialSubOrderIssue { get; set; }
-        public string MainMaterialReceived { get; set; }
-        public string FABStart { get; set; }
-        public string FABFinish { get; set; }
-        public string IRN { get; set; }
-        public string DeliveryDate { get; set; }
-        public string PortArrival { get; set; }
-        public string SiteArrival { get; set; }
-        public string FinalDocument { get; set; }
-        public string PIM { get; set; }
         public int ISFileClosed { get; set; }
         public int ISPhotoClosed { get; set; }
         public int ISFinalVol { get; set; }
@@ -117,33 +132,66 @@ namespace YPS.Model
         public string ROS { get; set; }
         public int? POS { get; set; }
         public int? SUB { get; set; }
-        public int? IS_POS { get; set; }
-        public int? IS_SUB { get; set; }
         public string SIZE1 { get; set; }
         public string SIZE2 { get; set; }
         public string SIZE3 { get; set; }
         public string SIZE4 { get; set; }
         public string COMMODITY_CODE { get; set; }
-        public string TEC_CODE { get; set; }
-        public string SHIP_RELEASE_NOTE { get; set; }
         public string IDENT_DEVIATED_TAG_DESC { get; set; }
         public string ShippingNumberEncrypted { get; set; }
         public string ConditionName { get; set; }
         public int QAClosedCount { get; set; }
         public string IsReadytoyShipEncrypted { get; set; }
         public string POAck { get; set; }
-        public string PickUp { get; set; }
-        public string DeliverPlace { get; set; }
-        public string POL { get; set; }
-        public string POD { get; set; }
         public string Remarks { get; set; }
         public string POIDEncrypted { get; set; }
         public string IdentCode { get; set; }
         public string BagNumber { get; set; }
-        public string DPLRECEIVED { get; set; }
         public int IsReadytoyShip { get; set; }
         public int ISTagPrinted { get; set; }
         public string yBkgNumber { get; set; }
+
+        public bool _IsFilesVisible { set; get; }
+        public bool IsFilesVisible
+        {
+            get
+            {
+                return _IsFilesVisible;
+            }
+            set
+            {
+                this._IsFilesVisible = value;
+                RaisePropertyChanged("IsFilesVisible");
+            }
+        }
+
+        public bool _IsPhotosVisible { set; get; }
+        public bool IsPhotosVisible
+        {
+            get
+            {
+                return _IsPhotosVisible;
+            }
+            set
+            {
+                this._IsPhotosVisible = value;
+                RaisePropertyChanged("IsPhotosVisible");
+            }
+        }
+
+        public bool _IsChatsVisible { set; get; }
+        public bool IsChatsVisible
+        {
+            get
+            {
+                return _IsChatsVisible;
+            }
+            set
+            {
+                this._IsChatsVisible = value;
+                RaisePropertyChanged("IsChatsVisible");
+            }
+        }
         #endregion
 
         #region Fields for Mobile 
@@ -357,34 +405,6 @@ namespace YPS.Model
         public int PriorityID { get; set; }
     }
 
-    public class Location
-    {
-        public string Pickup { get; set; }
-        public string POL { get; set; }
-        public string POD { get; set; }
-        public int Onsite { get; set; }
-    }
-
-    public class Country
-    {
-        public string Pickup { get; set; }
-        public string POL { get; set; }
-        public string POD { get; set; }
-        public int Onsite { get; set; }
-    }
-
-    public class Dates
-    {
-        public string DeliveryFrom { get; set; }
-        public string DeliveryTo { get; set; }
-        public string ETDFrom { get; set; }
-        public string ETDTo { get; set; }
-        public string ETAFrom { get; set; }
-        public string ETATo { get; set; }
-        public string OnsiteFrom { get; set; }
-        public string OnsiteDTo { get; set; }
-    }
-
     public class SendPodata
     {
         public int UserID { get; set; }
@@ -402,30 +422,12 @@ namespace YPS.Model
         public string LocationPOL { get; set; }
         public string LocationPOD { get; set; }
         public int LocationOnsite { get; set; }
-        public string POL { get; set; }
-        public string POD { get; set; }
-        public string DeliverPlace { get; set; }
         public int Onsite { get; set; }
-        public string DeliveryFrom { get; set; }
-        public string DeliveryTo { get; set; }
-        public string ETDFrom { get; set; }
-        public string ETDTo { get; set; }
-        public string ETAFrom { get; set; }
-        public string ETATo { get; set; }
-        public string OnsiteFrom { get; set; }
-        public string OnsiteTo { get; set; }
-
-        public int DeliveryPlaceID { get; set; }
-        public int POLID { get; set; }
-        public int PODID { get; set; }
         public int OnsitePlaceID { get; set; }
         public int StartPage { get; set; }
         public int PageSize { get; set; }
         public string BagNo { get; set; }
-        public int PickUpId { get; set; }
         public string SearchText { get; set; }
-        public string DeliveryPlace { get; set; }
-        public string PickUp { get; set; }
         public int Status { get; set; }
         public string yBkgNumber { get; set; }
     }

@@ -33,23 +33,9 @@ namespace YPS.ViewModel
         public ICommand Condition_PickerCommand { set; get; }
         public ICommand Expeditor_PickerCommand { set; get; }
         public ICommand Priority_PickerCommand { set; get; }
-        public ICommand DeliveryPlace_Picker_LCommand { set; get; }
-        public ICommand POL_Picker_LCommand { set; get; }
-        public ICommand POD_Picker_LCommand { set; get; }
-        public ICommand PickUp_Picker_LCommand { set; get; }
-        public ICommand DeliveryFromCommand { set; get; }
-        public ICommand ETDFromCommand { set; get; }
-        public ICommand ETAFromCommand { set; get; }
-        public ICommand OnsiteFromCommand { set; get; }
-        public ICommand DeliveryToCommand { set; get; }
-        public ICommand ETDToCommand { set; get; }
-        public ICommand ETAToCommand { set; get; }
-        public ICommand OnsiteToCommand { set; get; }
         public ICommand resetCommand { set; get; }
         public ICommand applyCommand { set; get; }
         public ICommand keyTabCommand { set; get; }
-        public ICommand locationTabCommand { set; get; }
-        public ICommand datesTabCommand { set; get; }
         #endregion
 
         #region Properties for dynamic label change
@@ -67,18 +53,6 @@ namespace YPS.ViewModel
             public filtterlabelFields IdentCode { get; set; } = new filtterlabelFields();
             public filtterlabelFields BagNumber { get; set; } = new filtterlabelFields();
             public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields();
-            public filtterlabelFields PickUp { get; set; } = new filtterlabelFields();
-            public filtterlabelFields POL { get; set; } = new filtterlabelFields();
-            public filtterlabelFields POD { get; set; } = new filtterlabelFields();
-            public filtterlabelFields DeliverPlace { get; set; } = new filtterlabelFields();
-            public filtterlabelFields ETD { get; set; } = new filtterlabelFields();
-            public filtterlabelFields ETA { get; set; } = new filtterlabelFields();
-            public filtterlabelFields DeliveryDate { get; set; } = new filtterlabelFields();
-            public filtterlabelFields SiteArrival { get; set; } = new filtterlabelFields();
-            public filtterlabelFields ETDto { get; set; } = new filtterlabelFields();
-            public filtterlabelFields ETAto { get; set; } = new filtterlabelFields();
-            public filtterlabelFields DeliveryDateto { get; set; } = new filtterlabelFields();
-            public filtterlabelFields SiteArrivalto { get; set; } = new filtterlabelFields();
             public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
             public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
         }
@@ -99,19 +73,8 @@ namespace YPS.ViewModel
             }
         }
 
-        #region DataPlacehlder name
-        string etadatename;
-        string etadatenameto;
-        string etddatename;
-        string etddatenameto;
-        string deliveryDate;
-        string deliveryDateto;
-        string siteArrival;
-        string siteArrivalto;
-        #endregion
 
         #endregion
-
         /// <summary>
         /// Parameterized constructor.
         /// </summary>
@@ -154,69 +117,12 @@ namespace YPS.ViewModel
                 {
                     view?.Focus();
                 });
-
-                PickUp_Picker_LCommand = new Command<View>((view) =>
-                {
-                    EntrySearchType = "PickUpSearchL";
-                    if (ListOfPlaceName != null)
-                    {
-                        ListOfPlaceName.Clear();
-                    }
-                    SearchContentView = true;
-                    NoResultsIsVisibleLbl = true;
-                });
-
-                POL_Picker_LCommand = new Command<View>((view) =>
-                {
-                    EntrySearchType = "POLSearchL";
-                    if (ListOfPlaceName != null)
-                    {
-                        ListOfPlaceName.Clear();
-                    }
-                    SearchContentView = true;
-                    NoResultsIsVisibleLbl = true;
-                });
-
-                POD_Picker_LCommand = new Command<View>((view) =>
-                {
-                    EntrySearchType = "PODSearchL";
-                    if (ListOfPlaceName != null)
-                    {
-                        ListOfPlaceName.Clear();
-                    }
-                    SearchContentView = true;
-                    NoResultsIsVisibleLbl = true;
-                });
-
-                DeliveryPlace_Picker_LCommand = new Command<View>((view) =>
-                {
-                    EntrySearchType = "DeliverySearchL";
-                    if (ListOfPlaceName != null)
-                    {
-                        ListOfPlaceName.Clear();
-                    }
-                    SearchContentView = true;
-                    NoResultsIsVisibleLbl = true;
-                });
                 #endregion
 
                 #region BInding tab & click event methods to respective ICommand properties
-                DeliveryFromCommand = new Command(tap_pickupDate);
-                ETDFromCommand = new Command(tap_polDate);
-                ETAFromCommand = new Command(tap_podDate);
-                OnsiteFromCommand = new Command(tap_onsiteDate);
-
-                DeliveryToCommand = new Command(tap_DeliveryToDate);
-                ETDToCommand = new Command(tap_ETDToDate);
-                ETAToCommand = new Command(tap_ETAToDate);
-                OnsiteToCommand = new Command(tap_onsiteFromDate);
-
                 applyCommand = new Command(async () => await ApplyFilter());
                 resetCommand = new Command(async () => await ResetFilter());
-
                 keyTabCommand = new Command(async () => await KeyTabClick());
-                locationTabCommand = new Command(async () => await LocationTabClick());
-                datesTabCommand = new Command(async () => await DateTabClick());
                 #endregion
 
                 ChangeLabel();
@@ -285,26 +191,6 @@ namespace YPS.ViewModel
                     SaveUserDS.BagNo = Settings.BagNo = BagNumber;
                     SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber;
 
-                    //Getting the entered feild values from Location tab
-                    SaveUserDS.PickUpId = Settings.LocationPickupID;
-                    SaveUserDS.PickUp = Settings.LocationPickupName;
-                    SaveUserDS.POLID = Settings.LocationPOLID;
-                    SaveUserDS.POL = Settings.LocationPOLName;
-                    SaveUserDS.PODID = Settings.LocationPODID;
-                    SaveUserDS.POD = Settings.LocationPODName;
-                    SaveUserDS.DeliveryPlaceID = Settings.LocationDeliverPlaceID;
-                    SaveUserDS.DeliveryPlace = Settings.LocationDeliverPlaceName;
-
-                    //Getting the entered feild values from Date tab
-                    SaveUserDS.ETDFrom = string.IsNullOrEmpty(Settings.ETDFrom) ? null : ETDFromSelectDatetext;
-                    SaveUserDS.ETAFrom = string.IsNullOrEmpty(Settings.ETAFrom) ? null : ETAFromSelectDatetext;
-                    SaveUserDS.DeliveryFrom = string.IsNullOrEmpty(Settings.DeliveryFrom) ? null : DeliveryFromSelectDatetext;
-                    SaveUserDS.OnsiteFrom = string.IsNullOrEmpty(Settings.OnsiteFrom) ? null : OnsiteDSelectDatetext;
-                    SaveUserDS.ETDTo = string.IsNullOrEmpty(Settings.ETDTo) ? null : ETDToSelectDatetext;
-                    SaveUserDS.ETATo = string.IsNullOrEmpty(Settings.ETATo) ? null : ETAToSelectDatetext;
-                    SaveUserDS.DeliveryTo = string.IsNullOrEmpty(Settings.DeliveryTo) ? null : DeliveryToSelectDatetext;
-                    SaveUserDS.OnsiteTo = string.IsNullOrEmpty(Settings.OnsiteTo) ? null : OnsiteToSelectDatetext;
-
                     //Save the filter field values to DB
                     SearchPassData defaultData = new SearchPassData();
                     defaultData.UserID = Settings.userLoginID;
@@ -312,7 +198,9 @@ namespace YPS.ViewModel
                     defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
                     var responseData = await service.SaveSerchvaluesSetting(defaultData);
 
-                    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                    Settings.IsFilterreset = true;
+                    //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                    await Navigation.PopAsync();
                 }
                 else
                 {
@@ -373,34 +261,6 @@ namespace YPS.ViewModel
                     SaveUserDS.BagNo = Settings.BagNo = BagNumber = string.Empty;
                     SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber = string.Empty;
 
-                    // Setting the default values for fields in Location tab
-                    SaveUserDS.PickUpId = Settings.LocationPickupID = 0;
-                    PickUpDefaultValue_L = "ALL";
-                    SaveUserDS.POLID = Settings.LocationPOLID = 0;
-                    POLDefaultValue_L = "ALL";
-                    SaveUserDS.PODID = Settings.LocationPODID = 0;
-                    PODDefaultValue_L = "ALL";
-                    SaveUserDS.DeliveryPlaceID = Settings.LocationDeliverPlaceID = 0;
-                    DeliverPlaceDefaultValue_L = "ALL";
-
-                    // Setting the default values for fields in Date tabe
-                    SaveUserDS.DeliveryFrom = Settings.DeliveryFrom = null;
-                    SaveUserDS.ETDFrom = Settings.ETDFrom = null;
-                    SaveUserDS.ETAFrom = Settings.ETAFrom = null;
-                    SaveUserDS.OnsiteFrom = Settings.OnsiteFrom = null;
-                    SaveUserDS.DeliveryTo = Settings.DeliveryTo = null;
-                    SaveUserDS.ETDTo = Settings.ETDTo = null;
-                    SaveUserDS.ETATo = Settings.ETATo = null;
-                    SaveUserDS.OnsiteTo = Settings.OnsiteTo = null;
-                    ETDFromSelectDatetext = etddatename;
-                    ETDToSelectDatetext = etddatenameto;
-                    ETAFromSelectDatetext = etadatename;
-                    ETAToSelectDatetext = etadatenameto;
-                    DeliveryFromSelectDatetext = deliveryDate;
-                    DeliveryToSelectDatetext = deliveryDateto;
-                    OnsiteDSelectDatetext = siteArrival;
-                    OnsiteToSelectDatetext = siteArrivalto;
-
                     //Saving all the filter fields with default value into the DB
                     defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
                     var responseData = await service.SaveSerchvaluesSetting(defaultData);
@@ -432,290 +292,15 @@ namespace YPS.ViewModel
             try
             {
                 headerVisibility = true;
-                locationVisibility = countryVisibility = datesVisibility = false;
-                headerTextColor = locationTextColor = countryTextColor = datesTextColor = Color.White;
-                headerbox = true; locationbox = datebox = false;
+                countryVisibility = false;
+                headerTextColor = countryTextColor = Color.White;
+                headerbox = true;
                 headerBgColor = Color.FromHex("#269DC9");
-                locationBgColor = countryBgColor = datesBgColor = Color.LightBlue;
+                countryBgColor = Color.LightBlue;
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "KeyTabClick method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "Location" tab.
-        /// </summary>
-        /// <returns></returns>
-        private async Task LocationTabClick()
-        {
-            try
-            {
-                locationVisibility = true;
-                headerVisibility = countryVisibility = datesVisibility = false;
-                locationTextColor = headerTextColor = countryTextColor = datesTextColor = Color.White;
-                locationbox = true; headerbox = datebox = false;
-                locationBgColor = Color.FromHex("#269DC9");
-                headerBgColor = countryBgColor = datesBgColor = Color.LightBlue;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "LocationTabClick method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "Date" tab.
-        /// </summary>
-        /// <returns></returns>
-        private async Task DateTabClick()
-        {
-            try
-            {
-                datesVisibility = true;
-                headerVisibility = countryVisibility = locationVisibility = false;
-                datesTextColor = headerTextColor = countryTextColor = locationTextColor = Color.White;
-                datebox = true; headerbox = locationbox = false;
-                datesBgColor = Color.FromHex("#269DC9");
-                headerBgColor = countryBgColor = locationBgColor = Color.LightBlue;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "DateTabClick method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "ETD" field.
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_polDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "ETD From";
-                myNullableDate.PropertyChanged += Data_PropertyChanged;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_polDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "ETD To" field.
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_ETDToDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "ETD To";
-                myNullableDate.PropertyChanged += Data_PropertyChanged;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_ETDToDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "ETA From" field.
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_podDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "ETA From";
-                myNullableDate.PropertyChanged += Data_PropertyChanged;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_podDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "ETA To" field.
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_ETAToDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "ETA To";
-                myNullableDate.PropertyChanged += Data_PropertyChanged; ;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_ETAToDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "Delivery From" field
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_pickupDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "Delivery From";
-                myNullableDate.PropertyChanged += Data_PropertyChanged;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_pickupDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "Delivery To" field
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_DeliveryToDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "Delivery To";
-                myNullableDate.PropertyChanged += Data_PropertyChanged;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_DeliveryToDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Get called when clicked on "SiteArrival From" field
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_onsiteDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "Onsite From";
-                myNullableDate.PropertyChanged += Data_PropertyChanged;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_onsiteDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on "SiteArrival From" field
-        /// </summary>
-        /// <param name="sender"></param>
-        private async void tap_onsiteFromDate(object sender)
-        {
-            try
-            {
-                myNullableDate = sender as NullableDatePicker;
-                myNullableDate.Focus();
-                Settings.dateBaseOnPickerVal = "Onsite To";
-                myNullableDate.PropertyChanged += Data_PropertyChanged;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "tap_onsiteFromDate method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// Gets Called when Done is clicked on the DatePicker
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void Data_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            try
-            {
-                var date = sender as NullableDatePicker;
-                string selectedDate = date.Date.ToString(Settings.DateFormatformAPI);
-                
-                if (!string.IsNullOrEmpty(selectedDate))
-                {
-                    if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etdfrom")
-                    {
-                        ETDFromSelectDatetext = selectedDate;
-                        Settings.ETDFrom = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etdto")
-                    {
-                        ETDToSelectDatetext = selectedDate;
-                        Settings.ETDTo = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etafrom")
-                    {
-                        ETAFromSelectDatetext = selectedDate;
-                        Settings.ETAFrom = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "etato")
-                    {
-                        ETAToSelectDatetext = selectedDate;
-                        Settings.ETATo = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "deliveryfrom")
-                    {
-                        DeliveryFromSelectDatetext = selectedDate;
-                        Settings.DeliveryFrom = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "deliveryto")
-                    {
-                        DeliveryToSelectDatetext = selectedDate;
-                        Settings.DeliveryTo = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "onsitefrom")
-                    {
-                        OnsiteDSelectDatetext = selectedDate;
-                        Settings.OnsiteFrom = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                    else if (Settings.dateBaseOnPickerVal.Replace(" ", string.Empty).ToLower() == "onsiteto")
-                    {
-                        OnsiteToSelectDatetext = selectedDate;
-                        Settings.OnsiteTo = selectedDate;
-                        myNullableDate.CleanDate();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "Data_PropertyChanged method-> in datechanged event " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -803,8 +388,6 @@ namespace YPS.ViewModel
                     ConditionNames = Conditionlist.Select(x => x.Name).ToList();
 
                     BindKeyTabValues();
-                    BindLocationTabValues();
-                    BindDateTabValues();
                 }
                 else
                 {
@@ -899,51 +482,6 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "BindingKeyValues method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// This is for binding the existing Location tab field values
-        /// </summary>
-        private async void BindLocationTabValues()
-        {
-            try
-            {
-                PickUpDefaultValue_L = Settings.LocationPickupID != 0 ? Settings.LocationPickupName : PickUpDefaultValue_L;
-                POLDefaultValue_L = Settings.LocationPOLID != 0 ? Settings.LocationPOLName : POLDefaultValue_L;
-                PODDefaultValue_L = Settings.LocationPODID != 0 ? Settings.LocationPODName : PODDefaultValue_L;
-                DeliverPlaceDefaultValue_L = Settings.LocationDeliverPlaceID != 0 ? Settings.LocationDeliverPlaceName : DeliverPlaceDefaultValue_L;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "BindLocationTabValues method -> in FilterDataViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// This is for binding the existing Date tab field values
-        /// </summary>
-        private async void BindDateTabValues()
-        {
-            try
-            {
-                // Binding for From Dates
-                ETDFromSelectDatetext = !(String.IsNullOrEmpty(Settings.ETDFrom)) ? Settings.ETDFrom : ETDFromSelectDatetext;
-                ETAFromSelectDatetext = !(String.IsNullOrEmpty(Settings.ETAFrom)) ? Settings.ETAFrom : ETAFromSelectDatetext;
-                DeliveryFromSelectDatetext = !(String.IsNullOrEmpty(Settings.DeliveryFrom)) ? Settings.DeliveryFrom : DeliveryFromSelectDatetext;
-                OnsiteDSelectDatetext = !(String.IsNullOrEmpty(Settings.OnsiteFrom)) ? Settings.OnsiteFrom : OnsiteDSelectDatetext;
-
-                //Binding for To Dates
-                ETDToSelectDatetext = !(String.IsNullOrEmpty(Settings.ETDTo)) ? Settings.ETDTo : ETDToSelectDatetext;
-                ETAToSelectDatetext = !(String.IsNullOrEmpty(Settings.ETATo)) ? Settings.ETATo : ETAToSelectDatetext;
-                DeliveryToSelectDatetext = !(String.IsNullOrEmpty(Settings.DeliveryTo)) ? Settings.DeliveryTo : DeliveryToSelectDatetext;
-                OnsiteToSelectDatetext = !(String.IsNullOrEmpty(Settings.OnsiteTo)) ? Settings.OnsiteTo : OnsiteToSelectDatetext;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "BindDateTabValues method -> in FilterDataViewModel " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -1089,14 +627,7 @@ namespace YPS.ViewModel
                         var IdentCode = filteredlabel.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var BagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var ybkgnumber = filteredlabel.Where(wr => wr.FieldID == labelobj.yBkgNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var PickUp = filteredlabel.Where(wr => wr.FieldID == labelobj.PickUp.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var POL = filteredlabel.Where(wr => wr.FieldID == labelobj.POL.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var POD = filteredlabel.Where(wr => wr.FieldID == labelobj.POD.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var DeliverPlace = filteredlabel.Where(wr => wr.FieldID == labelobj.DeliverPlace.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var ETD = filteredlabel.Where(wr => wr.FieldID == labelobj.ETD.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var ETA = filteredlabel.Where(wr => wr.FieldID == labelobj.ETA.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var DeliveryDate = filteredlabel.Where(wr => wr.FieldID == labelobj.DeliveryDate.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var SiteArrival = filteredlabel.Where(wr => wr.FieldID == labelobj.SiteArrival.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
                         var ResetBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.ResetBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var SearchBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.SearchBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
@@ -1125,40 +656,8 @@ namespace YPS.ViewModel
                         labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false;
                         labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
                         labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false;
-                        labelobj.PickUp.Name = PickUp != null ? PickUp.LblText : "PickUp";
-                        labelobj.PickUp.Status = (PickUp == null ? true : false) || (PickUp != null && PickUp.Status == 1) ? true : false;
-                        labelobj.POL.Name = POL != null ? POL.LblText : "POL";
-                        labelobj.POL.Status = (POL == null ? true : false) || (POL != null && POL.Status == 1) ? true : false;
-                        labelobj.POD.Name = POD != null ? POD.LblText : "POD";
-                        labelobj.POD.Status = (POD == null ? true : false) || (POD != null && POD.Status == 1) ? true : false;
-                        labelobj.DeliverPlace.Name = DeliverPlace != null ? DeliverPlace.LblText : "Delivery Place";
-                        labelobj.DeliverPlace.Status = (DeliverPlace == null ? true : false) || (DeliverPlace != null && DeliverPlace.Status == 1) ? true : false;
-                        labelobj.ETD.Name = ETD != null ? ETD.LblText + " From" : "ETD From";
-                        labelobj.ETD.Status = (ETD == null ? true : false) || (ETD != null && ETD.Status == 1) ? true : false;
-                        labelobj.ETDto.Name = ETD != null ? ETD.LblText + " To" : "ETD To";
-                        labelobj.ETDto.Status = (ETD == null ? true : false) || (ETD != null && ETD.Status == 1) ? true : false;
-                        labelobj.ETA.Name = ETA != null ? ETA.LblText + " From" : "ETA From";
-                        labelobj.ETA.Status = (ETA == null ? true : false) || (ETA != null && ETA.Status == 1) ? true : false;
-                        labelobj.ETAto.Name = ETA != null ? ETA.LblText + " To" : "ETA To";
-                        labelobj.ETAto.Status = (ETA == null ? true : false) || (ETA != null && ETA.Status == 1) ? true : false;
-                        labelobj.DeliveryDate.Name = DeliveryDate != null ? DeliveryDate.LblText + " From" : "Delivery Date From";
-                        labelobj.DeliveryDate.Status = (DeliveryDate == null ? true : false) || (DeliveryDate != null && DeliveryDate.Status == 1) ? true : false;
-                        labelobj.DeliveryDateto.Name = DeliveryDate != null ? DeliveryDate.LblText + " To" : "Delivery Date To";
-                        labelobj.DeliveryDateto.Status = (DeliveryDate == null ? true : false) || (DeliveryDate != null && DeliveryDate.Status == 1) ? true : false;
-                        labelobj.SiteArrival.Name = SiteArrival != null ? SiteArrival.LblText + " From" : "Site Arrival From";
-                        labelobj.SiteArrival.Status = (SiteArrival == null ? true : false) || (SiteArrival != null && SiteArrival.Status == 1) ? true : false;
-                        labelobj.SiteArrivalto.Name = SiteArrival != null ? SiteArrival.LblText + " To" : "Site Arrival To";
-                        labelobj.SiteArrivalto.Status = (SiteArrival == null ? true : false) || (SiteArrival != null && SiteArrival.Status == 1) ? true : false;
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
-                        etddatename = ETDFromSelectDatetext = ETD != null ? ETD.LblText : "ETD From";
-                        etddatenameto = ETDToSelectDatetext = ETD != null ? ETD.LblText : "ETD To";
-                        etadatename = ETAFromSelectDatetext = ETA != null ? ETA.LblText : "ETA From";
-                        etadatenameto = ETAToSelectDatetext = ETA != null ? ETA.LblText : "ETA To";
-                        deliveryDate = DeliveryFromSelectDatetext = DeliveryDate != null ? DeliveryDate.LblText : "Delivery Date From";
-                        deliveryDateto = DeliveryToSelectDatetext = DeliveryDate != null ? DeliveryDate.LblText : "Delivery Date To";
-                        siteArrival = OnsiteDSelectDatetext = SiteArrival != null ? SiteArrival.LblText : "Site Arrival From";
-                        siteArrivalto = OnsiteToSelectDatetext = SiteArrival != null ? SiteArrival.LblText : "Site Arrival To";
                     }
                 }
             }
@@ -1179,14 +678,8 @@ namespace YPS.ViewModel
             {
                 labelobj.PO.Name = "PONumber"; labelobj.REQNo.Name = "REQNo"; labelobj.ShippingNumber.Name = "ShippingNumber"; labelobj.DisciplineName.Name = "DisciplineName";
                 labelobj.ELevelName.Name = "ELevelName"; labelobj.Condition.Name = "ConditionName"; labelobj.Expeditor.Name = "ExpeditorName"; labelobj.PriorityName.Name = "PriorityName";
-                labelobj.TagNumber.Name = "TagNumber"; labelobj.IdentCode.Name = "IdentCode"; labelobj.BagNumber.Name = "BagNumber"; labelobj.PickUp.Name = "PickUp";
+                labelobj.TagNumber.Name = "TagNumber"; labelobj.IdentCode.Name = "IdentCode"; labelobj.BagNumber.Name = "BagNumber";
                 labelobj.yBkgNumber.Name = "yBkgNumber";
-                labelobj.POL.Name = "POL"; labelobj.POD.Name = "POD";
-                labelobj.DeliverPlace.Name = "DeliverPlace";
-                labelobj.ETD.Name = "ETD";
-                labelobj.ETA.Name = "ETA";
-                labelobj.DeliveryDate.Name = "DeliveryDate";
-                labelobj.SiteArrival.Name = "SiteArrival"; labelobj.ResetBtn.Name = "Reset"; labelobj.SearchBtn.Name = "Search";
             }
             catch (Exception ex)
             {
@@ -1196,47 +689,14 @@ namespace YPS.ViewModel
         }
 
         #region Properties
-        private bool _SearchContentView = false;
-        public bool SearchContentView
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
         {
-            get { return _SearchContentView; }
+            get => _BgColor;
             set
             {
-                _SearchContentView = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _NoResultsLbl = "Please enter 4 or more characters";
-        public string NoResultsLbl
-        {
-            get { return _NoResultsLbl; }
-            set
-            {
-                _NoResultsLbl = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool _NoResultsIsVisibleLbl = true;
-        public bool NoResultsIsVisibleLbl
-        {
-            get { return _NoResultsIsVisibleLbl; }
-            set
-            {
-                _NoResultsIsVisibleLbl = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool _DeliverPlaceListViewStack = false;
-        public bool DeliverPlaceListViewStack
-        {
-            get { return _DeliverPlaceListViewStack; }
-            set
-            {
-                _DeliverPlaceListViewStack = value;
-                NotifyPropertyChanged();
+                _BgColor = value;
+                RaisePropertyChanged("BgColor");
             }
         }
 
@@ -1317,27 +777,6 @@ namespace YPS.ViewModel
             }
         }
 
-        private bool _locationbox = false;
-        public bool locationbox
-        {
-            get { return _locationbox; }
-            set
-            {
-                _locationbox = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool _datebox = false;
-        public bool datebox
-        {
-            get { return _datebox; }
-            set
-            {
-                _datebox = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private string _tagNumber = string.Empty;
         public string tagNumber
@@ -1382,97 +821,6 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-
-        #region Date Properties
-        private string _DeliveryFromSelectDatetext = string.Empty;
-        public string DeliveryFromSelectDatetext
-        {
-            get { return _DeliveryFromSelectDatetext; }
-            set
-            {
-                _DeliveryFromSelectDatetext = value;
-                RaisePropertyChanged("DeliveryFromSelectDatetext");
-            }
-        }
-
-        private string _ETDFromSelectDatetext;
-        public string ETDFromSelectDatetext
-        {
-            get { return _ETDFromSelectDatetext; }
-            set
-            {
-                _ETDFromSelectDatetext = value;
-                RaisePropertyChanged("ETDFromSelectDatetext");
-            }
-        }
-
-        private string _ETAFromSelectDatetext;
-        public string ETAFromSelectDatetext
-        {
-            get { return _ETAFromSelectDatetext; }
-            set
-            {
-                _ETAFromSelectDatetext = value;
-                RaisePropertyChanged("ETAFromSelectDatetext");
-            }
-        }
-
-        private string _OnsiteDSelectDatetext;
-        public string OnsiteDSelectDatetext
-        {
-            get { return _OnsiteDSelectDatetext; }
-            set
-            {
-                _OnsiteDSelectDatetext = value;
-                RaisePropertyChanged("OnsiteDSelectDatetext");
-            }
-        }
-
-        private string _DeliveryToSelectDatetext;
-        public string DeliveryToSelectDatetext
-        {
-            get { return _DeliveryToSelectDatetext; }
-            set
-            {
-                _DeliveryToSelectDatetext = value;
-                RaisePropertyChanged("DeliveryToSelectDatetext");
-            }
-        }
-
-        private string _ETDToSelectDatetext;
-        public string ETDToSelectDatetext
-        {
-            get { return _ETDToSelectDatetext; }
-            set
-            {
-                _ETDToSelectDatetext = value;
-                RaisePropertyChanged("ETDToSelectDatetext");
-            }
-        }
-
-        private string _ETAToSelectDatetext;
-        public string ETAToSelectDatetext
-        {
-            get { return _ETAToSelectDatetext; }
-            set
-            {
-                _ETAToSelectDatetext = value;
-                RaisePropertyChanged("ETAToSelectDatetext");
-            }
-        }
-
-        private string _OnsiteToSelectDatetext;
-        public string OnsiteToSelectDatetext
-        {
-            get { return _OnsiteToSelectDatetext; }
-            set
-            {
-                _OnsiteToSelectDatetext = value;
-                RaisePropertyChanged("OnsiteToSelectDatetext");
-            }
-        }
-
-        #endregion
 
         #region Key tab related field properties
 
@@ -1680,18 +1028,6 @@ namespace YPS.ViewModel
         #endregion
 
         #region Set default value for Picker Labels
-
-        private string _DeliverPlaceDefaultValue_L = "ALL";
-        public string DeliverPlaceDefaultValue_L
-        {
-            get { return _DeliverPlaceDefaultValue_L; }
-            set
-            {
-                _DeliverPlaceDefaultValue_L = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private string _EntrySearchType;
         public string EntrySearchType
         {
@@ -1699,39 +1035,6 @@ namespace YPS.ViewModel
             set
             {
                 _EntrySearchType = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _POLDefaultValue_L = "ALL";
-        public string POLDefaultValue_L
-        {
-            get { return _POLDefaultValue_L; }
-            set
-            {
-                _POLDefaultValue_L = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _PODDefaultValue_L = "ALL";
-        public string PODDefaultValue_L
-        {
-            get { return _PODDefaultValue_L; }
-            set
-            {
-                _PODDefaultValue_L = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _PickUpDefaultValue_L = "ALL";
-        public string PickUpDefaultValue_L
-        {
-            get { return _PickUpDefaultValue_L; }
-            set
-            {
-                _PickUpDefaultValue_L = value;
                 NotifyPropertyChanged();
             }
         }
@@ -1859,16 +1162,6 @@ namespace YPS.ViewModel
             }
         }
 
-        private ObservableCollection<SearchData> _ListOfPlaceName;
-        public ObservableCollection<SearchData> ListOfPlaceName
-        {
-            get { return _ListOfPlaceName; }
-            set
-            {
-                _ListOfPlaceName = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private ObservableCollection<SearchData> _POLNames_L;
         public ObservableCollection<SearchData> POLNames_L
@@ -1960,16 +1253,6 @@ namespace YPS.ViewModel
             }
         }
 
-        public bool _locationVisibility = false;
-        public bool locationVisibility
-        {
-            get { return _locationVisibility; }
-            set
-            {
-                _locationVisibility = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public bool _countryVisibility = false;
         public bool countryVisibility
@@ -1982,16 +1265,6 @@ namespace YPS.ViewModel
             }
         }
 
-        public bool _datesVisibility = false;
-        public bool datesVisibility
-        {
-            get { return _datesVisibility; }
-            set
-            {
-                _datesVisibility = value;
-                NotifyPropertyChanged();
-            }
-        }
         #endregion
 
         #region  tabs text color
@@ -2002,17 +1275,6 @@ namespace YPS.ViewModel
             set
             {
                 _headerTextColor = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public Color _locationTextColor = Color.White;
-        public Color locationTextColor
-        {
-            get { return _locationTextColor; }
-            set
-            {
-                _locationTextColor = value;
                 NotifyPropertyChanged();
             }
         }
@@ -2028,16 +1290,7 @@ namespace YPS.ViewModel
             }
         }
 
-        public Color _datesTextColor = Color.White;
-        public Color datesTextColor
-        {
-            get { return _datesTextColor; }
-            set
-            {
-                _datesTextColor = value;
-                NotifyPropertyChanged();
-            }
-        }
+
         #endregion
 
         #region  tabs background color
@@ -2048,17 +1301,6 @@ namespace YPS.ViewModel
             set
             {
                 _headerBgColor = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public Color _locationBgColor = Color.LightBlue;
-        public Color locationBgColor
-        {
-            get { return _locationBgColor; }
-            set
-            {
-                _locationBgColor = value;
                 NotifyPropertyChanged();
             }
         }
@@ -2074,16 +1316,6 @@ namespace YPS.ViewModel
             }
         }
 
-        public Color _datesBgColor = Color.LightBlue;
-        public Color datesBgColor
-        {
-            get { return _datesBgColor; }
-            set
-            {
-                _datesBgColor = value;
-                NotifyPropertyChanged();
-            }
-        }
         #endregion
 
         #endregion

@@ -49,7 +49,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                Navigation.PopAsync();
+                Navigation.PopModalAsync();
 
             }
             catch (Exception ex)

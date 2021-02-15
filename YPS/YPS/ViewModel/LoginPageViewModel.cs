@@ -9,6 +9,7 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 
@@ -91,7 +92,7 @@ namespace YPS.ViewModel
                                 {
                                     if (OAuthConfig.User == null)
                                     {
-                                        App.Current.MainPage = new YPSMasterPage(typeof(ProviderLoginPage));
+                                        App.Current.MainPage = new MenuPage(typeof(ProviderLoginPage));
                                     }
                                 }
                                 else
@@ -187,7 +188,7 @@ namespace YPS.ViewModel
                                             Settings.Projectelected = DBresponse.data.ProjectName;
                                             Settings.JobSelected = DBresponse.data.JobNumber;
                                             Settings.SupplierSelected = DBresponse.data.SupplierName;
-                                            App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                                            App.Current.MainPage = new MenuPage(typeof(HomePage));
                                         }
                                         else
                                         {

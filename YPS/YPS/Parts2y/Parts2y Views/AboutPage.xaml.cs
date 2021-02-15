@@ -16,7 +16,7 @@ namespace YPS.Parts2y.Parts2y_Views
         public AboutPage()
         {
             InitializeComponent();
-            navbar.BackgroundColor = Settings.Bar_Background;
+            //navbar.BackgroundColor = Settings.Bar_Background;
             versionno.Text = Settings.VersionName;
         }
 

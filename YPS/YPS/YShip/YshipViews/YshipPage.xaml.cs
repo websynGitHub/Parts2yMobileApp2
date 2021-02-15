@@ -61,7 +61,7 @@ namespace YPS
                 Vm.IsPNenable = Settings.IsPNEnabled;
 
                 /// hiding the chat based on user role.
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.Viewer)
+                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
                 {
                     stckChat.Opacity = 0.5;
                     stckChat.GestureRecognizers.Clear();
@@ -1100,7 +1100,7 @@ namespace YPS
                         CommandParameter = dataGrid,
                     });
 
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin && Settings.userRoleID != (int)UserRoles.SuperUser && Settings.userRoleID != (int)UserRoles.Viewer)
+                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin && Settings.userRoleID != (int)UserRoles.SuperUser && Settings.userRoleID != (int)UserRoles.SuperViewer)
                     {
                         stckChat.GestureRecognizers.Add(new TapGestureRecognizer
                         {

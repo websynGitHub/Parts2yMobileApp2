@@ -32,7 +32,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public DealerCarrierDetailViewModel(INavigation _Navigation)
         {
             Navigation = _Navigation;
-            BgColor = Settings.Bar_Background;
+            BgColor = YPS.CommonClasses.Settings.Bar_Background;
             InProgressCmd = new Command(async () => await InProgress_Tap());
             CompletedCmd = new Command(async () => await Complete_Tap());
             PendingCmd = new Command(async () => await Pending_Tap());
@@ -104,7 +104,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Alert", "No data available", "Ok");
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopAsync();
                     loadindicator = false;
                 }
             }
@@ -117,7 +117,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Navigation.PopModalAsync();
+                await Navigation.PopAsync();
 
             }
             catch (Exception ex)
@@ -206,7 +206,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (Navigation.ModalStack.Count == 0 ||
                                            Navigation.ModalStack.Last().GetType() != typeof(DealerVehicleDetails))
                         {
-                            await Navigation.PushModalAsync(new DealerVehicleDetails());
+                            await Navigation.PushAsync(new DealerVehicleDetails());
                         }
                     }
                     catch (Exception ex)
@@ -387,7 +387,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
 
-        private Color _BgColor;
+        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

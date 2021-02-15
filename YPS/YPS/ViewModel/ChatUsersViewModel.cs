@@ -11,6 +11,7 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.ViewModels;
 using YPS.Views;
@@ -47,7 +48,7 @@ namespace YPS.ViewModel
                 Updatetitle = new Command(async () => await UpdateTitleClicked());
                 QnACloseICmd = new Command(async () => await QnACloseClick());
                 adduserICmd = new Command(async () => await AddUserClick());
-                
+
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call API
                 UserList = new List<User>();
                 GetChatUser(poId, qaId, Settings.QAType);// Get the users in the chat
@@ -278,7 +279,9 @@ namespace YPS.ViewModel
                         else
                         {
                             await App.Current.MainPage.DisplayAlert("Chat", "No users avaliable to start chat.", "OK");
-                            App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                            //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                            App.Current.MainPage = new MenuPage(typeof(HomePage));
+
                         }
                     }
                     else
@@ -336,6 +339,30 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+
+
+        private bool _IsGroupAndUserNameVisible;
+        public bool IsGroupAndUserNameVisible
+        {
+            get => _IsGroupAndUserNameVisible;
+            set
+            {
+                _IsGroupAndUserNameVisible = value;
+                NotifyPropertyChanged("IsGroupAndUserNameVisible");
+            }
+        }
+
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                NotifyPropertyChanged("BgColor");
+            }
+        }
+
         public string _GroupName;
         public string GroupName
         {

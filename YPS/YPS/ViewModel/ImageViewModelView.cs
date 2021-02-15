@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 using YPS.CommonClasses;
 using YPS.Helpers;
 using YPS.Model;
 using YPS.Model.Yship;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 
 namespace YPS.ViewModel
 {
     public class ImageViewModelView : IBase
     {
+        public ICommand HomeCommand { get; set; }
         public ObservableCollection<CustomPhotoModel> imageViews { get; set; }
         public ObservableCollection<UploadFiles> imageViews1 { get; set; }
         YPSService service = new YPSService();// Creating new instance of the YPSService, which is used to call API
@@ -33,6 +37,7 @@ namespace YPS.ViewModel
                 var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
                 VisibleCardInx = index;
                 Settings.SPhotoDescription = getFirstValue.PhotoDescription;
+                HomeCommand = new Command(HomeCommand_btn);
 
                 DynamicTextChange(getFirstValue);
             }
@@ -41,6 +46,26 @@ namespace YPS.ViewModel
                 service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ImageViewModelView constructor -> in ImageViewModelView.cs " + Settings.userLoginID);
             }
+        }
+
+
+        /// <summary>
+        /// Gets called when clicked on "Home" icon, to move to home page
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void HomeCommand_btn(object obj)
+        {
+            try
+            {
+                //await Navigation.PopAsync(true);
+                App.Current.MainPage = new MenuPage(typeof(HomePage));
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "HomeCommand_btn method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+
         }
 
         /// <summary>

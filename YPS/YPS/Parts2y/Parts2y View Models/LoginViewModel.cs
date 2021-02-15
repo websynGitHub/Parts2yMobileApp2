@@ -59,7 +59,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //if (Settings.roleid == 1)
                         //{
-                            App.Current.MainPage = new MenuPage(typeof(Dashboard));
+                            App.Current.MainPage = new MenuPage(typeof(HomePage));
                             //IndicatorVisibility = false;
 
                         //}

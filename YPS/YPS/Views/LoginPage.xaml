@@ -56,6 +56,17 @@
                                     <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
+                            <!--<customrender:MyButton AutomationId="AutoLoginBtn" Grid.Row="5" CornerRadius="6" 
+                                                   BorderRadius="5" Style="{DynamicResource BtnWithFont}" 
+                                                   Text="LOGIN" Command="{Binding ILoginCommand}"
+                                                   BackgroundColor="#269DC9" TextColor="White"
+                                                   HorizontalOptions="Center" WidthRequest="200">
+                                <customrender:MyButton.Behaviors>
+                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}"
+                                                                        AnimationType="Scale"/>
+
+                                </customrender:MyButton.Behaviors>
+                            </customrender:MyButton>-->
                         </Grid>
                     </Frame>
                 </StackLayout>

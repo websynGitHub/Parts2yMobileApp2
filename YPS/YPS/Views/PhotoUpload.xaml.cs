@@ -67,7 +67,7 @@ namespace YPS.Views
             {
                 base.OnAppearing();
                 /// For Enable and Disble master detail page menu gesture
-                (Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
+                //(Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
                 Settings.photoUploadPageCount = 0;
             }
             catch (Exception ex)

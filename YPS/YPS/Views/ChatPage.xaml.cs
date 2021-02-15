@@ -10,6 +10,7 @@ using YPS.CustomRenders;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.ViewModels;
 using static YPS.Models.ChatMessage;
@@ -149,7 +150,7 @@ namespace YPS.Views
         {
             try
             {
-                if ((Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.Viewer) && Settings.QAType == (int)QAType.PT)
+                if ((Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer) && Settings.QAType == (int)QAType.PT)
                 {
                     MessageEntry.IsVisible = false;
                 }
@@ -406,7 +407,8 @@ namespace YPS.Views
                 }
                 else
                 {
-                    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                    //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                    App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
             }
             catch (Exception ex)

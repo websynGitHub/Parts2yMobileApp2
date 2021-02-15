@@ -5,6 +5,7 @@
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="YPS.App">
 
@@ -20,6 +21,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
                 <Setter Property="FontSize" Value="30"/>
             </Style>
+            
             <Style TargetType="Label" x:Key="LblIconStyleForList" BasedOn="{StaticResource LblIconStyle}">
                 <Setter Property="TextColor" Value="Gray"/>
                 <Setter Property="FontSize" Value="Large"/>
@@ -41,10 +43,12 @@
                 <Setter Property="FontSize" Value="Medium"/>
                 <Setter Property="LineBreakMode" Value="TailTruncation"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
             </Style>
             <Style TargetType="Label" x:Key="LblSubTitle" 
                    BasedOn="{StaticResource LblTitleName}">
-                <Setter Property="FontSize" Value="Small"/>
+                <Setter Property="FontSize" Value="14"/>
             </Style>
             <!--Tollbar navigation end-->
 
@@ -205,10 +209,22 @@
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
             </Style>
 
+            <Style x:Key="EntryTextStyle" TargetType="Entry">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
+            <Style x:Key="EditorTextStyle" TargetType="Editor">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
             <!--Style for upload button Frame-->
             <Style x:Key="FrameStyleForFileUpload" TargetType="Frame">
                 <Setter Property="Padding" Value="{OnPlatform iOS='5,1,3,1',Android='5,3,3,3'}"/>
-                <Setter Property="CornerRadius" Value="7"/>
+                <Setter Property="CornerRadius" Value="4"/>
                 <Setter Property="HasShadow" Value="False"/>
                 <Setter Property="BorderColor" Value="Gray"/>
                 <Setter Property="HeightRequest" Value="50"/>
@@ -221,17 +237,41 @@
                 <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
                 <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
                 <Setter Property="Padding" Value="{OnPlatform iOS='10,0,10,0',Android=0}"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style x:Key="tabAsButtonStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BackgroundColor" Value="#269DC9"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
             </Style>
 
 
             <!--Sf related styles Start-->
+
+            <Style x:Key="SfCheckBoxTextStyle" TargetType="sfbuttons:SfCheckBox">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            
+            <Style x:Key="SfRadioButtonTextStyle" TargetType="sfbuttons:SfRadioButton">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            
             <Style x:Key="SfBtnBlue" TargetType="sfbuttons:SfButton">
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="BackgroundColor" Value="#269DC9"/>
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                 <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="CornerRadius" Value="7"/>
+                <Setter Property="CornerRadius" Value="4"/>
                 <Setter Property="HeightRequest" Value="43"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
             </Style>
 
             <Style x:Key="SfBtnRed" TargetType="sfbuttons:SfButton">
@@ -239,8 +279,10 @@
                 <Setter Property="BackgroundColor" Value="#E46E5B"/>
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                 <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="CornerRadius" Value="7"/>
+                <Setter Property="CornerRadius" Value="4"/>
                 <Setter Property="HeightRequest" Value="42"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
             </Style>
 
             <Style x:Key="StackInSfButton" TargetType="StackLayout">
@@ -260,7 +302,8 @@
             <Style x:Key="SfButtonTextLbl" TargetType="Label">
                 <Setter Property="Padding" Value="3,0,0,0"/>
                 <Setter Property="TextColor" Value="White"/>
-                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
             </Style>
 
 
@@ -268,14 +311,24 @@
                 <Setter Property="FocusedColor" Value="DarkBlue"/>
                 <Setter Property="OutlineCornerRadius" Value="7"/>
                 <Setter Property="ContainerType" Value="Outlined"/>
-                <Setter Property="Padding" Value="5,1,5,1"/>
+                <Setter Property="Padding" Value="0,1,0,1"/>
+            </Style>
+
+            <Style x:Key="SfComboBoxTextStyle" TargetType="combobox:SfComboBox">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
             </Style>
 
             <Style x:Key="LabelStyleInDropDown" TargetType="Label">
-                <Setter Property="FontSize" Value="Medium"/>
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="LineBreakMode" Value="TailTruncation"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style x:Key="XamarinPickerTextStyle" TargetType="Picker">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
             </Style>
 
             <Style x:Key="FALabelStyleInDropDown" TargetType="Label">
@@ -306,8 +359,18 @@
                 <Setter Property="FontSize" Value="14"/>
             </Style>
 
+            <Style TargetType="Label" x:Key="LableWithSmallFontBold">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
             <Style TargetType="Label" x:Key="LabelWithSendOTPFont">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelWithSendOTPFontBold">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
                 <Setter Property="FontSize" Value="16"/>
             </Style>
 

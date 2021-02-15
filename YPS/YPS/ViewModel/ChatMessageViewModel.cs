@@ -73,6 +73,14 @@ namespace YPS.ViewModels
             set { _messageDateTime = value; OnPropertyChanged("MessagUtcDateTime"); }
         }
 
+        private string _fileNameWithoutExtention;
+        public string FileNameWithoutExtention
+        {
+            get { return _fileNameWithoutExtention; }
+            set { _fileNameWithoutExtention = value; OnPropertyChanged("FileNameWithoutExtention"); }
+        }
+
+
         private bool _isMine;
 
         public bool IsMine

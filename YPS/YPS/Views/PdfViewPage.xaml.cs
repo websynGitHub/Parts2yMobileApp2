@@ -64,6 +64,27 @@ namespace YPS.Views
         }
 
         /// <summary>
+        /// Gets called when clicked on back icon, to redirect to the previous page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BackTapped(object sender, EventArgs e)
+        {
+            YPSLogger.TrackEvent("ChatUsers", " In AddToChatClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+            try
+            {
+                Settings.mutipleTimeClick = false;
+                Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "BackTapped method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
         /// Gets called when clicked on "Home" icon.
         /// </summary>
         /// <param name="sender"></param>

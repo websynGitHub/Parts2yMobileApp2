@@ -31,7 +31,7 @@ namespace YPS.Views
                 YPSLogger.TrackEvent("ProfileSelectionPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
-                BindingContext = Vm = new ProfileSelectionViewModel(3);
+                BindingContext = Vm = new ProfileSelectionViewModel(Navigation, 3);
                 UpdatePBtn.IsEnabled = false;
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace YPS.Views
                 YPSLogger.TrackEvent("ProfileSelectionPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
-                BindingContext = Vm = new ProfileSelectionViewModel(pagetype);
+                BindingContext = Vm = new ProfileSelectionViewModel(Navigation, pagetype);
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace YPS.Views
                 InitializeComponent();
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
-                BindingContext = Vm = new ProfileSelectionViewModel(3);
+                BindingContext = Vm = new ProfileSelectionViewModel(Navigation, 3);
                 UpdatePBtn.IsEnabled = hideUpdatePBtn;
             }
             catch (Exception ex)
@@ -369,7 +369,7 @@ namespace YPS.Views
             {
                 service = new YPSService();
                 YPSLogger.ReportException(ex, "SearchBar_TextChanged  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-                 service.Handleexception(ex);
+                service.Handleexception(ex);
             }
         }
 

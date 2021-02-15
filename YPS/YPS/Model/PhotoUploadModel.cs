@@ -11,6 +11,8 @@ namespace YPS.Model
         public Photo photo { get; set; }
         public int CreatedBy { get; set; }
         public string alreadyExit { get; set; } = "";
+        public bool isCompleted { get; set; }
+
         public PhotoUploadModel()
         {
             photoTags = new List<PhotoTag>();

@@ -8,6 +8,7 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.ViewModel;
 using static YPS.Models.ChatMessage;
@@ -42,18 +43,20 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
+                BindingContext = vm = new ChatUsersViewModel(poid, qaid, checkStack, Settings.ChatTitle);
 
                 tag = tags;
                 visableState = checkStack;
                 StartUser.IsVisible = false;
                 Adduser.IsVisible = true;
                 Startstack.IsVisible = false;
+                vm.IsGroupAndUserNameVisible = true;
                 Title_entry.Text = Settings.ChatTitle;
                 Groupname.Text = Settings.ChatTitle;
                 Usernames.Text = Settings.tagnumbers;
                 Settings.currentPage = "chatPage";// Setting the current page as "chatPage" to the Settings property
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call API
-                BindingContext = vm = new ChatUsersViewModel(poid, qaid, checkStack, Settings.ChatTitle);
+                
 
                 if (Settings.chatstatus == 0)
                 {
@@ -61,7 +64,7 @@ namespace YPS.Views
                     chatExitImg.IsVisible = false;
                     Settings.ChatClosedOrNot = chatClosedOrNot = "Closed";
                 }
-                else if(Settings.chatstatus== -1)
+                else if (Settings.chatstatus == -1)
                 {
                     titleupdate.IsVisible = false;
                     chatExitImg.IsVisible = false;
@@ -156,7 +159,7 @@ namespace YPS.Views
             YPSLogger.TrackEvent("ChatUsers", " In ListItemTapped method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             NameIfo d = (NameIfo)e.Item;
             Userlist.SelectedItem = null;
-           
+
             try
             {
                 if (!string.IsNullOrEmpty(d.img.Trim().ToLower()) || d.img.Trim().ToLower() != "ok.png")
@@ -164,7 +167,7 @@ namespace YPS.Views
                     vm.IndicatorVisibility = true;
                     Userlist.SelectedItem = null;
                     BackgroundColor = Color.Transparent;
-                    
+
                     try
                     {
                         if (chatClosedOrNot == "Open")
@@ -324,7 +327,7 @@ namespace YPS.Views
             {
                 ChatData data = new ChatData();
 
-                if (Settings.userRoleID != (int)UserRoles.CustomerAdmin)
+                if (Settings.userRoleID != (int)UserRoles.OwnerAdmin)
                 {
                     bool has = vm.UserList.Any(cus => cus.UserID == Settings.userLoginID);
 
@@ -350,7 +353,7 @@ namespace YPS.Views
                             data.CreatedBy = Settings.userLoginID;
                             data.QAType = Settings.QAType;
                             var result = await service.ChatStart(data);
-                            
+
                             if (result != null)
                             {
                                 Settings.refreshPage = 1;
@@ -370,7 +373,8 @@ namespace YPS.Views
                                         Settings.PoId = result.data.POID;
                                         Settings.chatgroupname = result.data.Title;
                                         Settings.ChatuserCountImgHide = 0;
-                                        App.Current.MainPage = new YPSMasterPage(typeof(ChatPage));
+                                        // App.Current.MainPage = new MenuPage(typeof(ChatPage));
+                                        await Navigation.PushAsync(new ChatPage());
                                         Settings.mutipleTimeClick = false;
                                     }
                                 }
@@ -471,7 +475,8 @@ namespace YPS.Views
                         if (result != null && result.status == 1)
                         {
                             await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");// Display message for success
-                            App.Current.MainPage = Settings.CheckQnAClose == true ? new YPSMasterPage(typeof(YshipPage)) : App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                            //App.Current.MainPage = Settings.CheckQnAClose == true ? new YPSMasterPage(typeof(YshipPage)) : App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                            App.Current.MainPage = App.Current.MainPage = new MenuPage(typeof(HomePage));
                         }
                         else
                         {

@@ -3,25 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local1="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
              xmlns:local2="clr-namespace:YPS.Parts2y.Parts2y_Common_Classes"
              mc:Ignorable="d"
-             x:Class="YPS.Parts2y.Parts2y_Views.AboutPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
+             x:Class="YPS.Parts2y.Parts2y_Views.AboutPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9"
+              xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:local1="clr-namespace:YPS.CommonClasses">
     <ContentPage.Content>
         <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="{OnPlatform iOS=70 , Android=55}"/>
                 <!--<RowDefinition Height="10"/>-->
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-        <StackLayout x:Name="navbar" Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Orientation="Horizontal" HeightRequest="80"  >
-            <local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.arrowLeft}" FontSize="40" TextColor="#FFFFFF" HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
+
+            <Grid x:Name="navbar" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}"
+                  RowDefinitions="50" ColumnDefinitions="60,*,50">
+                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" Grid.Column="0"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackIcon_Tapped"/>
+                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                </local:FontAwesomeIconLabel>
+                <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackIcon_Tapped"/>-->
+                <Label Grid.Column="1" Text="About" TextColor="White" VerticalTextAlignment="Center"/>
+                
+                <!--<LblIcons:FontAwesomeIconLabel Grid.Column="2" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoToHomeTapped"/>
+                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                </LblIcons:FontAwesomeIconLabel>-->
+            </Grid>
+            <!--<StackLayout x:Name="navbar" Grid.Row="0" HorizontalOptions="FillAndExpand"
+                     VerticalOptions="StartAndExpand" Orientation="Horizontal" HeightRequest="50"  
+                     BackgroundColor="Black">
+            --><!--<local1:FontAwesomeIconLabel   Text="{x:Static local2:Icons.arrowLeft}" FontSize="40" TextColor="#FFFFFF" HorizontalOptions="Start" VerticalOptions="Center" Margin="10,10,10,10">
                 <local1:FontAwesomeIconLabel.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BackIcon_Tapped"/>
                 </local1:FontAwesomeIconLabel.GestureRecognizers>
-            </local1:FontAwesomeIconLabel>
-            <Label Text="About" TextColor="White" HorizontalOptions="StartAndExpand" Style="{StaticResource LableWithLargeFont}" VerticalTextAlignment="Center"  Margin="10,10,10,10"/>
-        </StackLayout>
+            </local1:FontAwesomeIconLabel>--><!--
+                <Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackIcon_Tapped"/>
+                <Label Text="About" HorizontalOptions="StartAndExpand" Style="{StaticResource LableWithLargeFont}" VerticalTextAlignment="Center"  Margin="10,10,10,10"/>
+        </StackLayout>-->
             <Grid Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"/>
