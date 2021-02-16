@@ -30,7 +30,8 @@ using YPS.Service;
 
 namespace YPS.Droid
 {
-    [Activity(Label = "Parts2y", Icon = "@drawable/ypslogo12", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Parts2y", Icon = "@drawable/ypslogo12", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize |
+        ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         #region Data members

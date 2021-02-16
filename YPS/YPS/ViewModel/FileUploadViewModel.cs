@@ -1285,10 +1285,10 @@ namespace YPS.ViewModel
 
                         labelobjFile.upload = uploadBtn != null ? (!string.IsNullOrEmpty(uploadBtn) ? uploadBtn : labelobjFile.upload) : labelobjFile.upload;
                         labelobjFile.description = description != null ? (!string.IsNullOrEmpty(description) ? description : labelobjFile.description) : labelobjFile.description;
-                        labelobjFile.descriptionlbl = (description != null ? (!string.IsNullOrEmpty(description) ? description : labelobjFile.descriptionlbl) : labelobjFile.descriptionlbl) + " : ";
-                        labelobjFile.uploadedBy = (uploadedBy != null ? (!string.IsNullOrEmpty(uploadedBy) ? uploadedBy : labelobjFile.uploadedBy) : labelobjFile.uploadedBy) + " : ";
-                        labelobjFile.uploadeddate = (uploadedDate != null ? (!string.IsNullOrEmpty(uploadedDate) ? uploadedDate : labelobjFile.uploadeddate) : labelobjFile.uploadeddate) + " : ";
-                        labelobjFile.filename = (uploadFileName != null ? (!string.IsNullOrEmpty(uploadFileName) ? uploadFileName : labelobjFile.filename) : labelobjFile.filename) + " : ";
+                        labelobjFile.descriptionlbl = (description != null ? (!string.IsNullOrEmpty(description) ? description : labelobjFile.descriptionlbl) : labelobjFile.descriptionlbl);
+                        labelobjFile.uploadedBy = (uploadedBy != null ? (!string.IsNullOrEmpty(uploadedBy) ? uploadedBy : labelobjFile.uploadedBy) : labelobjFile.uploadedBy);
+                        labelobjFile.uploadeddate = (uploadedDate != null ? (!string.IsNullOrEmpty(uploadedDate) ? uploadedDate : labelobjFile.uploadeddate) : labelobjFile.uploadeddate);
+                        labelobjFile.filename = (uploadFileName != null ? (!string.IsNullOrEmpty(uploadFileName) ? uploadFileName : labelobjFile.filename) : labelobjFile.filename);
                         labelobjFile.complete = (complete != null ? (!string.IsNullOrEmpty(complete) ? complete : "Complete") : "Complete");
                         labelobjFile.notcommplete = (notcomplete != null ? (!string.IsNullOrEmpty(notcomplete) ? "Not " + notcomplete : "Not Complete") : "Not Complete");
                     }

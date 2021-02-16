@@ -37,7 +37,7 @@
                             </local:FontAwesomeIconLabel.GestureRecognizers>
                         </local:FontAwesomeIconLabel>
 
-                        <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                        <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand">
                             <Grid.RowDefinitions>
@@ -88,7 +88,8 @@
                             </Grid.ColumnDefinitions>
                             <Label Text="Before Packing" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" 
                                  Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding BeforePackingTextColor}"
-                                VerticalOptions="Center" HorizontalTextAlignment="Center"  Grid.Row="0" Grid.Column="0">
+                                VerticalOptions="Center" HorizontalTextAlignment="Center"  Grid.Row="0" Grid.Column="0"
+                                   Margin="0,2,0,2">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding beforeCommand}"/>
                                 </Label.GestureRecognizers>
@@ -111,7 +112,7 @@
                             <Label Text="After Packing" Style="{DynamicResource LableWithMediumFont}" 
                                BackgroundColor="White" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
                                HorizontalTextAlignment="Center" TextColor="{Binding AfterPackingTextColor}" 
-                                   Grid.Row="0" Grid.Column="1" >
+                                   Grid.Row="0" Grid.Column="1" Margin="0,2,0,2">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding afterCommand}"/>
                                 </Label.GestureRecognizers>

@@ -10,10 +10,11 @@
     <AbsoluteLayout>
         <Grid RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{OnPlatform iOS=70 , Android=55}"/>
+                <RowDefinition Height="{OnPlatform iOS=70 , Android=Auto}"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen">
+            <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="DarkGreen" 
+                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -30,7 +31,7 @@
                     </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                 <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackTapped" BackgroundColor="Green"/>-->
-                <Label Grid.Column="1" Grid.Row="0" Text="Q&amp;A List" TextColor="White" Margin="15,15,0,15"
+                <Label Grid.Column="1" Grid.Row="0" Text="Q&amp;A List" TextColor="White" Margin="8,20,0,20"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand"
                        Style="{StaticResource LblTitleName}"/>

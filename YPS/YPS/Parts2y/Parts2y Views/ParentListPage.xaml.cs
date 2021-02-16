@@ -272,15 +272,19 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 Vm.loadingindicator = true;
                 //UserDialogs.Instance.ShowLoading("Loading...");
-                var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                safeAreaInset.Bottom = 0;
-                safeAreaInset.Top = 30;
-                headerpart.Padding = safeAreaInset;
 
-                var pagingpartsafeArea = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                pagingpartsafeArea.Top = 0;
-                pagingpartsafeArea.Bottom = 0;
-                pagingpart.Padding = pagingpartsafeArea;
+                if(Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 30;
+                    headerpart.Padding = safeAreaInset;
+
+                    var pagingpartsafeArea = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    pagingpartsafeArea.Top = 0;
+                    pagingpartsafeArea.Bottom = 0;
+                    pagingpart.Padding = pagingpartsafeArea;
+                }
 
                 base.OnAppearing();
                 YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);

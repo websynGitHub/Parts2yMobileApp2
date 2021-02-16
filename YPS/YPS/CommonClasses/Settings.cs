@@ -206,6 +206,7 @@ namespace YPS.CommonClasses
         #endregion
 
         public static int countmenu { get; set; } = 1;
+        public static string HeaderTitle { get; set; }
         public static string ChatTitle { get; set; }
         public static int Resrict_Message_center_Loop { get; set; } = 0;
         public static int currentChatPage { get; set; }

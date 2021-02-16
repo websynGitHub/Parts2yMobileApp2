@@ -58,7 +58,7 @@
                     </local:FontAwesomeIconLabel.GestureRecognizers>
                 </local:FontAwesomeIconLabel>
                 <Label Grid.Row="0" Grid.Column="1" Text="Search Data" Style="{StaticResource LableWithMediumFont}"
-                   TextColor="White" Margin="15,15,0,15"
+                   TextColor="White" Margin="8,20,0,20"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand"/>
                 <local:FontAwesomeIconLabel x:Name="Home" Text="{x:Static local1:Icons.HomeIc}" Grid.Row="0" Grid.Column="2"
@@ -81,12 +81,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>-->
 
-                        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand"
+                    <Grid  HorizontalOptions="FillAndExpand" RowDefinitions="55,55,55,55,55,55,55,55,55,55,55"
                                  IsVisible="{Binding headerVisibility}" BackgroundColor="White" VerticalOptions="StartAndExpand"
                                      Padding="0" Margin="0">
                             <sfinput:SfTextInputLayout Hint="{Binding labelobj.PO.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.PO.Status}"
-                                                   Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0">
+                                                   Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
+                                                       Grid.Row="0">
                                 <Entry AutomationId="AutoKeyForPoNo" x:Name="poNumber" Text="{Binding poNumber}" 
                                      Grid.Row="0" VerticalOptions="CenterAndExpand"  Style="{StaticResource EntryTextStyle}">
                                     <Entry.HeightRequest>
@@ -106,9 +107,9 @@
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.REQNo.Name}"
+                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.REQNo.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.REQNo.Status}" InputViewPadding="12,0,0,0"
-                                                   Style="{StaticResource SfInputLayout}">
+                                                   Style="{StaticResource SfInputLayout}" Grid.Row="1">
                                 <Entry AutomationId="AutoKeyForReqNo" x:Name="reqNumber" Text="{Binding reqNumber}" Grid.Row="0"
                                         Style="{StaticResource EntryTextStyle}">
                                     <Entry.HeightRequest>
@@ -128,10 +129,10 @@
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.ShippingNumber.Name}"
+                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.ShippingNumber.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.ShippingNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
-                                                    >
+                                                    Grid.Row="2">
                                 <Entry AutomationId="AutoKeyForShippingNo"  x:Name="shipNumber" Text="{Binding shipNumber}" Grid.Row="0"
                                         Style="{StaticResource EntryTextStyle}">
                                     <Entry.HeightRequest>
@@ -151,9 +152,9 @@
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.DisciplineName.Name}"
+                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.DisciplineName.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.DisciplineName.Status}"
-                                                   Style="{StaticResource SfInputLayout}">
+                                                   Style="{StaticResource SfInputLayout}" Grid.Row="3">
                                 <combobox:SfComboBox x:Name="disc_Picker" Text="{Binding DisciplineDefaultValue,Mode=TwoWay}"
                                                  SelectedItem="{Binding SelectedDisciplineValue}" DataSource="{Binding DisciplineNames,Mode=TwoWay}"
                                                HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
@@ -167,7 +168,7 @@
                                 </combobox:SfComboBox>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.ELevelName.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding labelobj.ELevelName.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.ELevelName.Status}"
                                                   Style="{StaticResource SfInputLayout}">
                                 <combobox:SfComboBox x:Name="ELevel_Picker" Text="{Binding ELevelDefaultValue,Mode=TwoWay}" 
@@ -183,7 +184,7 @@
                                 </combobox:SfComboBox>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.Condition.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="5" Hint="{Binding labelobj.Condition.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.Condition.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0">
                                 <combobox:SfComboBox x:Name="Condition_Picker" Text="{Binding ConditionDefaultValue,Mode=TwoWay}" SelectedItem="{Binding SelectedConditionValue}"
@@ -198,7 +199,7 @@
                                 </combobox:SfComboBox>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.Expeditor.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="6" Hint="{Binding labelobj.Expeditor.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.Expeditor.Status}"
                                                    Style="{StaticResource SfInputLayout}">
                                 <combobox:SfComboBox x:Name="Expeditor_Picker" Text="{Binding ExpeditorDefaultValue,Mode=TwoWay}" 
@@ -214,7 +215,7 @@
                                 </combobox:SfComboBox>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.PriorityName.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="7" Hint="{Binding labelobj.PriorityName.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.PriorityName.Status}"
                                                    Style="{StaticResource SfInputLayout}">
                                 <combobox:SfComboBox x:Name="Priority_Picker" Text="{Binding PriorityDefaultValue,Mode=TwoWay}"
@@ -230,7 +231,7 @@
                                 </combobox:SfComboBox>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.TagNumber.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="8" Hint="{Binding labelobj.TagNumber.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.TagNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0">
                                 <Entry x:Name="tagNumber" Text="{Binding tagNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
@@ -251,7 +252,7 @@
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.IdentCode.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="9" Hint="{Binding labelobj.IdentCode.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.IdentCode.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0">
                                 <Entry Text="{Binding Identcode}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
@@ -272,7 +273,7 @@
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.BagNumber.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="10" Hint="{Binding labelobj.BagNumber.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.BagNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0">
                                 <Entry Text="{Binding BagNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
@@ -293,7 +294,7 @@
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.yBkgNumber.Name}"
+                        <sfinput:SfTextInputLayout Grid.Row="11" Hint="{Binding labelobj.yBkgNumber.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.yBkgNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0">
                                 <Entry Text="{Binding YbkgNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
@@ -313,7 +314,7 @@
                                     </sfinput:LabelStyle>
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
-                        </StackLayout>
+                        </Grid>
                     <!--</Grid>-->
                 </ScrollView>
                 

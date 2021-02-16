@@ -37,7 +37,7 @@
                     </LblIcons:FontAwesomeIconLabel>
                     <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="Back_Tapped"
                             BackgroundColor="Green"/>-->
-                    <Grid Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                    <Grid Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand">
                         <Grid.RowDefinitions>
@@ -99,7 +99,7 @@
                     </Grid>
                 </Frame>
                 <Frame Grid.Row="3" IsVisible="{Binding FrameForUploadFile}" Style="{StaticResource FrameStyleForFileUpload}"
-                       Margin="6,1,6,0">
+                       Margin="6,2,6,0">
                     <Grid ColumnSpacing="0" RowSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -127,10 +127,10 @@
                     <Label IsVisible="{Binding HideLabelAndShow}" Text="No data found." TextColor="Black" 
                            HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" Style="{StaticResource LableWithQuestionFont}"/>
                     <flv:FlowListView FlowColumnCount="3" IsVisible="{Binding HideListAndShow}" x:Name="listView" FlowItemsSource="{Binding ListOfFile,Mode=TwoWay}"
-                                      SeparatorVisibility="None" BackgroundColor="White" HasUnevenRows="false" RowHeight="200">
+                                      SeparatorVisibility="None" BackgroundColor="White" HasUnevenRows="false" RowHeight="150">
                         <flv:FlowListView.FlowColumnTemplate>
                             <DataTemplate>
-                                <Frame Style="{StaticResource ListVFrame}">
+                                <Frame Style="{StaticResource ListVFrame}"  BorderColor="DarkGreen" Margin="0,0,5,0">
                                     <Grid RowSpacing="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1.8*"/>
@@ -151,7 +151,7 @@
                                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                             </LblIcons:FontAwesomeIconLabel>
                                         </Grid>
-                                        <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}"/>
+                                        <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}" HeightRequest="40"/>
                                         <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
                                             <LblIcons:FontAwesomeIconLabel IsVisible="{Binding HideDeleteIc}" Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
                                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -171,10 +171,10 @@
                     </flv:FlowListView>
 
                     <flv:FlowListView FlowColumnCount="3" IsVisible="{Binding PLHideListAndShow}" FlowItemsSource="{Binding PLListOfFile,Mode=TwoWay}"
-                                      SeparatorVisibility="None" HasUnevenRows="false" RowHeight="200">
+                                      SeparatorVisibility="None" HasUnevenRows="false" RowHeight="150">
                         <flv:FlowListView.FlowColumnTemplate>
                             <DataTemplate >
-                                <Frame Style="{StaticResource ListVFrame}">
+                                <Frame Style="{StaticResource ListVFrame}"  BorderColor="DarkGreen" Margin="0,0,5,0">
                                     <Grid RowSpacing="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1.8*"/>
@@ -193,7 +193,7 @@
                                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                             </LblIcons:FontAwesomeIconLabel>
                                         </Grid>
-                                        <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}"/>
+                                        <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}" HeightRequest="40"/>
                                         <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
                                             <LblIcons:FontAwesomeIconLabel IsVisible="{Binding HideDeleteIc}" Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
                                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -225,11 +225,12 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Text="File info..." VerticalTextAlignment="Center"
                                FontAttributes="Bold" Style="{DynamicResource LableWithLargeFont}"/>
-                        <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="1" Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red" HorizontalOptions="EndAndExpand">
+                        <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red" HorizontalOptions="EndAndExpand">
                             <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Close_DescriptionPopup"/>
                             </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -237,28 +238,41 @@
                         <Label Grid.Row="1" x:Name="nameUploadedBylbl" Grid.Column="0"
                                Text="{Binding labelobjFile.uploadedBy}" FontAttributes="Bold"
                                 Style="{DynamicResource LabelWithSendOTPFont}"/>
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Uploadedby,Mode=TwoWay}" TextColor="Black"
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text=":" FontAttributes="Bold"
+                                Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="1" Grid.Column="2" Text="{Binding Uploadedby,Mode=TwoWay}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
                         <Label Grid.Row="2" x:Name="nameUploadedDatelbl" Grid.Column="0" 
                                Text="{Binding labelobjFile.uploadeddate}" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"
+                        <Label Grid.Row="2" Grid.Column="1" 
+                               Text=":" FontAttributes="Bold"
+                               Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="2" Grid.Column="2" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
                         <Label Grid.Row="3" x:Name="nameFileNamelbl" Grid.Column="0"
                                Text="{Binding labelobjFile.filename}" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding FileName}" TextColor="Black"
+                        <Label Grid.Row="3" Grid.Column="1"
+                               Text=":" FontAttributes="Bold"
+                               Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="3" Grid.Column="2" Text="{Binding FileName}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
-                        <Label Grid.Row="4" Grid.ColumnSpan="2">
+                        <!--<Label Grid.Row="4" Grid.ColumnSpan="2">
                             <Label.FormattedText>
-                                <FormattedString>
-                                    <Span x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
+                                <FormattedString>-->
+                                    <Label x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
+                                          FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"
+                                           Grid.Row="4" Grid.Column="0"/>
+                        <Label Text=":" Grid.Row="4" Grid.Column="1"
                                           FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"/>
-                                    <Span Text="{Binding Description}" TextColor="Black"
-                                           Style="{DynamicResource LableWithSmallFont}"/>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
+                                    <Label Text="{Binding Description}" TextColor="Black"
+                                           Style="{DynamicResource LableWithSmallFont}"
+                                           Grid.Row="4" Grid.Column="2"/>
+                                <!--</FormattedString>
+                            </Label.FormattedText>-->
+                        <!--</Label>-->
                     </Grid>
                 </Frame>
             </ContentView>

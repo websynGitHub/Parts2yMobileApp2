@@ -50,13 +50,27 @@ namespace YPS.Views
                 StartUser.IsVisible = false;
                 Adduser.IsVisible = true;
                 Startstack.IsVisible = false;
-                vm.IsGroupAndUserNameVisible = true;
-                Title_entry.Text = Settings.ChatTitle;
-                Groupname.Text = Settings.ChatTitle;
-                Usernames.Text = Settings.tagnumbers;
+                if (Settings.HeaderTitle == "Close QA" || Settings.HeaderTitle == "Add/Remove user(s)")
+                {
+                    vm.IsGroupAndUserNameVisible = false;
+                    vm.qasingletitle = true;
+                    vm.qasingleheadertitle = Settings.HeaderTitle;
+                    singleheader.Text = vm.qasingleheadertitle;
+                    singleheader.IsVisible = true;
+                    Settings.HeaderTitle = string.Empty;
+                }
+                else
+                {
+                    vm.IsGroupAndUserNameVisible = true;
+                    vm.qasingletitle = false;
+                    Title_entry.Text = Settings.ChatTitle;
+                    Groupname.Text = Settings.ChatTitle;
+                    Usernames.Text = Settings.tagnumbers;
+                }
+
                 Settings.currentPage = "chatPage";// Setting the current page as "chatPage" to the Settings property
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call API
-                
+
 
                 if (Settings.chatstatus == 0)
                 {
@@ -513,6 +527,41 @@ namespace YPS.Views
             {
                 YPSLogger.ReportException(ex, "GoToHomePageTapped method -> in ChatUsers Page.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
+            }
+        }
+
+        private void AddOrRemoveUsers_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                YPSLogger.TrackEvent("ChatUsersViewModel", " AddUserClick " + DateTime.Now + " UserId: " + Settings.userLoginID); YPSLogger.TrackEvent("ChatUsersViewModel", " QnACloseClick " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                singleheader.Text = "Add/Remove user(s)";
+                singleheader.IsVisible = true;
+                vm.addchatUserStack = true;
+                vm.QnACloseStack = false;
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "AddUserClick method -> in ChatUsersViewModel " + Settings.userLoginID);
+            }
+        }
+
+        private void CloseQA_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                YPSLogger.TrackEvent("ChatUsersViewModel", " QnACloseClick " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                vm.addchatUserStack = false;
+                vm.QnACloseStack = true;
+                singleheader.Text = "Close QA";
+                singleheader.IsVisible = true;
+                Settings.HeaderTitle = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "QnACloseClick method -> in ChatUsersViewModel " + Settings.userLoginID);
             }
         }
     }

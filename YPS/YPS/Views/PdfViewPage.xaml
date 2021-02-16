@@ -45,7 +45,7 @@
             </LblIcons:FontAwesomeIconLabel>
             <Label Grid.Column="1" x:Name="setTitle" TextColor="White"
                    Style="{StaticResource LableWithMediumFont}"
-                   Margin="15,15,0,15" HorizontalOptions="StartAndExpand" 
+                   Margin="8,20,0,20" HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand"/>
             <LblIcons:FontAwesomeIconLabel Grid.Column="2" Text="{Static StaticIcons:Icons.HomeIc}" HorizontalOptions="End"
                                            VerticalOptions="Center" Margin="0,0,9,0"

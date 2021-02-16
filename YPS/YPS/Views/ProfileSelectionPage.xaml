@@ -34,13 +34,13 @@
         <AbsoluteLayout>
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="{OnPlatform iOS=70 , Android=Auto}"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
+                    <!--<RowDefinition Height="Auto"/>-->
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                      BackgroundColor="{Binding BgColor}" ColumnDefinitions="60,*">
+                      BackgroundColor="{Binding BgColor}" RowDefinitions="*" ColumnDefinitions="60,*">
                     <!--<StackLayout Grid.Row="0" HeightRequest="10" BackgroundColor="{Binding BgColor}" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>-->
 
@@ -52,7 +52,7 @@
                         </FontAwsmLbl:FontAwesomeIconLabel.GestureRecognizers>
                     </FontAwsmLbl:FontAwesomeIconLabel>
 
-                    <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="15,0,0,0" Padding="0,0,0,0"
+                    <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="8,20,0,20" Padding="0,0,0,0"
                       HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -70,7 +70,7 @@
                 </Grid>
                 
                 <Grid Grid.Row="1" ColumnSpacing="2"   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                      BackgroundColor="White" Padding="0" RowSpacing="0" Margin="6,0,6,0">
+                      BackgroundColor="White" Padding="0" RowSpacing="0" Margin="6,0,6,0"> 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.30*"/>
                         <ColumnDefinition Width="0.30*"/>
@@ -80,7 +80,7 @@
                     <StackLayout Grid.Column="0">
                         <Label Text="Default Setting" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" 
                                  Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding settingsTextColor}"
-                                VerticalOptions="Center" HorizontalTextAlignment="Center" >
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ICommandSettings}"/>
                             </Label.GestureRecognizers>
@@ -90,7 +90,7 @@
                     <StackLayout Grid.Column="1">
                         <Label x:Name="UpdatePBtn" Text="Update Profile" Style="{DynamicResource LableWithMediumFont}" 
                                BackgroundColor="White" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
-                               HorizontalTextAlignment="Center" TextColor="{Binding profileTextColor}">
+                               HorizontalTextAlignment="Center" TextColor="{Binding profileTextColor}" Margin="0,2,0,2">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ICommandProfile}"/>
                             </Label.GestureRecognizers>
@@ -120,19 +120,20 @@
                     </StackLayout.Resources>
 
                     <StackLayout IsVisible="{Binding settingsVisibility}" Orientation="Vertical"
-                                     VerticalOptions="FillAndExpand">
+                                     VerticalOptions="StartAndExpand">
                         <ScrollView IsVisible="{Binding settingsVisibility}">
                             <Grid >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <!--<RowDefinition Height="Auto"/>-->
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
                                 </Grid.RowDefinitions>
 
-                                <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding Companylabel,Mode=TwoWay}"
+                                <sfinput:SfTextInputLayout Grid.Row="1" Hint="{Binding Companylabel,Mode=TwoWay}"
                                                       ErrorColor="Red" HasError="{Binding companyHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
                                     <combobox:SfComboBox x:Name="pkrCompany" Text="{Binding CompanyName,Mode=TwoWay}" ClassId="CompanyClassID"
@@ -148,7 +149,7 @@
                                     </combobox:SfComboBox>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding projectlabel,Mode=TwoWay}" 
+                                <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding projectlabel,Mode=TwoWay}" 
                                                        ErrorColor="Red" HasError="{Binding projectHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
                                     <combobox:SfComboBox x:Name="pkrProject" Text="{Binding ProjectName,Mode=TwoWay}" DataSource="{Binding ProjectList, Mode=TwoWay}"
@@ -163,7 +164,7 @@
                                     </combobox:SfComboBox>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding joblabel,Mode=TwoWay}" 
+                                <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding joblabel,Mode=TwoWay}" 
                                                          ErrorColor="Red" HasError="{Binding jobHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
                                     <combobox:SfComboBox x:Name="pkrJob" Text="{Binding JobName,Mode=TwoWay}" DataSource="{Binding JobList, Mode=TwoWay}" 
@@ -178,7 +179,7 @@
                                     </combobox:SfComboBox>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="5" 
+                                <sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="4" 
                                                         Hint="{Binding supplierlabel,Mode=TwoWay}"
                                                        Style="{StaticResource SfInputLayout}" InputViewPadding="0">
                                     <StackLayout x:Name="comboboxSupplier" Orientation="Horizontal" HeightRequest="23">
@@ -197,6 +198,16 @@
                                         </StackLayout.HeightRequest>
                                     </StackLayout>
                                 </sfinput:SfTextInputLayout>
+
+                                <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
+                                        Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Margin="0,0,0,4" Grid.Row="5"
+                                                Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}">
+                                    <sfbuttons:SfButton.Behaviors>
+                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    </sfbuttons:SfButton.Behaviors>
+                                </sfbuttons:SfButton>
                             </Grid>
                         </ScrollView>
                     </StackLayout>
@@ -207,21 +218,23 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="{Binding UpdateprofiletitleRowHt}"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <!--<RowDefinition Height="Auto"/>-->
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="55"/>
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Text="Update Profile" IsVisible="{Binding UpdateprofiletitleVisibility}" FontSize="Large" HorizontalOptions="Center"/>
+                                <Label Grid.Row="0" Text="Update Profile" IsVisible="{Binding UpdateprofiletitleVisibility}" 
+                                       FontSize="Large" HorizontalOptions="Center"/>
 
-                                <sfinput:SfTextInputLayout Hint="{Binding LoginLbl,Mode=TwoWay}" Grid.Row="2"
-                                                       Opacity="0.3" ErrorColor="Red" HasError="{Binding loginIDHaserror}"
+                                <sfinput:SfTextInputLayout Hint="{Binding LoginLbl,Mode=TwoWay}" Grid.Row="1"
+                                                       IsEnabled="False" ErrorColor="Red" HasError="{Binding loginIDHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
                                     <Entry Text="{Binding LoginID,Mode=TwoWay}" IsReadOnly="True" 
-                                               Style="{StaticResource EntryTextStyle}">
+                                               Style="{StaticResource EntryTextStyle}"  IsEnabled="False">
                                         <Entry.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
                                                 <On Platform="iOS">20</On>
@@ -231,7 +244,7 @@
                                     </Entry>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding EmailLbl,Mode=TwoWay}"
+                                <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding EmailLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding emailHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
                                     <Entry Text="{Binding Email,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
@@ -244,7 +257,7 @@
                                     </Entry>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding GivenNameLbl,Mode=TwoWay}"
+                                <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding GivenNameLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding givennameHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
                                     <Entry Text="{Binding GivenName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
@@ -257,7 +270,7 @@
                                     </Entry>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="5" Hint="{Binding FamilyNameLbl,Mode=TwoWay}" 
+                                <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding FamilyNameLbl,Mode=TwoWay}" 
                                                        Style="{StaticResource SfInputLayout}">
                                     <Entry Text="{Binding FamilyName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
                                         <Entry.HeightRequest>
@@ -269,7 +282,7 @@
                                     </Entry>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="6"  Hint="{Binding TimeZoneLbl,Mode=TwoWay}"
+                                <sfinput:SfTextInputLayout Grid.Row="5"  Hint="{Binding TimeZoneLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding timezoneHaserror}"
                                                        Style="{StaticResource SfInputLayout}" InputViewPadding="0">
                                     <StackLayout Orientation="Horizontal" x:Name="TimeZoneLabel">
@@ -291,7 +304,7 @@
                                 </sfinput:SfTextInputLayout>
 
                                 <sfinput:SfTextInputLayout x:Name="languagelayout" Hint="{Binding LangaugeLbl,Mode=TwoWay}" 
-                                                               Grid.Row="7"
+                                                               Grid.Row="6"
                                                        ErrorColor="Red" HasError="{Binding languageHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
 
@@ -307,14 +320,34 @@
                                         </combobox:SfComboBox.HeightRequest>
                                     </combobox:SfComboBox>
                                 </sfinput:SfTextInputLayout>
+
+                                <sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding profileVisibility}" Grid.Row="7"
+                                            HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandUpdate}" 
+                                                Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                                    <sfbuttons:SfButton.Content>
+                                        <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Padding="10,0,10,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <FontAwsmLbl:FontAwesomeIconLabel Grid.Column="0" Text="{x:Static StaticIcons:Icons.edit}"
+                                                                          Style="{StaticResource FontAwsmLblSfbutton}"/>
+                                            <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                        </Grid>
+                                    </sfbuttons:SfButton.Content>
+                                    <sfbuttons:SfButton.Behaviors>
+                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    </sfbuttons:SfButton.Behaviors>
+                                </sfbuttons:SfButton>
                             </Grid>
                         </ScrollView>
                     </StackLayout>
                 </StackLayout>
 
-                <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                <!--<StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="FillAndExpand"
                              Grid.Row="3" Margin="6,0,6,0">
-                    <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
+                    --><!--<sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
                                         Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Margin="0,0,0,4"
                                                 Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}"
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
@@ -322,9 +355,9 @@
                         <sfbuttons:SfButton.Behaviors>
                             <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>
+                    </sfbuttons:SfButton>-->
 
-                    <sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding profileVisibility}"
+                    <!--<sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding profileVisibility}"
                                             HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandUpdate}" 
                                                 Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                         <sfbuttons:SfButton.Content>
@@ -342,8 +375,8 @@
                         <sfbuttons:SfButton.Behaviors>
                             <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>
-                </StackLayout>
+                    </sfbuttons:SfButton>--><!--
+                </StackLayout>-->
             </Grid>
 
           

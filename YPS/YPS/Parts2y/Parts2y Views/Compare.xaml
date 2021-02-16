@@ -5,7 +5,8 @@
              x:Class="YPS.Parts2y.Parts2y_Views.Compare"
              Title="Compare" BackgroundColor="#E9E9E9"
              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
-             xmlns:LblIcons="clr-namespace:YPS.CustomRenders">
+             xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+             NavigationPage.HasNavigationBar="False">
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -37,7 +38,7 @@
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
 
-                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
                               HorizontalOptions="StartAndExpand"  RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,Auto"
                                         VerticalOptions="CenterAndExpand">
                         <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="Rule"
@@ -110,11 +111,12 @@
                         <ColumnDefinition Width="0.40*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackLayout IsEnabled="{Binding IsScanEnable}" Grid.Column="0" Grid.Row="0">
                         <Label  Text="Scan" Style="{DynamicResource LableWithQuestionFont}" 
-                                TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                                TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0" HorizontalOptions="Center" 
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ScanTabCmd}"/>
                             </Label.GestureRecognizers>
@@ -123,7 +125,7 @@
                     </StackLayout>
                     <StackLayout Grid.Column="1" Grid.Row="0">
                         <Label Text="Configure" TextColor="{Binding CompareTabTextColor}"
-                               Style="{DynamicResource LableWithQuestionFont}"
+                               Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ScanConfigCmd}"/>
@@ -144,8 +146,8 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Frame HasShadow="True" Margin="7,5,7,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                               CornerRadius="4" BorderColor="Gray"
+                            <Frame HasShadow="False" Margin="7,5,7,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                               CornerRadius="2" BorderColor="Gray"
                                   IsEnabled="{Binding isEnableAFrame}" Opacity="{Binding opacityA}" >
                                 <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                     <Grid.ColumnDefinitions>

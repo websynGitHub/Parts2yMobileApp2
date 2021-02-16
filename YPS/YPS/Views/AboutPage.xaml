@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,10 +7,13 @@
              x:Class="YPS.Views.AboutPage"  
              xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:local1="clr-namespace:YPS.CommonClasses">
     <ContentPage.Content>
-
-        <Grid RowDefinitions="Auto,*,Auto" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                   >
-
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{OnPlatform iOS=70 , Android=Auto}"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="DarkGreen" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                           RowDefinitions="*" ColumnDefinitions="60,*,Auto">
@@ -21,6 +24,11 @@
                         <TapGestureRecognizer Tapped="Back_Tapped"/>
                     </local:FontAwesomeIconLabel.GestureRecognizers>
                 </local:FontAwesomeIconLabel>
+
+                <Label Grid.Column="1" Grid.Row="0" Text="About" TextColor="White" Margin="8,20,0,20"
+                              HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="CenterAndExpand"
+                       Style="{StaticResource LblTitleName}"/>
             </Grid>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1">
                 <Frame BackgroundColor="White" Margin="10"  VerticalOptions="FillAndExpand" 
@@ -99,7 +107,5 @@
                 </Frame>
             </StackLayout>
         </Grid>
-
-        
     </ContentPage.Content>
 </ContentPage>

@@ -44,7 +44,7 @@
                 </LblIcons:FontAwesomeIconLabel>
                 <!--<Button Grid.Column="0"  Style="{StaticResource BackNavBtn}" x:Name="Backchathide"
                         Clicked="BackTapped" />-->
-                <Grid Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                <Grid Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand">
                     <Grid.RowDefinitions>

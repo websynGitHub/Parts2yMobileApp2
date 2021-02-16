@@ -181,10 +181,13 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 Vm.loadindicator = true;
                 //UserDialogs.Instance.ShowLoading("Loading...");
-                var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                safeAreaInset.Bottom = 0;
-                safeAreaInset.Top = 30;
-                headerpart.Padding = safeAreaInset;
+                if(Device.RuntimePlatform==Device.iOS)
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 30;
+                    headerpart.Padding = safeAreaInset;
+                }
 
                 base.OnAppearing();
                 YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);

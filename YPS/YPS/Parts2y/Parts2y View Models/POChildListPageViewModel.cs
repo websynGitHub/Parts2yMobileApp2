@@ -904,7 +904,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-                        var tagdescription = labelval.Where(wr => wr.FieldID == labelobj.TagDescription.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var elevel = labelval.Where(wr => wr.FieldID == labelobj.Elevel.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -918,8 +918,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name);
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
 
-                        labelobj.TagDescription.Name = (tagdescription != null ? (!string.IsNullOrEmpty(tagdescription.LblText) ? tagdescription.LblText : labelobj.TagDescription.Name) : labelobj.TagDescription.Name) + " :";
-                        labelobj.TagDescription.Status = tagdescription == null ? true : (tagdescription.Status == 1 ? true : false);
+                        labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
+                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
                         labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
                         labelobj.Elevel.Name = (elevel != null ? (!string.IsNullOrEmpty(elevel.LblText) ? elevel.LblText : labelobj.Elevel.Name) : labelobj.Elevel.Name) + " :";
@@ -957,10 +957,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "ShippingNumber"
             };
-            public DashboardLabelFields TagDescription { get; set; } = new DashboardLabelFields
+            public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
             {
                 Status = true,
-                Name = "TagDescription"
+                Name = "TagNumber"
             };
             public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
             public DashboardLabelFields Elevel { get; set; } = new DashboardLabelFields { Status = true, Name = "ELevelName" };

@@ -91,6 +91,9 @@ namespace YPS.ViewModel
 
             try
             {
+                qasingletitle = true;
+                IsGroupAndUserNameVisible = false;
+                qasingleheadertitle = "Add/Remove user(s)";
                 addchatUserStack = true;
                 QnACloseStack = false;
             }
@@ -113,6 +116,9 @@ namespace YPS.ViewModel
             {
                 addchatUserStack = false;
                 QnACloseStack = true;
+                qasingletitle = true;
+                IsGroupAndUserNameVisible = false;
+                qasingleheadertitle = "Close QA";
             }
             catch (Exception ex)
             {
@@ -348,7 +354,29 @@ namespace YPS.ViewModel
             set
             {
                 _IsGroupAndUserNameVisible = value;
-                NotifyPropertyChanged("IsGroupAndUserNameVisible");
+                OnPropertyChanged("IsGroupAndUserNameVisible");
+            }
+        }
+
+        private bool _qasingletitle;
+        public bool qasingletitle
+        {
+            get => _qasingletitle;
+            set
+            {
+                _qasingletitle = value;
+                OnPropertyChanged("qasingletitle");
+            }
+        }
+
+        private string _qasingleheadertitle;
+        public string qasingleheadertitle
+        {
+            get => _qasingleheadertitle;
+            set
+            {
+                _qasingleheadertitle = value;
+                OnPropertyChanged("qasingleheadertitle");
             }
         }
 

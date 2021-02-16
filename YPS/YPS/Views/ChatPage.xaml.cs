@@ -43,7 +43,7 @@ namespace YPS.Views
                 InitializeComponent();
                 Settings.currentPage = "chatPage";// Setting the current page as "chatPage"
                 Backchathide.IsVisible = false;
-                
+
                 if (!string.IsNullOrEmpty(Settings.GetParamVal))
                 {
                     var navPages = Settings.GetParamVal.Split(';');
@@ -53,7 +53,7 @@ namespace YPS.Views
                     Settings.PoId = Convert.ToInt32(navPages[1]); Settings.QaId = Settings.currentChatPage = Convert.ToInt32(navPages[4]);
                     Settings.tagnumbers = navPages[2]; Settings.ChatTitle = navPages[7];
                     Settings.QAType = Convert.ToInt32(navPages[8]);
-                    
+
                     if (chatstatus == "0" || chatstatus == "-1")
                     {
                         MessageEntry.IsVisible = false;
@@ -183,7 +183,7 @@ namespace YPS.Views
         private async void GetChatData()
         {
             YPSLogger.TrackEvent("ChatPage", " In GetChatData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-           
+
             try
             {
                 var data = await vm.GetChatHistory(Settings.QaId);// Get the chat history
@@ -293,7 +293,7 @@ namespace YPS.Views
             vm.IndicatorVisibility = true;
             try
             {
-                
+
                 messageList.SelectedItem = null;
                 var items = e.Item as ChatMessageViewModel;
 
@@ -356,6 +356,7 @@ namespace YPS.Views
 
             try
             {
+                Settings.HeaderTitle = "Add/Remove user(s)";
                 await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, true));
             }
             catch (Exception ex)
@@ -376,6 +377,7 @@ namespace YPS.Views
         {
             try
             {
+                Settings.HeaderTitle = "Close QA";
                 await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, false));
             }
             catch (Exception ex)
@@ -398,7 +400,7 @@ namespace YPS.Views
                 {
                     Settings.PerviousPage = "yship";
                 }
-                
+
                 if (Settings.PerviousPage.Trim().ToLower() == "yship")
                 {
                     App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));

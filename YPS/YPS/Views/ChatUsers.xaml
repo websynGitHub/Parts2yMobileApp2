@@ -40,7 +40,7 @@
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                     <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackTapped" BackgroundColor="Green"/>-->
-                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="15,15,0,15"
+                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
                               HorizontalOptions="StartAndExpand" IsVisible="{Binding IsGroupAndUserNameVisible}"
                                         VerticalOptions="CenterAndExpand">
                         <Grid.RowDefinitions>
@@ -50,9 +50,14 @@
                         <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
                         <Label Grid.Row="1" x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
                     </Grid>
+                    <Label Grid.Row="0" Grid.Column="1" x:Name="singleheader"  Style="{StaticResource LblTitleName}"
+                                Margin="8,20,0,20"
+                              HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="CenterAndExpand"/>
+                    <!--</Grid>-->
                     <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding QnACloseICmd}"/>
+                            <TapGestureRecognizer Tapped="CloseQA_Tapped"/>
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                     <badge:SfBadgeView Grid.Row="0" Grid.Column="3" BadgeText="{Binding bgcount}" IsVisible="{Binding adduserIcon}" 
@@ -60,7 +65,7 @@
                         <badge:SfBadgeView.Content>
                             <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.UserCountIc}" Style="{StaticResource LblIconStyle}">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding adduserICmd}"/>
+                                    <TapGestureRecognizer Tapped="AddOrRemoveUsers_Tapped"/>
                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             </LblIcons:FontAwesomeIconLabel>
                         </badge:SfBadgeView.Content>

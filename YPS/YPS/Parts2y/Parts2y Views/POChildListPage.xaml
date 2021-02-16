@@ -67,10 +67,10 @@
                     </StackLayout>
 
                     <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="CenterAndExpand" Margin="15,15,0,15">
+                                        VerticalOptions="CenterAndExpand" Margin="8,15,0,15">
                         <Grid RowSpacing="5" Padding="0" BackgroundColor="{Binding BgColor}"  
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                               RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,Auto">
+                               RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
                             <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.POID.Name}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label Grid.Row="0" Grid.Column="2" Text="{Binding PONumber}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
@@ -100,51 +100,69 @@
                             <Grid Padding="6,0,6,6">
                                 <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="15,12,15,12" 
                                            BorderColor="{Binding SelectedTagBorderColor}"
-                                           CornerRadius="4"  HasShadow="True">
-                                    <Grid RowDefinitions="Auto,Auto">
-                                        <Grid Grid.Row="0" Grid.Column="0">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid  Grid.Row="0" Grid.Column="0"  HorizontalOptions="Start" 
-                                                       VerticalOptions="Center" >
-                                                <Label Text="{Binding  BindingContext.labelobj.TagDescription.Name, Source={x:Reference Name=POTagPage}}" 
+                                           CornerRadius="4"  HasShadow="False">
+                                    <StackLayout Orientation="Vertical">
+                                        <Grid RowDefinitions="*" ColumnDefinitions="*,Auto">
+                                            <Grid Grid.Row="0" Grid.Column="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid  Grid.Row="0" Grid.Column="0"  HorizontalOptions="Start" 
+                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                    <Label Text="{Binding  BindingContext.labelobj.TagNumber.Name, Source={x:Reference Name=POTagPage}}" 
                                                    FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
-                                                <Label Text="{Binding TagDescription}" Grid.Row="0" Grid.Column="1" TextColor="Black"
+                                                    <Label Text="{Binding TagNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                            </Grid>
-                                            <Grid  Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" 
-                                                       VerticalOptions="Center"  >
-                                                <Label Text="{Binding BindingContext.labelobj.IdentCode.Name , Source={x:Reference Name=POTagPage}}" FontAttributes="Bold" TextColor="#4c4c4c"
+                                                </Grid>
+                                                <Grid  Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" 
+                                                       VerticalOptions="Center"  RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                    <Label Text="{Binding BindingContext.labelobj.IdentCode.Name , Source={x:Reference Name=POTagPage}}" FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                <Label Text="{Binding IdentCode}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                    <Label Text="{Binding IdentCode}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                    HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                            </Grid>
-                                            <Grid Grid.Row="2" Grid.Column="0" HorizontalOptions="Start"
-                                                      VerticalOptions="Center"  >
-                                                <Label Text="{Binding BindingContext.labelobj.Elevel.Name, Source={x:Reference Name=POTagPage}}"  FontAttributes="Bold" TextColor="#4c4c4c"
+                                                </Grid>
+                                                <Grid Grid.Row="2" Grid.Column="0" HorizontalOptions="Start"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                    <Label Text="{Binding BindingContext.labelobj.Elevel.Name, Source={x:Reference Name=POTagPage}}"  FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                <Label Text="{Binding ELevelName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                    <Label Text="{Binding ELevelName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                            </Grid>
-                                            <Grid Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center">
-                                                <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=POTagPage}}" Grid.Row="0" Grid.Column="0"
+                                                </Grid>
+                                                <Grid Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"
+                                                      RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                    <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=POTagPage}}" Grid.Row="0" Grid.Column="0"
                                                            FontAttributes="Bold" TextColor="#4c4c4c"  HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                <Label Text="{Binding ConditionName}" Grid.Row="0" Grid.Column="1" TextColor="Black" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                    <Label Text="{Binding ConditionName}" Grid.Row="0" Grid.Column="1" TextColor="Black" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                </Grid>
+
+                                                <!--<StackLayout Orientation="Horizontal" Grid.Row="2"
+                                                             Grid.Column="2" VerticalOptions="Center" HorizontalOptions="End">
+                                                <local:FontAwesomeIconLabel Text="{Binding Status_icon}" FontSize="30"  TextColor="#000000"  HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Source="greateric.png" Aspect="AspectFit" HeightRequest="35" WidthRequest="35" HorizontalOptions="Center" VerticalOptions="Center"></Image>
+                                                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
+                                                 FontSize="40" TextColor="#000000" HorizontalOptions="Center" 
+                                                 VerticalOptions="Center">
+                                                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer 
+                 Command="{Binding BindingContext.MoveToScanCmd,Source={x:Reference Name=POTagPage}}"
+                                                          CommandParameter="{Binding .}"/>
+                                                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                                                </local:FontAwesomeIconLabel>
+                                            </StackLayout>-->
                                             </Grid>
 
-                                            <StackLayout Orientation="Horizontal" Grid.Row="2"
-                                                             Grid.Column="2" VerticalOptions="Center" HorizontalOptions="End">
+                                            <StackLayout Orientation="Horizontal" Grid.Row="0"
+                                                             Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End">
                                                 <local:FontAwesomeIconLabel Text="{Binding Status_icon}" FontSize="30"  TextColor="#000000"  HorizontalOptions="Center" VerticalOptions="Center"/>
                                                 <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Source="greateric.png" Aspect="AspectFit" HeightRequest="35" WidthRequest="35" HorizontalOptions="Center" VerticalOptions="Center"></Image>
                                                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
@@ -159,18 +177,16 @@
                                             </StackLayout>
                                         </Grid>
 
-                                        <StackLayout Grid.Row="1" VerticalOptions="Start"
-                                                      HorizontalOptions="Fill" Orientation="Horizontal">
+                                        <StackLayout VerticalOptions="Start"
+                                                      HorizontalOptions="FillAndExpand" Orientation="Horizontal">
 
-
-
-                                            <input:CheckBox HorizontalOptions="Start" Margin="0,0,100,0"
+                                            <input:CheckBox HorizontalOptions="Start" Margin="0,0,80,0"
                                                                 VerticalOptions="Center"
                                                                  
                                                                 CheckChanged="CheckBox_CheckedChanged"  
                                                                 TextFontSize="18" Spacing="12" TextColor="Black" 
                                                                 BorderColor="Black" />
-                                            
+
                                             <!--<CheckBox HorizontalOptions="Start" Margin="0,0,140,0"
                                                             CheckedChanged="CheckBox_CheckedChanged">
 
@@ -180,8 +196,8 @@
                                                 </CheckBox.GestureRecognizers>
                                                 </CheckBox>-->
 
-                                           
-                                            
+
+
                                             <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
                                                          >
                                                 <Frame Padding="3,2,3,2" Margin="0,5,8,8" CornerRadius="2" 
@@ -189,10 +205,10 @@
                                                     <StackLayout Orientation="Horizontal">
                                                         <local:FontAwesomeIconLabel x:Name="file"
                                                            Text="{x:Static local1:Icons.FileAttachIc}"
-                                                 FontSize="Medium" FontAttributes="Bold" TextColor="Black" 
+                                                  TextColor="Black" 
                                                  HorizontalOptions="Start" VerticalOptions="Center">
                                                         </local:FontAwesomeIconLabel>
-                                                        <Label Text="{Binding TagFilesCount}" HorizontalOptions="Start"
+                                                        <Label Text="{Binding TagFilesCount}" HorizontalOptions="Start" TextColor="Black"
                                                        IsVisible="{Binding filecountVisible}" Style="{StaticResource LableWithMicroFont}"/>
                                                         <Image Source="tickb.png" IsVisible="{Binding fileTickVisible}"
                                                        HorizontalOptions="Start" HeightRequest="15" WidthRequest="12"/>
@@ -207,12 +223,12 @@
                                                        IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                     <StackLayout Orientation="Horizontal">
                                                         <local:FontAwesomeIconLabel x:Name="photoBU" Text="{x:Static local1:Icons.CameraIc}" 
-                                                                                FontSize="Medium" FontAttributes="Bold" TextColor="Black" 
+                                                                                TextColor="Black" 
                                                                                 HorizontalOptions="Start" VerticalOptions="Center"
                                                                                 Opacity="{Binding imgCamOpacityB}">
                                                         </local:FontAwesomeIconLabel>
                                                         <Label  Text="{Binding TagBPhotoCount}" IsVisible="{Binding BPhotoCountVisible}"
-                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFont}"/>
+                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFont}" TextColor="Black"/>
                                                         <Image Source="tickb.png" Opacity="{Binding imgTickOpacityB}" 
                                                        IsVisible="{Binding photoTickVisible}" HorizontalOptions="Start"
                                                        HeightRequest="15" WidthRequest="12"/>
@@ -228,12 +244,12 @@
                                                         IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                     <StackLayout Orientation="Horizontal">
                                                         <local:FontAwesomeIconLabel x:Name="photoAU" Text="{x:Static local1:Icons.CameraIc}" 
-                                                 FontSize="Medium" FontAttributes="Bold" TextColor="Black" 
+                                                 TextColor="Black" 
                                                  HorizontalOptions="Start" VerticalOptions="Center" Opacity="{Binding imgCamOpacityA}"
                                                  >
                                                         </local:FontAwesomeIconLabel>
                                                         <Label  Text="{Binding TagAPhotoCount}" IsVisible="{Binding APhotoCountVisible}"
-                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFont}"/>
+                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFont}" TextColor="Black"/>
                                                         <Image Source="tickb.png" Opacity="{Binding imgtickOpacityA}" 
                                                        IsVisible="{Binding photoTickVisible}" HorizontalOptions="Start"
                                                        HeightRequest="15" WidthRequest="12"/>
@@ -250,11 +266,11 @@
                                                     <StackLayout Orientation="Horizontal">
                                                         <local:FontAwesomeIconLabel x:Name="chat" Text="{x:Static local1:Icons.ChatIc}" 
                                                                               
-                                                 FontSize="Medium" FontAttributes="Bold" TextColor="Black"
+                                                  TextColor="Black"
                                                          HorizontalOptions="Center" VerticalOptions="Center">
 
                                                         </local:FontAwesomeIconLabel>
-                                                        <Label Text="{Binding TagQACount}" HorizontalOptions="Start"
+                                                        <Label Text="{Binding TagQACount}" HorizontalOptions="Start" TextColor="Black"
                                                        IsVisible="{Binding countVisible}" Style="{StaticResource LableWithMicroFont}"/>
                                                         <Image Source="tickb.png" IsVisible="{Binding chatTickVisible}"
                                                        HorizontalOptions="Start" HeightRequest="15" WidthRequest="12"/>
@@ -268,9 +284,11 @@
                                                 </Frame>
 
                                             </StackLayout>
-                                          
+
                                         </StackLayout>
-                                    </Grid>
+                                    </StackLayout>
+                                   
+                                    
 
                                 </Frame>
                             </Grid>
