@@ -327,11 +327,8 @@
                             <Grid HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <FontAwsm:FontAwesomeIconLabel Grid.Column="0" Text="{x:Static StaticIcons:Icons.undo}"
-                                                           Style="{StaticResource FontAwsmLblSfbutton}"/>
-                                <Label Text="{Binding labelobj.ResetBtn.Name}" Grid.Column="1"
+                                <Label Text="{Binding labelobj.ResetBtn.Name}" Grid.Column="0"
                                    Style="{StaticResource SfButtonTextLbl}"></Label>
                             </Grid>
                         </sfbuttons:SfButton.Content>
@@ -346,11 +343,8 @@
                             <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <FontAwsm:FontAwesomeIconLabel Grid.Column="0" Text="{x:Static StaticIcons:Icons.SearchIc}"
-                                                           Style="{StaticResource FontAwsmLblSfbutton}"/>
-                                <Label Text="{Binding labelobj.SearchBtn.Name}" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                <Label Text="{Binding labelobj.SearchBtn.Name}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
                             </Grid>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>

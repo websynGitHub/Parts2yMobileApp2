@@ -1771,19 +1771,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 if ((!String.IsNullOrEmpty(Settings.PONumber) || !String.IsNullOrEmpty(Settings.REQNo) || !String.IsNullOrEmpty(Settings.ShippingNo) ||
-                   Settings.DisciplineID != 0 || Settings.ELevelID != 0 || Settings.ConditionID != 0 || Settings.ExpeditorID != 0
+                   Settings.DisciplineID != 0 || Settings.ELevelID != 0 || Settings.ConditionID != 0 || Settings.ExpeditorID != 0 || !string.IsNullOrEmpty(Settings.Ybkgnumber)
                    || Settings.PriorityID != 0 || !String.IsNullOrEmpty(Settings.TAGNo) || !String.IsNullOrEmpty(Settings.IdentCodeNo) || !String.IsNullOrEmpty(Settings.BagNo)) && Settings.SearchWentWrong == false)
                 {
                     //ClearSearchLbl = true;
                     SearchIcon = "\uf00e";
                 }
-                else if ((Settings.LocationPickupID != 0 || Settings.LocationPOLID != 0 || Settings.LocationPODID != 0 || Settings.LocationDeliverPlaceID != 0) && Settings.SearchWentWrong == false)
+                else if ((Settings.LocationPickupID != 0 || Settings.LocationPOLID != 0 || Settings.LocationPODID != 0 || Settings.LocationDeliverPlaceID != 0)
+                    && Settings.SearchWentWrong == false)
                 {
                     //ClearSearchLbl = true;
                     SearchIcon = "\uf00e";
                 }
                 else if ((!String.IsNullOrEmpty(Settings.DeliveryFrom) || !String.IsNullOrEmpty(Settings.ETDFrom) || !String.IsNullOrEmpty(Settings.ETAFrom) ||
-                    !String.IsNullOrEmpty(Settings.OnsiteFrom) || !String.IsNullOrEmpty(Settings.DeliveryTo) || !String.IsNullOrEmpty(Settings.ETDTo) ||
+                    !String.IsNullOrEmpty(Settings.OnsiteFrom) || !String.IsNullOrEmpty(Settings.DeliveryTo) || !String.IsNullOrEmpty(Settings.ETDTo) || !string.IsNullOrEmpty(Settings.Ybkgnumber) ||
                     !String.IsNullOrEmpty(Settings.ETATo) || !String.IsNullOrEmpty(Settings.OnsiteTo)) && Settings.SearchWentWrong == false)
                 {
                     //ClearSearchLbl = true;
@@ -2025,7 +2026,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name);
                         labelobj.Job.Status = job == null ? true : (job.Status == 1 ? true : false);
 
-                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name)+" :";
+                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
                         labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
