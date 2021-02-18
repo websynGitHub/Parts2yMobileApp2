@@ -161,9 +161,9 @@
 
 
 
-                    <Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center"
+                    <!--<Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center"
                           Grid.Row="2" Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithQuestionFont}"/>
+                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithQuestionFont}"/>-->
 
                     <CollectionView x:Name="ParentDataList" Grid.Row="1" BackgroundColor="Transparent"
                                ItemsSource="{Binding PoDataCollections}" SelectedItem="{Binding PODetails}" VerticalOptions="End"
@@ -325,6 +325,12 @@
                
             
             </RelativeLayout>
+            <ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
+                         VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Label HorizontalTextAlignment="Center"
+                         Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
+            </ContentView>
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadingindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
