@@ -333,8 +333,6 @@
                                     <sfbuttons:SfButton.Content>
                                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                                  Padding="10,10,10,10">
-                                            <FontAwsm:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.upload}"
-                                                                           Style="{StaticResource FontAwsmLblSfbutton}"/>
                                             <Label Text="{Binding labelobjUploadBtn}" Style="{StaticResource SfButtonTextLbl}"></Label>
                                         </StackLayout>
                                     </sfbuttons:SfButton.Content>

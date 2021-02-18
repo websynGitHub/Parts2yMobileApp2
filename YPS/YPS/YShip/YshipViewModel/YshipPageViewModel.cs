@@ -742,7 +742,7 @@ namespace YPS.YshipViewModel
                         if (DBresponse.data.SupplierName == "")
                         {
                             ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
-                            Settings.Projectelected = DBresponse.data.ProjectName;
+                            Settings.ProjectSelected = DBresponse.data.ProjectName;
                             Settings.JobSelected = DBresponse.data.JobNumber;
                             Settings.CompanyID = DBresponse.data.CompanyID;
                             Settings.ProjectID = DBresponse.data.ProjectID;
@@ -753,7 +753,7 @@ namespace YPS.YshipViewModel
                         else
                         {
                             ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber + "/" + DBresponse.data.SupplierName;
-                            Settings.Projectelected = DBresponse.data.ProjectName;
+                            Settings.ProjectSelected = DBresponse.data.ProjectName;
                             Settings.JobSelected = DBresponse.data.JobNumber;
                             Settings.CompanyID = DBresponse.data.CompanyID;
                             Settings.ProjectID = DBresponse.data.ProjectID;

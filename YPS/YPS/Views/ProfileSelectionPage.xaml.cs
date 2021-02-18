@@ -273,7 +273,7 @@ namespace YPS.Views
 
                     if (selectedItem != null)
                     {
-                        Vm.ProjectName = Settings.Projectelected = selectedItem.Name;
+                        Vm.ProjectName = Settings.ProjectSelected = selectedItem.Name;
                         Settings.ProjectID = selectedItem.ID;
                         Vm.JobList = Vm.PDefaultSettingModel.data.Job.Where(x => x.ParentID == selectedItem.ID).ToList();
                         Vm.JobName = "Please select job";

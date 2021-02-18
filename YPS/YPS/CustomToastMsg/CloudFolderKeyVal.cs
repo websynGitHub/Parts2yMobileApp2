@@ -164,7 +164,7 @@ namespace YPS.CustomToastMsg
                 Settings.Username = Settings.UserMail =
                 Settings.SGivenName = Settings.EntityName = Settings.RoleName = Settings.access_token = Settings.JobSelected =
                 Settings.BlobConnection = Settings.BlobStorageConnectionString =
-                Settings.CompanySelected = Settings.SupplierSelected = Settings.Projectelected = Settings.IIJConsumerKey =
+                Settings.CompanySelected = Settings.SupplierSelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
                 Settings.IIJConsumerSecret = string.Empty;
                 Settings.SupplierID = Settings.ProjectID = Settings.CompanyID = Settings.JobID =
                 Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = 0;
@@ -226,7 +226,7 @@ namespace YPS.CustomToastMsg
                 Settings.Username = Settings.UserMail =
                 Settings.SGivenName = Settings.EntityName = Settings.RoleName = Settings.access_token = Settings.JobSelected =
                 Settings.BlobConnection = Settings.BlobStorageConnectionString =
-                Settings.CompanySelected = Settings.SupplierSelected = Settings.Projectelected = Settings.IIJConsumerKey =
+                Settings.CompanySelected = Settings.SupplierSelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
                 Settings.IIJConsumerSecret = string.Empty;
                 Settings.SupplierID = Settings.ProjectID = Settings.CompanyID = Settings.JobID =
                 Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = 0;

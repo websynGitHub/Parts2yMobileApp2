@@ -45,11 +45,8 @@
                                                  Padding="10,0,10,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <FontAwsm:FontAwesomeIconLabel Style="{StaticResource FontAwsmLblSfbutton}"
-                                         Grid.Column="0" Text="{x:Static StaticIcons:Icons.key}"/>
-                                        <Label Text="Login" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                        <Label Text="Login" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
                                     </Grid>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>

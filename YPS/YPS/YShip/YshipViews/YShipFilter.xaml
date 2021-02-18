@@ -102,7 +102,8 @@
 
                             </sfinput:SfTextInputLayout>
 
-                            <sfinput:SfTextInputLayout Style="{StaticResource SfInputLayout}" Opacity="0.3"   Hint="{Binding labelobj.yShipBkgNo}" InputViewPadding="12,0,0,0">
+                            <sfinput:SfTextInputLayout Style="{StaticResource SfInputLayout}" Opacity="0.3"  
+                                                       Hint="{Binding labelobj.yShipBkgNo}" InputViewPadding="12,0,0,0">
                                 <Entry Text="{Binding yShipBkg}"  HeightRequest="50"
                                              Opacity="0.3" IsReadOnly="True" >
                                     <Entry.HeightRequest>

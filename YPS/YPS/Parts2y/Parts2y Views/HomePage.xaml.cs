@@ -40,10 +40,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     Vm.NotifyCountTxt = args;
                 });
-
-                Task.Run(() => Vm.RememberUserDetails()).Wait();
-                Task.Run(() => Vm.GetallApplabels()).Wait();
-                Task.Run(() => Vm.ChangeLabel()).Wait();
             }
             catch (Exception ex)
             {

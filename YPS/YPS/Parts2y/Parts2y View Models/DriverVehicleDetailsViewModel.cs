@@ -182,7 +182,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var poData = await service.GetDrivervindetails(Settings.VINNo, Settings.HRLtext);
+                    var poData = await service.GetDrivervindetails(YPS.CommonClasses.Settings.TagNumber, Settings.HRLtext);
                     var data = JsonConvert.DeserializeObject<DriverVehicleDetailsModel>(poData.ToString());
                     if (data != null)
                     {

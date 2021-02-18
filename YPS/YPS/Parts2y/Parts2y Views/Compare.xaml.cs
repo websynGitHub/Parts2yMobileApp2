@@ -137,17 +137,17 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-        private void ShowPicker(object sender, EventArgs e)
-        {
-            try
-            {
-                scanrulepicker.Focus();
-            }
-            catch (Exception ex)
-            {
+        //private void ShowPicker(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        scanrulepicker.Focus();
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         private void TotalEntryTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -187,6 +187,11 @@ namespace YPS.Parts2y.Parts2y_Views
             {
 
             }
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+
         }
     }
 }

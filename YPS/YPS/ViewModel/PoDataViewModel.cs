@@ -1361,15 +1361,15 @@ namespace YPS.ViewModel
                         CompanyName = Settings.CompanySelected;
                     }
 
-                    if (!String.IsNullOrEmpty(Settings.Projectelected) || !String.IsNullOrEmpty(Settings.JobSelected))
+                    if (!String.IsNullOrEmpty(Settings.ProjectSelected) || !String.IsNullOrEmpty(Settings.JobSelected))
                     {
                         if (Settings.SupplierSelected == "ALL")
                         {
-                            ProNjobName = Settings.Projectelected + "/" + Settings.JobSelected;
+                            ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
                         }
                         else
                         {
-                            var pNjobName = Settings.Projectelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
+                            var pNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
                             string trimpNjobName = pNjobName.TrimEnd('/');
                             ProNjobName = trimpNjobName;
                         }
@@ -1390,7 +1390,7 @@ namespace YPS.ViewModel
                             if (DBresponse.data.SupplierName == "")
                             {
                                 ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
-                                Settings.Projectelected = DBresponse.data.ProjectName;
+                                Settings.ProjectSelected = DBresponse.data.ProjectName;
                                 Settings.JobSelected = DBresponse.data.JobNumber;
                                 Settings.CompanyID = DBresponse.data.CompanyID;
                                 Settings.ProjectID = DBresponse.data.ProjectID;
@@ -1401,7 +1401,7 @@ namespace YPS.ViewModel
                             else
                             {
                                 ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber + "/" + DBresponse.data.SupplierName;
-                                Settings.Projectelected = DBresponse.data.ProjectName;
+                                Settings.ProjectSelected = DBresponse.data.ProjectName;
                                 Settings.JobSelected = DBresponse.data.JobNumber;
                                 Settings.CompanyID = DBresponse.data.CompanyID;
                                 Settings.ProjectID = DBresponse.data.ProjectID;

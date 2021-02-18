@@ -112,8 +112,6 @@
                                             Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0" BackgroundColor="DarkGreen">
                             <sfbuttons:SfButton.Content>
                                 <StackLayout Style="{StaticResource StackInSfButton}">
-                                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.upload}"
-                                                                   Style="{StaticResource FontAwsmLblSfbutton}"/>
                                     <Label Text="{Binding labelobjFile.upload}" Style="{StaticResource SfButtonTextLbl}"></Label>
                                 </StackLayout>
                             </sfbuttons:SfButton.Content>

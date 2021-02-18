@@ -81,7 +81,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         loadindicator = true;
                         POTagDetail.SelectedTagBorderColor = Color.DarkGreen;
-                        await Navigation.PushAsync(new DriverVehicleDetails());
+                        Settings.TagNumber = POTagDetail.TagNumber;
+                        if (Settings.CompanySelected.Contains("(C)"))
+                        {
+                            await Navigation.PushAsync(new DriverVehicleDetails());
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -238,8 +242,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             data.emptyCellValue = "No records to display";
                         }
                     }
+                    PoDataChildCollections = potaglist;
+                    IsPOTagDataListVisible = true;
+                    NoRecordsLbl = false;
                 }
-                PoDataChildCollections = potaglist;
+                else
+                {
+                    NoRecordsLbl = true;
+                    IsPOTagDataListVisible = false;
+                }
+
             }
             catch (Exception ex)
             {
@@ -906,12 +918,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var elevel = labelval.Where(wr => wr.FieldID == labelobj.Elevel.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) ;
+                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name);
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name);
                         labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
@@ -922,8 +934,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
                         labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
-                        labelobj.Elevel.Name = (elevel != null ? (!string.IsNullOrEmpty(elevel.LblText) ? elevel.LblText : labelobj.Elevel.Name) : labelobj.Elevel.Name) + " :";
-                        labelobj.Elevel.Status = elevel == null ? true : (elevel.Status == 1 ? true : false);
+                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
+                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
 
@@ -963,7 +975,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Name = "TagNumber"
             };
             public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
-            public DashboardLabelFields Elevel { get; set; } = new DashboardLabelFields { Status = true, Name = "ELevelName" };
+            public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
 
         }
@@ -1053,6 +1065,38 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     REQNo = value[0].REQNo;
                 }
                 RaisePropertyChanged("PoDataChildCollections");
+            }
+        }
+
+        private bool _IsPOTagDataListVisible;
+        public bool IsPOTagDataListVisible
+        {
+            get { return _IsPOTagDataListVisible; }
+            set
+            {
+                _IsPOTagDataListVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _noRecordsLbl;
+        public bool NoRecordsLbl
+        {
+            get { return _noRecordsLbl; }
+            set
+            {
+                _noRecordsLbl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsRightArrowVisible = true;
+        public bool IsRightArrowVisible
+        {
+            get => _IsRightArrowVisible; set
+            {
+                _IsRightArrowVisible = value;
+                RaisePropertyChanged("IsRightArrowVisible");
             }
         }
 

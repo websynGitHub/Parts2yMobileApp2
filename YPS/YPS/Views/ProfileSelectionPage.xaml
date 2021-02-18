@@ -329,11 +329,8 @@
                                                  Padding="10,0,10,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <FontAwsmLbl:FontAwesomeIconLabel Grid.Column="0" Text="{x:Static StaticIcons:Icons.edit}"
-                                                                          Style="{StaticResource FontAwsmLblSfbutton}"/>
-                                            <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="1" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                            <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
                                         </Grid>
                                     </sfbuttons:SfButton.Content>
                                     <sfbuttons:SfButton.Behaviors>

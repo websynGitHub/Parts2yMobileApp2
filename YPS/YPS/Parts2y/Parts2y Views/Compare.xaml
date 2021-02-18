@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fontLabel="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
              x:Class="YPS.Parts2y.Parts2y_Views.Compare"
-             Title="Compare" BackgroundColor="#E9E9E9"
+             BackgroundColor="#E9E9E9"
              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
              xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             xmlns:behaviors="clr-namespace:YPS.Behaviours"
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms">
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -287,15 +291,15 @@
                                 <RowDefinition Height="Auto"/>-->
                             </Grid.RowDefinitions>
                             <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                <Frame HasShadow="True" Margin="7,5,7,0" 
+                                <Frame HasShadow="True" Margin="7,5,7,0" Padding="6,0,6,0"
                                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                CornerRadius="4" BorderColor="Gray"
                                  >
                                     <Grid HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="75"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="60"/>
@@ -303,8 +307,27 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <Frame Grid.Row="0" Grid.Column="0"  
-                                               CornerRadius="7" IsVisible="{Binding DataGrid}" 
+                                        <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="0" Hint="Rule" 
+                                                       Style="{StaticResource SfInputLayout}">
+
+                                            <combobox:SfComboBox x:Name="LanguagePicker"
+                                                                 DataSource="{Binding ScanRuleLst,Mode=TwoWay}" 
+                                                     Text="{Binding LangaugeTextDisplay,Mode=TwoWay}" 
+                                                                 SelectedItem="{Binding SelectedScanRule}"
+                                                      VerticalOptions="CenterAndExpand" 
+                                                                 Style="{StaticResource SfComboBoxTextStyle}">
+                                                <combobox:SfComboBox.HeightRequest>
+                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                        <On Platform="iOS">20</On>
+                                                        <On Platform="Android">50</On>
+                                                    </OnPlatform>
+                                                </combobox:SfComboBox.HeightRequest>
+                                            </combobox:SfComboBox>
+
+                                        </sfinput:SfTextInputLayout>
+                                        
+                                        <!--<Frame Grid.Row="0" Grid.Column="0"  
+                                               CornerRadius="7" 
                                                HasShadow="False" BorderColor="Gray" 
                                                 HorizontalOptions="StartAndExpand" Padding="6,0,5,0">
                                             <StackLayout Orientation="Horizontal">
@@ -328,18 +351,62 @@
                                                     <TapGestureRecognizer Tapped="ShowPicker"/>
                                                 </StackLayout.GestureRecognizers>
                                             </StackLayout>
-                                        </Frame>
+                                        </Frame>-->
 
                                         <Label Grid.Row="0" VerticalOptions="CenterAndExpand"
                                                HorizontalOptions="CenterAndExpand" Grid.Column="1" Text="Total :"
                                                FontSize="Medium" Margin="5" FontAttributes="Bold"/>
-                                        <Entry x:Name="entrytotal" Grid.Row="0" Grid.Column="2"
+
+                                        <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="2" Hint="Value"
+                                                       Style="{StaticResource SfInputLayout}">
+                                            <Entry x:Name="entrytotal" Keyboard="Numeric"
+                                               Text="{Binding TotalCount}" MaxLength="4"
+                                                TextChanged="TotalEntryTextChanged"
+                                                   Style="{StaticResource EntryTextStyle}">
+                                                <Entry.HeightRequest>
+                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                        <On Platform="iOS">20</On>
+                                                        <On Platform="Android">50</On>
+                                                    </OnPlatform>
+                                                </Entry.HeightRequest>
+                                            </Entry>
+                                        </sfinput:SfTextInputLayout>
+                                        
+                                        <!--<Entry x:Name="entrytotal" Grid.Row="0" Grid.Column="2"
                                                Text="{Binding TotalCount}"
-                                                TextChanged="TotalEntryTextChanged"></Entry>
+                                                TextChanged="TotalEntryTextChanged"></Entry>-->
                                         <Label IsVisible="{Binding IsTotalValidMsg}" TextColor="Red" Grid.Row="1" Grid.Column="2"
                                                Text="{Binding TotalErrorTxt}"/>
-                                        <Button Grid.Row="2" Grid.Column="2" Text="Save"
-                                                BackgroundColor="LightBlue" Clicked="SaveClick"/>
+
+                                        <!--<sfbuttons:SfButton Grid.Row="2" Grid.Column="2" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
+                                                HorizontalOptions="EndAndExpand" HeightRequest="40"
+                                                BackgroundColor="DarkGreen">
+                                            <sfbuttons:SfButton.Content>
+
+                                                <StackLayout Style="{StaticResource StackInSfButton}">
+                                                    <Label  Text="Save"
+                                               Style="{StaticResource SfButtonTextLbl}" ></Label>
+                                                </StackLayout>
+                                            </sfbuttons:SfButton.Content>
+                                           
+                                            <sfbuttons:SfButton.Behaviors>
+                                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                            </sfbuttons:SfButton.Behaviors>
+
+                                            <sfbuttons:SfButton.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="SaveClick"/>
+                                            </sfbuttons:SfButton.GestureRecognizers>
+                                        </sfbuttons:SfButton>-->
+                                        <Button Grid.Row="2" Grid.Column="2" Text="Save" Clicked="SaveClick"
+                                                Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen"
+                                                HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                               >
+
+                                            <Button.Behaviors>
+                                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                            </Button.Behaviors>
+                                        </Button>
                                     </Grid>
                                 </Frame>
                             </StackLayout>

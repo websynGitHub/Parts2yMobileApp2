@@ -67,7 +67,8 @@
     <ContentPage.Content>
         <AbsoluteLayout>
             <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                    
+                <StackLayout RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
                 <Grid  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       Padding="0">
@@ -98,7 +99,7 @@
                                         VerticalOptions="Center" Margin="10,0,10,10"/>
 
                             <!--<StackLayout Orientation="Horizontal">-->
-                                <local:FontAwesomeIconLabel x:Name="refreshName" IsEnabled="{Binding RefreshDisable,Mode=TwoWay}" 
+                            <local:FontAwesomeIconLabel x:Name="refreshName" IsEnabled="{Binding RefreshDisable,Mode=TwoWay}" 
                                                             AutomationId="AutoRefreshToolbarIcon" 
                                                             Text="{x:Static local1:Icons.RefreshIc}"
                                                             Style="{StaticResource LblIconStyle}"
@@ -112,26 +113,26 @@
                                         VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1">
                             <Grid  RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="0,0,0,0" Padding="0,0,0,0"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                  RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
-                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Name.Name}" TextColor="#FFFFFF" 
+                                  RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*">
+                                <!--<Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>-->
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding CompanyName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding UserName}" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.Role.Name}" TextColor="#FFFFFF" 
+                                <!--<Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>-->
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding ProjectName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="1"  Grid.Column="2" Text="{Binding Role}" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF" 
+                                <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>-->
+                                <Label Grid.Row="2"  Grid.Column="0" Text="{Binding JobName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="2" Grid.Column="2" Text="{Binding Company}" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>
-                               
+
 
                                 <!--<local:FontAwesomeIconLabel x:Name="MoreItemIcon"  Grid.Row="1" Grid.Column="3"
                                                             Text="{x:Static local1:Icons.MoreItems}" 
@@ -144,7 +145,7 @@
                                 </local:FontAwesomeIconLabel>-->
                             </Grid>
 
-                           
+
                         </StackLayout>
 
                         <!--<Label Text="Clear Search" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"
@@ -156,22 +157,22 @@
                             </Label.GestureRecognizers>
                         </Label>-->
                     </Grid>
-                  
-                   
+
+
 
 
                     <Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center"
                           Grid.Row="2" Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithQuestionFont}"/>
 
-                        <CollectionView x:Name="ParentDataList" Grid.Row="1" BackgroundColor="Transparent"
+                    <CollectionView x:Name="ParentDataList" Grid.Row="1" BackgroundColor="Transparent"
                                ItemsSource="{Binding PoDataCollections}" SelectedItem="{Binding PODetails}" VerticalOptions="End"
                               Margin="0,0,0,0"   IsVisible="{Binding ISPoDataListVisible}" SelectionMode="Single">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <!--<ViewCell>-->
-                                    <Grid Padding="6,0,6,6">
-                                        <Frame Margin="0,0,0,0" Padding="15,12,15,12" BorderColor="{Binding SelectedTagBorderColor}" 
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <!--<ViewCell>-->
+                                <Grid Padding="6,0,6,6">
+                                    <Frame Margin="0,0,0,0" Padding="15,12,15,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        BackgroundColor="White" CornerRadius="4"  HasShadow="False">
                                         <StackLayout Orientation="Vertical">
                                             <Grid RowDefinitions="*" ColumnDefinitions="*,Auto">
@@ -213,7 +214,7 @@
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
                                                     </Grid>
                                                 </Grid>
-                                                
+
                                                 <StackLayout Orientation="Horizontal" Grid.Row="0"
                                                              Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End">
                                                     <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
@@ -222,55 +223,55 @@
                                                     </local:FontAwesomeIconLabel>
                                                 </StackLayout>
                                             </Grid>
-                                                
 
-                                                <StackLayout VerticalOptions="Start" HorizontalOptions="End" 
+
+                                            <StackLayout VerticalOptions="Start" HorizontalOptions="End" 
                                                      Orientation="Horizontal">
-                                                    <Frame Padding="3,3,0,3" Margin="0,0,8,3" CornerRadius="2" 
+                                                <Frame Padding="3,3,0,3" Margin="0,0,8,3" CornerRadius="2" 
                                                        HasShadow="False">
-                                                        <Image Source="plicon.png" HorizontalOptions="End" 
+                                                    <Image Source="plicon.png" HorizontalOptions="End" 
                                                            HeightRequest="21" Margin="0,0,3,0">
-                                                        </Image>
-                                                        <Frame.GestureRecognizers>
-                                                            <TapGestureRecognizer 
+                                                    </Image>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer 
                                                                 Command="{Binding BindingContext.GroupeFileUploadCmd,Source={x:Reference Name=POPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                                        </Frame.GestureRecognizers>
-                                                    </Frame>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
 
-                                                    <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" 
+                                                <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" 
                                                        HasShadow="False">
-                                                        <Image Source="shipicon.png" x:Name="ShipPrinter" 
+                                                    <Image Source="shipicon.png" x:Name="ShipPrinter" 
                                                     HeightRequest="21" Margin="3,0,0,0"
                                                    HorizontalOptions="End">
-                                                        </Image>
-                                                        <Frame.GestureRecognizers>
-                                                            <TapGestureRecognizer
+                                                    </Image>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer
                                                         Command="{Binding BindingContext.PrintShippingMarkReportCmd,Source={x:Reference Name=POPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                                        </Frame.GestureRecognizers>
-                                                    </Frame>
-
-                                                </StackLayout>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
 
                                             </StackLayout>
 
-                                        </Frame>
-                                    </Grid>
+                                        </StackLayout>
 
-                                    <!--</ViewCell>-->
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                    </Frame>
+                                </Grid>
 
-                        <Grid  x:Name="pagingpart" Grid.Row="2" IsVisible="{Binding ISPoDataListVisible}"
-                              BackgroundColor="White">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                                <!--</ViewCell>-->
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
 
-                            <sfPager:SfDataPager x:Name ="dataPager"
+                    <Grid  x:Name="pagingpart" Grid.Row="2" IsVisible="{Binding ISPoDataListVisible}"
+                              BackgroundColor="White" VerticalOptions="End">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <sfPager:SfDataPager x:Name ="dataPager"
                                          HeightRequest="30"  Grid.Column="0" Padding="0,4,0,10"
                                              HorizontalOptions="Fill" VerticalOptions="Fill" PageSize="1" 
                                              ButtonShape="Rectangle" DisplayMode="PreviousNextNumeric" 
@@ -279,27 +280,29 @@
                                              NumericButtonCount="{Binding NumericButtonCount}"
                                              NumericButtonsGenerateMode="{Binding NumericButtonsGenerateMode}"
                                              >
-                            </sfPager:SfDataPager>
+                        </sfPager:SfDataPager>
 
-                            <Frame Grid.Column="1"  Padding="0,0,3,0" Margin="0,0,3,4" CornerRadius="7" HasShadow="False" BorderColor="Gray" HeightRequest="45">
-                                <StackLayout x:Name="pagesizeStackName" Orientation="Horizontal">
-                                    <Label x:Name="pageSizeNameYPS" FontSize="Small" FontAttributes="Bold" VerticalTextAlignment="Center"
+                        <Frame Grid.Column="1"  Padding="0,0,3,0" Margin="0,0,3,4" CornerRadius="7" HasShadow="False" BorderColor="Gray" HeightRequest="45">
+                            <StackLayout x:Name="pagesizeStackName" Orientation="Horizontal">
+                                <Label x:Name="pageSizeNameYPS" FontSize="Small" FontAttributes="Bold" VerticalTextAlignment="Center"
                                            VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="5,0,0,0"
                                            Style="{StaticResource LabelStyleInDropDown}"/>
-                                    <Grid x:Name="pageSizerPickerGrid">
-                                        <Picker x:Name="PageSize" WidthRequest="0"  IsVisible="False" SelectedIndex="0"
+                                <Grid x:Name="pageSizerPickerGrid">
+                                    <Picker x:Name="PageSize" WidthRequest="0"  IsVisible="False" SelectedIndex="0"
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" 
                                                 TextColor="Black" Style="{StaticResource XamarinPickerTextStyle}"/>
-                                    </Grid>
-                                    <Image  Margin="0,0,2,0"  Source="downarrow.png" VerticalOptions="CenterAndExpand"  HorizontalOptions="EndAndExpand"  WidthRequest="7" HeightRequest="30"/>
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ShowPageSizePickerItems}" CommandParameter="{Reference PageSize}"/>
-                                    </StackLayout.GestureRecognizers>
-                                </StackLayout>
-                            </Frame>
+                                </Grid>
+                                <Image  Margin="0,0,2,0"  Source="downarrow.png" VerticalOptions="CenterAndExpand"  HorizontalOptions="EndAndExpand"  WidthRequest="7" HeightRequest="30"/>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowPageSizePickerItems}" CommandParameter="{Reference PageSize}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Frame>
 
-                        </Grid>
                     </Grid>
+                </Grid>
+            </StackLayout>
+                
                     <!--<ContentView IsVisible="{Binding ToolBarItemPopUp}" BackgroundColor="Transparent" Padding="0"
                          RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.075}"
                          RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1, Constant=-160}">

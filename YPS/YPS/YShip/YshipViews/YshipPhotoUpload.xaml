@@ -211,7 +211,6 @@
                             <sfbuttons:SfButton.Content>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                                  Padding="10,0,10,0">
-                                    <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.upload}" Style="{StaticResource FontAwsmLblSfbutton}"/>
                                     <Label Text="{Binding labelobjPhoto}" Style="{StaticResource SfButtonTextLbl}"></Label>
                                 </StackLayout>
                             </sfbuttons:SfButton.Content>

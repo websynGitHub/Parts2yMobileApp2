@@ -145,7 +145,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (checkInternet)
                         {
-                            await RememberUserDetails();
+                            //await RememberUserDetails();
 
                             SendPodata sendPodata = new SendPodata();
                             sendPodata.UserID = Settings.userLoginID;
@@ -551,7 +551,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         loadingindicator = true;
                         PODetails.SelectedTagBorderColor = Color.DarkGreen;
                         var PoDataChilds = new ObservableCollection<AllPoData>(
-                            Settings.AllPOData.Where(wr => wr.ShippingNumber == PODetails.ShippingNumber).ToList()
+                            Settings.AllPOData.Where(wr => wr.ShippingNumber == PODetails.ShippingNumber && !string.IsNullOrEmpty(wr.TagNumber)).ToList()
                             );
 
                         await Navigation.PushAsync(new POChildListPage(PoDataChilds));
@@ -577,146 +577,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadingindicator = false;
-            }
-        }
-
-        /// <summary>
-        /// This method is to remember user details.
-        /// </summary>
-        /// <returns></returns>
-        public async Task RememberUserDetails()
-        {
-            try
-            {
-                RememberPwdDB Db = new RememberPwdDB();
-                var user = Db.GetUserDetails();
-
-                if (user.Count == 0)
-                {
-                    RememberPwd saveData = new RememberPwd();
-                    saveData.encUserId = EncryptManager.Encrypt(Convert.ToString(Settings.userLoginID));
-                    saveData.encLoginID = Settings.LoginID;
-                    saveData.encUserRollID = EncryptManager.Encrypt(Convert.ToString(Settings.userRoleID));
-                    saveData.encSessiontoken = Settings.Sessiontoken;
-                    saveData.AndroidVersion = Settings.AndroidVersion;
-                    saveData.iOSversion = Settings.iOSversion;
-                    saveData.IIJEnable = Settings.IsIIJEnabled;
-                    saveData.IsPNEnabled = Settings.IsPNEnabled;
-                    saveData.IsEmailEnabled = Settings.IsEmailEnabled;
-                    Db.SaveUserPWd(saveData);
-
-                    #region selected profile
-                    if (!String.IsNullOrEmpty(Settings.CompanySelected))
-                    {
-                        CompanyName = Settings.CompanySelected;
-                    }
-
-                    if (!String.IsNullOrEmpty(Settings.Projectelected) || !String.IsNullOrEmpty(Settings.JobSelected))
-                    {
-                        if (Settings.SupplierSelected == "ALL")
-                        {
-                            ProNjobName = Settings.Projectelected + "/" + Settings.JobSelected;
-                        }
-                        else
-                        {
-                            var pNjobName = Settings.Projectelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
-                            string trimpNjobName = pNjobName.TrimEnd('/');
-                            ProNjobName = trimpNjobName;
-                        }
-                    }
-                    #endregion
-                }
-                else
-                {
-                    var DBresponse = await trackService.GetSaveUserDefaultSettings(Settings.userLoginID);
-
-                    if (DBresponse != null)
-                    {
-                        if (DBresponse.status == 1)
-                        {
-                            Settings.VersionID = DBresponse.data.VersionID;
-                            CompanyName = Settings.CompanySelected = DBresponse.data.CompanyName;
-
-                            if (DBresponse.data.SupplierName == "")
-                            {
-                                ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
-                                Settings.Projectelected = DBresponse.data.ProjectName;
-                                Settings.JobSelected = DBresponse.data.JobNumber;
-                                Settings.CompanyID = DBresponse.data.CompanyID;
-                                Settings.ProjectID = DBresponse.data.ProjectID;
-                                Settings.JobID = DBresponse.data.JobID;
-                                Settings.SupplierSelected = DBresponse.data.SupplierName;
-                                Settings.SupplierID = DBresponse.data.SupplierID;
-                            }
-                            else
-                            {
-                                ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber + "/" + DBresponse.data.SupplierName;
-                                Settings.Projectelected = DBresponse.data.ProjectName;
-                                Settings.JobSelected = DBresponse.data.JobNumber;
-                                Settings.CompanyID = DBresponse.data.CompanyID;
-                                Settings.ProjectID = DBresponse.data.ProjectID;
-                                Settings.JobID = DBresponse.data.JobID;
-                                Settings.SupplierSelected = DBresponse.data.SupplierName;
-                                Settings.SupplierID = DBresponse.data.SupplierID;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "RememberUserDetails method -> in PoDataViewModel! " + Settings.userLoginID);
-                await trackService.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// This method get all label texts, used in the app.
-        /// </summary>
-        public async void GetallApplabels()
-        {
-            try
-            {
-                if (Settings.alllabeslvalues == null || Settings.alllabeslvalues.Count == 0)
-                {
-                    var lblResult = await trackService.GetallApplabelsService();
-
-                    if (lblResult != null && lblResult.data != null)
-                    {
-                        Settings.alllabeslvalues = lblResult.data.ToList();
-                        var datavalues = Settings.alllabeslvalues.Where(x => x.VersionID == Settings.VersionID && x.LanguageID == Settings.LanguageID).ToList();
-                        Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
-                        Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
-
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
-                            //pagename.GetBottomMenVal();
-                        }
-                    }
-                    else
-                    {
-                        //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
-                    }
-                }
-                else
-                {
-                    if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
-                    {
-                        var datavalues = Settings.alllabeslvalues.Where(x => x.VersionID == Settings.VersionID && x.LanguageID == Settings.LanguageID).ToList();
-
-                        Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
-                        Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "GetallApplabels method -> in PoDataViewModel! " + Settings.userLoginID);
-                await trackService.Handleexception(ex);
             }
         }
 
@@ -2149,21 +2009,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (labelval.Count > 0)
                     {
                         //Getting Label values & Status based on FieldID
-                        var name = labelval.Where(wr => wr.FieldID == labelobj.Name.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var role = labelval.Where(wr => wr.FieldID == labelobj.Role.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var company = labelval.Where(wr => wr.FieldID == labelobj.Company.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var project = labelval.Where(wr => wr.FieldID == labelobj.Project.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var job = labelval.Where(wr => wr.FieldID == labelobj.Job.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.Name.Name = (name != null ? (!string.IsNullOrEmpty(name.LblText) ? name.LblText : labelobj.Name.Name) : labelobj.Name.Name);
-                        labelobj.Name.Status = name == null ? true : (name.Status == 1 ? true : false);
-                        labelobj.Role.Name = (role != null ? (!string.IsNullOrEmpty(role.LblText) ? role.LblText : labelobj.Role.Name) : labelobj.Role.Name);
-                        labelobj.Role.Status = role == null ? true : (role.Status == 1 ? true : false);
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name);
                         labelobj.Company.Status = company == null ? true : (company.Status == 1 ? true : false);
+                        labelobj.Project.Name = (project != null ? (!string.IsNullOrEmpty(project.LblText) ? project.LblText : labelobj.Project.Name) : labelobj.Project.Name);
+                        labelobj.Project.Status = project == null ? true : (project.Status == 1 ? true : false);
+                        labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name);
+                        labelobj.Job.Status = job == null ? true : (job.Status == 1 ? true : false);
 
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name)+" :";
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
@@ -2186,9 +2046,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #region Properties for dynamic label change
         public class DashboardLabelChangeClass
         {
-            public DashboardLabelFields Name { get; set; } = new DashboardLabelFields { Status = true, Name = "FullName" };
-            public DashboardLabelFields Role { get; set; } = new DashboardLabelFields { Status = true, Name = "Role" };
+            public DashboardLabelFields Job { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
+            public DashboardLabelFields Project { get; set; } = new DashboardLabelFields { Status = true, Name = "Project" };
             public DashboardLabelFields Company { get; set; } = new DashboardLabelFields { Status = true, Name = "Company" };
+            public DashboardLabelFields Supplier { get; set; } = new DashboardLabelFields { Status = true, Name = "SupplierCompanyName" };
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
             {
                 Status = true,
@@ -2393,17 +2254,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _CompanyName;
-        public string CompanyName
-        {
-            get { return _CompanyName; }
-            set
-            {
-                _CompanyName = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private string _ProNjobName;
         public string ProNjobName
         {
@@ -2580,49 +2430,61 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _UserName = Settings.Username;
-        public string UserName
+        private string _CompanyName = Settings.CompanySelected;
+        public string CompanyName
         {
-            get { return _UserName; }
+            get { return _CompanyName; }
             set
             {
-                _UserName = value;
-                RaisePropertyChanged("UserName");
-            }
-        }
-
-        private string _Role = Settings.RoleName;
-        public string Role
-        {
-            get { return _Role; }
-            set
-            {
-                _Role = value;
-                RaisePropertyChanged("Role");
-            }
-        }
-
-        private string _Company = Settings.EntityName;
-        public string Company
-        {
-            get { return _Company; }
-            set
-            {
-                _Company = value;
+                _CompanyName = value;
                 RaisePropertyChanged("Company");
             }
         }
 
-        private string _Id = Settings.CompanyID.ToString();
-        public string Id
+        private string _ProjectName = Settings.ProjectSelected;
+        public string ProjectName
         {
-            get { return _Id; }
+            get { return _ProjectName; }
             set
             {
-                _UserName = value;
-                RaisePropertyChanged("Id");
+                _ProjectName = value;
+                RaisePropertyChanged("ProjectName");
             }
         }
+
+        private string _JobName = Settings.JobSelected;
+        public string JobName
+        {
+            get { return _JobName; }
+            set
+            {
+                _JobName = value;
+                RaisePropertyChanged("JobName");
+            }
+        }
+
+
+        private string _SupplierName = Settings.SupplierSelected;
+        public string SupplierName
+        {
+            get { return _SupplierName; }
+            set
+            {
+                _SupplierName = value;
+                RaisePropertyChanged("SupplierName");
+            }
+        }
+
+        //private string _Id = Settings.CompanyID.ToString();
+        //public string Id
+        //{
+        //    get { return _Id; }
+        //    set
+        //    {
+        //        _UserName = value;
+        //        RaisePropertyChanged("Id");
+        //    }
+        //}
 
         private AllPoData _PODetails;
         public AllPoData PODetails

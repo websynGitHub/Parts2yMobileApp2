@@ -68,7 +68,7 @@ namespace YPS.CommonClasses
         #region Default set profile
 
         public static string CompanySelected { get; set; }
-        public static string Projectelected { get; set; }
+        public static string ProjectSelected { get; set; }
         public static string JobSelected { get; set; }
         public static string SupplierSelected { get; set; } = "ALL";
 
@@ -240,7 +240,7 @@ namespace YPS.CommonClasses
         public static bool isSkip { get; set; }
         public static int toGoPageIndex { get; set; }
         public static int toGoPageIndexyShip { get; set; }
-
+        public static string TagNumber { get; set; }
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }

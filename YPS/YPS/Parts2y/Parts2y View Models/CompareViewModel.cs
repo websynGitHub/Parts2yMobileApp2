@@ -176,6 +176,78 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
                                     break;
 
+                                case "Last 9":
+
+                                    if (Settings.scanQRValueA.Length < 9)
+                                    {
+                                        await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
+
+                                        isScannedA = "ok.png";
+                                        resultA = Settings.scanQRValueA;
+                                        isEnableAFrame = true;
+                                        opacityA = 1;
+                                        isEnableBFrame = false;
+                                        opacityB = 0.50;
+                                    }
+                                    else
+                                    {
+                                        isScannedA = "cross.png";
+                                        resultA = Settings.scanQRValueA;
+                                        isEnableAFrame = false;
+                                        opacityA = 0.50;
+                                        isEnableBFrame = true;
+                                        opacityB = 1;
+                                    }
+                                    break;
+
+                                case "Last 10":
+
+                                    if (Settings.scanQRValueA.Length < 10)
+                                    {
+                                        await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
+
+                                        isScannedA = "ok.png";
+                                        resultA = Settings.scanQRValueA;
+                                        isEnableAFrame = true;
+                                        opacityA = 1;
+                                        isEnableBFrame = false;
+                                        opacityB = 0.50;
+                                    }
+                                    else
+                                    {
+                                        isScannedA = "cross.png";
+                                        resultA = Settings.scanQRValueA;
+                                        isEnableAFrame = false;
+                                        opacityA = 0.50;
+                                        isEnableBFrame = true;
+                                        opacityB = 1;
+                                    }
+                                    break;
+
+                                case "Last 11":
+
+                                    if (Settings.scanQRValueA.Length < 11)
+                                    {
+                                        await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
+
+                                        isScannedA = "ok.png";
+                                        resultA = Settings.scanQRValueA;
+                                        isEnableAFrame = true;
+                                        opacityA = 1;
+                                        isEnableBFrame = false;
+                                        opacityB = 0.50;
+                                    }
+                                    else
+                                    {
+                                        isScannedA = "cross.png";
+                                        resultA = Settings.scanQRValueA;
+                                        isEnableAFrame = false;
+                                        opacityA = 0.50;
+                                        isEnableBFrame = true;
+                                        opacityB = 1;
+                                    }
+                                    break;
+
                                 default:
                                     if (SelectedScanRule == "Complete Match")
                                     {
@@ -203,6 +275,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
+                            int Astartindex;
+                            int Bstartindex;
+
                             Settings.scanQRValueB = ScannedValueB = scanresult != null ? scanresult.Text : "scanned";
 
                             switch (SelectedScanRule)
@@ -248,8 +323,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     break;
 
                                 case "Last 4":
-                                    int Astartindex = Settings.scanQRValueA.Length - 4;
-                                    int Bstartindex = Settings.scanQRValueB.Length - 4;
+                                    Astartindex = Settings.scanQRValueA.Length - 4;
+                                    Bstartindex = Settings.scanQRValueB.Length - 4;
 
                                     if ((Settings.scanQRValueA.Length >= 4 && Settings.scanQRValueB.Length >= 4) && (Settings.scanQRValueA.Substring(Astartindex, 4) == Settings.scanQRValueB.Substring(Bstartindex, 4)))
                                     {
@@ -267,6 +342,74 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         resultB = Settings.scanQRValueB;
                                         playbeep.Play();
 
+                                    }
+                                    break;
+
+                                case "Last 9":
+                                    Astartindex = Settings.scanQRValueA.Length - 9;
+                                    Bstartindex = Settings.scanQRValueB.Length - 9;
+
+                                    if ((Settings.scanQRValueA.Length >= 9 && Settings.scanQRValueB.Length >= 9) && (Settings.scanQRValueA.Substring(Astartindex, 9) == Settings.scanQRValueB.Substring(Bstartindex, 9)))
+                                    {
+                                        isMatch = "MATCHED";
+                                        isMatchImage = "ookblack.png";
+                                        isScannedB = "ok.png";
+                                        resultB = Settings.scanQRValueB;
+                                        scancountpermit--;
+                                    }
+                                    else
+                                    {
+                                        isMatch = "UNMATCHED";
+                                        isMatchImage = "ng.png";
+                                        isScannedB = "ok.png";
+                                        resultB = Settings.scanQRValueB;
+                                        playbeep.Play();
+
+                                    }
+                                    break;
+
+                                case "Last 10":
+                                    Astartindex = Settings.scanQRValueA.Length - 10;
+                                    Bstartindex = Settings.scanQRValueB.Length - 10;
+
+                                    if ((Settings.scanQRValueA.Length >= 10 && Settings.scanQRValueB.Length >= 10) && (Settings.scanQRValueA.Substring(Astartindex, 10) == Settings.scanQRValueB.Substring(Bstartindex, 10)))
+                                    {
+                                        isMatch = "MATCHED";
+                                        isMatchImage = "ookblack.png";
+                                        isScannedB = "ok.png";
+                                        resultB = Settings.scanQRValueB;
+                                        scancountpermit--;
+                                    }
+                                    else
+                                    {
+                                        isMatch = "UNMATCHED";
+                                        isMatchImage = "ng.png";
+                                        isScannedB = "ok.png";
+                                        resultB = Settings.scanQRValueB;
+                                        playbeep.Play();
+
+                                    }
+                                    break;
+
+                                case "Last 11":
+                                    Astartindex = Settings.scanQRValueA.Length - 11;
+                                    Bstartindex = Settings.scanQRValueB.Length - 11;
+
+                                    if ((Settings.scanQRValueA.Length >= 11 && Settings.scanQRValueB.Length >= 11) && (Settings.scanQRValueA.Substring(Astartindex, 11) == Settings.scanQRValueB.Substring(Bstartindex, 11)))
+                                    {
+                                        isMatch = "MATCHED";
+                                        isMatchImage = "ookblack.png";
+                                        isScannedB = "ok.png";
+                                        resultB = Settings.scanQRValueB;
+                                        scancountpermit--;
+                                    }
+                                    else
+                                    {
+                                        isMatch = "UNMATCHED";
+                                        isMatchImage = "ng.png";
+                                        isScannedB = "ok.png";
+                                        resultB = Settings.scanQRValueB;
+                                        playbeep.Play();
                                     }
                                     break;
 
@@ -557,7 +700,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;
@@ -745,7 +888,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private List<string> _ScanRuleLst = new List<string>(new string[] { "First 3", "First 5", "Last 4", "Complete Match" });
+        private List<string> _ScanRuleLst = new List<string>(new string[] { "First 3", "First 5", "Last 4", "Last 9", "Last 10", "Last 11", "Complete Match" });
         public List<string> ScanRuleLst
         {
             get => _ScanRuleLst;

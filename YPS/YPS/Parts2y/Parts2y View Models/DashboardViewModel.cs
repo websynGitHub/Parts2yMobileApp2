@@ -32,6 +32,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 TaskClickCmd = new Command(async () => await RedirectToPage("task"));
                 CompareClickCmd = new Command(async () => await RedirectToPage("compare"));
+
+                Task.Run(() => RememberUserDetails()).Wait();
+                Task.Run(() => GetallApplabels()).Wait();
+                Task.Run(() => ChangeLabel()).Wait();
             }
             catch (Exception ex)
             {
@@ -67,20 +71,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     #region selected profile
                     if (!String.IsNullOrEmpty(Settings.CompanySelected))
                     {
-                        CompanyName = Settings.CompanySelected;
+                        Company = Settings.CompanySelected;
                     }
 
-                    if (!String.IsNullOrEmpty(Settings.Projectelected) || !String.IsNullOrEmpty(Settings.JobSelected))
+                    if (!String.IsNullOrEmpty(Settings.ProjectSelected) || !String.IsNullOrEmpty(Settings.JobSelected))
                     {
                         if (Settings.SupplierSelected == "ALL")
                         {
-                            ProNjobName = Settings.Projectelected + "/" + Settings.JobSelected;
+                            //ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
+                            ProjectName = Settings.ProjectSelected;
+                            JobName = Settings.JobSelected;
                         }
                         else
                         {
-                            var pNjobName = Settings.Projectelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
+                            var pNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
                             string trimpNjobName = pNjobName.TrimEnd('/');
                             ProNjobName = trimpNjobName;
+                            ProjectName = Settings.ProjectSelected;
+                            JobName = Settings.JobSelected;
+                            SupplierName = Settings.SupplierSelected;
                         }
                     }
                     #endregion
@@ -94,13 +103,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (DBresponse.status == 1)
                         {
                             Settings.VersionID = DBresponse.data.VersionID;
-                            CompanyName = Settings.CompanySelected = DBresponse.data.CompanyName;
+                            Company = Settings.CompanySelected = DBresponse.data.CompanyName;
 
                             if (DBresponse.data.SupplierName == "")
                             {
                                 ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
-                                Settings.Projectelected = DBresponse.data.ProjectName;
-                                Settings.JobSelected = DBresponse.data.JobNumber;
+                                ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
+                                JobName = Settings.JobSelected = DBresponse.data.JobNumber;
                                 Settings.CompanyID = DBresponse.data.CompanyID;
                                 Settings.ProjectID = DBresponse.data.ProjectID;
                                 Settings.JobID = DBresponse.data.JobID;
@@ -110,12 +119,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             else
                             {
                                 ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber + "/" + DBresponse.data.SupplierName;
-                                Settings.Projectelected = DBresponse.data.ProjectName;
-                                Settings.JobSelected = DBresponse.data.JobNumber;
+                                ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
+                                JobName = Settings.JobSelected = DBresponse.data.JobNumber;
                                 Settings.CompanyID = DBresponse.data.CompanyID;
                                 Settings.ProjectID = DBresponse.data.ProjectID;
                                 Settings.JobID = DBresponse.data.JobID;
-                                Settings.SupplierSelected = DBresponse.data.SupplierName;
+                                SupplierName = Settings.SupplierSelected = DBresponse.data.SupplierName;
                                 Settings.SupplierID = DBresponse.data.SupplierID;
                             }
                         }
@@ -139,7 +148,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (page == "task")
                 {
-                    await  Navigation.PushAsync(new ParentListPage());
+                    await Navigation.PushAsync(new ParentListPage());
                 }
                 else
                 {
@@ -265,17 +274,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (labelval.Count > 0)
                     {
                         //Getting Label values & Status based on FieldID
-                        var name = labelval.Where(wr => wr.FieldID == labelobj.Name.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var role = labelval.Where(wr => wr.FieldID == labelobj.Role.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var company = labelval.Where(wr => wr.FieldID == labelobj.Company.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var project = labelval.Where(wr => wr.FieldID == labelobj.Project.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var job = labelval.Where(wr => wr.FieldID == labelobj.Job.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.Name.Name = (name != null ? (!string.IsNullOrEmpty(name.LblText) ? name.LblText : labelobj.Name.Name) : labelobj.Name.Name);
-                        labelobj.Name.Status = name == null ? true : (name.Status == 1 ? true : false);
-                        labelobj.Role.Name = (role != null ? (!string.IsNullOrEmpty(role.LblText) ? role.LblText : labelobj.Role.Name) : labelobj.Role.Name);
-                        labelobj.Role.Status = role == null ? true : (role.Status == 1 ? true : false);
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name);
                         labelobj.Company.Status = company == null ? true : (company.Status == 1 ? true : false);
+                        labelobj.Project.Name = (project != null ? (!string.IsNullOrEmpty(project.LblText) ? project.LblText : labelobj.Project.Name) : labelobj.Project.Name);
+                        labelobj.Project.Status = project == null ? true : (project.Status == 1 ? true : false);
+                        labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name);
+                        labelobj.Job.Status = job == null ? true : (job.Status == 1 ? true : false);
                     }
                 }
             }
@@ -291,9 +300,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #region Properties for dynamic label change
         public class DashboardLabelChangeClass
         {
-            public DashboardLabelFields Name { get; set; } = new DashboardLabelFields { Status = true, Name = "FullName" };
-            public DashboardLabelFields Role { get; set; } = new DashboardLabelFields { Status = true, Name = "Role" };
+            public DashboardLabelFields Job { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
+            public DashboardLabelFields Project { get; set; } = new DashboardLabelFields { Status = true, Name = "Project" };
             public DashboardLabelFields Company { get; set; } = new DashboardLabelFields { Status = true, Name = "Company" };
+            public DashboardLabelFields Supplier { get; set; } = new DashboardLabelFields { Status = true, Name = "SupplierCompanyName" };
+
         }
         public class DashboardLabelFields : IBase
         {
@@ -335,29 +346,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _UserName = Settings.Username;
-        public string UserName
-        {
-            get { return _UserName; }
-            set
-            {
-                _UserName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
-
-        private string _Role = Settings.RoleName;
-        public string Role
-        {
-            get { return _Role; }
-            set
-            {
-                _Role = value;
-                OnPropertyChanged("Role");
-            }
-        }
-
-        private string _Company = Settings.EntityName;
+        private string _Company = Settings.CompanySelected;
         public string Company
         {
             get { return _Company; }
@@ -368,18 +357,53 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _Id = Settings.CompanyID.ToString();
-        public string Id
+        private string _ProjectName = Settings.ProjectSelected;
+        public string ProjectName
         {
-            get { return _Id; }
+            get { return _ProjectName; }
             set
             {
-                _UserName = value;
-                OnPropertyChanged("Id");
+                _ProjectName = value;
+                OnPropertyChanged("ProjectName");
             }
         }
 
-        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
+        private string _JobName = Settings.JobSelected;
+        public string JobName
+        {
+            get { return _JobName; }
+            set
+            {
+                _JobName = value;
+                OnPropertyChanged("JobName");
+            }
+        }
+
+
+        private string _SupplierName = Settings.SupplierSelected;
+        public string SupplierName
+        {
+            get { return _SupplierName; }
+            set
+            {
+                _SupplierName = value;
+                OnPropertyChanged("SupplierName");
+            }
+        }
+
+
+        //private string _Id = Settings.CompanyID.ToString();
+        //public string Id
+        //{
+        //    get { return _Id; }
+        //    set
+        //    {
+        //        _UserName = value;
+        //        OnPropertyChanged("Id");
+        //    }
+        //}
+
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

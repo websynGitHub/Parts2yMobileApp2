@@ -181,12 +181,18 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 Vm.loadindicator = true;
                 //UserDialogs.Instance.ShowLoading("Loading...");
-                if(Device.RuntimePlatform==Device.iOS)
+                if (Device.RuntimePlatform == Device.iOS)
                 {
                     var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
                     safeAreaInset.Bottom = 0;
                     safeAreaInset.Top = 30;
                     headerpart.Padding = safeAreaInset;
+                }
+
+                if (!Settings.CompanySelected.Contains("(C)"))
+                {
+                    Vm.IsRightArrowVisible = false;
+                    ChildDataList.SelectionMode = SelectionMode.None;
                 }
 
                 base.OnAppearing();

@@ -102,9 +102,6 @@
                                 <sfbuttons:SfButton.Content>
                                   
                                     <StackLayout Style="{StaticResource StackInSfButton}">
-                                        <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.edit}" 
-                                                                      TextColor="White" HorizontalOptions="CenterAndExpand"
-                                                                       VerticalOptions="CenterAndExpand" FontSize="Medium"/>
                                         <Label  Text="{Binding labelobjdefval.updateUsers}"
                                                Style="{StaticResource SfButtonTextLbl}" ></Label>
                                     </StackLayout>
