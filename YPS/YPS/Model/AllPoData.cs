@@ -36,9 +36,11 @@ namespace YPS.Model
         public int POTagID { get; set; }
         public string POShippingNumber { get; set; }
 
+
         public string TagNumber { get; set; }
         public string TagDescription { get; set; }
         //public int TagQACount { get; set; }
+    
         private int _TagQACount;
         public int TagQACount
         {

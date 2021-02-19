@@ -13,40 +13,12 @@
               xmlns:behaviors="clr-namespace:YPS.Behaviours" NavigationPage.HasNavigationBar="False"
               xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:local1="clr-namespace:YPS.CommonClasses">
 
-    <!--<NavigationPage.TitleView>
-        <Grid BackgroundColor="Green">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="40"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Text="Search Data" Style="{StaticResource LableWithMediumFont}"
-                   TextColor="White" VerticalOptions="CenterAndExpand"/>
-            <Image Grid.Column="1" Source="home.png" Margin="0,0,5,0">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="GoToHome_Tapped"/>
-                </Image.GestureRecognizers>
-            </Image>
-        </Grid>
-    </NavigationPage.TitleView>-->
     <AbsoluteLayout>
         <Grid RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <!--<RowDefinition Height="50"/>-->
             </Grid.RowDefinitions>
-            <!--<StackLayout Grid.Row="0" Spacing="0" Orientation="Horizontal" >
-                <StackLayout HorizontalOptions="FillAndExpand">
-                    <Label Text="Key" TextColor="{Binding headerTextColor}"  BackgroundColor="{Binding headerBgColor}" 
-                           Style="{StaticResource LableWithMediumFont}" VerticalOptions="FillAndExpand"
-                           HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding keyTabCommand}"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <BoxView HeightRequest="3" HorizontalOptions="FillAndExpand" BackgroundColor="#269DC9" IsVisible="{Binding headerbox}"/>
-                </StackLayout>
-            </StackLayout>-->
             <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="DarkGreen" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="Start"
                           RowDefinitions="*" ColumnDefinitions="60,*,Auto">
@@ -72,18 +44,26 @@
             <Grid Grid.Row="1" RowDefinitions="*,50" HorizontalOptions="CenterAndExpand"
                   VerticalOptions="FillAndExpand" Padding="6,0,6,0" Margin="0">
                 <ScrollView Grid.Row="0" Padding="0" Margin="0">
-                    <!--<Grid BackgroundColor="Transparent" Padding="0" Margin="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            --><!--<RowDefinition Height="1"/>--><!--
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>-->
 
-                    <Grid  HorizontalOptions="FillAndExpand" RowDefinitions="55,55,55,55,55,55,55,55,55,55,55"
+                    <Grid  HorizontalOptions="FillAndExpand" 
+                          
                                  IsVisible="{Binding headerVisibility}" BackgroundColor="White" VerticalOptions="StartAndExpand"
                                      Padding="0" Margin="0">
+                         <!--RowDefinitions="55,55,55,55,55,55,55,55,55,55,55,*"-->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{Binding POHeight}"/>
+                            <RowDefinition Height="{Binding REQHeight}"/>
+                            <RowDefinition Height="{Binding ShippingHeight}"/>
+                            <RowDefinition Height="{Binding DisciplineNameHeight}"/>
+                            <RowDefinition Height="{Binding ELevelNameHeight}"/>
+                            <RowDefinition Height="{Binding ConditionHeight}"/>
+                            <RowDefinition Height="{Binding ExpeditorHeight}"/>
+                            <RowDefinition Height="{Binding PriorityNameHeight}"/>
+                            <RowDefinition Height="{Binding TagNumberHeight}"/>
+                            <RowDefinition Height="{Binding IdentCodeHeight}"/>
+                            <RowDefinition Height="{Binding BagNumberHeight}"/>
+                            <!--<RowDefinition Height="{Binding yBkgNumberHeight}"/>-->
+                        </Grid.RowDefinitions>
                             <sfinput:SfTextInputLayout Hint="{Binding labelobj.PO.Name}"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.PO.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"

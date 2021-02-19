@@ -233,11 +233,13 @@ namespace YPS.Views
                 {
                     Vm.SupplierLabelAndFrame = false;
                     Settings.SupplierID = 0;
+                    Vm.SupplierGridRowHeight = 0;
                 }
                 else if (supplierstatus.Status == 0) // if supplier status is in-active
                 {
                     Vm.SupplierLabelAndFrame = false;
                     Settings.SupplierID = 0;
+                    Vm.SupplierGridRowHeight = 0;
                 }
                 else
                 {

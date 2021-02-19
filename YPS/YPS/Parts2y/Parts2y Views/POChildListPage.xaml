@@ -192,7 +192,7 @@
 
                                                     <input:CheckBox HorizontalOptions="Start" Margin="0,0,80,0"
                                                                 VerticalOptions="Center"
-                                                                 
+                                                                 IsChecked="{Binding IsChecked}"
                                                                 CheckChanged="CheckBox_CheckedChanged"  
                                                                 TextFontSize="18" Spacing="12" TextColor="Black" 
                                                                 BorderColor="Black" />

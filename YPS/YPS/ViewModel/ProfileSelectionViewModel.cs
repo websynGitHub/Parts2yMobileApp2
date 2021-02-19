@@ -174,7 +174,8 @@ namespace YPS.ViewModel
                             // List of job based on project id.
                             JobList = PDefaultSettingModel.data.Job.Where(s => s.ParentID == projectData.ID).ToList();
 
-                            if (Settings.userRoleID == 1 || Settings.userRoleID == 2 || Settings.userRoleID == 3 || Settings.userRoleID == 4 || Settings.userRoleID == 5)
+                            if (Settings.userRoleID == 1 || Settings.userRoleID == 2 || Settings.userRoleID == 3 || Settings.userRoleID == 4 ||
+                                Settings.userRoleID == 5)
                             {
                                 //Checking supplier status based on RoleID, Base on status supplier picker Hide/Show.
                                 if (suppliestatus == 1)
@@ -184,6 +185,7 @@ namespace YPS.ViewModel
                                 else
                                 {
                                     SupplierLabelAndFrame = false;
+                                    SupplierGridRowHeight = 0;
                                 }
                                 var supplierData = PDefaultSettingModel.data.Supplier.Where(s => s.ID == DBresponse.data.SupplierID).FirstOrDefault();
                                 if (supplierData != null)
@@ -203,6 +205,10 @@ namespace YPS.ViewModel
                                 allValues.Add("ALL");
                                 allValues.AddRange(list);
                                 SupplierList = new ObservableCollection<string>(allValues);
+                            }
+                            else
+                            {
+                                SupplierGridRowHeight = 0;
                             }
                         }
                         else
@@ -677,7 +683,7 @@ namespace YPS.ViewModel
             }
         }
 
-        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;
@@ -788,6 +794,18 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
+        private int _SupplierGridRowHeight = 55;
+        public int SupplierGridRowHeight
+        {
+            get => _SupplierGridRowHeight;
+            set
+            {
+                _SupplierGridRowHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private Color _profileBgColor = Color.LightBlue;
         public Color profileBgColor
         {

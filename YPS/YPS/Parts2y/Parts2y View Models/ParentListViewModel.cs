@@ -551,7 +551,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         loadingindicator = true;
                         PODetails.SelectedTagBorderColor = Color.DarkGreen;
                         var PoDataChilds = new ObservableCollection<AllPoData>(
-                            Settings.AllPOData.Where(wr => wr.ShippingNumber == PODetails.ShippingNumber && !string.IsNullOrEmpty(wr.TagNumber)).ToList()
+                            Settings.AllPOData.Where(wr => wr.POID == PODetails.POID && !string.IsNullOrEmpty(wr.TagNumber)).ToList()
                             );
 
                         await Navigation.PushAsync(new POChildListPage(PoDataChilds));

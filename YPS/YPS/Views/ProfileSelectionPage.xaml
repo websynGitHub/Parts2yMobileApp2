@@ -129,7 +129,7 @@
                                     <RowDefinition Height="55"/>
                                     <RowDefinition Height="55"/>
                                     <RowDefinition Height="55"/>
-                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="{Binding SupplierGridRowHeight}"/>
                                     <RowDefinition Height="55"/>
                                 </Grid.RowDefinitions>
 

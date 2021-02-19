@@ -633,29 +633,30 @@ namespace YPS.ViewModel
 
                         //Changing label & Show/Hide fields
                         labelobj.PO.Name = poval != null ? poval.LblText : "Purchase#";
-                        labelobj.PO.Status = (poval == null ? true : false) || (poval != null && poval.Status == 1) ? true : false;
+                        POHeight = (labelobj.PO.Status = (poval == null ? true : false) || (poval != null && poval.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.REQNo.Name = REQNo != null ? REQNo.LblText : "REQ#";
-                        labelobj.REQNo.Status = (REQNo == null ? true : false) || (REQNo != null && REQNo.Status == 1) ? true : false;
+                        REQHeight = (labelobj.REQNo.Status = (REQNo == null ? true : false) || (REQNo != null && REQNo.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.ShippingNumber.Name = ShippingNumber != null ? ShippingNumber.LblText : "Shipping#";
-                        labelobj.ShippingNumber.Status = (ShippingNumber == null ? true : false) || (ShippingNumber != null && ShippingNumber.Status == 1) ? true : false;
+                        ShippingHeight = (labelobj.ShippingNumber.Status = (ShippingNumber == null ? true : false) || (ShippingNumber != null && ShippingNumber.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.DisciplineName.Name = DisciplineName != null ? DisciplineName.LblText : "Discipline";
-                        labelobj.DisciplineName.Status = (DisciplineName == null ? true : false) || ((DisciplineName != null && DisciplineName.Status == 1) ? true : false);
+                        DisciplineNameHeight = (labelobj.DisciplineName.Status = (DisciplineName == null ? true : false) || ((DisciplineName != null && DisciplineName.Status == 1) ? true : false)) == true ? 55 : 0;
                         labelobj.ELevelName.Name = ELevelName != null ? ELevelName.LblText : "ELeavel";
-                        labelobj.ELevelName.Status = (ELevelName == null ? true : false) || (ELevelName != null && ELevelName.Status == 1) ? true : false;
+                        ELevelNameHeight = (labelobj.ELevelName.Status = (ELevelName == null ? true : false) || (ELevelName != null && ELevelName.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.Condition.Name = Condition != null ? Condition.LblText : "Condition";
-                        labelobj.Condition.Status = (Condition == null ? true : false) || (Condition != null && Condition.Status == 1) ? true : false;
+                        ConditionHeight = (labelobj.Condition.Status = (Condition == null ? true : false) || (Condition != null && Condition.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.Expeditor.Name = Expeditor != null ? Expeditor.LblText : "Expeditor";
-                        labelobj.Expeditor.Status = (Expeditor == null ? true : false) || (Expeditor != null && Expeditor.Status == 1) ? true : false;
+                        ExpeditorHeight = (labelobj.Expeditor.Status = (Expeditor == null ? true : false) || (Expeditor != null && Expeditor.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.PriorityName.Name = PriorityName != null ? PriorityName.LblText : "Priority";
-                        labelobj.PriorityName.Status = (PriorityName == null ? true : false) || (PriorityName != null && PriorityName.Status == 1) ? true : false;
+                        PriorityNameHeight = (labelobj.PriorityName.Status = (PriorityName == null ? true : false) || (PriorityName != null && PriorityName.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.TagNumber.Name = TagNumber != null ? TagNumber.LblText : "Tag#";
-                        labelobj.TagNumber.Status = (TagNumber == null ? true : false) || (TagNumber != null && TagNumber.Status == 1) ? true : false;
+                        TagNumberHeight = (labelobj.TagNumber.Status = (TagNumber == null ? true : false) || (TagNumber != null && TagNumber.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.IdentCode.Name = IdentCode != null ? IdentCode.LblText : "Ident Code";
-                        labelobj.IdentCode.Status = (IdentCode == null ? true : false) || (IdentCode != null && IdentCode.Status == 1) ? true : false;
+                        IdentCodeHeight = (labelobj.IdentCode.Status = (IdentCode == null ? true : false) || (IdentCode != null && IdentCode.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.BagNumber.Name = BagNumber != null ? BagNumber.LblText : "Outer Package";
-                        labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false;
+                        BagNumberHeight = (labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
                         labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false;
+
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
                     }
@@ -689,6 +690,138 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private int _POHeight = 55;
+        public int POHeight
+        {
+            get { return _POHeight; }
+            set
+            {
+                _POHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _REQHeight = 55;
+        public int REQHeight
+        {
+            get { return _REQHeight; }
+            set
+            {
+                _REQHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _ShippingHeight = 55;
+        public int ShippingHeight
+        {
+            get { return _ShippingHeight; }
+            set
+            {
+                _ShippingHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _DisciplineNameHeight = 55;
+        public int DisciplineNameHeight
+        {
+            get { return _DisciplineNameHeight; }
+            set
+            {
+                _DisciplineNameHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _ELevelNameHeight = 55;
+        public int ELevelNameHeight
+        {
+            get { return _ELevelNameHeight; }
+            set
+            {
+                _ELevelNameHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _ConditionHeight = 55;
+        public int ConditionHeight
+        {
+            get { return _ConditionHeight; }
+            set
+            {
+                _ConditionHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _ExpeditorHeight = 55;
+        public int ExpeditorHeight
+        {
+            get { return _ExpeditorHeight; }
+            set
+            {
+                _ExpeditorHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _PriorityNameHeight = 55;
+        public int PriorityNameHeight
+        {
+            get { return _PriorityNameHeight; }
+            set
+            {
+                _PriorityNameHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _TagNumberHeight = 55;
+        public int TagNumberHeight
+        {
+            get { return _TagNumberHeight; }
+            set
+            {
+                _TagNumberHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _IdentCodeHeight = 55;
+        public int IdentCodeHeight
+        {
+            get { return _IdentCodeHeight; }
+            set
+            {
+                _IdentCodeHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _BagNumberHeight = 55;
+        public int BagNumberHeight
+        {
+            get { return _BagNumberHeight; }
+            set
+            {
+                _BagNumberHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        //private string _yBkgNumberHeight = "Auto";
+        //public string yBkgNumberHeight
+        //{
+        //    get { return _yBkgNumberHeight; }
+        //    set
+        //    {
+        //        _yBkgNumberHeight = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
+
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
