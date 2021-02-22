@@ -220,29 +220,29 @@ namespace YPS.iOS
 
         #region Background blur app resume
 
-        UIVisualEffectView _blurWindow = null;
-        public override void OnActivated(UIApplication uiApplication)
-        {
-            connectFCM();
-            base.OnActivated(uiApplication);
-            ///blur background
-            _blurWindow?.RemoveFromSuperview();
-            _blurWindow?.Dispose();
-            _blurWindow = null;
-        }
-        public override void OnResignActivation(UIApplication application)
-        {
-            base.OnResignActivation(application);
+        //UIVisualEffectView _blurWindow = null;
+        //public override void OnActivated(UIApplication uiApplication)
+        //{
+        //    connectFCM();
+        //    base.OnActivated(uiApplication);
+        //    ///blur background
+        //    _blurWindow?.RemoveFromSuperview();
+        //    _blurWindow?.Dispose();
+        //    _blurWindow = null;
+        //}
+        //public override void OnResignActivation(UIApplication application)
+        //{
+        //    base.OnResignActivation(application);
 
-            using (var blurEffect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Dark))
-            {
-                _blurWindow = new UIVisualEffectView(blurEffect)
-                {
-                    Frame = UIApplication.SharedApplication.KeyWindow.RootViewController.View.Bounds
-                };
-                UIApplication.SharedApplication.KeyWindow.RootViewController.View.AddSubview(_blurWindow);
-            }
-        }
+        //    using (var blurEffect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Dark))
+        //    {
+        //        _blurWindow = new UIVisualEffectView(blurEffect)
+        //        {
+        //            Frame = UIApplication.SharedApplication.KeyWindow.RootViewController.View.Bounds
+        //        };
+        //        UIApplication.SharedApplication.KeyWindow.RootViewController.View.AddSubview(_blurWindow);
+        //    }
+        //}
 
         #endregion
 
