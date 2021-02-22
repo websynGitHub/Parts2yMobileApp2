@@ -52,14 +52,16 @@ namespace YPS.iOS
         /// <summary>
         /// Beta
         /// </summary>
-        /// <param name="Appcenter_droid"></param>
-        //string Appcenter_iOS = "37be6471-dc83-405d-b62f-e796ae44267d";
+        /// <param name="Appcenter_iOS"></param>
+        //string Appcenter_iOS = "37be6471-dc83-405d-b62f-e796ae44267d";///old Beta Key
+        //string Appcenter_iOS = "3cb00169-1fb5-41b5-a1c6-0e3fdb108114";
 
         /// <summary>
         /// Production
         /// </summary>
-        /// <param name="Appcenter_droid"></param>
-        //string Appcenter_iOS = "6aeae3ae-1423-41c0-b9ec-0de97e33789d";
+        /// <param name="Appcenter_iOS"></param>
+        //string Appcenter_iOS = "6aeae3ae-1423-41c0-b9ec-0de97e33789d";///old Production Key
+        //string Appcenter_iOS = "02b039b4-862f-4236-94a7-6054b8bb0d10";
 
         #endregion
 
