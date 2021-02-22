@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fontLabel="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
              x:Class="YPS.Parts2y.Parts2y_Views.Compare"
-             BackgroundColor="#E9E9E9"
+             BackgroundColor="White"
              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
              xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
              NavigationPage.HasNavigationBar="False"
@@ -281,30 +281,31 @@
                             </Frame>
                         </StackLayout>
                     </Grid>
-                    <Grid IsVisible="{Binding IsConfigContentVisible}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <!--<Grid IsVisible="{Binding IsConfigContentVisible}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="200"/>
-                                <!--<RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>-->
-                            </Grid.RowDefinitions>
-                            <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                <Frame HasShadow="True" Margin="7,5,7,0" Padding="6,0,6,0"
+                                <RowDefinition Height="Auto"/>
+                                --><!--<RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>--><!--
+                            </Grid.RowDefinitions>-->
+                        <StackLayout IsVisible="{Binding IsConfigContentVisible}" Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="6,0,6,0">
+                                <!--<Frame HasShadow="True" Margin="7,5,7,0" Padding="6,0,6,0"
                                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                CornerRadius="4" BorderColor="Gray"
-                                 >
+                                 >-->
                                     <Grid HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="60"/>
-                                            <ColumnDefinition Width="75"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <!--<ColumnDefinition Width="60"/>-->
+                                            <!--<ColumnDefinition Width="Auto"/>-->
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="60"/>
                                             <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
+                                            <!--<RowDefinition Height="Auto"/>-->
                                         </Grid.RowDefinitions>
 
                                         <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="0" Hint="Rule" 
@@ -325,189 +326,61 @@
                                             </combobox:SfComboBox>
 
                                         </sfinput:SfTextInputLayout>
-                                        
-                                        <!--<Frame Grid.Row="0" Grid.Column="0"  
-                                               CornerRadius="7" 
-                                               HasShadow="False" BorderColor="Gray" 
-                                                HorizontalOptions="StartAndExpand" Padding="6,0,5,0">
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label FontSize="Small" FontAttributes="Bold"
-                                                       Text="{Binding SelectedScanRule}"
-                                                       VerticalTextAlignment="Start" 
-                                                       VerticalOptions="CenterAndExpand" 
-                                                       HorizontalOptions="CenterAndExpand"/>
-                                                <StackLayout IsVisible="False">
-                                                    <Picker x:Name="scanrulepicker" Title="Scan Rule" 
-                                                            ItemsSource="{Binding ScanRuleLst}"
-                                                            IsVisible="False"
-                                                            SelectedItem="{Binding SelectedScanRule}"></Picker>
-                                                </StackLayout>
-                                                <Image  Source="dropdownarrow.png" 
-                                                        VerticalOptions="CenterAndExpand" 
-                                                        HorizontalOptions="EndAndExpand" 
-                                                        WidthRequest="14" 
-                                                        HeightRequest="25"/>
-                                                <StackLayout.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="ShowPicker"/>
-                                                </StackLayout.GestureRecognizers>
-                                            </StackLayout>
-                                        </Frame>-->
 
-                                        <Label Grid.Row="0" VerticalOptions="CenterAndExpand"
+                                        <!--<Label Grid.Row="0" VerticalOptions="CenterAndExpand"
                                                HorizontalOptions="CenterAndExpand" Grid.Column="1" Text="Total :"
-                                               FontSize="Medium" Margin="5" FontAttributes="Bold"/>
+                                               FontSize="Medium" Margin="5" FontAttributes="Bold"/>-->
 
-                                        <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="2" Hint="Value"
+                                <sfinput:SfTextInputLayout Grid.Row="1" Grid.Column="0" Hint="Total"
                                                        Style="{StaticResource SfInputLayout}">
-                                            <Entry x:Name="entrytotal" Keyboard="Numeric"
+                                    <Entry x:Name="entrytotal" Keyboard="Numeric"
                                                Text="{Binding TotalCount}" MaxLength="4"
                                                 TextChanged="TotalEntryTextChanged"
                                                    Style="{StaticResource EntryTextStyle}">
-                                                <Entry.HeightRequest>
-                                                    <OnPlatform x:TypeArguments="x:Double">
-                                                        <On Platform="iOS">20</On>
-                                                        <On Platform="Android">50</On>
-                                                    </OnPlatform>
-                                                </Entry.HeightRequest>
-                                            </Entry>
-                                        </sfinput:SfTextInputLayout>
+                                        <Entry.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </Entry.HeightRequest>
+                                    </Entry>
+                                </sfinput:SfTextInputLayout>
                                         
-                                        <!--<Entry x:Name="entrytotal" Grid.Row="0" Grid.Column="2"
-                                               Text="{Binding TotalCount}"
-                                                TextChanged="TotalEntryTextChanged"></Entry>-->
-                                        <Label IsVisible="{Binding IsTotalValidMsg}" TextColor="Red" Grid.Row="1" Grid.Column="2"
-                                               Text="{Binding TotalErrorTxt}"/>
+                               
 
-                                        <!--<sfbuttons:SfButton Grid.Row="2" Grid.Column="2" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
-                                                HorizontalOptions="EndAndExpand" HeightRequest="40"
-                                                BackgroundColor="DarkGreen">
-                                            <sfbuttons:SfButton.Content>
-
-                                                <StackLayout Style="{StaticResource StackInSfButton}">
-                                                    <Label  Text="Save"
-                                               Style="{StaticResource SfButtonTextLbl}" ></Label>
-                                                </StackLayout>
-                                            </sfbuttons:SfButton.Content>
-                                           
-                                            <sfbuttons:SfButton.Behaviors>
-                                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                            </sfbuttons:SfButton.Behaviors>
-
-                                            <sfbuttons:SfButton.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="SaveClick"/>
-                                            </sfbuttons:SfButton.GestureRecognizers>
-                                        </sfbuttons:SfButton>-->
-                                        <Button Grid.Row="2" Grid.Column="2" Text="Save" Clicked="SaveClick"
-                                                Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen"
-                                                HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                               >
-
-                                            <Button.Behaviors>
-                                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                            </Button.Behaviors>
-                                        </Button>
+                                       
                                     </Grid>
-                                </Frame>
+                            <Label IsVisible="{Binding IsTotalValidMsg}"
+                                               Text="{Binding TotalErrorTxt}"
+                                       TextColor="Black" VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
+                            
+                           
+                            <!--</Frame>-->
                             </StackLayout>
-                            <!--<StackLayout IsVisible="False" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-
-                                <Frame HasShadow="True" Margin="7,0,7,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                               CornerRadius="4" BorderColor="Gray" IsEnabled="{Binding isEnableBFrame}" Opacity="{Binding opacityB}">
-                                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="0.35*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Image HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="0" Source="qrcodecompare.png"></Image>
-                                        <Image Grid.Column="1" Grid.Row="0" Source="b.png" HorizontalOptions="StartAndExpand"></Image>
-                                        <Image Grid.Column="2" Grid.Row="0" Source="equal.png" HorizontalOptions="End"
-                                           VerticalOptions="CenterAndExpand"/>
-                                        --><!--<Grid Grid.Column="2" Grid.Row="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>-->
-                                        <!--<Image Grid.Row="0"  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" Source="{Binding isScannedB}"></Image>-->
-                                        <!--<Image Grid.Row="1"  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" Source="qrcodesearch.png"></Image>--><!--
-                                        <Label Text="{Binding resultB}" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
-                                               HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
-                                        --><!--</Grid>--><!--
-
-                                    </Grid>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding CompareQRCodeBCmd}"></TapGestureRecognizer>
-                                    </Frame.GestureRecognizers>
-                                </Frame>
-                            </StackLayout>
-                            <StackLayout IsVisible="False" Grid.Row="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                <Frame IsVisible="{Binding showLatestViewFrame}" HasShadow="True" Margin="7,0,7,5"
-                               CornerRadius="4" BorderColor="Gray">
-                                    <Grid Grid.Row="0"
-                             BackgroundColor="White"    >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="125"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-
-                                        <ListView ItemsSource="{Binding latestCompareHistoryList}" HasUnevenRows="False"
-                                          SeparatorVisibility="Default" Grid.Row="0">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <ViewCell>
-                                                        <ViewCell.View>
-                                                            <Grid Margin="0" Padding="4">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="0.30*" />
-                                                                    <ColumnDefinition Width="0.30*" />
-                                                                    <ColumnDefinition Width="0.20*" />
-                                                                    <ColumnDefinition Width="*" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="*"/>
-                                                                </Grid.RowDefinitions>
-                                                                <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                                <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding IsMatchedImg}"
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"></Image>
-                                                                <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                                <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
-                                                                       HorizontalOptions="Start"  VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
-                                                            </Grid>
-                                                        </ViewCell.View>
-                                                    </ViewCell>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-
-                                        --><!--</ScrollView>--><!--
-
-
-                                        <Grid Grid.Row="1">
-                                        
-                                        </Grid>
-                                    </Grid>
-                                </Frame>
-                            </StackLayout>-->
-                        
-                    </Grid>
+                    <!--</Grid>-->
                     </StackLayout>
                 </ScrollView>
 
             </Grid>
 
 
+            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
+                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Button Text="Save" Clicked="SaveClick" Margin="6,0,6,4"
+                                                Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                                               >
 
-            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                    <Button.Behaviors>
+                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                    </Button.Behaviors>
+                </Button>
+
+            </ContentView>
+                <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                         IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
                     <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
                         <StackLayout Padding="15">

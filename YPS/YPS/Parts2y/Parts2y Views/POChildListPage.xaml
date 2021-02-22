@@ -24,6 +24,12 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
+
+            <Style TargetType="BoxView" x:Key="StyleBoxView">
+                <Setter Property="HeightRequest" Value="3"/>
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -45,7 +51,7 @@
                 <StackLayout RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
 
-                    <Grid RowDefinitions="Auto,*,Auto" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                    <Grid RowDefinitions="Auto,Auto,*,Auto" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                   >
 
                         <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"
@@ -95,13 +101,66 @@
                         </local:FontAwesomeIconLabel.GestureRecognizers>
                     </local:FontAwesomeIconLabel>-->
                         </Grid>
+                        
+                        <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
+                              BackgroundColor="White" Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.30*"/>
+                                <ColumnDefinition Width="0.30*"/>
+                                <ColumnDefinition Width="0.22*"/>
+                                <ColumnDefinition Width="0.18*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackLayout Grid.Column="0" Grid.Row="0">
+                                <Label  Text="{Binding INPtext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                        TextColor="{Binding InProgressTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                        HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding InProgressCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Grid.Row="0">
+                                <Label Text="{Binding Cmptext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding CompleteTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CompletedCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}" />
+                            </StackLayout>
+                            <StackLayout Grid.Column="2" Grid.Row="0">
+                                <Label Text="{Binding Pendingtext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding PendingTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer  Command="{Binding PendingCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding PendingTabVisibility}" />
+                            </StackLayout>
+                            <StackLayout Grid.Column="3" Grid.Row="0" >
+                                <Label Text="{Binding Alltext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding AllTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer  Command="{Binding AllCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding AllTabVisibility}" />
+                            </StackLayout>
+                        </Grid>
 
 
                         <!--<Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center"
                           Grid.Row="1" Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithQuestionFont}"/>-->
 
-                        <CollectionView x:Name="ChildDataList" Grid.Row="1" BackgroundColor="Transparent"
+                        <CollectionView x:Name="ChildDataList" Grid.Row="2" BackgroundColor="Transparent"
                                 SelectionMode="Single" ItemsSource="{Binding PoDataChildCollections}"
                                 Margin="0,0,0,0" SelectedItem="{Binding POTagDetail}" IsVisible="{Binding IsPOTagDataListVisible}">
                             <CollectionView.ItemTemplate>
@@ -308,7 +367,7 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <StackLayout Grid.Row="2" Padding="0,6,0,8" AbsoluteLayout.LayoutBounds="0,1,1,.15"
+                        <StackLayout Grid.Row="3" Padding="0,6,0,8" AbsoluteLayout.LayoutBounds="0,1,1,.15"
                              IsVisible="{Binding IsPOTagDataListVisible}" VerticalOptions="End"
                                  AbsoluteLayout.LayoutFlags="All" BackgroundColor="Darkgreen" Orientation="Horizontal">
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckCamera">

@@ -650,20 +650,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (TotalCount > 0)
                 {
-                    OKCount = "0";
-                    NGCount = "0";
-                    compareHistoryList = new List<CompareHistoryList>();
-                    latestCompareHistoryList = new List<CompareHistoryList>();
-                    scancountpermit = TotalCountHeader = TotalCount;
-                    SelectedScanRuleHeader = SelectedScanRule;
-                    OKCount = OKCount + "/" + TotalCount;
-                    NGCount = NGCount;
-                    IsScanEnable = IsScanContentVisible = ScanTabVisibility = true;
-                    IsConfigContentVisible = ConfigTabVisibility = false;
-                    ScanOpacity = 1;
-                    IsTotalValidMsg = false;
-                    ScanTabTextColor = Color.Green;
-                    CompareTabTextColor = Color.Black;
+                    bool result = await App.Current.MainPage.DisplayAlert("Save rule", "Are you sure?", "Yes", "No");
+
+                    if(result)
+                    {
+                        OKCount = "0";
+                        NGCount = "0";
+                        compareHistoryList = new List<CompareHistoryList>();
+                        latestCompareHistoryList = new List<CompareHistoryList>();
+                        scancountpermit = TotalCountHeader = TotalCount;
+                        SelectedScanRuleHeader = SelectedScanRule;
+                        OKCount = OKCount + "/" + TotalCount;
+                        NGCount = NGCount;
+                        IsScanEnable = IsScanContentVisible = ScanTabVisibility = true;
+                        IsConfigContentVisible = ConfigTabVisibility = false;
+                        ScanOpacity = 1;
+                        IsTotalValidMsg = false;
+                        ScanTabTextColor = Color.Green;
+                        CompareTabTextColor = Color.Black;
+                    }
                 }
                 else
                 {

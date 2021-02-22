@@ -113,24 +113,24 @@
                                         VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1">
                             <Grid  RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="0,0,0,0" Padding="0,0,0,0"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                  RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*">
-                                <!--<Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF" 
+                                  RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>-->
-                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding CompanyName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <!--<Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
+                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding CompanyName}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>-->
-                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding ProjectName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
+                                <Label Grid.Row="1" Grid.Column="2" Text="{Binding ProjectName}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>-->
-                                <Label Grid.Row="2"  Grid.Column="0" Text="{Binding JobName}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="2"  Grid.Column="2" Text="{Binding JobName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
 
 

@@ -207,7 +207,7 @@ namespace YPS.ViewModel
             {
                 NotCompletedVal = false;
 
-                bool result = await App.Current.MainPage.DisplayAlert("Complete", "Are you sure?", "Yes,Complete", "No");
+                bool result = await App.Current.MainPage.DisplayAlert("Complete", "Are you sure?", "Yes", "No");
 
                 if (result)
                 {
@@ -1302,6 +1302,16 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                RaisePropertyChanged("BgColor");
+            }
+        }
         public bool _IndicatorVisibility = false;
         public bool IndicatorVisibility
         {

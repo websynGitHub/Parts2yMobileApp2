@@ -199,15 +199,7 @@
                                     </StackLayout>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
-                                        Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Margin="0,0,0,4" Grid.Row="5"
-                                                Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}"
-                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
-                                        BackgroundColor="{Binding BgColor}">
-                                    <sfbuttons:SfButton.Behaviors>
-                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                    </sfbuttons:SfButton.Behaviors>
-                                </sfbuttons:SfButton>
+                               
                             </Grid>
                         </ScrollView>
                     </StackLayout>
@@ -321,22 +313,7 @@
                                     </combobox:SfComboBox>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding profileVisibility}" Grid.Row="7"
-                                            HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandUpdate}" 
-                                                Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
-                                    <sfbuttons:SfButton.Content>
-                                        <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Padding="10,0,10,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                        </Grid>
-                                    </sfbuttons:SfButton.Content>
-                                    <sfbuttons:SfButton.Behaviors>
-                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                    </sfbuttons:SfButton.Behaviors>
-                                </sfbuttons:SfButton>
+                              
                             </Grid>
                         </ScrollView>
                     </StackLayout>
@@ -667,7 +644,43 @@
                 </StackLayout>
                 --><!--</ScrollView>--><!--
             </StackLayout>-->
-            <ContentView x:Name="SupplierCntntView" IsVisible="False" BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+
+            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                         AbsoluteLayout.LayoutFlags="All" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                         Margin="6,0,6,2">
+                <StackLayout>
+                    <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
+                                        Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Margin="0,0,0,4" Grid.Row="5"
+                                                Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+
+                    <sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding profileVisibility}" Grid.Row="7"
+                                            HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandUpdate}" 
+                                                Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Content>
+                            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Padding="10,0,10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                            </Grid>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                </StackLayout>
+               
+            </ContentView>
+            
+                <ContentView x:Name="SupplierCntntView" IsVisible="False" BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                         AbsoluteLayout.LayoutFlags="All">
                 <StackLayout>
                     <Grid Padding="5">
                         <Grid.RowDefinitions>

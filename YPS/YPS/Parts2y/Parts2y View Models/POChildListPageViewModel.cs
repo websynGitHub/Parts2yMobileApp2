@@ -31,7 +31,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand HomeCommand { get; set; }
         public ICommand MoveToScanCmd { get; set; }
         public ICommand CheckBoxTapCmd { get; set; }
-
+        public ICommand InProgressCmd { get; set; }
+        public ICommand CompletedCmd { get; set; }
+        public ICommand PendingCmd { get; set; }
+        public ICommand AllCmd { set; get; }
 
         public POChildListPageViewModel(INavigation _Navigation, ObservableCollection<AllPoData> potag)
         {
@@ -49,6 +52,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 HomeCommand = new Command(HomeCommand_btn);
                 CheckBoxTapCmd = new Command(CheckBoxTap);
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
+                InProgressCmd = new Command(async () => await InProgress_Tap());
+                CompletedCmd = new Command(async () => await Complete_Tap());
+                PendingCmd = new Command(async () => await Pending_Tap());
+                AllCmd = new Command(async () => await All_Tap());
             }
             catch (Exception ex)
             {
@@ -56,6 +63,63 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private async Task InProgress_Tap()
+        {
+            try
+            {
+                InProgressTabVisibility = true;
+                CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                InProgressTabTextColor = Color.Green;
+                CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private async Task Complete_Tap()
+        {
+            try
+            {
+                CompleteTabVisibility = true;
+                InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                CompleteTabTextColor = Color.Green;
+                InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private async Task Pending_Tap()
+        {
+            try
+            {
+                PendingTabVisibility = true;
+                CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
+                PendingTabTextColor = Color.Green;
+                InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private async Task All_Tap()
+        {
+            try
+            {
+                AllTabVisibility = true;
+                InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
+                AllTabTextColor = Color.Green;
+                InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 
         public async void CheckBoxTap(object sender)
         {
@@ -245,6 +309,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     PoDataChildCollections = potaglist;
                     IsPOTagDataListVisible = true;
                     NoRecordsLbl = false;
+                    Alltext = Alltext + "(" + potaglist.Count + ")";
                 }
                 else
                 {
@@ -951,6 +1016,135 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #region Properties
 
+        private bool _InProgressTabVisibility = false;
+        public bool InProgressTabVisibility
+        {
+            get => _InProgressTabVisibility;
+            set
+            {
+                _InProgressTabVisibility = value;
+                RaisePropertyChanged("InProgressTabVisibility");
+            }
+        }
+
+        private bool _CompleteTabVisibility = false;
+        public bool CompleteTabVisibility
+        {
+            get => _CompleteTabVisibility;
+            set
+            {
+                _CompleteTabVisibility = value;
+                RaisePropertyChanged("CompleteTabVisibility");
+            }
+        }
+
+        private bool _PendingTabVisibility = false;
+        public bool PendingTabVisibility
+        {
+            get => _PendingTabVisibility;
+            set
+            {
+                _PendingTabVisibility = value;
+                RaisePropertyChanged("PendingTabVisibility");
+            }
+        }
+
+        private bool _AllTabVisibility = true;
+        public bool AllTabVisibility
+        {
+            get => _AllTabVisibility;
+            set
+            {
+                _AllTabVisibility = value;
+                RaisePropertyChanged("AllTabVisibility");
+            }
+        }
+
+        private string _Cmptext = "COMPLETED";
+        public string Cmptext
+        {
+            get => _Cmptext;
+            set
+            {
+                _Cmptext = value;
+                RaisePropertyChanged("Cmptext");
+            }
+        }
+
+        private string _Pendingtext = "IN PROGRESS";
+        public string Pendingtext
+        {
+            get => _Pendingtext;
+            set
+            {
+                _Pendingtext = value;
+                RaisePropertyChanged("Pendingtext");
+            }
+        }
+
+        private string _INPtext = "PENDING";
+        public string INPtext
+        {
+            get => _INPtext;
+            set
+            {
+                _INPtext = value;
+                RaisePropertyChanged("INPtext");
+            }
+        }
+
+        private string _Alltext = "ALL \n";
+        public string Alltext
+        {
+            get => _Alltext;
+            set
+            {
+                _Alltext = value;
+                RaisePropertyChanged("Alltext");
+            }
+        }
+
+        private Color _PendingTabTextColor = Color.Black;
+        public Color PendingTabTextColor
+        {
+            get => _PendingTabTextColor;
+            set
+            {
+                _PendingTabTextColor = value;
+                RaisePropertyChanged("PendingTabTextColor");
+            }
+        }
+
+        private Color _InProgressTabTextColor = Color.Black;
+        public Color InProgressTabTextColor
+        {
+            get => _InProgressTabTextColor;
+            set
+            {
+                _InProgressTabTextColor = value;
+                RaisePropertyChanged("InProgressTabTextColor");
+            }
+        }
+        private Color _CompleteTabTextColor = Color.Black;
+        public Color CompleteTabTextColor
+        {
+            get => _CompleteTabTextColor;
+            set
+            {
+                _CompleteTabTextColor = value;
+                RaisePropertyChanged("CompleteTabTextColor");
+            }
+        }
+        private Color _AllTabTextColor = Color.Black;
+        public Color AllTabTextColor
+        {
+            get => _AllTabTextColor;
+            set
+            {
+                _AllTabTextColor = value;
+                RaisePropertyChanged("AllTabTextColor");
+            }
+        }
         #region Properties for dynamic label change
         public class DashboardLabelChangeClass
         {

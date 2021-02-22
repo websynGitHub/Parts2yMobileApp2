@@ -32,7 +32,8 @@ namespace YPS.Model
         public string DateTimeFormat { get; set; }
 
         public string encSessiontoken { get; set; }
-
+        public string SelectedScanRule { get; set; }
+        public string EnteredScanTotal { get; set; }
 
         /// <summary>
         /// Encrypted

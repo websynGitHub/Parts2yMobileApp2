@@ -837,7 +837,7 @@ namespace YPS.ViewModel
         {
             try
             {
-                bool answer = await App.Current.MainPage.DisplayAlert("Complete", "Are you sure?", "Yes,Complete", "No");
+                bool answer = await App.Current.MainPage.DisplayAlert("Complete", "Are you sure?", "Yes", "No");
 
                 if (answer)
                 {

@@ -314,43 +314,48 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        //Getting company, project and job data base on select company,project and job from company, project and job pickers. 
-                        var allCompanyValues = PDefaultSettingModel.data.Company.Where(X => X.ID == Settings.CompanyID).FirstOrDefault();
-                        var allProjectValues = PDefaultSettingModel.data.Project.Where(X => X.ID == Settings.ProjectID).FirstOrDefault();
-                        var allJobValues = PDefaultSettingModel.data.Job.Where(X => X.ID == Settings.JobID).FirstOrDefault();
+                        bool result = await App.Current.MainPage.DisplayAlert("Set as default", "Are you sure?", "Yes", "No");
 
-                        SaveUDS.CompanyID = Settings.CompanyID = allCompanyValues.ID;
-                        SaveUDS.ProjectID = Settings.ProjectID = allProjectValues.ID;
-                        SaveUDS.JobID = Settings.JobID = allJobValues.ID;
-                        SaveUDS.UserID = Settings.userLoginID;
-                        SaveUDS.SupplierID = Settings.SupplierID;
-                        // Calling API to save and upadate default settings data.
-                        var DBresponse = await service.SaveUserDefaultSettings(SaveUDS);
-
-                        if (DBresponse != null)
+                        if(result)
                         {
-                            if (DBresponse.status != 0) // if user default settings are saved successfully
+                            //Getting company, project and job data base on select company,project and job from company, project and job pickers. 
+                            var allCompanyValues = PDefaultSettingModel.data.Company.Where(X => X.ID == Settings.CompanyID).FirstOrDefault();
+                            var allProjectValues = PDefaultSettingModel.data.Project.Where(X => X.ID == Settings.ProjectID).FirstOrDefault();
+                            var allJobValues = PDefaultSettingModel.data.Job.Where(X => X.ID == Settings.JobID).FirstOrDefault();
+
+                            SaveUDS.CompanyID = Settings.CompanyID = allCompanyValues.ID;
+                            SaveUDS.ProjectID = Settings.ProjectID = allProjectValues.ID;
+                            SaveUDS.JobID = Settings.JobID = allJobValues.ID;
+                            SaveUDS.UserID = Settings.userLoginID;
+                            SaveUDS.SupplierID = Settings.SupplierID;
+                            // Calling API to save and upadate default settings data.
+                            var DBresponse = await service.SaveUserDefaultSettings(SaveUDS);
+
+                            if (DBresponse != null)
                             {
-                                //if (pagetypeNav == (int)QAType.YS)
-                                //{
-                                //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
-                                //}
-                                //else
-                                //{
-                                //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                                if (DBresponse.status != 0) // if user default settings are saved successfully
+                                {
+                                    //if (pagetypeNav == (int)QAType.YS)
+                                    //{
+                                    //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
+                                    //}
+                                    //else
+                                    //{
+                                    //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
 
-                                //}
+                                    //}
 
-                                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                }
+                                else
+                                {
+                                    //  DependencyService.Get<IToastMessage>().ShortAlert(DBresponse.message);
+                                }
                             }
                             else
                             {
-                                //  DependencyService.Get<IToastMessage>().ShortAlert(DBresponse.message);
+                                //   DependencyService.Get<IToastMessage>().ShortAlert("Something went wroung please try again.");
                             }
-                        }
-                        else
-                        {
-                            //   DependencyService.Get<IToastMessage>().ShortAlert("Something went wroung please try again.");
                         }
                     }
                 }
@@ -594,49 +599,54 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        UpdateProfileData uProfile = new UpdateProfileData();
-                        uProfile.UserID = Settings.userLoginID;
-                        uProfile.CreatedBy = Settings.userLoginID;
-                        uProfile.GivenName = GivenName;
-                        uProfile.LoginID = LoginID;
-                        uProfile.FamilyName = FamilyName;
-                        uProfile.UserCulture = TimeZoneTextDisplay;
+                        bool result = await App.Current.MainPage.DisplayAlert("Update profile", "Are you sure?", "Yes", "No");
 
-                        if (LangaugeIDLocal == 0)
+                        if(result)
                         {
-                            uProfile.LanguageID = Settings.LanguageID;
-                        }
-                        else
-                        {
-                            uProfile.LanguageID = LangaugeIDLocal;
-                            Settings.LanguageID = LangaugeIDLocal;
-                        }
+                            UpdateProfileData uProfile = new UpdateProfileData();
+                            uProfile.UserID = Settings.userLoginID;
+                            uProfile.CreatedBy = Settings.userLoginID;
+                            uProfile.GivenName = GivenName;
+                            uProfile.LoginID = LoginID;
+                            uProfile.FamilyName = FamilyName;
+                            uProfile.UserCulture = TimeZoneTextDisplay;
 
-                        uProfile.Email = Email;
-                        // Calling UpdateProfile API to update profile data.
-                        var finalResponse = await service.UpdateProfile(uProfile);
+                            if (LangaugeIDLocal == 0)
+                            {
+                                uProfile.LanguageID = Settings.LanguageID;
+                            }
+                            else
+                            {
+                                uProfile.LanguageID = LangaugeIDLocal;
+                                Settings.LanguageID = LangaugeIDLocal;
+                            }
 
-                        if (finalResponse.status != 0 || finalResponse != null)
-                        {
-                            Settings.SGivenName = GivenName;
-                            UpdateDb.GivenName = GivenName;
-                            //Upadating user login id in local database.
-                            rememberPwd.UpdatePWd(UpdateDb, Settings.userLoginID);
+                            uProfile.Email = Email;
+                            // Calling UpdateProfile API to update profile data.
+                            var finalResponse = await service.UpdateProfile(uProfile);
 
-                            //if (Settings.RedirectPage == "Yship")
-                            //{
-                            //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
-                            //}
-                            //else
-                            //{
-                            //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                            //}
+                            if (finalResponse.status != 0 || finalResponse != null)
+                            {
+                                Settings.SGivenName = GivenName;
+                                UpdateDb.GivenName = GivenName;
+                                //Upadating user login id in local database.
+                                rememberPwd.UpdatePWd(UpdateDb, Settings.userLoginID);
 
-                            App.Current.MainPage = new MenuPage(typeof(HomePage));
-                        }
-                        else
-                        {
-                            //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                                //if (Settings.RedirectPage == "Yship")
+                                //{
+                                //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
+                                //}
+                                //else
+                                //{
+                                //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                                //}
+
+                                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                            }
+                            else
+                            {
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                            }
                         }
                     }
                 }

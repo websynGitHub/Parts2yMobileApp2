@@ -22,8 +22,8 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="DarkGreen" Grid.Column="0">
-            <Label Text="Dashboard" FontSize="Large" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
-                   VerticalOptions="Center"/>
+            <Label Text="Dashboard" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+                   VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
                                
@@ -49,24 +49,24 @@
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <StackLayout Grid.Row="0" Padding="0" Margin="0">
                     <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}"  Padding="74,5,10,25" VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*">
-                        <!--<Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
+                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>-->
-                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding Company}" TextColor="#FFFFFF" 
                                Style="{DynamicResource LableWithQuestionFont}"/>
-                        <!--<Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
+                        <Label Grid.Row="0" Grid.Column="2" Text="{Binding Company}" TextColor="#FFFFFF" 
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>-->
-                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding ProjectName}" TextColor="#FFFFFF" 
                                Style="{DynamicResource LableWithQuestionFont}"/>
-                        <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
+                        <Label Grid.Row="1" Grid.Column="2" Text="{Binding ProjectName}" TextColor="#FFFFFF" 
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        <Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>-->
-                        <Label Grid.Row="2"  Grid.Column="0" Text="{Binding JobName}" TextColor="#FFFFFF"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        <Label Grid.Row="2"  Grid.Column="2" Text="{Binding JobName}" TextColor="#FFFFFF"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                       
                     </Grid>
