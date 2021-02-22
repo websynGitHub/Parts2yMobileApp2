@@ -53,13 +53,15 @@ namespace YPS.Droid
         /// Beta
         /// </summary>
         /// <param name="Appcenter_droid"></param>
-        //string Appcenter_droid = "ebfaf0cf-af6f-4f28-a6c9-642352279430";
+        //string Appcenter_droid = "ebfaf0cf-af6f-4f28-a6c9-642352279430";///Old beta Key
+        //string Appcenter_droid = "951a37fc-c630-42e1-afda-7c6644f4b418";
 
         /// <summary>
         /// Production
         /// </summary>
         /// <param name="Appcenter_droid"></param>
-        //string Appcenter_droid = "187f2593-7ed5-4ea9-8bb8-61f03175e30f";
+        //string Appcenter_droid = "187f2593-7ed5-4ea9-8bb8-61f03175e30f";///Old Production Key
+        //string Appcenter_droid = "b3a4d5ad-e6bb-4e6e-a4b3-4b6dbdbd9ee4";
 
         #endregion
 
