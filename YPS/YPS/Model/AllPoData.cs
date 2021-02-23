@@ -152,6 +152,8 @@ namespace YPS.Model
         public int IsReadytoyShip { get; set; }
         public int ISTagPrinted { get; set; }
         public string yBkgNumber { get; set; }
+        public string TaskName { get; set; }
+        public string Status_icon { get; set; }
 
         public bool _IsFilesVisible { set; get; }
         public bool IsFilesVisible
@@ -432,6 +434,7 @@ namespace YPS.Model
         public string SearchText { get; set; }
         public int Status { get; set; }
         public string yBkgNumber { get; set; }
+        public string TaskName { get; set; }
     }
 
     public class POData

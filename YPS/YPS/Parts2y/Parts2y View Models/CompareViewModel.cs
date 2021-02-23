@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using YPS.CustomToastMsg;
+using YPS.Helpers;
+using YPS.Model;
 using YPS.Parts2y.Parts2y_Common_Classes;
 using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
@@ -32,26 +35,55 @@ namespace YPS.Parts2y.Parts2y_View_Models
         List<CompareHistoryList> lstcomparehistory = new List<CompareHistoryList>();
         private Compare comparepage;
         private int? scancountpermit;
+
         public CompareViewModel(INavigation _Navigation, Compare ComparePage)
         {
-            Navigation = _Navigation;
-            comparepage = ComparePage;
-            BgColor = Settings.Bar_Background;
-            CompareQRCodeACmd = new Command(async () => await CompareQRCode("a"));
-            CompareQRCodeBCmd = new Command(async () => await CompareQRCode("b"));
-            ScanTabCmd = new Command(async () => await TabChange("scan"));
-            ScanConfigCmd = new Command(async () => await TabChange("config"));
-            SaveClickCmd = new Command(async () => await SaveConfig());
+            try
+            {
+                Navigation = _Navigation;
+                comparepage = ComparePage;
+                BgColor = Settings.Bar_Background;
+                CompareQRCodeACmd = new Command(async () => await CompareQRCode("a"));
+                CompareQRCodeBCmd = new Command(async () => await CompareQRCode("b"));
+                ScanTabCmd = new Command(async () => await TabChange("scan"));
+                ScanConfigCmd = new Command(async () => await TabChange("config"));
+                SaveClickCmd = new Command(async () => await SaveConfig());
 
+                Settings.scanQRValueA = "";
+                Settings.scanQRValueB = "";
 
+                Task.Run(() => RememberUserDetails()).Wait();
+            }
+            catch (Exception ex)
+            {
 
-            //isMatch = "UNMATCHED";
-            //isMatchImage = "unmatch.png";
-            //isScannedA = "cross.png";
-            //isScannedB = "cross.png";
-            Settings.scanQRValueA = "";
-            Settings.scanQRValueB = "";
+            }
         }
+
+        public async Task RememberUserDetails()
+        {
+            try
+            {
+                RememberPwdDB Db = new RememberPwdDB();
+                var user = Db.GetUserDetails();
+
+                if (user != null && user.Count > 0)
+                {
+                    SelectedScanRule = user[0].SelectedScanRule != null ? user[0].SelectedScanRule : SelectedScanRule;
+                    TotalCount = user[0].EnteredScanTotal != null ? user[0].EnteredScanTotal : TotalCount;
+
+                    if (!string.IsNullOrEmpty(SelectedScanRule) && TotalCount > 0)
+                    {
+                        await SaveConfig();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
 
         private async Task CompareQRCode(string scanfor)
         {
@@ -64,8 +96,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ISimpleAudioPlayer playbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
                 playbeep.Load(sr);
 
-                //if (scancountpermit!=0)
-                //{
                 var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
                 var requestedPermissionStatus = requestedPermissions[Permission.Camera];
                 var pass1 = requestedPermissions[Permission.Camera];
@@ -260,9 +290,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
                                     else
                                     {
-                                        // isMatch = "UNMATCHED";
-                                        //isMatchImage = "unmatch.png";
-
                                         isScannedA = "cross.png";
                                         resultA = Settings.scanQRValueA;
                                         isEnableAFrame = true;
@@ -287,7 +314,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if ((Settings.scanQRValueA.Length >= 3 && Settings.scanQRValueB.Length >= 3) && (Settings.scanQRValueA.Substring(0, 3) == Settings.scanQRValueB.Substring(0, 3)))
                                     {
                                         isMatch = "MATCHED";
-                                        isMatchImage = "ookblack.png";
+                                        isMatchImage = "ook.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
@@ -307,7 +334,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if ((Settings.scanQRValueA.Length >= 5 && Settings.scanQRValueB.Length >= 5) && (Settings.scanQRValueA.Substring(0, 5) == Settings.scanQRValueB.Substring(0, 5)))
                                     {
                                         isMatch = "MATCHED";
-                                        isMatchImage = "ookblack.png";
+                                        isMatchImage = "ook.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
@@ -329,7 +356,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if ((Settings.scanQRValueA.Length >= 4 && Settings.scanQRValueB.Length >= 4) && (Settings.scanQRValueA.Substring(Astartindex, 4) == Settings.scanQRValueB.Substring(Bstartindex, 4)))
                                     {
                                         isMatch = "MATCHED";
-                                        isMatchImage = "ookblack.png";
+                                        isMatchImage = "ook.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
@@ -352,7 +379,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if ((Settings.scanQRValueA.Length >= 9 && Settings.scanQRValueB.Length >= 9) && (Settings.scanQRValueA.Substring(Astartindex, 9) == Settings.scanQRValueB.Substring(Bstartindex, 9)))
                                     {
                                         isMatch = "MATCHED";
-                                        isMatchImage = "ookblack.png";
+                                        isMatchImage = "ook.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
@@ -375,7 +402,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if ((Settings.scanQRValueA.Length >= 10 && Settings.scanQRValueB.Length >= 10) && (Settings.scanQRValueA.Substring(Astartindex, 10) == Settings.scanQRValueB.Substring(Bstartindex, 10)))
                                     {
                                         isMatch = "MATCHED";
-                                        isMatchImage = "ookblack.png";
+                                        isMatchImage = "ook.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
@@ -398,7 +425,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if ((Settings.scanQRValueA.Length >= 11 && Settings.scanQRValueB.Length >= 11) && (Settings.scanQRValueA.Substring(Astartindex, 11) == Settings.scanQRValueB.Substring(Bstartindex, 11)))
                                     {
                                         isMatch = "MATCHED";
-                                        isMatchImage = "ookblack.png";
+                                        isMatchImage = "ook.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
@@ -418,7 +445,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if (Settings.scanQRValueA == Settings.scanQRValueB)
                                     {
                                         isMatch = "MATCHED";
-                                        isMatchImage = "ookblack.png";
+                                        isMatchImage = "ook.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
@@ -445,119 +472,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                         }
 
-                        //if (scanfor == "a")
-                        //{
-                        //    App.Current.MainPage.DisplayAlert("Alert", scanresult.Text, "OK");
-                        //    Settings.scanQRValueA = ScannedValueA = scanresult != null ? scanresult.Text : "scanned";
-
-
-                        //    //if (SelectedScanRule == "First 3")
-                        //    //{
-
-                        //    //}
-                        //    //else if (SelectedScanRule == "First 5")
-                        //    //{
-
-                        //    //}
-                        //    //else if (SelectedScanRule == "Last 4")
-                        //    //{
-
-                        //    //}
-                        //    //else if (SelectedScanRule == "Complete")
-                        //    //{
-                        //    //    isMatch = "MATCHED";
-                        //    //    isMatchImage = "match.png";
-                        //    //    isScannedA = "ok.png";
-                        //    //    resultA = Settings.scanQRValueA;
-                        //    //}
-                        //    ////if (Settings.scanQRValueA == Settings.scanQRValueB)
-                        //    ////{
-                        //    ////    isMatch = "MATCHED";
-                        //    ////    isMatchImage = "match.png";
-                        //    ////    isScannedA = "ok.png";
-                        //    ////    resultA = Settings.scanQRValueA;
-                        //    ////}
-                        //    //else
-                        //    //{
-                        //    //    isMatch = "UNMATCHED";
-                        //    //    isMatchImage = "unmatch.png";
-                        //    //    isScannedA = "ok.png";
-                        //    //    resultA = Settings.scanQRValueA;
-                        //    //}
-
-                        //    isScannedA = "ok.png";
-                        //    resultA = Settings.scanQRValueA;
-                        //    //comparemodel.AValue = resultA;
-                        //    isEnableAFrame = false;
-                        //    opacityA = 0.50;
-                        //    isEnableBFrame = true;
-                        //    opacityB = 1;
-                        //}
-                        //else
-                        //{
-                        //    App.Current.MainPage.DisplayAlert("Alert", scanresult.Text, "OK");
-                        //    //ScannedValueA = scanresult.Text;
-                        //    Settings.scanQRValueB = ScannedValueB = scanresult != null ? scanresult.Text : "scanned";
-
-                        //    if (SelectedScanRule == "First 3")
-                        //    {
-                        //        if (Settings.scanQRValueA.Substring(0, 3) == Settings.scanQRValueB.Substring(0, 3))
-                        //        {
-                        //            isMatch = "MATCHED";
-                        //            isMatchImage = "match.png";
-                        //            isScannedB = "ok.png";
-                        //            resultB = Settings.scanQRValueB;
-                        //        }
-                        //    }
-                        //    else if (SelectedScanRule == "First 5")
-                        //    {
-                        //        if (Settings.scanQRValueA.Substring(0, 5) == Settings.scanQRValueB.Substring(0, 5))
-                        //        {
-                        //            isMatch = "MATCHED";
-                        //            isMatchImage = "match.png";
-                        //            isScannedB = "ok.png";
-                        //            resultB = Settings.scanQRValueB;
-                        //        }
-                        //    }
-                        //    else if (SelectedScanRule == "Last 4")
-                        //    {
-                        //        int Astartindex = Settings.scanQRValueA.Length - 4;
-                        //        int Bstartindex = Settings.scanQRValueB.Length - 4;
-
-                        //        if (Settings.scanQRValueA.Substring(Astartindex, 4) == Settings.scanQRValueB.Substring(Bstartindex, 4))
-                        //        {
-                        //            isMatch = "MATCHED";
-                        //            isMatchImage = "match.png";
-                        //            isScannedB = "ok.png";
-                        //            resultB = Settings.scanQRValueB;
-                        //        }
-                        //    }
-                        //    else if (SelectedScanRule == "Complete")
-                        //    {
-                        //        if (Settings.scanQRValueA == Settings.scanQRValueB)
-                        //        {
-                        //            isMatch = "MATCHED";
-                        //            isMatchImage = "match.png";
-                        //            isScannedB = "ok.png";
-                        //            resultB = Settings.scanQRValueB;
-                        //        }
-                        //    }
-                        //    //if (Settings.scanQRValueA == Settings.scanQRValueB)
-                        //    //{
-                        //    //    isMatch = "MATCHED";
-                        //    //    isMatchImage = "match.png";
-                        //    //    isScannedB = "ok.png";
-                        //    //    resultB = Settings.scanQRValueB;
-                        //    //}
-                        //    else
-                        //    {
-                        //        isMatch = "UNMATCHED";
-                        //        isMatchImage = "unmatch.png";
-                        //        isScannedB = "ok.png";
-                        //        resultB = Settings.scanQRValueB;
-                        //    }
-                        //}
-
                         isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
 
                         if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
@@ -565,7 +479,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             comparemodel.HistorySerialNo = historySerialNo++;
                             comparemodel.AValue = Settings.scanQRValueA;
                             comparemodel.BValue = Settings.scanQRValueB;
-                            comparemodel.IsMatchedImg = isMatchImage;
+                            comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
                             compareList.Insert(0, comparemodel);
 
                             compareHistoryList = new List<CompareHistoryList>(compareList);
@@ -650,25 +564,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (TotalCount > 0)
                 {
-                    bool result = await App.Current.MainPage.DisplayAlert("Save rule", "Are you sure?", "Yes", "No");
-
-                    if(result)
-                    {
-                        OKCount = "0";
-                        NGCount = "0";
-                        compareHistoryList = new List<CompareHistoryList>();
-                        latestCompareHistoryList = new List<CompareHistoryList>();
-                        scancountpermit = TotalCountHeader = TotalCount;
-                        SelectedScanRuleHeader = SelectedScanRule;
-                        OKCount = OKCount + "/" + TotalCount;
-                        NGCount = NGCount;
-                        IsScanEnable = IsScanContentVisible = ScanTabVisibility = true;
-                        IsConfigContentVisible = ConfigTabVisibility = false;
-                        ScanOpacity = 1;
-                        IsTotalValidMsg = false;
-                        ScanTabTextColor = Color.Green;
-                        CompareTabTextColor = Color.Black;
-                    }
+                    OKCount = "0";
+                    NGCount = "0";
+                    compareHistoryList = new List<CompareHistoryList>();
+                    latestCompareHistoryList = new List<CompareHistoryList>();
+                    scancountpermit = TotalCountHeader = TotalCount;
+                    SelectedScanRuleHeader = SelectedScanRule;
+                    OKCount = OKCount + "/" + TotalCount;
+                    NGCount = NGCount;
+                    IsScanEnable = IsScanContentVisible = ScanTabVisibility = true;
+                    IsConfigContentVisible = ConfigTabVisibility = false;
+                    ScanOpacity = 1;
+                    IsTotalValidMsg = false;
+                    ScanTabTextColor = Color.Green;
+                    CompareTabTextColor = Color.Black;
                 }
                 else
                 {

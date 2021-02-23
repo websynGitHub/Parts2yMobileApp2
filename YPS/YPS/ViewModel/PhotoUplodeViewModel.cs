@@ -90,6 +90,7 @@ namespace YPS.ViewModel
                         FirstMainStack = false;
                         CompletedVal = true;
                         notCompeleteDisable = NotCompletedVal = false;
+                        CompleteBtnOpacity = 0.5;
                     }
                     else
                     {
@@ -130,6 +131,7 @@ namespace YPS.ViewModel
                         CompletedVal = true;
                         DeleteIconStack = false;
                         notCompeleteDisable = NotCompletedVal = false;
+                        CompleteBtnOpacity = 0.5;
                     }
                     else
                     {
@@ -810,6 +812,7 @@ namespace YPS.ViewModel
             try
             {
                 NotCompletedVal = false;
+                CompleteBtnOpacity = 0.5;
 
                 bool result = await App.Current.MainPage.DisplayAlert("Complete", "Are you sure?", "Yes", "No");
 
@@ -851,6 +854,7 @@ namespace YPS.ViewModel
                 {
                     CompletedVal = false;
                     NotCompletedVal = true;
+                    CompleteBtnOpacity = 1.0;
                 }
             }
             catch (Exception ex)
@@ -1077,6 +1081,20 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private double _CompleteBtnOpacity { set; get; } = 1.0;
+        public double CompleteBtnOpacity
+        {
+            get
+            {
+                return _CompleteBtnOpacity;
+            }
+            set
+            {
+                _CompleteBtnOpacity = value;
+                RaisePropertyChanged("CompleteBtnOpacity");
+            }
+        }
+
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
@@ -1098,7 +1116,7 @@ namespace YPS.ViewModel
                 RaisePropertyChanged("BeforePackingTextColor");
             }
         }
-     
+
         private Color _AfterPackingTextColor = Color.Black;
         public Color AfterPackingTextColor
         {

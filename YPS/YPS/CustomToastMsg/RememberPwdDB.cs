@@ -65,6 +65,8 @@ namespace YPS.CustomToastMsg
                 getUpdate.tagnamelabel = user.tagnamelabel;
                 getUpdate.descrptionlabel = user.descrptionlabel;
                 getUpdate.GivenName = user.GivenName;
+                getUpdate.SelectedScanRule = user.SelectedScanRule;
+                getUpdate.EnteredScanTotal = user.EnteredScanTotal;
                 _sqlconnection.Update(getUpdate);
             }
             catch (Exception ex)

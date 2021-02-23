@@ -79,8 +79,8 @@ namespace YPS.Views
                 InitializeComponent();
                 service = new YPSService();
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
-                synfImageViewList1.WidthRequest = App.ScreenWidth;
-                synfImageViewList1.HeightRequest = App.ScreenHeight;
+                //synfImageViewList1.WidthRequest = App.ScreenWidth;
+                //synfImageViewList1.HeightRequest = App.ScreenHeight;
                 YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 All_YshipphotosList = photosList;
@@ -163,7 +163,7 @@ namespace YPS.Views
 
                 if (e.NewCard == null)
                 {
-                    synfImageViewList1.VisibleCardIndex = 0;
+                    //synfImageViewList1.VisibleCardIndex = 0;
                 }
             }
             catch (Exception ex)

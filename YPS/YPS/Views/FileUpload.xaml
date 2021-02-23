@@ -17,12 +17,13 @@
             <Grid BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="{Binding RowHeightcomplete}"/>
+                    <!--<RowDefinition Height="{Binding RowHeightcomplete}"/>-->
                     <RowDefinition Height="{Binding RowHeightChooseFile}"/>
                     <RowDefinition Height="{Binding RowHeightUploadFile}"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen">
+                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
+                      >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="*"/>
@@ -54,7 +55,7 @@
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                 </Grid>
-                <Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}"
+                <!--<Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}"
                        BorderColor="Transparent" Margin="6,1,6,0">
                     <syncfusion:SfRadioGroup  Orientation="Horizontal" Margin="5,0,7,0">
                         <Grid HorizontalOptions="FillAndExpand">
@@ -62,15 +63,16 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <syncfusion:SfRadioButton Grid.Column="0" Text="{Binding labelobjFile.complete}" IsChecked="{Binding CompletedVal}" FontSize="Medium" StateChanged="Complete_StateChanged"/>
+                            <syncfusion:SfRadioButton Grid.Column="0" Text="{Binding labelobjFile.complete}" 
+                IsChecked="{Binding CompletedVal}" FontSize="Medium" StateChanged="Complete_StateChanged"/>
                             <syncfusion:SfRadioButton Grid.Column="1" Text="{Binding labelobjFile.notcommplete}" IsEnabled="{Binding notCompeleteDisable}"
                                                   IsChecked="{Binding NotCompletedVal}" FontSize="Medium" HorizontalOptions="EndAndExpand"
                                                   LineBreakMode="WordWrap"/>
                         </Grid>
 
                     </syncfusion:SfRadioGroup>
-                </Frame>
-                <Frame Grid.Row="2" IsVisible="{Binding FrameForChooseFile}" Style="{StaticResource FrameStyleForFileUpload}"
+                </Frame>-->
+                <Frame Grid.Row="1" IsVisible="{Binding FrameForChooseFile}" Style="{StaticResource FrameStyleForFileUpload}"
                        Margin="6,1,6,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -98,16 +100,21 @@
                         </Image>
                     </Grid>
                 </Frame>
-                <Frame Grid.Row="3" IsVisible="{Binding FrameForUploadFile}" Style="{StaticResource FrameStyleForFileUpload}"
+                <Frame Grid.Row="2" IsVisible="{Binding FrameForUploadFile}" Style="{StaticResource FrameStyleForFileUpload}"
                        Margin="6,2,6,0">
-                    <Grid ColumnSpacing="0" RowSpacing="0">
+                    <Grid ColumnSpacing="0" RowSpacing="0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <CustomEntry:MyEntry x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
+                        <!--<CustomEntry:MyEntry x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
                                              Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource LableWithMediumFont}"
+                                             TextColor="Gray" VerticalOptions="CenterAndExpand" MaxLength="500"/>-->
+
+                        <LblIcons:MyEditor x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
+                                             Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource EditorTextStyle}"
                                              TextColor="Gray" VerticalOptions="CenterAndExpand" MaxLength="500"/>
+                        
                         <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}"
                                             Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0" BackgroundColor="DarkGreen">
                             <sfbuttons:SfButton.Content>
@@ -121,7 +128,7 @@
                         </sfbuttons:SfButton>
                     </Grid>
                 </Frame>
-                <StackLayout Grid.Row="4" Padding="6,0,6,6">
+                <StackLayout Grid.Row="3" Padding="6,0,6,6">
                     <Label IsVisible="{Binding HideLabelAndShow}" Text="No data found." TextColor="Black" 
                            HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" Style="{StaticResource LableWithQuestionFont}"/>
                     <flv:FlowListView FlowColumnCount="3" IsVisible="{Binding HideListAndShow}" x:Name="listView" FlowItemsSource="{Binding ListOfFile,Mode=TwoWay}"
@@ -227,7 +234,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Text="File info..." VerticalTextAlignment="Center"
-                               FontAttributes="Bold" Style="{DynamicResource LableWithLargeFont}"/>
+                               FontAttributes="Bold" Style="{DynamicResource LableWithLargeFont}" TextColor="Black"/>
                         <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red" HorizontalOptions="EndAndExpand">
                             <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Close_DescriptionPopup"/>
@@ -273,6 +280,25 @@
                         <!--</Label>-->
                     </Grid>
                 </Frame>
+            </ContentView>
+
+            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
+                         Margin="6,0,6,2" IsVisible="{Binding closeLabelText}">
+                <StackLayout Orientation="Vertical">
+
+
+                    <sfbuttons:SfButton IsEnabled="{Binding NotCompletedVal}" Opacity="{Binding CompleteBtnOpacity}"
+                                        Text="{Binding labelobjFile.complete,Mode=TwoWay}" Margin="0,0,0,4" Clicked="SfButton_Clicked"
+                                                Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                </StackLayout>
+
             </ContentView>
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Style="{StaticResource FmForActivityIndicator}">

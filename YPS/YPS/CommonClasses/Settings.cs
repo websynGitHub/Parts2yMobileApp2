@@ -8,6 +8,7 @@ namespace YPS.CommonClasses
     public static class Settings
     {
         public static ObservableCollection<AllPoData> AllPOData { get; set; }
+        public static string ScanValue { get; set; }
         //public static string ImpTxtCode { get; set; } = "TDdmwPkI+5H5TLnqUfTTow==";
         public static Color Bar_Background { get; set; } = Color.DarkGreen;
         public static bool EndRefresh2 { get; set; }
@@ -134,6 +135,8 @@ namespace YPS.CommonClasses
         public static string IdentCodeNo { get; set; } = string.Empty;
         public static string BagNo { get; set; } = string.Empty;
         public static string Ybkgnumber { get; set; } = string.Empty;
+        public static string TaskName { get; set; } = string.Empty;
+
         public static int LocationPickupID { get; set; } = 0;
         public static string LocationPickupName { get; set; } = string.Empty;
         public static int LocationPOLID { get; set; } = 0;

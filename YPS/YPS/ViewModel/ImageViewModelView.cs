@@ -39,7 +39,7 @@ namespace YPS.ViewModel
                 Settings.SPhotoDescription = getFirstValue.PhotoDescription;
                 HomeCommand = new Command(HomeCommand_btn);
 
-                DynamicTextChange(getFirstValue);
+                DynamicTextChange();
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace YPS.ViewModel
         /// This method is for dynamic text change.
         /// </summary>
         /// <param name="photo"></param>
-        private void DynamicTextChange(CustomPhotoModel photo)
+        private void DynamicTextChange()
         {
             try
             {
@@ -106,10 +106,9 @@ namespace YPS.ViewModel
 
                     if (lblChangeVal.Count > 0)
                     {
-                        photo.descriptionlbl = "Description";
-                        var description = lblChangeVal.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == photo.descriptionlbl.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
+                        var description = lblChangeVal.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == DescriptionLabel.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
 
-                        photo.descriptionlbl = (!string.IsNullOrEmpty(description) ? description : photo.descriptionlbl) + " : ";
+                        DescriptionLabel = (!string.IsNullOrEmpty(description) ? description : DescriptionLabel) + " : ";
                     }
                 }
             }
@@ -122,6 +121,21 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private string _DescriptionLabel = "Description";
+        public string DescriptionLabel
+        {
+            get
+            {
+                return _DescriptionLabel;
+            }
+            set
+            {
+                _DescriptionLabel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         private int _VisibleCardInx;
         public int VisibleCardInx
         {

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YPS.CustomToastMsg;
 using YPS.Helpers;
+using YPS.Model;
 using YPS.Parts2y.Parts2y_Common_Classes;
 using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
@@ -39,14 +41,14 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 //Vm.compareHistoryList.Add(new CompareHistoryList() { AValue = "scan", BValue = "c", IsMatchedImg = "unmatch.png" });
 
-                //Vm.latestCompareHistoryList = new List<CompareHistoryList>() {
-                //  new CompareHistoryList() { HistorySerialNo=1, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" } ,
-                //    new CompareHistoryList() { HistorySerialNo=12, AValue ="scan", BValue= "lajckjadcbadchbdcbdhkcbwjcbwjcbhkbchbckqbcbcabcabcabcbacbacc",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=3199, AValue ="amcnajnckdncwncwjncjncwkncwkncnckncncwncwncjnc", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=4, AValue ="scan", BValue= "scan" ,IsMatchedImg="ookblack.png"},
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
+                Vm.latestCompareHistoryList = new List<CompareHistoryList>() {
+                  new CompareHistoryList() { HistorySerialNo=1, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" } ,
+                    new CompareHistoryList() { HistorySerialNo=12, AValue ="scan", BValue= "lajckjadcbadchbdcbdhkcbwjcbwjcbhkbchbckqbcbcabcabcabcbacbacc",IsMatchedImg="ng.png" },
+                    new CompareHistoryList() { HistorySerialNo=3199, AValue ="amcnajnckdncwncwjncjncwkncwkncnckncncwncwncjnc", BValue= "scan",IsMatchedImg="ng.png" },
+                    new CompareHistoryList() { HistorySerialNo=4, AValue ="scan", BValue= "scan" ,IsMatchedImg="ookblack.png"},
+                    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
 
-                //};
+                };
             }
             catch (Exception ex)
             {
@@ -154,17 +156,6 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.TotalCount = !string.IsNullOrEmpty(e.NewTextValue) ? (int?)Convert.ToInt32(e.NewTextValue) : null;
-
-                //if(Vm.TotalCount == null)
-                //{
-                //    Vm.IsTotalValidMsg = true;
-                //    Vm.TotalErrorTxt = "Enter total value";
-                //}
-                //else
-                //{
-                //    Vm.IsTotalValidMsg = false;
-                //    Vm.TotalErrorTxt = "";
-                //}
             }
             catch (Exception ex)
             {
@@ -176,12 +167,29 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                int? total = Vm.TotalCount;
-                string selectedrule = Vm.SelectedScanRule;
-                BindingContext = Vm = new CompareViewModel(Navigation, this);
-                Vm.TotalCount = total;
-                Vm.SelectedScanRule = selectedrule;
-                await Vm.SaveConfig();
+                bool result = await App.Current.MainPage.DisplayAlert("Save rule", "Are you sure?", "Yes", "No");
+
+                if (result)
+                {
+                    int? total = Vm.TotalCount;
+                    string selectedrule = Vm.SelectedScanRule;
+
+                    RememberPwdDB Db = new RememberPwdDB();
+                    var user = Db.GetUserDetails();
+
+                    if (user != null && user.Count > 0)
+                    {
+                        RememberPwd UpdateData = new RememberPwd();
+                        user[0].SelectedScanRule = Vm.SelectedScanRule;
+                        user[0].EnteredScanTotal = Vm.TotalCount;
+                        Db.UpdatePWd(user[0], YPS.CommonClasses.Settings.userLoginID);
+                    }
+
+                    BindingContext = Vm = new CompareViewModel(Navigation, this);
+                    Vm.TotalCount = total;
+                    Vm.SelectedScanRule = selectedrule;
+                    await Vm.SaveConfig();
+                }
             }
             catch (Exception ex)
             {

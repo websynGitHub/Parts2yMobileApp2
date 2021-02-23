@@ -106,6 +106,7 @@ namespace YPS.ViewModel
                         FrameForUploadFile = false;
                         closeLabelText = CompletedVal = true;
                         notCompeleteDisable = NotCompletedVal = false;
+                        CompleteBtnOpacity = 0.5;
                         RowHeightcomplete = 50;
                         access = fileAccess;
                         RowHeightChooseFile = 0;
@@ -155,7 +156,7 @@ namespace YPS.ViewModel
                         else
                         {
                             RowHeightChooseFile = 50;
-                            RowHeightUploadFile = 50;
+                            RowHeightUploadFile = 80;
                             FrameForUploadFile = true;
                             FrameForChooseFile = true;
                         }
@@ -206,6 +207,8 @@ namespace YPS.ViewModel
             try
             {
                 NotCompletedVal = false;
+                CompleteBtnOpacity = 0.5;
+
 
                 bool result = await App.Current.MainPage.DisplayAlert("Complete", "Are you sure?", "Yes", "No");
 
@@ -265,6 +268,8 @@ namespace YPS.ViewModel
                 {
                     CompletedVal = false;
                     NotCompletedVal = true;
+                    CompleteBtnOpacity = 1.0;
+
                 }
             }
             catch (Exception ex)
@@ -1463,7 +1468,7 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private int _RowHeightUploadFile = 50;
+        private int _RowHeightUploadFile = 80;
         public int RowHeightUploadFile
         {
             get => _RowHeightUploadFile;
@@ -1543,6 +1548,21 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
+        private double _CompleteBtnOpacity { set; get; } = 1.0;
+        public double CompleteBtnOpacity
+        {
+            get
+            {
+                return _CompleteBtnOpacity;
+            }
+            set
+            {
+                _CompleteBtnOpacity = value;
+                RaisePropertyChanged("CompleteBtnOpacity");
+            }
+        }
+
         private string _Uploadedby = string.Empty;
         public string Uploadedby
         {

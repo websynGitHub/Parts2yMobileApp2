@@ -13,6 +13,7 @@ using YPS.Model;
 using YPS.Service;
 using System.Linq;
 using Acr.UserDialogs;
+using ZXing.Net.Mobile.Forms;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
@@ -20,7 +21,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         public INavigation Navigation { get; set; }
         public Command TaskClickCmd { get; set; }
+        public Command ScanClickCmd { get; set; }
         public Command CompareClickCmd { get; set; }
+        public Command PhotoClickCmd { get; set; }
+
         YPSService trackService;
 
         public DashboardViewModel(INavigation _Navigation)
@@ -32,6 +36,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 TaskClickCmd = new Command(async () => await RedirectToPage("task"));
                 CompareClickCmd = new Command(async () => await RedirectToPage("compare"));
+                ScanClickCmd = new Command(async () => await RedirectToPage("scan"));
+                PhotoClickCmd = new Command(async () => await RedirectToPage("photo"));
+
 
                 Task.Run(() => RememberUserDetails()).Wait();
                 Task.Run(() => GetallApplabels()).Wait();
@@ -150,9 +157,31 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await Navigation.PushAsync(new ParentListPage());
                 }
-                else
+                else if (page == "compare")
                 {
                     await Navigation.PushAsync(new Compare());
+                }
+                else if (page == "scan")
+                {
+                    var ScannerPage = new ZXingScannerPage();
+
+                    ScannerPage.OnScanResult += (scanresult) =>
+                    {
+                        ScannerPage.IsScanning = false;
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            Settings.ScanValue = scanresult.Text;
+
+
+                        });
+                    };
+
+                }
+                else
+                {
+
+                    await Navigation.PushAsync(new ParentListPage());
                 }
             }
             catch (Exception ex)

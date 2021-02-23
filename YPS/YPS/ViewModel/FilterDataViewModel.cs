@@ -53,6 +53,7 @@ namespace YPS.ViewModel
             public filtterlabelFields IdentCode { get; set; } = new filtterlabelFields();
             public filtterlabelFields BagNumber { get; set; } = new filtterlabelFields();
             public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields();
+            public filtterlabelFields JobName { get; set; } = new filtterlabelFields();
             public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
             public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
         }
@@ -190,6 +191,7 @@ namespace YPS.ViewModel
                     SaveUserDS.IdentCode = Settings.IdentCodeNo = Identcode;
                     SaveUserDS.BagNo = Settings.BagNo = BagNumber;
                     SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber;
+                    SaveUserDS.TaskName = Settings.TaskName = JobName;
 
                     //Save the filter field values to DB
                     SearchPassData defaultData = new SearchPassData();
@@ -260,6 +262,8 @@ namespace YPS.ViewModel
                     SaveUserDS.IdentCode = Settings.IdentCodeNo = Identcode = string.Empty;
                     SaveUserDS.BagNo = Settings.BagNo = BagNumber = string.Empty;
                     SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber = string.Empty;
+                    SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber = string.Empty;
+                    SaveUserDS.TaskName = Settings.TaskName = JobName = string.Empty;
 
                     //Saving all the filter fields with default value into the DB
                     defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
@@ -427,6 +431,7 @@ namespace YPS.ViewModel
                 Identcode = !(String.IsNullOrEmpty(Settings.IdentCodeNo)) ? Settings.IdentCodeNo : Identcode;
                 BagNumber = !(String.IsNullOrEmpty(Settings.BagNo)) ? Settings.BagNo : BagNumber;
                 YbkgNumber = !(String.IsNullOrEmpty(Settings.Ybkgnumber)) ? Settings.Ybkgnumber : YbkgNumber;
+                JobName = !(String.IsNullOrEmpty(Settings.TaskName)) ? Settings.TaskName : JobName;
 
                 if (Settings.DisciplineID != 0)
                 {
@@ -627,6 +632,7 @@ namespace YPS.ViewModel
                         var IdentCode = filteredlabel.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var BagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var ybkgnumber = filteredlabel.Where(wr => wr.FieldID == labelobj.yBkgNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var jobname = filteredlabel.Where(wr => wr.FieldID == labelobj.JobName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var ResetBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.ResetBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var SearchBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.SearchBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -655,7 +661,9 @@ namespace YPS.ViewModel
                         labelobj.BagNumber.Name = BagNumber != null ? BagNumber.LblText : "Outer Package";
                         BagNumberHeight = (labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
-                        labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false;
+                        yBkgNumberHeight = (labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false) == true ? 55 : 00;
+                        labelobj.JobName.Name = jobname != null ? jobname.LblText : "Job Name";
+                        labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false;
 
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
@@ -680,7 +688,7 @@ namespace YPS.ViewModel
                 labelobj.PO.Name = "PONumber"; labelobj.REQNo.Name = "REQNo"; labelobj.ShippingNumber.Name = "ShippingNumber"; labelobj.DisciplineName.Name = "DisciplineName";
                 labelobj.ELevelName.Name = "ELevelName"; labelobj.Condition.Name = "ConditionName"; labelobj.Expeditor.Name = "ExpeditorName"; labelobj.PriorityName.Name = "PriorityName";
                 labelobj.TagNumber.Name = "TagNumber"; labelobj.IdentCode.Name = "IdentCode"; labelobj.BagNumber.Name = "BagNumber";
-                labelobj.yBkgNumber.Name = "yBkgNumber";
+                labelobj.yBkgNumber.Name = "yBkgNumber"; labelobj.JobName.Name = "JobName";
             }
             catch (Exception ex)
             {
@@ -811,16 +819,16 @@ namespace YPS.ViewModel
             }
         }
 
-        //private string _yBkgNumberHeight = "Auto";
-        //public string yBkgNumberHeight
-        //{
-        //    get { return _yBkgNumberHeight; }
-        //    set
-        //    {
-        //        _yBkgNumberHeight = value;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
+        private int _yBkgNumberHeight = 55;
+        public int yBkgNumberHeight
+        {
+            get { return _yBkgNumberHeight; }
+            set
+            {
+                _yBkgNumberHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
@@ -951,6 +959,17 @@ namespace YPS.ViewModel
             set
             {
                 _YbkgNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _JobName = string.Empty;
+        public string JobName
+        {
+            get { return _JobName; }
+            set
+            {
+                _JobName = value;
                 NotifyPropertyChanged();
             }
         }

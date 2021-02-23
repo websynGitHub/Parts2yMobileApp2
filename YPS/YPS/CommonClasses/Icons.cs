@@ -80,6 +80,10 @@
         public static readonly string info = "\uf05a";
         public static readonly string bus = "\uf207";
 
+        public static readonly string Task = "\uf0ae";
+        public static readonly string Scan = "\uf029";
+
+
         public static readonly string reset = "\uf0e2";
         public static readonly string view = "\uf06e";
         public static readonly string back = "\uf060";

@@ -111,6 +111,30 @@ namespace YPS.Views
             }
         }
 
+        private async void SfButton_Clicked(object sender, EventArgs e)
+        {
+            if (!voidAlertMessage)
+            {
+                voidAlertMessage = true;
+
+                try
+                {
+                    string text = (sender as SfButton).Text;
+
+                    if (text.Trim().ToLower() == vm.labelobjComplete.Trim().ToLower() && accessPhoto == false)
+                    {
+                        await vm.ClosePic();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    YPSLogger.ReportException(ex, "CompleteStateChanged method -> in PhotoUpload.cs  " + Settings.userLoginID);
+                    await service.Handleexception(ex);
+                }
+                voidAlertMessage = false;
+            }
+        }
+
         /// <summary>
         /// Gets called when clicked on Complete RadioButton
         /// </summary>

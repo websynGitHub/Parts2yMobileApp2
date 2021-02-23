@@ -48,7 +48,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand PrintShippingMarkReportCmd { get; set; }
         public ICommand GroupeFileUploadCmd { get; set; }
         public ICommand SelectedPOCmd { get; set; }
-
+        public ICommand InProgressCmd { get; set; }
+        public ICommand CompletedCmd { get; set; }
+        public ICommand PendingCmd { get; set; }
+        public ICommand AllCmd { set; get; }
 
         YPSService trackService;
         ParentListPage pagename;
@@ -94,6 +97,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PrintShippingMarkReportCmd = new Command(PrintShippingMarkReport);
                 GroupeFileUploadCmd = new Command(GroupFileUpload);
                 SelectedPOCmd = new Command(SelectedParentDetails);
+                InProgressCmd = new Command(async () => await InProgress_Tap());
+                CompletedCmd = new Command(async () => await Complete_Tap());
+                PendingCmd = new Command(async () => await Pending_Tap());
+                AllCmd = new Command(async () => await All_Tap());
                 #endregion
 
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
@@ -102,6 +109,64 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 trackService.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ParentListViewModel constructor -> in ParentListViewModel.cs " + Settings.userLoginID);
+            }
+        }
+
+        private async Task InProgress_Tap()
+        {
+            try
+            {
+                InProgressTabVisibility = true;
+                CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                InProgressTabTextColor = Color.Green;
+                CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private async Task Complete_Tap()
+        {
+            try
+            {
+                CompleteTabVisibility = true;
+                InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                CompleteTabTextColor = Color.Green;
+                InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private async Task Pending_Tap()
+        {
+            try
+            {
+                PendingTabVisibility = true;
+                CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
+                PendingTabTextColor = Color.Green;
+                InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private async Task All_Tap()
+        {
+            try
+            {
+                AllTabVisibility = true;
+                InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
+                AllTabTextColor = Color.Green;
+                InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -302,6 +367,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     loadingindicator = false;
                                     NoRecordsLbl = false;
                                     ISPoDataListVisible = true;
+
+                                    labelobj.All.Name = labelobj.All.Name + "(" + PoDataCollections.Count + ")";
                                 }
                                 else
                                 {
@@ -315,197 +382,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     loadingindicator = false;
                                 }
                             }
-                            //if (!String.IsNullOrEmpty(Settings.access_token))
-                            //{
-                            //    await Vm.RememberUserDetails();
-
-                            //    SendPodata sendPodata = new SendPodata();
-                            //    sendPodata.UserID = Settings.userLoginID;
-                            //    sendPodata.PageSize = Settings.pageSizeYPS;
-                            //    sendPodata.StartPage = Settings.startPageYPS;
-                            //    Vm.SearchResultGet(sendPodata);
-
-                            //    var result = await trackService.LoadPoDataService(sendPodata);
-
-                            //    if (result != null)
-                            //    {
-                            //        if (result.status != 0)
-                            //        {
-                            //            Vm.NoRecordsLbl = false;
-                            //            Vm.ClearSearchLbl = false;
-                            //            Vm.DataGrid = true;
-                            //            Vm.PageCount = result.data.listCount;
-
-                            //            #region loop
-                            //            //foreach (var data in result.data.allPoData)
-                            //            //{
-                            //            //    if (data.TagNumber != null)
-                            //            //    {
-                            //            //        #region Chat
-                            //            //        if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.Viewer)
-                            //            //        {
-                            //            //            data.chatImage = "minus.png";
-                            //            //        }
-                            //            //        else
-                            //            //        {
-                            //            //            if (data.TagQACount == 0)
-                            //            //            {
-                            //            //                if (data.TagQAClosedCount > 0)
-                            //            //                {
-                            //            //                    data.chatImage = "chatIcon.png";
-                            //            //                    data.chatTickVisible = true;
-                            //            //                }
-                            //            //                else
-                            //            //                {
-                            //            //                    data.chatImage = "minus.png";
-                            //            //                }
-                            //            //            }
-                            //            //            else
-                            //            //            {
-                            //            //                data.chatImage = "chatIcon.png";
-                            //            //                data.countVisible = true;
-                            //            //            }
-                            //            //        }
-                            //            //        #endregion
-
-                            //            //        #region Before Photo & After Photo
-                            //            //        if (data.PUID == 0)
-                            //            //        {
-                            //            //            if (data.IsPhotoRequired == 0)
-                            //            //                data.cameImage = "cross.png";
-                            //            //            else
-                            //            //                data.cameImage = "minus.png";
-                            //            //        }
-                            //            //        else
-                            //            //        {
-                            //            //            if (data.ISPhotoClosed == 1)
-                            //            //            {
-                            //            //                data.cameImage = "Chatcamera.png";
-                            //            //                data.photoTickVisible = true;
-
-                            //            //                data.imgCamOpacityB = data.imgTickOpacityB = (data.TagBPhotoCount == 0) ? 0.5 : 1.0;
-                            //            //                data.imgCamOpacityA = data.imgtickOpacityA = (data.TagAPhotoCount == 0) ? 0.5 : 1.0;
-                            //            //            }
-                            //            //            else
-                            //            //            {
-                            //            //                data.cameImage = "Chatcamera.png";
-                            //            //                data.BPhotoCountVisible = true;
-                            //            //                data.APhotoCountVisible = true;
-                            //            //            }
-                            //            //        }
-                            //            //        #endregion
-
-                            //            //        #region File upload 
-                            //            //        if (data.TagFilesCount == 0 && data.FUID == 0)
-                            //            //        {
-                            //            //            data.fileImage = "minus.png";
-                            //            //        }
-                            //            //        else
-                            //            //        {
-                            //            //            if (data.ISFileClosed > 0)
-                            //            //            {
-                            //            //                data.fileImage = "attachb.png";
-                            //            //                data.fileTickVisible = true;
-                            //            //            }
-                            //            //            else
-                            //            //            {
-                            //            //                data.fileImage = "attachb.png";
-                            //            //                data.filecountVisible = true;
-                            //            //            }
-                            //            //        }
-                            //            //        #endregion
-                            //            //    }
-                            //            //    else if (data.TagNumber == null)
-                            //            //    {
-                            //            //        data.countVisible = false;
-                            //            //        data.filecountVisible = false;
-                            //            //        data.fileTickVisible = false;
-                            //            //        data.chatTickVisible = false;
-                            //            //        data.BPhotoCountVisible = false;
-                            //            //        data.APhotoCountVisible = false;
-                            //            //        data.photoTickVisible = false;
-                            //            //        data.POS = null;
-                            //            //        data.SUB = null;
-                            //            //        //data.IS_POS = null;
-                            //            //        //data.IS_SUB = null;
-                            //            //        data.emptyCellValue = "No records to display";
-                            //            //    }
-                            //            //}
-
-                            //            //Vm.PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoData);
-
-                            //            //if (Vm.PoDataCollections.Count > 0)
-                            //            //{
-                            //            //    dataGrid.ItemsSource = Vm.PoDataCollections;
-
-                            //            //    var roundcount = Math.Ceiling((decimal)Vm.PageCount / (decimal)Settings.pageSizeYPS);
-                            //            //    dataPager.PageCount = (Int32)roundcount;
-                            //            //    dataPager.NumericButtonCount = (Int32)roundcount;
-
-                            //            //    Device.BeginInvokeOnMainThread(() =>
-                            //            //    {
-                            //            //        if (Device.RuntimePlatform == Device.Android)
-                            //            //        {
-                            //            //            if (dataPager.NumericButtonCount < 6 && dataPager.NumericButtonCount != 0)
-                            //            //            {
-                            //            //                dataPager.NumericButtonsGenerateMode = NumericButtonsGenerateMode.Auto;
-                            //            //            }
-                            //            //            else
-                            //            //            {
-                            //            //                dataPager.NumericButtonsGenerateMode = NumericButtonsGenerateMode.Manual;
-                            //            //            }
-                            //            //        }
-                            //            //    });
-                            //            //}
-                            //            //await Vm.CheckingSearchValues();
-                            //            #endregion End loop
-                            //        }
-                            //        else
-                            //        {
-                            //            Vm.NoRecordsLbl = true;
-                            //            await Vm.CheckingSearchValues();
-                            //            Vm.DataGridShowColumn = false;
-                            //            //ClearSearchLbl = true;
-                            //            Vm.DataGrid = false;
-                            //            Vm.activityIndicator = false;
-                            //            iscall = false;
-                            //        }
-
-                            //        Vm.GetallApplabels();
-                            //        iscalled = iscall;
-
-                            //        if (iscalled == true)
-                            //        {
-                            //            //await Gridcolumsupdate();
-                            //            //await Selectcolums();
-                            //        }
-                            //        else if (ISRefresh == true && Settings.EndRefresh2 == false && (result.data.allPoData != null && result.data.allPoData.Count > 0))
-                            //        {
-                            //            Settings.EndRefresh2 = true;
-
-                            //            if (ISRefresh == true && Settings.EndRefresh2 == true)
-                            //            {
-                            //                //await Gridcolumsupdate();
-                            //                //await Selectcolums();
-                            //            }
-                            //        }
-                            //        else
-                            //        {
-                            //            if (Settings.RedirectPagefirsttime == "NewAdded")
-                            //            {
-                            //                isloading = true;
-                            //            }
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        //  DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong please try again.");
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    await App.Current.MainPage.DisplayAlert("Warning!", "Something went wrong please try again.", "Ok");
-                            //}
                         }
                         else
                         {
@@ -551,18 +427,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         loadingindicator = true;
                         PODetails.SelectedTagBorderColor = Color.DarkGreen;
                         var PoDataChilds = new ObservableCollection<AllPoData>(
-                            Settings.AllPOData.Where(wr => wr.POID == PODetails.POID && !string.IsNullOrEmpty(wr.TagNumber)).ToList()
+                            Settings.AllPOData.Where(wr => wr.POID == PODetails.POID).ToList()
                             );
 
                         await Navigation.PushAsync(new POChildListPage(PoDataChilds));
-                        //Settings.VINNo = VehicleDetails.Vin;
-
-                        //if (Navigation.ModalStack.Count == 0 ||
-                        //                    Navigation.ModalStack.Last().GetType() != typeof(VehicleDetails))
-                        //{
-                        //    await Navigation.PushModalAsync(new VehicleDetails());
-                        //}
-
                     }
                     catch (Exception ex)
                     {
@@ -1745,6 +1613,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
                 SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
                 SaveUserDS.BagNo = Settings.BagNo = string.Empty;
+                SaveUserDS.yBkgNumber = Settings.Ybkgnumber = string.Empty;
+                SaveUserDS.TaskName = Settings.TaskName = string.Empty;
                 defaultData.CompanyID = Settings.CompanyID;
                 defaultData.UserID = Settings.userLoginID;
                 defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
@@ -1770,7 +1640,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if ((!String.IsNullOrEmpty(Settings.PONumber) || !String.IsNullOrEmpty(Settings.REQNo) || !String.IsNullOrEmpty(Settings.ShippingNo) ||
+                if ((!String.IsNullOrEmpty(Settings.PONumber) || !String.IsNullOrEmpty(Settings.REQNo) || !String.IsNullOrEmpty(Settings.ShippingNo) || !string.IsNullOrEmpty(Settings.TaskName) ||
                    Settings.DisciplineID != 0 || Settings.ELevelID != 0 || Settings.ConditionID != 0 || Settings.ExpeditorID != 0 || !string.IsNullOrEmpty(Settings.Ybkgnumber)
                    || Settings.PriorityID != 0 || !String.IsNullOrEmpty(Settings.TAGNo) || !String.IsNullOrEmpty(Settings.IdentCodeNo) || !String.IsNullOrEmpty(Settings.BagNo)) && Settings.SearchWentWrong == false)
                 {
@@ -1784,7 +1654,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     SearchIcon = "\uf00e";
                 }
                 else if ((!String.IsNullOrEmpty(Settings.DeliveryFrom) || !String.IsNullOrEmpty(Settings.ETDFrom) || !String.IsNullOrEmpty(Settings.ETAFrom) ||
-                    !String.IsNullOrEmpty(Settings.OnsiteFrom) || !String.IsNullOrEmpty(Settings.DeliveryTo) || !String.IsNullOrEmpty(Settings.ETDTo) || !string.IsNullOrEmpty(Settings.Ybkgnumber) ||
+                    !String.IsNullOrEmpty(Settings.OnsiteFrom) || !String.IsNullOrEmpty(Settings.DeliveryTo) || !String.IsNullOrEmpty(Settings.ETDTo) ||
+                    !string.IsNullOrEmpty(Settings.Ybkgnumber) || !string.IsNullOrEmpty(Settings.TaskName) ||
                     !String.IsNullOrEmpty(Settings.ETATo) || !String.IsNullOrEmpty(Settings.OnsiteTo)) && Settings.SearchWentWrong == false)
                 {
                     //ClearSearchLbl = true;
@@ -1892,6 +1763,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 sendPodata.IdentCode = Settings.IdentCodeNo = searchC.IdentCode;
                                 sendPodata.BagNo = Settings.BagNo = searchC.BagNo;
                                 sendPodata.yBkgNumber = Settings.Ybkgnumber = searchC.yBkgNumber;
+                                sendPodata.TaskName = Settings.TaskName = searchC.TaskName;
 
                                 Settings.SearchWentWrong = false;
                             }
@@ -2018,6 +1890,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
+                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name);
                         labelobj.Company.Status = company == null ? true : (company.Status == 1 ? true : false);
@@ -2032,6 +1910,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
+
+                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
+                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
+                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
+                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
+                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name) + "\n";
+                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
+
                     }
                 }
             }
@@ -2043,6 +1931,136 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        private bool _InProgressTabVisibility = false;
+        public bool InProgressTabVisibility
+        {
+            get => _InProgressTabVisibility;
+            set
+            {
+                _InProgressTabVisibility = value;
+                RaisePropertyChanged("InProgressTabVisibility");
+            }
+        }
+
+        private bool _CompleteTabVisibility = false;
+        public bool CompleteTabVisibility
+        {
+            get => _CompleteTabVisibility;
+            set
+            {
+                _CompleteTabVisibility = value;
+                RaisePropertyChanged("CompleteTabVisibility");
+            }
+        }
+
+        private bool _PendingTabVisibility = false;
+        public bool PendingTabVisibility
+        {
+            get => _PendingTabVisibility;
+            set
+            {
+                _PendingTabVisibility = value;
+                RaisePropertyChanged("PendingTabVisibility");
+            }
+        }
+
+        private bool _AllTabVisibility = true;
+        public bool AllTabVisibility
+        {
+            get => _AllTabVisibility;
+            set
+            {
+                _AllTabVisibility = value;
+                RaisePropertyChanged("AllTabVisibility");
+            }
+        }
+
+        private string _Cmptext = "COMPLETED";
+        public string Cmptext
+        {
+            get => _Cmptext;
+            set
+            {
+                _Cmptext = value;
+                RaisePropertyChanged("Cmptext");
+            }
+        }
+
+        private string _Pendingtext = "PENDING";
+        public string Pendingtext
+        {
+            get => _Pendingtext;
+            set
+            {
+                _Pendingtext = value;
+                RaisePropertyChanged("Pendingtext");
+            }
+        }
+
+        private string _INPtext = "IN PROGRESS";
+        public string INPtext
+        {
+            get => _INPtext;
+            set
+            {
+                _INPtext = value;
+                RaisePropertyChanged("INPtext");
+            }
+        }
+
+        private string _Alltext = "ALL \n";
+        public string Alltext
+        {
+            get => _Alltext;
+            set
+            {
+                _Alltext = value;
+                RaisePropertyChanged("Alltext");
+            }
+        }
+
+        private Color _PendingTabTextColor = Color.Black;
+        public Color PendingTabTextColor
+        {
+            get => _PendingTabTextColor;
+            set
+            {
+                _PendingTabTextColor = value;
+                RaisePropertyChanged("PendingTabTextColor");
+            }
+        }
+
+        private Color _InProgressTabTextColor = Color.Black;
+        public Color InProgressTabTextColor
+        {
+            get => _InProgressTabTextColor;
+            set
+            {
+                _InProgressTabTextColor = value;
+                RaisePropertyChanged("InProgressTabTextColor");
+            }
+        }
+        private Color _CompleteTabTextColor = Color.Black;
+        public Color CompleteTabTextColor
+        {
+            get => _CompleteTabTextColor;
+            set
+            {
+                _CompleteTabTextColor = value;
+                RaisePropertyChanged("CompleteTabTextColor");
+            }
+        }
+        private Color _AllTabTextColor = Color.Green;
+        public Color AllTabTextColor
+        {
+            get => _AllTabTextColor;
+            set
+            {
+                _AllTabTextColor = value;
+                RaisePropertyChanged("AllTabTextColor");
+            }
+        }
 
         #region Properties for dynamic label change
         public class DashboardLabelChangeClass
@@ -2071,6 +2089,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "TagDescription"
             };
+
+            public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
+            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "In Progress" };
+            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Completed" };
+            public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "All" };
         }
         public class DashboardLabelFields : IBase
         {

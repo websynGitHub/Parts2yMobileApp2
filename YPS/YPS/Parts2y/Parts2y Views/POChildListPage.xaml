@@ -105,36 +105,16 @@
                         <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="White" Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.30*"/>
-                                <ColumnDefinition Width="0.30*"/>
-                                <ColumnDefinition Width="0.22*"/>
-                                <ColumnDefinition Width="0.18*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <StackLayout Grid.Column="0" Grid.Row="0">
-                                <Label  Text="{Binding INPtext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
-                                        TextColor="{Binding InProgressTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
-                                        HorizontalTextAlignment="Center">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding InProgressCmd}"/>
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
-                            </StackLayout>
-                            <StackLayout Grid.Column="1" Grid.Row="0">
-                                <Label Text="{Binding Cmptext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
-                                       TextColor="{Binding CompleteTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
-                                       HorizontalTextAlignment="Center">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding CompletedCmd}"/>
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}" />
-                            </StackLayout>
-                            <StackLayout Grid.Column="2" Grid.Row="0">
-                                <Label Text="{Binding Pendingtext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label Text="{Binding labelobj.Pending.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding PendingTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     <Label.GestureRecognizers>
@@ -143,8 +123,31 @@
                                 </Label>
                                 <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding PendingTabVisibility}" />
                             </StackLayout>
+                            
+                            <StackLayout Grid.Column="1" Grid.Row="0" >
+                                <Label  Text="{Binding labelobj.Inprogress.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                        TextColor="{Binding InProgressTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                        HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding InProgressCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
+                            </StackLayout>
+                            
+                            <StackLayout Grid.Column="2" Grid.Row="0">
+                                <Label Text="{Binding labelobj.Completed.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding CompleteTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CompletedCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}" />
+                            </StackLayout>
+                            
                             <StackLayout Grid.Column="3" Grid.Row="0" >
-                                <Label Text="{Binding Alltext}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label Text="{Binding labelobj.All.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding AllTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     <Label.GestureRecognizers>
@@ -229,13 +232,14 @@
                                             </StackLayout>-->
                                                     </Grid>
 
-                                                    <StackLayout x:Name="arrowstack" Orientation="Horizontal" Grid.Row="0" 
-                                                         IsVisible="{Binding BindingContext.IsRightArrowVisible,Source={x:Reference Name=POTagPage}}"
+                                                    <StackLayout x:Name="arrowstack" Orientation="Vertical" Grid.Row="0" 
+                                                        
                                                              Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End">
                                                         <!--<local:FontAwesomeIconLabel Text="{Binding Status_icon}" FontSize="30"  TextColor="#000000"  HorizontalOptions="Center" VerticalOptions="Center"/>-->
                                                         <!--<Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Source="greateric.png" Aspect="AspectFit" HeightRequest="35" WidthRequest="35" HorizontalOptions="Center" VerticalOptions="Center"></Image>-->
                                                         <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
                                                  FontSize="40" TextColor="#000000" HorizontalOptions="Center" 
+                                                 IsVisible="{Binding BindingContext.IsRightArrowVisible,Source={x:Reference Name=POTagPage}}"
                                                  VerticalOptions="Center">
                                                             <local:FontAwesomeIconLabel.GestureRecognizers>
                                                                 <TapGestureRecognizer 
@@ -243,13 +247,18 @@
                                                           CommandParameter="{Binding .}"/>
                                                             </local:FontAwesomeIconLabel.GestureRecognizers>
                                                         </local:FontAwesomeIconLabel>
+
+                                                        <local:FontAwesomeIconLabel 
+                                                                                    Text="{Binding Status_icon}" FontSize="25"  TextColor="#000000" 
+                                                                                    HorizontalOptions="Center" VerticalOptions="Center"/>
+
                                                     </StackLayout>
                                                 </Grid>
 
                                                 <StackLayout VerticalOptions="Start"
                                                       HorizontalOptions="FillAndExpand" Orientation="Horizontal">
 
-                                                    <input:CheckBox HorizontalOptions="Start" Margin="0,0,80,0"
+                                                    <input:CheckBox HorizontalOptions="Start" Margin="0,0,60,0"
                                                                 VerticalOptions="Center"
                                                                  IsChecked="{Binding IsChecked}"
                                                                 CheckChanged="CheckBox_CheckedChanged"  
@@ -269,12 +278,12 @@
 
                                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
                                                          >
-                                                        <Frame Padding="3,2,3,2" Margin="0,5,8,8" CornerRadius="2" 
+                                                        <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
                                                         IsVisible="{Binding IsFilesVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="file"
                                                            Text="{x:Static local1:Icons.FileAttachIc}"
-                                                  TextColor="Black" 
+                                                  TextColor="Black" FontSize="25"
                                                  HorizontalOptions="Start" VerticalOptions="Center">
                                                                 </local:FontAwesomeIconLabel>
                                                                 <Label Text="{Binding TagFilesCount}" HorizontalOptions="Start" TextColor="Black"
@@ -288,11 +297,11 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <Frame Padding="3,2,3,2" Margin="0,5,8,8" CornerRadius="2" 
+                                                        <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
                                                        IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="photoBU" Text="{x:Static local1:Icons.CameraIc}" 
-                                                                                TextColor="Black" 
+                                                                                TextColor="Black" FontSize="25"
                                                                                 HorizontalOptions="Start" VerticalOptions="Center"
                                                                                 Opacity="{Binding imgCamOpacityB}">
                                                                 </local:FontAwesomeIconLabel>
@@ -309,11 +318,11 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <Frame Padding="3,2,3,2" Margin="0,5,8,8" CornerRadius="2" 
+                                                        <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
                                                         IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="photoAU" Text="{x:Static local1:Icons.CameraIc}" 
-                                                 TextColor="Black" 
+                                                 TextColor="Black" FontSize="25"
                                                  HorizontalOptions="Start" VerticalOptions="Center" Opacity="{Binding imgCamOpacityA}"
                                                  >
                                                                 </local:FontAwesomeIconLabel>
@@ -322,7 +331,6 @@
                                                                 <Image Source="tickb.png" Opacity="{Binding imgtickOpacityA}" 
                                                        IsVisible="{Binding photoTickVisible}" HorizontalOptions="Start"
                                                        HeightRequest="15" WidthRequest="12"/>
-
                                                             </StackLayout>
                                                             <Frame.GestureRecognizers>
                                                                 <TapGestureRecognizer Command="{Binding BindingContext.viewExistingAUPhotos,Source={x:Reference Name=POTagPage}}"
@@ -334,8 +342,7 @@
                                                         IsVisible="{Binding IsChatsVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="chat" Text="{x:Static local1:Icons.ChatIc}" 
-                                                                              
-                                                  TextColor="Black"
+                                                  TextColor="Black" FontSize="25"
                                                          HorizontalOptions="Center" VerticalOptions="Center">
 
                                                                 </local:FontAwesomeIconLabel>

@@ -32,6 +32,11 @@
                 </Setter>
             </Style>
 
+            <Style TargetType="BoxView" x:Key="StyleBoxView">
+                <Setter Property="HeightRequest" Value="3"/>
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+            </Style>
             <!--<Style TargetType="Frame">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
@@ -75,7 +80,8 @@
                     <Grid.RowDefinitions>
                         <!--<RowDefinition Height="{OnPlatform iOS='100',Android='Auto'}"/>-->
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                         <!--<RowDefinition Height="{OnPlatform iOS='100',Android='Auto'}"/>-->
                     </Grid.RowDefinitions>
@@ -158,14 +164,68 @@
                         </Label>-->
                     </Grid>
 
+                        <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
+                              BackgroundColor="White" Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackLayout Grid.Column="0" Grid.Row="0">
+                                <Label Text="{Binding labelobj.Pending.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding PendingTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer  Command="{Binding PendingCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding PendingTabVisibility}" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="1" Grid.Row="0">
+                                <Label  Text="{Binding labelobj.Inprogress.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                        TextColor="{Binding InProgressTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                        HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding InProgressCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="2" Grid.Row="0">
+                                <Label Text="{Binding labelobj.Completed.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding CompleteTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CompletedCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="3" Grid.Row="0" >
+                                <Label Text="{Binding labelobj.All.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding AllTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer  Command="{Binding AllCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding AllTabVisibility}" />
+                            </StackLayout>
+                        </Grid>
 
 
-
-                    <!--<Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center"
+                        <!--<Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center"
                           Grid.Row="2" Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithQuestionFont}"/>-->
 
-                    <CollectionView x:Name="ParentDataList" Grid.Row="1" BackgroundColor="Transparent"
+                    <CollectionView x:Name="ParentDataList" Grid.Row="2" BackgroundColor="Transparent"
                                ItemsSource="{Binding PoDataCollections}" SelectedItem="{Binding PODetails}" VerticalOptions="End"
                               Margin="0,0,0,0"   IsVisible="{Binding ISPoDataListVisible}" SelectionMode="Single">
                         <CollectionView.ItemTemplate>
@@ -264,7 +324,7 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
-                    <Grid  x:Name="pagingpart" Grid.Row="2" IsVisible="{Binding ISPoDataListVisible}"
+                    <Grid  x:Name="pagingpart" Grid.Row="3" IsVisible="{Binding ISPoDataListVisible}"
                               BackgroundColor="White" VerticalOptions="End">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

@@ -29,9 +29,25 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 InitializeComponent();
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 30;
+                    headerpart.Padding = safeAreaInset;
+                }
+
+                
                 Settings.refreshPage = 1;
                 trackService = new YPSService();
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag);
+                
+                if (!Settings.CompanySelected.Contains("(C)"))
+                {
+                    Vm.IsRightArrowVisible = false;
+                    ChildDataList.SelectionMode = SelectionMode.None;
+                }
+
                 Settings.refreshPage = 1;
 
                 if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
@@ -181,19 +197,7 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 Vm.loadindicator = true;
                 //UserDialogs.Instance.ShowLoading("Loading...");
-                if (Device.RuntimePlatform == Device.iOS)
-                {
-                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    safeAreaInset.Bottom = 0;
-                    safeAreaInset.Top = 30;
-                    headerpart.Padding = safeAreaInset;
-                }
-
-                if (!Settings.CompanySelected.Contains("(C)"))
-                {
-                    Vm.IsRightArrowVisible = false;
-                    ChildDataList.SelectionMode = SelectionMode.None;
-                }
+               
 
                 base.OnAppearing();
                 YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);

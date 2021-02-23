@@ -33,7 +33,7 @@ namespace YPS.Model
 
         public string encSessiontoken { get; set; }
         public string SelectedScanRule { get; set; }
-        public string EnteredScanTotal { get; set; }
+        public int? EnteredScanTotal { get; set; }
 
         /// <summary>
         /// Encrypted

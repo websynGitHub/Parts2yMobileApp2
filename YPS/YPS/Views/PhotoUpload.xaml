@@ -21,9 +21,9 @@
                       >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="{Binding RowHeightcomplete}"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="{Binding RowHeightOpenCam}"/>
+                        <!--<RowDefinition Height="{Binding RowHeightcomplete}"/>-->
                     </Grid.RowDefinitions>
                     
                     <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
@@ -55,7 +55,7 @@
                         </LblIcons:FontAwesomeIconLabel>
                     </Grid>
                    
-                    <Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}" 
+                    <!--<Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}" 
                            Margin="5,5,6,0" BorderColor="Transparent">
 
                         <sfRadioGroup:SfRadioGroup Orientation="Horizontal" Margin="5,0,7,0">
@@ -73,10 +73,10 @@
                                                             LineBreakMode="WordWrap" Style="{StaticResource SfRadioButtonTextStyle}"/>
                             </Grid>
                         </sfRadioGroup:SfRadioGroup>
-                    </Frame>
+                    </Frame>-->
 
 
-                    <StackLayout Grid.Row="2" IsVisible="{Binding listStack}" Margin="6,0,6,0">
+                    <StackLayout Grid.Row="1" IsVisible="{Binding listStack}" Margin="6,0,6,0">
                         <Grid ClassId="{Binding UploadType}" x:Name="gridData" BackgroundColor="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -311,13 +311,13 @@
                         </flv:FlowListView>
                     </StackLayout>-->
                     
-                    <Label Grid.Row="2" Text="No photos available." IsVisible="{Binding NoPhotos_Visibility}" TextColor="Black"
+                    <Label Grid.Row="1" Text="No photos available." IsVisible="{Binding NoPhotos_Visibility}" TextColor="Black"
                            HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LableWithQuestionFont}"/>
-                    <ScrollView Grid.Row="2" IsVisible="{Binding firstStack}" Padding="3">
+                    <ScrollView Grid.Row="1" IsVisible="{Binding firstStack}" Padding="3">
                         <Image Source="{Binding CaptchaImage1}" x:Name="img"/>
                     </ScrollView>
                     
-                    <StackLayout Grid.Row="3" BackgroundColor="White" IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" VerticalOptions="EndAndExpand" Padding="10">
+                    <StackLayout Grid.Row="2" BackgroundColor="White" IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" VerticalOptions="EndAndExpand" Padding="10">
                         <Frame BorderColor="Black" Padding="8,3,8,3" CornerRadius="7" HasShadow="False" BackgroundColor="White">
                             <Grid HeightRequest="80" BackgroundColor="White">
                                 <Grid.ColumnDefinitions>
@@ -325,8 +325,8 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding description_txt,Mode=TwoWay}"
-                                                Placeholder="{Binding labelobjDesc}" TextColor="Black" PlaceholderColor="Black" Keyboard="Text"
-                                                Style="{StaticResource EditorTextStyle}"/>
+                                                Placeholder="{Binding labelobjDesc}" TextColor="Black" PlaceholderColor="Gray" Keyboard="Text"
+                                                Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
                                 
                                 <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
                                                     Style="{StaticResource SfBtnBlue}" BackgroundColor="DarkGreen">
@@ -344,16 +344,47 @@
                         </Frame>
                     </StackLayout>
                 </Grid>
-                
-                <Image x:Name="PhotoUploadIcon" Source="OpenCam.png"  HeightRequest="50" WidthRequest="50" Aspect="AspectFit" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
-                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-70}"
+                <!--<Image x:Name="PhotoUploadIcon" Source="OpenCam.png"  HeightRequest="50" WidthRequest="50" Aspect="AspectFit" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-110}"
                              RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-70}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding select_pic}"/>
                     </Image.GestureRecognizers>
-                </Image>
+                </Image>-->
+                <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-110}"
+                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-63}"
+                    Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="Center"
+                                                 >
+                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding select_pic}"/>
+                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                </local:FontAwesomeIconLabel>
+
             </RelativeLayout>
-            <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+
+            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
+                         Margin="6,0,6,2" IsVisible="{Binding closeLabelText}">
+                <StackLayout Orientation="Vertical">
+
+
+                    <sfbuttons:SfButton IsEnabled="{Binding NotCompletedVal}" Opacity="{Binding CompleteBtnOpacity}"
+                                        Text="{Binding labelobjComplete,Mode=TwoWay}" Margin="0,0,0,4" Clicked="SfButton_Clicked"
+                                                Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                </StackLayout>
+
+            </ContentView>
+
+
+            <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent"
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Style="{StaticResource FmForActivityIndicator}">
                     <StackLayout Padding="15">
                         <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>

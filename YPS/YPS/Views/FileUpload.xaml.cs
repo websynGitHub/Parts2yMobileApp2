@@ -136,6 +136,24 @@ namespace YPS.Views
             }
         }
 
+        private async void SfButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                string text = (sender as SfButton).Text;
+
+                if (text == Vm.labelobjFile.complete && fileaccess == false)
+                {
+                    await Vm.close_btn();
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SfButton_Clicked method -> in FileUpload.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
         /// <summary>
         /// Gets called when clicked on either completed or not completed radio button. 
         /// </summary>

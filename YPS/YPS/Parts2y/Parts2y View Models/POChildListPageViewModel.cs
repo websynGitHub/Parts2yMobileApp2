@@ -41,9 +41,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 Navigation = _Navigation;
+                labelobj = new DashboardLabelChangeClass();
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => PreparePoTagList(potag)).Wait();
-                //PoDataChildCollections = new ObservableCollection<AllPoData>(potag);
                 moveToPage = new Command(RedirectToPage);
                 viewExistingFiles = new Command(ViewUploadedFiles);
                 viewExistingBUPhotos = new Command(tap_eachCamB);
@@ -289,6 +289,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 data.IsFilesVisible = true;
                             }
                             #endregion
+
+                            data.Status_icon = Icons.circle;
                         }
                         else if (data.TagNumber == null)
                         {
@@ -309,7 +311,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     PoDataChildCollections = potaglist;
                     IsPOTagDataListVisible = true;
                     NoRecordsLbl = false;
-                    Alltext = Alltext + "(" + potaglist.Count + ")";
+                    labelobj.All.Name = labelobj.All.Name + "(" + potaglist.Count + ")";
                 }
                 else
                 {
@@ -968,8 +970,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                labelobj = new DashboardLabelChangeClass();
-
                 if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
                 {
                     List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
@@ -985,6 +985,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
 
                         //Assigning the Labels & Show/Hide the controls based on the data
@@ -1004,6 +1009,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
 
+                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
+                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
+                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
+                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
+                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name) + "\n";
+                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
+                    
                     }
                 }
             }
@@ -1071,7 +1085,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _Pendingtext = "IN PROGRESS";
+        private string _Pendingtext = "PENDING";
         public string Pendingtext
         {
             get => _Pendingtext;
@@ -1082,7 +1096,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _INPtext = "PENDING";
+        private string _INPtext = "IN PROGRESS";
         public string INPtext
         {
             get => _INPtext;
@@ -1135,7 +1149,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("CompleteTabTextColor");
             }
         }
-        private Color _AllTabTextColor = Color.Black;
+        private Color _AllTabTextColor = Color.Green;
         public Color AllTabTextColor
         {
             get => _AllTabTextColor;
@@ -1171,6 +1185,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
             public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
+
+            public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
+            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "In Progress" };
+            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Completed" };
+            public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "All" };
 
         }
         public class DashboardLabelFields : IBase
