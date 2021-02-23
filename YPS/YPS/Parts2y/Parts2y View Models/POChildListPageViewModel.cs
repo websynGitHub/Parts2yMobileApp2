@@ -311,6 +311,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     PoDataChildCollections = potaglist;
                     IsPOTagDataListVisible = true;
                     NoRecordsLbl = false;
+
+                    labelobj.Pending.Name = labelobj.Pending.Name + "(0)";
+                    labelobj.Inprogress.Name = labelobj.Inprogress.Name + "(0)";
+                    labelobj.Completed.Name = labelobj.Completed.Name + "(0)";
                     labelobj.All.Name = labelobj.All.Name + "(" + potaglist.Count + ")";
                 }
                 else
@@ -1009,15 +1013,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
 
-                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
+                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) + "\n";
                         labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
-                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name) + "\n";
                         labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
-                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name) + "\n";
                         labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
                         labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name) + "\n";
                         labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
-                    
+
                     }
                 }
             }

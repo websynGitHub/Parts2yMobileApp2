@@ -163,25 +163,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (page == "scan")
                 {
-                    var ScannerPage = new ZXingScannerPage();
+                    //var ScannerPage = new ZXingScannerPage();
 
-                    ScannerPage.OnScanResult += (scanresult) =>
-                    {
-                        ScannerPage.IsScanning = false;
+                    //ScannerPage.OnScanResult += (scanresult) =>
+                    //{
+                    //    ScannerPage.IsScanning = false;
 
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            Settings.ScanValue = scanresult.Text;
+                    //    Device.BeginInvokeOnMainThread(async () =>
+                    //    {
+                    //        Settings.ScanValue = scanresult.Text;
 
 
-                        });
-                    };
+                    //    });
+                    //};
 
                 }
                 else
                 {
 
-                    await Navigation.PushAsync(new ParentListPage());
+                    //await Navigation.PushAsync(new ParentListPage());
                 }
             }
             catch (Exception ex)

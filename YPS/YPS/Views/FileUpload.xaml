@@ -100,7 +100,8 @@
                         </Image>
                     </Grid>
                 </Frame>
-                <Frame Grid.Row="2" IsVisible="{Binding FrameForUploadFile}" Style="{StaticResource FrameStyleForFileUpload}"
+                <Frame Grid.Row="2" IsVisible="{Binding FrameForUploadFile}" 
+                       Style="{StaticResource FrameStyleForFileUpload}"
                        Margin="6,2,6,0">
                     <Grid ColumnSpacing="0" RowSpacing="0" >
                         <Grid.ColumnDefinitions>
@@ -113,7 +114,8 @@
 
                         <LblIcons:MyEditor x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
                                              Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource EditorTextStyle}"
-                                             TextColor="Gray" VerticalOptions="CenterAndExpand" MaxLength="500"/>
+                                             TextColor="Black" VerticalOptions="CenterAndExpand" MaxLength="500"
+                                           HeightRequest="70"/>
                         
                         <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}"
                                             Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0" BackgroundColor="DarkGreen">

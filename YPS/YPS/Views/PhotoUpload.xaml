@@ -318,13 +318,14 @@
                     </ScrollView>
                     
                     <StackLayout Grid.Row="2" BackgroundColor="White" IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" VerticalOptions="EndAndExpand" Padding="10">
-                        <Frame BorderColor="Black" Padding="8,3,8,3" CornerRadius="7" HasShadow="False" BackgroundColor="White">
+                        <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
                             <Grid HeightRequest="80" BackgroundColor="White">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding description_txt,Mode=TwoWay}"
+                                                HeightRequest="70"
                                                 Placeholder="{Binding labelobjDesc}" TextColor="Black" PlaceholderColor="Gray" Keyboard="Text"
                                                 Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
                                 
