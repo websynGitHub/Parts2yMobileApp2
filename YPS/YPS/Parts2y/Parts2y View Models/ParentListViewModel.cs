@@ -190,7 +190,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 try
                 {
                     bool ifNotRootedDevie;
-
+                    // DashboardLabelChangeClass labelobj = new DashboardLabelChangeClass();
                     //if (Device.RuntimePlatform == Device.Android)
                     //{
                     //    ///By using dependency service, checking mobile is root or not.
@@ -368,10 +368,29 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     NoRecordsLbl = false;
                                     ISPoDataListVisible = true;
 
-                                    labelobj.Pending.Name = labelobj.Pending.Name + "(0)";
-                                    labelobj.Inprogress.Name = labelobj.Inprogress.Name + "(0)";
-                                    labelobj.Completed.Name = labelobj.Completed.Name + "(0)";
-                                    labelobj.All.Name = labelobj.All.Name + "(" + PoDataCollections.Count + ")";
+                                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                                    if (labelval.Count > 0)
+                                    {
+                                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
+                                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
+                                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
+                                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
+                                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name) ;
+                                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
+
+                                        PendingText = labelobj.Pending.Name + "\n" + "(0)";
+                                        InProgress = labelobj.Inprogress.Name + "\n" + "(0)";
+                                        Completed = labelobj.Completed.Name + "\n" + "(0)";
+                                        All = labelobj.All.Name + "\n" + "(" + groubbyval.Count() + ")";
+                                    }
 
                                 }
                                 else
@@ -384,6 +403,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     //activityIndicator = false;
                                     iscall = false;
                                     loadingindicator = false;
+                                    PendingText = labelobj.Pending.Name + "\n" + "(0)";
+                                    InProgress = labelobj.Inprogress.Name + "\n" + "(0)";
+                                    Completed = labelobj.Completed.Name + "\n" + "(0)";
+                                    All = labelobj.All.Name + "\n" + "(0)";
                                 }
                             }
                         }
@@ -1868,6 +1891,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             if (PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
         #endregion
 
         /// <summary>
@@ -1894,10 +1918,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        //var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        //var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        //var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        //var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
 
                         //Assigning the Labels & Show/Hide the controls based on the data
@@ -1915,14 +1939,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
 
-                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) + "\n";
-                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
-                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name) + "\n";
-                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
-                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name) + "\n";
-                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
-                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name) + "\n";
-                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
+                        //labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) ;
+                        //labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
+                        //labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                        //labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
+                        //labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                        //labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
+                        //labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name);
+                        //labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
 
                     }
                 }
@@ -1935,6 +1959,50 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public string _PendingText;
+        public string PendingText
+        {
+            get => _PendingText;
+            set
+            {
+                _PendingText = value;
+                RaisePropertyChanged("PendingText");
+            }
+        }
+
+        public string _InProgress;
+        public string InProgress
+        {
+            get => _InProgress;
+            set
+            {
+                _InProgress = value;
+                RaisePropertyChanged("InProgress");
+            }
+        }
+
+        public string _Completed;
+        public string Completed
+        {
+            get => _Completed;
+            set
+            {
+                _Completed = value;
+                RaisePropertyChanged("Completed");
+            }
+        }
+
+        public string _All;
+        public string All
+        {
+            get => _All;
+            set
+            {
+                _All = value;
+                RaisePropertyChanged("All");
+            }
+        }
 
         private bool _InProgressTabVisibility = false;
         public bool InProgressTabVisibility
