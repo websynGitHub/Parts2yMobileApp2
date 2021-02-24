@@ -23,6 +23,7 @@ using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Service;
 using YPS.Views;
+using ZXing.Net.Mobile.Forms;
 
 namespace YPS.iOS
 {
@@ -121,6 +122,7 @@ namespace YPS.iOS
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjY3MTkzQDMxMzgyZTMxMmUzMFhUak9IY0JaYUsrNTlsOXZqTExUeEt3SlNvNEZ6NHcyV3ZnWm1SQlIrM0U9");///18.1.0.42
             global::Xamarin.Forms.Forms.Init();
             CachedImageRenderer.Init();
+            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             //Appcenter value need to change based on (Alpha,Beta,Production//reference appcenter region)
             AppCenter.Start(Appcenter_iOS, typeof(Analytics), typeof(Crashes));
 
