@@ -23,7 +23,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 InitializeComponent();
-                BindingContext = Vm = new CompareViewModel(Navigation, this);
+                BindingContext = Vm = new CompareViewModel(Navigation, this, false);
                 //int count = 1;
                 //Vm.compareHistoryList = new List<CompareHistoryList>()
                 //{
@@ -41,14 +41,14 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 //Vm.compareHistoryList.Add(new CompareHistoryList() { AValue = "scan", BValue = "c", IsMatchedImg = "unmatch.png" });
 
-                Vm.latestCompareHistoryList = new List<CompareHistoryList>() {
-                  new CompareHistoryList() { HistorySerialNo=1, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" } ,
-                    new CompareHistoryList() { HistorySerialNo=12, AValue ="scan", BValue= "lajckjadcbadchbdcbdhkcbwjcbwjcbhkbchbckqbcbcabcabcabcbacbacc",IsMatchedImg="ng.png" },
-                    new CompareHistoryList() { HistorySerialNo=3199, AValue ="amcnajnckdncwncwjncjncwkncwkncnckncncwncwncjnc", BValue= "scan",IsMatchedImg="ng.png" },
-                    new CompareHistoryList() { HistorySerialNo=4, AValue ="scan", BValue= "scan" ,IsMatchedImg="ookblack.png"},
-                    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
+                //Vm.latestCompareHistoryList = new List<CompareHistoryList>() {
+                //  new CompareHistoryList() { HistorySerialNo=1, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" } ,
+                //    new CompareHistoryList() { HistorySerialNo=12, AValue ="scan", BValue= "lajckjadcbadchbdcbdhkcbwjcbwjcbhkbchbckqbcbcabcabcabcbacbacc",IsMatchedImg="ng.png" },
+                //    new CompareHistoryList() { HistorySerialNo=3199, AValue ="amcnajnckdncwncwjncjncwkncwkncnckncncwncwncjnc", BValue= "scan",IsMatchedImg="ng.png" },
+                //    new CompareHistoryList() { HistorySerialNo=4, AValue ="scan", BValue= "scan" ,IsMatchedImg="ookblack.png"},
+                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
 
-                };
+                //};
             }
             catch (Exception ex)
             {
@@ -60,7 +60,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                BindingContext = Vm = new CompareViewModel(Navigation, this);
+                BindingContext = Vm = new CompareViewModel(Navigation, this, true);
                 //Vm.historySerialNo = 1;
                 //Vm.compareList.Clear();
                 //Vm.compareHistoryList.Clear();
@@ -185,7 +185,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         Db.UpdatePWd(user[0], YPS.CommonClasses.Settings.userLoginID);
                     }
 
-                    BindingContext = Vm = new CompareViewModel(Navigation, this);
+                    BindingContext = Vm = new CompareViewModel(Navigation, this, false);
                     Vm.TotalCount = total;
                     Vm.SelectedScanRule = selectedrule;
                     await Vm.SaveConfig();

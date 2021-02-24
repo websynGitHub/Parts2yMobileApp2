@@ -29,8 +29,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="225"/>
                     <RowDefinition Height="Auto"/>
+                    <!--<RowDefinition Height="Auto"/>-->
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
                           RowDefinitions="*" ColumnDefinitions="60,*,Auto">
@@ -122,6 +123,7 @@
                         <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding ConfigTabVisibility}" />
                     </StackLayout>
                 </Grid>
+                
                 <ScrollView Grid.Row="2">
                     <StackLayout>
                     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding IsScanContentVisible}">
@@ -131,7 +133,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="0.30*"/>
                         </Grid.RowDefinitions>
                         <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             <Frame HasShadow="False" Margin="7,5,7,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
@@ -198,39 +200,40 @@
                                     <Grid.RowDefinitions>
                                         <!--<RowDefinition Height="125"/>-->
                                         <!--<RowDefinition Height="*"/>-->
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="225"/>
                                         </Grid.RowDefinitions>
 
-                                    <ListView ItemsSource="{Binding latestCompareHistoryList}" HasUnevenRows="False"
-                                          SeparatorVisibility="Default" Grid.Row="0">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <ViewCell>
-                                                    <ViewCell.View>
-                                                        <Grid Margin="0" Padding="4">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="0.30*" />
-                                                                <ColumnDefinition Width="0.30*" />
-                                                                <ColumnDefinition Width="0.20*" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="*"/>
-                                                            </Grid.RowDefinitions>
-                                                            <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
+                                            <ListView  Grid.Row="0" ItemsSource="{Binding latestCompareHistoryList}" HasUnevenRows="False"
+                                          SeparatorVisibility="Default" SelectionMode="None">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ViewCell>
+                                                            <ViewCell.View>
+                                                                <Grid Margin="0" Padding="4">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.30*" />
+                                                                        <ColumnDefinition Width="0.30*" />
+                                                                        <ColumnDefinition Width="0.20*" />
+                                                                        <ColumnDefinition Width="*" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="*"/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                            <Image Grid.Row="0" Grid.Column="1" Margin="4" Source="{Binding IsMatchedImg}"
+                                                                    <Image Grid.Row="0" Grid.Column="1" Margin="4" Source="{Binding IsMatchedImg}"
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"></Image>
-                                                            <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
+                                                                    <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                            <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
+                                                                    <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
                                                                        HorizontalOptions="Start"  VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
-                                                        </Grid>
-                                                    </ViewCell.View>
-                                                </ViewCell>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                                                </Grid>
+                                                            </ViewCell.View>
+                                                        </ViewCell>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                   
                                        
                                   
                                         <!--<Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
@@ -294,7 +297,9 @@
                                         </sfinput:SfTextInputLayout>
 
                                 <sfinput:SfTextInputLayout Grid.Row="1" Grid.Column="0" Hint="Total"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ErrorText="{Binding TotalErrorTxt}"
+                                                           ErrorColor="Red" 
+                                                           HasError="{Binding IsTotalValidMsg}">
                                     <Entry x:Name="entrytotal" Keyboard="Numeric"
                                                Text="{Binding TotalCount}" MaxLength="3"
                                                 TextChanged="TotalEntryTextChanged"
@@ -308,14 +313,12 @@
                                     </Entry>
                                 </sfinput:SfTextInputLayout>
                                         
-                               
-
                                        
                                     </Grid>
-                            <Label IsVisible="{Binding IsTotalValidMsg}"
+                            <!--<Label IsVisible="{Binding IsTotalValidMsg}"
                                                Text="{Binding TotalErrorTxt}"
                                        TextColor="Black" VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
+                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>-->
                             
                            
                             <!--</Frame>-->
@@ -324,7 +327,7 @@
                     </StackLayout>
                 </ScrollView>
 
-                <ContentView IsVisible="{Binding showLatestViewFrame}" BackgroundColor="Transparent" 
+                <!--<ContentView IsVisible="{Binding ScanTabVisibility}" BackgroundColor="Transparent" 
                                                  HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Grid.Row="3">
                     <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
@@ -348,9 +351,35 @@
                             </Button.Behaviors>
                         </Button>
                     </Grid>
-                </ContentView>
+                </ContentView>-->
             </Grid>
 
+
+            <ContentView IsVisible="{Binding showLatestViewFrame}" BackgroundColor="Transparent" 
+                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" 
+                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" Margin="6,0,6,2">
+                    <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
+                                Grid.Column="0">
+                        <Button.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </Button.Behaviors>
+                    </Button>
+
+                    <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
+                                Grid.Column="1">
+
+                        <Button.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+            </ContentView>
             
             <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
