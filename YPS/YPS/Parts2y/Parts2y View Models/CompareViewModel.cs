@@ -36,7 +36,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         private Compare comparepage;
         private int? scancountpermit;
 
-        public CompareViewModel(INavigation _Navigation, Compare ComparePage)
+        public CompareViewModel(INavigation _Navigation, Compare ComparePage, bool reset)
         {
             try
             {
@@ -52,7 +52,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Settings.scanQRValueA = "";
                 Settings.scanQRValueB = "";
 
-                Task.Run(() => RememberUserDetails()).Wait();
+
+                if (reset == false)
+                {
+                    Task.Run(() => RememberUserDetails()).Wait();
+                }
             }
             catch (Exception ex)
             {
@@ -543,10 +547,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsConfigContentVisible = ConfigTabVisibility = false;
                     ScanTabTextColor = Color.Green;
                     CompareTabTextColor = Color.Black;
+
+                    showLatestViewFrame = latestCompareHistoryList != null && latestCompareHistoryList.Count > 0 ? true : false;
                 }
                 else
                 {
-                    IsScanContentVisible = ScanTabVisibility = false;
+                    showLatestViewFrame = IsScanContentVisible = ScanTabVisibility = false;
                     IsConfigContentVisible = ConfigTabVisibility = true;
                     ScanTabTextColor = Color.Black;
                     CompareTabTextColor = Color.Green;
@@ -562,7 +568,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if (TotalCount > 0)
+                if (TotalCount > 0 && TotalCount <= 300)
                 {
                     OKCount = "0";
                     NGCount = "0";
@@ -581,7 +587,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    TotalErrorTxt = TotalCount == null ? "Enter total value" : "Total must be more than 0";
+                    TotalErrorTxt = (TotalCount == null || TotalCount == 0) ? "Enter value for total" : TotalCount > 300 ? "Total must be upto 300" : "";
                     IsTotalValidMsg = true;
                 }
             }

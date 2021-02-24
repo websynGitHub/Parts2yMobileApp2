@@ -29,8 +29,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="225"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+
+                    <!--<RowDefinition Height="Auto"/>-->
                     <!--<RowDefinition Height="Auto"/>-->
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
@@ -133,8 +135,10 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="0.30*"/>
-                        </Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                                <!--<RowDefinition Height="50"/>-->
+
+                            </Grid.RowDefinitions>
                         <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             <Frame HasShadow="False" Margin="7,5,7,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                CornerRadius="2" BorderColor="Gray"
@@ -263,7 +267,29 @@
                                     </Grid>
                             </Frame>
                         </StackLayout>
-                    </Grid>
+                            <!--<Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                                  HeightRequest="45" Margin="6,0,6,2"
+                                  IsVisible="{Binding showLatestViewFrame}" BackgroundColor="White" >
+                                <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
+                                Grid.Column="0">
+                                    <Button.Behaviors>
+                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    </Button.Behaviors>
+                                </Button>
+
+                                <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
+                                Grid.Column="1">
+
+                                    <Button.Behaviors>
+                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    </Button.Behaviors>
+                                </Button>
+                            </Grid>-->
+                        </Grid>
                   
                         <StackLayout IsVisible="{Binding IsConfigContentVisible}" Orientation="Vertical"
                                      VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="6,0,6,0">
@@ -327,6 +353,28 @@
                     </StackLayout>
                 </ScrollView>
 
+                <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                                  HeightRequest="45" Margin="6,0,6,2"
+                                  IsVisible="{Binding showLatestViewFrame}" BackgroundColor="White" >
+                    <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
+                                Grid.Column="0">
+                        <Button.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </Button.Behaviors>
+                    </Button>
+
+                    <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
+                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
+                                Grid.Column="1">
+
+                        <Button.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
                 <!--<ContentView IsVisible="{Binding ScanTabVisibility}" BackgroundColor="Transparent" 
                                                  HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Grid.Row="3">
@@ -355,7 +403,7 @@
             </Grid>
 
 
-            <ContentView IsVisible="{Binding showLatestViewFrame}" BackgroundColor="Transparent" 
+            <!--<ContentView IsVisible="{Binding showLatestViewFrame}" BackgroundColor="White" 
                                                  HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
@@ -379,7 +427,7 @@
                         </Button.Behaviors>
                     </Button>
                 </Grid>
-            </ContentView>
+            </ContentView>-->
             
             <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
