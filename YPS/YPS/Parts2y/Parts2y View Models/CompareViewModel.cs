@@ -587,7 +587,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    TotalErrorTxt = (TotalCount == null || TotalCount == 0) ? "Enter value for total" : TotalCount > 300 ? "Total must be upto 300" : "";
+                    TotalErrorTxt = "Total should be in between 1 and 300";
                     IsTotalValidMsg = true;
                 }
             }
