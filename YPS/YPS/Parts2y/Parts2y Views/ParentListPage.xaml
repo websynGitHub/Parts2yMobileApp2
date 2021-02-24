@@ -176,7 +176,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <StackLayout Grid.Column="0" Grid.Row="0">
-                                <Label Text="{Binding labelobj.Pending.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label Text="{Binding PendingText}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding PendingTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     <Label.GestureRecognizers>
@@ -187,7 +187,7 @@
                             </StackLayout>
 
                             <StackLayout Grid.Column="1" Grid.Row="0">
-                                <Label  Text="{Binding labelobj.Inprogress.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label  Text="{Binding InProgress}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="{Binding InProgressTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
                                     <Label.GestureRecognizers>
@@ -198,7 +198,7 @@
                             </StackLayout>
 
                             <StackLayout Grid.Column="2" Grid.Row="0">
-                                <Label Text="{Binding labelobj.Completed.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label Text="{Binding Completed}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding CompleteTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     <Label.GestureRecognizers>
@@ -209,7 +209,7 @@
                             </StackLayout>
 
                             <StackLayout Grid.Column="3" Grid.Row="0" >
-                                <Label Text="{Binding labelobj.All.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label Text="{Binding All}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding AllTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     <Label.GestureRecognizers>
