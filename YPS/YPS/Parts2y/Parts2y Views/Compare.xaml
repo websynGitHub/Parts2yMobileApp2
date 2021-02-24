@@ -455,7 +455,7 @@
                 </StackLayout>
             </ContentView>
 
-            <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="#C0808080" Padding="10" 
+            <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="#C0808080" Padding="10" Margin="{OnPlatform iOS='0,7,0,0', Android='0'}"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Padding="1">
                     <StackLayout>
