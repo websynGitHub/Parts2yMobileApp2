@@ -308,7 +308,7 @@
 
                                             <combobox:SfComboBox x:Name="LanguagePicker"
                                                                  DataSource="{Binding ScanRuleLst,Mode=TwoWay}" 
-                                                     Text="{Binding LangaugeTextDisplay,Mode=TwoWay}" 
+                                                     Text="{Binding SelectedScanRule,Mode=TwoWay}" 
                                                                  SelectedItem="{Binding SelectedScanRule}"
                                                       VerticalOptions="CenterAndExpand" 
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
