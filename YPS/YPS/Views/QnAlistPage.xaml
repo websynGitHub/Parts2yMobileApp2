@@ -13,7 +13,7 @@
                 <RowDefinition Height="{OnPlatform iOS=70 , Android=Auto}"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="DarkGreen" 
+            <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="DarkGreen" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>

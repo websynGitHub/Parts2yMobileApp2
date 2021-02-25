@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.Helpers;
@@ -24,6 +25,15 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
+
                 var currentVersion = VersionTracking.CurrentVersion;
 
                 CVersion.Text = currentVersion;

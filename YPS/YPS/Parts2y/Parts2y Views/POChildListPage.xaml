@@ -204,9 +204,9 @@
                                                         </Grid>
                                                         <Grid Grid.Row="2" Grid.Column="0" HorizontalOptions="Start"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.BagNumber.Name, Source={x:Reference Name=POTagPage}}"  FontAttributes="Bold" TextColor="#4c4c4c"
+                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=POTagPage}}"  FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding BagNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                            <Label Text="{Binding ConditionName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
                                                         <!--<Grid Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"

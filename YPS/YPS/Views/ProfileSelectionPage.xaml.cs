@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
@@ -28,6 +29,15 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
+
                 YPSLogger.TrackEvent("ProfileSelectionPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
@@ -49,6 +59,15 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
+
                 YPSLogger.TrackEvent("ProfileSelectionPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
@@ -69,6 +88,15 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
+
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
                 BindingContext = Vm = new ProfileSelectionViewModel(Navigation, 3);

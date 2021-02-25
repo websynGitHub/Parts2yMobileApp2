@@ -312,6 +312,8 @@
                 <Setter Property="OutlineCornerRadius" Value="7"/>
                 <Setter Property="ContainerType" Value="Outlined"/>
                 <Setter Property="Padding" Value="0,1,0,1"/>
+                <Setter Property="ErrorLabelStyle" Value="{DynamicResource LableWithLargeFont}"/>
+
             </Style>
 
             <Style x:Key="SfComboBoxTextStyle" TargetType="combobox:SfComboBox">

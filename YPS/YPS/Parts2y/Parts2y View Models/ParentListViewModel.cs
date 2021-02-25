@@ -2163,8 +2163,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
-            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "In Progress" };
-            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Completed" };
+            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };
+            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Done" };
             public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "All" };
         }
         public class DashboardLabelFields : IBase

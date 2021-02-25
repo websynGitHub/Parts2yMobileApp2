@@ -39,7 +39,7 @@
                     <RowDefinition Height="*"/>
                     <!--<RowDefinition Height="Auto"/>-->
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                <Grid x:Name="headerpart" Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                       BackgroundColor="{Binding BgColor}" RowDefinitions="*" ColumnDefinitions="60,*">
                     <!--<StackLayout Grid.Row="0" HeightRequest="10" BackgroundColor="{Binding BgColor}" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>-->

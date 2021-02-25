@@ -53,17 +53,17 @@ namespace YPS.Parts2y.Parts2y_Views
                     safeAreaInset.Top = 30;
                     headerpart.Padding = safeAreaInset;
 
-                    var pagingpartsafeArea = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    pagingpartsafeArea.Top = 0;
-                    pagingpartsafeArea.Bottom = 0;
-                    pagingpart.Padding = pagingpartsafeArea;
+                    //var pagingpartsafeArea = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    //pagingpartsafeArea.Top = 0;
+                    //pagingpartsafeArea.Bottom = 0;
+                    //pagingpart.Padding = pagingpartsafeArea;
                 }
 
                 Settings.mutipleTimeClick = false;
                 bool reloadGrid = true;
 
-                Task.Run(() => PageSizeDDLBinding()).Wait();
-                dataPager.PageIndexChanged += pageIndexChanged;
+                //Task.Run(() => PageSizeDDLBinding()).Wait();
+                //dataPager.PageIndexChanged += pageIndexChanged;
 
                 BindingContext = Vm = new ParentListViewModel(Navigation, this);
                 lastButtonCount = 0;
@@ -136,37 +136,37 @@ namespace YPS.Parts2y.Parts2y_Views
         /// <param name="args"></param>
         public async void pageIndexChanged(object sender, PageIndexChangedEventArgs args)
         {
-            try
-            {
-                if (!Settings.mutipleTimeClick)
-                {
-                    dataPager.PageIndexChanged -= pageIndexChanged;
-                    Settings.mutipleTimeClick = true;
+            //try
+            //{
+            //    if (!Settings.mutipleTimeClick)
+            //    {
+            //        dataPager.PageIndexChanged -= pageIndexChanged;
+            //        Settings.mutipleTimeClick = true;
 
-                    //if (args.NewPageIndex != args.OldPageIndex && reloadGrid == true)
-                    //{
-                    Settings.startPageYPS = args.NewPageIndex * Settings.pageSizeYPS;
-                    Settings.toGoPageIndex = args.NewPageIndex;
-                    await Vm.BindGridData(false, false);
-                    //}
-                    //else
-                    //{
-                    //    reloadGrid = true;
-                    //    Settings.isSkip = false;
-                    //}
+            //        //if (args.NewPageIndex != args.OldPageIndex && reloadGrid == true)
+            //        //{
+            //        Settings.startPageYPS = args.NewPageIndex * Settings.pageSizeYPS;
+            //        Settings.toGoPageIndex = args.NewPageIndex;
+            //        await Vm.BindGridData(false, false);
+            //        //}
+            //        //else
+            //        //{
+            //        //    reloadGrid = true;
+            //        //    Settings.isSkip = false;
+            //        //}
 
-                    Vm.loadingindicator = false;
-                    Settings.mutipleTimeClick = false;
-                    dataPager.PageIndexChanged += pageIndexChanged;
-                    UserDialogs.Instance.HideLoading();
-                }
-            }
-            catch (Exception ex)
-            {
-                trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "pageIndexChanged method -> in Main Page.cs " + Settings.userLoginID);
-                UserDialogs.Instance.HideLoading();
-            }
+            //        Vm.loadingindicator = false;
+            //        Settings.mutipleTimeClick = false;
+            //        dataPager.PageIndexChanged += pageIndexChanged;
+            //        UserDialogs.Instance.HideLoading();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    trackService.Handleexception(ex);
+            //    YPSLogger.ReportException(ex, "pageIndexChanged method -> in Main Page.cs " + Settings.userLoginID);
+            //    UserDialogs.Instance.HideLoading();
+            //}
         }
 
 
@@ -177,39 +177,39 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                Device.BeginInvokeOnMainThread(() => {
-                    //PageSize = new Picker()
-                    //{
-                    //    WidthRequest = 0,
-                    //    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    //    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    //    IsVisible = false,
-                    //    SelectedIndex = 0,
-                    //    TextColor = Color.Black
-                    //};
+                //Device.BeginInvokeOnMainThread(() => {
+                //    //PageSize = new Picker()
+                //    //{
+                //    //    WidthRequest = 0,
+                //    //    HorizontalOptions = LayoutOptions.FillAndExpand,
+                //    //    VerticalOptions = LayoutOptions.CenterAndExpand,
+                //    //    IsVisible = false,
+                //    //    SelectedIndex = 0,
+                //    //    TextColor = Color.Black
+                //    //};
 
-                    PageSize = new Xamarin.Forms.Picker();
+                //    PageSize = new Xamarin.Forms.Picker();
 
-                    PageSize = new Xamarin.Forms.Picker
-                    {
-                        WidthRequest = 0,
-                        HorizontalOptions = LayoutOptions.FillAndExpand,
-                        VerticalOptions = LayoutOptions.CenterAndExpand,
-                        IsVisible = false,
-                        SelectedIndex = 0,
-                        TextColor = Color.Black
-                    };
+                //    PageSize = new Xamarin.Forms.Picker
+                //    {
+                //        WidthRequest = 0,
+                //        HorizontalOptions = LayoutOptions.FillAndExpand,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //        IsVisible = false,
+                //        SelectedIndex = 0,
+                //        TextColor = Color.Black
+                //    };
 
-                    pageSizerPickerGrid.Children.Add(PageSize);
-                    PageSize.SelectedIndexChanged += PageSizeChanged;
-                    List<int> listpagesize = new List<int>(new int[] { 5, 10, 20, 50, 100 });
-                    PageSize.ItemsSource = listpagesize;
-                    reloadGrid = false;
+                //    pageSizerPickerGrid.Children.Add(PageSize);
+                //    PageSize.SelectedIndexChanged += PageSizeChanged;
+                //    List<int> listpagesize = new List<int>(new int[] { 5, 10, 20, 50, 100 });
+                //    PageSize.ItemsSource = listpagesize;
+                //    reloadGrid = false;
 
-                    Settings.startPageYPS = 0;
-                    Settings.toGoPageIndex = 0;
-                    PageSize.SelectedIndex = 1;
-                });
+                //    Settings.startPageYPS = 0;
+                //    Settings.toGoPageIndex = 0;
+                //    PageSize.SelectedIndex = 1;
+                //});
             }
             catch (Exception ex)
             {
@@ -226,41 +226,41 @@ namespace YPS.Parts2y.Parts2y_Views
         /// <param name="args"></param>
         public async void PageSizeChanged(object sender, EventArgs args)
         {
-            try
-            {
-                PageSize.SelectedIndexChanged -= PageSizeChanged;
+            //try
+            //{
+            //    PageSize.SelectedIndexChanged -= PageSizeChanged;
 
-                if (!Settings.mutipleTimeClick)
-                {
-                    Settings.mutipleTimeClick = true;
-                    var senderobj = sender as Xamarin.Forms.Picker;
-                    Settings.pageSizeYPS = (int)senderobj.SelectedItem;
-                    pageSizeNameYPS.Text = Convert.ToString(senderobj.SelectedItem);
-                    Settings.selectedIndexYPS = senderobj.SelectedIndex;
+            //    if (!Settings.mutipleTimeClick)
+            //    {
+            //        Settings.mutipleTimeClick = true;
+            //        var senderobj = sender as Xamarin.Forms.Picker;
+            //        Settings.pageSizeYPS = (int)senderobj.SelectedItem;
+            //        pageSizeNameYPS.Text = Convert.ToString(senderobj.SelectedItem);
+            //        Settings.selectedIndexYPS = senderobj.SelectedIndex;
 
-                    if (reloadGrid == true)
-                    {
-                        reloadGrid = false;
-                        Settings.startPageYPS = 0;
-                        Settings.toGoPageIndex = 0;
-                        lastButtonCount = dataPager.NumericButtonCount;
+            //        if (reloadGrid == true)
+            //        {
+            //            reloadGrid = false;
+            //            Settings.startPageYPS = 0;
+            //            Settings.toGoPageIndex = 0;
+            //            lastButtonCount = dataPager.NumericButtonCount;
 
-                        dataPager.MoveToPage(0);
-                        await Vm.BindGridData(false, false);
-                    }
+            //            dataPager.MoveToPage(0);
+            //            await Vm.BindGridData(false, false);
+            //        }
 
-                    //Vm.loadingindicator = false;
-                    //UserDialogs.Instance.HideLoading();
-                    Settings.mutipleTimeClick = false;
-                }
-                PageSize.SelectedIndexChanged += PageSizeChanged;
-            }
-            catch (Exception ex)
-            {
-                trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "PageSizeChanged -> in Main Page.cs " + Settings.userLoginID);
-                //UserDialogs.Instance.HideLoading();
-            }
+            //        //Vm.loadingindicator = false;
+            //        //UserDialogs.Instance.HideLoading();
+            //        Settings.mutipleTimeClick = false;
+            //    }
+            //    PageSize.SelectedIndexChanged += PageSizeChanged;
+            //}
+            //catch (Exception ex)
+            //{
+            //    trackService.Handleexception(ex);
+            //    YPSLogger.ReportException(ex, "PageSizeChanged -> in Main Page.cs " + Settings.userLoginID);
+            //    //UserDialogs.Instance.HideLoading();
+            //}
         }
 
         private void MoreItems_Tapped(object sender, EventArgs e)
@@ -313,8 +313,8 @@ namespace YPS.Parts2y.Parts2y_Views
                         if (Settings.IsFilterreset == true)
                         {
                             Settings.IsFilterreset = false;
-                            Task.Run(() => PageSizeDDLBinding()).Wait();
-                            dataPager.PageIndexChanged += pageIndexChanged;
+                            //Task.Run(() => PageSizeDDLBinding()).Wait();
+                            //dataPager.PageIndexChanged += pageIndexChanged;
                         }
                         await Vm.BindGridData(false, false);
                     }
@@ -409,15 +409,15 @@ namespace YPS.Parts2y.Parts2y_Views
                     //    Command = new Command(Vm.profile_Tap)
                     //});
 
-                    pagesizeStackName.GestureRecognizers.Add(new TapGestureRecognizer
-                    {
-                        Command = new Command<View>((view) =>
-                        {
-                            view?.Focus();
-                            this.reloadGrid = true;
-                        }),
-                        CommandParameter = PageSize,
-                    });
+                    //pagesizeStackName.GestureRecognizers.Add(new TapGestureRecognizer
+                    //{
+                    //    Command = new Command<View>((view) =>
+                    //    {
+                    //        view?.Focus();
+                    //        this.reloadGrid = true;
+                    //    }),
+                    //    CommandParameter = PageSize,
+                    //});
                 });
             }
             catch (Exception ex)

@@ -53,12 +53,12 @@ namespace YPS.Parts2y.Parts2y_Views
                     //}
                     //else
                     //{
-                        Detail = new NavigationPage(displayPage)
-                        {
-                            //BackgroundColor = Color.FromHex("#0d0d0d"),
-                            BarBackgroundColor = Color.DarkGreen,
-                            BarTextColor = Color.White
-                        };
+                    Detail = new NavigationPage(displayPage)
+                    {
+                        //BackgroundColor = Color.FromHex("#0d0d0d"),
+                        BarBackgroundColor = Color.DarkGreen,
+                        BarTextColor = Color.White
+                    };
                     //}
                 }
                 else
@@ -89,26 +89,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     string moveToPage = (e.Item as MenuList).Title;
 
-                    if (moveToPage == "Dashboard")
+                    if (moveToPage == "Home")
                     {
                         //if (Settings.roleid == 1)
                         //{
                         App.Current.MainPage = new MenuPage(typeof(HomePage));
-                        //}
-                        //else if (Settings.roleid == 2)
-                        //{
-                        //    App.Current.MainPage = new MenuPage(typeof(HomePage));
-                        //}
-                        //else if (Settings.roleid == 3)
-                        //{
-                        //    App.Current.MainPage = new MenuPage(typeof(DealerPage));
-                        //}
-                    }
-                    else if (moveToPage == "Home")
-                    {
-                        //if (Settings.roleid == 1)
-                        //{
-                        //    App.Current.MainPage = new MenuPage(typeof(Driverpage));
                         //}
                         //else if (Settings.roleid == 2)
                         //{
@@ -126,16 +111,19 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             await Detail.Navigation.PushModalAsync(new QnAlistPage(0, 0, (int)QAType.PT));
                         }
+                        this.MasterBehavior = MasterBehavior.Popover;
+                        IsPresented = false;
                     }
                     else if (moveToPage == "Settings")
                     {
                         //App.Current.MainPage = new MenuPage(typeof(ProfileSelectionPage));
-                        this.MasterBehavior = MasterBehavior.Popover;
                         if (Detail.Navigation.ModalStack.Count == 0 ||
             Detail.Navigation.ModalStack.Last().GetType() != typeof(ProfileSelectionPage))
                         {
                             await Detail.Navigation.PushModalAsync(new ProfileSelectionPage((int)QAType.PT));
                         }
+                        this.MasterBehavior = MasterBehavior.Popover;
+                        IsPresented = false;
                     }
                     else if (moveToPage == "Logout")
                     {
@@ -185,12 +173,13 @@ namespace YPS.Parts2y.Parts2y_Views
 
                         CommonClasses.Settings.PerviousPage = "AboutPage";
                         CommonClasses.Settings.CheckQnAClose = true;
-                        this.MasterBehavior = MasterBehavior.Popover;
                         if (Detail.Navigation.ModalStack.Count == 0 ||
            Detail.Navigation.ModalStack.Last().GetType() != typeof(YPS.Views.AboutPage))
                         {
                             await Detail.Navigation.PushModalAsync(new YPS.Views.AboutPage());
                         }
+                        this.MasterBehavior = MasterBehavior.Popover;
+                        IsPresented = false;
                     }
                     else
                     {

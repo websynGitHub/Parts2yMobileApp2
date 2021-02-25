@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.Helpers;
@@ -33,6 +34,15 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
+
                 Settings.currentPage = "QnAlistPage";// Giving Current page name
                 Settings.RedirectPageQA = "QnAlistPage";// Giving Redirect to page name
                 service = new YPSService();// careating new instance of the YPSService, which is used to call AIP 

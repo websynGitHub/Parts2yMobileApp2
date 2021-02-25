@@ -235,7 +235,7 @@ namespace YPS.CommonClasses
         public static int startPageYPS { get; set; }
         public static int startPageyShip { get; set; }
         public static int previousEndIndex { get; set; }
-        public static int pageSizeYPS { get; set; } = 10;
+        public static int pageSizeYPS { get; set; } = 1000;
         public static int pageSizeyShip { get; set; }
         public static int selectedIndexyShip { get; set; }
         public static int selectedIndexYPS { get; set; }

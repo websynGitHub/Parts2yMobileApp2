@@ -25,7 +25,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 BgColor = YPS.CommonClasses.Settings.Bar_Background;
 
                 List<MenuList> listOfMenuItems = new List<MenuList>();
-                listOfMenuItems.Add(new MenuList { Title = "Dashboard", IconSource = Icons.Dashboard });
+                listOfMenuItems.Add(new MenuList { Title = "Home", IconSource = Icons.Home });
                 //listOfMenuItems.Add(new MenuList { Title = "Home", IconSource = Icons.Home });
                 listOfMenuItems.Add(new MenuList { Title = "Settings", IconSource = Icons.SettingsIc });
                 listOfMenuItems.Add(new MenuList { Title = "Archive", IconSource = Icons.Archived });

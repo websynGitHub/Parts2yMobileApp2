@@ -22,7 +22,7 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="DarkGreen" Grid.Column="0">
-            <Label Text="Dashboard" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+            <Label Text="Home" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
@@ -88,7 +88,7 @@
                                                  >
                                         </local:FontAwesomeIconLabel>
 
-                                        <Label Text="Task" Style="{DynamicResource LableWithQuestionFont}"
+                                        <Label Text="Job" Style="{DynamicResource LableWithQuestionFont}"
                                                HorizontalOptions="CenterAndExpand"/>
                                     </StackLayout>
                                     

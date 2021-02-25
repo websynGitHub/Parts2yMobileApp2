@@ -324,7 +324,7 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
-                    <Grid  x:Name="pagingpart" Grid.Row="3" IsVisible="{Binding ISPoDataListVisible}"
+                    <!--<Grid  x:Name="pagingpart" Grid.Row="3" IsVisible="{Binding ISPoDataListVisible}"
                               BackgroundColor="White" VerticalOptions="End">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -359,7 +359,7 @@
                             </StackLayout>
                         </Frame>
 
-                    </Grid>
+                    </Grid>-->
                 </Grid>
             </StackLayout>
                 
