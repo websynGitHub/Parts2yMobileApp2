@@ -25,8 +25,8 @@
                         <RowDefinition Height="{Binding RowHeightOpenCam}"/>
                         <!--<RowDefinition Height="{Binding RowHeightcomplete}"/>-->
                     </Grid.RowDefinitions>
-                    
-                    <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
+
+                    <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
                           RowDefinitions="*" ColumnDefinitions="60,*,40">
                        
                         <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"

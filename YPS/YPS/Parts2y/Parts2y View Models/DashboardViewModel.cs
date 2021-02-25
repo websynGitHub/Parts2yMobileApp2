@@ -163,20 +163,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (page == "scan")
                 {
-                    //var ScannerPage = new ZXingScannerPage();
-
-                    //ScannerPage.OnScanResult += (scanresult) =>
-                    //{
-                    //    ScannerPage.IsScanning = false;
-
-                    //    Device.BeginInvokeOnMainThread(async () =>
-                    //    {
-                    //        Settings.ScanValue = scanresult.Text;
-
-
-                    //    });
-                    //};
-
+                    await Navigation.PushAsync(new ScanPage());
                 }
                 else
                 {

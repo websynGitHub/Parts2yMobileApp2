@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomRenders;
@@ -40,6 +41,14 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
+
+                if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
 
                 Settings.currentPage = "PhotoUploadPage";// Setting the current page as "PhotoUploadPage" to settings
                 accessPhoto = photoAccess;
