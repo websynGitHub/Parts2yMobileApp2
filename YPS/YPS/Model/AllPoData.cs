@@ -40,7 +40,7 @@ namespace YPS.Model
         public string TagNumber { get; set; }
         public string TagDescription { get; set; }
         //public int TagQACount { get; set; }
-    
+
         private int _TagQACount;
         public int TagQACount
         {
@@ -153,6 +153,7 @@ namespace YPS.Model
         public int ISTagPrinted { get; set; }
         public string yBkgNumber { get; set; }
         public string TaskName { get; set; }
+        public int TagTaskStatus { get; set; }
         public string Status_icon { get; set; }
 
         public bool _IsFilesVisible { set; get; }

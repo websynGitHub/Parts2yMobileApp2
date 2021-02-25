@@ -80,7 +80,7 @@
                                         VerticalOptions="CenterAndExpand" Margin="8,15,0,15">
                                 <Grid RowSpacing="5" Padding="0" BackgroundColor="{Binding BgColor}"  
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                               RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
+                               RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.POID.Name}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="0" Grid.Column="2" Text="{Binding PONumber}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
@@ -90,6 +90,9 @@
                                     <Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.REQNo.Name}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="2" Grid.Column="2" Text="{Binding REQNo}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="3" Grid.Column="0" Text="{Binding labelobj.TaskName.Name}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="3" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="3" Grid.Column="2" Text="{Binding TaskName}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
                             </StackLayout>
 

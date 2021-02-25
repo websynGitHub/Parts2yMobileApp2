@@ -1,11 +1,16 @@
 ﻿using Syncfusion.XForms.Buttons;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomRenders;
+using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.ViewModel;
 
@@ -31,7 +36,7 @@ namespace YPS.Views
         public PhotoUpload(PhotoUploadModel sItems, AllPoData allPoData, string selectionType, int uploadType, bool photoAccess)
         {
             YPSLogger.TrackEvent("PhotoUpload", "Page constructer " + DateTime.Now + " UserId: " + Settings.userLoginID);
-           
+
             try
             {
                 InitializeComponent();
@@ -102,6 +107,14 @@ namespace YPS.Views
         {
             try
             {
+                if (Settings.POID > 0)
+                {
+                    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData()), Navigation.NavigationStack[1]);
+                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                    Settings.POID = 0;
+                }
+
                 await Navigation.PopAsync();
             }
             catch (Exception ex)
@@ -109,6 +122,50 @@ namespace YPS.Views
                 YPSLogger.ReportException(ex, "Back_Tapped constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
+        }
+
+        private async Task<ObservableCollection<AllPoData>> GetUpdatedAllPOData()
+        {
+            ObservableCollection<AllPoData> AllPoDataList = new ObservableCollection<AllPoData>();
+
+            try
+            {
+                vm.IndicatorVisibility = true;
+                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+
+                    SendPodata sendPodata = new SendPodata();
+                    sendPodata.UserID = Settings.userLoginID;
+                    sendPodata.PageSize = Settings.pageSizeYPS;
+                    sendPodata.StartPage = Settings.startPageYPS;
+
+                    var result = await service.LoadPoDataService(sendPodata);
+
+                    if (result != null && result.data != null)
+                    {
+                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        {
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID));
+                        }
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                vm.IndicatorVisibility = false;
+            }
+            return AllPoDataList;
         }
 
         private async void SfButton_Clicked(object sender, EventArgs e)
@@ -145,7 +202,7 @@ namespace YPS.Views
             if (!voidAlertMessage)
             {
                 voidAlertMessage = true;
-               
+
                 try
                 {
                     string text = (sender as SfRadioButton).Text;

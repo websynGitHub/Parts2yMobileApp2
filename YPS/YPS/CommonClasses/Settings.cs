@@ -244,6 +244,7 @@ namespace YPS.CommonClasses
         public static int toGoPageIndex { get; set; }
         public static int toGoPageIndexyShip { get; set; }
         public static string TagNumber { get; set; }
+        public static int POID { set; get; }
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }

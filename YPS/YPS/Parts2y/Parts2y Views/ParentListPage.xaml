@@ -241,7 +241,8 @@
                                                         <RowDefinition Height="Auto"/>
                                                         <RowDefinition Height="Auto"/>
                                                         <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="Auto"/>
@@ -273,7 +274,15 @@
                                                            TextColor="Black" HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
                                                     </Grid>
-                                                </Grid>
+                                                        <Grid Grid.Row="3" Grid.Column="0" HorizontalOptions="Start"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.TaskName.Name, 
+                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+                                                    </Grid>
 
                                                 <StackLayout Orientation="Horizontal" Grid.Row="0"
                                                              Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End">
@@ -281,7 +290,11 @@
                                                  FontSize="40" TextColor="#000000" HorizontalOptions="Center" 
                                                  VerticalOptions="Center">
                                                     </local:FontAwesomeIconLabel>
-                                                </StackLayout>
+
+                                                        <local:FontAwesomeIconLabel 
+                                                                                    Text="{Binding Status_icon}" FontSize="25"  TextColor="#000000" 
+                                                                                    HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                    </StackLayout>
                                             </Grid>
 
 

@@ -224,6 +224,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 if (result.status != 0 && result.data.allPoData != null)
                                 {
+                                    //foreach (var data in result.data.allPoData)
+                                    //{
+                                    //    data.Status_icon = Icons.circle;
+                                    //}
                                     #region prepareicons
                                     //foreach (var data in result.data.allPoData)
                                     //{
@@ -335,6 +339,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.REQNo = val.Select(s => s.REQNo).FirstOrDefault();
                                         groupdata.ShippingNumber = val.Select(s => s.ShippingNumber).FirstOrDefault();
                                         groupdata.POShippingNumber = val.Select(s => s.POShippingNumber).FirstOrDefault();
+                                        groupdata.TaskName = val.Select(s => s.TaskName).FirstOrDefault();
                                         groupedlist.Add(groupdata);
                                     }
 
@@ -383,7 +388,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
                                         labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
                                         labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
-                                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name) ;
+                                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name);
                                         labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
 
                                         PendingText = labelobj.Pending.Name + "\n" + "(0)";
@@ -1917,6 +1922,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         //var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1938,6 +1944,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
+                        labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
+                        labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
 
                         //labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) ;
                         //labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
@@ -2160,6 +2168,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Status = true,
                 Name = "TagDescription"
+            };
+            public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "TaskName"
             };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
