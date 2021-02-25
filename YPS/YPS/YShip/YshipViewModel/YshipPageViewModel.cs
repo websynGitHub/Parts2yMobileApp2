@@ -15,6 +15,7 @@ using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
 using YPS.Model.Yship;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 using YPS.YShip.YshipViews;
@@ -987,7 +988,7 @@ namespace YPS.YshipViewModel
                     Settings.ETATo = string.Empty;
                     Settings.OnsiteTo = string.Empty;
 
-                    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
+                    App.Current.MainPage = new MenuPage(typeof(YshipPage));
 
                     #endregion
 

@@ -6,6 +6,7 @@ using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomControls;
 using YPS.Helpers;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.ViewModel;
 using YPS.ViewModels;
@@ -97,7 +98,7 @@ namespace YPS.Views
             try
             {
                 base.OnAppearing();
-                (Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = false;
+                (Application.Current.MainPage as MenuPage).IsGestureEnabled = false;
             }
             catch (Exception ex)
             {

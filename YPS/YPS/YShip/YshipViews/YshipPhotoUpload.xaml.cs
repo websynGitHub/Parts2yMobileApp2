@@ -7,6 +7,7 @@ using YPS.CommonClasses;
 using YPS.CustomRenders;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 using YPS.YShip.YshipViewModel;
@@ -69,7 +70,7 @@ namespace YPS.YShip.YshipViews
                 base.OnAppearing();
 
                 /// Enable and Disble master detail page menu gesture
-                (Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
+                (Application.Current.MainPage as MenuPage).IsGestureEnabled = true;
 
                 Settings.photoUploadPageCount = 0;
             }

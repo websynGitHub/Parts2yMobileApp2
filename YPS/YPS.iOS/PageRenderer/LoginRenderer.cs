@@ -5,6 +5,7 @@ using Xamarin.Forms.Platform.iOS;
 using YPS.CommonClasses;
 using YPS.Helpers;
 using YPS.iOS.PageRender;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 
@@ -61,7 +62,7 @@ namespace YPS.iOS.PageRender
                         /// The user cancelled
                         try
                             {
-                                App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
+                                App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
                             }
                             catch (Exception ex)
                             {

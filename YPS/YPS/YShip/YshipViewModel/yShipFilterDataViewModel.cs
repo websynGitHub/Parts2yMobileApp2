@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using YPS.Model.Yship;
 using Syncfusion.XForms.Buttons;
 using Acr.UserDialogs;
+using YPS.Parts2y.Parts2y_Views;
 
 namespace YPS.YShip.YshipViewModel
 {
@@ -287,7 +288,7 @@ namespace YPS.YShip.YshipViewModel
                     if (button == "search")
                     {
                         Settings.ShowSuccessAlert = true;
-                        App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
+                        App.Current.MainPage = new MenuPage(typeof(YshipPage));
                     }
                 }
                 else

@@ -83,7 +83,7 @@ namespace YPS
                         if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
                         {
                             Settings.GetParamVal = is_param_val;
-                            App.Current.MainPage = new YPSMasterPage(typeof(ChatPage));
+                            App.Current.MainPage = new MenuPage(typeof(ChatPage));
                         }
                         else if (navPages[0] == "RemoveUser")
                         {
@@ -100,7 +100,7 @@ namespace YPS
                                 Settings.AndroidVersion = userData.AndroidVersion;
                                 Settings.iOSversion = userData.iOSversion;
                                 Settings.IsIIJEnabled = userData.IIJEnable;
-                                App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                                App.Current.MainPage = new MenuPage(typeof(MainPage));
                                 App.Current.MainPage.DisplayAlert("Message", "You removed from " + " '" + navPages[7] + "' " + ", Can not see previous conversation", "OK");
 
                             }

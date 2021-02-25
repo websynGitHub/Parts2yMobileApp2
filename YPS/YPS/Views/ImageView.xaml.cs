@@ -10,6 +10,7 @@ using YPS.ViewModel;
 using YPS.Service;
 using YPS.Model.Yship;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using YPS.Parts2y.Parts2y_Views;
 
 namespace YPS.Views
 {
@@ -102,7 +103,7 @@ namespace YPS.Views
             try
             {
                 base.OnAppearing();
-                (Xamarin.Forms.Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = false;
+                (Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = false;
             }
             catch(Exception ex)
             {
@@ -117,7 +118,7 @@ namespace YPS.Views
        /// <returns></returns>
         protected override bool OnBackButtonPressed()
         {
-            (Xamarin.Forms.Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
+            (Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = true;
             return base.OnBackButtonPressed();
         }
 

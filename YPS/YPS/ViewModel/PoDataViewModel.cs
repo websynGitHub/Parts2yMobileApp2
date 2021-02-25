@@ -13,6 +13,7 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 using static YPS.Model.SearchModel;
@@ -1057,7 +1058,7 @@ namespace YPS.ViewModel
                     activityIndicator = true;
 
                     SearchDisable = false;
-                    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                    App.Current.MainPage = new MenuPage(typeof(MainPage));
                     SearchDisable = true;
                 }
                 catch (Exception ex)

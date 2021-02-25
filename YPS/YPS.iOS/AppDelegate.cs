@@ -21,6 +21,7 @@ using Xamarin.Forms;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 using ZXing.Net.Mobile.Forms;
@@ -343,7 +344,7 @@ namespace YPS.iOS
                     if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
                     {
                         Settings.GetParamVal = paramValues;
-                        App.Current.MainPage = new YPSMasterPage(typeof(ChatPage));
+                        App.Current.MainPage = new MenuPage(typeof(ChatPage));
 
                     }
                     else if (navPages[0] == "RemoveUser")
@@ -360,7 +361,7 @@ namespace YPS.iOS
                             Settings.AndroidVersion = userData.AndroidVersion;
                             Settings.iOSversion = userData.iOSversion;
                             Settings.IsIIJEnabled = userData.IIJEnable;
-                            App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                            App.Current.MainPage = new MenuPage(typeof(HomePage));
                         }
                     }
                 }

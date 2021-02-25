@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using YPS.CommonClasses;
 using YPS.Droid.PageRender;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Views;
 
 [assembly: ExportRenderer(typeof(ProviderLoginPage), typeof(LoginRenderer))]
@@ -61,7 +62,7 @@ namespace YPS.Droid.PageRender
                     }
                     else
                     {
-                        App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
+                        App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
                     }
                 };
                 auth.Error += Auth_Error;

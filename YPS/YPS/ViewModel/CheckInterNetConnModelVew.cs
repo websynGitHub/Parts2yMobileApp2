@@ -8,6 +8,7 @@ using YPS.Service;
 using YPS.Views;
 using System.Linq;
 using YPS.Helpers;
+using YPS.Parts2y.Parts2y_Views;
 
 namespace YPS.ViewModel
 {
@@ -55,11 +56,11 @@ namespace YPS.ViewModel
                         Settings.BlobStorageConnectionString = userData.BlobConnection;
                         Settings.PhotoSize = userData.PhotoSize;
                         Settings.CompressionQuality = userData.CompressionQuality;
-                        App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                        App.Current.MainPage = new MenuPage(typeof(HomePage));
                     }
                     else
                     {
-                        await Application.Current.MainPage.Navigation.PushAsync(new LoginPage(), true);
+                        await Application.Current.MainPage.Navigation.PushAsync(new YPS.Views.LoginPage(), true);
                     }
                 }
                 else

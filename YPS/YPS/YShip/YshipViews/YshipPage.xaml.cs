@@ -20,6 +20,7 @@ using Syncfusion.SfDataGrid.XForms.DataPager;
 using System.Threading.Tasks;
 using System.Timers;
 using Acr.UserDialogs;
+using YPS.Parts2y.Parts2y_Views;
 
 namespace YPS
 {
@@ -249,7 +250,7 @@ namespace YPS
 
                     if (dataGrid.Columns.Count == 1)
                     {
-                        App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                        App.Current.MainPage = new MenuPage(typeof(MainPage));
                     }
                 }
             }
@@ -936,7 +937,7 @@ namespace YPS
             await SecureStorage.SetAsync("mainPageisOn", "1");
 
             /// Enable and Disble master detail page menu gesture
-            (Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
+            (Application.Current.MainPage as MenuPage).IsGestureEnabled = true;
 
             /// Get PN count
             Vm.GetPNCount();

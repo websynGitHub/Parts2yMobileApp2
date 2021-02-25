@@ -9,6 +9,7 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.RestClientAPI;
 using YPS.Service;
 using YPS.Views;
@@ -38,7 +39,7 @@ namespace YPS
                         }
                         else
                         {
-                            App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
+                            App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
                         }
                     }
                     catch (Exception ex)
@@ -118,29 +119,29 @@ namespace YPS
                                     Settings.JobID = DBresponse.data.JobID;
 
                                     Settings.CompanySelected = DBresponse.data.CompanyName;
-                                    Settings.Projectelected = DBresponse.data.ProjectName;
+                                    Settings.ProjectSelected = DBresponse.data.ProjectName;
                                     Settings.JobSelected = DBresponse.data.JobNumber;
-                                    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
                                 }
                                 else
                                 {
-                                    App.Current.MainPage = new YPSMasterPage(typeof(ProfileSelectionPage));
+                                    App.Current.MainPage = new MenuPage(typeof(ProfileSelectionPage));
                                 }
                             }
                             else
                             {
-                                App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
+                                App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
                             }
                         }
                         else
                         {
-                            App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
+                            App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
                         }
                     }
                     else
                     {
                         await App.Current.MainPage.DisplayAlert("Alert", "Invalid LoginID.", "OK");
-                        App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
+                        App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
                     }
                 }
                 else

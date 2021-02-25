@@ -424,7 +424,9 @@
                         <sflistView:SfListView x:Name="list" ItemSize="50" ItemsSource="{Binding showColumns}" SelectionBackgroundColor="Transparent" >
                             <sflistView:SfListView.ItemTemplate>
                                 <DataTemplate>
-                                    <sfchecks:SfCheckBox Margin="10,0,0,0" IsChecked="{Binding check}" Text="{Binding headerText}" ClassId="{Binding mappingText}"  />
+                                    <sfchecks:SfCheckBox Margin="10,0,0,0" IsChecked="{Binding check}"
+                                                         Text="{Binding headerText}" 
+                                                         ClassId="{Binding mappingText}"  />
                                 </DataTemplate>
                             </sflistView:SfListView.ItemTemplate>
                         </sflistView:SfListView>
