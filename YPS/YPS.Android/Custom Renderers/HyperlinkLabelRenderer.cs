@@ -2,11 +2,11 @@
 using Android.Text.Util;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using YPS.Android.Custom_Renderers;
+using YPS.Droid.Custom_Renderers;
 using YPS.CustomRenders;
 
 [assembly: ExportRenderer(typeof(HyperlinkLabel), typeof(HyperlinkLabelRenderer))]
-namespace YPS.Android.Custom_Renderers
+namespace YPS.Droid.Custom_Renderers
 {
     public class HyperlinkLabelRenderer : LabelRenderer
     {
