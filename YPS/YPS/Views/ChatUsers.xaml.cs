@@ -397,6 +397,21 @@ namespace YPS.Views
                                         Settings.chatgroupname = result.data.Title;
                                         Settings.ChatuserCountImgHide = 0;
                                         // App.Current.MainPage = new MenuPage(typeof(ChatPage));
+
+                                        foreach (var items in data.tags)
+                                        {
+                                            if (items.TaskID != 0 && items.TagTaskStatus == 0)
+                                            {
+                                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                                tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
+                                                tagtaskstatus.Status = 1;
+                                                tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                                var val = await service.UpdateTagTaskStatus(tagtaskstatus);
+                                            }
+                                        }
+
                                         await Navigation.PushAsync(new ChatPage());
                                         Settings.mutipleTimeClick = false;
                                     }

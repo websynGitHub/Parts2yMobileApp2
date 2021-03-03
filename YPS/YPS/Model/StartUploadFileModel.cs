@@ -8,6 +8,8 @@ namespace YPS.Model
         public int FUID { get; set; }
         public int POTagID { get; set; }
         public string TagNumber { get; set; }
+        public int TaskID { get; set; }
+        public int TagTaskStatus { get; set; }
     }
 
     public class MyFile

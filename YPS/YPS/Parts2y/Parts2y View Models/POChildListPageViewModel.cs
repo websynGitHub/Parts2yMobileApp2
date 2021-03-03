@@ -29,21 +29,32 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand viewExistingAUPhotos { get; set; }
         public ICommand viewExistingFiles { get; set; }
         public ICommand HomeCommand { get; set; }
-        public ICommand MoveToScanCmd { get; set; }
+        public ICommand MoveToNextPageCmd { get; set; }
         public ICommand CheckBoxTapCmd { get; set; }
         public ICommand InProgressCmd { get; set; }
         public ICommand CompletedCmd { get; set; }
         public ICommand PendingCmd { get; set; }
         public ICommand AllCmd { set; get; }
+        public Command HomeCmd { get; set; }
+        public Command JobCmd { get; set; }
+        public Command TaskCmd { get; set; }
+        public Command LoadCmd { set; get; }
+        SendPodata sendPodata = new SendPodata();
+        ObservableCollection<AllPoData> allPOTagData;
+        int POID, TaskID;
 
-        public POChildListPageViewModel(INavigation _Navigation, ObservableCollection<AllPoData> potag)
+        public POChildListPageViewModel(INavigation _Navigation, ObservableCollection<AllPoData> potag, SendPodata sendpodata)
         {
             try
             {
                 Navigation = _Navigation;
-                labelobj = new DashboardLabelChangeClass();
-                Task.Run(() => ChangeLabel()).Wait();
-                Task.Run(() => PreparePoTagList(potag)).Wait();
+                sendPodata = sendpodata;
+                trackService = new YPSService();
+                allPOTagData = new ObservableCollection<AllPoData>(potag);
+                //labelobj = new DashboardLabelChangeClass();
+                //Task.Run(() => ChangeLabel()).Wait();
+                Task.Run(() => PreparePoTagList(potag, -1)).Wait();
+                //MoveToNextPageCmd = new Command(async () => await MoveToNextPage());
                 moveToPage = new Command(RedirectToPage);
                 viewExistingFiles = new Command(ViewUploadedFiles);
                 viewExistingBUPhotos = new Command(tap_eachCamB);
@@ -56,6 +67,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 CompletedCmd = new Command(async () => await Complete_Tap());
                 PendingCmd = new Command(async () => await Pending_Tap());
                 AllCmd = new Command(async () => await All_Tap());
+
+                HomeCmd = new Command(async () => await TabChange("home"));
+                JobCmd = new Command(async () => await TabChange("job"));
+                TaskCmd = new Command(async () => await TabChange("task"));
+                LoadCmd = new Command(async () => await TabChange("load"));
             }
             catch (Exception ex)
             {
@@ -63,62 +79,177 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private async Task InProgress_Tap()
+
+        //private async Task MoveToNextPage()
+        //{
+        //    try
+        //    {
+        //        loadindicator = true;
+
+        //        if (Settings.CompanySelected.Contains("(Kp)"))
+        //        {
+        //            await Navigation.PushAsync(new LoadPage());
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        loadindicator = false;
+        //    }
+        //    loadindicator = false;
+        //}
+
+        private async Task TabChange(string tabname)
         {
             try
             {
-                InProgressTabVisibility = true;
-                CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                InProgressTabTextColor = Color.Green;
-                CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+                loadindicator = true;
+
+                if (tabname == "home")
+                {
+                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                }
+                else if (tabname == "job")
+                {
+                    await Navigation.PushAsync(new ParentListPage());
+                }
+                //else
+                //{
+                //    if (LoadTabTxtColor == Color.Black)
+                //    {
+                //        await Navigation.PushAsync(new LoadPage());
+                //    }
+                //}
             }
             catch (Exception ex)
             {
-
+                loadindicator = false;
             }
+            loadindicator = false;
         }
-        private async Task Complete_Tap()
+
+        public async Task Pending_Tap()
         {
             try
             {
-                CompleteTabVisibility = true;
-                InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                CompleteTabTextColor = Color.Green;
-                InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
-            }
-            catch (Exception ex)
-            {
+                loadindicator = true;
+                GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
+                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-            }
-        }
+                //allPOTagData = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TagTaskStatus == 0 && wr.POID == allPOTagData[0].POID));
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), 0);
 
-        private async Task Pending_Tap()
-        {
-            try
-            {
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
-                PendingTabTextColor = Color.Green;
+                PendingTabTextColor = Settings.HighlightedTabTxtColor;
                 InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
             }
             catch (Exception ex)
             {
+                loadindicator = false;
 
             }
+            loadindicator = false;
+
         }
-        private async Task All_Tap()
+
+        public async Task InProgress_Tap()
         {
             try
             {
+                loadindicator = true;
+
+                GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
+                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
+
+                //allPOTagData = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TagTaskStatus == 1 && wr.POID == allPOTagData[0].POID));
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), 1);
+
+                InProgressTabVisibility = true;
+                CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                InProgressTabTextColor = Settings.HighlightedTabTxtColor;
+                CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+                loadindicator = false;
+
+            }
+            loadindicator = false;
+
+        }
+
+        public async Task Complete_Tap()
+        {
+            try
+            {
+                loadindicator = true;
+
+                GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
+                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
+
+                //allPOTagData = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TagTaskStatus == 2 && wr.POID == allPOTagData[0].POID));
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), 2);
+
+                CompleteTabVisibility = true;
+                InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                CompleteTabTextColor = Settings.HighlightedTabTxtColor;
+                InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+                loadindicator = false;
+
+            }
+            loadindicator = false;
+
+        }
+
+        public async Task All_Tap()
+        {
+            try
+            {
+                loadindicator = true;
+
+                GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
+                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
+
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), -1);
+
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
-                AllTabTextColor = Color.Green;
+                AllTabTextColor = Settings.HighlightedTabTxtColor;
                 InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+                loadindicator = false;
+
+            }
+            loadindicator = false;
+
+        }
+
+        public async Task<GetPoData> GetRefreshedData()
+        {
+            GetPoData result = new GetPoData();
+            try
+            {
+                sendPodata.UserID = Settings.userLoginID;
+                sendPodata.PageSize = Settings.pageSizeYPS;
+                sendPodata.StartPage = Settings.startPageYPS;
+
+                result = await trackService.LoadPoDataService(sendPodata);
             }
             catch (Exception ex)
             {
 
             }
+            return result;
         }
 
         public async void CheckBoxTap(object sender)
@@ -146,7 +277,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         loadindicator = true;
                         POTagDetail.SelectedTagBorderColor = Color.DarkGreen;
                         Settings.TagNumber = POTagDetail.TagNumber;
-                        if (Settings.CompanySelected.Contains("(C)"))
+
+                        if (Settings.CompanySelected.Contains("(Kp)"))
+                        {
+                            await Navigation.PushAsync(new LoadPage(POTagDetail));
+                        }
+                        else if (Settings.CompanySelected.Contains("(C)"))
                         {
                             await Navigation.PushAsync(new DriverVehicleDetails());
                         }
@@ -187,142 +323,204 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         }
 
-        public async void PreparePoTagList(ObservableCollection<AllPoData> potaglist)
+
+        public async Task UpdateTabCount(ObservableCollection<AllPoData> potaglist)
         {
             try
             {
-                loadindicator = false;
+                await ChangeLabel();
+
+                #region Update status count & label text 
+                PendingLabel = labelobj.Pending.Name = labelobj.Pending.Name + "(" + potaglist.Where(wr => wr.TagTaskStatus == 0).Count() + ")";
+                ProgressLabel = labelobj.Inprogress.Name = labelobj.Inprogress.Name + "(" + potaglist.Where(wr => wr.TagTaskStatus == 1).Count() + ")";
+                DoneLabel = labelobj.Completed.Name = labelobj.Completed.Name + "(" + potaglist.Where(wr => wr.TagTaskStatus == 2).Count() + ")";
+                AllLabel = labelobj.All.Name = labelobj.All.Name + "(" + potaglist.Count + ")";
+                #endregion Update status count
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public async Task PreparePoTagList(ObservableCollection<AllPoData> potaglist, int tagTaskStatus)
+        {
+            try
+            {
+                loadindicator = true;
+
 
                 if (potaglist != null && potaglist.Count > 0)
                 {
-                    foreach (var data in potaglist)
-                    {
-                        if (data.TagNumber != null)
-                        {
-                            #region Chat
-                            if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                            {
-                                data.chatImage = "minus.png";
+                    await UpdateTabCount(potaglist);
 
-                                data.IsChatsVisible = false;
-                            }
-                            else
+                    if (tagTaskStatus == 0)
+                    {
+                        potaglist = new ObservableCollection<AllPoData>(potaglist.Where(wr => wr.TagTaskStatus == 0));
+                    }
+                    else if (tagTaskStatus == 1)
+                    {
+                        potaglist = new ObservableCollection<AllPoData>(potaglist.Where(wr => wr.TagTaskStatus == 1));
+                    }
+                    else if (tagTaskStatus == 2)
+                    {
+                        potaglist = new ObservableCollection<AllPoData>(potaglist.Where(wr => wr.TagTaskStatus == 2));
+                    }
+
+                    //else
+                    //{
+                    //    potaglist = new ObservableCollection<AllPoData>(potaglist.Where(wr => wr.POID == allPOTagData[0].POID));
+                    //}
+
+                    if (potaglist != null && potaglist.Count() > 0)
+                    {
+                        foreach (var data in potaglist)
+                        {
+                            if (data.TagNumber != null)
                             {
-                                if (data.TagQACount == 0)
+                                #region Chat
+                                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
                                 {
-                                    if (data.TagQAClosedCount > 0)
-                                    {
-                                        data.chatImage = "chatIcon.png";
-                                        data.chatTickVisible = true;
-                                    }
-                                    else
-                                    {
-                                        data.chatImage = "minus.png";
-                                    }
+                                    data.chatImage = "minus.png";
 
                                     data.IsChatsVisible = false;
                                 }
                                 else
                                 {
-                                    data.chatImage = "chatIcon.png";
-                                    data.countVisible = true;
-                                    data.IsChatsVisible = true;
-                                }
-                            }
-                            #endregion
+                                    if (data.TagQACount == 0)
+                                    {
+                                        if (data.TagQAClosedCount > 0)
+                                        {
+                                            data.chatImage = "chatIcon.png";
+                                            data.chatTickVisible = true;
+                                        }
+                                        else
+                                        {
+                                            data.chatImage = "minus.png";
+                                        }
 
-                            #region Before Photo & After Photo
-                            if (data.PUID == 0)
-                            {
-                                if (data.IsPhotoRequired == 0)
+                                        data.IsChatsVisible = false;
+                                    }
+                                    else
+                                    {
+                                        data.chatImage = "chatIcon.png";
+                                        data.countVisible = true;
+                                        data.IsChatsVisible = true;
+                                    }
+                                }
+                                #endregion
+
+                                #region Before Photo & After Photo
+                                if (data.PUID == 0)
                                 {
-                                    data.cameImage = "cross.png";
+                                    if (data.IsPhotoRequired == 0)
+                                    {
+                                        data.cameImage = "cross.png";
+                                    }
+                                    else
+                                    {
+                                        data.cameImage = "minus.png";
+                                    }
+
+                                    data.IsPhotosVisible = false;
                                 }
                                 else
                                 {
-                                    data.cameImage = "minus.png";
+                                    if (data.ISPhotoClosed == 1)
+                                    {
+                                        data.cameImage = "Chatcamera.png";
+                                        data.photoTickVisible = true;
+
+                                        data.imgCamOpacityB = data.imgTickOpacityB = (data.TagBPhotoCount == 0) ? 0.5 : 1.0;
+                                        data.imgCamOpacityA = data.imgtickOpacityA = (data.TagAPhotoCount == 0) ? 0.5 : 1.0;
+                                    }
+                                    else
+                                    {
+                                        data.cameImage = "Chatcamera.png";
+                                        data.BPhotoCountVisible = true;
+                                        data.APhotoCountVisible = true;
+                                    }
+
+                                    data.IsPhotosVisible = true;
                                 }
+                                #endregion
 
-                                data.IsPhotosVisible = false;
-                            }
-                            else
-                            {
-                                if (data.ISPhotoClosed == 1)
+                                #region File upload 
+                                if (data.TagFilesCount == 0 && data.FUID == 0)
                                 {
-                                    data.cameImage = "Chatcamera.png";
-                                    data.photoTickVisible = true;
+                                    data.fileImage = "minus.png";
 
-                                    data.imgCamOpacityB = data.imgTickOpacityB = (data.TagBPhotoCount == 0) ? 0.5 : 1.0;
-                                    data.imgCamOpacityA = data.imgtickOpacityA = (data.TagAPhotoCount == 0) ? 0.5 : 1.0;
+                                    data.IsFilesVisible = false;
                                 }
                                 else
                                 {
-                                    data.cameImage = "Chatcamera.png";
-                                    data.BPhotoCountVisible = true;
-                                    data.APhotoCountVisible = true;
+                                    if (data.ISFileClosed > 0)
+                                    {
+                                        data.fileImage = "attachb.png";
+                                        data.fileTickVisible = true;
+                                    }
+                                    else
+                                    {
+                                        data.fileImage = "attachb.png";
+                                        data.filecountVisible = true;
+                                    }
+
+                                    data.IsFilesVisible = true;
                                 }
+                                #endregion
 
-                                data.IsPhotosVisible = true;
-                            }
-                            #endregion
-
-                            #region File upload 
-                            if (data.TagFilesCount == 0 && data.FUID == 0)
-                            {
-                                data.fileImage = "minus.png";
-
-                                data.IsFilesVisible = false;
-                            }
-                            else
-                            {
-                                if (data.ISFileClosed > 0)
+                                #region Status icon
+                                if (data.TagTaskStatus == 0)
                                 {
-                                    data.fileImage = "attachb.png";
-                                    data.fileTickVisible = true;
+                                    data.TagTaskStatusIcon = Icons.circle;
+                                }
+                                else if (data.TagTaskStatus == 1)
+                                {
+                                    data.TagTaskStatusIcon = Icons.Tickicon;
                                 }
                                 else
                                 {
-                                    data.fileImage = "attachb.png";
-                                    data.filecountVisible = true;
+                                    data.TagTaskStatusIcon = Icons.CheckCircle;
                                 }
-
-                                data.IsFilesVisible = true;
+                                #endregion Status icon
                             }
-                            #endregion
-
-                            data.Status_icon = Icons.circle;
+                            else if (data.TagNumber == null)
+                            {
+                                data.countVisible = false;
+                                data.filecountVisible = false;
+                                data.fileTickVisible = false;
+                                data.chatTickVisible = false;
+                                data.BPhotoCountVisible = false;
+                                data.APhotoCountVisible = false;
+                                data.photoTickVisible = false;
+                                data.POS = null;
+                                data.SUB = null;
+                                IsStatusTabVisible = false;
+                                //data.IS_POS = null;
+                                //data.IS_SUB = null;
+                                data.emptyCellValue = "No records to display";
+                            }
                         }
-                        else if (data.TagNumber == null)
-                        {
-                            data.countVisible = false;
-                            data.filecountVisible = false;
-                            data.fileTickVisible = false;
-                            data.chatTickVisible = false;
-                            data.BPhotoCountVisible = false;
-                            data.APhotoCountVisible = false;
-                            data.photoTickVisible = false;
-                            data.POS = null;
-                            data.SUB = null;
-                            //data.IS_POS = null;
-                            //data.IS_SUB = null;
-                            data.emptyCellValue = "No records to display";
-                        }
+
+                        PoDataChildCollections = new ObservableCollection<AllPoData>(potaglist);
+                        IsPOTagDataListVisible = true;
+                        NoRecordsLbl = false;
+                        IsStatusTabVisible = true;
                     }
-                    PoDataChildCollections = potaglist;
-                    IsPOTagDataListVisible = true;
-                    NoRecordsLbl = false;
-
-                    labelobj.Pending.Name = labelobj.Pending.Name + "(0)";
-                    labelobj.Inprogress.Name = labelobj.Inprogress.Name + "(0)";
-                    labelobj.Completed.Name = labelobj.Completed.Name + "(0)";
-                    labelobj.All.Name = labelobj.All.Name + "(" + potaglist.Count + ")";
+                    else
+                    {
+                        NoRecordsLbl = true;
+                        IsPOTagDataListVisible = false;
+                        IsStatusTabVisible = true;
+                    }
                 }
                 else
                 {
+                    await UpdateTabCount(potaglist);
                     NoRecordsLbl = true;
                     IsPOTagDataListVisible = false;
+                    IsStatusTabVisible = false;
                 }
-
             }
             catch (Exception ex)
             {
@@ -404,6 +602,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 if (item.POTagID != 0)
                                                 {
                                                     tg.POTagID = item.POTagID;
+                                                    tg.TaskID = item.TaskID;
+                                                    tg.TagTaskStatus = item.TagTaskStatus;
                                                     Settings.Tagnumbers = item.TagNumber;
                                                     lstdat.Add(tg);
                                                 }
@@ -504,6 +704,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         if (item.POTagID != 0)
                                         {
                                             tg.POTagID = item.POTagID;
+                                            tg.TaskID = item.TaskID;
+                                            tg.TagTaskStatus = item.TagTaskStatus;
                                             lstdat.Add(tg);
                                         }
                                     }
@@ -589,6 +791,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 if (item.POTagID != 0)
                                                 {
                                                     tg.POTagID = item.POTagID;
+                                                    tg.TaskID = item.TaskID;
+                                                    tg.TagTaskStatus = item.TagTaskStatus;
                                                     lstdat.Add(tg);
                                                 }
                                             }
@@ -752,7 +956,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
 
         }
-
 
         public async void RedirectToPage(object movetopage)
         {
@@ -970,10 +1173,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This is for changing the labels dynamically
         /// </summary>
-        public async void ChangeLabel()
+        public async Task ChangeLabel()
         {
             try
             {
+                labelobj = new DashboardLabelChangeClass();
+
                 if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
                 {
                     List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
@@ -996,6 +1201,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
+                        var home = labelval.Where(wr => wr.FieldID == labelobj.Home.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var jobs = labelval.Where(wr => wr.FieldID == labelobj.Jobs.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var parts = labelval.Where(wr => wr.FieldID == labelobj.Parts.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var load = labelval.Where(wr => wr.FieldID == labelobj.Load.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name);
@@ -1025,6 +1234,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name) + "\n";
                         labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
 
+                        labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
+                        labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
+                        //labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
+                        //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
+                        labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
+                        labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
+                        labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
+                        labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
                     }
                 }
             }
@@ -1036,6 +1253,61 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public Color _LoadTextColor = Color.Gray;
+        public Color LoadTextColor
+        {
+            get => _LoadTextColor;
+            set
+            {
+                _LoadTextColor = value;
+                RaisePropertyChanged("LoadTextColor");
+            }
+        }
+
+        public string _PendingLabel;
+        public string PendingLabel
+        {
+            get => _PendingLabel;
+            set
+            {
+                _PendingLabel = value;
+                RaisePropertyChanged("PendingLabel");
+            }
+        }
+
+        public string _ProgressLabel;
+        public string ProgressLabel
+        {
+            get => _ProgressLabel;
+            set
+            {
+                _ProgressLabel = value;
+                RaisePropertyChanged("ProgressLabel");
+            }
+        }
+
+        public string _DoneLabel;
+        public string DoneLabel
+        {
+            get => _DoneLabel;
+            set
+            {
+                _DoneLabel = value;
+                RaisePropertyChanged("DoneLabel");
+            }
+        }
+
+        public string _AllLabel;
+        public string AllLabel
+        {
+            get => _AllLabel;
+            set
+            {
+                _AllLabel = value;
+                RaisePropertyChanged("AllLabel");
+            }
+        }
 
         private bool _InProgressTabVisibility = false;
         public bool InProgressTabVisibility
@@ -1204,11 +1476,37 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Done" };
             public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "All" };
 
+            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "Home" };
+            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
         }
         public class DashboardLabelFields : IBase
         {
-            public bool Status { get; set; }
-            public string Name { get; set; }
+            //public bool Status { get; set; }
+            //public string Name { get; set; }
+
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
@@ -1242,6 +1540,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _BgColor = value;
                 RaisePropertyChanged("BgColor");
+            }
+        }
+
+        private Color _LoadTabTxtColor = Color.Gray;
+        public Color LoadTabTxtColor
+        {
+            get => _LoadTabTxtColor;
+            set
+            {
+                _LoadTabTxtColor = value;
+                RaisePropertyChanged("LoadTabTxtColor");
             }
         }
 
@@ -1314,6 +1623,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _IsPOTagDataListVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsStatusTabVisible;
+        public bool IsStatusTabVisible
+        {
+            get { return _IsStatusTabVisible; }
+            set
+            {
+                _IsStatusTabVisible = value;
                 NotifyPropertyChanged();
             }
         }

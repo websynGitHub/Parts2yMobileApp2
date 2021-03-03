@@ -345,6 +345,22 @@ namespace YPS.ViewModel
                                         HideLabelAndShow = true;
                                         RowHeightcomplete = 0;
                                     }
+
+
+                                    foreach (var items in DataForFileUpload.FileTags)
+                                    {
+                                        if (items.TaskID != 0 && items.TagTaskStatus == 0)
+                                        {
+                                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                            tagtaskstatus.TaskID = items.TaskID.ToString();
+                                            tagtaskstatus.POTagID = items.POTagID.ToString();
+                                            tagtaskstatus.Status = 1;
+                                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+                                        }
+                                    }
+
                                     DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     UploadType = "fileUpload";
                                 }

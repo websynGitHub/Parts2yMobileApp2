@@ -45,6 +45,8 @@ namespace YPS.Models
             public int QAID { get; set; }
             public int POTagID { get; set; }
             public string TagNumber { get; set; }
+            public int TaskID { get; set; }
+            public int TagTaskStatus { get; set; }
         }
 
         public class User

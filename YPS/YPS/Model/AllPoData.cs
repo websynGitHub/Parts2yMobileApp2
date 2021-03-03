@@ -153,8 +153,13 @@ namespace YPS.Model
         public int ISTagPrinted { get; set; }
         public string yBkgNumber { get; set; }
         public string TaskName { get; set; }
+        public int TaskID { get; set; }
+        public List<int> TaskIDList { get; set; }
+
         public int TagTaskStatus { get; set; }
-        public string Status_icon { get; set; }
+        public int TaskStatus { get; set; }
+        public string POTaskStatusIcon { get; set; }
+        public string TagTaskStatusIcon { get; set; }
 
         public bool _IsFilesVisible { set; get; }
         public bool IsFilesVisible
@@ -499,6 +504,14 @@ namespace YPS.Model
     public class photoUplodeInfo
     {
         public Xamarin.Forms.ImageSource base64img { set; get; }
+    }
+
+    public class TagTaskStatus
+    {
+        public string TaskID { set; get; }
+        public string POTagID { set; get; }
+        public int Status { set; get; }
+        public int CreatedBy { set; get; }
     }
 
     #region For click on chat from main datagrid , to navigate 

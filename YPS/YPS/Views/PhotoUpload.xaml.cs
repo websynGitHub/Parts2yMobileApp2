@@ -24,6 +24,7 @@ namespace YPS.Views
         PhotoUplodeViewModel vm;
         YPSService service;
         bool accessPhoto, voidAlertMessage;
+        SendPodata sendPodata = new SendPodata();
         #endregion
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace YPS.Views
                 if (Settings.POID > 0)
                 {
                     Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData()), Navigation.NavigationStack[1]);
+                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
                     Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                     Settings.POID = 0;
                 }
@@ -147,7 +148,7 @@ namespace YPS.Views
                 if (checkInternet)
                 {
 
-                    SendPodata sendPodata = new SendPodata();
+                    sendPodata = new SendPodata();
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;

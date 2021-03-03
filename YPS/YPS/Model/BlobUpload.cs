@@ -175,6 +175,20 @@ namespace YPS.Model
                     var data = await service.UploadFiles(phUpload);
                     return data;
                 }
+                else if (UploadType == (int)UploadTypeEnums.TagLoadPhotos)
+                {
+                    LoadPhotoModel loadphoto = new LoadPhotoModel();
+                    loadphoto.PoTagID = ParentId;
+                    loadphoto.UploadType = UploadType;
+                    loadphoto.PhotoURL = FullFilename;
+                    loadphoto.FileName = fileName;
+                    loadphoto.descriptionlbl = description_txt;
+                    loadphoto.CreatedBy = Settings.userLoginID;
+                    loadphoto.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                    loadphoto.FullName = Settings.Username;
+                    var data = await service.LoadPhotoUpload(loadphoto);
+                    return data;
+                }
                 else
                 {
                     UploadFiles phUpload = new UploadFiles();

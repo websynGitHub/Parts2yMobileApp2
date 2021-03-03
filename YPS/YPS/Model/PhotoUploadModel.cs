@@ -39,6 +39,8 @@ namespace YPS.Model
         public int POTagID { get; set; }
         public string TagNumber { get; set; }
         public int ISPhotoClosed { get; set; }
+        public int TaskID { get; set; }
+        public int TagTaskStatus { get; set; }
     }
 
 
@@ -107,6 +109,33 @@ namespace YPS.Model
         public string message { get; set; }
         public int status { get; set; }
         public int data { get; set; }
+    }
+
+
+    public class LoadPhotoModel
+    {
+        public int PoTagID { get; set; }
+        public int PhotoID { get; set; }
+        public string PhotoIDEncrypted { get; set; }
+        public string descriptionlbl { get; set; } = "Description";
+        public int UploadType { get; set; }
+        public string PhotoDescription { get; set; }
+        public string FileName { get; set; }
+        public string PhotoURL { get; set; }
+        public int CreatedBy { get; set; }
+        public int ISPhotoClosed { get; set; }
+        public string CreatedDate { get; set; }
+        public string GivenName { get; set; }
+        public string FullName { get; set; }
+        public string RoleName { get; set; }
+    }
+
+
+    public class LoadPhotosListResponse
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public ObservableCollection<LoadPhotoModel> data { get; set; }
     }
 }
 

@@ -529,6 +529,23 @@ namespace YPS.ViewModel
                                             BStack = true;
                                             AfterPackingTextColor = Color.Black;
                                             BeforePackingTextColor = Color.Green;
+
+
+                                        }
+
+
+                                        foreach (var items in Select_Items.photoTags)
+                                        {
+                                            if (items.TaskID != 0 && items.TagTaskStatus == 0)
+                                            {
+                                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                                tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
+                                                tagtaskstatus.Status = 1;
+                                                tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                                var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+                                            }
                                         }
 
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;

@@ -24,6 +24,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command ScanClickCmd { get; set; }
         public Command CompareClickCmd { get; set; }
         public Command PhotoClickCmd { get; set; }
+        public Command HomeCmd { get; set; }
+        public Command JobCmd { get; set; }
+        public Command TaskCmd { get; set; }
+        public Command LoadCmd { set; get; }
+
 
         YPSService trackService;
 
@@ -39,8 +44,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ScanClickCmd = new Command(async () => await RedirectToPage("scan"));
                 PhotoClickCmd = new Command(async () => await RedirectToPage("photo"));
 
+                HomeCmd = new Command(async () => await TabChange("home"));
+                JobCmd = new Command(async () => await TabChange("job"));
+                TaskCmd = new Command(async () => await TabChange("task"));
+                LoadCmd = new Command(async () => await TabChange("load"));
+
 
                 Task.Run(() => RememberUserDetails()).Wait();
+                Task.Run(() => GetActionStatus()).Wait();
                 Task.Run(() => GetallApplabels()).Wait();
                 Task.Run(() => ChangeLabel()).Wait();
             }
@@ -48,6 +59,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
 
             }
+        }
+
+        private async Task TabChange(string tabname)
+        {
+            try
+            {
+                loadindicator = true;
+
+                if (tabname == "job")
+                {
+                    await Navigation.PushAsync(new ParentListPage());
+                }
+            }
+            catch (Exception ex)
+            {
+                loadindicator = false;
+            }
+            loadindicator = false;
         }
 
         /// <summary>
@@ -275,6 +304,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         /// <summary>
+        /// This method is to get the status of actions present in application.
+        /// </summary>
+        public async void GetActionStatus()
+        {
+            try
+            {
+                //if (Settings.alllabeslvalues == null || Settings.alllabeslvalues.Count == 0)
+                //{
+                var lblResult = await trackService.GetallActionStatusService();
+
+                if (lblResult != null && lblResult.data != null)
+                {
+                    Settings.AllActionStatus = lblResult.data.ToList();
+                }
+                else
+                {
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetallApplabels method -> in DashboardViewModel! " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
         /// This is for changing the labels dynamically
         /// </summary>
         public async void ChangeLabel()
@@ -293,6 +349,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var company = labelval.Where(wr => wr.FieldID == labelobj.Company.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var project = labelval.Where(wr => wr.FieldID == labelobj.Project.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var job = labelval.Where(wr => wr.FieldID == labelobj.Job.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var home = labelval.Where(wr => wr.FieldID == labelobj.Home.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var jobs = labelval.Where(wr => wr.FieldID == labelobj.Jobs.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var parts = labelval.Where(wr => wr.FieldID == labelobj.Parts.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var load = labelval.Where(wr => wr.FieldID == labelobj.Load.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name);
@@ -301,6 +362,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Project.Status = project == null ? true : (project.Status == 1 ? true : false);
                         labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name);
                         labelobj.Job.Status = job == null ? true : (job.Status == 1 ? true : false);
+
+                        labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
+                        labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
+                        //labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
+                        //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
+                        labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
+                        labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
+                        labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
+                        labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
+
                     }
                 }
             }
@@ -320,12 +391,38 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Project { get; set; } = new DashboardLabelFields { Status = true, Name = "Project" };
             public DashboardLabelFields Company { get; set; } = new DashboardLabelFields { Status = true, Name = "Company" };
             public DashboardLabelFields Supplier { get; set; } = new DashboardLabelFields { Status = true, Name = "SupplierCompanyName" };
+            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "Home" };
+            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
 
         }
         public class DashboardLabelFields : IBase
         {
-            public bool Status { get; set; }
-            public string Name { get; set; }
+            //public bool Status { get; set; }
+            //public string Name { get; set; }
+
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();

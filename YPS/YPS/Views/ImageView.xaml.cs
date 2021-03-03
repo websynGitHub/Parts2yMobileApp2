@@ -29,6 +29,33 @@ namespace YPS.Views
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
         /// <param name="Tags"></param>
+        public ImageView(ObservableCollection<LoadPhotoModel> photosList, int photoId, string Tags)
+        {
+            try
+            {
+                InitializeComponent();
+                service = new YPSService();
+                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+                synfImageViewList.WidthRequest = App.ScreenWidth;
+                synfImageViewList.HeightRequest = App.ScreenHeight;
+                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                Settings.currentPage = "ImageViewPage";
+                Usernames.Text = Tags;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="photosList"></param>
+        /// <param name="photoId"></param>
+        /// <param name="Tags"></param>
         public ImageView(ObservableCollection<CustomPhotoModel> photosList, int photoId, string Tags)
         {
             try

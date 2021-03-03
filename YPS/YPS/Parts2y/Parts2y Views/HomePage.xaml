@@ -14,7 +14,7 @@
         <ResourceDictionary>
             <Style TargetType="BoxView" x:Key="StyleBoxView">
                 <Setter Property="HeightRequest" Value="3"/>
-                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="BackgroundColor" Value="White"/>
                 <Setter Property="Margin" Value="0,2,0,0"/>
             </Style>
         </ResourceDictionary>
@@ -22,7 +22,7 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="DarkGreen" Grid.Column="0">
-            <Label Text="Home" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+            <Label Text="Home-UAT" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
@@ -46,34 +46,96 @@
 
     <ContentPage.Content>
         <AbsoluteLayout>
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                  RowSpacing="0">
                 <StackLayout Grid.Row="0" Padding="0" Margin="0">
                     <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}"  Padding="74,5,10,25" VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>
                         <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>
                         <Label Grid.Row="0" Grid.Column="2" Text="{Binding Company}" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>
+                       
                         <Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>
                         <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>
                         <Label Grid.Row="1" Grid.Column="2" Text="{Binding ProjectName}" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>
+                        
                         <Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>
                         <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>
                         <Label Grid.Row="2"  Grid.Column="2" Text="{Binding JobName}" TextColor="#FFFFFF"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
+                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>
                       
                     </Grid>
 
                 </StackLayout>
 
-                <ScrollView  Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+                <StackLayout Grid.Row="1" Padding="0" Margin="0" BackgroundColor="Transparent">
+                    <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
+                              BackgroundColor="Transparent" Padding="0" RowSpacing="0" Margin="0,0,0,0 ">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Column="0" Grid.Row="0" BackgroundColor="White">
+                            <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Green" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding HomeCmd}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="True" />
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="1" Grid.Row="0" Margin="4,0,0,0" BackgroundColor="DarkGray">
+                            <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                        HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding JobCmd}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <!--<BoxView  Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="2" Grid.Row="0" Margin="4,0,0,0" BackgroundColor="DarkGray">
+                            <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TaskCmd}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="3" Grid.Row="0" Margin="4,0,0,0" BackgroundColor="DarkGray">
+                            <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding LoadCmd}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+                
+                <ScrollView  Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
+                             Margin="0,6,0,0">
                 <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
                     
 

@@ -51,6 +51,17 @@ namespace YPS.Service
         }
 
         /// <summary>
+        /// Update task status of tag
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<ApplicationSettings> UpdateTagTaskStatus(TagTaskStatus obj)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.UpdateTagTaskStatus(obj);
+        }
+
+        /// <summary>
         /// SaveUserPrioritySetting
         /// </summary>
         /// <param name="obj"></param>
@@ -624,6 +635,16 @@ namespace YPS.Service
         }
 
         /// <summary>
+        /// GetallApplabelsService
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionsForUser> GetallActionStatusService()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.AllActionStatus();
+        }
+
+        /// <summary>
         /// Read notification
         /// </summary>
         /// <param name="qaid"></param>
@@ -781,6 +802,39 @@ namespace YPS.Service
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var val = JsonConvert.DeserializeObject<ApplicationSettings>(jsonResponse);
             return val;
+        }
+
+        /// <summary>
+        /// FinalPhotosList
+        /// </summary>
+        /// <param name="puid"></param>
+        /// <returns></returns>
+        public async Task<LoadPhotosListResponse> GetLoadPhotos(int potagid)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetUploadedLoadPhotosRestClient(potagid);
+        }
+
+        /// <summary>
+        /// Uploadfiles
+        /// </summary>
+        /// <param name="UploadFiles obj"></param>
+        /// <returns></returns>
+        public async Task<object> LoadPhotoUpload(LoadPhotoModel loadphotodata)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.LoadPhotoUpload(loadphotodata);
+        }
+
+        /// <summary>
+        /// Delete load images
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<DeleteResponse> DeleteLoadImageService(int id)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.DeleteLoadImagesRestClient(id);
         }
     }
 }

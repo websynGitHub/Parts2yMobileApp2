@@ -132,6 +132,21 @@ namespace YPS.RestClientAPI
             }
         }
 
+        public async Task<ApplicationSettings> UpdateTagTaskStatus(TagTaskStatus obj)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<ApplicationSettings>(WebServiceUrl + "Task/UpdateTaskStatus?TaskId=" + obj.TaskID + "&POTagID="
+                    + obj.POTagID + "&Status=" + obj.Status + "&CreatedBy=" + obj.CreatedBy);
+            }
+            catch (Exception ex)
+            {
+                //await service.Handleexception(ex);
+                //YPSLogger.ReportException(ex, "UpdateTagTaskStatus method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
         /// <summary>
         /// SaveUserPrioritySetting
         /// </summary>
@@ -771,7 +786,7 @@ namespace YPS.RestClientAPI
             try
             {
                 PLDeleteFileResponse titleupdateresult = null;
-                
+
                 if (type == 1)
                 {
                     titleupdateresult = await requestProvider.PostAsync<UserUpdating, PLDeleteFileResponse>(WebServiceUrl + "QA/RemoveUser", udata);
@@ -933,7 +948,7 @@ namespace YPS.RestClientAPI
             try
             {
                 string url;
-                
+
                 if (!String.IsNullOrEmpty(LocationText))
                 {
                     url = WebServiceUrl + "DDLMaster/Location/Search?UserID=" + Settings.userLoginID + "&location=" + LocationText;
@@ -1047,6 +1062,24 @@ namespace YPS.RestClientAPI
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "alllabels method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// All action status
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionsForUser> AllActionStatus()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<ActionsForUser>(WebServiceUrl + "Login/GetActionByUserId?UserID=" + Settings.userLoginID.ToString());
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "AllActionStatus method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }
@@ -1250,6 +1283,65 @@ namespace YPS.RestClientAPI
             return await requestProvider.PostSettings<ApplicationSettings>(url);
         }
 
+
+        /// <summary>
+        /// GetUploadedLoadPhotosRestClient
+        /// </summary>
+        /// <param name="potagid"></param>
+        /// <returns></returns>
+        public async Task<LoadPhotosListResponse> GetUploadedLoadPhotosRestClient(int potagid)
+        {
+            try
+            {
+                string url = WebServiceUrl + "Upload/LoadPhoto/Photos?PoTagID=" +  Helperclass.Encrypt(Convert.ToString(potagid));
+                return await requestProvider.PostAsync<LoadPhotosListResponse>(url);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetUploadedLoadPhotosRestClient method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Uploadfiles
+        /// </summary>
+        /// <param name="fileobj"></param>
+        /// <returns></returns>
+        public async Task<object> LoadPhotoUpload(LoadPhotoModel photodata)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<LoadPhotoModel, yShipFileUploadResponse>(WebServiceUrl + "Upload/LoadPhoto/Upload", photodata);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// delete load images
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<DeleteResponse> DeleteLoadImagesRestClient(int id)
+        {
+            try
+            {
+                string url = WebServiceUrl + "Upload/LoadPhoto/DeletePhoto?UserID=" + Settings.userLoginID + "&ID=" + Helperclass.Encrypt(Convert.ToString(id));// + "&Authorization=" + "";
+                return await requestProvider.PostAsync<DeleteResponse>(url);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "DeleteLoadImagesRestClient method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
         #endregion
 
         #region Without common API calling methods.

@@ -316,7 +316,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             //Task.Run(() => PageSizeDDLBinding()).Wait();
                             //dataPager.PageIndexChanged += pageIndexChanged;
                         }
-                        await Vm.BindGridData(false, false);
+                        await Vm.BindGridData(false, false,-1);
                     }
                     else
                     {

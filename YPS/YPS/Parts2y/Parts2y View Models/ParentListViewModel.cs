@@ -52,11 +52,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand CompletedCmd { get; set; }
         public ICommand PendingCmd { get; set; }
         public ICommand AllCmd { set; get; }
+        public Command HomeCmd { get; set; }
+        public Command JobCmd { get; set; }
+        public Command TaskCmd { get; set; }
+        public Command LoadCmd { set; get; }
 
         YPSService trackService;
         ParentListPage pagename;
         private bool avoidMutiplePageOpen = false;
-
+        SendPodata sendPodata;
         public ICommand Backevnttapped { set; get; }
         #endregion
 
@@ -82,7 +86,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 mainStack = true;
 
                 Task.Run(() => ChangeLabel()).Wait();
-                Task.Run(() => BindGridData(false, false)).Wait();
+                Task.Run(() => BindGridData(false, false, -1)).Wait();
 
                 #region Assigning methods to the respective ICommands
                 tab_ClearSearch = new Command(async () => await ClearSearch());
@@ -101,9 +105,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 CompletedCmd = new Command(async () => await Complete_Tap());
                 PendingCmd = new Command(async () => await Pending_Tap());
                 AllCmd = new Command(async () => await All_Tap());
+                Backevnttapped = new Command(async () => await Backevnttapped_click());
+
+                HomeCmd = new Command(async () => await TabChange("home"));
+                JobCmd = new Command(async () => await TabChange("job"));
+                TaskCmd = new Command(async () => await TabChange("task"));
+                LoadCmd = new Command(async () => await TabChange("load"));
                 #endregion
 
-                Backevnttapped = new Command(async () => await Backevnttapped_click());
             }
             catch (Exception ex)
             {
@@ -112,10 +121,49 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+
+        private async Task TabChange(string tabname)
+        {
+            try
+            {
+                loadingindicator = true;
+
+                if (tabname == "home")
+                {
+                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                }
+            }
+            catch (Exception ex)
+            {
+                loadingindicator = false;
+            }
+            loadingindicator = false;
+        }
+
+        private async Task Pending_Tap()
+        {
+            try
+            {
+                await BindGridData(false, false, 0);
+
+                PendingTabVisibility = true;
+                CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
+                PendingTabTextColor = Color.Green;
+                InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         private async Task InProgress_Tap()
         {
             try
             {
+                await BindGridData(false, false, 1);
+
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
                 InProgressTabTextColor = Color.Green;
@@ -130,6 +178,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                await BindGridData(false, false, 2);
+
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
                 CompleteTabTextColor = Color.Green;
@@ -141,24 +191,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private async Task Pending_Tap()
-        {
-            try
-            {
-                PendingTabVisibility = true;
-                CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
-                PendingTabTextColor = Color.Green;
-                InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
         private async Task All_Tap()
         {
             try
             {
+                await BindGridData(false, false, -1);
+
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
                 AllTabTextColor = Color.Green;
@@ -170,6 +208,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        public async Task<GetPoData> GetRefreshedData()
+        {
+            GetPoData result = new GetPoData();
+            try
+            {
+                sendPodata = new SendPodata();
+                sendPodata.UserID = Settings.userLoginID;
+                sendPodata.PageSize = Settings.pageSizeYPS;
+                sendPodata.StartPage = Settings.startPageYPS;
+                SearchResultGet(sendPodata);
+
+                result = await trackService.LoadPoDataService(sendPodata);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
+        }
 
         /// <summary>
         /// This method is for binding the records/date to the data grid.
@@ -177,7 +234,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// </summary>
         /// <param name="iSPagingNoAuto"></param>
         /// <returns></returns>
-        public async Task BindGridData(bool iscall, bool ISRefresh)
+        public async Task BindGridData(bool iscall, bool ISRefresh, int postatus)
         {
             try
             {
@@ -212,123 +269,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             //await RememberUserDetails();
 
-                            SendPodata sendPodata = new SendPodata();
-                            sendPodata.UserID = Settings.userLoginID;
-                            sendPodata.PageSize = Settings.pageSizeYPS;
-                            sendPodata.StartPage = Settings.startPageYPS;
-                            SearchResultGet(sendPodata);
+                            //SendPodata sendPodata = new SendPodata();
+                            //sendPodata.UserID = Settings.userLoginID;
+                            //sendPodata.PageSize = Settings.pageSizeYPS;
+                            //sendPodata.StartPage = Settings.startPageYPS;
+                            //SearchResultGet(sendPodata);
 
-                            var result = await trackService.LoadPoDataService(sendPodata);
+                            //var result = await trackService.LoadPoDataService(sendPodata);
+
+                            var result = await GetRefreshedData();
 
                             if (result != null)
                             {
                                 if (result.status != 0 && result.data.allPoData != null)
                                 {
-                                    //foreach (var data in result.data.allPoData)
-                                    //{
-                                    //    data.Status_icon = Icons.circle;
-                                    //}
-                                    #region prepareicons
-                                    //foreach (var data in result.data.allPoData)
-                                    //{
-                                    //    if (data.TagNumber != null)
-                                    //    {
-                                    //        #region Chat
-                                    //        if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.Viewer)
-                                    //        {
-                                    //            data.chatImage = "minus.png";
-                                    //        }
-                                    //        else
-                                    //        {
-                                    //            if (data.TagQACount == 0)
-                                    //            {
-                                    //                if (data.TagQAClosedCount > 0)
-                                    //                {
-                                    //                    data.chatImage = "chatIcon.png";
-                                    //                    data.chatTickVisible = true;
-                                    //                }
-                                    //                else
-                                    //                {
-                                    //                    data.chatImage = "minus.png";
-                                    //                }
-                                    //            }
-                                    //            else
-                                    //            {
-                                    //                data.chatImage = "chatIcon.png";
-                                    //                data.countVisible = true;
-                                    //            }
-                                    //        }
-                                    //        #endregion
-
-                                    //        #region Before Photo & After Photo
-                                    //        if (data.PUID == 0)
-                                    //        {
-                                    //            if (data.IsPhotoRequired == 0)
-                                    //                data.cameImage = "cross.png";
-                                    //            else
-                                    //                data.cameImage = "minus.png";
-                                    //        }
-                                    //        else
-                                    //        {
-                                    //            if (data.ISPhotoClosed == 1)
-                                    //            {
-                                    //                data.cameImage = "Chatcamera.png";
-                                    //                data.photoTickVisible = true;
-
-                                    //                data.imgCamOpacityB = data.imgTickOpacityB = (data.TagBPhotoCount == 0) ? 0.5 : 1.0;
-                                    //                data.imgCamOpacityA = data.imgtickOpacityA = (data.TagAPhotoCount == 0) ? 0.5 : 1.0;
-                                    //            }
-                                    //            else
-                                    //            {
-                                    //                data.cameImage = "Chatcamera.png";
-                                    //                data.BPhotoCountVisible = true;
-                                    //                data.APhotoCountVisible = true;
-                                    //            }
-                                    //        }
-                                    //        #endregion
-
-                                    //        #region File upload 
-                                    //        if (data.TagFilesCount == 0 && data.FUID == 0)
-                                    //        {
-                                    //            data.fileImage = "minus.png";
-                                    //        }
-                                    //        else
-                                    //        {
-                                    //            if (data.ISFileClosed > 0)
-                                    //            {
-                                    //                data.fileImage = "attachb.png";
-                                    //                data.fileTickVisible = true;
-                                    //            }
-                                    //            else
-                                    //            {
-                                    //                data.fileImage = "attachb.png";
-                                    //                data.filecountVisible = true;
-                                    //            }
-                                    //        }
-                                    //        #endregion
-                                    //    }
-                                    //    else if (data.TagNumber == null)
-                                    //    {
-                                    //        data.countVisible = false;
-                                    //        data.filecountVisible = false;
-                                    //        data.fileTickVisible = false;
-                                    //        data.chatTickVisible = false;
-                                    //        data.BPhotoCountVisible = false;
-                                    //        data.APhotoCountVisible = false;
-                                    //        data.photoTickVisible = false;
-                                    //        data.POS = null;
-                                    //        data.SUB = null;
-                                    //        //data.IS_POS = null;
-                                    //        //data.IS_SUB = null;
-                                    //        data.emptyCellValue = "No records to display";
-                                    //    }
-                                    //}
-                                    #endregion prepareicons end
-
                                     Settings.AllPOData = new ObservableCollection<AllPoData>();
                                     Settings.AllPOData = result.data.allPoData;
 
-                                    var groubbyval = result.data.allPoData.GroupBy(gb => gb.POShippingNumber);
+                                    var groubbyval = result.data.allPoData.GroupBy(gb => new { gb.POID, gb.TaskID });
                                     ObservableCollection<AllPoData> groupedlist = new ObservableCollection<AllPoData>();
 
                                     foreach (var val in groubbyval)
@@ -340,10 +298,50 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.ShippingNumber = val.Select(s => s.ShippingNumber).FirstOrDefault();
                                         groupdata.POShippingNumber = val.Select(s => s.POShippingNumber).FirstOrDefault();
                                         groupdata.TaskName = val.Select(s => s.TaskName).FirstOrDefault();
+                                        groupdata.TaskID = val.Select(s => s.TaskID).FirstOrDefault();
+                                        if (groupdata.TaskStatus == 0)
+                                        {
+                                            groupdata.POTaskStatusIcon = Icons.circle;
+                                        }
+                                        else if (groupdata.TaskStatus == 1)
+                                        {
+                                            groupdata.POTaskStatusIcon = Icons.Tickicon;
+                                        }
+                                        else
+                                        {
+                                            groupdata.POTaskStatusIcon = Icons.CheckCircle;
+                                        }
+
                                         groupedlist.Add(groupdata);
                                     }
 
-                                    PoDataCollections = new ObservableCollection<AllPoData>(groupedlist);
+                                    if (postatus == -1)
+                                    {
+                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist);
+                                    }
+                                    else
+                                    {
+                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.Where(wr => wr.TaskStatus == postatus));
+                                    }
+
+                                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                                    if (labelval.Count > 0)
+                                    {
+                                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
+                                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
+                                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
+                                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
+                                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name);
+                                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
+                                    }
 
                                     if (PoDataCollections.Count > 0)
                                     {
@@ -366,34 +364,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 }
                                             }
                                         });
+
+                                        await CheckingSearchValues();
+                                        //loadingindicator = false;
+                                        NoRecordsLbl = false;
+                                        ISPoDataListVisible = true;
+
+                                        PendingText = labelobj.Pending.Name + "\n" + "(" + groupedlist.Where(wr => wr.TaskStatus == 0).Count() + ")";
+                                        InProgress = labelobj.Inprogress.Name + "\n" + "(" + groupedlist.Where(wr => wr.TaskStatus == 1).Count() + ")";
+                                        Completed = labelobj.Completed.Name + "\n" + "(" + groupedlist.Where(wr => wr.TaskStatus == 2).Count() + ")";
+                                        All = labelobj.All.Name + "\n" + "(" + groubbyval.Count() + ")";
                                     }
-
-                                    await CheckingSearchValues();
-                                    loadingindicator = false;
-                                    NoRecordsLbl = false;
-                                    ISPoDataListVisible = true;
-
-                                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
-
-                                    if (labelval.Count > 0)
+                                    else
                                     {
-                                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                        //loadingindicator = false;
+                                        NoRecordsLbl = true;
+                                        ISPoDataListVisible = false;
 
-                                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
-                                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
-                                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
-                                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
-                                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
-                                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
-                                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name);
-                                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
-
-                                        PendingText = labelobj.Pending.Name + "\n" + "(0)";
-                                        InProgress = labelobj.Inprogress.Name + "\n" + "(0)";
-                                        Completed = labelobj.Completed.Name + "\n" + "(0)";
+                                        PendingText = labelobj.Pending.Name + "\n" + "(" + groupedlist.Where(wr => wr.TaskStatus == 0).Count() + ")";
+                                        InProgress = labelobj.Inprogress.Name + "\n" + "(" + groupedlist.Where(wr => wr.TaskStatus == 1).Count() + ")";
+                                        Completed = labelobj.Completed.Name + "\n" + "(" + groupedlist.Where(wr => wr.TaskStatus == 2).Count() + ")";
                                         All = labelobj.All.Name + "\n" + "(" + groubbyval.Count() + ")";
                                     }
 
@@ -459,10 +449,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         loadingindicator = true;
                         PODetails.SelectedTagBorderColor = Color.DarkGreen;
                         var PoDataChilds = new ObservableCollection<AllPoData>(
-                            Settings.AllPOData.Where(wr => wr.POID == PODetails.POID).ToList()
+                            Settings.AllPOData.Where(wr => wr.POID == PODetails.POID && wr.TaskID == PODetails.TaskID).ToList()
                             );
 
-                        await Navigation.PushAsync(new POChildListPage(PoDataChilds));
+                        await Navigation.PushAsync(new POChildListPage(PoDataChilds, sendPodata));
                     }
                     catch (Exception ex)
                     {
@@ -1540,7 +1530,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     SearchDisable = false;
                     //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                    await BindGridData(false, false);
+                    await BindGridData(false, false, -1);
                     SearchDisable = true;
                 }
             }
@@ -1596,11 +1586,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (NoRecordsLbl == true)
                         {
-                            BindGridData(false, false);
+                            BindGridData(false, false, -1);
                         }
                         else if (NoRecordsLbl == false)
                         {
-                            BindGridData(true, false);
+                            BindGridData(true, false, -1);
                         }
 
                         isloading = true;
@@ -1924,6 +1914,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
+                        var home = labelval.Where(wr => wr.FieldID == labelobj.Home.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var jobs = labelval.Where(wr => wr.FieldID == labelobj.Jobs.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var parts = labelval.Where(wr => wr.FieldID == labelobj.Parts.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var load = labelval.Where(wr => wr.FieldID == labelobj.Load.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         //var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         //var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         //var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1947,6 +1941,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
 
+                        labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
+                        labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
+                        //labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
+                        //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
+                        labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
+                        labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
+                        labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
+                        labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
+
                         //labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) ;
                         //labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
                         //labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
@@ -1958,6 +1961,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     }
                 }
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    IsShippingMarkVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ShippingMarkDownload".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    //IsShippingMarkVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ShippingMarkDownload".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                }
             }
             catch (Exception ex)
             {
@@ -1967,6 +1976,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public bool _IsShippingMarkVisible;
+        public bool IsShippingMarkVisible
+        {
+            get => _IsShippingMarkVisible;
+            set
+            {
+                _IsShippingMarkVisible = value;
+                RaisePropertyChanged("IsShippingMarkVisible");
+            }
+        }
+
+        public bool _IsPluploadVisible;
+        public bool IsPluploadVisible
+        {
+            get => _IsPluploadVisible;
+            set
+            {
+                _IsPluploadVisible = value;
+                RaisePropertyChanged("IsPluploadVisible");
+            }
+        }
 
         public string _PendingText;
         public string PendingText
@@ -2179,11 +2210,38 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };
             public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Done" };
             public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "All" };
+
+            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "Home" };
+            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
         }
         public class DashboardLabelFields : IBase
         {
-            public bool Status { get; set; }
-            public string Name { get; set; }
+            //public bool Status { get; set; }
+            //public string Name { get; set; }
+
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();

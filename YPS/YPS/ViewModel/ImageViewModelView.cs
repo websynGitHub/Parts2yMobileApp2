@@ -17,8 +17,38 @@ namespace YPS.ViewModel
     {
         public ICommand HomeCommand { get; set; }
         public ObservableCollection<CustomPhotoModel> imageViews { get; set; }
+        public ObservableCollection<LoadPhotoModel> loadphotoimageViews { get; set; }
         public ObservableCollection<UploadFiles> imageViews1 { get; set; }
         YPSService service = new YPSService();// Creating new instance of the YPSService, which is used to call API
+
+        /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="photosList"></param>
+        /// <param name="photoId"></param>
+        public ImageViewModelView(ObservableCollection<LoadPhotoModel> photosList, int photoId)
+        {
+            try
+            {
+                loadphotoimageViews = new ObservableCollection<LoadPhotoModel>();
+                loadphotoimageViews = photosList;
+                pophoto = true;
+                Yshipphoto = false;
+                int index = photosList.IndexOf(photosList.Single(x => x.PhotoID == photoId));
+                var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
+                VisibleCardInx = index;
+                Settings.SPhotoDescription = getFirstValue.PhotoDescription;
+                HomeCommand = new Command(HomeCommand_btn);
+
+                DynamicTextChange();
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ImageViewModelView constructor -> in ImageViewModelView.cs " + Settings.userLoginID);
+            }
+        }
+
 
         /// <summary>
         /// Parameterized constructor.

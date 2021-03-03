@@ -11,6 +11,7 @@ namespace YPS.CommonClasses
         public static string ScanValue { get; set; }
         //public static string ImpTxtCode { get; set; } = "TDdmwPkI+5H5TLnqUfTTow==";
         public static Color Bar_Background { get; set; } = Color.DarkGreen;
+        public static Color HighlightedTabTxtColor { get; set; } = Color.Green;
         public static bool EndRefresh2 { get; set; }
         public static string IIJToken { get; set; }
         public static bool IsIIJEnabled { get; set; }
@@ -115,6 +116,7 @@ namespace YPS.CommonClasses
         public static bool ShowSuccessAlert { get; set; } = false;
 
         public static bool IsFilterreset { get; set; } = false;
+        public static bool IsRefreshPartsPage { get; set; } = false;
 
         #region for filter properties
         public static int UserID { get; set; } = 0;
@@ -276,6 +278,7 @@ namespace YPS.CommonClasses
         public static string UpdateBtn1 { set; get; } = "Update";
 
         public static List<Alllabeslvalues> alllabeslvalues { set; get; }
+        public static List<ActionsForUserData> AllActionStatus { set; get; }
 
         public static HeaderFilter alldropdownvalues { set; get; }
 
@@ -555,14 +558,26 @@ namespace YPS.CommonClasses
         /// Tag File
         /// </summary>
         TagFile = 18,
+
         /// <summary>
         /// Tag File
         /// </summary>
         ChatPhoto = 19,
+
         /// <summary>
         /// Tag File
         /// </summary>
-        PLFIle = 20
+        PLFIle = 20,
+
+        /// <summary>
+        /// Mobile Builds
+        /// </summary>
+        MobileBuilds = 21,
+
+        /// <summary>
+        ///Tag Load Photos
+        /// </summary>
+        TagLoadPhotos = 22
 
     }
     /// <summary>
