@@ -340,7 +340,7 @@
                                                 <StackLayout VerticalOptions="Start"
                                                       HorizontalOptions="FillAndExpand" Orientation="Horizontal">
 
-                                                    <input:CheckBox HorizontalOptions="Start" Margin="0,0,25,0"
+                                                    <input:CheckBox HorizontalOptions="Start" Margin="0,0,0,0"
                                                                 VerticalOptions="Center"
                                                                  IsChecked="{Binding IsChecked}"
                                                                 CheckChanged="CheckBox_CheckedChanged"  
