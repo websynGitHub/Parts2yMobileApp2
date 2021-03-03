@@ -370,7 +370,7 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <Frame Padding="0,3,3,3" Margin="0,0,220,3" CornerRadius="2" 
+                                                        <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" 
                                                        HasShadow="False"
                                                        IsVisible="{Binding BindingContext.IsShippingMarkVisible,Source={x:Reference Name=POPage}}">
                                                             <Image Source="shipicon.png" x:Name="ShipPrinter" 
