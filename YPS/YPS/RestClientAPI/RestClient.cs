@@ -132,17 +132,17 @@ namespace YPS.RestClientAPI
             }
         }
 
-        public async Task<ApplicationSettings> UpdateTagTaskStatus(TagTaskStatus obj)
+        public async Task<object> UpdateTagTaskStatus(TagTaskStatus obj)
         {
             try
             {
-                return await requestProvider.PostAsync<ApplicationSettings>(WebServiceUrl + "Task/UpdateTaskStatus?TaskId=" + obj.TaskID + "&POTagID="
+                return await requestProvider.PostAsync<object>(WebServiceUrl + "Task/UpdateTaskStatus?TaskId=" + obj.TaskID + "&POTagID="
                     + obj.POTagID + "&Status=" + obj.Status + "&CreatedBy=" + obj.CreatedBy);
             }
             catch (Exception ex)
             {
-                //await service.Handleexception(ex);
-                //YPSLogger.ReportException(ex, "UpdateTagTaskStatus method -> in RestClient.cs" + Settings.userLoginID);
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "UpdateTagTaskStatus method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }
@@ -1293,7 +1293,7 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                string url = WebServiceUrl + "Upload/LoadPhoto/Photos?PoTagID=" +  Helperclass.Encrypt(Convert.ToString(potagid));
+                string url = WebServiceUrl + "Upload/LoadPhoto/Photos?PoTagID=" + Helperclass.Encrypt(Convert.ToString(potagid));
                 return await requestProvider.PostAsync<LoadPhotosListResponse>(url);
             }
             catch (Exception ex)
@@ -1313,7 +1313,7 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                return await requestProvider.PostAsync<LoadPhotoModel, yShipFileUploadResponse>(WebServiceUrl + "Upload/LoadPhoto/Upload", photodata);
+                return await requestProvider.PostAsync<LoadPhotoModel, LoadPhotosUploadResponse>(WebServiceUrl + "Upload/LoadPhoto/Upload", photodata);
             }
             catch (Exception ex)
             {

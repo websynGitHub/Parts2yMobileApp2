@@ -130,6 +130,12 @@ namespace YPS.Model
         public string RoleName { get; set; }
     }
 
+    public class LoadPhotosUploadResponse
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public LoadPhotoModel data { get; set; }
+    }
 
     public class LoadPhotosListResponse
     {
