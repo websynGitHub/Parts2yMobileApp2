@@ -132,11 +132,11 @@ namespace YPS.RestClientAPI
             }
         }
 
-        public async Task<object> UpdateTagTaskStatus(TagTaskStatus obj)
+        public async Task<TagTaskStatusUpdateResponse> UpdateTagTaskStatus(TagTaskStatus obj)
         {
             try
             {
-                return await requestProvider.PostAsync<object>(WebServiceUrl + "Task/UpdateTaskStatus?TaskId=" + obj.TaskID + "&POTagID="
+                return await requestProvider.PostAsync<TagTaskStatusUpdateResponse>(WebServiceUrl + "Task/UpdateTaskStatus?TaskId=" + obj.TaskID + "&POTagID="
                     + obj.POTagID + "&Status=" + obj.Status + "&CreatedBy=" + obj.CreatedBy);
             }
             catch (Exception ex)

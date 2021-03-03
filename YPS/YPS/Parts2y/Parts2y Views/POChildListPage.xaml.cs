@@ -272,6 +272,8 @@ namespace YPS.Parts2y.Parts2y_Views
                         await Vm.Pending_Tap();
                     }
                     Settings.IsRefreshPartsPage = false;
+                    Vm.SelectedTagCount = 0;
+                    Vm.SelectedTagCountVisible = false;
                 }
 
                 YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);

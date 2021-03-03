@@ -12,6 +12,7 @@ using YPS.Helpers;
 using YPS.Service;
 using Syncfusion.XForms.Buttons;
 using YPS.Model;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -26,9 +27,21 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 InitializeComponent();
+
+                if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
+
                 Settings.IsRefreshPartsPage = true;
                 BindingContext = Vm = new LoadPageViewModel(Navigation, selectedtagdata, this);
                 service = new YPSService();
+
+                img.WidthRequest = App.ScreenWidth;
+                img.HeightRequest = App.ScreenHeight - 150;
             }
             catch (Exception ex)
             {
@@ -43,13 +56,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 string text = (sender as SfButton).Text;
-
-                //if (text.Trim().ToLower() == vm.labelobjComplete.Trim().ToLower() && accessPhoto == false)
-                //{
-                //    //await vm.ClosePic();
-                //}
-
-
+                await Vm.MarkAsDone();
             }
             catch (Exception ex)
             {

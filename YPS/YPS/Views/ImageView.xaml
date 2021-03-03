@@ -101,6 +101,52 @@
                     </BindableLayout.ItemTemplate>
                 </cards:SfCardLayout>
 
+                <cards:SfCardLayout IsVisible="{Binding IsLoadPhotosVisible}" Margin="0,4,0,4"
+                                Padding="0,2,0,2" x:Name="synfLoadImageViewList" VisibleCardIndex="{Binding VisibleCardInx}"
+                                BindableLayout.ItemsSource="{Binding loadphotoimageViews}" ShowSwipedCard="True"
+                                VisibleCardIndexChanged="SynfImageViewList_VisibleCardIndexChanged" VerticalOptions="Center" 
+                                BackgroundColor="Transparent" Grid.Row="1" HorizontalOptions="FillAndExpand">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <cards:SfCardView>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="0.3*"/>
+                                    </Grid.RowDefinitions>
+                                    <forms1:CachedImage Grid.Row="0" Source="{Binding PhotoURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                                    <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <StackLayout Padding="20,0,5,2">
+                                            <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                            <Label Text="{Binding CreatedDate}" TextColor="Black"
+                                       Style="{StaticResource LblSubTitle}"/>
+                                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
+                                                <!--<Label IsVisible="{Binding ShowAndHideDescr}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>-->
+                                                <Label Text="{Binding BindingContext.DescriptionLabel, Source={x:Reference Name=ImgView}}"
+                                                      Style="{StaticResource LblSubTitle}" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
+                                                <Label Text="{Binding PhotoDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
+                                                        Grid.Row="0" Grid.Column="1"/>
+                                                <!--</FormattedString>
+                                                </Label.FormattedText>-->
+                                                <!--</Label>-->
+                                                <!--<Label IsVisible="{Binding ShowAndHideBtn}" Text="More Description" x:Name="MoreText" 
+                                            TextColor="#269DC9" Margin="0,0,10,5" FontAttributes="Bold" FontSize="Medium" 
+                                            HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="ShowMoreTextBtn"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>-->
+                                            </Grid>
+                                        </StackLayout>
+                                    </ScrollView>
+                                </Grid>
+                            </cards:SfCardView>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </cards:SfCardLayout>
+
                 <!--<ContentView BackgroundColor="#80000000" IsVisible="{Binding ShowMoreTextpopup}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
                 <Frame CornerRadius="7" Padding="7" Margin="20">
                     <StackLayout>

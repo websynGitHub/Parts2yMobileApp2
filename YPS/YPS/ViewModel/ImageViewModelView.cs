@@ -32,7 +32,8 @@ namespace YPS.ViewModel
             {
                 loadphotoimageViews = new ObservableCollection<LoadPhotoModel>();
                 loadphotoimageViews = photosList;
-                pophoto = true;
+                IsLoadPhotosVisible = true;
+                pophoto = false;
                 Yshipphoto = false;
                 int index = photosList.IndexOf(photosList.Single(x => x.PhotoID == photoId));
                 var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
@@ -229,6 +230,17 @@ namespace YPS.ViewModel
             set
             {
                 _pophoto = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsLoadPhotosVisible = false;
+        public bool IsLoadPhotosVisible
+        {
+            get { return _IsLoadPhotosVisible; }
+            set
+            {
+                _IsLoadPhotosVisible = value;
                 NotifyPropertyChanged();
             }
         }

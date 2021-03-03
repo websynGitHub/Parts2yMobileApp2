@@ -55,13 +55,49 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 DeleteImageCmd = new Command(DeleteImage);
                 HomeCommand = new Command(HomeCommand_btn);
 
-                Task.Run(() => GetPhotosData(selectedtagdata.POTagID).Wait());
+                if (selectedTagData.TagTaskStatus == 2)
+                {
+                    NotDoneVal = false;
+                    DoneBtnOpacity = 0.5;
+                }
+
+                GetPhotosData(selectedtagdata.POTagID);
             }
             catch (Exception ex)
             {
 
             }
         }
+
+        public async Task MarkAsDone()
+        {
+            try
+            {
+                YPSLogger.TrackEvent("MarkAsDone", "in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                IndicatorVisibility = true;
+
+                if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
+                {
+                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                    tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                    tagtaskstatus.Status = 2;
+                    tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                    var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                    NotDoneVal = false;
+                    DoneBtnOpacity = 0.5;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "image_tap method -> in LoadPageViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            IndicatorVisibility = false;
+        }
+
 
         /// <summary>
         /// Get the existing uploaded photo(s).
@@ -88,58 +124,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (result != null && result.status != 0 && result.data.Count != 0)
                         {
-                            //if ()
-                            //{
-
-                            //    if (AllPhotosData.data.photoTags.Count != 0)
-                            //    {
-                            //        var result = AllPhotosData.data.photoTags.Select(x => x.TagNumber).ToList();
-                            //        string result1 = String.Join(" , ", result);
-                            //        Tagnumbers = result1;
-                            //    }
-
-                            LoadPhotosList = result.data;
-
                             IsPhotosListVisible = true;
                             IsPhotosListStackVisible = true;
                             IsNoPhotoTxt = false;
                             closeLabelText = true;
 
-                            //    if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
-                            //    {
-                            //        closeLabelText = false;
-                            //        RowHeightcomplete = 0;
-                            //    }
-                            //    else
-                            //    {
-                            //        if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                            //        Settings.userRoleID == (int)UserRoles.SupplierUser)
-                            //        {
-                            //            if (isuploadcompleted == true)
-                            //            {
-                            //                DeleteIconStack = false;
-                            //                closeLabelText = false;
-                            //                RowHeightcomplete = 0;
-                            //            }
-                            //        }
-                            //        else
-                            //        {
-                            //            closeLabelText = true;
-                            //            RowHeightcomplete = 50;
-                            //        }
-
-                            //        if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                            //        Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                            //        Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                            //        {
-                            //            RowHeightcomplete = 0;
-                            //            DeleteIconStack = false;
-                            //        }
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //}
+                            LoadPhotosList = new ObservableCollection<LoadPhotoModel>(result.data);
                         }
                         else
                         {
@@ -175,19 +165,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var des = LoadPhotosList.Where(x => x.PhotoID == photoid).FirstOrDefault();
                 var imageLists = LoadPhotosList;
 
-                //foreach (var items in imageLists)
-                //{
-                //    if (items.PhotoDescription.Length > 150)
-                //    {
-                //        items.ShowAndHideDescr = true;
-                //        items.ShowAndHideBtn = true;
-                //        items.ShowAndHideBtnEnable = true;
-                //    }
-                //    else if (items.PhotoDescription.Length > 0)
-                //    {
-                //        items.ShowAndHideDescr = true;
-                //    }
-                //}
                 await Navigation.PushAsync(new ImageView(imageLists, photoid, Tagnumbers));
             }
             catch (Exception ex)
@@ -228,14 +205,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         IndicatorVisibility = true;
                         try
                         {
-                                /// Verifying internet connection.
-                                checkInternet = await App.CheckInterNetConnection();
+                            /// Verifying internet connection.
+                            checkInternet = await App.CheckInterNetConnection();
 
                             if (checkInternet)
                             {
                                 var findData = obj as LoadPhotoModel;
-                                    /// Calling photo delete API to delete files based on a photo id.
-                                    var uploadresult = await service.DeleteLoadImageService(findData.PhotoID);
+                                /// Calling photo delete API to delete files based on a photo id.
+                                var uploadresult = await service.DeleteLoadImageService(findData.PhotoID);
 
                                 if (uploadresult != null)
                                 {
@@ -320,19 +297,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 /// Calling the blob API to upload photo. 
                                 var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, selectedTagData.POTagID, fileName, (int)UploadTypeEnums.TagLoadPhotos, (int)BlobContainer.cnttagphotos, null, null, DescriptionText);
 
-                                var initialresult = initialdata as InitialResponse;
+                                var initialresult = initialdata as LoadPhotosUploadResponse;
                                 if (initialresult != null)
                                 {
                                     if (initialresult.status != 0)
                                     {
                                         selectiontype_index = 1;
-                                        puid = initialresult.data.PUID;
 
-                                        if (initialresult.data.photoTags.Count != 0)
-                                        {
-                                            var result = initialresult.data.photoTags.Select(x => x.TagNumber).ToList();
-                                            Settings.Tagnumbers = String.Join(" , ", result);
-                                        }
+                                        //if (initialresult.data.Count != 0)
+                                        //{
+                                        //    var result = initialresult.photoTags.Select(x => x.TagNumber).ToList();
+                                        //    Settings.Tagnumbers = String.Join(" , ", result);
+                                        //}
 
                                         //if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
                                         //{
@@ -559,6 +535,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 fileName = Path.GetFileNameWithoutExtension(file.Path);
                                 //FirstMainStack = false;
                                 IsPhotoUploadIconVisible = false;
+                                IsPhotosListVisible = false;
+                                IsPhotosListStackVisible = false;
                                 RowHeightOpenCam = 100;
                                 //SecondMainStack = true;
                             }
@@ -631,6 +609,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 //SecondMainStack = true;
                                 //NoPhotos_Visibility = false;
                                 //btnenable = true;
+                                IsPhotosListVisible = false;
+                                IsPhotosListStackVisible = false;
                                 extension = Path.GetExtension(fileOS.Path);
                                 picStream = fileOS.GetStreamWithImageRotatedForExternalStorage();
                                 fileName = Path.GetFileNameWithoutExtension(fileOS.Path);

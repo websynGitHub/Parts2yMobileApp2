@@ -39,6 +39,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command JobCmd { get; set; }
         public Command TaskCmd { get; set; }
         public Command LoadCmd { set; get; }
+        public Command SelectTagItemCmd { set; get; }
+        public Command MoveToScanCmd { set; get; }
         SendPodata sendPodata = new SendPodata();
         ObservableCollection<AllPoData> allPOTagData;
         int POID, TaskID;
@@ -67,7 +69,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 CompletedCmd = new Command(async () => await Complete_Tap());
                 PendingCmd = new Command(async () => await Pending_Tap());
                 AllCmd = new Command(async () => await All_Tap());
-
+                SelectTagItemCmd = new Command(TagLongPessed);
+                MoveToScanCmd = new Command(MoveToScan);
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
                 TaskCmd = new Command(async () => await TabChange("task"));
@@ -79,6 +82,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private void TagLongPessed(object sender)
+        {
+            try
+            {
+                var item = sender as AllPoData;
+
+                if (item.IsChecked == true)
+                {
+                    item.IsChecked = false;
+                    item.SelectedTagBorderColor = Color.Transparent;
+                }
+                else
+                {
+                    item.IsChecked = true;
+                    item.SelectedTagBorderColor = Color.DarkGreen;
+                }
+
+                SelectedTagCountVisible = (SelectedTagCount = PoDataChildCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 
         //private async Task MoveToNextPage()
         //{
@@ -264,11 +291,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async void MoveToScan()
+        public async void MoveToScan(object sender)
         {
             try
             {
                 loadindicator = true;
+                POTagDetail = sender as AllPoData;
 
                 if (POTagDetail != null)
                 {
@@ -1253,6 +1281,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        private int _SelectedTagCount { set; get; }
+        public int SelectedTagCount
+        {
+            get
+            {
+                return _SelectedTagCount;
+            }
+            set
+            {
+                this._SelectedTagCount = value;
+                RaisePropertyChanged("SelectedTagCount");
+            }
+        }
+
+        private bool _SelectedTagCountVisible { set; get; }
+        public bool SelectedTagCountVisible
+        {
+            get
+            {
+                return _SelectedTagCountVisible;
+            }
+            set
+            {
+                this._SelectedTagCountVisible = value;
+                RaisePropertyChanged("SelectedTagCountVisible");
+            }
+        }
 
         public Color _LoadTextColor = Color.Gray;
         public Color LoadTextColor
@@ -1528,7 +1583,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _POTagDetail = value;
-                MoveToScan();
+                //MoveToScan();
             }
         }
 

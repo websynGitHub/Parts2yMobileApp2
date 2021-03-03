@@ -182,7 +182,7 @@ namespace YPS.Model
                     loadphoto.UploadType = UploadType;
                     loadphoto.PhotoURL = FullFilename;
                     loadphoto.FileName = fileName;
-                    loadphoto.descriptionlbl = description_txt;
+                    loadphoto.PhotoDescription = description_txt;
                     loadphoto.CreatedBy = Settings.userLoginID;
                     loadphoto.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
                     loadphoto.FullName = Settings.Username;

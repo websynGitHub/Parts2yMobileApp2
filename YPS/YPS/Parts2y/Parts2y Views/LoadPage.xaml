@@ -91,7 +91,6 @@
 
                     <Label Grid.Row="1" Text="No photos available." IsVisible="{Binding IsNoPhotoTxt}" TextColor="Black"
                            HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LableWithQuestionFont}"/>
-
                     <ScrollView Grid.Row="1" IsVisible="{Binding IsImageViewForUploadVisible}" Padding="3">
                         <Image Source="{Binding ImageViewForUpload}" x:Name="img"/>
                     </ScrollView>

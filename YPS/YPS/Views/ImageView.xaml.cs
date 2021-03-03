@@ -36,8 +36,8 @@ namespace YPS.Views
                 InitializeComponent();
                 service = new YPSService();
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
-                synfImageViewList.WidthRequest = App.ScreenWidth;
-                synfImageViewList.HeightRequest = App.ScreenHeight;
+                synfLoadImageViewList.WidthRequest = App.ScreenWidth;
+                synfLoadImageViewList.HeightRequest = App.ScreenHeight;
                 YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
