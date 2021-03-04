@@ -131,7 +131,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (tabname == "job")
                 {
-                    await Navigation.PushAsync(new ParentListPage());
+                    Navigation.RemovePage(Navigation.NavigationStack[2]);
+
+                    await Navigation.PopAsync();
                 }
                 else if (tabname == "parts")
                 {
@@ -582,7 +584,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             });
                         }
                     }
-                    
+
                 }
                 IndicatorVisibility = false;
             }
@@ -597,7 +599,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-       
+
         private async void HomeCommand_btn(object obj)
         {
             try
