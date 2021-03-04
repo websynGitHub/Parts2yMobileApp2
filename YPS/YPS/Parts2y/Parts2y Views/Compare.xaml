@@ -80,7 +80,6 @@
                              >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <!--<ColumnDefinition Width="*"/>-->
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -108,21 +107,27 @@
                         <Label  Text="Scan" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0" HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
-                            <Label.GestureRecognizers>
+                            <!--<Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ScanTabCmd}"/>
-                            </Label.GestureRecognizers>
+                            </Label.GestureRecognizers>-->
                         </Label>
                         <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding ScanTabVisibility}" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ScanTabCmd}"/>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                     <StackLayout Grid.Column="1" Grid.Row="0">
                         <Label Text="Configure" TextColor="{Binding CompareTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
-                            <Label.GestureRecognizers>
+                            <!--<Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ScanConfigCmd}"/>
-                            </Label.GestureRecognizers>
+                            </Label.GestureRecognizers>-->
                         </Label>
                         <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding ConfigTabVisibility}" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ScanConfigCmd}"/>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </Grid>
                 

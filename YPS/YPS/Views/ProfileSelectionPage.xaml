@@ -81,21 +81,27 @@
                         <Label Text="Default Setting" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" 
                                  Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding settingsTextColor}"
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
-                            <Label.GestureRecognizers>
+                            <!--<Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ICommandSettings}"/>
-                            </Label.GestureRecognizers>
+                            </Label.GestureRecognizers>-->
                         </Label>
                         <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding settingbox}" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ICommandSettings}"/>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                     <StackLayout Grid.Column="1">
                         <Label x:Name="UpdatePBtn" Text="Update Profile" Style="{DynamicResource LableWithMediumFont}" 
                                BackgroundColor="White" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
                                HorizontalTextAlignment="Center" TextColor="{Binding profileTextColor}" Margin="0,2,0,2">
-                            <Label.GestureRecognizers>
+                            <!--<Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ICommandProfile}"/>
-                            </Label.GestureRecognizers>
+                            </Label.GestureRecognizers>-->
                         </Label>
                         <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding profilebox}"/>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ICommandProfile}"/>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </Grid>
 

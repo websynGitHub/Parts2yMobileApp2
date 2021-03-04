@@ -114,7 +114,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 await Task.Delay(1);
 
-
                 if (tabname == "home")
                 {
                     App.Current.MainPage = new MenuPage(typeof(HomePage));
@@ -873,44 +872,55 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                         var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
 
-                        if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0)
+                        if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) >= 0)
                         {
-                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
-
-                            List<string> EncPOTagID = new List<string>();
-
-                            foreach (var data in selectedTagData)
+                            DependencyService.Get<IToastMessage>().ShortAlert("Selected tag(s) are already marked as done.");
+                        }
+                        else if (selectedTagData.Count() == 0)
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to mark as done.");
+                        }
+                        else
+                        {
+                            if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0)
                             {
-                                var value = Helperclass.Encrypt(data.POTagID.ToString());
-                                EncPOTagID.Add(value);
-                            }
-                            tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
-                            tagtaskstatus.Status = 2;
-                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
 
-                            var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+                                List<string> EncPOTagID = new List<string>();
 
-                            if (AllTabVisibility == true)
-                            {
-                                await All_Tap();
-                            }
-                            else if (CompleteTabVisibility == true)
-                            {
-                                await Complete_Tap();
-                            }
-                            else if (InProgressTabVisibility == true)
-                            {
-                                await InProgress_Tap();
-                            }
-                            else
-                            {
-                                await Pending_Tap();
-                            }
+                                foreach (var data in selectedTagData)
+                                {
+                                    var value = Helperclass.Encrypt(data.POTagID.ToString());
+                                    EncPOTagID.Add(value);
+                                }
+                                tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
+                                tagtaskstatus.Status = 2;
+                                tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                            Settings.IsRefreshPartsPage = false;
-                            SelectedTagCount = 0;
-                            SelectedTagCountVisible = false;
+                                var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+
+                                if (AllTabVisibility == true)
+                                {
+                                    await All_Tap();
+                                }
+                                else if (CompleteTabVisibility == true)
+                                {
+                                    await Complete_Tap();
+                                }
+                                else if (InProgressTabVisibility == true)
+                                {
+                                    await InProgress_Tap();
+                                }
+                                else
+                                {
+                                    await Pending_Tap();
+                                }
+
+                                Settings.IsRefreshPartsPage = false;
+                                SelectedTagCount = 0;
+                                SelectedTagCountVisible = false;
+                            }
                         }
                     }
                 }

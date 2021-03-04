@@ -55,27 +55,6 @@
                         </LblIcons:FontAwesomeIconLabel>
                     </Grid>
                    
-                    <!--<Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}" 
-                           Margin="5,5,6,0" BorderColor="Transparent">
-
-                        <sfRadioGroup:SfRadioGroup Orientation="Horizontal" Margin="5,0,7,0">
-                            <Grid HorizontalOptions="FillAndExpand">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <sfRadioGroup:SfRadioButton Grid.Column="0" Text="{Binding labelobjComplete}" 
-                                                            IsChecked="{Binding CompletedVal}" 
-                                                            Style="{StaticResource SfRadioButtonTextStyle}"
-                                                            StateChanged="CompleteStateChanged"/>
-                                <sfRadioGroup:SfRadioButton Grid.Column="1" Text="{Binding labelobjNotComplete}" IsChecked="{Binding NotCompletedVal}" 
-                                                            IsEnabled="{Binding notCompeleteDisable}" HorizontalOptions="EndAndExpand"
-                                                            LineBreakMode="WordWrap" Style="{StaticResource SfRadioButtonTextStyle}"/>
-                            </Grid>
-                        </sfRadioGroup:SfRadioGroup>
-                    </Frame>-->
-
-
                     <StackLayout Grid.Row="1" IsVisible="{Binding listStack}" Margin="6,0,6,0">
                         <Grid ClassId="{Binding UploadType}" x:Name="gridData" BackgroundColor="White">
                             <Grid.RowDefinitions>

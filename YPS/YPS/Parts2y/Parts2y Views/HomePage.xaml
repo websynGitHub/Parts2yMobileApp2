@@ -22,7 +22,7 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="DarkGreen" Grid.Column="0">
-            <Label Text="Home" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+            <Label Text="Home-WS" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
@@ -96,21 +96,27 @@
                             <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Green" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <Label.GestureRecognizers>
+                                <!--<Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding HomeCmd}"/>
-                                </Label.GestureRecognizers>
+                                </Label.GestureRecognizers>-->
                             </Label>
                             <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="True" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding HomeCmd}"/>
+                            </StackLayout.GestureRecognizers>
                         </StackLayout>
 
                         <StackLayout Grid.Column="1" Grid.Row="0" Margin="4,0,0,0" BackgroundColor="DarkGray">
                             <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
-                                <Label.GestureRecognizers>
+                                <!--<Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding JobCmd}"/>
-                                </Label.GestureRecognizers>
+                                </Label.GestureRecognizers>-->
                             </Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding JobCmd}"/>
+                            </StackLayout.GestureRecognizers>
                             <!--<BoxView  Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
 
@@ -118,10 +124,13 @@
                             <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <Label.GestureRecognizers>
+                                <!--<Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding TaskCmd}"/>
-                                </Label.GestureRecognizers>
+                                </Label.GestureRecognizers>-->
                             </Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TaskCmd}"/>
+                            </StackLayout.GestureRecognizers>
                             <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
 
@@ -129,10 +138,13 @@
                             <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <Label.GestureRecognizers>
+                                <!--<Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                </Label.GestureRecognizers>
+                                </Label.GestureRecognizers>-->
                             </Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LoadCmd}"/>
+                            </StackLayout.GestureRecognizers>
                             <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
                     </Grid>
