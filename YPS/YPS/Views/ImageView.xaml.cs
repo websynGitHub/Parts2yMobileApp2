@@ -35,6 +35,7 @@ namespace YPS.Views
             {
                 InitializeComponent();
                 service = new YPSService();
+                Groupname.Text = "Load Photos";
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
                 synfLoadImageViewList.WidthRequest = App.ScreenWidth;
                 synfLoadImageViewList.HeightRequest = App.ScreenHeight;
@@ -101,7 +102,7 @@ namespace YPS.Views
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
         /// <param name="Tags"></param>
-        public ImageView(ObservableCollection<UploadFiles> photosList, int photoId,string Tags)
+        public ImageView(ObservableCollection<UploadFiles> photosList, int photoId, string Tags)
         {
             try
             {
@@ -132,17 +133,17 @@ namespace YPS.Views
                 base.OnAppearing();
                 (Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "OnAppearing method -> in ImageView.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
 
-       /// <summary>
-       /// Gets called when back icon is clicked.
-       /// </summary>
-       /// <returns></returns>
+        /// <summary>
+        /// Gets called when back icon is clicked.
+        /// </summary>
+        /// <returns></returns>
         protected override bool OnBackButtonPressed()
         {
             (Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = true;
@@ -214,7 +215,7 @@ namespace YPS.Views
                 ImageVm.ShowMoreTextpopup = true;
                 ImageVm.ShowMoreText = Settings.SPhotoDescription;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "ShowMoreTextBtn method -> in ImageView.cs " + Settings.userLoginID);
                 service.Handleexception(ex);

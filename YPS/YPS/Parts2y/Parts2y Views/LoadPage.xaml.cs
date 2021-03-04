@@ -36,7 +36,7 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-                //Settings.IsRefreshPartsPage = true;
+                Settings.IsRefreshPartsPage = true;
                 BindingContext = Vm = new LoadPageViewModel(Navigation, selectedtagdata, sendpodata, this);
                 service = new YPSService();
 
