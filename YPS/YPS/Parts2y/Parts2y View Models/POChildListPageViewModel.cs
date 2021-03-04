@@ -120,7 +120,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (tabname == "job")
                 {
-                    await Navigation.PushAsync(new ParentListPage());
+                    await Navigation.PopAsync();
+                    //await Navigation.PushAsync(new ParentListPage());
                 }
             }
             catch (Exception ex)
@@ -872,7 +873,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                         var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
 
-                        if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) >= 0)
+                        if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
                         {
                             DependencyService.Get<IToastMessage>().ShortAlert("Selected tag(s) are already marked as done.");
                         }
