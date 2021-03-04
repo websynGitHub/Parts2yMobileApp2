@@ -33,18 +33,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <!--<NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="End">
-            <local:FontAwesomeIconLabel x:Name="Home" Text="{x:Static local1:Icons.HomeIc}"
-                                        Style="{StaticResource LblIconStyle}" 
-                                        >
-                <local:FontAwesomeIconLabel.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding HomeCommand}"/>
-                </local:FontAwesomeIconLabel.GestureRecognizers>
-            </local:FontAwesomeIconLabel>
-        </StackLayout>
-    </NavigationPage.TitleView>-->
-    
     <ContentPage.Content>
         <AbsoluteLayout>
             <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -80,48 +68,40 @@
                                         TextColor="White" FontSize="20"/>
                             </StackLayout>
 
-                            <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand" 
+                            <StackLayout Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
+                                         Orientation="Vertical" HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand" Margin="8,15,0,15">
-                                <Grid RowSpacing="5" Padding="0" BackgroundColor="{Binding BgColor}"  
+                                
+                                <Grid RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.POID.Status}"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                               RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*">
+                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.POID.Name}" TextColor="#FFFFFF"
-                                           Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.POID.Status}"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"
-                                           IsVisible="{Binding labelobj.POID.Status}"/>
-                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding PONumber}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"
-                                           IsVisible="{Binding labelobj.POID.Status}"/>
-                                    
-                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding labelobj.ShippingNumber.Name}" TextColor="#FFFFFF"
-                                           IsVisible="{Binding labelobj.ShippingNumber.Status}" Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"
-                                           IsVisible="{Binding labelobj.ShippingNumber.Status}"/>
-                                    <Label Grid.Row="1"  Grid.Column="2" Text="{Binding ShippingNumber}" TextColor="#FFFFFF"
-                                           IsVisible="{Binding labelobj.ShippingNumber.Status}" Style="{DynamicResource LableWithQuestionFont}"/>
-                                    
-                                    <Label Grid.Row="2" Grid.Column="0" Text="{Binding labelobj.REQNo.Name}" TextColor="#FFFFFF"
-                                           IsVisible="{Binding labelobj.REQNo.Status}" Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"
-                                           IsVisible="{Binding labelobj.REQNo.Status}"/>
-                                    <Label Grid.Row="2" Grid.Column="2" Text="{Binding REQNo}" TextColor="#FFFFFF"
-                                           IsVisible="{Binding labelobj.REQNo.Status}" Style="{DynamicResource LableWithQuestionFont}"/>
-                                    
-                                    <Label Grid.Row="3" Grid.Column="0" Text="{Binding labelobj.TaskName.Name}" TextColor="#FFFFFF" 
-                                           IsVisible="{Binding labelobj.TaskName.Status}" Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="3" Grid.Column="1" Text=":" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"
-                                           IsVisible="{Binding labelobj.TaskName.Status}"/>
-                                    <Label Grid.Row="3" Grid.Column="2" Text="{Binding TaskName}" TextColor="#FFFFFF" 
-                                           IsVisible="{Binding labelobj.TaskName.Status}" Style="{DynamicResource LableWithQuestionFont}"/>
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding PONumber}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"
+                                          />
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.ShippingNumber.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.ShippingNumber.Name}" TextColor="#FFFFFF"
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0"  Grid.Column="1" Text="{Binding ShippingNumber}" TextColor="#FFFFFF"
+                                            Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.REQNo.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.REQNo.Name}" TextColor="#FFFFFF"
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding REQNo}" TextColor="#FFFFFF"
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.TaskName.Status}" 
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.TaskName.Name}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
                             </StackLayout>
-
-                            <!--<local:FontAwesomeIconLabel x:Name="Home" Text="{x:Static local1:Icons.HomeIc}" Grid.Row="0" Grid.Column="2"
-                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
-                        <local:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HomeCommand}"/>
-                        </local:FontAwesomeIconLabel.GestureRecognizers>
-                    </local:FontAwesomeIconLabel>-->
                         </Grid>
 
                         <StackLayout Grid.Row="1" Padding="0" Margin="0">
@@ -144,7 +124,6 @@
                                             <TapGestureRecognizer Command="{Binding HomeCmd}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <!--<BoxView  Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                                 </StackLayout>
 
                                 <StackLayout Grid.Column="1" Grid.Row="0" BackgroundColor="DarkGray" Margin="4,0,0,0">
@@ -155,7 +134,6 @@
                                             <TapGestureRecognizer Command="{Binding JobCmd}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <!--<BoxView  Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                                 </StackLayout>
 
                                 <StackLayout Grid.Column="2" Grid.Row="0" BackgroundColor="White" Margin="4,0,0,0">
@@ -163,7 +141,7 @@
                                        TextColor="Green" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                         <!--<Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding TaskCmd}"/>
+                                            <TapGestureRecognizer Command="{Binding PartsCmd}"/>
                                         </Label.GestureRecognizers>-->
                                     </Label>
                                     <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
@@ -177,11 +155,10 @@
                                             <TapGestureRecognizer Command="{Binding LoadCmd}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                                 </StackLayout>
                             </Grid>
                         </StackLayout>
-                        
+
                         <Grid Grid.Row="2" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="White" Padding="0" RowSpacing="0" Margin="2,6,2,0" IsVisible="{Binding IsStatusTabVisible}">
                             <Grid.ColumnDefinitions>
@@ -203,7 +180,7 @@
                                 </Label>
                                 <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding PendingTabVisibility}" />
                             </StackLayout>
-                            
+
                             <StackLayout Grid.Column="1" Grid.Row="0" >
                                 <Label  Text="{Binding ProgressLabel}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="{Binding InProgressTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
@@ -214,7 +191,7 @@
                                 </Label>
                                 <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
                             </StackLayout>
-                            
+
                             <StackLayout Grid.Column="2" Grid.Row="0">
                                 <Label Text="{Binding DoneLabel}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding CompleteTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
@@ -225,7 +202,7 @@
                                 </Label>
                                 <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}" />
                             </StackLayout>
-                            
+
                             <StackLayout Grid.Column="3" Grid.Row="0" >
                                 <Label Text="{Binding AllLabel}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding AllTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
@@ -238,11 +215,6 @@
                             </StackLayout>
                         </Grid>
 
-
-                        <!--<Label IsVisible="{Binding NoRecordsLbl}" FontSize="Large" HorizontalTextAlignment="Center"
-                          Grid.Row="1" Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithQuestionFont}"/>-->
-
                         <CollectionView x:Name="ChildDataList" Grid.Row="3" BackgroundColor="Transparent"
                                  ItemsSource="{Binding PoDataChildCollections}"
                                 Margin="0,6,0,0" IsVisible="{Binding IsPOTagDataListVisible}">
@@ -252,20 +224,13 @@
                                         <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="15,12,15,12" 
                                            BorderColor="{Binding SelectedTagBorderColor}"
                                            CornerRadius="4"  HasShadow="False"
-                                               local:LongPressedEffect.Command="{Binding BindingContext.SelectTagItemCmd,Source={x:Reference Name=POTagPage}}" local:LongPressedEffect.CommandParameter="{Binding .}">
+                                               local:LongPressedEffect.Command="{Binding BindingContext.SelectTagItemCmd,Source={x:Reference Name=POTagPage}}" 
+                                               local:LongPressedEffect.CommandParameter="{Binding .}"
+                                               local:LongPressedEffect.SlCommand="{Binding BindingContext.MoveToNextPageCmd,Source={x:Reference Name=POTagPage}}"
+                                                         local:LongPressedEffect.SlCommandParameter="{Binding .}">
                                             <StackLayout Orientation="Vertical">
                                                 <Grid RowDefinitions="*" ColumnDefinitions="*">
-                                                    <!--<Grid Grid.Row="0" Grid.Column="0">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto"/>
-                                                            <RowDefinition Height="Auto"/>
-                                                            <RowDefinition Height="Auto"/>
-                                                            --><!--<RowDefinition Height="Auto"/>--><!--
-                                                        </Grid.RowDefinitions>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>-->
+                                                    
                                                     <StackLayout Orientation="Vertical">
                                                         <Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=POTagPage}}"
@@ -299,13 +264,6 @@
 
                                                 <StackLayout VerticalOptions="Start"
                                                       HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-
-                                                    <!--<input:CheckBox HorizontalOptions="Start" Margin="0,0,0,0"
-                                                                VerticalOptions="Center"
-                                                                 IsChecked="{Binding IsChecked}"
-                                                                CheckChanged="CheckBox_CheckedChanged"  
-                                                                TextFontSize="18" Spacing="12" TextColor="Black" 
-                                                                BorderColor="Black" />-->
 
                                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
                                                          >
@@ -398,11 +356,6 @@
                                                  FontSize="37" TextColor="#000000" HorizontalOptions="Center" 
                                                  IsVisible="{Binding BindingContext.IsRightArrowVisible,Source={x:Reference Name=POTagPage}}"
                                                  VerticalOptions="Center">
-                                                            <local:FontAwesomeIconLabel.GestureRecognizers>
-                                                                <TapGestureRecognizer 
-                 Command="{Binding BindingContext.MoveToScanCmd,Source={x:Reference Name=POTagPage}}"
-                                                          CommandParameter="{Binding .}"/>
-                                                            </local:FontAwesomeIconLabel.GestureRecognizers>
                                                         </local:FontAwesomeIconLabel>
 
                                                        
@@ -428,26 +381,30 @@
                                  AbsoluteLayout.LayoutFlags="All" BackgroundColor="Darkgreen" Orientation="Horizontal">
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckCamera">
                                 <local:FontAwesomeIconLabel x:Name="imgCamera" Text="{Static local1:Icons.CameraIc}" Style="{StaticResource LblIconStyle}"/>
-                                <Label Text="Photo Upload" x:Name="CameraLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="Photo" x:Name="CameraLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckChat">
                                 <local:FontAwesomeIconLabel x:Name="imgChat" Text="{Static local1:Icons.ChatIc}" Style="{StaticResource LblIconStyle}" Margin="0,0,0,2"/>
-                                <Label Text="QA Chat" x:Name="ChatLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="Chat" x:Name="ChatLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckFileUpload">
                                 <local:FontAwesomeIconLabel x:Name="imgFileUpload" Text="{Static local1:Icons.FileAttachIc}" Style="{StaticResource LblIconStyle}"/>
-                                <Label Text="File Upload" x:Name="FileUploadLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="File" x:Name="FileUploadLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckPrinter">
                                 <local:FontAwesomeIconLabel x:Name="imgPrinter" Text="{Static local1:Icons.PrintIc}" Style="{StaticResource LblIconStyle}"/>
-                                <Label Text="Print Tag" x:Name="PrinterLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="Print" x:Name="PrinterLbl" Style="{StaticResource LableWithSmallFont}" 
+                               HorizontalTextAlignment="Center" TextColor="White"/>
+                            </StackLayout>
+                            <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckDone">
+                                <local:FontAwesomeIconLabel x:Name="imgDone" Text="{Static local1:Icons.CheckCircle}" Style="{StaticResource LblIconStyle}"/>
+                                <Label Text="Done" x:Name="DoneLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                         </StackLayout>
-
                     </Grid>
                 </StackLayout>
             </RelativeLayout>

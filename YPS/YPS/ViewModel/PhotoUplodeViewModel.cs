@@ -72,12 +72,19 @@ namespace YPS.ViewModel
                     Select_Items = select_items;
                     puid = select_items.PUID;
                     poid = select_items.POID;
-                    RowHeightTitle = 40;
-                    RowHeightTagNumber = 0;
+                    //RowHeightTitle = 40;
+                    //RowHeightTagNumber = 0;
                     selectiontype_index = 0;
                     closeLabelText = false;
                     RowHeightcomplete = 0;
                     NoPhotos_Visibility = true;
+                    //var value = select_items.photoTags.ForEach.Select(c => c.TagNumber).ToList();
+                    Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.TagNumber));
+                    select_items.photoTags = select_items.photoTags.Where(c => !string.IsNullOrWhiteSpace(c.TagNumber)).Select(c =>
+                      {
+                          c.TagNumber = null;
+                          return c;
+                      }).ToList();
                 }
                 else
                 {
@@ -544,6 +551,7 @@ namespace YPS.ViewModel
                                                 tagtaskstatus.Status = 1;
                                                 tagtaskstatus.CreatedBy = Settings.userLoginID;
 
+                                                Settings.IsRefreshPartsPage = true;
                                                 var result = await service.UpdateTagTaskStatus(tagtaskstatus);
                                             }
                                         }

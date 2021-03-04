@@ -43,7 +43,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 trackService = new YPSService();
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
-                if (!Settings.CompanySelected.Contains("(C)") && !Settings.CompanySelected.Contains("(Kp)"))
+                if (!Settings.CompanySelected.Contains("(C)") && !Settings.CompanySelected.Contains("(Kp)") &&
+                    !Settings.CompanySelected.Contains("(P)") && !Settings.CompanySelected.Contains("(Kr)") && !Settings.CompanySelected.Contains("(E)"))
                 {
                     Vm.IsRightArrowVisible = false;
                     ChildDataList.SelectionMode = SelectionMode.None;
@@ -124,32 +125,17 @@ namespace YPS.Parts2y.Parts2y_Views
                         return c;
                     }).ToList();
 
+                    //Vm.SelectedTagCount = 0;
+                    //Vm.SelectedTagCountVisible = false;
 
                     //if (Vm.PendingTabVisibility == true)
                     //{
-                    //    foreach (var c in updateCount)
-                    //    {
-                    //        Vm.PoDataChildCollections.Remove(c); ;
-                    //    }
-
-                    //    Task.Run(() => Vm.UpdateTabCount(new ObservableCollection<AllPoData>(Vm.PoDataChildCollections))).Wait();
+                    //    Task.Run(() => Vm.Pending_Tap()).Wait();
                     //}
-
-                    if (Vm.PendingTabVisibility == true)
-                    {
-                        //   foreach (var c in Settings.AllPOData
-                        //.Where(x => x.POTagID == (Settings.currentPoTagId_Inti_F.Where(k => k.POTagID == x.POTagID).Select(p => p.POTagID).FirstOrDefault())).ToList())
-                        //   {
-                        //       var val = Vm.PoDataChildCollections.Remove(c); ;
-                        //   }
-
-                        //Task.Run(() => Vm.UpdateTabCount(new ObservableCollection<AllPoData>(Vm.PoDataChildCollections))).Wait();
-                        Task.Run(() => Vm.Pending_Tap()).Wait();
-                    }
-                    else
-                    {
-                        Task.Run(() => Vm.All_Tap()).Wait();
-                    }
+                    //else
+                    //{
+                    //    Task.Run(() => Vm.All_Tap()).Wait();
+                    //}
                 });
 
                 MessagingCenter.Subscribe<string, string>("FilesCountI", "msgFileInitial", (sender, args) =>
@@ -169,21 +155,17 @@ namespace YPS.Parts2y.Parts2y_Views
                          return c;
                      }).ToList();
 
-                    if (Vm.PendingTabVisibility == true)
-                    {
-                        //   foreach (var c in Settings.AllPOData
-                        //.Where(x => x.POTagID == (Settings.currentPoTagId_Inti_F.Where(k => k.POTagID == x.POTagID).Select(p => p.POTagID).FirstOrDefault())).ToList())
-                        //   {
-                        //       var val = Vm.PoDataChildCollections.Remove(c); ;
-                        //   }
+                    //Vm.SelectedTagCount = 0;
+                    //Vm.SelectedTagCountVisible = false;
 
-                        //Task.Run(() => Vm.UpdateTabCount(new ObservableCollection<AllPoData>(Vm.PoDataChildCollections))).Wait();
-                        Task.Run(() => Vm.Pending_Tap()).Wait();
-                    }
-                    else
-                    {
-                        Task.Run(() => Vm.All_Tap()).Wait();
-                    }
+                    //if (Vm.PendingTabVisibility == true)
+                    //{
+                    //    Task.Run(() => Vm.Pending_Tap()).Wait();
+                    //}
+                    //else
+                    //{
+                    //    Task.Run(() => Vm.All_Tap()).Wait();
+                    //}
                 });
 
                 MessagingCenter.Subscribe<string, string>("FilesCounts", "msgF", (sender, args) =>
@@ -244,54 +226,46 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                YPSLogger.TrackEvent("POChildListPage.xaml.cs", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
                 Vm.loadindicator = true;
                 base.OnAppearing();
-                //UserDialogs.Instance.ShowLoading("Loading...");
-
 
                 if (Settings.IsRefreshPartsPage == true)
                 {
                     if (Vm.AllTabVisibility == true)
                     {
-                        //await Vm.PreparePoTagList(new ObservableCollection<AllPoData>(Vm.PoDataChildCollections), -1);
                         await Vm.All_Tap();
                     }
                     else if (Vm.CompleteTabVisibility == true)
                     {
-                        //await Vm.PreparePoTagList(new ObservableCollection<AllPoData>(Vm.PoDataChildCollections), 2);
                         await Vm.Complete_Tap();
                     }
                     else if (Vm.InProgressTabVisibility == true)
                     {
-                        //await Vm.PreparePoTagList(new ObservableCollection<AllPoData>(Vm.PoDataChildCollections), 1);
                         await Vm.InProgress_Tap();
                     }
                     else
                     {
-                        //await Vm.PreparePoTagList(new ObservableCollection<AllPoData>(Vm.PoDataChildCollections), 0);
                         await Vm.Pending_Tap();
                     }
                     Settings.IsRefreshPartsPage = false;
                     Vm.SelectedTagCount = 0;
                     Vm.SelectedTagCountVisible = false;
                 }
-
-                YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
                 Vm.loadindicator = false;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in ParentListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in POChildListPage.xaml.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
-                //UserDialogs.Instance.HideLoading();
                 Settings.ShowSuccessAlert = false;
                 Vm.loadindicator = false;
             }
             finally
             {
-                Settings.mutipleTimeClick = false;
-                //UserDialogs.Instance.HideLoading();
+                Settings.ShowSuccessAlert = false;
+                Vm.loadindicator = false;
             }
         }
 
@@ -326,6 +300,12 @@ namespace YPS.Parts2y.Parts2y_Views
                         stckFileUpload.GestureRecognizers.Add(new TapGestureRecognizer
                         {
                             Command = new Command(Vm.tap_InitialFileUpload),
+                            CommandParameter = ChildDataList,
+                        });
+
+                        stckDone.GestureRecognizers.Add(new TapGestureRecognizer
+                        {
+                            Command = new Command(Vm.MarkAsDone),
                             CommandParameter = ChildDataList,
                         });
 

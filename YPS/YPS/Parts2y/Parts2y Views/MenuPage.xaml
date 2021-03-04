@@ -37,7 +37,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Image Source="ypslogo33.png" Aspect="AspectFit" Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" />
+                    <Image Source="ypslogo22.png" Aspect="AspectFit" Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" />
                     <StackLayout Grid.Column="1" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
                         <Label Text="{Binding UserName,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}"/>
                         <Label Text="{Binding usermail,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}" />
@@ -55,7 +55,6 @@
                                     </Grid.ColumnDefinitions>
                                     <local1:FontAwesomeIconLabel Grid.Column="0" Text="{Binding IconSource}" FontSize="25" TextColor="White"  HorizontalOptions="Center" VerticalOptions="Center"/>
 
-                                    <!--<Image Source="{Binding IconSource}" Grid.Column="0" HeightRequest="25" WidthRequest="25" Margin="{OnPlatform iOS='0,5,0,5',Android='0,10,0,10'}"/>-->
                                     <Label Text="{Binding Title}" Style="{DynamicResource LableWithLargeFont }" Grid.Column="1" TextColor="#FFFFFF"  VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
                                 </Grid>
                             </ViewCell>

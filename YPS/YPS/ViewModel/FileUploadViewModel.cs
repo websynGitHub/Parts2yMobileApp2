@@ -352,11 +352,12 @@ namespace YPS.ViewModel
                                         if (items.TaskID != 0 && items.TagTaskStatus == 0)
                                         {
                                             TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                                            tagtaskstatus.TaskID = items.TaskID.ToString();
-                                            tagtaskstatus.POTagID = items.POTagID.ToString();
+                                            tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                            tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
                                             tagtaskstatus.Status = 1;
                                             tagtaskstatus.CreatedBy = Settings.userLoginID;
 
+                                            Settings.IsRefreshPartsPage = true;
                                             var result = await service.UpdateTagTaskStatus(tagtaskstatus);
                                         }
                                     }

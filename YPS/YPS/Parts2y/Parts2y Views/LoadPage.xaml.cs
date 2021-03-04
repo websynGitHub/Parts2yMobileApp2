@@ -22,13 +22,13 @@ namespace YPS.Parts2y.Parts2y_Views
         LoadPageViewModel Vm;
         YPSService service;
 
-        public LoadPage(AllPoData selectedtagdata)
+        public LoadPage(AllPoData selectedtagdata, SendPodata sendpodata)
         {
             try
             {
                 InitializeComponent();
 
-                if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                if (Device.RuntimePlatform == Device.iOS)
                 {
                     var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
                     safeAreaInset.Bottom = 0;
@@ -36,8 +36,8 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-                Settings.IsRefreshPartsPage = true;
-                BindingContext = Vm = new LoadPageViewModel(Navigation, selectedtagdata, this);
+                //Settings.IsRefreshPartsPage = true;
+                BindingContext = Vm = new LoadPageViewModel(Navigation, selectedtagdata, sendpodata, this);
                 service = new YPSService();
 
                 img.WidthRequest = App.ScreenWidth;
@@ -50,21 +50,6 @@ namespace YPS.Parts2y.Parts2y_Views
 
         }
 
-
-        private async void DoneClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                string text = (sender as SfButton).Text;
-                await Vm.MarkAsDone();
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "DoneClicked method -> in LoadPage.xaml.cs  " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
-
         /// <summary>
         /// Gets called when back icon is clicked, to redirect  to the previous page.
         /// </summary>
@@ -74,14 +59,6 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                //if (Settings.POID > 0)
-                //{
-                //    Navigation.RemovePage(Navigation.NavigationStack[1]);
-                //    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                //    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                //    Settings.POID = 0;
-                //}
-
                 await Navigation.PopAsync();
             }
             catch (Exception ex)

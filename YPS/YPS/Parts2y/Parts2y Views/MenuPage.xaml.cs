@@ -32,34 +32,12 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     Page displayPage = (Page)Activator.CreateInstance(PageName);
                     this.MasterBehavior = MasterBehavior.Popover;
-
-                    //if (PageName.Name == "ProfileSelectionPage")
-                    //{
-                    //    Detail = new NavigationPage(new ProfileSelectionPage((int)QAType.PT))
-                    //    {
-                    //        //BackgroundColor = Color.FromHex("#0d0d0d"),
-                    //        BarBackgroundColor = Color.Green,
-                    //        BarTextColor = Color.White
-                    //    };
-                    //}
-                    //else if (PageName.Name == "QnAlistPage")
-                    //{
-                    //    Detail = new NavigationPage(new QnAlistPage(0, 0, (int)QAType.PT))
-                    //    {
-                    //        //BackgroundColor = Color.FromHex("#0d0d0d"),
-                    //        BarBackgroundColor = Color.Green,
-                    //        BarTextColor = Color.White
-                    //    };
-                    //}
-                    //else
-                    //{
                     Detail = new NavigationPage(displayPage)
                     {
                         //BackgroundColor = Color.FromHex("#0d0d0d"),
                         BarBackgroundColor = Color.DarkGreen,
                         BarTextColor = Color.White
                     };
-                    //}
                 }
                 else
                 {
@@ -91,18 +69,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                     if (moveToPage == "Home")
                     {
-                        //if (Settings.roleid == 1)
-                        //{
                         App.Current.MainPage = new MenuPage(typeof(HomePage));
-                        //}
-                        //else if (Settings.roleid == 2)
-                        //{
-                        //    App.Current.MainPage = new MenuPage(typeof(HomePage));
-                        //}
-                        //else if (Settings.roleid == 3)
-                        //{
-                        //    App.Current.MainPage = new MenuPage(typeof(DealerPage));
-                        //}
                     }
                     else if (moveToPage == "Archive")
                     {
@@ -116,7 +83,6 @@ namespace YPS.Parts2y.Parts2y_Views
                     }
                     else if (moveToPage == "Settings")
                     {
-                        //App.Current.MainPage = new MenuPage(typeof(ProfileSelectionPage));
                         if (Detail.Navigation.ModalStack.Count == 0 ||
             Detail.Navigation.ModalStack.Last().GetType() != typeof(ProfileSelectionPage))
                         {
@@ -135,30 +101,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             {
                                 try
                                 {
-
                                     CloudFolderKeyVal.Appredirectlogin("Your session token expired, please login", false);
-                                    //var Logoutresult = await service.LogoutService();
-                                    //Settings.Username = Settings.UserMail =
-                                    //Settings.SGivenName = Settings.EntityName = Settings.RoleName = Settings.access_token = Settings.JobSelected =
-                                    //Settings.BlobConnection = Settings.BlobStorageConnectionString =
-                                    //Settings.CompanySelected = Settings.LoginID = Settings.SupplierSelected = Settings.Projectelected = string.Empty;
-                                    //Settings.SupplierID = Settings.ProjectID = Settings.CompanyID = Settings.JobID =
-                                    //Settings.CompressionQuality = Settings.PhotoSize = Settings.userLoginID = Settings.userRoleID = 0;
-                                    //RememberPwdDB Db = new RememberPwdDB();
-                                    //var user = Db.GetUserDetails().FirstOrDefault();
-                                    //if (user != null)
-                                    //{
-                                    //    Db.ClearUserDetail(user.UserId);
-                                    //}
-                                    //DependencyService.Get<ISQLite>().deleteAllPNdata();
-                                    ////SecureStorage.Remove("userName");
-                                    ////SecureStorage.Remove("LoginID");
-                                    ////SecureStorage.Remove("userID");
-                                    //App.Current.MainPage = new NavigationPage(new LoginPage());
-                                    //if (Settings.alllabeslvalues != null)
-                                    //{
-                                    //    Settings.alllabeslvalues.Clear();
-                                    //}
                                 }
                                 catch (Exception ex)
                                 {

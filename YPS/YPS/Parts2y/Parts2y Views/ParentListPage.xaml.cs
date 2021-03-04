@@ -52,11 +52,6 @@ namespace YPS.Parts2y.Parts2y_Views
                     safeAreaInset.Bottom = 0;
                     safeAreaInset.Top = 30;
                     headerpart.Padding = safeAreaInset;
-
-                    //var pagingpartsafeArea = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    //pagingpartsafeArea.Top = 0;
-                    //pagingpartsafeArea.Bottom = 0;
-                    //pagingpart.Padding = pagingpartsafeArea;
                 }
 
                 Settings.mutipleTimeClick = false;
@@ -285,19 +280,10 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadingindicator = true;
-                //UserDialogs.Instance.ShowLoading("Loading...");
-
               
                 base.OnAppearing();
                 YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
-                //await SecureStorage.SetAsync("mainPageisOn", "1");
-
-                //For Enable and Disble master detail page menu gesture
-                //(Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
-
-                ///// Get PN count
-                //Vm.GetPNCount();
-
+               
                 Settings.countmenu = 1;
 
                 Settings.mutipleTimeClick = false;
@@ -354,70 +340,16 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-
                     Namefilter.GestureRecognizers.Add(new TapGestureRecognizer
                     {
                         Command = new Command(Vm.FilterClicked),
                     });
-
-                    //    stckCamera.GestureRecognizers.Add(new TapGestureRecognizer
-                    //    {
-                    //        Command = new Command(Vm.tap_InitialCamera),
-                    //        CommandParameter = dataGrid,
-                    //    });
-
-                    //    stckChat.GestureRecognizers.Add(new TapGestureRecognizer
-                    //    {
-                    //        Command = new Command(Vm.tap_OnMessage),
-                    //        CommandParameter = dataGrid,
-                    //    });
-
-                    //    stckFileUpload.GestureRecognizers.Add(new TapGestureRecognizer
-                    //    {
-                    //        Command = new Command(Vm.tap_InitialFileUpload),
-                    //        CommandParameter = dataGrid,
-                    //    });
-
-                    //    if (Settings.userRoleID != (int)UserRoles.MfrAdmin && Settings.userRoleID != (int)UserRoles.MfrUser && Settings.userRoleID != (int)UserRoles.DealerAdmin && Settings.userRoleID != (int)UserRoles.DealerUser)
-                    //    {
-                    //        stckPrinter.GestureRecognizers.Add(new TapGestureRecognizer
-                    //        {
-                    //            Command = new Command(Vm.tap_Printer),
-                    //            CommandParameter = dataGrid,
-                    //        });
-                    //    }
-                    //}
 
                     refreshName.GestureRecognizers.Add(new TapGestureRecognizer
                     {
                         Command = new Command(async () => await Vm.RefreshPage()),
                     });
 
-                    //chooseColumnName.GestureRecognizers.Add(new TapGestureRecognizer
-                    //{
-                    //    Command = new Command(Vm.ChooseColumns),
-                    //    CommandParameter = dataGrid,
-                    //});
-
-                    //archivedchats.GestureRecognizers.Add(new TapGestureRecognizer
-                    //{
-                    //    Command = new Command(Vm.ArchivedChats),
-                    //});
-
-                    //settingsName.GestureRecognizers.Add(new TapGestureRecognizer
-                    //{
-                    //    Command = new Command(Vm.profile_Tap)
-                    //});
-
-                    //pagesizeStackName.GestureRecognizers.Add(new TapGestureRecognizer
-                    //{
-                    //    Command = new Command<View>((view) =>
-                    //    {
-                    //        view?.Focus();
-                    //        this.reloadGrid = true;
-                    //    }),
-                    //    CommandParameter = PageSize,
-                    //});
                 });
             }
             catch (Exception ex)
@@ -439,7 +371,6 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 base.OnDisappearing();
-                //await SecureStorage.SetAsync("mainPageisOn", "0");
             }
             catch(Exception ex)
             {

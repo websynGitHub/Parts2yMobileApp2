@@ -34,5 +34,28 @@ namespace YPS.CustomRenders
         {
             view.SetValue(CommandParameterProperty, value);
         }
+
+        public static readonly BindableProperty SlCommandProperty = BindableProperty.CreateAttached("SlCommand", typeof(ICommand), typeof(LongPressedEffect), (object)null);
+        public static ICommand GetSlCommand(BindableObject view)
+        {
+            return (ICommand)view.GetValue(SlCommandProperty);
+        }
+
+        public static void SetSlCommand(BindableObject view, ICommand value)
+        {
+            view.SetValue(SlCommandProperty, value);
+        }
+
+
+        public static readonly BindableProperty SlCommandParameterProperty = BindableProperty.CreateAttached("SlCommandParameter", typeof(object), typeof(LongPressedEffect), (object)null);
+        public static object GetSlCommandParameter(BindableObject view)
+        {
+            return view.GetValue(SlCommandParameterProperty);
+        }
+
+        public static void SetSlCommandParameter(BindableObject view, object value)
+        {
+            view.SetValue(SlCommandParameterProperty, value);
+        }
     }
 }

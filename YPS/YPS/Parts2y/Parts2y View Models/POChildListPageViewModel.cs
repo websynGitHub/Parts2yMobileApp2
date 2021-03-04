@@ -37,10 +37,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand AllCmd { set; get; }
         public Command HomeCmd { get; set; }
         public Command JobCmd { get; set; }
-        public Command TaskCmd { get; set; }
+        public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
         public Command SelectTagItemCmd { set; get; }
-        public Command MoveToScanCmd { set; get; }
         SendPodata sendPodata = new SendPodata();
         ObservableCollection<AllPoData> allPOTagData;
         int POID, TaskID;
@@ -52,11 +51,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Navigation = _Navigation;
                 sendPodata = sendpodata;
                 trackService = new YPSService();
-                allPOTagData = new ObservableCollection<AllPoData>(potag);
-                //labelobj = new DashboardLabelChangeClass();
-                //Task.Run(() => ChangeLabel()).Wait();
+
+                if (potag != null)
+                {
+                    allPOTagData = new ObservableCollection<AllPoData>(potag);
+                }
                 Task.Run(() => PreparePoTagList(potag, -1)).Wait();
-                //MoveToNextPageCmd = new Command(async () => await MoveToNextPage());
                 moveToPage = new Command(RedirectToPage);
                 viewExistingFiles = new Command(ViewUploadedFiles);
                 viewExistingBUPhotos = new Command(tap_eachCamB);
@@ -70,10 +70,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PendingCmd = new Command(async () => await Pending_Tap());
                 AllCmd = new Command(async () => await All_Tap());
                 SelectTagItemCmd = new Command(TagLongPessed);
-                MoveToScanCmd = new Command(MoveToScan);
+                MoveToNextPageCmd = new Command(MoveToNextPage);
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
-                TaskCmd = new Command(async () => await TabChange("task"));
+                PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
             }
             catch (Exception ex)
@@ -107,25 +107,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        //private async Task MoveToNextPage()
-        //{
-        //    try
-        //    {
-        //        loadindicator = true;
-
-        //        if (Settings.CompanySelected.Contains("(Kp)"))
-        //        {
-        //            await Navigation.PushAsync(new LoadPage());
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        loadindicator = false;
-        //    }
-        //    loadindicator = false;
-        //}
-
         private async Task TabChange(string tabname)
         {
             try
@@ -140,13 +121,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await Navigation.PushAsync(new ParentListPage());
                 }
-                //else
-                //{
-                //    if (LoadTabTxtColor == Color.Black)
-                //    {
-                //        await Navigation.PushAsync(new LoadPage());
-                //    }
-                //}
             }
             catch (Exception ex)
             {
@@ -291,7 +265,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async void MoveToScan(object sender)
+        public async void MoveToNextPage(object sender)
         {
             try
             {
@@ -306,9 +280,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         POTagDetail.SelectedTagBorderColor = Color.DarkGreen;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        if (Settings.CompanySelected.Contains("(Kp)"))
+                        if (Settings.CompanySelected.Contains("(Kp)") || Settings.CompanySelected.Contains("(P)") ||
+                            Settings.CompanySelected.Contains("(Kr)") || Settings.CompanySelected.Contains("(E)"))
                         {
-                            await Navigation.PushAsync(new LoadPage(POTagDetail));
+                            //Settings.IsRefreshPartsPage = false;
+                            await Navigation.PushAsync(new LoadPage(POTagDetail, sendPodata));
                         }
                         else if (Settings.CompanySelected.Contains("(C)"))
                         {
@@ -632,6 +608,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                     tg.POTagID = item.POTagID;
                                                     tg.TaskID = item.TaskID;
                                                     tg.TagTaskStatus = item.TagTaskStatus;
+                                                    tg.TagNumber = item.TagNumber;
                                                     Settings.Tagnumbers = item.TagNumber;
                                                     lstdat.Add(tg);
                                                 }
@@ -703,7 +680,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                             var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                            //var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
 
                             if (uniq.Count() >= 2)
@@ -867,6 +843,84 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+        public async void MarkAsDone(object sender)
+        {
+
+            try
+            {
+                //if (!loadindicator)
+                //{
+                YPSLogger.TrackEvent("POChildListPageViewModel.cs", "in MarkAsDone method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                loadindicator = true;
+
+                bool checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    {
+                        var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
+                        var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
+
+                        if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0)
+                        {
+                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
+
+                            List<string> EncPOTagID = new List<string>();
+
+                            foreach (var data in selectedTagData)
+                            {
+                                var value = Helperclass.Encrypt(data.POTagID.ToString());
+                                EncPOTagID.Add(value);
+                            }
+                            tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
+                            tagtaskstatus.Status = 2;
+                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                            var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+
+                            if (AllTabVisibility == true)
+                            {
+                                await All_Tap();
+                            }
+                            else if (CompleteTabVisibility == true)
+                            {
+                                await Complete_Tap();
+                            }
+                            else if (InProgressTabVisibility == true)
+                            {
+                                await InProgress_Tap();
+                            }
+                            else
+                            {
+                                await Pending_Tap();
+                            }
+
+                            Settings.IsRefreshPartsPage = false;
+                            SelectedTagCount = 0;
+                            SelectedTagCountVisible = false;
+                        }
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection");
+                }
+                //}
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "MarkAsDone method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -1235,13 +1289,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var load = labelval.Where(wr => wr.FieldID == labelobj.Load.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name);
+                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
-                        labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name);
+                        labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
                         labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
-                        labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name);
+                        labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
-                        labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name);
+                        labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
 
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
@@ -1268,7 +1322,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
                         labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
-                        labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
+                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
                         labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
                     }
                 }

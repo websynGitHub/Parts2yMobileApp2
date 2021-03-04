@@ -18,9 +18,9 @@
                       >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="{Binding RowHeightOpenCam}"/>
-                        <!--<RowDefinition Height="{Binding RowHeightcomplete}"/>-->
                     </Grid.RowDefinitions>
 
                         <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
@@ -52,7 +52,62 @@
                             </LblIcons:FontAwesomeIconLabel>
                         </Grid>
 
-                    <StackLayout Grid.Row="1" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0">
+                    <StackLayout Grid.Row="1" Padding="0" Margin="0" IsVisible="{Binding IsTabsVisible}">
+                        <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
+                              BackgroundColor="Transparent" Padding="0" RowSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackLayout Grid.Column="0" Grid.Row="0" BackgroundColor="DarkGray">
+                                <Label Text="Home" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding HomeCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="1" Grid.Row="0" BackgroundColor="DarkGray" Margin="4,0,0,0">
+                                <Label  Text="Job" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                        HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding JobCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="2" Grid.Row="0" BackgroundColor="DarkGray" Margin="4,0,0,0">
+                                <Label Text="Parts" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding PartsCmd}"/>
+                                        </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="3" Grid.Row="0" BackgroundColor="White" Margin="4,0,0,0">
+                                <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Green" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding LoadCmd}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="2" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0">
                         <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
                                           FlowItemsSource="{Binding LoadPhotosList,Mode=TwoWay}" 
                                           IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" 
@@ -89,13 +144,13 @@
 
                     </StackLayout>
 
-                    <Label Grid.Row="1" Text="No photos available." IsVisible="{Binding IsNoPhotoTxt}" TextColor="Black"
+                    <Label Grid.Row="2" Text="No photos available." IsVisible="{Binding IsNoPhotoTxt}" TextColor="Black"
                            HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LableWithQuestionFont}"/>
-                    <ScrollView Grid.Row="1" IsVisible="{Binding IsImageViewForUploadVisible}" Padding="3">
+                    <ScrollView Grid.Row="2" IsVisible="{Binding IsImageViewForUploadVisible}" Padding="3">
                         <Image Source="{Binding ImageViewForUpload}" x:Name="img"/>
                     </ScrollView>
 
-                    <StackLayout Grid.Row="2" BackgroundColor="White" IsEnabled="{Binding IsUploadStackEnable}" IsVisible="{Binding IsUploadStackVisible}"
+                    <StackLayout Grid.Row="3" BackgroundColor="White" IsEnabled="{Binding IsUploadStackEnable}" IsVisible="{Binding IsUploadStackVisible}"
                                  VerticalOptions="EndAndExpand" Padding="10">
                         <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
                             <Grid HeightRequest="80" BackgroundColor="White">
@@ -127,7 +182,7 @@
 
                 <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding IsPhotoUploadIconEnable}"
                                             IsVisible="{Binding IsPhotoUploadIconVisible}"
-                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-110}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-55}"
                              RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-63}"
                     Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
@@ -137,26 +192,6 @@
                 </local:FontAwesomeIconLabel>
 
             </RelativeLayout>
-
-            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
-                         Margin="6,0,6,2" IsVisible="{Binding closeLabelText}">
-                <StackLayout Orientation="Vertical">
-
-
-                    <sfbuttons:SfButton IsEnabled="{Binding NotDoneVal}" Opacity="{Binding DoneBtnOpacity}"
-                                        Text="{Binding labelobj.Done.Name}" Margin="0,0,0,4" Clicked="DoneClicked"
-                                                Style="{StaticResource SfBtnBlue}"
-                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
-                                        BackgroundColor="{Binding BgColor}">
-                        <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>
-                </StackLayout>
-
-            </ContentView>
-
 
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

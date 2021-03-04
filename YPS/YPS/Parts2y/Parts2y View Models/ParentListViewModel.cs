@@ -54,7 +54,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand AllCmd { set; get; }
         public Command HomeCmd { get; set; }
         public Command JobCmd { get; set; }
-        public Command TaskCmd { get; set; }
+        public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
 
         YPSService trackService;
@@ -109,7 +109,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
-                TaskCmd = new Command(async () => await TabChange("task"));
+                PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
                 #endregion
 
@@ -247,16 +247,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 try
                 {
                     bool ifNotRootedDevie;
-                    // DashboardLabelChangeClass labelobj = new DashboardLabelChangeClass();
-                    //if (Device.RuntimePlatform == Device.Android)
-                    //{
-                    //    ///By using dependency service, checking mobile is root or not.
-                    //    ifNotRootedDevie = await DependencyService.Get<IRootDetection>().CheckIfRooted();
-                    //}
-                    //else
-                    //{
-                    //    ifNotRootedDevie = true;
-                    //}
 
                     ifNotRootedDevie = true;/// need to remove this line when run in device 
 
@@ -267,16 +257,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (checkInternet)
                         {
-                            //await RememberUserDetails();
-
-                            //SendPodata sendPodata = new SendPodata();
-                            //sendPodata.UserID = Settings.userLoginID;
-                            //sendPodata.PageSize = Settings.pageSizeYPS;
-                            //sendPodata.StartPage = Settings.startPageYPS;
-                            //SearchResultGet(sendPodata);
-
-                            //var result = await trackService.LoadPoDataService(sendPodata);
-
                             var result = await GetRefreshedData();
 
                             if (result != null)
@@ -377,7 +357,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
                                     else
                                     {
-                                        //loadingindicator = false;
                                         NoRecordsLbl = true;
                                         ISPoDataListVisible = false;
 
@@ -392,10 +371,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     NoRecordsLbl = true;
                                     await CheckingSearchValues();
-                                    //DataGridShowColumn = false;
-                                    //ClearSearchLbl = true;
                                     ISPoDataListVisible = false;
-                                    //activityIndicator = false;
                                     iscall = false;
                                     loadingindicator = false;
                                     PendingText = labelobj.Pending.Name + "\n" + "(0)";
@@ -1925,11 +1901,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name);
+                        labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name) + " :";
                         labelobj.Company.Status = company == null ? true : (company.Status == 1 ? true : false);
-                        labelobj.Project.Name = (project != null ? (!string.IsNullOrEmpty(project.LblText) ? project.LblText : labelobj.Project.Name) : labelobj.Project.Name);
+                        labelobj.Project.Name = (project != null ? (!string.IsNullOrEmpty(project.LblText) ? project.LblText : labelobj.Project.Name) : labelobj.Project.Name) + " :";
                         labelobj.Project.Status = project == null ? true : (project.Status == 1 ? true : false);
-                        labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name);
+                        labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name) + " :";
                         labelobj.Job.Status = job == null ? true : (job.Status == 1 ? true : false);
 
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";

@@ -41,14 +41,24 @@ namespace YPS.Droid.Custom_Renderers
                 {
                     Control.LongClickable = true;
                     Control.LongClick += Control_LongClick;
+                    Control.Clickable = true;
+                    Control.Click += Control_Click;
                 }
                 else
                 {
                     Container.LongClickable = true;
                     Container.LongClick += Control_LongClick;
+                    Container.Clickable = true;
+                    Container.Click += Control_Click;
                 }
                 _attached = true;
             }
+        }
+
+        private void Control_Click(object sender, EventArgs e)
+        {
+            var command = LongPressedEffect.GetSlCommand(Element);
+            command?.Execute(LongPressedEffect.GetSlCommandParameter(Element));
         }
 
         /// <summary>
@@ -73,14 +83,19 @@ namespace YPS.Droid.Custom_Renderers
                 {
                     Control.LongClickable = true;
                     Control.LongClick -= Control_LongClick;
+                    Control.Clickable = true;
+                    Control.Click -= Control_Click;
                 }
                 else
                 {
                     Container.LongClickable = true;
                     Container.LongClick -= Control_LongClick;
+                    Control.Clickable = true;
+                    Control.Click -= Control_Click;
                 }
                 _attached = false;
             }
+
         }
     }
 }

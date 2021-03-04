@@ -31,6 +31,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         int puid, poid, selectiontype_index, photoCounts = 0;
         AllPoData selectedTagData;
         Stream picStream;
+        SendPodata SendPodData = new SendPodata();
         string extension = "", Mediafile, fileName;
         public Command select_pic { set; get; }
         public Command CloseCommand { set; get; }
@@ -38,13 +39,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand ViewPhotoDetailsCmd { set; get; }
         public ICommand DeleteImageCmd { set; get; }
         public Command HomeCommand { get; set; }
+        public Command HomeCmd { get; set; }
+        public Command JobCmd { get; set; }
+        public Command PartsCmd { get; set; }
+        public Command LoadCmd { set; get; }
 
-        public LoadPageViewModel(INavigation navigation, AllPoData selectedtagdata, LoadPage pagename)
+        public LoadPageViewModel(INavigation navigation, AllPoData selectedtagdata, SendPodata sendpodata, LoadPage pagename)
         {
             try
             {
                 service = new YPSService();
                 Navigation = navigation;
+                SendPodData = sendpodata;
                 IsNoPhotoTxt = true;
                 selectedTagData = selectedtagdata;
                 Tagnumbers = selectedtagdata.TagNumber;
@@ -54,6 +60,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ViewPhotoDetailsCmd = new Command(ViewPhotoDetails);
                 DeleteImageCmd = new Command(DeleteImage);
                 HomeCommand = new Command(HomeCommand_btn);
+
+                HomeCmd = new Command(async () => await TabChange("home"));
+                JobCmd = new Command(async () => await TabChange("job"));
+                PartsCmd = new Command(async () => await TabChange("parts"));
+                LoadCmd = new Command(async () => await TabChange("load"));
 
                 if (selectedTagData.TagTaskStatus == 2)
                 {
@@ -69,35 +80,70 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async Task MarkAsDone()
+        private async Task<ObservableCollection<AllPoData>> GetUpdatedAllPOData()
         {
+            ObservableCollection<AllPoData> AllPoDataList = new ObservableCollection<AllPoData>();
+
             try
             {
-                YPSLogger.TrackEvent("MarkAsDone", "in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 IndicatorVisibility = true;
+                YPSLogger.TrackEvent("LoadPageViewModel.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
                 {
-                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                    tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
-                    tagtaskstatus.Status = 2;
-                    tagtaskstatus.CreatedBy = Settings.userLoginID;
+                    var result = await service.LoadPoDataService(SendPodData);
 
-                    var result = await service.UpdateTagTaskStatus(tagtaskstatus);
-
-                    NotDoneVal = false;
-                    DoneBtnOpacity = 0.5;
+                    if (result != null && result.data != null)
+                    {
+                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        {
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == selectedTagData.POID && wr.TaskID == selectedTagData.TaskID));
+                        }
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "image_tap method -> in LoadPageViewModel " + Settings.userLoginID);
-                await service.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
+            }
+            return AllPoDataList;
+        }
+
+        private async Task TabChange(string tabname)
+        {
+            try
+            {
+                IndicatorVisibility = true;
+
+                if (tabname == "home")
+                {
+                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                }
+                else if (tabname == "job")
+                {
+                    await Navigation.PushAsync(new ParentListPage());
+                }
+                else if (tabname == "parts")
+                {
+                    await Navigation.PopAsync();
+                    //await Navigation.PushAsync(new POChildListPage(await GetUpdatedAllPOData(), SendPodData));
+                }
+            }
+            catch (Exception ex)
+            {
+                IndicatorVisibility = false;
             }
             IndicatorVisibility = false;
         }
-
 
         /// <summary>
         /// Get the existing uploaded photo(s).
@@ -190,12 +236,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             IndicatorVisibility = true;
             try
             {
-                //if (Access_Photo == true)
-                //{
-                //    await App.Current.MainPage.DisplayAlert("Message", "You can't able to delete this photo.", "OK");
-                //}
-                //else
-                //{
                 bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
 
                 if (conform)
@@ -286,6 +326,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         IsPhotoUploadIconVisible = true;
                         RowHeightOpenCam = 0;
                         IsUploadStackVisible = IsImageViewForUploadVisible = false;
+                        IsTabsVisible = true;
                         IsPhotosListStackVisible = true;
 
                         if (extension.Trim().ToLower() == ".png" || extension.Trim().ToLower() == ".jpg" || extension.Trim().ToLower() == ".jpeg" || extension.Trim().ToLower() == ".gif" || extension.Trim().ToLower() == ".bmp")
@@ -303,23 +344,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if (initialresult.status != 0)
                                     {
                                         selectiontype_index = 1;
-
-                                        //if (initialresult.data.Count != 0)
-                                        //{
-                                        //    var result = initialresult.photoTags.Select(x => x.TagNumber).ToList();
-                                        //    Settings.Tagnumbers = String.Join(" , ", result);
-                                        //}
-
-                                        //if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
-                                        //{
-                                        //    AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel>() { Aphotos = { new CustomPhotoModel() { PhotoURL = initialresult.data.photo.PhotoURL, PhotoDescription = initialresult.data.photo.PhotoDescription, PhotoID = initialresult.data.photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = initialresult.data.photo.FullName, CreatedDate = initialresult.data.photo.CreatedDate } } };
-                                        //    finalPhotoListA = AllPhotosData.data.Aphotos;
-                                        //    AStack = true;
-                                        //    BStack = false;
-                                        //    AfterPackingTextColor = Color.Green;
-                                        //    BeforePackingTextColor = Color.Black;
-                                        //}
-
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
                                     }
                                     else
@@ -335,38 +359,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             await GetPhotosData(selectedTagData.POTagID);
 
-                            //UpdateDataBackEnd();
-
-                            //if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
-                            //{
-                            //    closeLabelText = false;
-                            //    RowHeightcomplete = 0;
-                            //}
-                            //else
-                            //{
-                            //    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                            //        Settings.userRoleID == (int)UserRoles.SupplierUser)
-                            //    {
-                            //        if (isuploadcompleted == true)
-                            //        {
-                            //            DeleteIconStack = false;
-                            //            closeLabelText = false;
-                            //            RowHeightcomplete = 0;
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        closeLabelText = true;
-                            //        RowHeightcomplete = 50;
-                            //    }
-                            //}
-
                             if (Settings.userRoleID == (int)UserRoles.MfrAdmin ||
                                     Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
                                     Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
                             {
                                 closeLabelText = true;
-                                //RowHeightcomplete = 0;
                                 DeleteIconStack = false;
                             }
 
@@ -466,7 +463,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     /// Checking camera is available or not in in mobile.
                     if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
                     {
-                        //btnenable = false;
                         /// Request permission a user to allowed take photos from the camera.
                         var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
                         var statusiOS = resultIOS[Permission.Camera];
@@ -505,52 +501,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         return file.GetStreamWithImageRotatedForExternalStorage();
                                     });
 
-                                    //firstStack = true;
                                     closeLabelText = false;
-                                    //RowHeightcomplete = 0;
-                                    //listStack = false;
-                                    //secondStack = false;
-                                    //NoPhotos_Visibility = false;
                                     IsUploadStackVisible = true;
+                                    IsTabsVisible = false;
                                 }
                                 else
                                 {
-                                    //CaptchaImage2 = ImageSource.FromStream(() =>
-                                    //{
-                                    //    return file.GetStreamWithImageRotatedForExternalStorage();
-                                    //});
-
-                                    //firstStack = false;
-                                    //secondStack = true;
                                     closeLabelText = false;
-                                    //listStack = false;
-                                    //RowHeightcomplete = 0;
-                                    //NoPhotos_Visibility = false;
-
                                 }
 
                                 extension = Path.GetExtension(file.Path);
                                 Mediafile = file.Path;
                                 picStream = file.GetStreamWithImageRotatedForExternalStorage();
                                 fileName = Path.GetFileNameWithoutExtension(file.Path);
-                                //FirstMainStack = false;
                                 IsPhotoUploadIconVisible = false;
                                 IsPhotosListVisible = false;
                                 IsPhotosListStackVisible = false;
                                 RowHeightOpenCam = 100;
-                                //SecondMainStack = true;
                             }
                         }
                         else
                         {
-                            //btnenable = true;
                         }
                     }
                     else
                     {
                         await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
                     }
-                    //btnenable = true;
                 }
                 else if (action == "Gallery")
                 {
@@ -589,26 +566,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 if (photoCounts == 0)
                                 {
                                     ImageViewForUpload = ImageSource.FromFile(fileOS.Path);
-                                    //firstStack = true;
-                                    //listStack = false;
-                                    //secondStack = false;
                                     IsUploadStackVisible = true;
-                                }
-                                else
-                                {
-                                    //CaptchaImage2 = ImageSource.FromFile(fileOS.Path);
-                                    //firstStack = false;
-                                    //secondStack = true;
+                                    IsTabsVisible = false;
                                 }
 
                                 closeLabelText = false;
                                 IsPhotoUploadIconVisible = false;
-                                //RowHeightcomplete = 0;
-                                //FirstMainStack = false;
                                 RowHeightOpenCam = 100;
-                                //SecondMainStack = true;
-                                //NoPhotos_Visibility = false;
-                                //btnenable = true;
                                 IsPhotosListVisible = false;
                                 IsPhotosListStackVisible = false;
                                 extension = Path.GetExtension(fileOS.Path);
@@ -617,10 +581,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             });
                         }
                     }
-                    else
-                    {
-                        //btnenable = true;
-                    }
+                    
                 }
                 IndicatorVisibility = false;
             }
@@ -635,184 +596,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        /// <summary>
-        /// Gets called when clicked the delete icon on photo.
-        /// </summary>
-        /// <param name="obj"></param>
-        //private async void delete_image(object obj)
-        //{
-        //    YPSLogger.TrackEvent("LoadPageViewModel", "in delete_image method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-        //    IndicatorVisibility = true;
-        //    try
-        //    {
-        //        if (!multiple_Taps)
-        //        {
-        //            multiple_Taps = true;
-
-        //            if (Access_Photo == true)
-        //            {
-        //                await App.Current.MainPage.DisplayAlert("Message", "You can't able to delete this photo.", "OK");
-        //            }
-        //            else
-        //            {
-        //                bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
-
-        //                if (conform)
-        //                {
-        //                    Device.BeginInvokeOnMainThread(async () =>
-        //                    {
-        //                        IndicatorVisibility = true;
-        //                        try
-        //                        {
-        //                            /// Verifying internet connection.
-        //                            checkInternet = await App.CheckInterNetConnection();
-
-        //                            if (checkInternet)
-        //                            {
-        //                                var findData = obj as CustomPhotoModel;
-        //                                /// Calling photo delete API to delete files based on a photo id.
-        //                                var uploadresult = await service.DeleteImageService(findData.PhotoID);
-
-        //                                if (uploadresult != null)
-        //                                {
-        //                                    if (uploadresult.status != 0)
-        //                                    {
-        //                                        if (UploadType == (int)UploadTypeEnums.GoodsPhotos_BP)
-        //                                        {
-        //                                            var item = finalPhotoListB.Where(x => x.PhotoID == findData.PhotoID).FirstOrDefault();
-        //                                            AllPhotosData.data.BPhotos.Remove(item);
-
-        //                                            if (AllPhotosData.data.BPhotos.Count == 0)
-        //                                            {
-        //                                                NoPhotos_Visibility = true;
-        //                                            }
-        //                                        }
-        //                                        else
-        //                                        {
-        //                                            var item = finalPhotoListA.Where(x => x.PhotoID == findData.PhotoID).FirstOrDefault();
-        //                                            AllPhotosData.data.Aphotos.Remove(item);
-
-        //                                            if (AllPhotosData.data.Aphotos.Count == 0)
-        //                                            {
-        //                                                NoPhotos_Visibility = true;
-        //                                            }
-        //                                        }
-
-        //                                        UpdateDataBackEnd();
-
-        //                                        if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
-        //                                        {
-        //                                            closeLabelText = false;
-        //                                            RowHeightcomplete = 0;
-        //                                        }
-        //                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
-        //                                    }
-        //                                    else
-        //                                    {
-        //                                    }
-        //                                }
-        //                                else
-        //                                {
-        //                                }
-        //                            }
-        //                            else
-        //                            {
-        //                                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //                            }
-        //                        }
-        //                        catch (Exception ex)
-        //                        {
-        //                            YPSLogger.ReportException(ex, "delete_image method from if(conform) -> in LoadPageViewModel " + Settings.userLoginID);
-        //                            await service.Handleexception(ex);
-        //                        }
-
-        //                        IndicatorVisibility = false;
-        //                    });
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "delete_image method -> in LoadPageViewModel " + Settings.userLoginID);
-        //        await service.Handleexception(ex);
-        //    }
-        //    finally
-        //    {
-        //        IndicatorVisibility = false;
-        //    }
-        //    multiple_Taps = false;
-        //}
-
-        /// <summary>
-        /// Gets called when clicked on Complete RadioButton
-        /// </summary>
-        /// <returns></returns>
-        //public async Task ClosePic()
-        //{
-        //    YPSLogger.TrackEvent("LoadPageViewModel", "in ClosePic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-        //    IndicatorVisibility = true;
-
-        //    try
-        //    {
-        //        NotCompletedVal = false;
-        //        CompleteBtnOpacity = 0.5;
-
-        //        bool result = await App.Current.MainPage.DisplayAlert("Complete", "Are you sure?", "Yes", "No");
-
-        //        if (result)
-        //        {
-        //            /// Verifying internet connection.
-        //            checkInternet = await App.CheckInterNetConnection();
-
-        //            if (checkInternet)
-        //            {
-        //                /// Calling ClosePhoto API to close upload photo.
-        //                var closePhotoResult = await service.ClosePhotoData(poid, puid);
-
-        //                if (closePhotoResult.status != 0 || closePhotoResult != null)
-        //                {
-        //                    MessagingCenter.Send<string, string>("PhotoComplted", "showtickMark", puid.ToString());
-
-        //                    switch (Device.RuntimePlatform)
-        //                    {
-        //                        case Device.iOS:
-        //                            await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");
-        //                            break;
-        //                        case Device.Android:
-        //                            DependencyService.Get<IToastMessage>().ShortAlert("Success.");
-        //                            break;
-        //                    }
-        //                    await Navigation.PopAsync(true);
-        //                }
-        //                else
-        //                {
-        //                }
-        //            }
-        //            else
-        //            {
-        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            CompletedVal = false;
-        //            NotCompletedVal = true;
-        //            CompleteBtnOpacity = 1.0;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "ClosePic method -> in LoadPageViewModel " + Settings.userLoginID);
-        //        await service.Handleexception(ex);
-        //    }
-        //    finally
-        //    {
-        //        IndicatorVisibility = false;
-        //    }
-        //}
-
+       
         private async void HomeCommand_btn(object obj)
         {
             try
@@ -827,53 +611,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
 
         }
-
-        /// <summary>
-        /// Gets called when clicked on any, already uploaded image to view it
-        /// </summary>
-        /// <param name="obj"></param>
-        //private async void image_tap(object obj)
-        //{
-        //    YPSLogger.TrackEvent("LoadPageViewModel", "in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-        //    IndicatorVisibility = true;
-
-        //    try
-        //    {
-        //        if (!multiple_Taps)
-        //        {
-        //            multiple_Taps = true;
-        //            var data = obj as CustomPhotoModel;
-        //            int photoid = Convert.ToInt32(data.PhotoID);
-        //            var des = (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP) ? finalPhotoListA.Where(x => x.PhotoID == photoid).FirstOrDefault() : finalPhotoListB.Where(x => x.PhotoID == photoid).FirstOrDefault();
-        //            var imageLists = UploadType == (int)UploadTypeEnums.GoodsPhotos_AP ? finalPhotoListA : finalPhotoListB;
-
-        //            foreach (var items in imageLists)
-        //            {
-        //                if (items.PhotoDescription.Length > 150)
-        //                {
-        //                    items.ShowAndHideDescr = true;
-        //                    items.ShowAndHideBtn = true;
-        //                    items.ShowAndHideBtnEnable = true;
-        //                }
-        //                else if (items.PhotoDescription.Length > 0)
-        //                {
-        //                    items.ShowAndHideDescr = true;
-        //                }
-        //            }
-        //            await Navigation.PushAsync(new ImageView(imageLists, photoid, Tagnumbers));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "image_tap method -> in LoadPageViewModel " + Settings.userLoginID);
-        //        await service.Handleexception(ex);
-        //    }
-        //    finally
-        //    {
-        //        IndicatorVisibility = false;
-        //    }
-        //    multiple_Taps = false;
-        //}
 
         /// <summary>
         /// Dynamic text changed
@@ -898,6 +635,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Upload.Name = (upload != null ? (!string.IsNullOrEmpty(upload.LblText) ? upload.LblText : labelobj.Upload.Name) : labelobj.Upload.Name);
                         labelobj.Upload.Status = upload == null ? true : (upload.Status == 1 ? true : false);
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
+
+                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
                     }
                 }
             }
@@ -923,12 +662,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "Upload"
             };
+
+            public LabelAndActionFields Load { get; set; } = new LabelAndActionFields
+            {
+                Status = true,
+                Name = "Load"
+            };
         }
         public class LabelAndActionFields : IBase
         {
-            //public bool Status { get; set; }
-            //public string Name { get; set; }
-
             public bool _Status;
             public bool Status
             {
@@ -1162,6 +904,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _IndicatorVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsTabsVisible = true;
+        public bool IsTabsVisible
+        {
+            get { return _IsTabsVisible; }
+            set
+            {
+                _IsTabsVisible = value;
                 NotifyPropertyChanged();
             }
         }
