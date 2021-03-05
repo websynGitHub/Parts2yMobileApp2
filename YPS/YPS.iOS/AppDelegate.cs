@@ -124,6 +124,7 @@ namespace YPS.iOS
             global::Xamarin.Forms.Forms.Init();
             CachedImageRenderer.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+            Syncfusion.XForms.iOS.Buttons.SfRadioButtonRenderer.Init();
             //Appcenter value need to change based on (Alpha,Beta,Production//reference appcenter region)
             AppCenter.Start(Appcenter_iOS, typeof(Analytics), typeof(Crashes));
 

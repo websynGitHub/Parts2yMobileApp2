@@ -187,6 +187,9 @@ namespace YPS.CommonClasses
         public static string IIJServerPublicKey { get; set; }
         public static bool IsPinnigEnabled { get; set; } = true;
 
+        public static List<InspectionConfiguration> allInspectionConfigurations { set; get; }
+
+
         #region push notification
         public static string GetParamVal { get; set; }
         #endregion
