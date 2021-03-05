@@ -30,6 +30,11 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 InitializeComponent();
 
+                if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
+                {
+                    loadStack.IsVisible = false;
+                }
+
                 if (Device.RuntimePlatform == Device.iOS)
                 {
                     var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
@@ -120,22 +125,10 @@ namespace YPS.Parts2y.Parts2y_Views
                         c.BPhotoCountVisible = true;
                         c.APhotoCountVisible = true;
                         c.IsPhotosVisible = true;
-                        c.TagTaskStatusIcon = Icons.Tickicon;
+                        c.TagTaskStatusIcon = c.TagTaskStatus == 0 ? Icons.Tickicon : Icons.CheckCircle;
                         c.TagTaskStatus = c.TagTaskStatus == 0 ? 1 : c.TagTaskStatus;
                         return c;
                     }).ToList();
-
-                    //Vm.SelectedTagCount = 0;
-                    //Vm.SelectedTagCountVisible = false;
-
-                    //if (Vm.PendingTabVisibility == true)
-                    //{
-                    //    Task.Run(() => Vm.Pending_Tap()).Wait();
-                    //}
-                    //else
-                    //{
-                    //    Task.Run(() => Vm.All_Tap()).Wait();
-                    //}
                 });
 
                 MessagingCenter.Subscribe<string, string>("FilesCountI", "msgFileInitial", (sender, args) =>
@@ -150,22 +143,10 @@ namespace YPS.Parts2y.Parts2y_Views
                          c.FUID = Convert.ToInt16(count[1]);
                          c.filecountVisible = true;
                          c.IsFilesVisible = true;
-                         c.TagTaskStatusIcon = Icons.Tickicon;
+                         c.TagTaskStatusIcon = c.TagTaskStatus == 0 ? Icons.Tickicon : Icons.CheckCircle;
                          c.TagTaskStatus = c.TagTaskStatus == 0 ? 1 : c.TagTaskStatus;
                          return c;
                      }).ToList();
-
-                    //Vm.SelectedTagCount = 0;
-                    //Vm.SelectedTagCountVisible = false;
-
-                    //if (Vm.PendingTabVisibility == true)
-                    //{
-                    //    Task.Run(() => Vm.Pending_Tap()).Wait();
-                    //}
-                    //else
-                    //{
-                    //    Task.Run(() => Vm.All_Tap()).Wait();
-                    //}
                 });
 
                 MessagingCenter.Subscribe<string, string>("FilesCounts", "msgF", (sender, args) =>
@@ -303,11 +284,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             CommandParameter = ChildDataList,
                         });
 
-                        stckDone.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.MarkAsDone),
-                            CommandParameter = ChildDataList,
-                        });
+                       
 
                         if (Settings.userRoleID != (int)UserRoles.MfrAdmin && Settings.userRoleID != (int)UserRoles.MfrUser && Settings.userRoleID != (int)UserRoles.DealerAdmin && Settings.userRoleID != (int)UserRoles.DealerUser)
                         {
@@ -319,21 +296,11 @@ namespace YPS.Parts2y.Parts2y_Views
                         }
                     }
 
-                    //refreshName.GestureRecognizers.Add(new TapGestureRecognizer
-                    //{
-                    //    Command = new Command(async () => await Vm.RefreshPage()),
-                    //});
-
-                    //chooseColumnName.GestureRecognizers.Add(new TapGestureRecognizer
-                    //{
-                    //    Command = new Command(Vm.ChooseColumns),
-                    //    CommandParameter = dataGrid,
-                    //});
-
-                    //archivedchats.GestureRecognizers.Add(new TapGestureRecognizer
-                    //{
-                    //    Command = new Command(Vm.ArchivedChats),
-                    //});
+                    stckDone.GestureRecognizers.Add(new TapGestureRecognizer
+                    {
+                        Command = new Command(Vm.MarkAsDone),
+                        CommandParameter = ChildDataList,
+                    });
 
                 });
             }

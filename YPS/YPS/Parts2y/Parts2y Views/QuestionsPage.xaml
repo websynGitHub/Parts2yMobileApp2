@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YPS.Parts2y.Parts2y_Views.QuestionsPage"  x:Name="QuestionPage"
+             xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:local1="clr-namespace:YPS.CommonClasses"
+            NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#E9E9E9">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+
+                    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                          RowSpacing="0">
+                        <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart"
+                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="60,*">
+
+                        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
+                            <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                                <local:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
+                                </local:FontAwesomeIconLabel.GestureRecognizers>
+                            </local:FontAwesomeIconLabel>
+                        </StackLayout>
+
+                        <StackLayout  Orientation="Horizontal"  HorizontalOptions="StartAndExpand" Margin="8,0,0,10" 
+                                        VerticalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
+                            <Grid  RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="0,0,0,0" Padding="0,0,0,0"
+                      HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand"
+                                  ColumnDefinitions="Auto,Auto,*">
+                                <Label Grid.Row="0" Grid.Column="0" Text="VIN" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="0" Grid.Column="2" Text="ABCDEFGH" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="1" Grid.Column="0" Text="Model" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="1" Grid.Column="2" Text="YE311" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="2" Grid.Column="0" Text="Color" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="2"  Grid.Column="2" Text="White" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="3" Grid.Column="0" Text="Carrier#" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="3" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Label Grid.Row="3"  Grid.Column="2" Text="RJ14" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                            </Grid>
+                        </StackLayout>
+                    </Grid>
+
+
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
+                              BackgroundColor="Transparent" Padding="0" Margin="0,0,0,0" Orientation="Horizontal">
+                        <!--<Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>-->
+                        <StackLayout BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand">
+                            <Label Text="Home" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                <!--<Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding HomeCmd}"/>
+                                    </Label.GestureRecognizers>-->
+                            </Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding HomeCmd}"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <StackLayout  BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
+                            <Label  Text="Job" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                        HorizontalTextAlignment="Center">
+                                <!--<Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding JobCmd}"/>
+                                    </Label.GestureRecognizers>-->
+                            </Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding JobCmd}"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <StackLayout  BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                <!--<Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding PartsCmd}"/>
+                                        </Label.GestureRecognizers>-->
+                            </Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PartsCmd}"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <StackLayout x:Name="loadStack" BackgroundColor="White" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                       TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       HorizontalTextAlignment="Center">
+                                <!--<Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding LoadCmd}"/>
+                                    </Label.GestureRecognizers>-->
+                            </Label>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
+                            <!--<StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding LoadCmd}"/>
+                                </StackLayout.GestureRecognizers>-->
+                        </StackLayout>
+                    </StackLayout>
+
+                    <CollectionView x:Name="QuestionList" BackgroundColor="Transparent"
+                                SelectionMode="Single" ItemsSource="{Binding QuestionsList}"
+                                Margin="0,0,0,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="6,0,6,6">
+                                    <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="15,12,15,12" 
+                                           BorderColor="{Binding SelectedTagBorderColor}"
+                                           CornerRadius="4"  HasShadow="False">
+                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=QuestionPage}}"
+                                                          CommandParameter="{Binding .}"/>
+                                            </StackLayout.GestureRecognizers>
+                                            <Label Text="{Binding MInspectionConfigID}" TextColor="Black"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                            <Label Text="{Binding Question}" TextColor="Black" Margin="5,0,0,0"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+                </Grid>
+            </RelativeLayout>
+            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
+                         VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
+                        <StackLayout Padding="15">
+                            <ActivityIndicator IsRunning="True" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                            <Label x:Name="lblLoadingText" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..."></Label>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

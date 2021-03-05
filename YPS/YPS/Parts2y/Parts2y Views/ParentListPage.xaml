@@ -107,10 +107,11 @@
                         </StackLayout>
                     </Grid>
 
-                        <StackLayout Grid.Row="1" Padding="0" Margin="0" BackgroundColor="Transparent">
-                            <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
-                              BackgroundColor="Transparent" Padding="0" RowSpacing="0">
-                                <Grid.ColumnDefinitions>
+                        <StackLayout Grid.Row="1" Padding="0" Margin="0" BackgroundColor="Transparent"
+                                      HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
+                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
+                              BackgroundColor="Transparent" Padding="0" Orientation="Horizontal">
+                                <!--<Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -118,8 +119,8 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <StackLayout Grid.Column="0" Grid.Row="0" BackgroundColor="DarkGray">
+                                </Grid.RowDefinitions>-->
+                                <StackLayout BackgroundColor="DarkGray"  HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
@@ -132,7 +133,8 @@
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
 
-                                <StackLayout Grid.Column="1" Grid.Row="0"  Margin="4,0,0,0" BackgroundColor="White">
+                                <StackLayout Margin="4,0,0,0" BackgroundColor="White"  
+                                             HorizontalOptions="FillAndExpand" >
                                     <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
@@ -140,20 +142,22 @@
                                     <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
                                 </StackLayout>
 
-                                <StackLayout Grid.Column="2" Grid.Row="0" Margin="4,0,0,0" BackgroundColor="DarkGray">
+                                <StackLayout Margin="4,0,0,0" BackgroundColor="DarkGray" 
+                                             HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     </Label>
                                 </StackLayout>
 
-                                <StackLayout Grid.Column="3" Grid.Row="0" Margin="4,0,0,0" BackgroundColor="DarkGray">
+                                <StackLayout x:Name="loadStack"  Margin="4,0,0,0" BackgroundColor="DarkGray"
+                                              HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     </Label>
                                 </StackLayout>
-                            </Grid>
+                            </StackLayout>
                         </StackLayout>
                     
                         <Grid Grid.Row="2" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 

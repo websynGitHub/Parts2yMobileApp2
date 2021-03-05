@@ -45,7 +45,12 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 InitializeComponent();
-                
+
+                if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
+                {
+                    loadStack.IsVisible = false;
+                }
+
                 if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
                 {
                     var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();

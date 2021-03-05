@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YPS.Parts2y.Parts2y_Views.ScanPage" BackgroundColor="White"
-             xmlns:local1="clr-namespace:YPS.CommonClasses"
+             x:Class="YPS.Parts2y.Parts2y_Views.InspVerificationScanPage"
+             xmlns:local1="clr-namespace:YPS.CommonClasses" BackgroundColor="White"
              NavigationPage.HasNavigationBar="False" x:Name="scanpage" 
              xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:behaviours="clr-namespace:YPS.Behaviours">
-    
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -82,14 +81,14 @@
                         </sfbuttons:SfButton>
 
                         <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="1"
-                                    Command="{Binding photoUploadCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
-                                            IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding PhotoOpacity}"> 
+                                    Command="{Binding MoveToInspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                            IsEnabled="{Binding IsInspEnable}" Opacity="{Binding InspOpacity}">
                             <sfbuttons:SfButton.Content>
                                 <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Text="Photo" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
                                 </Grid>
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
@@ -99,7 +98,7 @@
                     </Grid>
                 </Grid>
             </Grid>
-            
+
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Style="{StaticResource FmForActivityIndicator}">
                     <StackLayout Padding="15">
@@ -109,6 +108,5 @@
                 </Frame>
             </ContentView>
         </AbsoluteLayout>
-
     </ContentPage.Content>
 </ContentPage>
