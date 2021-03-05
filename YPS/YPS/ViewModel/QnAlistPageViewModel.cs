@@ -122,6 +122,17 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                OnPropertyChanged("BgColor");
+            }
+        }
+
         public ICommand btn_start { get; set; }
         public INavigation Navigation { get; set; }
 

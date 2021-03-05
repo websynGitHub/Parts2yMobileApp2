@@ -103,6 +103,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IIJEnable = Settings.IsIIJEnabled;
                     saveData.IsPNEnabled = Settings.IsPNEnabled;
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
+                    saveData.BgColor =  Settings.Bar_Background.ToArgb();
                     Db.SaveUserPWd(saveData);
 
                     #region selected profile

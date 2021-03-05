@@ -152,6 +152,17 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                RaisePropertyChanged("BgColor");
+            }
+        }
+
         private string _DescriptionLabel = "Description";
         public string DescriptionLabel
         {

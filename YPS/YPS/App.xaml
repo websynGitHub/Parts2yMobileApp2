@@ -308,7 +308,7 @@
 
 
             <Style x:Key="SfInputLayout" TargetType="sfInputlayout:SfTextInputLayout">
-                <Setter Property="FocusedColor" Value="DarkGreen"/>
+                <Setter Property="FocusedColor" Value="{Binding BgColor}"/>
                 <Setter Property="OutlineCornerRadius" Value="7"/>
                 <Setter Property="ContainerType" Value="Outlined"/>
                 <Setter Property="Padding" Value="0,1,0,1"/>

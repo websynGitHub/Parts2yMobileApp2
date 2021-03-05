@@ -19,7 +19,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="DarkGreen" 
+            <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="Start"
                           RowDefinitions="*" ColumnDefinitions="60,*,Auto">
                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"

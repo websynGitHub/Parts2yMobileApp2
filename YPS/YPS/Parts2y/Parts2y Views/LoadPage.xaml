@@ -23,7 +23,7 @@
                         <RowDefinition Height="{Binding RowHeightOpenCam}"/>
                     </Grid.RowDefinitions>
 
-                        <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
+                    <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
                               RowDefinitions="*" ColumnDefinitions="60,*,40">
 
                             <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
@@ -105,16 +105,16 @@
 
                             <StackLayout Grid.Column="3" Grid.Row="0" BackgroundColor="White" Margin="4,0,0,0">
                                 <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
-                                       TextColor="Green" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     <!--<Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding LoadCmd}"/>
                                     </Label.GestureRecognizers>-->
                                 </Label>
                                 <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
-                                <StackLayout.GestureRecognizers>
+                                <!--<StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                </StackLayout.GestureRecognizers>
+                                </StackLayout.GestureRecognizers>-->
                             </StackLayout>
                         </Grid>
                     </StackLayout>
@@ -176,7 +176,7 @@
                                                 Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
 
                                 <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
-                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="DarkGreen">
+                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                                     <sfbuttons:SfButton.Content>
                                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                                  Padding="10,10,10,10">

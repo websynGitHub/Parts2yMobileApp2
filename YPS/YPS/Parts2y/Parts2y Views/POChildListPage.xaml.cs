@@ -402,7 +402,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 if (val.IsChecked == true)
                 {
                     item.IsChecked = true;
-                    item.SelectedTagBorderColor = Color.DarkGreen;
+                    item.SelectedTagBorderColor = Settings.Bar_Background;
                 }
                 else
                 {

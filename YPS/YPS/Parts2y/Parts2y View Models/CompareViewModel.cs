@@ -42,7 +42,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Navigation = _Navigation;
                 comparepage = ComparePage;
-                BgColor = Settings.Bar_Background;
+                BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 CompareQRCodeACmd = new Command(async () => await CompareQRCode("a"));
                 CompareQRCodeBCmd = new Command(async () => await CompareQRCode("b"));
                 ScanTabCmd = new Command(async () => await TabChange("scan"));
@@ -545,7 +545,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsScanContentVisible = ScanTabVisibility = true;
                     IsConfigContentVisible = ConfigTabVisibility = false;
-                    ScanTabTextColor = Color.Green;
+                    ScanTabTextColor = Settings.Bar_Background;
                     CompareTabTextColor = Color.Black;
 
                     showLatestViewFrame = latestCompareHistoryList != null && latestCompareHistoryList.Count > 0 ? true : false;
@@ -555,7 +555,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     showLatestViewFrame = IsScanContentVisible = ScanTabVisibility = false;
                     IsConfigContentVisible = ConfigTabVisibility = true;
                     ScanTabTextColor = Color.Black;
-                    CompareTabTextColor = Color.Green;
+                    CompareTabTextColor = Settings.Bar_Background;
                 }
             }
             catch (Exception ex)
@@ -582,7 +582,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsConfigContentVisible = ConfigTabVisibility = false;
                     ScanOpacity = 1;
                     IsTotalValidMsg = false;
-                    ScanTabTextColor = Color.Green;
+                    ScanTabTextColor = Settings.Bar_Background;
                     CompareTabTextColor = Color.Black;
                 }
                 else
@@ -609,7 +609,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private Color _CompareTabTextColor = Color.Green;
+        private Color _CompareTabTextColor = Settings.Bar_Background;
         public Color CompareTabTextColor
         {
             get => _CompareTabTextColor;

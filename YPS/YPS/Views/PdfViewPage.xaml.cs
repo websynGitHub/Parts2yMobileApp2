@@ -38,6 +38,7 @@ namespace YPS.Views
 
             try
             {
+                headerpart.BackgroundColor = Settings.Bar_Background;
                 Settings.currentPage = "PdfViewPage";
                 myBArray = printPDFModel.bArray;
                 _printPDFModel = printPDFModel;

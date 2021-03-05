@@ -40,6 +40,7 @@ namespace YPS.Model
         public int VersionID { get; set; }
         public string TagColumns { get; set; }
         public string yShipColumns { get; set; }
+        public string VersionColorCode { get; set; }
 
     }
     public class ResponseFromSaveUDSModel
@@ -105,6 +106,8 @@ namespace YPS.Model
         public token JwToken { get; set; }
         public int VersionID { get; set; }
         public string LoginID { get; set; }
+        public string RoleColorCode { get; set; }
+        public string VersionColorCode { get; set; }
     }
     public class LoginUserData
     {

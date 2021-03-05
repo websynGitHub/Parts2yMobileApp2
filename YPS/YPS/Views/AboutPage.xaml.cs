@@ -34,6 +34,7 @@ namespace YPS.Views
                     headerpart.Padding = safeAreaInset;
                 }
 
+                headerpart.BackgroundColor = Settings.Bar_Background;
                 var currentVersion = VersionTracking.CurrentVersion;
 
                 CVersion.Text = currentVersion;
@@ -77,7 +78,7 @@ namespace YPS.Views
                         break;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "AboutPage constructor -> in AboutPage.cs " + Settings.userLoginID);

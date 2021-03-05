@@ -98,7 +98,7 @@
                            
                             <sfbuttons:SfButton Grid.Row="0" Grid.Column="1" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
                                                 HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="40"
-                                                BackgroundColor="DarkGreen">
+                                                BackgroundColor="{Binding BgColor}">
                                 <sfbuttons:SfButton.Content>
                                   
                                     <StackLayout Style="{StaticResource StackInSfButton}">

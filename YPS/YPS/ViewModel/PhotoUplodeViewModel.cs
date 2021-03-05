@@ -385,7 +385,7 @@ namespace YPS.ViewModel
             {
                 UploadType = (int)UploadTypeEnums.GoodsPhotos_AP;
                 BeforePackingTextColor = Color.Black;
-                AfterPackingTextColor = Color.Green;
+                AfterPackingTextColor = Settings.Bar_Background;
 
                 if (AllPhotosData.data != null)
                 {
@@ -443,7 +443,7 @@ namespace YPS.ViewModel
             try
             {
                 UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;
-                BeforePackingTextColor = Color.Green;
+                BeforePackingTextColor = Settings.Bar_Background;
                 AfterPackingTextColor = Color.Black;
                 if (AllPhotosData.data != null)
                 {
@@ -525,7 +525,7 @@ namespace YPS.ViewModel
                                             finalPhotoListA = AllPhotosData.data.Aphotos;
                                             AStack = true;
                                             BStack = false;
-                                            AfterPackingTextColor = Color.Green;
+                                            AfterPackingTextColor = Settings.Bar_Background;
                                             BeforePackingTextColor = Color.Black;
                                         }
                                         else
@@ -535,9 +535,7 @@ namespace YPS.ViewModel
                                             AStack = false;
                                             BStack = true;
                                             AfterPackingTextColor = Color.Black;
-                                            BeforePackingTextColor = Color.Green;
-
-
+                                            BeforePackingTextColor = Settings.Bar_Background;
                                         }
 
 
@@ -760,7 +758,7 @@ namespace YPS.ViewModel
                                 {
                                     AStack = true;
                                     NoPhotos_Visibility = finalPhotoListA.Count != 0 ? false : true;
-                                    AfterPackingTextColor = Color.Green;
+                                    AfterPackingTextColor = Settings.Bar_Background;
                                     BeforePackingTextColor = Color.Black;
                                 }
                                 else
@@ -768,7 +766,7 @@ namespace YPS.ViewModel
                                     BStack = true;
                                     NoPhotos_Visibility = finalPhotoListB.Count != 0 ? false : true;
                                     AfterPackingTextColor = Color.Black;
-                                    BeforePackingTextColor = Color.Green;
+                                    BeforePackingTextColor = Settings.Bar_Background;
                                 }
 
                                 if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
@@ -1131,7 +1129,7 @@ namespace YPS.ViewModel
             }
         }
 
-        private Color _BeforePackingTextColor = Color.Green;
+        private Color _BeforePackingTextColor = Settings.Bar_Background;
         public Color BeforePackingTextColor
         {
             get { return _BeforePackingTextColor; }

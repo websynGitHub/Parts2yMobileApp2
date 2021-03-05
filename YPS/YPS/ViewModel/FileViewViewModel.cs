@@ -5,6 +5,8 @@ using YPS.Helpers;
 using YPS.Service;
 using YPS.ViewModels;
 using YPS.CommonClasses;
+using System.Drawing;
+
 namespace YPS.ViewModel
 {
     public class FileViewViewModel : IBase
@@ -34,6 +36,17 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                RaisePropertyChanged("BgColor");
+            }
+        }
+
         private int _VisibleCardInx;
         public int VisibleCardInx
         {

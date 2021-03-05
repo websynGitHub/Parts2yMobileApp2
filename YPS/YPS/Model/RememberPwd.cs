@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using System.Drawing;
 
 namespace YPS.Model
 {
@@ -34,6 +35,7 @@ namespace YPS.Model
         public string encSessiontoken { get; set; }
         public string SelectedScanRule { get; set; }
         public int? EnteredScanTotal { get; set; }
+        public int BgColor { get; set; }
 
         /// <summary>
         /// Encrypted

@@ -144,7 +144,7 @@
 
                                 <StackLayout Grid.Column="2" Grid.Row="0" BackgroundColor="White" Margin="4,0,0,0">
                                     <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
-                                       TextColor="Green" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                         <!--<Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding PartsCmd}"/>
@@ -161,9 +161,9 @@
                                             <TapGestureRecognizer Command="{Binding LoadCmd}"/>
                                         </Label.GestureRecognizers>-->
                                     </Label>
-                                    <StackLayout.GestureRecognizers>
+                                    <!--<StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                    </StackLayout.GestureRecognizers>
+                                    </StackLayout.GestureRecognizers>-->
                                 </StackLayout>
                             </Grid>
                         </StackLayout>
@@ -399,7 +399,7 @@
 
                         <StackLayout Grid.Row="4" Padding="0,6,0,8" AbsoluteLayout.LayoutBounds="0,1,1,.15"
                              IsVisible="{Binding IsPOTagDataListVisible}" VerticalOptions="End"
-                                 AbsoluteLayout.LayoutFlags="All" BackgroundColor="Darkgreen" Orientation="Horizontal">
+                                 AbsoluteLayout.LayoutFlags="All" BackgroundColor="{Binding BgColor}" Orientation="Horizontal">
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckCamera">
                                 <local:FontAwesomeIconLabel x:Name="imgCamera" Text="{Static local1:Icons.CameraIc}" Style="{StaticResource LblIconStyle}"/>
                                 <Label Text="Photo" x:Name="CameraLbl" Style="{StaticResource LableWithSmallFont}" 

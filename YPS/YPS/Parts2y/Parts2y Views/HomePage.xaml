@@ -21,7 +21,7 @@
     </ContentPage.Resources>
 
     <NavigationPage.TitleView>
-        <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="DarkGreen" Grid.Column="0">
+        <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0">
             <Label Text="Home-WS" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
@@ -94,7 +94,7 @@
                         </Grid.RowDefinitions>
                         <StackLayout Grid.Column="0" Grid.Row="0" BackgroundColor="White">
                             <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
-                                       TextColor="Green" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                 <!--<Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding HomeCmd}"/>
@@ -128,9 +128,9 @@
                                     <TapGestureRecognizer Command="{Binding TaskCmd}"/>
                                 </Label.GestureRecognizers>-->
                             </Label>
-                            <StackLayout.GestureRecognizers>
+                            <!--<StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding TaskCmd}"/>
-                            </StackLayout.GestureRecognizers>
+                            </StackLayout.GestureRecognizers>-->
                             <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
 
@@ -142,9 +142,9 @@
                                     <TapGestureRecognizer Command="{Binding LoadCmd}"/>
                                 </Label.GestureRecognizers>-->
                             </Label>
-                            <StackLayout.GestureRecognizers>
+                            <!--<StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                            </StackLayout.GestureRecognizers>
+                            </StackLayout.GestureRecognizers>-->
                             <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
                     </Grid>

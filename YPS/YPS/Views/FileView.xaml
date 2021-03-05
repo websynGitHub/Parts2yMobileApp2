@@ -6,7 +6,7 @@
              x:Class="YPS.Views.FileView" BackgroundColor="White">
 
     <NavigationPage.TitleView >
-        <Grid BackgroundColor="Green">
+        <Grid BackgroundColor="{Binding BgColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>

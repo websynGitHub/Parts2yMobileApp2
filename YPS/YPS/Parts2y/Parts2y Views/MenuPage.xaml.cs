@@ -35,7 +35,8 @@ namespace YPS.Parts2y.Parts2y_Views
                     Detail = new NavigationPage(displayPage)
                     {
                         //BackgroundColor = Color.FromHex("#0d0d0d"),
-                        BarBackgroundColor = Color.DarkGreen,
+                        //BackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
+                        BarBackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
                         BarTextColor = Color.White
                     };
                 }
@@ -44,7 +45,8 @@ namespace YPS.Parts2y.Parts2y_Views
                     Detail = new NavigationPage(new HomePage())
                     {
                         //BackgroundColor = Color.FromHex("#0d0d0d"),
-                        BarBackgroundColor = Color.DarkGreen,
+                        //BackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
+                        BarBackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
                         BarTextColor = Color.White,
                     };
                 }

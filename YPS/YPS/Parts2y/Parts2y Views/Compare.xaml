@@ -10,7 +10,12 @@
              xmlns:behaviors="clr-namespace:YPS.Behaviours"
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
               xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
-              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms">
+              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
+             xmlns:parts2yVM="clr-namespace:YPS.Parts2y.Parts2y_View_Models">
+
+    <ContentPage.BindingContext>
+        <parts2yVM:MenuViewModel/>
+    </ContentPage.BindingContext>
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -35,7 +40,7 @@
                     <!--<RowDefinition Height="Auto"/>-->
                     <!--<RowDefinition Height="Auto"/>-->
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="DarkGreen"
+                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
                           RowDefinitions="*" ColumnDefinitions="60,*,Auto">
 
                     <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
@@ -362,7 +367,7 @@
                                   HeightRequest="45" Margin="6,0,6,2"
                                   IsVisible="{Binding showLatestViewFrame}" BackgroundColor="White" >
                     <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HeightRequest="43"  BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
                                 Grid.Column="0">
                         <Button.Behaviors>
@@ -371,7 +376,7 @@
                     </Button>
 
                     <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
+                                                HeightRequest="43"  BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
                                 Grid.Column="1">
 
@@ -438,7 +443,7 @@
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Button Text="Save" Clicked="SaveClick" Margin="6,0,6,4"
                                                 Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen"
+                                                HeightRequest="43"  BackgroundColor="{Binding BgColor}"
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End"
                                                >
 

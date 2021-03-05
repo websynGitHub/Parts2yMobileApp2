@@ -149,7 +149,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
-                PendingTabTextColor = Color.Green;
+                PendingTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
 
             }
@@ -167,7 +167,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                InProgressTabTextColor = Color.Green;
+                InProgressTabTextColor = Settings.Bar_Background;
                 CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
             }
             catch (Exception ex)
@@ -183,7 +183,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                CompleteTabTextColor = Color.Green;
+                CompleteTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
             }
             catch (Exception ex)
@@ -200,7 +200,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
-                AllTabTextColor = Color.Green;
+                AllTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
             }
             catch (Exception ex)
@@ -424,7 +424,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     try
                     {
                         loadingindicator = true;
-                        PODetails.SelectedTagBorderColor = Color.DarkGreen;
+                        PODetails.SelectedTagBorderColor = Settings.Bar_Background;
                         var PoDataChilds = new ObservableCollection<AllPoData>(
                             Settings.AllPOData.Where(wr => wr.POID == PODetails.POID && wr.TaskID == PODetails.TaskID).ToList()
                             );
@@ -2139,7 +2139,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("CompleteTabTextColor");
             }
         }
-        private Color _AllTabTextColor = Color.Green;
+        private Color _AllTabTextColor = Settings.Bar_Background;
         public Color AllTabTextColor
         {
             get => _AllTabTextColor;

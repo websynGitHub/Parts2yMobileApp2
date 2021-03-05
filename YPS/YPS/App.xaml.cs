@@ -172,6 +172,7 @@ namespace YPS
                         Settings.IsIIJEnabled = userData.IIJEnable;
                         Settings.IsPNEnabled = userData.IsPNEnabled;
                         Settings.IsEmailEnabled = userData.IsEmailEnabled;
+                        Settings.Bar_Background = System.Drawing.Color.FromArgb(userData.BgColor);
 
                         var current = Connectivity.NetworkAccess;
                         if (current == NetworkAccess.Internet)

@@ -96,7 +96,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     item.IsChecked = true;
-                    item.SelectedTagBorderColor = Color.DarkGreen;
+                    item.SelectedTagBorderColor = Settings.Bar_Background;
                 }
 
                 SelectedTagCountVisible = (SelectedTagCount = PoDataChildCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
@@ -145,7 +145,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
-                PendingTabTextColor = Settings.HighlightedTabTxtColor;
+                PendingTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
             }
             catch (Exception ex)
@@ -172,7 +172,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                InProgressTabTextColor = Settings.HighlightedTabTxtColor;
+                InProgressTabTextColor = Settings.Bar_Background;
                 CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
             }
             catch (Exception ex)
@@ -199,7 +199,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                CompleteTabTextColor = Settings.HighlightedTabTxtColor;
+                CompleteTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
             }
             catch (Exception ex)
@@ -225,7 +225,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
-                AllTabTextColor = Settings.HighlightedTabTxtColor;
+                AllTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
             }
             catch (Exception ex)
@@ -279,7 +279,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     try
                     {
                         loadindicator = true;
-                        POTagDetail.SelectedTagBorderColor = Color.DarkGreen;
+                        POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
                         if (Settings.CompanySelected.Contains("(Kp)") || Settings.CompanySelected.Contains("(P)") ||
@@ -1550,7 +1550,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("CompleteTabTextColor");
             }
         }
-        private Color _AllTabTextColor = Color.Green;
+        private Color _AllTabTextColor = Settings.Bar_Background;
         public Color AllTabTextColor
         {
             get => _AllTabTextColor;

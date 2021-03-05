@@ -173,7 +173,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
                                 StatusText = "Verified";
-                                StatusTextBgColor = Color.Green;
+                                StatusTextBgColor = Settings.Bar_Background;
                                 ScannedValue = ScannedResult;
                                 IsPhotoEnable = true;
                                 PhotoOpacity = 1.0;
@@ -328,7 +328,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
                                 StatusText = "Done";
-                                StatusTextBgColor = Color.Green;
+                                StatusTextBgColor = Settings.Bar_Background;
                                 IsPhotoEnable = false;
                                 PhotoOpacity = 0.5;
                             }

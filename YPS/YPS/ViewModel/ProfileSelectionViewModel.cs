@@ -316,7 +316,7 @@ namespace YPS.ViewModel
                     {
                         bool result = await App.Current.MainPage.DisplayAlert("Set as default", "Are you sure?", "Yes", "No");
 
-                        if(result)
+                        if (result)
                         {
                             //Getting company, project and job data base on select company,project and job from company, project and job pickers. 
                             var allCompanyValues = PDefaultSettingModel.data.Company.Where(X => X.ID == Settings.CompanyID).FirstOrDefault();
@@ -344,6 +344,12 @@ namespace YPS.ViewModel
                                     //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
 
                                     //}
+                                    var val = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
+
+                                    if (val != null && val.data != null)
+                                    {
+                                        Settings.Bar_Background = Color.FromHex(val.data.VersionColorCode);
+                                    }
 
                                     App.Current.MainPage = new MenuPage(typeof(HomePage));
                                 }
@@ -388,7 +394,7 @@ namespace YPS.ViewModel
             try
             {
                 //settingsBgColor = Color.FromHex("#269DC9");
-                settingsTextColor = Color.Green;
+                settingsTextColor = Settings.Bar_Background;
                 //profileBgColor = Color.LightBlue;
                 profileTextColor = Color.Black;
                 settingsVisibility = settingbox = true;
@@ -412,7 +418,7 @@ namespace YPS.ViewModel
                 //settingsBgColor = Color.Black;
                 settingsTextColor = Color.Black;
                 //profileBgColor = Color.FromHex("#269DC9");
-                profileTextColor = Color.Green;
+                profileTextColor = Settings.Bar_Background;
                 settingsVisibility = settingbox = false;
                 profileVisibility = profilebox = true;
             }
@@ -601,7 +607,7 @@ namespace YPS.ViewModel
                     {
                         bool result = await App.Current.MainPage.DisplayAlert("Update profile", "Are you sure?", "Yes", "No");
 
-                        if(result)
+                        if (result)
                         {
                             UpdateProfileData uProfile = new UpdateProfileData();
                             uProfile.UserID = Settings.userLoginID;
@@ -846,7 +852,7 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private Color _settingsTextColor = Color.Green;
+        private Color _settingsTextColor = Settings.Bar_Background;
         public Color settingsTextColor
         {
             get { return _settingsTextColor; }
