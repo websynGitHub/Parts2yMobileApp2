@@ -88,6 +88,7 @@ namespace YPS.ViewModel
                             {
                                 CloudFolderKeyVal.Assignvaluestosettings(result);
 
+                                Settings.Bar_Background = Color.FromHex(!string.IsNullOrEmpty(result.data.RoleColorCode) ? result.data.RoleColorCode : result.data.VersionColorCode);
                                 if (result.data.JwToken.IsIIJEnabled)
                                 {
                                     if (OAuthConfig.User == null)
