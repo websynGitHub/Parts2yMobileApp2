@@ -54,6 +54,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Task.Run(() => GetActionStatus()).Wait();
                 Task.Run(() => GetallApplabels()).Wait();
                 Task.Run(() => ChangeLabel()).Wait();
+                Task.Run(() => GetQuestions()).Wait();
             }
             catch (Exception ex)
             {
@@ -369,11 +370,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
                         //labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
                         //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
-                        labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
+                        //labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
-                        labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
-                        labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
-
+                        //labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
+                        //labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
+                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
                     }
                 }
             }
@@ -381,6 +383,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 await trackService.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ChangeLabelAndShowHide method -> in yShipFilterDataViewModel.cs " + Settings.userLoginID);
+            }
+        }
+
+        private async void GetQuestions()
+        {
+            var checkInternet = await App.CheckInterNetConnection();
+
+            if (checkInternet)
+            {
+                var configurationResult = await trackService.GetAllMInspectionConfigurations();
+                if (configurationResult != null && configurationResult.data != null)
+                {
+                    Settings.allInspectionConfigurations = configurationResult.data;
+                }
             }
         }
 

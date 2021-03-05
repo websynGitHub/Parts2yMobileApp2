@@ -271,35 +271,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                loadindicator = true;
-                POTagDetail = sender as AllPoData;
-
-                if (POTagDetail != null)
+                if (!Settings.CompanySelected.Contains("(P)") && !Settings.CompanySelected.Contains("(E)"))
                 {
-                    try
+                    loadindicator = true;
+                    POTagDetail = sender as AllPoData;
+
+                    if (POTagDetail != null)
                     {
                         loadindicator = true;
                         POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        if (Settings.CompanySelected.Contains("(Kp)") || Settings.CompanySelected.Contains("(P)") ||
-                            Settings.CompanySelected.Contains("(Kr)") || Settings.CompanySelected.Contains("(E)"))
+                        if (Settings.CompanySelected.Contains("(Kp)") ||
+                            Settings.CompanySelected.Contains("(Kr)"))
                         {
-                            //Settings.IsRefreshPartsPage = false;
                             await Navigation.PushAsync(new LoadPage(POTagDetail, sendPodata));
                         }
                         else if (Settings.CompanySelected.Contains("(C)"))
                         {
-                            await Navigation.PushAsync(new DriverVehicleDetails());
+                            await Navigation.PushAsync(new InspVerificationScanPage());
                         }
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                    finally
-                    {
-                        loadindicator = false;
                     }
                 }
             }
@@ -868,8 +859,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    {
+                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
                         var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                         var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
 
@@ -923,7 +914,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 SelectedTagCountVisible = false;
                             }
                         }
-                    }
+                    //}
                 }
                 else
                 {
@@ -1333,10 +1324,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
                         //labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
                         //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
-                        labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
+                        //labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
-                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
+                        //labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
                         labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
+
+                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
                     }
                 }
             }

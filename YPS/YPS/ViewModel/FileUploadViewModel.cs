@@ -346,7 +346,6 @@ namespace YPS.ViewModel
                                         RowHeightcomplete = 0;
                                     }
 
-
                                     foreach (var items in DataForFileUpload.FileTags)
                                     {
                                         if (items.TaskID != 0 && items.TagTaskStatus == 0)
@@ -357,11 +356,11 @@ namespace YPS.ViewModel
                                             tagtaskstatus.Status = 1;
                                             tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                                            Settings.IsRefreshPartsPage = true;
                                             var result = await service.UpdateTagTaskStatus(tagtaskstatus);
                                         }
                                     }
 
+                                    Settings.IsRefreshPartsPage = true;
                                     DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     UploadType = "fileUpload";
                                 }
@@ -403,6 +402,8 @@ namespace YPS.ViewModel
                                     FileDescription = "";
                                     /// MessagingCenter used for update main page grid data file count.
                                     MessagingCenter.Send<string, string>("FilesCounts", "msgF", ListOfFile.Count().ToString() + "," + myFuid);
+
+                                    Settings.IsRefreshPartsPage = true;
                                     DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                 }
                                 else

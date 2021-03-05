@@ -26,7 +26,7 @@
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="ypslogo22.png" VerticalOptions="StartAndExpand" HorizontalOptions="Center"/>
+                            <Image Grid.Row="0" Source="ypslogo33.png" VerticalOptions="StartAndExpand" HorizontalOptions="Center"/>
                             <Label Grid.Row="1" Style="{DynamicResource LableWithFont}" Text="Please Login to Proceed" TextColor="Black" FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                             <BoxView Grid.Row="2" Color="Transparent"/>
 

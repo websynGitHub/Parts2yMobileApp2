@@ -640,6 +640,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
 
                         labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
                     }
                 }
             }
@@ -670,6 +671,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Status = true,
                 Name = "Load"
+            };
+
+            public LabelAndActionFields Parts { get; set; } = new LabelAndActionFields
+            {
+                Status = true,
+                Name = "Parts"
             };
         }
         public class LabelAndActionFields : IBase

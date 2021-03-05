@@ -836,5 +836,32 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.DeleteLoadImagesRestClient(id);
         }
+
+        /// <summary>
+        /// GeInspectionResultsService
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<InspectionResults> GeInspectionResultsService(int tagId)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GeInspectionResultsClient(tagId);
+        }
+
+        public async Task<UpdateInspectionResponse> InsertUpdateInspectionResult(UpdateInspectionRequest updateInspectionRequest)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.InsertUpdateInspectionResult(updateInspectionRequest);
+        }
+
+        /// <summary>
+        /// GetAllMInspectionConfigurations
+        /// </summary>
+        /// <returns></returns>
+        public async Task<InspectionConfigurationsResults> GetAllMInspectionConfigurations()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetAllMInspectionConfigurations();
+        }
     }
 }

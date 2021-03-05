@@ -27,10 +27,6 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 InitializeComponent();
 
-                if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
-                {
-                    loadStack.IsVisible = false;
-                }
 
                 trackService = new YPSService();
                 BindingContext = Vm = new DashboardViewModel(Navigation);
@@ -46,6 +42,12 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     Vm.NotifyCountTxt = args;
                 });
+
+
+                if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
+                {
+                    loadStack.IsVisible = false;
+                }
             }
             catch (Exception ex)
             {

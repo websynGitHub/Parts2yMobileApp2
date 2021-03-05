@@ -1342,6 +1342,62 @@ namespace YPS.RestClientAPI
                 return null;
             }
         }
+
+        /// <summary>
+        /// Insert or update Inspection result
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<UpdateInspectionResponse> InsertUpdateInspectionResult(UpdateInspectionRequest updateInspectionRequest)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<UpdateInspectionRequest, UpdateInspectionResponse>(WebServiceUrl + "Inspection/InsertUpdateInspectionResult", updateInspectionRequest);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "InsertUpdateInspectionResult method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// GeInspectionResultsClient
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<InspectionResults> GeInspectionResultsClient(int tagId)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionResults>(WebServiceUrl + "Inspection/GetInspectionResultsByPOTagID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GeInspectionResultsClient method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get All Inspection Configurations
+        /// </summary>
+        /// <returns></returns>
+        public async Task<InspectionConfigurationsResults> GetAllMInspectionConfigurations()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionConfigurationsResults>(WebServiceUrl + "Inspection/GetAllMInspectionConfigurations?UserID=" + Settings.userLoginID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetAllMInspectionConfigurations method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
         #endregion
 
         #region Without common API calling methods.

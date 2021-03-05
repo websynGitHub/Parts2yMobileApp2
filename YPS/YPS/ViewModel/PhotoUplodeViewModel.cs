@@ -538,7 +538,6 @@ namespace YPS.ViewModel
                                             BeforePackingTextColor = Settings.Bar_Background;
                                         }
 
-
                                         foreach (var items in Select_Items.photoTags)
                                         {
                                             if (items.TaskID != 0 && items.TagTaskStatus == 0)
@@ -549,11 +548,11 @@ namespace YPS.ViewModel
                                                 tagtaskstatus.Status = 1;
                                                 tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                                                Settings.IsRefreshPartsPage = true;
                                                 var result = await service.UpdateTagTaskStatus(tagtaskstatus);
                                             }
                                         }
 
+                                        Settings.IsRefreshPartsPage = true;
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
                                     }
                                     else
@@ -591,6 +590,7 @@ namespace YPS.ViewModel
                                             BStack = NoPhotos_Visibility ? false : true;
                                         }
 
+                                        Settings.IsRefreshPartsPage = true;
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
                                     }
                                     else

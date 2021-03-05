@@ -1,55 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YPS.Views;
-using YPS.Parts2y.Parts2y_View_Models;
-using YPS.Parts2y.Parts2y_Views;
-
-using Xamarin.Forms;
-using YPS.Service;
-using System.Windows.Input;
-using System.Threading.Tasks;
-using System.Linq;
-using ZXing.Net.Mobile.Forms;
-using Plugin.Permissions.Abstractions;
+﻿using Newtonsoft.Json;
 using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 using YPS.CommonClasses;
-using YPS.Model;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
-using Newtonsoft.Json;
+using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
+using YPS.Service;
+using ZXing.Net.Mobile.Forms;
 using static YPS.Model.SearchModel;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    public class ScanPageViewModel : IBase
+    public class InspVerificationScanViewModel : IBase
     {
         public INavigation Navigation { get; set; }
         YPSService trackService;
-        ScanPage pagename;
+        InspVerificationScanPage pagename;
         public ICommand reScanCmd { set; get; }
-        public ICommand photoUploadCmd { set; get; }
+        public ICommand MoveToInspCmd { set; get; }
 
-
-        public ScanPageViewModel(INavigation _Navigation, ScanPage page)
+        public InspVerificationScanViewModel(INavigation _Navigation, InspVerificationScanPage page)
         {
-            try
-            {
-                Navigation = _Navigation;
-                pagename = page;
-                trackService = new YPSService();
-                #region BInding tab & click event methods to respective ICommand properties
-                reScanCmd = new Command(async () => await ReScan());
-                photoUploadCmd = new Command(async () => await PhotoUpload(ScannedAllPOData));
-                #endregion
-
-                //Task.Run(() => OpenScanner()).Wait();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            Navigation = _Navigation;
+            pagename = page;
+            trackService = new YPSService();
+            #region BInding tab & click event methods to respective ICommand properties
+            reScanCmd = new Command(async () => await ReScan());
+            MoveToInspCmd = new Command(async () => await MoveForInspection(ScannedAllPOData));
+            #endregion
         }
 
 
@@ -57,16 +44,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                //CanOpenScan = true;
                 IsScanPage = false;
 
                 await OpenScanner();
             }
             catch (Exception ex)
             {
-
             }
-
         }
 
         public async Task OpenScanner()
@@ -96,7 +80,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     ScannerPage.OnScanResult += (scanresult) =>
                     {
                         ScannerPage.IsScanning = false;
-                        //CanOpenScan = false;
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
@@ -138,7 +121,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
 
-                YPSLogger.TrackEvent("ScanPageViewModel.cs", "in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("InspVerificationScanViewModel.cs", "in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -149,7 +132,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
-                    //SearchResultGet(sendPodata);
 
                     var result = await trackService.LoadPoDataService(sendPodata);
 
@@ -173,10 +155,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
                                 StatusText = ScannedAllPOData.TagTaskStatus == 2 ? "Done" : "Verified";
-                                StatusTextBgColor = Settings.Bar_Background;
+                                StatusTextBgColor = Color.DarkGreen;
                                 ScannedValue = ScannedResult;
-                                IsPhotoEnable = true;
-                                PhotoOpacity = 1.0;
+                                IsInspEnable = true;
+                                InspOpacity = 1.0;
                             }
                             else
                             {
@@ -184,11 +166,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 StatusText = "Not matched";
                                 StatusTextBgColor = Color.Red;
                                 ScannedValue = ScannedResult;
-                                IsPhotoEnable = false;
-                                PhotoOpacity = 0.5;
+                                IsInspEnable = false;
+                                InspOpacity = 0.5;
                             }
-
-                            //await PhotoUpload(ScannedAllPOData);
                         }
                     }
                 }
@@ -254,7 +234,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SearchResultGet method -> in InspVerificationScanViewModel.cs" + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
@@ -292,88 +272,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in InspVerificationScanViewModel.cs" + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
 
-        public async Task PhotoUpload(AllPoData podata)
+        public async Task MoveForInspection(AllPoData podata)
         {
             try
             {
                 IndicatorVisibility = true;
-                YPSLogger.TrackEvent("ScanPageViewModel", "in PhotoUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("InspVerificationScanViewModel.cs", "in MoveForInspection method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 bool checkInternet = await App.CheckInterNetConnection();
 
                 if (checkInternet)
                 {
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    {
-                        if (podata.cameImage == "cross.png")
-                        {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
-                        }
-                        else
-                        {
-                            PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
+                        Settings.POID = podata.POID;
 
-                            Settings.POID = podata.POID;
-                            selectedTagsData.POID = podata.POID;
-                            selectedTagsData.isCompleted = podata.photoTickVisible;
-
-                            List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                            //if (podata.TagTaskStatus == 2)
-                            //{
-                            //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
-                            //    StatusText = "Done";
-                            //    StatusTextBgColor = Settings.Bar_Background;
-                            //    IsPhotoEnable = false;
-                            //    PhotoOpacity = 0.5;
-                            //}
-                            //else 
-                            if (podata.TagAPhotoCount == 0 && podata.TagBPhotoCount == 0 && podata.PUID == 0)
-                            {
-                                PhotoTag tg = new PhotoTag();
-
-                                if (podata.POTagID != 0)
-                                {
-                                    tg.POTagID = podata.POTagID;
-                                    Settings.Tagnumbers = podata.TagNumber;
-                                    lstdat.Add(tg);
-
-                                    selectedTagsData.photoTags = lstdat;
-                                    Settings.currentPoTagId_Inti = lstdat;
-
-
-                                    if (selectedTagsData.photoTags.Count != 0)
-                                    {
-                                        await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                selectedTagsData.alreadyExit = "alreadyExit";
-
-                                if (podata.imgCamOpacityB != 0.5)
-                                {
-                                    try
-                                    {
-                                        Settings.currentPuId = podata.PUID;
-                                        Settings.BphotoCount = podata.TagBPhotoCount;
-                                        await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible));
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
-                                        var trackResult = await trackService.Handleexception(ex);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                        //if (podata.TagTaskStatus == 2)
+                        //{
+                        //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
+                        //    StatusText = "Done";
+                        //    StatusTextBgColor = Color.DarkGreen;
+                        //    IsInspEnable = false;
+                        //    InspOpacity = 0.5;
+                        //}
+                        await Navigation.PushAsync(new QuestionsPage(podata.POTagID));
+                    //}
                 }
                 else
                 {
@@ -414,7 +342,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public string _ScannedOn ;
+        public string _ScannedOn;
         public string ScannedOn
         {
             get { return _ScannedOn; }
@@ -425,25 +353,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public double _PhotoOpacity = 0.5;
-        public double PhotoOpacity
+        public double _InspOpacity = 0.5;
+        public double InspOpacity
         {
-            get { return _PhotoOpacity; }
+            get { return _InspOpacity; }
             set
             {
-                _PhotoOpacity = value;
-                RaisePropertyChanged("PhotoOpacity");
+                _InspOpacity = value;
+                RaisePropertyChanged("InspOpacity");
             }
         }
 
-        public bool _IsPhotoEnable;
-        public bool IsPhotoEnable
+        public bool _IsInspEnable;
+        public bool IsInspEnable
         {
-            get { return _IsPhotoEnable; }
+            get { return _IsInspEnable; }
             set
             {
-                _IsPhotoEnable = value;
-                RaisePropertyChanged("IsPhotoEnable");
+                _IsInspEnable = value;
+                RaisePropertyChanged("IsInspEnable");
             }
         }
 
