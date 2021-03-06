@@ -53,8 +53,18 @@ namespace YPS.iOS.Custom_Renderers
         /// </summary>
         private void HandleLongClick()
         {
-            var command = LongPressedEffect.GetCommand(Element);
-            command?.Execute(LongPressedEffect.GetCommandParameter(Element));
+            try
+            {
+                if (_longPressRecognizer.State == UIGestureRecognizerState.Began)
+                {
+                    var command = LongPressedEffect.GetCommand(Element);
+                    command?.Execute(LongPressedEffect.GetCommandParameter(Element));
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         /// <summary>
