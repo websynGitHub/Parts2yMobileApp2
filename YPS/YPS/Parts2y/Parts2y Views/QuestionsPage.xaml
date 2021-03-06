@@ -17,45 +17,55 @@
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="60,*">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical">
-                            <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
+                                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
                                                   VerticalOptions="Center" Margin="10,10,10,10">
-                                <local:FontAwesomeIconLabel.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
-                                </local:FontAwesomeIconLabel.GestureRecognizers>
-                            </local:FontAwesomeIconLabel>
-                        </StackLayout>
+                                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
+                                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                                </local:FontAwesomeIconLabel>
+                            </StackLayout>
 
                             <StackLayout  Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
                                          Orientation="Vertical" HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand" Margin="8,15,0,15">
-                            <Grid  RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="0,0,0,0" Padding="0,0,0,0"
-                      HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand"
-                                  ColumnDefinitions="Auto,*">
-                                <Label Grid.Row="0" Grid.Column="0" Text="VIN :" TextColor="#FFFFFF" 
+                                <Grid  RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.POID.Status}"
+                      HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+
+                                    <Label Grid.Row="0" Grid.Column="0" Text="VIN :" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="0" Grid.Column="1" Text="ABCDEFGH" TextColor="#FFFFFF" 
+                                    <Label Grid.Row="0" Grid.Column="1" Text="ABCDEFGH" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="1" Grid.Column="0" Text="Model :" TextColor="#FFFFFF" 
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.ShippingNumber.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Model :" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="1" Grid.Column="1" Text="YE311" TextColor="#FFFFFF" 
+                                    <Label Grid.Row="0" Grid.Column="1" Text="YE311" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="2" Grid.Column="0" Text="Color :" TextColor="#FFFFFF" 
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.ShippingNumber.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Color :" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="2"  Grid.Column="1" Text="White" TextColor="#FFFFFF" 
+                                    <Label Grid.Row="0"  Grid.Column="1" Text="White" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="3" Grid.Column="0" Text="Carrier# :" TextColor="#FFFFFF" 
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.ShippingNumber.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Carrier# :" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                <Label Grid.Row="3"  Grid.Column="1" Text="RJ14" TextColor="#FFFFFF" 
+                                    <Label Grid.Row="0"  Grid.Column="1" Text="RJ14" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                            </Grid>
-                        </StackLayout>
-                    </Grid>
+                                </Grid>
+                            </StackLayout>
+                        </Grid>
 
 
-                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Grid.Row="1"
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Grid.Row="1"
                               BackgroundColor="Transparent" Padding="0" Margin="0,0,0,0" Orientation="Horizontal">
-                        <!--<Grid.ColumnDefinitions>
+                            <!--<Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -64,84 +74,84 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>-->
-                        <StackLayout BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand">
-                            <Label Text="Home" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                            <StackLayout BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand">
+                                <Label Text="Home" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
+                                    <!--<Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding HomeCmd}"/>
                                     </Label.GestureRecognizers>-->
-                            </Label>
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding HomeCmd}"/>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
+                                </Label>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding HomeCmd}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
 
-                        <StackLayout  BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
-                            <Label  Text="Job" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                            <StackLayout  BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
+                                <Label  Text="Job" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
+                                    <!--<Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding JobCmd}"/>
                                     </Label.GestureRecognizers>-->
-                            </Label>
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding JobCmd}"/>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
+                                </Label>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding JobCmd}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
 
-                        <StackLayout  BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                            <StackLayout  BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
+                                    <!--<Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding PartsCmd}"/>
                                         </Label.GestureRecognizers>-->
-                            </Label>
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding PartsCmd}"/>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
+                                </Label>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PartsCmd}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
 
-                        <StackLayout x:Name="loadStack" BackgroundColor="White" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                            <StackLayout x:Name="loadStack" BackgroundColor="White" Margin="4,0,0,0" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
+                                    <!--<Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding LoadCmd}"/>
                                     </Label.GestureRecognizers>-->
-                            </Label>
-                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
-                            <!--<StackLayout.GestureRecognizers>
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
+                                <!--<StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding LoadCmd}"/>
                                 </StackLayout.GestureRecognizers>-->
+                            </StackLayout>
                         </StackLayout>
-                    </StackLayout>
 
-                    <CollectionView x:Name="QuestionList" BackgroundColor="Transparent"
+                        <CollectionView x:Name="QuestionList" BackgroundColor="Transparent"
                                 SelectionMode="Single" ItemsSource="{Binding QuestionsList}"
-                                Margin="0,0,0,0" Grid.Row="2">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="6,0,6,6">
-                                    <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="15,12,15,12" 
+                                Margin="0,6,0,0" Grid.Row="2">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="6,0,6,6">
+                                        <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="15,12,15,12" 
                                            BorderColor="{Binding SelectedTagBorderColor}"
                                            CornerRadius="4"  HasShadow="False">
-                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=QuestionPage}}"
+                                            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=QuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                            </StackLayout.GestureRecognizers>
-                                            <Label Text="{Binding MInspectionConfigID}" TextColor="Black"
+                                                </StackLayout.GestureRecognizers>
+                                                <Label Text="{Binding MInspectionConfigID}" TextColor="Black"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                            <Label Text="{Binding Question}" TextColor="Black" Margin="5,0,0,0"
+                                                <Label Text="{Binding Question}" TextColor="Black" Margin="5,0,0,0"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                        </StackLayout>
-                                    </Frame>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                            </StackLayout>
+                                        </Frame>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Grid>
                 </StackLayout>
             </RelativeLayout>
