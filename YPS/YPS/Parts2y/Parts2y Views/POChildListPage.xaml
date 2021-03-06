@@ -130,7 +130,7 @@
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
 
-                                <StackLayout BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand" >
+                                <StackLayout BackgroundColor="DarkGray" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" >
                                     <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
@@ -143,7 +143,7 @@
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
 
-                                <StackLayout BackgroundColor="White" Margin="4,0,0,0" HorizontalOptions="FillAndExpand" >
+                                <StackLayout BackgroundColor="White" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
@@ -154,7 +154,7 @@
                                     <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
                                 </StackLayout>
 
-                                <StackLayout x:Name="loadStack" BackgroundColor="DarkGray" Margin="4,0,0,0" HorizontalOptions="FillAndExpand" >
+                                <StackLayout x:Name="loadStack" BackgroundColor="DarkGray" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">

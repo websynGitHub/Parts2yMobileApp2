@@ -133,7 +133,7 @@
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
 
-                                <StackLayout Margin="4,0,0,0" BackgroundColor="White"  
+                                <StackLayout Margin="0,0,0,0" BackgroundColor="White"  
                                              HorizontalOptions="FillAndExpand" >
                                     <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
@@ -142,7 +142,7 @@
                                     <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
                                 </StackLayout>
 
-                                <StackLayout Margin="4,0,0,0" BackgroundColor="DarkGray" 
+                                <StackLayout Margin="0,0,0,0" BackgroundColor="DarkGray" 
                                              HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
@@ -150,7 +150,7 @@
                                     </Label>
                                 </StackLayout>
 
-                                <StackLayout x:Name="loadStack"  Margin="4,0,0,0" BackgroundColor="DarkGray"
+                                <StackLayout x:Name="loadStack"  Margin="0,0,0,0" BackgroundColor="DarkGray"
                                               HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
