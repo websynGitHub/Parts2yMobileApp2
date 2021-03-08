@@ -406,7 +406,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #region Properties
 
-        public string _PageNextButton;
+        public string _PageNextButton = Settings.CompanySelected.Contains("(C)") ? "Insp" : "Photo";
         public string PageNextButton
         {
             get { return _PageNextButton; }
