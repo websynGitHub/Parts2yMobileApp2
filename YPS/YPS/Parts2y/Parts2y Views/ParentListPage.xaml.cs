@@ -308,22 +308,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             //dataPager.PageIndexChanged += pageIndexChanged;
                         }
 
-                        if (Vm.AllTabVisibility == true)
-                        {
-                            await Vm.All_Tap();
-                        }
-                        else if (Vm.CompleteTabVisibility == true)
-                        {
-                            await Vm.Complete_Tap();
-                        }
-                        else if (Vm.InProgressTabVisibility == true)
-                        {
-                            await Vm.InProgress_Tap();
-                        }
-                        else
-                        {
-                            await Vm.Pending_Tap();
-                        }
+                       
                        //await Vm.BindGridData(false, false,-1);
                     }
                     else
@@ -331,6 +316,24 @@ namespace YPS.Parts2y.Parts2y_Views
                         DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
+
+                if (Vm.AllTabVisibility == true)
+                {
+                    await Vm.All_Tap();
+                }
+                else if (Vm.CompleteTabVisibility == true)
+                {
+                    await Vm.Complete_Tap();
+                }
+                else if (Vm.InProgressTabVisibility == true)
+                {
+                    await Vm.InProgress_Tap();
+                }
+                else
+                {
+                    await Vm.Pending_Tap();
+                }
+
                 Vm.loadingindicator = false;
             }
             catch (Exception ex)
