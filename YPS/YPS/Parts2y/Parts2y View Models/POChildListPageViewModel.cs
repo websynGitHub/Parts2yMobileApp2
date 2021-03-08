@@ -289,7 +289,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else if (Settings.CompanySelected.Contains("(C)"))
                         {
-                            await Navigation.PushAsync(new InspVerificationScanPage());
+                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail));
                         }
                     }
                 }

@@ -62,6 +62,7 @@
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
                     </Grid>
+                   
                     <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
                   BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45">
 
@@ -82,14 +83,14 @@
                         </sfbuttons:SfButton>
 
                         <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="1"
-                                    Command="{Binding photoUploadCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                    Command="{Binding MoveNextCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                             IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding PhotoOpacity}"> 
                             <sfbuttons:SfButton.Content>
                                 <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Text="Photo" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    <Label Text="{Binding PageNextButton}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
                                 </Grid>
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>

@@ -9,6 +9,7 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.Helpers;
+using YPS.Model;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
 
@@ -23,7 +24,7 @@ namespace YPS.Parts2y.Parts2y_Views
         bool checkInternet;
         #endregion
 
-        public InspVerificationScanPage()
+        public InspVerificationScanPage(AllPoData selectedpotagdata)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
 
                 yPSService = new YPSService();
-                BindingContext = Vm = new InspVerificationScanViewModel(Navigation, this);
+                BindingContext = Vm = new InspVerificationScanViewModel(Navigation, selectedpotagdata, this);
             }
             catch (Exception ex)
             {

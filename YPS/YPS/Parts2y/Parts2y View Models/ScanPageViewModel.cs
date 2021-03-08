@@ -29,7 +29,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         YPSService trackService;
         ScanPage pagename;
         public ICommand reScanCmd { set; get; }
-        public ICommand photoUploadCmd { set; get; }
+        public ICommand MoveNextCmd { set; get; }
 
 
         public ScanPageViewModel(INavigation _Navigation, ScanPage page)
@@ -41,7 +41,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService = new YPSService();
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
-                photoUploadCmd = new Command(async () => await PhotoUpload(ScannedAllPOData));
+                MoveNextCmd = new Command(async () => await MoveNext(ScannedAllPOData));
                 #endregion
 
                 //Task.Run(() => OpenScanner()).Wait();
@@ -175,8 +175,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 StatusText = ScannedAllPOData.TagTaskStatus == 2 ? "Done" : "Verified";
                                 StatusTextBgColor = Settings.Bar_Background;
                                 ScannedValue = ScannedResult;
-                                IsPhotoEnable = true;
-                                PhotoOpacity = 1.0;
+
+                                if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                                {
+                                    IsPhotoEnable = true;
+                                    PhotoOpacity = 1.0;
+                                }
                             }
                             else
                             {
@@ -297,7 +301,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async Task PhotoUpload(AllPoData podata)
+        public async Task MoveNext(AllPoData podata)
         {
             try
             {
@@ -310,68 +314,77 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                     {
-                        if (podata.cameImage == "cross.png")
+                        if (Settings.CompanySelected.Contains("(C)"))
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
+                            await Navigation.PushAsync(new QuestionsPage(podata.POTagID));
                         }
                         else
                         {
-                            PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
-                            Settings.POID = podata.POID;
-                            selectedTagsData.POID = podata.POID;
-                            selectedTagsData.isCompleted = podata.photoTickVisible;
-
-                            List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                            //if (podata.TagTaskStatus == 2)
-                            //{
-                            //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
-                            //    StatusText = "Done";
-                            //    StatusTextBgColor = Settings.Bar_Background;
-                            //    IsPhotoEnable = false;
-                            //    PhotoOpacity = 0.5;
-                            //}
-                            //else 
-                            if (podata.TagAPhotoCount == 0 && podata.TagBPhotoCount == 0 && podata.PUID == 0)
+                            #region PhotoUpload
+                            if (podata.cameImage == "cross.png")
                             {
-                                PhotoTag tg = new PhotoTag();
-
-                                if (podata.POTagID != 0)
-                                {
-                                    tg.POTagID = podata.POTagID;
-                                    Settings.Tagnumbers = podata.TagNumber;
-                                    lstdat.Add(tg);
-
-                                    selectedTagsData.photoTags = lstdat;
-                                    Settings.currentPoTagId_Inti = lstdat;
-
-
-                                    if (selectedTagsData.photoTags.Count != 0)
-                                    {
-                                        await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
-                                    }
-                                }
+                                DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
                             }
                             else
                             {
-                                selectedTagsData.alreadyExit = "alreadyExit";
+                                PhotoUploadModel selectedTagsData = new PhotoUploadModel();
 
-                                if (podata.imgCamOpacityB != 0.5)
+                                Settings.POID = podata.POID;
+                                selectedTagsData.POID = podata.POID;
+                                selectedTagsData.isCompleted = podata.photoTickVisible;
+
+                                List<PhotoTag> lstdat = new List<PhotoTag>();
+
+                                //if (podata.TagTaskStatus == 2)
+                                //{
+                                //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
+                                //    StatusText = "Done";
+                                //    StatusTextBgColor = Settings.Bar_Background;
+                                //    IsPhotoEnable = false;
+                                //    PhotoOpacity = 0.5;
+                                //}
+                                //else 
+                                if (podata.TagAPhotoCount == 0 && podata.TagBPhotoCount == 0 && podata.PUID == 0)
                                 {
-                                    try
+                                    PhotoTag tg = new PhotoTag();
+
+                                    if (podata.POTagID != 0)
                                     {
-                                        Settings.currentPuId = podata.PUID;
-                                        Settings.BphotoCount = podata.TagBPhotoCount;
-                                        await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible));
+                                        tg.POTagID = podata.POTagID;
+                                        Settings.Tagnumbers = podata.TagNumber;
+                                        lstdat.Add(tg);
+
+                                        selectedTagsData.photoTags = lstdat;
+                                        Settings.currentPoTagId_Inti = lstdat;
+
+
+                                        if (selectedTagsData.photoTags.Count != 0)
+                                        {
+                                            await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                        }
                                     }
-                                    catch (Exception ex)
+                                }
+                                else
+                                {
+                                    selectedTagsData.alreadyExit = "alreadyExit";
+
+                                    if (podata.imgCamOpacityB != 0.5)
                                     {
-                                        YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
-                                        var trackResult = await trackService.Handleexception(ex);
+                                        try
+                                        {
+                                            Settings.currentPuId = podata.PUID;
+                                            Settings.BphotoCount = podata.TagBPhotoCount;
+                                            await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible));
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
+                                            var trackResult = await trackService.Handleexception(ex);
+                                        }
                                     }
                                 }
                             }
+                            #endregion PhotoUpload
                         }
                     }
                 }
@@ -392,6 +405,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public string _PageNextButton;
+        public string PageNextButton
+        {
+            get { return _PageNextButton; }
+            set
+            {
+                _PageNextButton = value;
+                RaisePropertyChanged("_PageNextButton");
+            }
+        }
+
         public AllPoData _ScannedAllPOData;
         public AllPoData ScannedAllPOData
         {
@@ -414,7 +439,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public string _ScannedOn ;
+        public string _ScannedOn;
         public string ScannedOn
         {
             get { return _ScannedOn; }

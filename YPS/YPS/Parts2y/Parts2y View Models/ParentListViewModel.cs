@@ -141,7 +141,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             loadingindicator = false;
         }
 
-        private async Task Pending_Tap()
+        public async Task Pending_Tap()
         {
             try
             {
@@ -159,7 +159,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private async Task InProgress_Tap()
+        public async Task InProgress_Tap()
         {
             try
             {
@@ -175,7 +175,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             }
         }
-        private async Task Complete_Tap()
+
+        public async Task Complete_Tap()
         {
             try
             {
@@ -192,7 +193,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private async Task All_Tap()
+        public async Task All_Tap()
         {
             try
             {
@@ -280,6 +281,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.POShippingNumber = val.Select(s => s.POShippingNumber).FirstOrDefault();
                                         groupdata.TaskName = val.Select(s => s.TaskName).FirstOrDefault();
                                         groupdata.TaskID = val.Select(s => s.TaskID).FirstOrDefault();
+                                        groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
+                                        groupdata.POTaskStatusIcon = null;
+
                                         if (groupdata.TaskStatus == 0)
                                         {
                                             groupdata.POTaskStatusIcon = Icons.circle;

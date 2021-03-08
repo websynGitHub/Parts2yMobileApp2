@@ -257,8 +257,8 @@
                                                         <Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=POTagPage}}"
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                                            <Label Text="{Binding  BindingContext.labelobj.TagNumber.Name, Source={x:Reference Name=POTagPage}}" 
-                                                   FontAttributes="Bold" TextColor="#4c4c4c"
+                                                            <Label Text="{Binding  BindingContext.labelobj.TagNumber.Name, 
+                                                                Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
@@ -268,7 +268,7 @@
                                                         <Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.IdentCode.Status, Source={x:Reference Name=POTagPage}}"
                                                        VerticalOptions="Center"  RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                                            <Label Text="{Binding BindingContext.labelobj.IdentCode.Name , Source={x:Reference Name=POTagPage}}" FontAttributes="Bold" TextColor="#4c4c4c"
+                                                            <Label Text="{Binding BindingContext.labelobj.IdentCode.Name , Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                             <Label Text="{Binding IdentCode}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                    HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
@@ -276,7 +276,7 @@
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.ConditionName.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=POTagPage}}"  FontAttributes="Bold" TextColor="#4c4c4c"
+                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                             <Label Text="{Binding ConditionName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>

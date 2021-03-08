@@ -43,6 +43,15 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 yPSService = new YPSService();
                 BindingContext = Vm = new ScanPageViewModel(Navigation, this);
+
+                if (Settings.CompanySelected.Contains("(C)"))
+                {
+                    Vm.PageNextButton = "Insp";
+                }
+                else
+                {
+                    Vm.PageNextButton = "Photo";
+                }
             }
             catch (Exception ex)
             {

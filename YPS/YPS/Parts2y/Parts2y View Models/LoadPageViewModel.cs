@@ -347,6 +347,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if (initialresult.status != 0)
                                     {
                                         selectiontype_index = 1;
+
+
+                                        if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus == 0)
+                                        {
+                                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                                            tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                                            tagtaskstatus.Status = 1;
+                                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+                                        }
+
+                                        Settings.IsRefreshPartsPage = true;
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
                                     }
                                     else

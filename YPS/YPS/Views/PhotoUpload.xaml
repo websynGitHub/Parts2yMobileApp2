@@ -334,7 +334,7 @@
                     </Image.GestureRecognizers>
                 </Image>-->
                 <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
-                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-110}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-55}"
                              RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-63}"
                     Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
@@ -345,7 +345,7 @@
 
             </RelativeLayout>
 
-            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+            <!--<ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                               HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
                          Margin="6,0,6,2" IsVisible="{Binding closeLabelText}">
                 <StackLayout Orientation="Vertical">
@@ -362,7 +362,7 @@
                     </sfbuttons:SfButton>
                 </StackLayout>
 
-            </ContentView>
+            </ContentView>-->
 
 
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent"

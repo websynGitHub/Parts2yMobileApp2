@@ -27,15 +27,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         InspVerificationScanPage pagename;
         public ICommand reScanCmd { set; get; }
         public ICommand MoveToInspCmd { set; get; }
+        public AllPoData selectedTagData { get; set; }
 
-        public InspVerificationScanViewModel(INavigation _Navigation, InspVerificationScanPage page)
+        public InspVerificationScanViewModel(INavigation _Navigation, AllPoData selectedtagdata, InspVerificationScanPage page)
         {
             Navigation = _Navigation;
             pagename = page;
+            selectedTagData = selectedtagdata;
             trackService = new YPSService();
             #region BInding tab & click event methods to respective ICommand properties
             reScanCmd = new Command(async () => await ReScan());
-            MoveToInspCmd = new Command(async () => await MoveForInspection(ScannedAllPOData));
+            MoveToInspCmd = new Command(async () => await MoveForInspection(selectedTagData));
             #endregion
         }
 
@@ -133,42 +135,41 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
 
-                    var result = await trackService.LoadPoDataService(sendPodata);
+                    //var result = await trackService.LoadPoDataService(sendPodata);
 
-                    if (result != null && result.data != null)
+                    if (selectedTagData != null)
                     {
-                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        if (!string.IsNullOrEmpty(selectedTagData.TagNumber))
                         {
+                            ScannedCompareData = (selectedTagData.TagNumber == ScannedResult) ? ScannedResult : null;
+                        }
+                        else
+                        {
+                            ScannedCompareData = (selectedTagData.IdentCode == ScannedResult) ? ScannedResult : null;
+                        }
 
-                            var groubbyval = result.data.allPoData.GroupBy(gb => gb.POShippingNumber);
-                            ObservableCollection<AllPoData> PoDataCollections = new ObservableCollection<AllPoData>();
-                            PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoData);
 
-                            ScannedAllPOData = PoDataCollections.Where(wr => wr.TagNumber == ScannedResult).FirstOrDefault();
+                        if (!string.IsNullOrEmpty(ScannedCompareData))
+                        {
+                            ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
+                            StatusText = selectedTagData.TagTaskStatus == 2 ? "Done" : "Verified";
+                            StatusTextBgColor = Color.DarkGreen;
+                            ScannedValue = ScannedResult;
 
-                            if (ScannedAllPOData == null)
+                            if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                             {
-                                ScannedAllPOData = PoDataCollections.Where(wr => wr.IdentCode == ScannedResult).FirstOrDefault();
-                            }
-
-                            if (ScannedAllPOData != null)
-                            {
-                                ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
-                                StatusText = ScannedAllPOData.TagTaskStatus == 2 ? "Done" : "Verified";
-                                StatusTextBgColor = Color.DarkGreen;
-                                ScannedValue = ScannedResult;
                                 IsInspEnable = true;
                                 InspOpacity = 1.0;
                             }
-                            else
-                            {
-                                ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
-                                StatusText = "Not matched";
-                                StatusTextBgColor = Color.Red;
-                                ScannedValue = ScannedResult;
-                                IsInspEnable = false;
-                                InspOpacity = 0.5;
-                            }
+                        }
+                        else
+                        {
+                            ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
+                            StatusText = "Not matched";
+                            StatusTextBgColor = Color.Red;
+                            ScannedValue = ScannedResult;
+                            IsInspEnable = false;
+                            InspOpacity = 0.5;
                         }
                     }
                 }
@@ -288,8 +289,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    //{
+                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    {
                         Settings.POID = podata.POID;
 
                         //if (podata.TagTaskStatus == 2)
@@ -301,7 +302,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //    InspOpacity = 0.5;
                         //}
                         await Navigation.PushAsync(new QuestionsPage(podata.POTagID));
-                    //}
+                    }
                 }
                 else
                 {
@@ -328,6 +329,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _ScannedAllPOData = value;
                 RaisePropertyChanged("_ScannedAllPOData");
+            }
+        }
+
+        public string _ScannedCompareData;
+        public string ScannedCompareData
+        {
+            get { return _ScannedCompareData; }
+            set
+            {
+                _ScannedCompareData = value;
+                RaisePropertyChanged("_ScannedCompareData");
             }
         }
 
