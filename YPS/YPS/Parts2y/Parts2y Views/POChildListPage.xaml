@@ -63,9 +63,9 @@
                                     </local:FontAwesomeIconLabel.GestureRecognizers>
                                 </local:FontAwesomeIconLabel>
 
-                                <Label  Text="{Binding SelectedTagCount}" IsVisible="{Binding SelectedTagCountVisible}" HorizontalOptions="Center" 
+                                <!--<Label  Text="{Binding SelectedTagCount}" IsVisible="{Binding SelectedTagCountVisible}" HorizontalOptions="Center" 
                                                   VerticalOptions="Center" Margin="8,6,10,10" Style="{StaticResource LableWithMicroFont}" 
-                                        TextColor="White" FontSize="20"/>
+                                        TextColor="White" FontSize="20"/>-->
                             </StackLayout>
 
                             <StackLayout Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
@@ -99,6 +99,14 @@
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.TaskName.Name}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding SelectedTagCountVisible}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding SelectedTagCount}"
+                                           TextColor="#FFFFFF" Margin="0,0,1,0"
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Job(s) selected" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
                             </StackLayout>
@@ -156,7 +164,7 @@
 
                                 <StackLayout x:Name="loadStack" BackgroundColor="DarkGray" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
-                                       TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                         <!--<Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding LoadCmd}"/>
