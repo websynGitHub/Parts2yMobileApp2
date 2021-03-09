@@ -107,7 +107,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private async Task TabChange(string tabname)
+        public async Task TabChange(string tabname)
         {
             try
             {
@@ -122,6 +122,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await Navigation.PopAsync();
                     //await Navigation.PushAsync(new ParentListPage());
+                }
+                else if (tabname == "load")
+                {
+                    await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata));
                 }
             }
             catch (Exception ex)
@@ -861,59 +865,59 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                     //{
-                        var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
-                        var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
+                    var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
+                    var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
 
-                        if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
+                    if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Selected tag(s) are already marked as done.");
+                    }
+                    else if (selectedTagData.Count() == 0)
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to mark as done.");
+                    }
+                    else
+                    {
+                        if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0)
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Selected tag(s) are already marked as done.");
-                        }
-                        else if (selectedTagData.Count() == 0)
-                        {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to mark as done.");
-                        }
-                        else
-                        {
-                            if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0)
+                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
+
+                            List<string> EncPOTagID = new List<string>();
+
+                            foreach (var data in selectedTagData)
                             {
-                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                                tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
-
-                                List<string> EncPOTagID = new List<string>();
-
-                                foreach (var data in selectedTagData)
-                                {
-                                    var value = Helperclass.Encrypt(data.POTagID.ToString());
-                                    EncPOTagID.Add(value);
-                                }
-                                tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
-                                tagtaskstatus.Status = 2;
-                                tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                                var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
-
-                                if (AllTabVisibility == true)
-                                {
-                                    await All_Tap();
-                                }
-                                else if (CompleteTabVisibility == true)
-                                {
-                                    await Complete_Tap();
-                                }
-                                else if (InProgressTabVisibility == true)
-                                {
-                                    await InProgress_Tap();
-                                }
-                                else
-                                {
-                                    await Pending_Tap();
-                                }
-
-                                Settings.IsRefreshPartsPage = false;
-                                SelectedTagCount = 0;
-                                SelectedTagCountVisible = false;
+                                var value = Helperclass.Encrypt(data.POTagID.ToString());
+                                EncPOTagID.Add(value);
                             }
+                            tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
+                            tagtaskstatus.Status = 2;
+                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                            var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+
+                            if (AllTabVisibility == true)
+                            {
+                                await All_Tap();
+                            }
+                            else if (CompleteTabVisibility == true)
+                            {
+                                await Complete_Tap();
+                            }
+                            else if (InProgressTabVisibility == true)
+                            {
+                                await InProgress_Tap();
+                            }
+                            else
+                            {
+                                await Pending_Tap();
+                            }
+
+                            Settings.IsRefreshPartsPage = false;
+                            SelectedTagCount = 0;
+                            SelectedTagCountVisible = false;
                         }
+                    }
                     //}
                 }
                 else
