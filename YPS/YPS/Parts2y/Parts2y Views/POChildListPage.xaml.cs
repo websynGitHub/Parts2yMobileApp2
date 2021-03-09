@@ -302,6 +302,17 @@ namespace YPS.Parts2y.Parts2y_Views
                         CommandParameter = ChildDataList,
                     });
 
+
+                    if (Settings.CompanySelected.Contains("(Kp)") ||
+                           Settings.CompanySelected.Contains("(Kr)"))
+                    {
+                        loadStack.GestureRecognizers.Add(new TapGestureRecognizer
+                        {
+                            Command = new Command(async () => await Vm.TabChange("load")),
+                            //CommandParameter = ChildDataList,
+                        });
+                    }
+
                 });
             }
             catch (Exception ex)
