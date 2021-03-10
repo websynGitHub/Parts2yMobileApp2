@@ -15,7 +15,7 @@ namespace YPS.Parts2y.Parts2y_Views
     public partial class QuestionsPage : ContentPage
     {
         QuestionsViewModel Vm;
-        public QuestionsPage(int tagId)
+        public QuestionsPage(int tagId, string tagNumber, string indentCode, string bagNumber)
         {
             try
             {
@@ -29,12 +29,18 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-                BindingContext = Vm = new QuestionsViewModel(Navigation, this, tagId);
+                BindingContext = Vm = new QuestionsViewModel(Navigation, this, tagId, tagNumber, indentCode, bagNumber);
             }
             catch(Exception ex)
             {
 
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Vm.GetConfigurationResults();
         }
     }
 }
