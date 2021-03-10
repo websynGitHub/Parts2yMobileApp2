@@ -35,12 +35,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #endregion
 
-        public AnswersPageViewModel(INavigation _Navigation, AnswersPage page, InspectionConfiguration inspectionConfiguration, int tagId, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsList)
+        public AnswersPageViewModel(INavigation _Navigation, AnswersPage page, InspectionConfiguration inspectionConfiguration, int tagId, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsList, string tagNumber, string indentCode, string bagNumber)
         {
             Backevnttapped = new Command(async () => await Backevnttapped_click());
             Navigation = _Navigation;
             pagename = page;
             this.tagId = tagId;
+            Task.Run(() => ChangeLabel()).Wait();
+            TagNumber = tagNumber;
+            IndentCode = indentCode;
+            TripNumber = bagNumber;
             InspectionConfiguration = inspectionConfiguration;
             this.inspectionConfigurationList = inspectionConfigurationList;
             this.inspectionResultsList = inspectionResultsList;
@@ -49,6 +53,44 @@ namespace YPS.Parts2y.Parts2y_View_Models
             ViewallClick = new Command(ViewallClickMethod);
             NextClick = new Command(NextClickMethod);
 
+        }
+
+        public async void ChangeLabel()
+        {
+            try
+            {
+                labelobj = new DashboardLabelChangeClass();
+
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                    if (labelval.Count > 0)
+                    {
+                        var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+
+                        //Assigning the Labels & Show/Hide the controls based on the data
+                        labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
+                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
+                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
+                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
+                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
+                        labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
+                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await trackService.Handleexception(ex);
+                //YPSLogger.ReportException(ex, "ChangeLabelAndShowHide method -> in ParentListViewModel.cs " + Settings.userLoginID);
+            }
         }
 
         private async void NextClickMethod()
@@ -230,7 +272,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #region Properties
 
+        private string _TagNumber;
+        public string TagNumber
+        {
+            get => _TagNumber;
+            set
+            {
+                _TagNumber = value;
+                RaisePropertyChanged("TagNumber");
+            }
+        }
 
+        private string _IndentCode;
+        public string IndentCode
+        {
+            get => _IndentCode; set
+            {
+                _IndentCode = value;
+                RaisePropertyChanged("IndentCode");
+            }
+        }
+
+        private string _TripNumber;
+        public string TripNumber
+        {
+            get => _TripNumber; set
+            {
+                _TripNumber = value;
+                RaisePropertyChanged("TripNumber");
+            }
+        }
 
         private string _NextButtonText = "NEXT";
         public string NextButtonText
@@ -495,6 +566,37 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        #endregion
+
+        #region Properties for dynamic label change
+        public class DashboardLabelChangeClass
+        {
+            public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "TagNumber"
+            };
+            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
+            public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
+            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
+
+        }
+        public class DashboardLabelFields : IBase
+        {
+            public bool Status { get; set; }
+            public string Name { get; set; }
+        }
+
+        public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
+        public DashboardLabelChangeClass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
     }
 }

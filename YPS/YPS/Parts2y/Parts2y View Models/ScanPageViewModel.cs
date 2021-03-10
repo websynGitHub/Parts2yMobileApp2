@@ -316,7 +316,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (Settings.CompanySelected.Contains("(C)"))
                         {
-                            await Navigation.PushAsync(new QuestionsPage(podata.POTagID));
+                            await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber));
                         }
                         else
                         {

@@ -4,12 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using YPS.CommonClasses;
-using YPS.Helpers;
 using YPS.Model;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
@@ -42,73 +40,92 @@ namespace YPS.Parts2y.Parts2y_View_Models
         YPSService trackService;
         int tagId;
         List<InspectionResultsList> inspectionResultsLists;
-        public Command HomeCmd { get; set; }
-        public Command JobCmd { get; set; }
-        public Command PartsCmd { get; set; }
-        public Command LoadCmd { set; get; }
+
         #endregion
 
-        public QuestionsViewModel(INavigation _Navigation, QuestionsPage page, int tagId)
+        public QuestionsViewModel(INavigation _Navigation, QuestionsPage page, int tagId, string tagNumber, string indentCode, string bagNumber)
         {
-            try
-            {
-                Navigation = _Navigation;
-                pagename = page;
-                this.tagId = tagId;
-                trackService = new YPSService();
-                QuestionsList = new ObservableCollection<InspectionConfiguration>();
-                Backevnttapped = new Command(async () => await Backevnttapped_click());
-                QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
+            Navigation = _Navigation;
+            pagename = page;
+            this.tagId = tagId;
+            Task.Run(() => ChangeLabel()).Wait();
+            TagNumber = tagNumber;
+            IndentCode = indentCode;
+            TripNumber = bagNumber;
+            trackService = new YPSService();
+            QuestionsList = new ObservableCollection<InspectionConfiguration>();
+            Backevnttapped = new Command(async () => await Backevnttapped_click());
+            QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
+            GetQuestionsLIst();
 
-                HomeCmd = new Command(async () => await TabChange("home"));
-                JobCmd = new Command(async () => await TabChange("job"));
-                PartsCmd = new Command(async () => await TabChange("parts"));
-                LoadCmd = new Command(async () => await TabChange("load"));
-
-                Task.Run(() => GetQuestionsLIst(tagId)).Wait();
-                Task.Run(() => DynamicTextChange()).Wait();
-            }
-            catch(Exception ex)
-            {
-
-            }
         }
 
-
-        private async Task TabChange(string tabname)
+        public async void ChangeLabel()
         {
             try
             {
-                loadindicator = true;
-                await Task.Delay(1);
+                labelobj = new DashboardLabelChangeClass();
 
-                if (tabname == "home")
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
                 {
-                    App.Current.MainPage = new MenuPage(typeof(HomePage));
-                }
-                else if (tabname == "job")
-                {
-                    Navigation.RemovePage(Navigation.NavigationStack[3]);
-                    Navigation.RemovePage(Navigation.NavigationStack[2]);
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
 
-                    await Navigation.PopAsync();
-                }
-                else if (tabname == "parts")
-                {
-                    Navigation.RemovePage(Navigation.NavigationStack[3]);
+                    if (labelval.Count > 0)
+                    {
+                        var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-                    await Navigation.PopAsync();
-                    //await Navigation.PushAsync(new POChildListPage(await GetUpdatedAllPOData(), SendPodData));
+
+                        //Assigning the Labels & Show/Hide the controls based on the data
+                        labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
+                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
+                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
+                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
+                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
+                        labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
+                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
+                    }
                 }
             }
             catch (Exception ex)
             {
-                loadindicator = false;
+                await trackService.Handleexception(ex);
+                //YPSLogger.ReportException(ex, "ChangeLabelAndShowHide method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
-            loadindicator = false;
         }
 
-        public async Task GetQuestionsLIst(int tagId)
+        public async void GetConfigurationResults()
+        {
+            try
+            {
+                QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
+                QuestionsList?.All(x => { x.Status = 0; return true; });
+                var checkInternet = await App.CheckInterNetConnection();
+                if (checkInternet)
+                {
+                    loadindicator = true;
+                    var result = await trackService.GeInspectionResultsService(tagId);
+                    loadindicator = false;
+                    if (result != null && result.data != null && result.data.listData != null)
+                    {
+                        inspectionResultsLists = result.data.listData;
+                        QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        public void GetQuestionsLIst()
         {
             QuestionsList = new ObservableCollection<InspectionConfiguration>(Settings.allInspectionConfigurations);
         }
@@ -129,43 +146,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                var checkInternet = await App.CheckInterNetConnection();
-                if (checkInternet)
-                {
-                    loadindicator = true;
-                    var result = await trackService.GeInspectionResultsService(tagId);
-                    loadindicator = false;
-                    if (result != null && result.data != null)
-                    {
-                        inspectionResultsLists = result.data.listData;
-                    }
-                }
-                QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
                 inspectionConfiguration.SelectedTagBorderColor = Color.DarkGreen;
                 loadindicator = true;
-                await Navigation.PushAsync(new AnswersPage(inspectionConfiguration, this.tagId, QuestionsList, inspectionResultsLists));
+                await Navigation.PushAsync(new AnswersPage(inspectionConfiguration, this.tagId, QuestionsList, inspectionResultsLists,TagNumber,IndentCode, TripNumber));
                 loadindicator = false;
 
             }
             catch (Exception ex)
             {
-            }
-        }
-
-        /// <summary>
-        /// Dynamic text changed
-        /// </summary>
-        public async Task DynamicTextChange()
-        {
-            try
-            {
-                labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
-                labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "DynamicTextChange method in QuestionsViewModel.cs " + Settings.userLoginID);
-                await trackService.Handleexception(ex);
             }
         }
 
@@ -184,58 +172,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #endregion
 
         #region Properties
-
-        #region Properties for dynamic label change
-        public class LabelAndActionsChangeClass
-        {
-            public LabelAndActionFields Load { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Load"
-            };
-
-            public LabelAndActionFields Parts { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Parts"
-            };
-        }
-        public class LabelAndActionFields : IBase
-        {
-            public bool _Status;
-            public bool Status
-            {
-                get => _Status;
-                set
-                {
-                    _Status = value;
-                    NotifyPropertyChanged();
-                }
-            }
-
-            public string _Name;
-            public string Name
-            {
-                get => _Name;
-                set
-                {
-                    _Name = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public LabelAndActionsChangeClass _labelobj = new LabelAndActionsChangeClass();
-        public LabelAndActionsChangeClass labelobj
-        {
-            get => _labelobj;
-            set
-            {
-                _labelobj = value;
-                NotifyPropertyChanged();
-            }
-        }
-        #endregion
 
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
@@ -268,6 +204,70 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private string _TagNumber;
+        public string TagNumber
+        {
+            get => _TagNumber;
+            set
+            {
+                _TagNumber = value;
+                RaisePropertyChanged("TagNumber");
+            }
+        }
+
+        private string _IndentCode;
+        public string IndentCode
+        {
+            get => _IndentCode; set
+            {
+                _IndentCode = value;
+                RaisePropertyChanged("IndentCode");
+            }
+        }
+
+        private string _TripNumber;
+        public string TripNumber
+        {
+            get => _TripNumber; set
+            {
+                _TripNumber = value;
+                RaisePropertyChanged("TripNumber");
+            }
+        }
+
+        #endregion
+
+        #region Properties for dynamic label change
+        public class DashboardLabelChangeClass
+        {
+            public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "TagNumber"
+            };
+            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
+            public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
+            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+
+        }
+        public class DashboardLabelFields : IBase
+        {
+            public bool Status { get; set; }
+            public string Name { get; set; }
+        }
+
+        public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
+        public DashboardLabelChangeClass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
     }
 }

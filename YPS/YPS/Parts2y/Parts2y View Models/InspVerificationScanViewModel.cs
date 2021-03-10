@@ -301,7 +301,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //    IsInspEnable = false;
                         //    InspOpacity = 0.5;
                         //}
-                        await Navigation.PushAsync(new QuestionsPage(podata.POTagID));
+                        await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber));
                     }
                 }
                 else
