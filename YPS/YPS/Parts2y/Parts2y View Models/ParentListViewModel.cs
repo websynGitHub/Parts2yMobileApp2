@@ -460,49 +460,49 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     loadingindicator = true;
                     await Task.Delay(100);
 
-                    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                    //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                    //{
+                    //    DependencyService.Get<IToastMessage>().ShortAlert("You don't have access ship Print");
+                    //}
+                    //else
+                    //{
+                    var senderval = sender as AllPoData;
+                    //var tapedItem = PoDataCollections.Where(x => x.POShippingNumber == senderval.POShippingNumber).FirstOrDefault();
+
+                    YPSService yPSService = new YPSService();
+                    var printResult = await yPSService.PrintPDFByUsingPOID(senderval.POID);
+
+                    PrintPDFModel printPDFModel = new PrintPDFModel();
+
+                    if (printResult.status != 0 && printResult != null)
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have access ship Print");
-                    }
-                    else
-                    {
-                        var senderval = sender as AllPoData;
-                        //var tapedItem = PoDataCollections.Where(x => x.POShippingNumber == senderval.POShippingNumber).FirstOrDefault();
+                        var bArrayPOID = printResult.data;
+                        byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
 
-                        YPSService yPSService = new YPSService();
-                        var printResult = await yPSService.PrintPDFByUsingPOID(senderval.POID);
+                        printPDFModel.bArray = bytesPOID;
+                        printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
+                        printPDFModel.PDFFileTitle = "Shipping Marks";
 
-                        PrintPDFModel printPDFModel = new PrintPDFModel();
-
-                        if (printResult.status != 0 && printResult != null)
+                        switch (Device.RuntimePlatform)
                         {
-                            var bArrayPOID = printResult.data;
-                            byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
+                            case Device.iOS:
 
-                            printPDFModel.bArray = bytesPOID;
-                            printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
-                            printPDFModel.PDFFileTitle = "Shipping Marks";
+                                if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
+                                {
+                                    await FileManager.GetByteArrayData(printPDFModel);
+                                }
 
-                            switch (Device.RuntimePlatform)
-                            {
-                                case Device.iOS:
+                                var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
 
-                                    if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
-                                    {
-                                        await FileManager.GetByteArrayData(printPDFModel);
-                                    }
+                                DependencyService.Get<NewOpenPdfI>().passPath(url);
 
-                                    var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
-
-                                    DependencyService.Get<NewOpenPdfI>().passPath(url);
-
-                                    break;
-                                case Device.Android:
-                                    await Navigation.PushAsync(new PdfViewPage(printPDFModel));
-                                    break;
-                            }
+                                break;
+                            case Device.Android:
+                                await Navigation.PushAsync(new PdfViewPage(printPDFModel));
+                                break;
                         }
                     }
+                    //}
                 }
             }
             catch (Exception ex)
@@ -1961,7 +1961,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #region Properties
 
-        public bool _IsShippingMarkVisible;
+        public bool _IsShippingMarkVisible = true;
         public bool IsShippingMarkVisible
         {
             get => _IsShippingMarkVisible;
@@ -1972,7 +1972,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public bool _IsPluploadVisible;
+        public bool _IsPluploadVisible = true;
         public bool IsPluploadVisible
         {
             get => _IsPluploadVisible;

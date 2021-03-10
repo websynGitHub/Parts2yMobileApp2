@@ -1289,11 +1289,11 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <param name="potagid"></param>
         /// <returns></returns>
-        public async Task<LoadPhotosListResponse> GetUploadedLoadPhotosRestClient(int potagid)
+        public async Task<LoadPhotosListResponse> GetUploadedLoadPhotosRestClient(int taskid)
         {
             try
             {
-                string url = WebServiceUrl + "Upload/LoadPhoto/Photos?PoTagID=" + Helperclass.Encrypt(Convert.ToString(potagid));
+                string url = WebServiceUrl + "Upload/LoadPhoto/Photos?TaskID=" + Helperclass.Encrypt(Convert.ToString(taskid));
                 return await requestProvider.PostAsync<LoadPhotosListResponse>(url);
             }
             catch (Exception ex)

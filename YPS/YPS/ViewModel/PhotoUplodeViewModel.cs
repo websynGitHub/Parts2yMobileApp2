@@ -80,6 +80,12 @@ namespace YPS.ViewModel
                     NoPhotos_Visibility = true;
                     //var value = select_items.photoTags.ForEach.Select(c => c.TagNumber).ToList();
                     Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.TagNumber));
+
+                    if(string.IsNullOrEmpty(Tagnumbers))
+                    {
+                        Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.IdentCode));
+                    }
+
                     select_items.photoTags = select_items.photoTags.Select(c =>
                       {
                           c.TagNumber = null;

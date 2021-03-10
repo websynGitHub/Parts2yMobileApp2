@@ -56,6 +56,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     allPOTagData = new ObservableCollection<AllPoData>(potag);
                 }
+
                 Task.Run(() => PreparePoTagList(potag, -1)).Wait();
                 moveToPage = new Command(RedirectToPage);
                 viewExistingFiles = new Command(ViewUploadedFiles);
@@ -75,6 +76,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
+
+                if (Settings.CompanySelected.Contains("(Kp)") || Settings.CompanySelected.Contains("(Kr)"))
+                {
+                    LoadTextColor = Color.Black;
+                }
+                else
+                {
+                    LoadTextColor = Color.Gray;
+                }
             }
             catch (Exception ex)
             {
@@ -606,6 +616,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                     tg.TaskID = item.TaskID;
                                                     tg.TagTaskStatus = item.TagTaskStatus;
                                                     tg.TagNumber = item.TagNumber;
+                                                    tg.IdentCode = item.IdentCode;
                                                     Settings.Tagnumbers = item.TagNumber;
                                                     lstdat.Add(tg);
                                                 }
@@ -628,7 +639,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     {
                                         if (selectedTagsData.photoTags.Count != 0)
                                         {
-                                            await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                            if (selectedTagsData.photoTags.Count > 1)
+                                            {
+                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                            }
+                                            else
+                                            {
+                                                await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, selectedTagsData, true, null));
+                                            }
                                         }
                                         else
                                         {
@@ -1095,7 +1113,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 Settings.currentPuId = potag.PUID;
                                 Settings.BphotoCount = potag.TagBPhotoCount;
-                                await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
+                                await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, null, false, potag));
+                                //await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
                             }
                             else
                             {
@@ -1149,7 +1168,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 Settings.AphotoCount = allPo.TagAPhotoCount;
                                 Settings.currentPuId = allPo.PUID;
-                                await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
+                                await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_AP, null, false, allPo));
+                                //await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
                             }
                             else
                             {
@@ -1374,7 +1394,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public Color _LoadTextColor = Color.Gray;
+        public Color _LoadTextColor = (Settings.CompanySelected.Contains("(Kp)") || Settings.CompanySelected.Contains("(Kr)")) ? Color.Black : Color.Gray;
         public Color LoadTextColor
         {
             get => _LoadTextColor;

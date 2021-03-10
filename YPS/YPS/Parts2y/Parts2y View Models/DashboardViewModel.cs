@@ -104,7 +104,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IIJEnable = Settings.IsIIJEnabled;
                     saveData.IsPNEnabled = Settings.IsPNEnabled;
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
-                    saveData.BgColor =  Settings.Bar_Background.ToArgb();
+                    saveData.BgColor = Settings.Bar_Background.ToArgb();
                     Db.SaveUserPWd(saveData);
 
                     #region selected profile
@@ -195,13 +195,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (page == "scan")
                 {
-                    await Navigation.PushAsync(new ScanPage());
+                    await Navigation.PushAsync(new ScanPage(0, null, false, null));
                 }
-                else
-                {
-
-                    //await Navigation.PushAsync(new ParentListPage());
-                }
+              
             }
             catch (Exception ex)
             {

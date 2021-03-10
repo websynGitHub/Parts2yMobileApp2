@@ -13,6 +13,7 @@ using YPS.Service;
 using YPS.Helpers;
 using YPS.CommonClasses;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using YPS.Model;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -26,7 +27,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
         #endregion
 
-        public ScanPage()
+        public ScanPage(int uploadtype, PhotoUploadModel selectedtagdata, bool isinitialphoto, AllPoData selectepotagdata)
         {
             try
             {
@@ -40,18 +41,8 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-
                 yPSService = new YPSService();
-                BindingContext = Vm = new ScanPageViewModel(Navigation, this);
-
-                //if (Settings.CompanySelected.Contains("(C)"))
-                //{
-                //    Vm.PageNextButton = "Insp";
-                //}
-                //else
-                //{
-                //    Vm.PageNextButton = "Photo";
-                //}
+                BindingContext = Vm = new ScanPageViewModel(Navigation, uploadtype, selectedtagdata, isinitialphoto, selectepotagdata, this);
             }
             catch (Exception ex)
             {

@@ -53,7 +53,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SendPodData = sendpodata;
                 IsNoPhotoTxt = true;
                 selectedTagData = selectedtagdata;
-                Tagnumbers = selectedtagdata.TagNumber;
+                Tagnumbers = selectedtagdata.TaskName;
                 select_pic = new Command(async () => await SelectPic());
                 upload_pic = new Command(async () => await UploadPhoto());
                 //CloseCommand = new Command(async () => await ClosePic());
@@ -72,7 +72,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     DoneBtnOpacity = 0.5;
                 }
 
-                GetPhotosData(selectedtagdata.POTagID);
+                Task.Run(() => GetPhotosData(selectedtagdata.TaskID)).Wait();
+
+                IsPhotoUploadIconVisible = selectedTagData.TaskStatus == 2 ? true : false;
             }
             catch (Exception ex)
             {
@@ -153,7 +155,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// </summary>
         /// <param name="potagid"></param>
         /// <returns></returns>
-        public async Task GetPhotosData(int potagid)
+        public async Task GetPhotosData(int taskid)
         {
 
             YPSLogger.TrackEvent("LoadPageViewModel", "in GetPhotosData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
@@ -169,7 +171,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (checkInternet)
                     {
                         /// Calling photo API to get photos.
-                        var result = await service.GetLoadPhotos(potagid);
+                        var result = await service.GetLoadPhotos(taskid);
 
                         if (result != null && result.status != 0 && result.data.Count != 0)
                         {
@@ -269,7 +271,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             IsNoPhotoTxt = true;
                                         }
 
-                                        await GetPhotosData(selectedTagData.POTagID);
+                                        await GetPhotosData(selectedTagData.TaskID);
 
                                         await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
                                     }
@@ -339,7 +341,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (selectedTagData != null && selectedTagData.POTagID != 0)
                             {
                                 /// Calling the blob API to upload photo. 
-                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, selectedTagData.POTagID, fileName, (int)UploadTypeEnums.TagLoadPhotos, (int)BlobContainer.cnttagphotos, null, null, DescriptionText);
+                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, selectedTagData.TaskID, fileName, (int)UploadTypeEnums.TagLoadPhotos, (int)BlobContainer.cnttagphotos, null, null, DescriptionText);
 
                                 var initialresult = initialdata as LoadPhotosUploadResponse;
                                 if (initialresult != null)
@@ -374,7 +376,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             DescriptionText = string.Empty;
 
-                            await GetPhotosData(selectedTagData.POTagID);
+                            await GetPhotosData(selectedTagData.TaskID);
 
                             if (Settings.userRoleID == (int)UserRoles.MfrAdmin ||
                                     Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||

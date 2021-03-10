@@ -229,7 +229,7 @@
                         </Grid>
 
                     <CollectionView x:Name="ParentDataList" Grid.Row="3" BackgroundColor="Transparent"
-                               ItemsSource="{Binding PoDataCollections}" SelectedItem="{Binding PODetails}" VerticalOptions="End"
+                               ItemsSource="{Binding PoDataCollections}" SelectedItem="{Binding PODetails}" VerticalOptions="Fill"
                               Margin="0,6,0,0"   IsVisible="{Binding ISPoDataListVisible}" SelectionMode="Single">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -299,8 +299,7 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" 
-                                                       HasShadow="False"
+                                                        <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" HasShadow="False"
                                                        IsVisible="{Binding BindingContext.IsShippingMarkVisible,Source={x:Reference Name=POPage}}">
                                                             <Image Source="shipicon.png" x:Name="ShipPrinter" 
                                                     HeightRequest="25" Margin="3,0,0,0"

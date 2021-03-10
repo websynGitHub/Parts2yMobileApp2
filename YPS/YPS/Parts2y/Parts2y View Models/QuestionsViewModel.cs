@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using YPS.CommonClasses;
+using YPS.CustomToastMsg;
+using YPS.Helpers;
 using YPS.Model;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
@@ -18,7 +20,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
 
         #region IComman and data members declaration
-
+        SendPodata sendPodata = new SendPodata();
         public INavigation Navigation { get; set; }
 
         public ICommand Backevnttapped { set; get; }
@@ -40,7 +42,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         YPSService trackService;
         int tagId;
         List<InspectionResultsList> inspectionResultsLists;
-
+        public Command HomeCmd { get; set; }
+        public Command JobCmd { get; set; }
+        public Command PartsCmd { get; set; }
+        public Command LoadCmd { set; get; }
         #endregion
 
         public QuestionsViewModel(INavigation _Navigation, QuestionsPage page, int tagId, string tagNumber, string indentCode, string bagNumber)
@@ -58,6 +63,114 @@ namespace YPS.Parts2y.Parts2y_View_Models
             QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
             GetQuestionsLIst();
 
+            HomeCmd = new Command(async () => await TabChange("home"));
+            JobCmd = new Command(async () => await TabChange("job"));
+            PartsCmd = new Command(async () => await TabChange("parts"));
+            LoadCmd = new Command(async () => await TabChange("load"));
+        }
+
+        private async Task TabChange(string tabname)
+        {
+            try
+            {
+                loadindicator = true;
+                await Task.Delay(1);
+
+                if (tabname == "home")
+                {
+                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                }
+                else if (tabname == "job")
+                {
+                    if (Navigation.NavigationStack.Count > 3)
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[3]);
+                        Navigation.RemovePage(Navigation.NavigationStack[2]);
+
+                    }
+                    else
+                    {
+                        if (Settings.POID > 0)
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            Settings.POID = 0;
+                        }
+                    }
+
+                    await Navigation.PopAsync();
+                }
+                else if (tabname == "parts")
+                {
+                    if (Navigation.NavigationStack.Count > 3)
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[3]);
+
+                    }
+                    else
+                    {
+                        if (Settings.POID > 0)
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            Settings.POID = 0;
+                        }
+                    }
+
+                    await Navigation.PopAsync();
+                    //await Navigation.PushAsync(new POChildListPage(await GetUpdatedAllPOData(), SendPodData));
+                }
+            }
+            catch (Exception ex)
+            {
+                loadindicator = false;
+            }
+            loadindicator = false;
+        }
+
+        private async Task<ObservableCollection<AllPoData>> GetUpdatedAllPOData()
+        {
+            ObservableCollection<AllPoData> AllPoDataList = new ObservableCollection<AllPoData>();
+
+            try
+            {
+                loadindicator = true;
+                YPSLogger.TrackEvent("QuestionsViewModel.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+
+                    sendPodata = new SendPodata();
+                    sendPodata.UserID = Settings.userLoginID;
+                    sendPodata.PageSize = Settings.pageSizeYPS;
+                    sendPodata.StartPage = Settings.startPageYPS;
+
+                    var result = await trackService.LoadPoDataService(sendPodata);
+
+                    if (result != null && result.data != null)
+                    {
+                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        {
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID));
+                        }
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+            return AllPoDataList;
         }
 
         public async void ChangeLabel()
@@ -134,6 +247,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                if (Navigation.NavigationStack.Count > 3)
+                {
+                    Navigation.RemovePage(Navigation.NavigationStack[3]);
+
+                }
+                else
+                {
+                    if (Settings.POID > 0)
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                        Settings.POID = 0;
+                    }
+                }
                 await Navigation.PopAsync();
 
             }

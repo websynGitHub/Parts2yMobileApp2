@@ -38,6 +38,7 @@ namespace YPS.Model
         public int PUID { get; set; }
         public int POTagID { get; set; }
         public string TagNumber { get; set; }
+        public string IdentCode { get; set; }
         public int ISPhotoClosed { get; set; }
         public int TaskID { get; set; }
         public int TagTaskStatus { get; set; }
@@ -114,6 +115,7 @@ namespace YPS.Model
 
     public class LoadPhotoModel
     {
+        public int TaskID { get; set; }
         public int PoTagID { get; set; }
         public int PhotoID { get; set; }
         public string PhotoIDEncrypted { get; set; }

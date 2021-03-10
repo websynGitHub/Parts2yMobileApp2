@@ -178,7 +178,7 @@ namespace YPS.Model
                 else if (UploadType == (int)UploadTypeEnums.TagLoadPhotos)
                 {
                     LoadPhotoModel loadphoto = new LoadPhotoModel();
-                    loadphoto.PoTagID = ParentId;
+                    loadphoto.TaskID = ParentId;
                     loadphoto.UploadType = UploadType;
                     loadphoto.PhotoURL = FullFilename;
                     loadphoto.FileName = fileName;
