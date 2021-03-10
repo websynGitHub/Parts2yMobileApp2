@@ -10,7 +10,7 @@
     <AbsoluteLayout>
         <Grid RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{OnPlatform iOS=70 , Android=Auto}"/>
+                <RowDefinition Height="{OnPlatform iOS=90 , Android=Auto}"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" 
