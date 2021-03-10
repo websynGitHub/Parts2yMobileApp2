@@ -173,7 +173,29 @@ namespace YPS.Model
             set
             {
                 this._Status = value;
+                if (value == 1)
+                {
+                    ItemBackground = Color.DarkGreen;
+                }
+                else
+                {
+                    ItemBackground = Color.Transparent;
+                }
                 RaisePropertyChanged("Status");
+            }
+        }
+
+        private Color _ItemBackground = Color.Transparent;
+        public Color ItemBackground
+        {
+            get
+            {
+                return _ItemBackground;
+            }
+            set
+            {
+                this._ItemBackground = value;
+                RaisePropertyChanged("ItemBackground");
             }
         }
 
