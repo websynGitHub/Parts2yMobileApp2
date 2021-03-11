@@ -155,10 +155,10 @@ namespace YPS.ViewModel
                         //}
                         //else
                         //{
-                            RowHeightChooseFile = 50;
-                            RowHeightUploadFile = 80;
-                            FrameForUploadFile = true;
-                            FrameForChooseFile = true;
+                        RowHeightChooseFile = 50;
+                        RowHeightUploadFile = 80;
+                        FrameForUploadFile = true;
+                        FrameForChooseFile = true;
                         //}
                     }
 
@@ -325,7 +325,7 @@ namespace YPS.ViewModel
                                     //}
                                     //else
                                     //{
-                                        ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
+                                    ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
                                     //}
 
                                     HideListAndShow = true;
@@ -358,19 +358,19 @@ namespace YPS.ViewModel
 
                                             var result = await service.UpdateTagTaskStatus(tagtaskstatus);
 
-                                            if (result.status == 1)
+                                            //if (result.status == 1)
+                                            //{
+                                            if (items.TaskID != 0 && items.TaskStatus == 0)
                                             {
-                                                if (items.TaskID != 0 && items.TaskStatus == 0)
-                                                {
-                                                    TagTaskStatus taskstatus = new TagTaskStatus();
-                                                    taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                    taskstatus.TaskStatus = 1;
-                                                    taskstatus.CreatedBy = Settings.userLoginID;
+                                                TagTaskStatus taskstatus = new TagTaskStatus();
+                                                taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                taskstatus.TaskStatus = 1;
+                                                taskstatus.CreatedBy = Settings.userLoginID;
 
-                                                    var taskval = await service.UpdateTaskStatus(taskstatus);
-                                                }
-                                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                                var taskval = await service.UpdateTaskStatus(taskstatus);
                                             }
+                                            //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                            //}
                                         }
                                     }
 
@@ -404,7 +404,7 @@ namespace YPS.ViewModel
                                     //}
                                     //else
                                     //{
-                                        ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
+                                    ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
                                     //}
 
                                     HideListAndShow = true;
@@ -472,8 +472,8 @@ namespace YPS.ViewModel
                             //}
                             //else
                             //{
-                                closeLabelText = true;
-                                RowHeightcomplete = 50;
+                            closeLabelText = true;
+                            RowHeightcomplete = 50;
                             //}
                         }
                         else
@@ -559,7 +559,7 @@ namespace YPS.ViewModel
                                             //}
                                             //else
                                             //{
-                                                addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
+                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
                                             //}
                                         }
                                     }
@@ -679,7 +679,7 @@ namespace YPS.ViewModel
                                         //}
                                         //else
                                         //{
-                                            addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true });
+                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true });
                                         //}
                                     }
                                 }
