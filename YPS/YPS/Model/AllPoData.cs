@@ -511,6 +511,7 @@ namespace YPS.Model
         public string TaskID { set; get; }
         public string POTagID { set; get; }
         public int Status { set; get; }
+        public int TaskStatus { set; get; }
         public int CreatedBy { set; get; }
     }
 

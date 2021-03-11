@@ -29,6 +29,9 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 InitializeComponent();
+                Settings.refreshPage = 1;
+                trackService = new YPSService();
+                BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
                 if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
                 {
@@ -44,10 +47,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
 
 
-                Settings.refreshPage = 1;
-                trackService = new YPSService();
-                BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
-
                 if (!Settings.CompanySelected.Contains("(C)") && !Settings.CompanySelected.Contains("(Kp)") &&
                     !Settings.CompanySelected.Contains("(P)") && !Settings.CompanySelected.Contains("(Kr)") && !Settings.CompanySelected.Contains("(E)"))
                 {
@@ -57,26 +56,26 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Settings.refreshPage = 1;
 
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                {
-                    imgCamera.Opacity = imgChat.Opacity = imgFileUpload.Opacity = imgPrinter.Opacity = 0.5;
-                    CameraLbl.Opacity = ChatLbl.Opacity = FileUploadLbl.Opacity = PrinterLbl.Opacity = 0.5;
-                    stckCamera.GestureRecognizers.Clear();
-                    stckFileUpload.GestureRecognizers.Clear();
-                    stckChat.GestureRecognizers.Clear();
-                    stckPrinter.GestureRecognizers.Clear();
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
+                //{
+                //    imgCamera.Opacity = imgChat.Opacity = imgFileUpload.Opacity = imgPrinter.Opacity = 0.5;
+                //    CameraLbl.Opacity = ChatLbl.Opacity = FileUploadLbl.Opacity = PrinterLbl.Opacity = 0.5;
+                //    stckCamera.GestureRecognizers.Clear();
+                //    stckFileUpload.GestureRecognizers.Clear();
+                //    stckChat.GestureRecognizers.Clear();
+                //    stckPrinter.GestureRecognizers.Clear();
+                //}
                 //else if (Settings.userRoleID == (int)UserRoles.CustomerAdmin || Settings.userRoleID == (int)UserRoles.CustomerUser)
                 //{
                 //    picRequiredStk1.IsVisible = picRequiredStk2.IsVisible = true;
                 //}
 
-                if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                {
-                    imgPrinter.Opacity = 0.5;
-                    PrinterLbl.Opacity = 0.5;
-                    stckPrinter.GestureRecognizers.Clear();
-                }
+                //if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                //{
+                //    imgPrinter.Opacity = 0.5;
+                //    PrinterLbl.Opacity = 0.5;
+                //    stckPrinter.GestureRecognizers.Clear();
+                //}
 
                 #region Subscribing MessageCenter
                 //MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseCount", (sender, args) =>
@@ -185,6 +184,15 @@ namespace YPS.Parts2y.Parts2y_Views
                 #endregion
                 //ChildDataList.ItemTapped += (s, e) => ChildDataList.SelectedItem = null;
 
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    imgCamera.Opacity = CameraLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgFileUpload.Opacity = FileUploadLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgChat.Opacity = ChatLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CreateChat".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PrintTagReportDownload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "TaskComplete".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                }
+
                 #region Assigning method that must execute when page is loaded, for binding gestures
                 loadertimer = new Timer();
                 loadertimer.Interval = 1000;
@@ -264,7 +272,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    if (imgCamera.Opacity == 1.0)
                     {
                         stckCamera.GestureRecognizers.Add(new TapGestureRecognizer
                         {
@@ -272,36 +280,40 @@ namespace YPS.Parts2y.Parts2y_Views
                             CommandParameter = ChildDataList,
                         });
 
-                        stckChat.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_OnMessage),
-                            CommandParameter = ChildDataList,
-                        });
-
+                    }
+                    if (imgFileUpload.Opacity == 1.0)
+                    {
                         stckFileUpload.GestureRecognizers.Add(new TapGestureRecognizer
                         {
                             Command = new Command(Vm.tap_InitialFileUpload),
                             CommandParameter = ChildDataList,
                         });
 
-                       
-
-                        if (Settings.userRoleID != (int)UserRoles.MfrAdmin && Settings.userRoleID != (int)UserRoles.MfrUser && Settings.userRoleID != (int)UserRoles.DealerAdmin && Settings.userRoleID != (int)UserRoles.DealerUser)
-                        {
-                            stckPrinter.GestureRecognizers.Add(new TapGestureRecognizer
-                            {
-                                Command = new Command(Vm.tap_Printer),
-                                CommandParameter = ChildDataList,
-                            });
-                        }
                     }
-
-                    stckDone.GestureRecognizers.Add(new TapGestureRecognizer
+                    if (imgChat.Opacity == 1.0)
                     {
-                        Command = new Command(Vm.MarkAsDone),
-                        CommandParameter = ChildDataList,
-                    });
-
+                        stckChat.GestureRecognizers.Add(new TapGestureRecognizer
+                        {
+                            Command = new Command(Vm.tap_OnMessage),
+                            CommandParameter = ChildDataList,
+                        });
+                    }
+                    if (imgPrinter.Opacity == 1.0)
+                    {
+                        stckPrinter.GestureRecognizers.Add(new TapGestureRecognizer
+                        {
+                            Command = new Command(Vm.tap_Printer),
+                            CommandParameter = ChildDataList,
+                        });
+                    }
+                    if (imgDone.Opacity == 1.0)
+                    {
+                        stckDone.GestureRecognizers.Add(new TapGestureRecognizer
+                        {
+                            Command = new Command(Vm.MarkAsDone),
+                            CommandParameter = ChildDataList,
+                        });
+                    }
 
                     if (Settings.CompanySelected.Contains("(Kp)") ||
                            Settings.CompanySelected.Contains("(Kr)"))
@@ -309,9 +321,43 @@ namespace YPS.Parts2y.Parts2y_Views
                         loadStack.GestureRecognizers.Add(new TapGestureRecognizer
                         {
                             Command = new Command(async () => await Vm.TabChange("load")),
-                            //CommandParameter = ChildDataList,
                         });
                     }
+
+
+
+
+                    //if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    //{
+                    //    imgCamera.Opacity = CameraLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    //    imgFileUpload.Opacity = FileUploadLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    //    imgChat.Opacity = ChatLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CreateChat".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    //    imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PrintTagReportDownload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    //    imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "TaskComplete".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+
+                    //    if (imgCamera.Opacity == 0.5)
+                    //    {
+                    //        stckCamera.GestureRecognizers.Clear();
+
+                    //    }
+                    //    if (imgFileUpload.Opacity == 0.5)
+                    //    {
+                    //        stckFileUpload.GestureRecognizers.Clear();
+
+                    //    }
+                    //    if (imgChat.Opacity == 0.5)
+                    //    {
+                    //        stckChat.GestureRecognizers.Clear();
+                    //    }
+                    //    if (imgPrinter.Opacity == 0.5)
+                    //    {
+                    //        stckPrinter.GestureRecognizers.Clear();
+                    //    }
+                    //    if (imgDone.Opacity == 0.5)
+                    //    {
+                    //        stckPrinter.GestureRecognizers.Clear();
+                    //    }
+                    //}
 
                 });
             }

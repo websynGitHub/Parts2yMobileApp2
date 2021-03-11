@@ -62,6 +62,17 @@ namespace YPS.Service
         }
 
         /// <summary>
+        /// Update task status
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<TagTaskStatusUpdateResponse> UpdateTaskStatus(TagTaskStatus obj)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.UpdateTaskStatus(obj);
+        }
+
+        /// <summary>
         /// SaveUserPrioritySetting
         /// </summary>
         /// <param name="obj"></param>

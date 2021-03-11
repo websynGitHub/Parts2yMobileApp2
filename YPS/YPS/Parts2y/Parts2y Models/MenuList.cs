@@ -15,5 +15,6 @@ namespace YPS.Parts2y.Parts2y_Models
         public bool IconType { get; set; }
         public bool Image { get; set; }
         public bool Label { get; set; }
+        public bool ISVisible { get; set; }
     }
 }

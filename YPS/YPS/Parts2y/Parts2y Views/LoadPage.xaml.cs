@@ -13,6 +13,7 @@ using YPS.Service;
 using Syncfusion.XForms.Buttons;
 using YPS.Model;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using YPS.CustomToastMsg;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -21,12 +22,13 @@ namespace YPS.Parts2y.Parts2y_Views
     {
         LoadPageViewModel Vm;
         YPSService service;
-
-        public LoadPage(AllPoData selectedtagdata, SendPodata sendpodata)
+        AllPoData selectedTagData;
+        public LoadPage(AllPoData selectedtagdata, SendPodata sendpodata, bool isalltasksdone)
         {
             try
             {
                 InitializeComponent();
+                selectedTagData = selectedtagdata;
 
                 if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
                 {
@@ -42,7 +44,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
 
                 Settings.IsRefreshPartsPage = true;
-                BindingContext = Vm = new LoadPageViewModel(Navigation, selectedtagdata, sendpodata, this);
+                BindingContext = Vm = new LoadPageViewModel(Navigation, selectedtagdata, sendpodata, isalltasksdone, this);
                 service = new YPSService();
 
                 img.WidthRequest = App.ScreenWidth;
@@ -68,7 +70,35 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped constructor -> in LoadPage.xaml.cs  " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        private async void DoneClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedTagData.TaskID != 0)
+                {
+                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                    tagtaskstatus.TaskStatus = 2;
+                    tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                    var result = await service.UpdateTaskStatus(tagtaskstatus);
+
+                    if (result.status == 1)
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                        Vm.IsPhotoUploadIconVisible = false;
+                        Vm.closeLabelText = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DoneClicked constructor -> in LoadPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

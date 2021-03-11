@@ -136,13 +136,28 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                return await requestProvider.PostAsync<TagTaskStatusUpdateResponse>(WebServiceUrl + "Task/UpdateTaskStatus?TaskId=" + obj.TaskID + "&POTagID="
+                return await requestProvider.PostAsync<TagTaskStatusUpdateResponse>(WebServiceUrl + "Task/UpdateTaskTagStatus?TaskID=" + obj.TaskID + "&POTagID="
                     + obj.POTagID + "&Status=" + obj.Status + "&CreatedBy=" + obj.CreatedBy);
             }
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "UpdateTagTaskStatus method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        public async Task<TagTaskStatusUpdateResponse> UpdateTaskStatus(TagTaskStatus obj)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<TagTaskStatusUpdateResponse>(WebServiceUrl + "Task/UpdateTaskStatus?TaskID=" + obj.TaskID +
+                    "&Status=" + obj.TaskStatus + "&CreatedBy=" + obj.CreatedBy);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "UpdateTaskStatus method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

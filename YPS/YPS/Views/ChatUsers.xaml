@@ -55,7 +55,8 @@
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="CenterAndExpand"/>
                     <!--</Grid>-->
-                    <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">
+                    <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" 
+                                                   Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             <TapGestureRecognizer Tapped="CloseQA_Tapped"/>
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -98,7 +99,7 @@
                            
                             <sfbuttons:SfButton Grid.Row="0" Grid.Column="1" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
                                                 HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="40"
-                                                BackgroundColor="{Binding BgColor}">
+                                                BackgroundColor="{Binding BgColor}" IsVisible="{Binding IsUpdateBtnVisible}">
                                 <sfbuttons:SfButton.Content>
                                   
                                     <StackLayout Style="{StaticResource StackInSfButton}">

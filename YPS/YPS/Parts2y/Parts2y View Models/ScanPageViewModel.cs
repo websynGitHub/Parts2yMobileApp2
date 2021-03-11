@@ -33,7 +33,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public PhotoUploadModel selectedTagData { get; set; }
         public AllPoData selectedPOTagData { get; set; }
         public static int uploadType;
-        public bool isInitialPhoto;
+        public bool isInitialPhoto, isbuttonenable;
 
         public ScanPageViewModel(INavigation _Navigation, int uploadtype, PhotoUploadModel selectedtagdata, bool isinitialphoto, AllPoData selectedpoagdata, ScanPage page)
         {
@@ -58,6 +58,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     PageNextButton = "Photo";
+                }
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    isbuttonenable = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
                 }
                 //Task.Run(() => OpenScanner()).Wait();
             }
@@ -211,7 +216,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         StatusTextBgColor = Color.DarkGreen;
                         ScannedValue = ScannedResult;
 
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        if (isbuttonenable == true)
                         {
                             IsPhotoEnable = true;
                             PhotoOpacity = 1.0;
@@ -284,10 +289,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 StatusTextBgColor = Settings.Bar_Background;
                                 ScannedValue = ScannedResult;
 
-                                if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                                if (Settings.CompanySelected.Contains("(C)"))
                                 {
+                                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                                    //{
                                     IsPhotoEnable = true;
                                     PhotoOpacity = 1.0;
+                                    //}
+                                }
+                                else
+                                {
+                                    if (isbuttonenable == true)
+                                    {
+                                        IsPhotoEnable = true;
+                                        PhotoOpacity = 1.0;
+                                    }
                                 }
                             }
                             else
@@ -420,14 +436,19 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
+                        if (Settings.CompanySelected.Contains("(C)") && uploadType == 0)
                         {
-                            if (Settings.CompanySelected.Contains("(C)") && uploadType == 0)
-                            {
+                            //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                            //{
                                 Settings.POID = podata.POID;
                                 await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber));
-                            }
-                            else if (uploadType != 0)
+                            //}
+                        }
+                        else if (uploadType != 0)
+                        {
+                            if (isbuttonenable == true)
                             {
                                 if (isInitialPhoto == true && selectedTagData != null)
                                 {
@@ -448,7 +469,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            if (isbuttonenable == true)
                             {
                                 #region PhotoUpload
                                 if (podata.cameImage == "cross.png")
@@ -517,6 +541,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 #endregion PhotoUpload
                             }
                         }
+                        //}
                     }
                     else
                     {

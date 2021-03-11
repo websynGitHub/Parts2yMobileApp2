@@ -597,21 +597,21 @@ namespace YPS.YShip.YshipViewModel
                                 NoPhotosVisibility = true;
                             }
 
-                            if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                            Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                            Settings.userRoleID == (int)UserRoles.DealerUser)
-                            {
-                                DeleteIconStack = false;
-                                FirstMainStack = false;
-                            }
-                            else
-                            {
-                                if (campleted == 1 || cancelled == 1)
-                                {
-                                    DeleteIconStack = false;
-                                    FirstMainStack = false;
-                                }
-                            }
+                            //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                            //Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                            //Settings.userRoleID == (int)UserRoles.DealerUser)
+                            //{
+                            //    DeleteIconStack = false;
+                            //    FirstMainStack = false;
+                            //}
+                            //else
+                            //{
+                            //    if (campleted == 1 || cancelled == 1)
+                            //    {
+                            //        DeleteIconStack = false;
+                            //        FirstMainStack = false;
+                            //    }
+                            //}
                         }
                         else
                         {

@@ -56,10 +56,10 @@ namespace YPS.Views
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call AIP
                 BindingContext = vm = new PhotoUplodeViewModel(Navigation, this, sItems, allPoData, selectionType, uploadType, photoAccess);
 
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                {
-                    PhotoUploadIcon.IsVisible = false;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
+                //{
+                //    PhotoUploadIcon.IsVisible = false;
+                //}
 
                 img.WidthRequest = App.ScreenWidth;
                 img.HeightRequest = App.ScreenHeight - 150;

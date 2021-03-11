@@ -63,7 +63,12 @@
                                     <forms1:CachedImage Grid.Row="0" Source="{Binding PhotoURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
-                                            <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                            <StackLayout Orientation="Horizontal" Spacing="0">
+                                                <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text="(" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text=")" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                            </StackLayout>
                                             <Label Text="{Binding CreatedDate}" TextColor="Black"
                                        Style="{StaticResource LblSubTitle}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
@@ -96,7 +101,13 @@
                                     <forms1:CachedImage Grid.Row="0" Source="{Binding PhotoURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
-                                            <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                            <!--<Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>-->
+                                            <StackLayout Orientation="Horizontal" Spacing="0">
+                                                <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text="(" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text=")" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                            </StackLayout>
                                             <Label Text="{Binding CreatedDate}" TextColor="Black"
                                        Style="{StaticResource LblSubTitle}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">

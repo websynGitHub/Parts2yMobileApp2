@@ -324,24 +324,24 @@ namespace YPS.CommonClasses
         #endregion
     }
 
-    enum UserRoles
-    {
-        SuperAdmin = 1,
-        SuperUser = 2,
-        SuperViewer = 3,
-        SupplierAdmin = 4,
-        SupplierUser = 5,
-        MfrAdmin = 6,
-        MfrUser = 7,
-        DealerAdmin = 8,
-        DealerUser = 9,
-        LogisticsAdmin = 10,
-        LogisticsUser = 11,
-        TruckingAdmin = 12,
-        TruckingDriver = 13,
-        OwnerAdmin = 14,
-        OwnerUser = 15,
-    }
+    //enum UserRoles
+    //{
+    //    SuperAdmin = 1,
+    //    SuperUser = 2,
+    //    SuperViewer = 3,
+    //    SupplierAdmin = 4,
+    //    SupplierUser = 5,
+    //    MfrAdmin = 6,
+    //    MfrUser = 7,
+    //    DealerAdmin = 8,
+    //    DealerUser = 9,
+    //    LogisticsAdmin = 10,
+    //    LogisticsUser = 11,
+    //    TruckingAdmin = 12,
+    //    TruckingDriver = 13,
+    //    OwnerAdmin = 14,
+    //    OwnerUser = 15,
+    //}
 
 
     /// <summary>

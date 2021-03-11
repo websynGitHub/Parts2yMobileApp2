@@ -29,7 +29,7 @@ namespace YPS.ViewModel
 
         #region Declaring Data Members
         YPSService service;
-        bool checkInternet;
+        bool checkInternet; public bool adduser = true, removeuser = true, CheckStack;
         #endregion
 
         /// <summary>
@@ -44,6 +44,8 @@ namespace YPS.ViewModel
 
             try
             {
+                CheckStack = checkStack;
+
                 #region Binnding the events to ICommand & creating new instance for data members
                 Updatetitle = new Command(async () => await UpdateTitleClicked());
                 QnACloseICmd = new Command(async () => await QnACloseClick());
@@ -192,6 +194,12 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
+                    //if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    //{
+                    //    adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                    //    removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                    //}
+
                     ChatData cdata = new ChatData();
                     var result = await service.GetChatusers(poid, qaid, qatype);
 
@@ -204,68 +212,65 @@ namespace YPS.ViewModel
                                 Settings.ChatUserCount = item.UserCount;
 
                                 //Checking for the type of users to display the Plus(add), Minus(remove), Ok icons and button
-                                if (item.Status == 1 || item.ISCurrentUser == (int)UserRoles.SuperAdmin)
+                                //if (item.Status == 1 || item.ISCurrentUser == (int)UserRoles.SuperAdmin)
+                                //{
+                                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer
+                                //    || Settings.userRoleID == (int)UserRoles.SupplierAdmin
+                                //    || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.MfrAdmin
+                                //    || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin
+                                //    || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                //{
+                                //    item.img = "";
+                                //}
+                                //else if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
+                                //{
+                                if (Settings.ChatClosedOrNot == "Closed")
                                 {
-                                    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer
-                                        || Settings.userRoleID == (int)UserRoles.SupplierAdmin
-                                        || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.MfrAdmin
-                                        || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin
-                                        || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                    {
-                                        item.img = "";
-                                    }
-
-                                    else if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
-                                    {
-                                        if (Settings.ChatClosedOrNot == "Closed")
-                                        {
-                                            item.img = Icons.tickCircle;
-                                            item.IconColor = Color.FromHex("#269DC9");
-                                        }
-                                        else if (Settings.ChatClosedOrNot == "Archived")
-                                        {
-                                            item.img = Icons.tickCircle;
-                                            item.IconColor = Color.FromHex("#269DC9");
-                                        }
-                                        else
-                                        {
-                                            item.img = Icons.minusCircle;
-                                            item.checkType = false;
-                                            item.IconColor = Color.Red;
-                                        }
-                                    }
-
-                                    if (item.ISCurrentUser == (int)UserRoles.SuperAdmin)
-                                    {
-                                        item.Iscurentuser = false;
-                                        item.check = true;
-                                        item.img = Icons.tickCircle;
-                                        item.IconColor = Color.BlueViolet;
-                                    }
+                                    item.img = Icons.tickCircle;
+                                    item.IconColor = Color.FromHex("#269DC9");
+                                }
+                                else if (Settings.ChatClosedOrNot == "Archived")
+                                {
+                                    item.img = Icons.tickCircle;
+                                    item.IconColor = Color.FromHex("#269DC9");
                                 }
                                 else
                                 {
-                                    if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser || Settings.userRoleID == (int)UserRoles.SupplierAdmin
-                                        || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.MfrAdmin
-                                        || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin
-                                        || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                    if (item.Status == 1 && removeuser == true)
                                     {
-                                        if (Settings.ChatClosedOrNot == "Closed")
-                                        {
-                                            item.img = "";
-                                        }
-                                        else if (Settings.ChatClosedOrNot == "Archived")
-                                        {
-                                            item.img = "";
-                                        }
-                                        else
-                                        {
-                                            item.img = Icons.plusCircle;
-                                            item.checkType = true;
-                                            item.IconColor = Color.Green;
-                                        }
+                                        item.img = Icons.minusCircle;
+                                        item.checkType = false;
+                                        item.IconColor = Color.Red;
+                                    }
+                                    else if (item.Status == 0 && adduser == true)
+                                    {
+                                        item.img = Icons.plusCircle;
+                                        item.checkType = true;
+                                        item.IconColor = Color.Green;
                                     }
                                 }
+
+                                //}
+
+                                //if (item.ISCurrentUser == (int)UserRoles.SuperAdmin)
+                                //{
+                                //    item.Iscurentuser = false;
+                                //    item.check = true;
+                                //    item.img = Icons.tickCircle;
+                                //    item.IconColor = Color.BlueViolet;
+                                //}
+                                //}
+                                //else
+                                //{
+                                //    if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser || Settings.userRoleID == (int)UserRoles.SupplierAdmin
+                                //        || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.MfrAdmin
+                                //        || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin
+                                //        || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                //    {
+
+
+                                //    }
+                                //}
                             }
 
                             UserListCollections = result.data;//Assigning the list of all users
@@ -336,6 +341,29 @@ namespace YPS.ViewModel
                         labelobjdefval.qatitle = qatitle != null ? (!string.IsNullOrEmpty(qatitle) ? qatitle : labelobjdefval.qatitle) : labelobjdefval.qatitle;
                     }
                 }
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    IsUpdateBtnVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQATitleEdit".Trim()).FirstOrDefault()) != null ? true : false;
+                    QnACloseIcon = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQAClose".Trim()).FirstOrDefault()) != null ? true : false;
+
+                    if (CheckStack == true)
+                    {
+                        addchatUserStack = true;
+                        QnACloseStack = false;
+
+                        if (Settings.ChatuserCountImgHide == 1)
+                        {
+                            QnACloseIcon = false;
+                            adduserIcon = false;
+                        }
+                    }
+                    else if (CheckStack == false)
+                    {
+                        addchatUserStack = false;
+                        QnACloseStack = true;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -345,7 +373,16 @@ namespace YPS.ViewModel
         }
 
         #region Properties
-
+        private bool _IsUpdateBtnVisible;
+        public bool IsUpdateBtnVisible
+        {
+            get => _IsUpdateBtnVisible;
+            set
+            {
+                _IsUpdateBtnVisible = value;
+                OnPropertyChanged("IsUpdateBtnVisible");
+            }
+        }
 
         private bool _IsGroupAndUserNameVisible;
         public bool IsGroupAndUserNameVisible
@@ -487,7 +524,7 @@ namespace YPS.ViewModel
                 OnPropertyChanged("QnACloseStack");
             }
         }
-        private bool _QnACloseIcon = true;
+        public bool _QnACloseIcon = true;
         public bool QnACloseIcon
         {
             get
@@ -500,7 +537,7 @@ namespace YPS.ViewModel
                 OnPropertyChanged("QnACloseIcon");
             }
         }
-        private bool _adduserIcon = true;
+        public bool _adduserIcon = true;
         public bool adduserIcon
         {
             get

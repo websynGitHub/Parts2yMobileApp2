@@ -798,23 +798,23 @@ namespace YPS.YShip.YshipViewModel
                                     InVoiceStackLayOut = false;
                                 }
 
-                                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.DealerUser)
-                                {
-                                    DeleteIconStack = false;
-                                    BrowseFileFrm = false;
-                                    BrowseFileRowHt = 0;
-                                }
-                                else
-                                {
-                                    if (completed == 1 || canceled == 1)
-                                    {
-                                        DeleteIconStack = false;
-                                        BrowseFileFrm = false;
-                                        BrowseFileRowHt = 0;
-                                    }
-                                }
+                                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                                //    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                                //    Settings.userRoleID == (int)UserRoles.DealerUser)
+                                //{
+                                //    DeleteIconStack = false;
+                                //    BrowseFileFrm = false;
+                                //    BrowseFileRowHt = 0;
+                                //}
+                                //else
+                                //{
+                                //    if (completed == 1 || canceled == 1)
+                                //    {
+                                //        DeleteIconStack = false;
+                                //        BrowseFileFrm = false;
+                                //        BrowseFileRowHt = 0;
+                                //    }
+                                //}
                             }
                             else
                             {
@@ -861,19 +861,19 @@ namespace YPS.YShip.YshipViewModel
                                     ExportIsVisible = false;
                                 }
 
-                                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.DealerUser)
-                                {
-                                    DeleteIconStack = false;
-                                    PermitsRowSpacing = 0;
-                                    BrowseFileFrm = false;
-                                    PermitNoDateIsVsble = false;
-                                    PermitNoDateHt = 0;
-                                    BrowseFileRowHtPermits = 0;
-                                }
-                                else
-                                {
+                                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                                //    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                                //    Settings.userRoleID == (int)UserRoles.DealerUser)
+                                //{
+                                //    DeleteIconStack = false;
+                                //    PermitsRowSpacing = 0;
+                                //    BrowseFileFrm = false;
+                                //    PermitNoDateIsVsble = false;
+                                //    PermitNoDateHt = 0;
+                                //    BrowseFileRowHtPermits = 0;
+                                //}
+                                //else
+                                //{
                                     if (completed == 1 || canceled == 1)
                                     {
                                         DeleteIconStack = false;
@@ -883,7 +883,7 @@ namespace YPS.YShip.YshipViewModel
                                         PermitNoDateHt = 0;
                                         BrowseFileRowHtPermits = 0;
                                     }
-                                }
+                                //}
                             }
                         }
                         else
@@ -899,29 +899,29 @@ namespace YPS.YShip.YshipViewModel
                                 ExportIsVisible = false;
                             }
 
-                            if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                Settings.userRoleID == (int)UserRoles.DealerUser)
-                            {
-                                //DeleteIconStack = false;
-                                BrowseFileFrm = false;
-                                BrowseFileRowHt = 0;
-                                PermitNoDateIsVsble = false;
-                                PermitNoDateHt = 0;
-                                BrowseFileRowHtPermits = 0;
-                            }
-                            else
-                            {
-                                if (completed == 1 || canceled == 1)
-                                {
-                                    //DeleteIconStack = false;
-                                    BrowseFileFrm = false;
-                                    BrowseFileRowHt = 0;
-                                    PermitNoDateIsVsble = false;
-                                    PermitNoDateHt = 0;
-                                    BrowseFileRowHtPermits = 0;
-                                }
-                            }
+                            //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                            //    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                            //    Settings.userRoleID == (int)UserRoles.DealerUser)
+                            //{
+                            //    //DeleteIconStack = false;
+                            //    BrowseFileFrm = false;
+                            //    BrowseFileRowHt = 0;
+                            //    PermitNoDateIsVsble = false;
+                            //    PermitNoDateHt = 0;
+                            //    BrowseFileRowHtPermits = 0;
+                            //}
+                            //else
+                            //{
+                            //    if (completed == 1 || canceled == 1)
+                            //    {
+                            //        //DeleteIconStack = false;
+                            //        BrowseFileFrm = false;
+                            //        BrowseFileRowHt = 0;
+                            //        PermitNoDateIsVsble = false;
+                            //        PermitNoDateHt = 0;
+                            //        BrowseFileRowHtPermits = 0;
+                            //    }
+                            //}
                         }
                     }
                     else

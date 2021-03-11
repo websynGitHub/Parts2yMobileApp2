@@ -104,14 +104,14 @@ namespace YPS.Parts2y.Parts2y_Views
                 //}
 
 
-                if (Settings.userRoleID == (int)UserRoles.OwnerAdmin)
-                {
-                    Vm.Archivedchat = true;
-                }
-                else
-                {
-                    //SetHeightOfFrame.HeightRequest = 100;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.OwnerAdmin)
+                //{
+                //    Vm.Archivedchat = true;
+                //}
+                //else
+                //{
+                //    //SetHeightOfFrame.HeightRequest = 100;
+                //}
 
                 #region Assigning method that must execute when page is loaded, for binding gestures
                 loadertimer = new System.Timers.Timer();
@@ -168,7 +168,6 @@ namespace YPS.Parts2y.Parts2y_Views
             //    UserDialogs.Instance.HideLoading();
             //}
         }
-
 
         /// <summary>
         /// This method is to set the values to pagesize DDL, set start page & select the button when page is loaded.
@@ -274,8 +273,6 @@ namespace YPS.Parts2y.Parts2y_Views
 
             }
         }
-
-
 
         /// <summary>
         /// This method gets called when page is appearing.

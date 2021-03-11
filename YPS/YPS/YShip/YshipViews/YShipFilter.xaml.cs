@@ -452,36 +452,36 @@ namespace YPS.Views
         {
             try
             {
-                if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser)
-                {
-                    await vm.TabLocationDetails();
-                    await BasicDetailsDisable();
-                    sublitbtn.IsEnabled = true;
-                    sublitbtn.Opacity = 1;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser)
+                //{
+                //    await vm.TabLocationDetails();
+                //    await BasicDetailsDisable();
+                //    sublitbtn.IsEnabled = true;
+                //    sublitbtn.Opacity = 1;
+                //}
 
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser ||
-                    Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                {
-                    await vm.TabBasicDetails();
-                    await BasicDetailsDisable();
-                    await LocationDetailsDisable();
-                    await ShipmentDetailsDisable();
-                    await OtherDetailsDisable();
-                    sublitbtn.IsEnabled = false;
-                    sublitbtn.Opacity = 0.3;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser ||
+                //    Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                //{
+                //    await vm.TabBasicDetails();
+                //    await BasicDetailsDisable();
+                //    await LocationDetailsDisable();
+                //    await ShipmentDetailsDisable();
+                //    await OtherDetailsDisable();
+                //    sublitbtn.IsEnabled = false;
+                //    sublitbtn.Opacity = 0.3;
+                //}
 
-                if (Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser ||
-                    Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                {
-                    await vm.TabOtherDetails();
-                    await BasicDetailsDisable();
-                    await LocationDetailsDisable();
-                    await ShipmentDetailsDisable();
-                    sublitbtn.IsEnabled = true;
-                    sublitbtn.Opacity = 1;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser ||
+                //    Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                //{
+                //    await vm.TabOtherDetails();
+                //    await BasicDetailsDisable();
+                //    await LocationDetailsDisable();
+                //    await ShipmentDetailsDisable();
+                //    sublitbtn.IsEnabled = true;
+                //    sublitbtn.Opacity = 1;
+                //}
 
             }
             catch (Exception ex)

@@ -42,6 +42,7 @@ namespace YPS.Model
         public int ISPhotoClosed { get; set; }
         public int TaskID { get; set; }
         public int TagTaskStatus { get; set; }
+        public int TaskStatus { get; set; }
     }
 
 
@@ -72,6 +73,7 @@ namespace YPS.Model
         public string CreatedDate { get; set; }
         public string GivenName { get; set; }
         public string FullName { get; set; }
+        public string RoleName { get; set; }
         public bool ShowAndHideBtn { get; set; }
         public bool ShowAndHideDescr { get; set; }
         public bool ShowAndHideBtnEnable { get; set; }
@@ -123,13 +125,17 @@ namespace YPS.Model
         public int UploadType { get; set; }
         public string PhotoDescription { get; set; }
         public string FileName { get; set; }
+        public string RoleName { get; set; }
         public string PhotoURL { get; set; }
         public int CreatedBy { get; set; }
         public int ISPhotoClosed { get; set; }
         public string CreatedDate { get; set; }
         public string GivenName { get; set; }
         public string FullName { get; set; }
-        public string RoleName { get; set; }
+        public bool ShowAndHideBtn { get; set; }
+        public bool ShowAndHideDescr { get; set; }
+        public bool ShowAndHideBtnEnable { get; set; }
+        //public string RoleName { get; set; }
     }
 
     public class LoadPhotosUploadResponse

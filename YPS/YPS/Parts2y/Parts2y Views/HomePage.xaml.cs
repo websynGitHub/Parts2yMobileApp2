@@ -33,10 +33,10 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Vm.IsPNenable = Settings.IsPNEnabled;
 
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                {
-                    Vm.IsPNenable = false;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
+                //{
+                //    Vm.IsPNenable = false;
+                //}
 
                 MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseCount", (sender, args) =>
                 {

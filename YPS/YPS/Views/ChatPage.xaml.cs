@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
@@ -82,6 +83,8 @@ namespace YPS.Views
                 vm.IsEmailenable = Settings.IsEmailEnabled;
                 DependencyService.Get<ISQLite>().deleteReadCountNmsg(qaId);
                 CheckUserAndOS();
+
+                Task.Run(() => ShowHideActions()).Wait();
             }
             catch (Exception ex)
             {
@@ -135,11 +138,33 @@ namespace YPS.Views
                     btnchatexit.IsVisible = false;
                 }
 
+                Task.Run(() => ShowHideActions()).Wait();
             }
             catch (Exception ex)
             {
                 service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ChatPage with constructor -> in ChatPage.cs " + Settings.userLoginID);
+            }
+        }
+
+        private async Task ShowHideActions()
+        {
+            try
+            {
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    btnchatexit.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQAClose".Trim()).FirstOrDefault()) != null ? true : false;
+
+                    if (Settings.chatstatus == 0 || Settings.chatstatus == -1)
+                    {
+                        MessageEntry.IsVisible = false;
+                        btnchatexit.IsVisible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -150,15 +175,16 @@ namespace YPS.Views
         {
             try
             {
-                if ((Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer) && Settings.QAType == (int)QAType.PT)
-                {
-                    MessageEntry.IsVisible = false;
-                }
+                //if ((Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || 
+                //    Settings.userRoleID == (int)UserRoles.SuperViewer) && Settings.QAType == (int)QAType.PT)
+                //{
+                //    MessageEntry.IsVisible = false;
+                //}
 
-                if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
-                {
-                    btnchatexit.IsVisible = true;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
+                //{
+                //    btnchatexit.IsVisible = true;
+                //}
 
                 switch (Device.RuntimePlatform)
                 {

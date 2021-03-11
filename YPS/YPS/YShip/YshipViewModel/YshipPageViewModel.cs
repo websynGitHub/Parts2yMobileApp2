@@ -351,8 +351,8 @@ namespace YPS.YshipViewModel
 
                 try
                 {
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    {
+                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
                         Settings.mutipleTimeClick = true;
                         activityIndicator = true;
 
@@ -396,7 +396,7 @@ namespace YPS.YshipViewModel
                         {
                             DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
-                    }
+                    //}
                 }
                 catch (Exception ex)
                 {

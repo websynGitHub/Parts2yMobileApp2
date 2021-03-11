@@ -1055,8 +1055,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
                             var dataGrid = sender as SfDataGrid;
                             var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
@@ -1128,7 +1128,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
                                 }
                             }
-                        }
+                        //}
                     }
                     else
                     {
@@ -1165,8 +1165,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
                             var dataGrid = sender as SfDataGrid;
                             var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
@@ -1212,7 +1212,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     DependencyService.Get<IToastMessage>().ShortAlert("No tags available");
                                 }
                             }
-                        }
+                        //}
                     }
                     else
                     {
@@ -1249,8 +1249,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
                             try
                             {
                                 var dataGrid = sender as SfDataGrid;
@@ -1318,7 +1318,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
                                 var trackResult = await trackService.Handleexception(ex);
                             }
-                        }
+                        //}
                     }
                     else
                     {
@@ -1351,13 +1351,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadingindicator = true;
 
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    {
-                        if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                        {
-                        }
-                        else
-                        {
+                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
+                    //    if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                    //    {
+                    //    }
+                    //    else
+                    //    {
                             var dataGrid = obj as SfDataGrid;
                             var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
@@ -1434,8 +1434,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                                 }
                             }
-                        }
-                    }
+                        //}
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -1511,7 +1511,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     SearchDisable = false;
                     //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                    await BindGridData(false, false, -1);
+                    //await BindGridData(false, false, -1);
+                    if (AllTabVisibility == true)
+                    {
+                        await All_Tap();
+                    }
+                    else if (CompleteTabVisibility == true)
+                    {
+                        await Complete_Tap();
+                    }
+                    else if (InProgressTabVisibility == true)
+                    {
+                        await InProgress_Tap();
+                    }
+                    else
+                    {
+                        await Pending_Tap();
+                    }
                     SearchDisable = true;
                 }
             }
@@ -1714,10 +1730,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         showColumns = null;
 
-                        if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0 && Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
-                            //pagename.GetBottomMenVal();
-                        }
+                        //if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0 && Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
+                        //    //pagename.GetBottomMenVal();
+                        //}
                     }
                 }
                 else

@@ -81,7 +81,7 @@ namespace YPS.ViewModel
                     //var value = select_items.photoTags.ForEach.Select(c => c.TagNumber).ToList();
                     Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.TagNumber));
 
-                    if(string.IsNullOrEmpty(Tagnumbers))
+                    if (string.IsNullOrEmpty(Tagnumbers))
                     {
                         Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.IdentCode));
                     }
@@ -98,59 +98,60 @@ namespace YPS.ViewModel
                     poid = allPo_Data.POID;
                     puid = allPo_Data.PUID;
                     GetPhotosData(puid);
-                    if (accessPhoto == true)
-                    {
-                        FirstMainStack = false;
-                        CompletedVal = true;
-                        notCompeleteDisable = NotCompletedVal = false;
-                        CompleteBtnOpacity = 0.5;
-                    }
-                    else
-                    {
-                        FirstMainStack = true;
-                    }
+
+                    //if (accessPhoto == true)
+                    //{
+                    //    FirstMainStack = false;
+                    //    CompletedVal = true;
+                    //    notCompeleteDisable = NotCompletedVal = false;
+                    //    CompleteBtnOpacity = 0.5;
+                    //}
+                    //else
+                    //{
+                    //    FirstMainStack = true;
+                    //}
                 }
 
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                {
-                    FirstMainStack = closeLabelText = false;
-                    RowHeightcomplete = 0;
-                }
-                else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser ||
-                    Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                {
-                    closeLabelText = false;
-                    RowHeightcomplete = 0;
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
+                //{
+                //    FirstMainStack = closeLabelText = false;
+                //    RowHeightcomplete = 0;
+                //}
+                //else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser ||
+                //    Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
+                //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                //{
+                //    closeLabelText = false;
+                //    RowHeightcomplete = 0;
 
 
-                    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                           Settings.userRoleID == (int)UserRoles.SupplierUser)
-                    {
-                        if (isuploadcompleted == true)
-                        {
-                            DeleteIconStack = false;
-                            closeLabelText = true;
-                            RowHeightcomplete = 0;
-                        }
-                    }
-                }
-                else
-                {
-                    if (accessPhoto == true)
-                    {
-                        FirstMainStack = false;
-                        CompletedVal = true;
-                        DeleteIconStack = false;
-                        notCompeleteDisable = NotCompletedVal = false;
-                        CompleteBtnOpacity = 0.5;
-                    }
-                    else
-                    {
-                        FirstMainStack = true;
-                    }
-                }
+                //    //if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
+                //    //       Settings.userRoleID == (int)UserRoles.SupplierUser)
+                //    //{
+                //    //    if (isuploadcompleted == true)
+                //    //    {
+                //    //        DeleteIconStack = false;
+                //    //        closeLabelText = true;
+                //    //        RowHeightcomplete = 0;
+                //    //    }
+                //    //}
+                //}
+                //else
+                //{
+                //    if (accessPhoto == true)
+                //    {
+                //        FirstMainStack = false;
+                //        CompletedVal = true;
+                //        DeleteIconStack = false;
+                //        notCompeleteDisable = NotCompletedVal = false;
+                //        CompleteBtnOpacity = 0.5;
+                //    }
+                //    else
+                //    {
+                //        FirstMainStack = true;
+                //    }
+                //}
 
                 #region Method binding to the ICommands
                 select_pic = new Command(async () => await SelectPic());
@@ -418,19 +419,19 @@ namespace YPS.ViewModel
                         }
                     }
 
-                    if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                    {
-                        closeLabelText = true;
-                        RowHeightcomplete = 0;
-                        DeleteIconStack = false;
-                    }
-                    else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                                    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                    {
-                        closeLabelText = true;
-                        RowHeightcomplete = 0;
-                    }
+                    //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
+                    //{
+                    //    closeLabelText = true;
+                    //    RowHeightcomplete = 0;
+                    //    DeleteIconStack = false;
+                    //}
+                    //else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                    //                Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
+                    //                Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                    //{
+                    //    closeLabelText = true;
+                    //    RowHeightcomplete = 0;
+                    //}
                 }
             }
             catch (Exception ex)
@@ -457,19 +458,19 @@ namespace YPS.ViewModel
                     NoPhotos_Visibility = AllPhotosData.data.BPhotos.Count != 0 ? false : true;
                     BStack = (NoPhotos_Visibility) ? false : true;
 
-                    if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                    {
-                        closeLabelText = true;
-                        RowHeightcomplete = 0;
-                        DeleteIconStack = false;
-                    }
-                    else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                                    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                    {
-                        closeLabelText = true;
-                        RowHeightcomplete = 0;
-                    }
+                    //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
+                    //{
+                    //    closeLabelText = true;
+                    //    RowHeightcomplete = 0;
+                    //    DeleteIconStack = false;
+                    //}
+                    //else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                    //                Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
+                    //                Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                    //{
+                    //    closeLabelText = true;
+                    //    RowHeightcomplete = 0;
+                    //}
                 }
             }
             catch (Exception ex)
@@ -555,11 +556,25 @@ namespace YPS.ViewModel
                                                 tagtaskstatus.CreatedBy = Settings.userLoginID;
 
                                                 var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                                //if (result.status == 1)
+                                                //{
+                                                    if (items.TaskID != 0 && items.TaskStatus == 0)
+                                                    {
+                                                        TagTaskStatus taskstatus = new TagTaskStatus();
+                                                        taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                        taskstatus.TaskStatus = 1;
+                                                        taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                        var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                    }
+                                                    //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                                //}
                                             }
                                         }
 
                                         Settings.IsRefreshPartsPage = true;
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
                                     else
                                     {
@@ -618,31 +633,31 @@ namespace YPS.ViewModel
                             }
                             else
                             {
-                                if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.SupplierUser)
-                                {
-                                    if (isuploadcompleted == true)
-                                    {
-                                        DeleteIconStack = false;
-                                        closeLabelText = false;
-                                        RowHeightcomplete = 0;
-                                    }
-                                }
-                                else
-                                {
-                                    closeLabelText = true;
-                                    RowHeightcomplete = 50;
-                                }
+                                //if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
+                                //    Settings.userRoleID == (int)UserRoles.SupplierUser)
+                                //{
+                                //    if (isuploadcompleted == true)
+                                //    {
+                                //        DeleteIconStack = false;
+                                //        closeLabelText = false;
+                                //        RowHeightcomplete = 0;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    closeLabelText = true;
+                                //    RowHeightcomplete = 50;
+                                //}
                             }
 
-                            if (Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                                    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                            {
-                                closeLabelText = true;
-                                RowHeightcomplete = 0;
-                                DeleteIconStack = false;
-                            }
+                            //if (Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                            //        Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
+                            //        Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                            //{
+                            //    closeLabelText = true;
+                            //    RowHeightcomplete = 0;
+                            //    DeleteIconStack = false;
+                            //}
 
                             if (Device.RuntimePlatform == Device.Android)
                             {
@@ -775,37 +790,37 @@ namespace YPS.ViewModel
                                     BeforePackingTextColor = Settings.Bar_Background;
                                 }
 
-                                if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
-                                {
-                                    closeLabelText = false;
-                                    RowHeightcomplete = 0;
-                                }
-                                else
-                                {
-                                    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.SupplierUser)
-                                    {
-                                        if (isuploadcompleted == true)
-                                        {
-                                            DeleteIconStack = false;
-                                            closeLabelText = false;
-                                            RowHeightcomplete = 0;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        closeLabelText = true;
-                                        RowHeightcomplete = 50;
-                                    }
+                                //if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
+                                //{
+                                //    closeLabelText = false;
+                                //    RowHeightcomplete = 0;
+                                //}
+                                //else
+                                //{
+                                //    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
+                                //    Settings.userRoleID == (int)UserRoles.SupplierUser)
+                                //    {
+                                //        if (isuploadcompleted == true)
+                                //        {
+                                //            DeleteIconStack = false;
+                                //            closeLabelText = false;
+                                //            RowHeightcomplete = 0;
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        closeLabelText = true;
+                                //        RowHeightcomplete = 50;
+                                //    }
 
-                                    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                                    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                    {
-                                        RowHeightcomplete = 0;
-                                        DeleteIconStack = false;
-                                    }
-                                }
+                                //    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                                //    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
+                                //    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                //    {
+                                //        RowHeightcomplete = 0;
+                                //        DeleteIconStack = false;
+                                //    }
+                                //}
                             }
                             else
                             {
@@ -1100,6 +1115,12 @@ namespace YPS.ViewModel
                         labelobjComplete = (complete != null ? (!string.IsNullOrEmpty(complete) ? complete : "Complete") : "Complete");
                         labelobjNotComplete = (notcomplete != null ? (!string.IsNullOrEmpty(notcomplete) ? "Not " + notcomplete : "Not Complete") : "Not Complete");
                     }
+                }
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
+                    FirstMainStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
                 }
             }
             catch (Exception ex)

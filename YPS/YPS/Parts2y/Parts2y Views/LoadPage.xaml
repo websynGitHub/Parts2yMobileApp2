@@ -195,7 +195,7 @@
 
                 <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding IsPhotoUploadIconEnable}"
                                             IsVisible="{Binding IsPhotoUploadIconVisible}"
-                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-55}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-110}"
                              RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-63}"
                     Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
@@ -206,6 +206,22 @@
 
             </RelativeLayout>
 
+            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
+                         Margin="6,0,6,2" IsVisible="{Binding closeLabelText}">
+                <StackLayout Orientation="Vertical">
+                    <sfbuttons:SfButton IsEnabled="{Binding NotDoneVal}" Opacity="{Binding DoneBtnOpacity}"
+                                        Text="{Binding labelobj.Done.Name}" Margin="0,0,0,4" Clicked="DoneClicked"
+                                                Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                </StackLayout>
+            </ContentView>
+            
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Style="{StaticResource FmForActivityIndicator}">

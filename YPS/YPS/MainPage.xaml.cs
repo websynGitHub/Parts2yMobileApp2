@@ -63,38 +63,38 @@ namespace YPS
                 BindingContext = Vm = new PoDataViewModel(Navigation, this);
                 trackService = new YPSService();
                 Vm.IsPNenable = Settings.IsPNEnabled;
-                
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                {
-                    imgCamera.Opacity = imgChat.Opacity = imgFileUpload.Opacity = imgPrinter.Opacity = 0.5;
-                    CameraLbl.Opacity = ChatLbl.Opacity = FileUploadLbl.Opacity = PrinterLbl.Opacity = 0.5;
-                    stckCamera.GestureRecognizers.Clear();
-                    stckFileUpload.GestureRecognizers.Clear();
-                    stckChat.GestureRecognizers.Clear();
-                    stckPrinter.GestureRecognizers.Clear();
-                    Vm.IsPNenable = false;
-                }
-                else if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
-                {
-                    picRequiredStk1.IsVisible = picRequiredStk2.IsVisible = true;
-                }
 
-                if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                {
-                    imgPrinter.Opacity = 0.5;
-                    PrinterLbl.Opacity = 0.5;
-                    stckPrinter.GestureRecognizers.Clear();
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
+                //{
+                //    imgCamera.Opacity = imgChat.Opacity = imgFileUpload.Opacity = imgPrinter.Opacity = 0.5;
+                //    CameraLbl.Opacity = ChatLbl.Opacity = FileUploadLbl.Opacity = PrinterLbl.Opacity = 0.5;
+                //    stckCamera.GestureRecognizers.Clear();
+                //    stckFileUpload.GestureRecognizers.Clear();
+                //    stckChat.GestureRecognizers.Clear();
+                //    stckPrinter.GestureRecognizers.Clear();
+                //    Vm.IsPNenable = false;
+                //}
+                //else if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
+                //{
+                //    picRequiredStk1.IsVisible = picRequiredStk2.IsVisible = true;
+                //}
+
+                //if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                //{
+                //    imgPrinter.Opacity = 0.5;
+                //    PrinterLbl.Opacity = 0.5;
+                //    stckPrinter.GestureRecognizers.Clear();
+                //}
                 dataGrid.AutoExpandGroups = false;
 
-                if (Settings.userRoleID == (int)UserRoles.OwnerAdmin)
-                {
-                    Vm.Archivedchat = true;
-                }
-                else
-                {
-                    SetHeightOfFrame.HeightRequest = 100;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.OwnerAdmin)
+                //{
+                //    Vm.Archivedchat = true;
+                //}
+                //else
+                //{
+                //    SetHeightOfFrame.HeightRequest = 100;
+                //}
 
                 #region Subscribing MessageCenter
                 MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseCount", (sender, args) =>
@@ -302,35 +302,35 @@ namespace YPS
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
+                    stckCamera.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        stckCamera.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_InitialCamera),
-                            CommandParameter = dataGrid,
-                        });
+                        Command = new Command(Vm.tap_InitialCamera),
+                        CommandParameter = dataGrid,
+                    });
 
-                        stckChat.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_OnMessage),
-                            CommandParameter = dataGrid,
-                        });
+                    stckChat.GestureRecognizers.Add(new TapGestureRecognizer
+                    {
+                        Command = new Command(Vm.tap_OnMessage),
+                        CommandParameter = dataGrid,
+                    });
 
-                        stckFileUpload.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_InitialFileUpload),
-                            CommandParameter = dataGrid,
-                        });
+                    stckFileUpload.GestureRecognizers.Add(new TapGestureRecognizer
+                    {
+                        Command = new Command(Vm.tap_InitialFileUpload),
+                        CommandParameter = dataGrid,
+                    });
 
-                        if (Settings.userRoleID != (int)UserRoles.MfrAdmin && Settings.userRoleID != (int)UserRoles.MfrUser && Settings.userRoleID != (int)UserRoles.DealerAdmin && Settings.userRoleID != (int)UserRoles.DealerUser)
-                        {
-                            stckPrinter.GestureRecognizers.Add(new TapGestureRecognizer
-                            {
-                                Command = new Command(Vm.tap_Printer),
-                                CommandParameter = dataGrid,
-                            });
-                        }
-                    }
+                    //if (Settings.userRoleID != (int)UserRoles.MfrAdmin && Settings.userRoleID != (int)UserRoles.MfrUser && Settings.userRoleID != (int)UserRoles.DealerAdmin && Settings.userRoleID != (int)UserRoles.DealerUser)
+                    //{
+                    stckPrinter.GestureRecognizers.Add(new TapGestureRecognizer
+                    {
+                        Command = new Command(Vm.tap_Printer),
+                        CommandParameter = dataGrid,
+                    });
+                    //}
+                    //}
 
                     refreshName.GestureRecognizers.Add(new TapGestureRecognizer
                     {
@@ -606,10 +606,10 @@ namespace YPS
 
                     Vm.showColumns = columnsData;
 
-                    if (Settings.alllabeslvalues != null && Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    {
-                        this.GetBottomMenVal();
-                    }
+                    //if (Settings.alllabeslvalues != null && Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
+                    this.GetBottomMenVal();
+                    //}
 
                     Vm.SearchDisable = true;
                     Vm.RefreshDisable = true;
@@ -678,20 +678,20 @@ namespace YPS
         {
             try
             {
-                if (Settings.alllabeslvalues != null && Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                {
-                    var valuesDef = Settings.alllabeslvalues.Where(x => x.LanguageID == Settings.LanguageID && x.VersionID == Settings.VersionID).ToList();
-                    Settings.APhoto = valuesDef.Where(wr => wr.FieldID == "TagAPhotoCount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
-                    Settings.BPhoto = valuesDef.Where(wr => wr.FieldID == "TagBPhotoCount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
-                    Settings.Files = valuesDef.Where(wr => wr.FieldID == "TagFilesCount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
-                    Settings.Chat = valuesDef.Where(wr => wr.FieldID == "TagQACount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
-                    Settings.IsAppLabelCall = ((Settings.APhoto == 0 && Settings.BPhoto == 0) || (Settings.Files == 0) || (Settings.Chat == 0)) == true ? true : false;
+                //if (Settings.alllabeslvalues != null && Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                //{
+                var valuesDef = Settings.alllabeslvalues.Where(x => x.LanguageID == Settings.LanguageID && x.VersionID == Settings.VersionID).ToList();
+                Settings.APhoto = valuesDef.Where(wr => wr.FieldID == "TagAPhotoCount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
+                Settings.BPhoto = valuesDef.Where(wr => wr.FieldID == "TagBPhotoCount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
+                Settings.Files = valuesDef.Where(wr => wr.FieldID == "TagFilesCount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
+                Settings.Chat = valuesDef.Where(wr => wr.FieldID == "TagQACount").Select(g => g.Status == 0 ? 0 : 1).FirstOrDefault();
+                Settings.IsAppLabelCall = ((Settings.APhoto == 0 && Settings.BPhoto == 0) || (Settings.Files == 0) || (Settings.Chat == 0)) == true ? true : false;
 
-                    if (Settings.IsAppLabelCall == true)
-                    {
-                        BottomMenuHide();
-                    }
+                if (Settings.IsAppLabelCall == true)
+                {
+                    BottomMenuHide();
                 }
+                //}
             }
             catch (Exception ex)
             {
@@ -814,7 +814,7 @@ namespace YPS
                                 sendPodata.UserID = Settings.userLoginID;
                                 sendPodata.PageSize = Settings.pageSizeYPS;
                                 sendPodata.StartPage = Settings.startPageYPS;
-                                Vm.SearchResultGet(sendPodata); 
+                                Vm.SearchResultGet(sendPodata);
 
                                 var result = await trackService.LoadPoDataService(sendPodata);
 
@@ -832,30 +832,30 @@ namespace YPS
                                             if (data.TagNumber != null)
                                             {
                                                 #region Chat
-                                                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
+                                                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
+                                                //{
+                                                //    data.chatImage = "minus.png";
+                                                //}
+                                                //else
+                                                //{
+                                                if (data.TagQACount == 0)
                                                 {
-                                                    data.chatImage = "minus.png";
-                                                }
-                                                else
-                                                {
-                                                    if (data.TagQACount == 0)
+                                                    if (data.TagQAClosedCount > 0)
                                                     {
-                                                        if (data.TagQAClosedCount > 0)
-                                                        {
-                                                            data.chatImage = "chatIcon.png";
-                                                            data.chatTickVisible = true;
-                                                        }
-                                                        else
-                                                        {
-                                                            data.chatImage = "minus.png";
-                                                        }
+                                                        data.chatImage = "chatIcon.png";
+                                                        data.chatTickVisible = true;
                                                     }
                                                     else
                                                     {
-                                                        data.chatImage = "chatIcon.png";
-                                                        data.countVisible = true;
+                                                        data.chatImage = "minus.png";
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    data.chatImage = "chatIcon.png";
+                                                    data.countVisible = true;
+                                                }
+                                                //}
                                                 #endregion
 
                                                 #region Before Photo & After Photo
@@ -1273,54 +1273,54 @@ namespace YPS
             await Task.Delay(100);
             try
             {
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                //{
+                //    DependencyService.Get<IToastMessage>().ShortAlert("You don't have access ship Print");
+                //}
+                //else
+                //{
+                if (!mTimeOpenShipMarkCheck)
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have access ship Print");
-                }
-                else
-                {
-                    if (!mTimeOpenShipMarkCheck)
+                    mTimeOpenShipMarkCheck = true;
+                    var imgid = sender as Image;
+                    var tapedItem = Vm.PoDataCollections.Where(x => x.POShippingNumber == imgid.ClassId).FirstOrDefault();
+
+                    YPSService yPSService = new YPSService();
+                    var printResult = await yPSService.PrintPDFByUsingPOID(tapedItem.POID);
+
+                    PrintPDFModel printPDFModel = new PrintPDFModel();
+
+                    if (printResult.status != 0 && printResult != null)
                     {
-                        mTimeOpenShipMarkCheck = true;
-                        var imgid = sender as Image;
-                        var tapedItem = Vm.PoDataCollections.Where(x => x.POShippingNumber == imgid.ClassId).FirstOrDefault();
+                        var bArrayPOID = printResult.data;
+                        byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
 
-                        YPSService yPSService = new YPSService();
-                        var printResult = await yPSService.PrintPDFByUsingPOID(tapedItem.POID);
+                        printPDFModel.bArray = bytesPOID;
+                        printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
+                        printPDFModel.PDFFileTitle = "Shipping Marks";
 
-                        PrintPDFModel printPDFModel = new PrintPDFModel();
-
-                        if (printResult.status != 0 && printResult != null)
+                        switch (Device.RuntimePlatform)
                         {
-                            var bArrayPOID = printResult.data;
-                            byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
+                            case Device.iOS:
 
-                            printPDFModel.bArray = bytesPOID;
-                            printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
-                            printPDFModel.PDFFileTitle = "Shipping Marks";
+                                if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
+                                {
+                                    await FileManager.GetByteArrayData(printPDFModel);
+                                }
 
-                            switch (Device.RuntimePlatform)
-                            {
-                                case Device.iOS:
+                                var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
 
-                                    if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
-                                    {
-                                        await FileManager.GetByteArrayData(printPDFModel);
-                                    }
+                                DependencyService.Get<NewOpenPdfI>().passPath(url);
 
-                                    var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
-
-                                    DependencyService.Get<NewOpenPdfI>().passPath(url);
-
-                                    break;
-                                case Device.Android:
-                                    await Navigation.PushAsync(new PdfViewPage(printPDFModel));
-                                    break;
-                            }
+                                break;
+                            case Device.Android:
+                                await Navigation.PushAsync(new PdfViewPage(printPDFModel));
+                                break;
                         }
-                        mTimeOpenShipMarkCheck = false;
                     }
+                    mTimeOpenShipMarkCheck = false;
                 }
+                //}
             }
             catch (Exception ex)
             {

@@ -47,6 +47,7 @@ namespace YPS.Models
             public string TagNumber { get; set; }
             public int TaskID { get; set; }
             public int TagTaskStatus { get; set; }
+            public int TaskStatus { get; set; }
         }
 
         public class User

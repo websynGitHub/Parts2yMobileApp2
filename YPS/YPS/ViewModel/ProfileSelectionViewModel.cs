@@ -28,7 +28,7 @@ namespace YPS.ViewModel
 
         YPSService service;
         SaveUserDefaultSettingsModel SaveUDS;
-        bool checkInternet;
+        bool checkInternet, DefaultSettingSupplier;
         #endregion
 
         /// <summary>
@@ -102,6 +102,11 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
+                    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    {
+                        DefaultSettingSupplier = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "DefaultSettingSupplier".Trim()).FirstOrDefault()) != null ? true : false;
+                    }
+
                     // Calling API to get update profile data for the login user.
                     PDefaultSettingModel = await service.DefaultSettingProfile(Settings.userLoginID);
                     // Calling API to get default settings data for login user.
@@ -174,11 +179,10 @@ namespace YPS.ViewModel
                             // List of job based on project id.
                             JobList = PDefaultSettingModel.data.Job.Where(s => s.ParentID == projectData.ID).ToList();
 
-                            if (Settings.userRoleID == 1 || Settings.userRoleID == 2 || Settings.userRoleID == 3 || Settings.userRoleID == 4 ||
-                                Settings.userRoleID == 5)
+                            if (DefaultSettingSupplier == true)
                             {
                                 //Checking supplier status based on RoleID, Base on status supplier picker Hide/Show.
-                                if (suppliestatus == 1)
+                                if (DefaultSettingSupplier == true)
                                 {
                                     SupplierLabelAndFrame = true;
                                 }
@@ -223,7 +227,7 @@ namespace YPS.ViewModel
                             //Getting a list of company name from company list model.
                             CompanyList = PDefaultSettingModel.data.Company;
 
-                            if (Settings.userRoleID == 1 || Settings.userRoleID == 2 || Settings.userRoleID == 3 || Settings.userRoleID == 4 || Settings.userRoleID == 5)
+                            if (DefaultSettingSupplier == true)
                             {
                                 //Supplier layout showing with a list of suppliers base on supplier id.
                                 SupplierLabelAndFrame = true;

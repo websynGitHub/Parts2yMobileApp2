@@ -112,17 +112,17 @@ namespace YPS.ViewModel
                         RowHeightChooseFile = 0;
                         RowHeightUploadFile = 0;
                     }
-                    else if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                    {
-                        /// Based on the user roll id, user can upload files or not.
-                        closeLabelText = false;
-                        FrameForChooseFile = false;
-                        FrameForUploadFile = false;
-                        access = fileAccess;
-                        RowHeightChooseFile = 0;
-                        RowHeightUploadFile = 0;
-                        RowHeightcomplete = 0;
-                    }
+                    //else if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
+                    //{
+                    //    /// Based on the user roll id, user can upload files or not.
+                    //    closeLabelText = false;
+                    //    FrameForChooseFile = false;
+                    //    FrameForUploadFile = false;
+                    //    access = fileAccess;
+                    //    RowHeightChooseFile = 0;
+                    //    RowHeightUploadFile = 0;
+                    //    RowHeightcomplete = 0;
+                    //}
                     GetMyFile(fuid); /// To fetch files based on file upload id.
                 }
                 else /// PL File file upload.
@@ -144,22 +144,22 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser ||
-                            Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                            Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                        {
-                            RowHeightChooseFile = 0;
-                            RowHeightUploadFile = 0;
-                            FrameForUploadFile = false;
-                            FrameForChooseFile = false;
-                        }
-                        else
-                        {
+                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser ||
+                        //    Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
+                        //    Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                        //{
+                        //    RowHeightChooseFile = 0;
+                        //    RowHeightUploadFile = 0;
+                        //    FrameForUploadFile = false;
+                        //    FrameForChooseFile = false;
+                        //}
+                        //else
+                        //{
                             RowHeightChooseFile = 50;
                             RowHeightUploadFile = 80;
                             FrameForUploadFile = true;
                             FrameForChooseFile = true;
-                        }
+                        //}
                     }
 
                     GetPLMyFile(poid); /// To fetch PL files based on the POID. 
@@ -317,16 +317,16 @@ namespace YPS.ViewModel
                                     string initialIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
 
                                     /// Base on the roll id inserting image and file.
-                                    if (Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                        Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                                        Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                    {
-                                        ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
-                                    }
-                                    else
-                                    {
+                                    //if (Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                                    //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
+                                    //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                    //{
+                                    //    ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
+                                    //}
+                                    //else
+                                    //{
                                         ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
-                                    }
+                                    //}
 
                                     HideListAndShow = true;
                                     HideLabelAndShow = false;
@@ -357,6 +357,20 @@ namespace YPS.ViewModel
                                             tagtaskstatus.CreatedBy = Settings.userLoginID;
 
                                             var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                            if (result.status == 1)
+                                            {
+                                                if (items.TaskID != 0 && items.TaskStatus == 0)
+                                                {
+                                                    TagTaskStatus taskstatus = new TagTaskStatus();
+                                                    taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                    taskstatus.TaskStatus = 1;
+                                                    taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                    var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                }
+                                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                            }
                                         }
                                     }
 
@@ -380,18 +394,18 @@ namespace YPS.ViewModel
                                     /// Checking image and file extention.
                                     string FileIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
 
-                                    /// Base on the roll id inserting image and file.
-                                    if (Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                        Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                                        Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                    {
+                                    ///// Base on the roll id inserting image and file.
+                                    //if (Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                                    //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
+                                    //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                    //{
 
-                                        ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
-                                    }
-                                    else
-                                    {
+                                    //    ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
+                                    //}
+                                    //else
+                                    //{
                                         ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
-                                    }
+                                    //}
 
                                     HideListAndShow = true;
                                     HideLabelAndShow = false;
@@ -448,19 +462,19 @@ namespace YPS.ViewModel
 
                         if (UploadType.ToLower().Trim() == "initialfile" || UploadType == "fileUpload")
                         {
-                            if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                            Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                            Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                            Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                            {
-                                closeLabelText = false;
-                                RowHeightcomplete = 0;
-                            }
-                            else
-                            {
+                            //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
+                            //Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                            //Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
+                            //Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                            //{
+                            //    closeLabelText = false;
+                            //    RowHeightcomplete = 0;
+                            //}
+                            //else
+                            //{
                                 closeLabelText = true;
                                 RowHeightcomplete = 50;
-                            }
+                            //}
                         }
                         else
                         {
@@ -536,17 +550,17 @@ namespace YPS.ViewModel
                                         else
                                         {
                                             ///View the files based on roles
-                                            if (Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                                                Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                                Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser ||
-                                                Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                            {
-                                                addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
-                                            }
-                                            else
-                                            {
+                                            //if (Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperViewer ||
+                                            //    Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                                            //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser ||
+                                            //    Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                            //{
+                                            //    addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
+                                            //}
+                                            //else
+                                            //{
                                                 addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
-                                            }
+                                            //}
                                         }
                                     }
                                     ListOfFile = addItems;
@@ -558,24 +572,24 @@ namespace YPS.ViewModel
                                         closeLabelText = true;
                                         RowHeightcomplete = 50;
 
-                                        if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                                        {
-                                            closeLabelText = false;
-                                            RowHeightcomplete = 0;
-                                        }
+                                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
+                                        //{
+                                        //    closeLabelText = false;
+                                        //    RowHeightcomplete = 0;
+                                        //}
                                     }
                                     else
                                     {
                                         closeLabelText = true;
                                         RowHeightcomplete = 50;
-                                        if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                                            Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                            Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                                            Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                        {
-                                            closeLabelText = false;
-                                            RowHeightcomplete = 0;
-                                        }
+                                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
+                                        //    Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                                        //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
+                                        //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                        //{
+                                        //    closeLabelText = false;
+                                        //    RowHeightcomplete = 0;
+                                        //}
                                     }
 
                                     if (ListOfFile.Count() == 0)
@@ -658,15 +672,15 @@ namespace YPS.ViewModel
                                     }
                                     else
                                     {
-                                        if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                            Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                        {
-                                            addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = false });
-                                        }
-                                        else
-                                        {
+                                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
+                                        //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                                        //{
+                                        //    addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = false });
+                                        //}
+                                        //else
+                                        //{
                                             addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true });
-                                        }
+                                        //}
                                     }
                                 }
                                 PLListOfFile = addItems;
@@ -1316,6 +1330,33 @@ namespace YPS.ViewModel
                         labelobjFile.notcommplete = (notcomplete != null ? (!string.IsNullOrEmpty(notcomplete) ? "Not " + notcomplete : "Not Complete") : "Not Complete");
                     }
                 }
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    PLHideDeleteButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PLUploadDelete").FirstOrDefault() != null ? true : false;
+                    HideDeleteButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileDelete").FirstOrDefault() != null ? true : false;
+                    var hidepluploadButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PLUpload").FirstOrDefault() != null ? true : false;
+                    var hideploadButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileUpload").FirstOrDefault() != null ? true : false;
+
+                    if (hidepluploadButton == false && hideploadButton == false)
+                    {
+                        ICommandPickFile = null;
+                        HideUploadButton = false;
+                    }
+                    else
+                    {
+                        if (hidepluploadButton == false && UploadType == "plFile")
+                        {
+                            HideUploadButton = false;
+                            ICommandPickFile = null;
+                        }
+                        else if (hidepluploadButton == false && UploadType == "fileUpload")
+                        {
+                            HideUploadButton = false;
+                            ICommandPickFile = null;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -1325,6 +1366,51 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+
+        public bool _PLHideDeleteButton = true;
+        public bool PLHideDeleteButton
+        {
+            get { return _PLHideDeleteButton; }
+            set
+            {
+                _PLHideDeleteButton = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool _HideDeleteButton = true;
+        public bool HideDeleteButton
+        {
+            get { return _HideDeleteButton; }
+            set
+            {
+                _HideDeleteButton = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool _HideUploadButton = true;
+        public bool HideUploadButton
+        {
+            get { return _HideUploadButton; }
+            set
+            {
+                _HideUploadButton = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool _HidePLUploadButton = true;
+        public bool HidePLUploadButton
+        {
+            get { return _HidePLUploadButton; }
+            set
+            {
+                _HidePLUploadButton = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {

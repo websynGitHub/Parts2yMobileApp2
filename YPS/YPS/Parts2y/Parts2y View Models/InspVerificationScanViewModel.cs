@@ -156,11 +156,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             StatusTextBgColor = Color.DarkGreen;
                             ScannedValue = ScannedResult;
 
-                            if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                            {
+                            //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                            //{
                                 IsInspEnable = true;
                                 InspOpacity = 1.0;
-                            }
+                            //}
                         }
                         else
                         {
@@ -289,8 +289,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    {
+                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
                         Settings.POID = podata.POID;
 
                         //if (podata.TagTaskStatus == 2)
@@ -302,7 +302,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //    InspOpacity = 0.5;
                         //}
                         await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber));
-                    }
+                    //}
                 }
                 else
                 {

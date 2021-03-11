@@ -99,14 +99,14 @@ namespace YPS.Views
                     Settings.ChatClosedOrNot = chatClosedOrNot = "Open";
                 }
 
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                    Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser
-                    || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser
-                    || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin
-                    || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                {
-                    chatExitImg.IsVisible = false;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
+                //    Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser
+                //    || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser
+                //    || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin
+                //    || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                //{
+                //    chatExitImg.IsVisible = false;
+                //}
 
                 MessagingCenter.Subscribe<string>("ChatUsers", "BindUsers", (sender) =>
                 {
@@ -148,14 +148,14 @@ namespace YPS.Views
                 BindingContext = vm = new ChatUsersViewModel(data.POID, data.QAID, visableState, null);
 
 
-                if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                    Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser
-                    || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser
-                    || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin
-                    || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                {
-                    chatExitImg.IsVisible = false;
-                }
+                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
+                //    Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser
+                //    || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser
+                //    || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin
+                //    || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                //{
+                //    chatExitImg.IsVisible = false;
+                //}
 
                 MessagingCenter.Subscribe<string>("ChatUsers", "BindUsers", (sender) =>
                 {
@@ -350,15 +350,15 @@ namespace YPS.Views
             {
                 ChatData data = new ChatData();
 
-                if (Settings.userRoleID != (int)UserRoles.OwnerAdmin)
-                {
-                    bool has = vm.UserList.Any(cus => cus.UserID == Settings.userLoginID);
+                //if (Settings.userRoleID != (int)UserRoles.OwnerAdmin)
+                //{
+                bool has = vm.UserList.Any(cus => cus.UserID == Settings.userLoginID);
 
-                    if (!has)
-                    {
-                        vm.UserList.Add(new User() { Status = 1, UserID = Settings.userLoginID });
-                    }
+                if (!has)
+                {
+                    vm.UserList.Add(new User() { Status = 1, UserID = Settings.userLoginID });
                 }
+                //}
 
                 if (vm.UserList.Count >= 1)
                 {
@@ -409,7 +409,23 @@ namespace YPS.Views
                                                 tagtaskstatus.CreatedBy = Settings.userLoginID;
 
                                                 var val = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                                if (val.status == 1)
+                                                {
+                                                    if (items.TaskID != 0 && items.TaskStatus == 0)
+                                                    {
+                                                        TagTaskStatus taskstatus = new TagTaskStatus();
+                                                        taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                        taskstatus.TaskStatus = 1;
+                                                        taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                        var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                    }
+                                                    //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                                }
                                             }
+
+
                                         }
 
                                         await Navigation.PushAsync(new ChatPage());
@@ -559,6 +575,13 @@ namespace YPS.Views
             try
             {
                 YPSLogger.TrackEvent("ChatUsersViewModel", " AddUserClick " + DateTime.Now + " UserId: " + Settings.userLoginID); YPSLogger.TrackEvent("ChatUsersViewModel", " QnACloseClick " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    vm.adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                    vm.removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                }
+
                 singleheader.Text = "Add/Remove user(s)";
                 singleheader.IsVisible = true;
                 vm.addchatUserStack = true;
@@ -576,6 +599,13 @@ namespace YPS.Views
             try
             {
                 YPSLogger.TrackEvent("ChatUsersViewModel", " QnACloseClick " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    vm.adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                    vm.removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                }
+
                 vm.addchatUserStack = false;
                 vm.QnACloseStack = true;
                 singleheader.Text = "Close QA";

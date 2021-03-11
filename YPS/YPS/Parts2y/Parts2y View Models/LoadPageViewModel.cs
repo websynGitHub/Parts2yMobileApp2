@@ -27,7 +27,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         YPSService service;
         public INavigation Navigation { get; set; }
-        bool checkInternet;
+        bool checkInternet, isAllTasksDone;
         int puid, poid, selectiontype_index, photoCounts = 0;
         AllPoData selectedTagData;
         Stream picStream;
@@ -44,7 +44,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
 
-        public LoadPageViewModel(INavigation navigation, AllPoData selectedtagdata, SendPodata sendpodata, LoadPage pagename)
+        public LoadPageViewModel(INavigation navigation, AllPoData selectedtagdata, SendPodata sendpodata, bool isalltasksdone, LoadPage pagename)
         {
             try
             {
@@ -52,6 +52,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Navigation = navigation;
                 SendPodData = sendpodata;
                 IsNoPhotoTxt = true;
+                isAllTasksDone = isalltasksdone;
                 selectedTagData = selectedtagdata;
                 Tagnumbers = selectedtagdata.TaskName;
                 select_pic = new Command(async () => await SelectPic());
@@ -66,15 +67,32 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
 
-                if (selectedTagData.TagTaskStatus == 2)
-                {
-                    NotDoneVal = false;
-                    DoneBtnOpacity = 0.5;
-                }
+                Task.Run(() => DynamicTextChange()).Wait();
 
                 Task.Run(() => GetPhotosData(selectedtagdata.TaskID)).Wait();
 
-                IsPhotoUploadIconVisible = selectedTagData.TaskStatus == 2 ? true : false;
+                if (selectedTagData.TaskStatus == 2)
+                {
+                    closeLabelText = false;
+                    //DoneBtnOpacity = 0.5;
+                    IsPhotoUploadIconVisible = false;
+                }
+                else
+                {
+                    if (isalltasksdone == true)
+                    {
+                        IsPhotoUploadIconVisible = true;
+                        closeLabelText = true;
+                        //DoneBtnOpacity = 1.0;
+                    }
+                    else
+                    {
+                        closeLabelText = false;
+                        //DoneBtnOpacity = 0.5;
+                        IsPhotoUploadIconVisible = false;
+                    }
+                }
+                //IsPhotoUploadIconVisible = selectedTagData.TaskStatus == 2 ? true : false;
             }
             catch (Exception ex)
             {
@@ -178,7 +196,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             IsPhotosListVisible = true;
                             IsPhotosListStackVisible = true;
                             IsNoPhotoTxt = false;
-                            closeLabelText = true;
+
+                            if (selectedTagData.TaskStatus != 2 && isAllTasksDone == true)
+                            {
+                                closeLabelText = true;
+                            }
+                            else
+                            {
+                                closeLabelText = false;
+                            }
 
                             LoadPhotosList = new ObservableCollection<LoadPhotoModel>(result.data);
                         }
@@ -215,6 +241,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 int photoid = Convert.ToInt32(data.PhotoID);
                 var des = LoadPhotosList.Where(x => x.PhotoID == photoid).FirstOrDefault();
                 var imageLists = LoadPhotosList;
+
+
+                foreach (var items in imageLists)
+                {
+                    if (items.PhotoDescription.Length > 150)
+                    {
+                        items.ShowAndHideDescr = true;
+                        items.ShowAndHideBtn = true;
+                        items.ShowAndHideBtnEnable = true;
+                    }
+                    else if (items.PhotoDescription.Length > 0)
+                    {
+                        items.ShowAndHideDescr = true;
+                    }
+                }
 
                 await Navigation.PushAsync(new ImageView(imageLists, photoid, Tagnumbers));
             }
@@ -328,7 +369,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        IsPhotoUploadIconVisible = true;
+                        if (isAllTasksDone == true)
+                        {
+                            IsPhotoUploadIconVisible = true;
+                        }
+                        else
+                        {
+                            IsPhotoUploadIconVisible = false;
+                        }
+
                         RowHeightOpenCam = 0;
                         IsUploadStackVisible = IsImageViewForUploadVisible = false;
                         IsTabsVisible = true;
@@ -377,14 +426,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             DescriptionText = string.Empty;
 
                             await GetPhotosData(selectedTagData.TaskID);
-
-                            if (Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                                    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                            {
-                                closeLabelText = true;
-                                DeleteIconStack = false;
-                            }
 
                             if (Device.RuntimePlatform == Device.Android)
                             {
@@ -657,6 +698,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
                         labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
+                    }
+
+                    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    {
+                        DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
+
+                        if (isAllTasksDone == true)
+                        {
+                            IsPhotoUploadIconVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
+                        }
                     }
                 }
             }

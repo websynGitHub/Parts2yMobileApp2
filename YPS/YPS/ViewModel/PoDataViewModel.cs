@@ -593,8 +593,8 @@ namespace YPS.ViewModel
 
                     if (checkInternet)
                     {
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
                             var dataGrid = sender as SfDataGrid;
                             var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
@@ -666,7 +666,7 @@ namespace YPS.ViewModel
                                     }
                                 }
                             }
-                        }
+                        //}
                     }
                     else
                     {
@@ -705,8 +705,8 @@ namespace YPS.ViewModel
 
                     if (checkInternet)
                     {
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
                             var dataGrid = sender as SfDataGrid;
                             var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
@@ -752,7 +752,7 @@ namespace YPS.ViewModel
                                     DependencyService.Get<IToastMessage>().ShortAlert("No tags available");
                                 }
                             }
-                        }
+                        //}
                     }
                     else
                     {
@@ -791,8 +791,8 @@ namespace YPS.ViewModel
 
                     if (checkInternet)
                     {
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
                             try
                             {
                                 var dataGrid = sender as SfDataGrid;
@@ -860,7 +860,7 @@ namespace YPS.ViewModel
                                 YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
                                 var trackResult = await trackService.Handleexception(ex);
                             }
-                        }
+                        //}
                     }
                     else
                     {
@@ -895,13 +895,13 @@ namespace YPS.ViewModel
                     activityIndicator = true;
                     Settings.mutipleTimeClick = true;
 
-                    if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    {
-                        if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                        {
-                        }
-                        else
-                        {
+                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                    //{
+                    //    if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
+                    //    {
+                    //    }
+                    //    else
+                    //    {
                             var dataGrid = obj as SfDataGrid;
                             var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
@@ -978,8 +978,8 @@ namespace YPS.ViewModel
                                     DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                                 }
                             }
-                        }
-                    }
+                        //}
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -1256,10 +1256,10 @@ namespace YPS.ViewModel
                     {
                         showColumns = null;
 
-                        if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0 && Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
-                            pagename.GetBottomMenVal();
-                        }
+                        //if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0 && Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
+                        //    pagename.GetBottomMenVal();
+                        //}
                     }
                 }
                 else
@@ -1441,10 +1441,10 @@ namespace YPS.ViewModel
                         Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
                         Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
 
-                        if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        {
+                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
+                        //{
                             pagename.GetBottomMenVal();
-                        }
+                        //}
                     }
                     else
                     {

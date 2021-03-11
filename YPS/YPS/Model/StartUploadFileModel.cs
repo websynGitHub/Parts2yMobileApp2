@@ -10,6 +10,7 @@ namespace YPS.Model
         public string TagNumber { get; set; }
         public int TaskID { get; set; }
         public int TagTaskStatus { get; set; }
+        public int TaskStatus { get; set; }
     }
 
     public class MyFile
@@ -33,7 +34,7 @@ namespace YPS.Model
     {
         public ObservableCollection<FileTag> fileTags { get; set; }
         public ObservableCollection<MyFile> files { get; set; }
-        
+
         public MyData()
         {
             fileTags = new ObservableCollection<FileTag>();

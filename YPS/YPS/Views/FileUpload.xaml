@@ -55,23 +55,7 @@
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                 </Grid>
-                <!--<Frame Grid.Row="1" IsVisible="{Binding closeLabelText}" Style="{StaticResource FrameStyleForFileUpload}"
-                       BorderColor="Transparent" Margin="6,1,6,0">
-                    <syncfusion:SfRadioGroup  Orientation="Horizontal" Margin="5,0,7,0">
-                        <Grid HorizontalOptions="FillAndExpand">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <syncfusion:SfRadioButton Grid.Column="0" Text="{Binding labelobjFile.complete}" 
-                IsChecked="{Binding CompletedVal}" FontSize="Medium" StateChanged="Complete_StateChanged"/>
-                            <syncfusion:SfRadioButton Grid.Column="1" Text="{Binding labelobjFile.notcommplete}" IsEnabled="{Binding notCompeleteDisable}"
-                                                  IsChecked="{Binding NotCompletedVal}" FontSize="Medium" HorizontalOptions="EndAndExpand"
-                                                  LineBreakMode="WordWrap"/>
-                        </Grid>
 
-                    </syncfusion:SfRadioGroup>
-                </Frame>-->
                 <Frame Grid.Row="1" IsVisible="{Binding FrameForChooseFile}" Style="{StaticResource FrameStyleForFileUpload}"
                        Margin="6,1,6,0">
                     <Grid>
@@ -100,6 +84,7 @@
                         </Image>
                     </Grid>
                 </Frame>
+
                 <Frame Grid.Row="2" IsVisible="{Binding FrameForUploadFile}" 
                        Style="{StaticResource FrameStyleForFileUpload}"
                        Margin="6,2,6,0">
@@ -116,8 +101,8 @@
                                              Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource EditorTextStyle}"
                                              TextColor="Black" VerticalOptions="CenterAndExpand" MaxLength="500"
                                            HeightRequest="70"/>
-                        
-                        <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}"
+
+                        <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}" IsVisible="{Binding HideUploadButton}"
                                             Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0" BackgroundColor="{Binding BgColor}">
                             <sfbuttons:SfButton.Content>
                                 <StackLayout Style="{StaticResource StackInSfButton}">
@@ -130,6 +115,7 @@
                         </sfbuttons:SfButton>
                     </Grid>
                 </Frame>
+
                 <StackLayout Grid.Row="3" Padding="6,0,6,6">
                     <Label IsVisible="{Binding HideLabelAndShow}" Text="No data found." TextColor="Black" 
                            HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" Style="{StaticResource LableWithQuestionFont}"/>
@@ -160,7 +146,8 @@
                                         </Grid>
                                         <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}" HeightRequest="40"/>
                                         <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
-                                            <LblIcons:FontAwesomeIconLabel IsVisible="{Binding HideDeleteIc}" Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
+                                            <LblIcons:FontAwesomeIconLabel  IsVisible="{Binding BindingContext.HideDeleteButton,Source={x:Reference Name=xFileUpload}}"
+                                                Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
                                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.ICommandDeleteFile, Source={x:Reference Name=xFileUpload} }" CommandParameter="{Binding FileID}"/>
                                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -202,7 +189,7 @@
                                         </Grid>
                                         <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}" HeightRequest="40"/>
                                         <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
-                                            <LblIcons:FontAwesomeIconLabel IsVisible="{Binding HideDeleteIc}" Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
+                                            <LblIcons:FontAwesomeIconLabel IsVisible="{Binding BindingContext.PLHideDeleteButton,Source={x:Reference Name=xFileUpload}}" Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
                                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                                     <TapGestureRecognizer  Command="{Binding BindingContext.ICommandDeleteFile, Source={x:Reference Name=xFileUpload}}" CommandParameter="{Binding ID}"/>
                                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -220,6 +207,7 @@
                     </flv:FlowListView>
                 </StackLayout>
             </Grid>
+
             <ContentView IsVisible="{Binding PopUpForFileDes}" BackgroundColor="#99000000" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame CornerRadius="7" BorderColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" Padding="7" Margin="10,0,10,0">
                     <Grid Margin="5">
@@ -269,15 +257,15 @@
                         <!--<Label Grid.Row="4" Grid.ColumnSpan="2">
                             <Label.FormattedText>
                                 <FormattedString>-->
-                                    <Label x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
+                        <Label x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
                                           FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"
                                            Grid.Row="4" Grid.Column="0"/>
                         <Label Text=":" Grid.Row="4" Grid.Column="1"
                                           FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"/>
-                                    <Label Text="{Binding Description}" TextColor="Black"
+                        <Label Text="{Binding Description}" TextColor="Black"
                                            Style="{DynamicResource LableWithSmallFont}"
                                            Grid.Row="4" Grid.Column="2"/>
-                                <!--</FormattedString>
+                        <!--</FormattedString>
                             </Label.FormattedText>-->
                         <!--</Label>-->
                     </Grid>
@@ -301,7 +289,7 @@
                     </sfbuttons:SfButton>
                 </StackLayout>
             </ContentView>-->
-            
+
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Style="{StaticResource FmForActivityIndicator}">
                     <StackLayout Padding="15">

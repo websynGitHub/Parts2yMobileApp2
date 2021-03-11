@@ -56,12 +56,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 result = new AllData();
                 SupTransportDB Db = new SupTransportDB("allpodata");
                 var current = Connectivity.NetworkAccess;
-                
+
                 if (current == NetworkAccess.Internet)
                 {
                     var poData = await service.GetAllePODdata(mail);
                     var data = JsonConvert.DeserializeObject<AllData>(poData.ToString());
-                   
+
                     if (data != null)
                     {
                         if (data.status != false)
@@ -211,7 +211,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             await Navigation.PushAsync(new TransportReportDetails());
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
 
                     }
@@ -219,7 +219,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         loadindicator = false;
                     }
-                    
+
                 }
             }
             catch (Exception ex)
@@ -347,7 +347,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             }
         }
-        private Color _BgColor= YPS.CommonClasses.Settings.Bar_Background;
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
             get => _BgColor;

@@ -19,6 +19,7 @@ namespace YPS.Views
         #region Data member declaration
         ProfileSelectionViewModel Vm;
         YPSService service;
+        bool DefaultSettingSupplier;
         #endregion
 
         /// <summary>
@@ -239,6 +240,11 @@ namespace YPS.Views
         {
             try
             {
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    DefaultSettingSupplier = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "DefaultSettingSupplier".Trim()).FirstOrDefault()) != null ? true : false;
+                }
+
                 // Getting all Label values based on the language Id and version Id from the settings page. 
                 var data = Settings.alllabeslvalues.Where(x => x.VersionID == parentid && x.LanguageID == Settings.LanguageID).ToList();
 
@@ -257,18 +263,18 @@ namespace YPS.Views
                 Vm.LoginLbl = data.Where(x => x.FieldID == Vm.LoginLbl).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Login ID *").FirstOrDefault();
                 var supplierstatus = data.Where(wr => wr.FieldID == Settings.supplierlabel1).FirstOrDefault();
 
-                if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser)
+                if (DefaultSettingSupplier == false)
                 {
                     Vm.SupplierLabelAndFrame = false;
                     Settings.SupplierID = 0;
                     Vm.SupplierGridRowHeight = 0;
                 }
-                else if (supplierstatus.Status == 0) // if supplier status is in-active
-                {
-                    Vm.SupplierLabelAndFrame = false;
-                    Settings.SupplierID = 0;
-                    Vm.SupplierGridRowHeight = 0;
-                }
+                //else if (supplierstatus.Status == 0) // if supplier status is in-active
+                //{
+                //    Vm.SupplierLabelAndFrame = false;
+                //    Settings.SupplierID = 0;
+                //    Vm.SupplierGridRowHeight = 0;
+                //}
                 else
                 {
                     Vm.SupplierLabelAndFrame = true;
