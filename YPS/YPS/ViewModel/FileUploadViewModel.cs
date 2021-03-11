@@ -358,19 +358,19 @@ namespace YPS.ViewModel
 
                                             var result = await service.UpdateTagTaskStatus(tagtaskstatus);
 
-                                            //if (result.status == 1)
-                                            //{
-                                            if (items.TaskID != 0 && items.TaskStatus == 0)
+                                            if (result.status == 1)
                                             {
-                                                TagTaskStatus taskstatus = new TagTaskStatus();
-                                                taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                taskstatus.TaskStatus = 1;
-                                                taskstatus.CreatedBy = Settings.userLoginID;
+                                                if (items.TaskID != 0 && items.TaskStatus == 0)
+                                                {
+                                                    TagTaskStatus taskstatus = new TagTaskStatus();
+                                                    taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                    taskstatus.TaskStatus = 1;
+                                                    taskstatus.CreatedBy = Settings.userLoginID;
 
-                                                var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                    var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                }
+                                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                                             }
-                                            //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                                            //}
                                         }
                                     }
 

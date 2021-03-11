@@ -21,23 +21,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 bool isarchive = true; ;
                 UserName = Settings.Username;
-                usermail = Settings.UserMail;
+                usermail = Settings.LoginIDDisplay;
                 EntityName = Settings.EntityName;
-                //BgColor = Settings.Bar_Background;
                 BgColor = YPS.CommonClasses.Settings.Bar_Background;
-
-                //if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
-                //{
-                //    isarchive = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ArchivedChatsView".Trim()).FirstOrDefault()) != null ? true : false;
-                //}
 
                 List<MenuList> listOfMenuItems = new List<MenuList>();
                 listOfMenuItems.Add(new MenuList { Title = "Home", IconSource = Icons.Home, ISVisible = true }); ;
-                //listOfMenuItems.Add(new MenuList { Title = "Home", IconSource = Icons.Home });
                 listOfMenuItems.Add(new MenuList { Title = "Settings", IconSource = Icons.SettingsIc, ISVisible = true });
-                //listOfMenuItems.Add(new MenuList { Title = "Archive", IconSource = Icons.Archived, ISVisible = isarchive });
                 listOfMenuItems.Add(new MenuList { Title = "About", IconSource = Icons.info, ISVisible = true });
-                //listOfMenuItems.Add(new MenuList { Title = "TransportReportDetails", IconSource = "home.png" });
                 listOfMenuItems.Add(new MenuList { Title = "Logout", IconSource = Icons.Logout, ISVisible = true });
 
                 MenuItems = listOfMenuItems;
@@ -80,7 +71,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _usermail = Settings.LoginID;
+        private string _usermail = Settings.LoginIDDisplay;
         public string usermail
         {
             get { return _usermail; }

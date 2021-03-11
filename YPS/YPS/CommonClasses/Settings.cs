@@ -177,6 +177,7 @@ namespace YPS.CommonClasses
         public static string DateFormatformAPI { get; set; }
         public static string TimeFormatforAPI { get; set; }
         public static string LoginID { get; set; }
+        public static string LoginIDDisplay { get; set; }
         public static string encryLoginID { get; set; }
         public static string SecurityCode { get; set; } = "hEJz2uavfzgqO7aYHoNezLwD";
         public static string CertificateSecCode { get; set; } = "YPSCertificateSecCode";

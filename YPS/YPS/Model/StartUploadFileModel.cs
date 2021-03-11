@@ -19,6 +19,7 @@ namespace YPS.Model
         public int FileID { get; set; }
         public string FileDescription { get; set; }
         public string FileName { get; set; }
+        public string RoleName { get; set; }
         public string FileURL { get; set; }
         public int CreatedBy { get; set; }
         public string CreatedDate { get; set; }
