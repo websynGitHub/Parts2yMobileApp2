@@ -200,8 +200,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
-                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
-                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
+                        labelobj.Load.Name = Settings.VersionID == 2 ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
             }
