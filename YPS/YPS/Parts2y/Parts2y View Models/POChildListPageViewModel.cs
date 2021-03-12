@@ -78,7 +78,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
 
-                if (Settings.CompanySelected.Contains("(Kp)") || Settings.CompanySelected.Contains("(Kr)"))
+                if (Settings.VersionID == 4 || Settings.VersionID == 3)
                 {
                     LoadTextColor = Color.Black;
                 }
@@ -286,7 +286,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if (!Settings.CompanySelected.Contains("(P)") && !Settings.CompanySelected.Contains("(E)"))
+                var versionname = Settings.encryVersionID;
+                var versionID = Settings.VersionID;
+
+                if (Settings.VersionID != 5 && Settings.VersionID != 1)
                 {
                     loadindicator = true;
                     POTagDetail = sender as AllPoData;
@@ -297,12 +300,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        if (Settings.CompanySelected.Contains("(Kp)") ||
-                            Settings.CompanySelected.Contains("(Kr)"))
+                        if (Settings.VersionID == 4 ||
+                            Settings.VersionID == 3)
                         {
                             await Navigation.PushAsync(new LoadPage(POTagDetail, sendPodata, isalldone));
                         }
-                        else if (Settings.CompanySelected.Contains("(C)"))
+                        else if (Settings.VersionID == 2)
                         {
                             await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail));
                         }
@@ -430,13 +433,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if (data.IsPhotoRequired == 0)
                                     {
                                         data.cameImage = "cross.png";
+                                        data.CameraIconColor = Color.Red;
+                                        data.IsPhotosVisible = true;
+                                        data.imgCamOpacityB = data.imgTickOpacityB = 0.5;
+                                        data.imgCamOpacityA = data.imgtickOpacityA = 0.5;
                                     }
                                     else
                                     {
                                         data.cameImage = "minus.png";
+                                        data.IsPhotosVisible = false;
                                     }
 
-                                    data.IsPhotosVisible = false;
                                 }
                                 else
                                 {
@@ -444,6 +451,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     {
                                         data.cameImage = "Chatcamera.png";
                                         data.photoTickVisible = true;
+                                        data.CameraIconColor = Color.Black;
 
                                         data.imgCamOpacityB = data.imgTickOpacityB = (data.TagBPhotoCount == 0) ? 0.5 : 1.0;
                                         data.imgCamOpacityA = data.imgtickOpacityA = (data.TagAPhotoCount == 0) ? 0.5 : 1.0;
@@ -453,6 +461,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         data.cameImage = "Chatcamera.png";
                                         data.BPhotoCountVisible = true;
                                         data.APhotoCountVisible = true;
+                                        data.CameraIconColor = Color.Black;
                                     }
 
                                     data.IsPhotosVisible = true;
@@ -516,7 +525,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                         }
 
-                        PoDataChildCollections = new ObservableCollection<AllPoData>(potaglist);
+                        PoDataChildCollections = new ObservableCollection<AllPoData>(potaglist.OrderBy(o => o.POTagID));
                         IsPOTagDataListVisible = true;
                         NoRecordsLbl = false;
                         IsStatusTabVisible = true;
@@ -1172,16 +1181,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             if (!loadindicator)
             {
-                loadindicator = true;
+                var allPo = obj as AllPoData;
 
-                bool checkInternet = await App.CheckInterNetConnection();
-
-                if (checkInternet)
+                if (allPo.imgCamOpacityA != 0.5)
                 {
-                    var allPo = obj as AllPoData;
+                    loadindicator = true;
 
-                    if (allPo.imgCamOpacityA != 0.5)
+                    bool checkInternet = await App.CheckInterNetConnection();
+
+                    if (checkInternet)
                     {
+
                         try
                         {
                             if (allPo.cameImage == "Chatcamera.png")
@@ -1200,15 +1210,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             YPSLogger.ReportException(ex, "tap_eachCamA method -> in PoDataViewModel! " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
+                            loadindicator = false;
                         }
                         loadindicator = false;
                     }
+                    else
+                    {
+                        loadindicator = false;
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
                 }
-                else
-                {
-                    loadindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                }
+
                 loadindicator = false;
             }
         }
@@ -1373,8 +1385,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
                         labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
 
-                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
-                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
+                        labelobj.Load.Name = Settings.VersionID == 2 ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
             }
@@ -1414,7 +1426,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public Color _LoadTextColor = (Settings.CompanySelected.Contains("(Kp)") || Settings.CompanySelected.Contains("(Kr)")) ? Color.Black : Color.Gray;
+        public Color _LoadTextColor = (Settings.VersionID == 4 || Settings.VersionID == 3) ? Color.Black : Color.Gray;
         public Color LoadTextColor
         {
             get => _LoadTextColor;

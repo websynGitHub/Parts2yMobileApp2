@@ -696,8 +696,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Upload.Status = upload == null ? true : (upload.Status == 1 ? true : false);
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
 
-                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
-                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
+                        labelobj.Load.Name = Settings.VersionID == 2 ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
 
                     if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)

@@ -51,7 +51,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 MoveNextCmd = new Command(async () => await MoveNext(ScannedAllPOData));
                 #endregion
 
-                if (Settings.CompanySelected.Contains("(C)") && uploadtype == 0)
+                if (Settings.VersionID == 2 && uploadtype == 0)
                 {
                     PageNextButton = "Insp";
                 }
@@ -289,7 +289,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 StatusTextBgColor = Settings.Bar_Background;
                                 ScannedValue = ScannedResult;
 
-                                if (Settings.CompanySelected.Contains("(C)"))
+                                if (Settings.VersionID == 2)
                                 {
                                     //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                                     //{
@@ -438,7 +438,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                         //{
-                        if (Settings.CompanySelected.Contains("(C)") && uploadType == 0)
+                        if (Settings.VersionID == 2 && uploadType == 0)
                         {
                             //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                             //{
@@ -457,16 +457,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 }
                                 else
                                 {
-                                    Settings.POID = selectedPOTagData.POID;
-                                    if (uploadType == (int)UploadTypeEnums.GoodsPhotos_BP)
+                                    if (selectedPOTagData != null)
                                     {
+                                        Settings.POID = selectedPOTagData.POID;
+                                    }
 
-                                        await Navigation.PushAsync(new PhotoUpload(null, selectedPOTagData, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, selectedPOTagData.photoTickVisible));
-                                    }
-                                    else
-                                    {
-                                        await Navigation.PushAsync(new PhotoUpload(null, selectedPOTagData, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, selectedPOTagData.photoTickVisible));
-                                    }
+                                    Settings.CanUploadPhotos = true;
+                                    await Navigation.PopAsync();
+
+                                    //Settings.POID = selectedPOTagData.POID;
+                                    //if (uploadType == (int)UploadTypeEnums.GoodsPhotos_BP)
+                                    //{
+
+                                    //    await Navigation.PushAsync(new PhotoUpload(null, selectedPOTagData, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, selectedPOTagData.photoTickVisible));
+                                    //}
+                                    //else
+                                    //{
+                                    //    await Navigation.PushAsync(new PhotoUpload(null, selectedPOTagData, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, selectedPOTagData.photoTickVisible));
+                                    //}
                                 }
                             }
                         }
@@ -573,7 +581,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public string _PageNextButton = (Settings.CompanySelected.Contains("(C)") && uploadType == 0) == true ? "Insp" : "Photo";
+        public string _PageNextButton = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
         public string PageNextButton
         {
             get { return _PageNextButton; }

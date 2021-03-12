@@ -251,6 +251,7 @@ namespace YPS.CommonClasses
         public static int toGoPageIndexyShip { get; set; }
         public static string TagNumber { get; set; }
         public static int POID { set; get; }
+        public static bool CanUploadPhotos { set; get; }
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }

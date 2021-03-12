@@ -302,11 +302,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     if (postatus == -1)
                                     {
-                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist);
+                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.OrderBy(o => o.POID));
                                     }
                                     else
                                     {
-                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.Where(wr => wr.TaskStatus == postatus));
+                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.Where(wr => wr.TaskStatus == postatus).OrderBy(o => o.POID));
                                     }
 
                                     List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
@@ -1057,77 +1057,77 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                         //{
-                            var dataGrid = sender as SfDataGrid;
-                            var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-                            var uniq = data.GroupBy(x => x.POShippingNumber);
+                        var dataGrid = sender as SfDataGrid;
+                        var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
+                        var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                            if (uniq.Count() >= 2)
+                        if (uniq.Count() >= 2)
+                        {
+                            //Please select any one group.
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tags under same po.");
+                        }
+                        else if (uniq.Count() == 0)
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
+                        }
+                        else if (uniq.Count() == 1)
+                        {
+                            var restricData = data.Where(r => r.cameImage == "cross.png").ToList();
+
+                            if (restricData.Count > 0)
                             {
-                                //Please select any one group.
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select tags under same po.");
+                                DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
                             }
-                            else if (uniq.Count() == 0)
+                            else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
-                            }
-                            else if (uniq.Count() == 1)
-                            {
-                                var restricData = data.Where(r => r.cameImage == "cross.png").ToList();
+                                PhotoUploadModel selectedTagsData = new PhotoUploadModel();
 
-                                if (restricData.Count > 0)
+                                foreach (var podata in uniq)
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
-                                }
-                                else
-                                {
-                                    PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+                                    var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                    selectedTagsData.POID = d.POID;
+                                    List<PhotoTag> lstdat = new List<PhotoTag>();
 
-                                    foreach (var podata in uniq)
+                                    foreach (var item in podata)
                                     {
-                                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                        selectedTagsData.POID = d.POID;
-                                        List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                                        foreach (var item in podata)
+                                        if (item.TagAPhotoCount == 0 && item.TagBPhotoCount == 0 && item.PUID == 0)
                                         {
-                                            if (item.TagAPhotoCount == 0 && item.TagBPhotoCount == 0 && item.PUID == 0)
-                                            {
-                                                PhotoTag tg = new PhotoTag();
+                                            PhotoTag tg = new PhotoTag();
 
-                                                if (item.POTagID != 0)
-                                                {
-                                                    tg.POTagID = item.POTagID;
-                                                    Settings.Tagnumbers = item.TagNumber;
-                                                    lstdat.Add(tg);
-                                                }
-                                            }
-                                            else
+                                            if (item.POTagID != 0)
                                             {
-                                                selectedTagsData.alreadyExit = "alreadyExit";
-                                                break;
+                                                tg.POTagID = item.POTagID;
+                                                Settings.Tagnumbers = item.TagNumber;
+                                                lstdat.Add(tg);
                                             }
-                                        }
-                                        selectedTagsData.photoTags = lstdat;
-                                        Settings.currentPoTagId_Inti = lstdat;
-                                    }
-
-                                    if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
-                                    {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected tag(s).");
-                                    }
-                                    else
-                                    {
-                                        if (selectedTagsData.photoTags.Count != 0)
-                                        {
-                                            //await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
                                         }
                                         else
                                         {
-                                            DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                            selectedTagsData.alreadyExit = "alreadyExit";
+                                            break;
                                         }
+                                    }
+                                    selectedTagsData.photoTags = lstdat;
+                                    Settings.currentPoTagId_Inti = lstdat;
+                                }
+
+                                if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
+                                {
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected tag(s).");
+                                }
+                                else
+                                {
+                                    if (selectedTagsData.photoTags.Count != 0)
+                                    {
+                                        //await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                    }
+                                    else
+                                    {
+                                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
                                     }
                                 }
                             }
+                        }
                         //}
                     }
                     else
@@ -1167,51 +1167,51 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                         //{
-                            var dataGrid = sender as SfDataGrid;
-                            var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-                            var uniq = data.GroupBy(x => x.POShippingNumber);
+                        var dataGrid = sender as SfDataGrid;
+                        var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
+                        var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                            if (uniq.Count() >= 2)
-                            {
-                                //Please select any one group.
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select tags from same po.");
-                            }
-                            else if (uniq.Count() == 0)
-                            {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start conversation.");
-                            }
-                            else if (uniq.Count() == 1)
-                            {
-                                ChatData selectedTagsData = new ChatData();
+                        if (uniq.Count() >= 2)
+                        {
+                            //Please select any one group.
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tags from same po.");
+                        }
+                        else if (uniq.Count() == 0)
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start conversation.");
+                        }
+                        else if (uniq.Count() == 1)
+                        {
+                            ChatData selectedTagsData = new ChatData();
 
-                                foreach (var podata in uniq)
+                            foreach (var podata in uniq)
+                            {
+                                var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                selectedTagsData.POID = d.POID;
+                                List<Tag> lstdat = new List<Tag>();
+
+                                foreach (var item in podata)
                                 {
-                                    var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                    selectedTagsData.POID = d.POID;
-                                    List<Tag> lstdat = new List<Tag>();
+                                    Tag tg = new Tag();
 
-                                    foreach (var item in podata)
+                                    if (item.POTagID != 0)
                                     {
-                                        Tag tg = new Tag();
-
-                                        if (item.POTagID != 0)
-                                        {
-                                            tg.POTagID = item.POTagID;
-                                            lstdat.Add(tg);
-                                        }
+                                        tg.POTagID = item.POTagID;
+                                        lstdat.Add(tg);
                                     }
-                                    selectedTagsData.tags = lstdat;
                                 }
-                                if (selectedTagsData.tags.Count != 0)
-                                {
-                                    Settings.ChatuserCountImgHide = 1;
-                                    //await Navigation.PushAsync(new ChatUsers(selectedTagsData, true));
-                                }
-                                else
-                                {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("No tags available");
-                                }
+                                selectedTagsData.tags = lstdat;
                             }
+                            if (selectedTagsData.tags.Count != 0)
+                            {
+                                Settings.ChatuserCountImgHide = 1;
+                                //await Navigation.PushAsync(new ChatUsers(selectedTagsData, true));
+                            }
+                            else
+                            {
+                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available");
+                            }
+                        }
                         //}
                     }
                     else
@@ -1251,73 +1251,73 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                         //{
-                            try
+                        try
+                        {
+                            var dataGrid = sender as SfDataGrid;
+                            var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
+                            var uniq = data.GroupBy(x => x.POShippingNumber);
+
+                            if (uniq.Count() >= 2)
                             {
-                                var dataGrid = sender as SfDataGrid;
-                                var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-                                var uniq = data.GroupBy(x => x.POShippingNumber);
+                                //Please select any one group.
+                                DependencyService.Get<IToastMessage>().ShortAlert("File upload is already marked as completed for the selected tag(s).");
+                            }
+                            else if (uniq.Count() == 0)
+                            {
+                                DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload file(s).");
+                            }
+                            else if (uniq.Count() == 1)
+                            {
+                                StartUploadFileModel selectedTagsData = new StartUploadFileModel();
+                                foreach (var podata in uniq)
+                                {
+                                    var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                    selectedTagsData.POID = d.POID;
 
-                                if (uniq.Count() >= 2)
-                                {
-                                    //Please select any one group.
-                                    DependencyService.Get<IToastMessage>().ShortAlert("File upload is already marked as completed for the selected tag(s).");
-                                }
-                                else if (uniq.Count() == 0)
-                                {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload file(s).");
-                                }
-                                else if (uniq.Count() == 1)
-                                {
-                                    StartUploadFileModel selectedTagsData = new StartUploadFileModel();
-                                    foreach (var podata in uniq)
+                                    List<FileTag> lstdat = new List<FileTag>();
+                                    foreach (var item in podata)
                                     {
-                                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                        selectedTagsData.POID = d.POID;
-
-                                        List<FileTag> lstdat = new List<FileTag>();
-                                        foreach (var item in podata)
+                                        FileTag tg = new FileTag();
+                                        if (item.TagFilesCount == 0 && item.FUID == 0)
                                         {
-                                            FileTag tg = new FileTag();
-                                            if (item.TagFilesCount == 0 && item.FUID == 0)
+                                            if (item.POTagID != 0)
                                             {
-                                                if (item.POTagID != 0)
-                                                {
-                                                    tg.POTagID = item.POTagID;
-                                                    lstdat.Add(tg);
-                                                }
+                                                tg.POTagID = item.POTagID;
+                                                lstdat.Add(tg);
                                             }
-                                            else
-                                            {
-                                                selectedTagsData.alreadyExit = "alreadyExit";
-                                                break;
-                                            }
-
-                                        }
-                                        selectedTagsData.FileTags = Settings.currentPoTagId_Inti_F = lstdat;
-                                    }
-
-                                    if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
-                                    {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected tag(s).");
-                                    }
-                                    else
-                                    {
-                                        if (selectedTagsData.FileTags.Count != 0)
-                                        {
-                                            //await Navigation.PushAsync(new FileUpload(selectedTagsData, 0, 0, "initialFile", false));
                                         }
                                         else
                                         {
-                                            DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                            selectedTagsData.alreadyExit = "alreadyExit";
+                                            break;
                                         }
+
+                                    }
+                                    selectedTagsData.FileTags = Settings.currentPoTagId_Inti_F = lstdat;
+                                }
+
+                                if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
+                                {
+                                    DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected tag(s).");
+                                }
+                                else
+                                {
+                                    if (selectedTagsData.FileTags.Count != 0)
+                                    {
+                                        //await Navigation.PushAsync(new FileUpload(selectedTagsData, 0, 0, "initialFile", false));
+                                    }
+                                    else
+                                    {
+                                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
                                     }
                                 }
                             }
-                            catch (Exception ex)
-                            {
-                                YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
-                                var trackResult = await trackService.Handleexception(ex);
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
+                            var trackResult = await trackService.Handleexception(ex);
+                        }
                         //}
                     }
                     else
@@ -1358,83 +1358,83 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     //    }
                     //    else
                     //    {
-                            var dataGrid = obj as SfDataGrid;
-                            var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-                            var uniq = data.GroupBy(x => x.POShippingNumber);
+                    var dataGrid = obj as SfDataGrid;
+                    var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
+                    var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                            if (uniq.Count() >= 2)
+                    if (uniq.Count() >= 2)
+                    {
+                        //Please select any one group.
+                        DependencyService.Get<IToastMessage>().ShortAlert("please select tag(s) under same po.");
+                    }
+                    else if (uniq.Count() == 0)
+                    {
+                        //Please select tag(s) to download the report
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s).");
+                    }
+                    else if (uniq.Count() == 1)
+                    {
+                        var checkInternet = await App.CheckInterNetConnection();
+                        if (checkInternet)
+                        {
+                            string poTagID = "";
+                            foreach (var podata in uniq)
                             {
-                                //Please select any one group.
-                                DependencyService.Get<IToastMessage>().ShortAlert("please select tag(s) under same po.");
-                            }
-                            else if (uniq.Count() == 0)
-                            {
-                                //Please select tag(s) to download the report
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s).");
-                            }
-                            else if (uniq.Count() == 1)
-                            {
-                                var checkInternet = await App.CheckInterNetConnection();
-                                if (checkInternet)
+                                var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                foreach (var item in podata)
                                 {
-                                    string poTagID = "";
-                                    foreach (var podata in uniq)
+                                    poTagID += item.POTagID + ",";
+                                }
+                            }
+                            poTagID = poTagID.TrimEnd(',');
+
+                            if (poTagID != "0")
+                            {
+                                YPSService pSService = new YPSService();
+                                var printResult = await pSService.PrintPDF(poTagID);
+
+                                PrintPDFModel printPDFModel = new PrintPDFModel();
+
+                                if (printResult.status != 0 && printResult != null)
+                                {
+                                    var bArray = printResult.data;
+                                    byte[] bytes = Convert.FromBase64String(bArray);
+                                    printPDFModel.bArray = bytes;
+                                    printPDFModel.FileName = "PrintTag" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
+                                    printPDFModel.PDFFileTitle = "Print Tag";
+
+                                    switch (Device.RuntimePlatform)
                                     {
-                                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                        foreach (var item in podata)
-                                        {
-                                            poTagID += item.POTagID + ",";
-                                        }
-                                    }
-                                    poTagID = poTagID.TrimEnd(',');
-
-                                    if (poTagID != "0")
-                                    {
-                                        YPSService pSService = new YPSService();
-                                        var printResult = await pSService.PrintPDF(poTagID);
-
-                                        PrintPDFModel printPDFModel = new PrintPDFModel();
-
-                                        if (printResult.status != 0 && printResult != null)
-                                        {
-                                            var bArray = printResult.data;
-                                            byte[] bytes = Convert.FromBase64String(bArray);
-                                            printPDFModel.bArray = bytes;
-                                            printPDFModel.FileName = "PrintTag" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
-                                            printPDFModel.PDFFileTitle = "Print Tag";
-
-                                            switch (Device.RuntimePlatform)
+                                        case Device.iOS:
+                                            if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
                                             {
-                                                case Device.iOS:
-                                                    if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
-                                                    {
-                                                        await FileManager.GetByteArrayData(printPDFModel);
-                                                    }
-
-                                                    var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
-                                                    DependencyService.Get<NewOpenPdfI>().passPath(url);
-                                                    break;
-                                                case Device.Android:
-                                                    //await Navigation.PushAsync(new PdfViewPage(printPDFModel));
-                                                    break;
+                                                await FileManager.GetByteArrayData(printPDFModel);
                                             }
-                                        }
-                                        else
-                                        {
-                                            //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+
+                                            var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
+                                            DependencyService.Get<NewOpenPdfI>().passPath(url);
+                                            break;
+                                        case Device.Android:
+                                            //await Navigation.PushAsync(new PdfViewPage(printPDFModel));
+                                            break;
                                     }
                                 }
                                 else
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong!");
                                 }
                             }
-                        //}
+                            else
+                            {
+                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                            }
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        }
+                    }
+                    //}
                     //}
                 }
                 catch (Exception ex)
@@ -1947,8 +1947,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
                         labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
 
-                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
-                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
+                        labelobj.Load.Name = Settings.VersionID == 2 ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
 
                         //labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) ;
                         //labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);

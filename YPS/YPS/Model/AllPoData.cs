@@ -126,6 +126,21 @@ namespace YPS.Model
                 RaisePropertyChanged("TagFilesCount");
             }
         }
+
+        private Color _CameraIconColor;
+        public Color CameraIconColor
+        {
+            get
+            {
+                return _CameraIconColor;
+            }
+            set
+            {
+                this._CameraIconColor = value;
+                RaisePropertyChanged("CameraIconColor");
+            }
+        }
+
         public int TagQAClosedCount { get; set; }
         public int ISFileClosed { get; set; }
         public int ISPhotoClosed { get; set; }

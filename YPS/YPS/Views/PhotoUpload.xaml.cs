@@ -74,7 +74,7 @@ namespace YPS.Views
         /// <summary>
         /// Gets called when page is appearing.
         /// </summary>
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             YPSLogger.TrackEvent("PhotoUpload", "Page constructer " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
@@ -84,6 +84,13 @@ namespace YPS.Views
                 /// For Enable and Disble master detail page menu gesture
                 //(Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
                 Settings.photoUploadPageCount = 0;
+
+
+                if (Settings.CanUploadPhotos == true)
+                {
+                    Settings.CanUploadPhotos = false;
+                    await vm.SelectPic();
+                }
             }
             catch (Exception ex)
             {

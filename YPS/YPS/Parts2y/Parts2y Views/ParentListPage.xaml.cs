@@ -46,7 +46,7 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 InitializeComponent();
 
-                if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
+                if (Settings.VersionID == 5 || Settings.VersionID == 1)
                 {
                     loadStack.IsVisible = false;
                 }
@@ -282,10 +282,10 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadingindicator = true;
-              
+
                 base.OnAppearing();
                 YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
-               
+
                 Settings.countmenu = 1;
 
                 Settings.mutipleTimeClick = false;
@@ -321,7 +321,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             await Vm.Pending_Tap();
                         }
-                       //await Vm.BindGridData(false, false,-1);
+                        //await Vm.BindGridData(false, false,-1);
                     }
                     else
                     {
@@ -391,7 +391,7 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnDisappearing();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
         }

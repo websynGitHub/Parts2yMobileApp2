@@ -320,7 +320,7 @@
                                                        IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="photoBU" Text="{x:Static local1:Icons.CameraIc}" 
-                                                                                TextColor="Black" FontSize="25"
+                                                                                TextColor="{Binding CameraIconColor}" FontSize="25"
                                                                                 HorizontalOptions="Start" VerticalOptions="Center"
                                                                                 Opacity="{Binding imgCamOpacityB}">
                                                                 </local:FontAwesomeIconLabel>
@@ -341,7 +341,7 @@
                                                         IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="photoAU" Text="{x:Static local1:Icons.CameraIc}" 
-                                                 TextColor="Black" FontSize="25"
+                                                 TextColor="{Binding CameraIconColor}" FontSize="25"
                                                  HorizontalOptions="Start" VerticalOptions="Center" Opacity="{Binding imgCamOpacityA}"
                                                  >
                                                                 </local:FontAwesomeIconLabel>

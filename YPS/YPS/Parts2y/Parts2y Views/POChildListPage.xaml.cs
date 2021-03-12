@@ -33,7 +33,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 trackService = new YPSService();
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
-                if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
+                if (Settings.VersionID == 5 || Settings.VersionID == 1)
                 {
                     loadStack.IsVisible = false;
                 }
@@ -47,8 +47,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
 
 
-                if (!Settings.CompanySelected.Contains("(C)") && !Settings.CompanySelected.Contains("(Kp)") &&
-                    !Settings.CompanySelected.Contains("(P)") && !Settings.CompanySelected.Contains("(Kr)") && !Settings.CompanySelected.Contains("(E)"))
+                if (Settings.VersionID != 2 && Settings.VersionID != 4 &&
+                    Settings.VersionID != 5 && Settings.VersionID != 3 && Settings.VersionID != 1)
                 {
                     Vm.IsRightArrowVisible = false;
                     ChildDataList.SelectionMode = SelectionMode.None;
@@ -315,8 +315,8 @@ namespace YPS.Parts2y.Parts2y_Views
                         });
                     }
 
-                    if (Settings.CompanySelected.Contains("(Kp)") ||
-                           Settings.CompanySelected.Contains("(Kr)"))
+                    if (Settings.VersionID == 4 ||
+                           Settings.VersionID == 3)
                     {
                         loadStack.GestureRecognizers.Add(new TapGestureRecognizer
                         {

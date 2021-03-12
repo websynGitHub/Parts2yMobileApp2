@@ -154,7 +154,7 @@ namespace YPS.ViewModel
                 //}
 
                 #region Method binding to the ICommands
-                select_pic = new Command(async () => await SelectPic());
+                select_pic = new Command(async () => await MoveToscan());
                 upload_pic = new Command(async () => await Photo_Upload());
                 beforeCommand = new Command(async () => await beforePic());
                 afterCommand = new Command(async () => await afterPic());
@@ -909,6 +909,21 @@ namespace YPS.ViewModel
             finally
             {
                 IndicatorVisibility = false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private async Task MoveToscan()
+        {
+            try
+            {
+                await Navigation.PushAsync(new ScanPage(UploadType, null, false, null));
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

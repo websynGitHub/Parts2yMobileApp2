@@ -370,8 +370,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
                         //labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
                         //labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
-                        labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
-                        labelobj.Parts.Name = Settings.CompanySelected.Contains("(C)") == true ? "VIN" : "Parts";
+                        labelobj.Load.Name = Settings.VersionID == 2 ? "Insp" : "Load";
+                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
             }
