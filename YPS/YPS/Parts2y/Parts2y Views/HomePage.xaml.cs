@@ -44,7 +44,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 });
 
 
-                if (Settings.CompanySelected.Contains("(P)") || Settings.CompanySelected.Contains("(E)"))
+                if (Settings.VersionID == 5 || Settings.VersionID == 1)
                 {
                     loadStack.IsVisible = false;
                 }

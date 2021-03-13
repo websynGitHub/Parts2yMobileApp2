@@ -212,10 +212,10 @@
                 <Frame CornerRadius="7" BorderColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" Padding="7" Margin="10,0,10,0">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -236,8 +236,13 @@
                         <Label Grid.Row="1" Grid.Column="1"
                                Text=":" FontAttributes="Bold"
                                 Style="{DynamicResource LabelWithSendOTPFont}"/>
-                        <Label Grid.Row="1" Grid.Column="2" Text="{Binding Uploadedby,Mode=TwoWay}" TextColor="Black"
-                               Style="{DynamicResource LableWithSmallFont}"/>
+                        <StackLayout Orientation="Horizontal" Spacing="0"  Grid.Row="1" Grid.Column="2">
+                            <Label Text="{Binding Uploadedby,Mode=TwoWay}" TextColor="Black" Style="{DynamicResource LableWithSmallFont}"/>
+                            <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
+                            <Label Text=" (" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
+                            <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
+                            <Label Text=")" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
+                        </StackLayout>
                         <Label Grid.Row="2" x:Name="nameUploadedDatelbl" Grid.Column="0" 
                                Text="{Binding labelobjFile.uploadeddate}" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>

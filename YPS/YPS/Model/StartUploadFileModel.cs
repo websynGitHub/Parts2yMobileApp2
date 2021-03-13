@@ -103,6 +103,7 @@ namespace YPS.Model
         public int RowNumber { get; set; }
         public string GivenName { get; set; }
         public string FileName { get; set; }
+        public string RoleName { get; set; }
         public string ImageURL { get; set; }
         public bool HideDeleteIc { get; set; } = false;
     }

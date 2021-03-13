@@ -12,6 +12,7 @@ namespace YPS.Model
         public int CreatedBy { get; set; }
         public string alreadyExit { get; set; } = "";
         public bool isCompleted { get; set; }
+        public string RoleName { get; set; }
 
         public PhotoUploadModel()
         {
@@ -32,6 +33,7 @@ namespace YPS.Model
         public string CreatedDate { get; set; }
         public string GivenName { get; set; }
         public string FullName { get; set; }
+        public string RoleName { get; set; }
     }
     public class PhotoTag
     {

@@ -325,7 +325,7 @@ namespace YPS.ViewModel
                                     //}
                                     //else
                                     //{
-                                    ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
+                                    ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = FinalReturnData.data.file.RoleName });
                                     //}
 
                                     HideListAndShow = true;
@@ -404,7 +404,7 @@ namespace YPS.ViewModel
                                     //}
                                     //else
                                     //{
-                                    ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
+                                    ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = response.data.RoleName });
                                     //}
 
                                     HideListAndShow = true;
@@ -441,7 +441,7 @@ namespace YPS.ViewModel
                                 {
                                     /// Checking image and file extention.
                                     string PLIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
-                                    PLListOfFile.Insert(0, new PLFileUpload() { FileName = finalplData.data.FileName, GivenName = Settings.SGivenName, FileURL = finalplData.data.FileURL, ImageURL = PLIcon, ID = finalplData.data.ID, FileDescription = finalplData.data.FileDescription, CreatedDate = finalplData.data.CreatedDate, HideDeleteIc = true });
+                                    PLListOfFile.Insert(0, new PLFileUpload() { FileName = finalplData.data.FileName, GivenName = Settings.SGivenName, FileURL = finalplData.data.FileURL, ImageURL = PLIcon, ID = finalplData.data.ID, FileDescription = finalplData.data.FileDescription, CreatedDate = finalplData.data.CreatedDate, HideDeleteIc = true, RoleName = finalplData.data.RoleName });
                                     PLHideListAndShow = true;
                                     HideLabelAndShow = false;
                                     SetFileName = "Please choose a file";
@@ -545,7 +545,7 @@ namespace YPS.ViewModel
 
                                         if (access)
                                         {
-                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
+                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true, RoleName = items.RoleName });
                                         }
                                         else
                                         {
@@ -559,7 +559,7 @@ namespace YPS.ViewModel
                                             //}
                                             //else
                                             //{
-                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true });
+                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = items.RoleName });
                                             //}
                                         }
                                     }
@@ -668,7 +668,7 @@ namespace YPS.ViewModel
 
                                     if (Settings.isFinalvol == 1)
                                     {
-                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = false });
+                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = false, RoleName = items.RoleName });
                                     }
                                     else
                                     {
@@ -679,7 +679,7 @@ namespace YPS.ViewModel
                                         //}
                                         //else
                                         //{
-                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true });
+                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true, RoleName = items.RoleName });
                                         //}
                                     }
                                 }
@@ -735,6 +735,7 @@ namespace YPS.ViewModel
                     {
                         fileUpload = (from res in ListOfFile where res.FileID == (int)sender select res).FirstOrDefault();
                         Uploadedby = fileUpload.GivenName;
+                        RoleName = fileUpload.RoleName;
                         UploadedDate = fileUpload.CreatedDate;
                         FileName = fileUpload.FileName;
                         Description = fileUpload.FileDescription;
@@ -746,6 +747,7 @@ namespace YPS.ViewModel
                     {
                         var plFileUpload = (from res in PLListOfFile where res.ID == (int)sender select res).FirstOrDefault();
                         Uploadedby = plFileUpload.GivenName;
+                        RoleName = plFileUpload.RoleName;
                         UploadedDate = plFileUpload.CreatedDate;
                         FileName = plFileUpload.FileName;
                         Description = plFileUpload.FileDescription;
@@ -1664,6 +1666,17 @@ namespace YPS.ViewModel
             {
                 _CompleteBtnOpacity = value;
                 RaisePropertyChanged("CompleteBtnOpacity");
+            }
+        }
+
+        private string _RoleName;
+        public string RoleName
+        {
+            get { return _RoleName; }
+            set
+            {
+                _RoleName = value;
+                NotifyPropertyChanged();
             }
         }
 

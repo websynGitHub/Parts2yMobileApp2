@@ -38,6 +38,7 @@ namespace YPS.ViewModel
         PhotoUploadModel Select_Items;
         Stream picStream;
         PhotosList AllPhotosData;
+        AllPoData SelectedTagData;
         int puid, poid, selectiontype_index, photoCounts = 0;
         string extension = "", fileName, Mediafile, types = string.Empty;
         bool Access_Photo, multiple_Taps, checkInternet, isuploadcompleted;
@@ -64,6 +65,7 @@ namespace YPS.ViewModel
                 AllPhotosData = new PhotosList();
                 Access_Photo = accessPhoto;
                 types = SelectionType;
+                SelectedTagData = allPo_Data;
 
                 isuploadcompleted = select_items != null ? select_items.isCompleted : allPo_Data.photoTickVisible;
 
@@ -559,16 +561,16 @@ namespace YPS.ViewModel
 
                                                 //if (result.status == 1)
                                                 //{
-                                                    if (items.TaskID != 0 && items.TaskStatus == 0)
-                                                    {
-                                                        TagTaskStatus taskstatus = new TagTaskStatus();
-                                                        taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                        taskstatus.TaskStatus = 1;
-                                                        taskstatus.CreatedBy = Settings.userLoginID;
+                                                if (items.TaskID != 0 && items.TaskStatus == 0)
+                                                {
+                                                    TagTaskStatus taskstatus = new TagTaskStatus();
+                                                    taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                    taskstatus.TaskStatus = 1;
+                                                    taskstatus.CreatedBy = Settings.userLoginID;
 
-                                                        var taskval = await service.UpdateTaskStatus(taskstatus);
-                                                    }
-                                                    //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                                    var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                }
+                                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                                                 //}
                                             }
                                         }
@@ -919,7 +921,7 @@ namespace YPS.ViewModel
         {
             try
             {
-                await Navigation.PushAsync(new ScanPage(UploadType, null, false, null));
+                await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
             }
             catch (Exception ex)
             {
