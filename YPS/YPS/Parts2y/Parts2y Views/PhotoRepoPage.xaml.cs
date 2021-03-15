@@ -95,25 +95,24 @@ namespace YPS.Parts2y.Parts2y_Views
                     //Vm.IsRepoaPage = true;
 
                     //await Vm.GetPhotosData();
-                    //if (Settings.POID > 0)
-                    //{
-                    //    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                    //    Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 1]);
-                    //    Navigation.RemovePage(Navigation.NavigationStack[0]);
+                    if (Settings.POID > 0)
+                    {
+                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
 
-                    Settings.POID = 0;
-                    Vm.taskID = 0;
-                    //    //await Navigation.PopAsync();
-                    //}
-                    //else
-                    //{
-                    Vm.UploadViewContentVisible = true;
-                    Vm.IsPhotoUploadIconVisible = true;
-                    Vm.POTagLinkContentVisible = false;
-                    Vm.IsRepoaPage = true;
-                    Vm.Title = "Photo Repo";
-                    await Vm.GetPhotosData();
-                    //}
+                        Settings.POID = 0;
+                        Vm.taskID = 0;
+                        await Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        Vm.UploadViewContentVisible = true;
+                        Vm.IsPhotoUploadIconVisible = true;
+                        Vm.POTagLinkContentVisible = false;
+                        Vm.IsRepoaPage = true;
+                        Vm.Title = "Photo Repo";
+                        await Vm.GetPhotosData();
+                    }
                 }
             }
             catch (Exception ex)

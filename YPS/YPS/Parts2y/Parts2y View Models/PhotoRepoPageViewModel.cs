@@ -1056,13 +1056,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _AllPoTagCollections = value;
-                if (value != null && value.Count > 0)
-                {
-                    PONumber = value[0].PONumber;
-                    ShippingNumber = value[0].ShippingNumber;
-                    REQNo = value[0].REQNo;
-                    TaskName = value[0].TaskName;
-                }
+                //if (value != null && value.Count > 0)
+                //{
+                //    //PONumber = value[0].PONumber;
+                //    //ShippingNumber = value[0].ShippingNumber;
+                //    //REQNo = value[0].REQNo;
+                //    //TaskName = value[0].TaskName;
+                //}
                 RaisePropertyChanged("AllPoTagCollections");
             }
         }
