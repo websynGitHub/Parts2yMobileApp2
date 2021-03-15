@@ -1397,6 +1397,44 @@ namespace YPS.RestClientAPI
         }
 
         /// <summary>
+        /// GeInspectionPhotosClient
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosClient(int tagId)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl + "Inspection/GetInspectionPhotosByPOTagID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GeInspectionResultsClient method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// InsertInspectionPhotosClient
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<UpdateInspectionResponse> InsertInspectionPhotosClient(UpdateInspectionRequest updateInspectionRequest)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<UpdateInspectionRequest, UpdateInspectionResponse>(WebServiceUrl + "Inspection/InsertInspectionPhotos", updateInspectionRequest);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GeInspectionResultsClient method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Get All Inspection Configurations
         /// </summary>
         /// <returns></returns>
