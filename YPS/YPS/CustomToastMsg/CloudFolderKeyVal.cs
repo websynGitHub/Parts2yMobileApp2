@@ -172,7 +172,7 @@ namespace YPS.CustomToastMsg
                 Settings.IsIIJEnabled = false;
                 RememberPwdDB Db = new RememberPwdDB();
                 var user = Db.GetUserDetails().FirstOrDefault();
-               
+
                 if (user != null)
                 {
                     Db.ClearUserDetail(user.UserId);
