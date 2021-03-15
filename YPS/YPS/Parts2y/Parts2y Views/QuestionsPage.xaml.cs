@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.Parts2y.Parts2y_View_Models;
+using YPS.Model;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -15,7 +16,7 @@ namespace YPS.Parts2y.Parts2y_Views
     public partial class QuestionsPage : ContentPage
     {
         QuestionsViewModel Vm;
-        public QuestionsPage(int tagId, string tagNumber, string indentCode, string bagNumber)
+        public QuestionsPage(int tagId, string tagNumber, string indentCode, string bagNumber, QuestiionsPageHeaderData questiionsPageHeaderData)
         {
             try
             {
@@ -29,7 +30,7 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-                BindingContext = Vm = new QuestionsViewModel(Navigation, this, tagId, tagNumber, indentCode, bagNumber);
+                BindingContext = Vm = new QuestionsViewModel(Navigation, this, tagId, tagNumber, indentCode, bagNumber, questiionsPageHeaderData);
             }
             catch(Exception ex)
             {
