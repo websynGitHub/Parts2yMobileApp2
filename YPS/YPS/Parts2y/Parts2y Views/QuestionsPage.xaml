@@ -130,7 +130,7 @@
 
                         <CollectionView Grid.Row="2" x:Name="QuestionList" BackgroundColor="Transparent"
                                 SelectionMode="Single" ItemsSource="{Binding QuestionsList}"
-                                Margin="6,0,6,0">
+                                Margin="6,6,6,0">
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="6"/>
                             </CollectionView.ItemsLayout>
@@ -151,7 +151,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Column="0" BackgroundColor="{Binding ItemBackground}"/>
-                                                <Label Margin="0,12,0,12" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="{Binding MInspectionConfigID}" TextColor="Black"
+                                                <Label Margin="0,12,0,12" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Text="{Binding MInspectionConfigID}" TextColor="Black"
                                                             Style="{DynamicResource LableWithQuestionFont}"/>
                                                 <Label Margin="0,12,15,12" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding Question}" TextColor="Black"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
