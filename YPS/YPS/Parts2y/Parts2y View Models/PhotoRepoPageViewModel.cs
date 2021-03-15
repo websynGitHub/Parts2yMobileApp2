@@ -752,6 +752,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsNoPhotoTxt = false;
                                 NoRecHeight = 0;
                                 RowHeightOpenCam = 100;
+                                IsImageViewForUploadVisible = true;
                             }
                         }
                         else
@@ -809,7 +810,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsBottomButtonsVisible = false;
                                 IsPhotoUploadIconVisible = false;
                                 RowHeightOpenCam = 100;
-
+                                IsImageViewForUploadVisible = true;
                                 IsPhotosListVisible = false;
                                 IsPhotosListStackVisible = false;
                                 extension = Path.GetExtension(fileOS.Path);
