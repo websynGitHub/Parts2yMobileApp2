@@ -78,12 +78,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" VerticalOptions="CenterAndExpand" Text="{Binding InspectionConfiguration.MInspectionConfigID}" TextColor="Black"
+                                <Label Grid.Column="0" VerticalOptions="StartAndExpand" Text="{Binding InspectionConfiguration.MInspectionConfigID}" TextColor="Black"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                 <Label Grid.Column="1" VerticalOptions="CenterAndExpand" Text="{Binding InspectionConfiguration.Question}" TextColor="Black" Margin="5,0,0,0"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                             </Grid>
-                            <Label Text="{Binding InspectionConfiguration.Area}" TextColor="Black"
+                            <Label Text="{Binding InspectionConfiguration.Area}" TextColor="Black" Margin="0,10,0,0"
                                                            HorizontalTextAlignment="Center" Style="{DynamicResource LableWithQuestionFont}"/>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -147,7 +147,11 @@
                                     <local:MyEditor HeightRequest="80"  Placeholder="Remarks"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
                                 </sfinput:SfTextInputLayout>
                                 <StackLayout Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White">
-                                    <Image Source="Chatcamera" Opacity="{Binding imgCamOpacityB}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                                    <Image Source="Chatcamera" Opacity="{Binding imgCamOpacityB}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding PhotoClickCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                 </StackLayout>
                             </Grid>
                             <Grid VerticalOptions="End" HorizontalOptions="FillAndExpand">
@@ -164,14 +168,14 @@
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="End" 
                                     Grid.Row="0" Grid.Column="0" TextColor="White"
-                                    BackgroundColor="Darkgreen"  FontSize="Medium"/>
+                                    BackgroundColor="{Binding BgColor}"  FontSize="Medium"/>
 
                                 <Button Text="{Binding NextButtonText,Mode=TwoWay}"  
                                     Command="{Binding NextClick}"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="End" 
                                     Grid.Row="0" Grid.Column="1" TextColor="White"
-                                    BackgroundColor="Darkgreen"  FontSize="Medium"/>
+                                    BackgroundColor="{Binding BgColor}"  FontSize="Medium"/>
                             </Grid>
                         </StackLayout>
                     </Grid>
