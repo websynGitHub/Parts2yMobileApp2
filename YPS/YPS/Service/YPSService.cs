@@ -859,6 +859,28 @@ namespace YPS.Service
             return await restClient.GeInspectionResultsClient(tagId);
         }
 
+        /// <summary>
+        /// GeInspectionPhotosService
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosService(int tagId)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GeInspectionPhotosClient(tagId);
+        }
+
+        /// <summary>
+        /// InsertInspectionPhotosService
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<UpdateInspectionResponse> InsertInspectionPhotosService(UpdateInspectionRequest updateInspectionRequest)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.InsertInspectionPhotosClient(updateInspectionRequest);
+        }
+
         public async Task<UpdateInspectionResponse> InsertUpdateInspectionResult(UpdateInspectionRequest updateInspectionRequest)
         {
             RestClient restClient = new RestClient();
