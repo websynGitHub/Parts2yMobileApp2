@@ -927,7 +927,14 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                    if (SelectedTagData != null)
+                    {
+                        await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                    }
+                    else
+                    {
+                        await SelectPic();
+                    }
                 }
             }
             catch (Exception ex)
