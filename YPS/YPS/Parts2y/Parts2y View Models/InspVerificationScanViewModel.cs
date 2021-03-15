@@ -25,16 +25,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public INavigation Navigation { get; set; }
         YPSService trackService;
         InspVerificationScanPage pagename;
+        QuestiionsPageHeaderData questiionsPageHeaderData;
         public ICommand reScanCmd { set; get; }
         public ICommand MoveToInspCmd { set; get; }
         public AllPoData selectedTagData { get; set; }
 
-        public InspVerificationScanViewModel(INavigation _Navigation, AllPoData selectedtagdata, InspVerificationScanPage page)
+        public InspVerificationScanViewModel(INavigation _Navigation, AllPoData selectedtagdata, InspVerificationScanPage page, QuestiionsPageHeaderData questiionsPageHeaderData)
         {
             Navigation = _Navigation;
             pagename = page;
             selectedTagData = selectedtagdata;
             trackService = new YPSService();
+            this.questiionsPageHeaderData = questiionsPageHeaderData;
             #region BInding tab & click event methods to respective ICommand properties
             reScanCmd = new Command(async () => await ReScan());
             MoveToInspCmd = new Command(async () => await MoveForInspection(selectedTagData));
@@ -158,8 +160,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                             //{
-                                IsInspEnable = true;
-                                InspOpacity = 1.0;
+                            IsInspEnable = true;
+                            InspOpacity = 1.0;
                             //}
                         }
                         else
@@ -291,17 +293,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                     //{
-                        Settings.POID = podata.POID;
+                    Settings.POID = podata.POID;
 
-                        //if (podata.TagTaskStatus == 2)
-                        //{
-                        //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
-                        //    StatusText = "Done";
-                        //    StatusTextBgColor = Color.DarkGreen;
-                        //    IsInspEnable = false;
-                        //    InspOpacity = 0.5;
-                        //}
-                        await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber));
+                    //if (podata.TagTaskStatus == 2)
+                    //{
+                    //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
+                    //    StatusText = "Done";
+                    //    StatusTextBgColor = Color.DarkGreen;
+                    //    IsInspEnable = false;
+                    //    InspOpacity = 0.5;
+                    //}
+                    await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.PONumber, podata.IdentCode, podata.ConditionName, questiionsPageHeaderData));
                     //}
                 }
                 else
