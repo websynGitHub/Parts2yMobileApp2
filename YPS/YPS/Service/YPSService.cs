@@ -864,7 +864,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<InspectionPhotosResponse> GeInspectionPhotosService(int tagId, int questionId)
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosService(int tagId, int? questionId)
         {
             RestClient restClient = new RestClient();
             return await restClient.GeInspectionPhotosClient(tagId, questionId);
