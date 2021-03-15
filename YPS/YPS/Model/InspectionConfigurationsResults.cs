@@ -175,7 +175,7 @@ namespace YPS.Model
                 this._Status = value;
                 if (value == 1)
                 {
-                    ItemBackground = Color.DarkGreen;
+                    ItemBackground = YPS.CommonClasses.Settings.Bar_Background;
                 }
                 else
                 {
