@@ -1401,11 +1401,11 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<InspectionPhotosResponse> GeInspectionPhotosClient(int tagId, int questionId)
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosClient(int tagId, int? questionId)
         {
             try
             {
-                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl + "Inspection/GetInspectionPhotosByPOTagID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)) + "&QID="++ Helperclass.Encrypt(Convert.ToString(questionId)));
+                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl + "Inspection/GetInspectionPhotosByPOTagID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)) + "&QID="+ Helperclass.Encrypt(Convert.ToString(questionId)));
             }
             catch (Exception ex)
             {
