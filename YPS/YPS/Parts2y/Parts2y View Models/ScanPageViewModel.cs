@@ -443,7 +443,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                             //{
                                 Settings.POID = podata.POID;
-                                await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber));
+                                await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber,null));
                             //}
                         }
                         else if (uploadType != 0)
