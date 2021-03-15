@@ -31,10 +31,10 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                Vm.IndicatorVisibility = true;
 
                 InitializeComponent();
                 yPSService = new YPSService();
+                BindingContext = Vm = new PhotoRepoPageViewModel(Navigation, this);
 
                 if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
                 {
@@ -44,7 +44,7 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-                BindingContext = Vm = new PhotoRepoPageViewModel(Navigation, this);
+                Vm.IndicatorVisibility = true;
             }
             catch (Exception ex)
             {
@@ -95,25 +95,25 @@ namespace YPS.Parts2y.Parts2y_Views
                     //Vm.IsRepoaPage = true;
 
                     //await Vm.GetPhotosData();
-                    if (Settings.POID > 0)
-                    {
-                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 1]);
-                        Navigation.RemovePage(Navigation.NavigationStack[0]);
+                    //if (Settings.POID > 0)
+                    //{
+                    //    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                    //    Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 1]);
+                    //    Navigation.RemovePage(Navigation.NavigationStack[0]);
 
-                        Settings.POID = 0;
-                        Vm.taskID = 0;
-                        await Navigation.PopAsync();
-                    }
-                    else
-                    {
-                        Vm.UploadViewContentVisible = true;
-                        Vm.IsPhotoUploadIconVisible = true;
-                        Vm.POTagLinkContentVisible = false;
-                        Vm.IsRepoaPage = true;
-                        Vm.Title = "Photo Repo";
-                        await Vm.GetPhotosData();
-                    }
+                    Settings.POID = 0;
+                    Vm.taskID = 0;
+                    //    //await Navigation.PopAsync();
+                    //}
+                    //else
+                    //{
+                    Vm.UploadViewContentVisible = true;
+                    Vm.IsPhotoUploadIconVisible = true;
+                    Vm.POTagLinkContentVisible = false;
+                    Vm.IsRepoaPage = true;
+                    Vm.Title = "Photo Repo";
+                    await Vm.GetPhotosData();
+                    //}
                 }
             }
             catch (Exception ex)

@@ -220,11 +220,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 Vm.loadindicator = true;
                 base.OnAppearing();
 
-                if (Navigation.NavigationStack.Count == 1)
-                {
-                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[0]);
-                    Navigation.InsertPageBefore(new HomePage(), Navigation.NavigationStack[0]);
-                }
+                //if (Navigation.NavigationStack.Count == 1)
+                //{
+                //    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[0]);
+                //    Navigation.InsertPageBefore(new HomePage(), Navigation.NavigationStack[0]);
+                //}
 
                 if (Settings.IsRefreshPartsPage == true)
                 {
