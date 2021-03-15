@@ -533,7 +533,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                         }
 
-                        PoDataChildCollections = new ObservableCollection<AllPoData>(potaglist.OrderBy(o => o.POTagID));
+                        PoDataChildCollections = new ObservableCollection<AllPoData>(potaglist.OrderBy(o => o.TagTaskStatus).ThenBy(tob => tob.POTagID));
                         IsPOTagDataListVisible = true;
                         NoRecordsLbl = false;
                         IsStatusTabVisible = true;
@@ -566,6 +566,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+               
                 await Navigation.PopAsync();
 
             }

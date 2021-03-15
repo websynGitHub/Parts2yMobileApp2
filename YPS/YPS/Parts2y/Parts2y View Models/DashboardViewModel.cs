@@ -197,7 +197,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await Navigation.PushAsync(new ScanPage(0, null, false, null));
                 }
-              
+                else
+                {
+                    await Navigation.PushAsync(new PhotoRepoPage());
+                }
+
             }
             catch (Exception ex)
             {

@@ -614,7 +614,7 @@ namespace YPS.ViewModel
                                         }
 
                                         Settings.IsRefreshPartsPage = true;
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
                                     else
                                     {
@@ -921,7 +921,14 @@ namespace YPS.ViewModel
         {
             try
             {
-                await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                if ((AllPhotosData != null && AllPhotosData.data != null && AllPhotosData.data.photoTags != null && AllPhotosData.data.photoTags.Count > 1) || (Select_Items != null && Select_Items.photoTags != null && Select_Items.photoTags.Count > 1))
+                {
+                    await SelectPic();
+                }
+                else
+                {
+                    await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                }
             }
             catch (Exception ex)
             {
@@ -1138,6 +1145,11 @@ namespace YPS.ViewModel
                 {
                     DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
                     FirstMainStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
+
+                    //if (isuploadcompleted == true)
+                    //{
+                    //    FirstMainStack = false;
+                    //}
                 }
             }
             catch (Exception ex)

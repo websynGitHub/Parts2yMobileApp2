@@ -17,9 +17,40 @@ namespace YPS.ViewModel
     {
         public ICommand HomeCommand { get; set; }
         public ObservableCollection<CustomPhotoModel> imageViews { get; set; }
+        public ObservableCollection<PhotoRepoModel> repophotoimageViews { get; set; }
         public ObservableCollection<LoadPhotoModel> loadphotoimageViews { get; set; }
         public ObservableCollection<UploadFiles> imageViews1 { get; set; }
         YPSService service = new YPSService();// Creating new instance of the YPSService, which is used to call API
+
+
+        /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="photosList"></param>
+        /// <param name="photoId"></param>
+        public ImageViewModelView(ObservableCollection<PhotoRepoModel> photosList, int photoId)
+        {
+            try
+            {
+                repophotoimageViews = new ObservableCollection<PhotoRepoModel>();
+                repophotoimageViews = photosList;
+                IsRepoPhotosVisible = true;
+                pophoto = false;
+                Yshipphoto = false;
+                int index = photosList.IndexOf(photosList.Single(x => x.PhotoID == photoId));
+                var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
+                VisibleCardInx = index;
+                Settings.SPhotoDescription = getFirstValue.Description;
+                HomeCommand = new Command(HomeCommand_btn);
+
+                DynamicTextChange();
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ImageViewModelView constructor -> in ImageViewModelView.cs " + Settings.userLoginID);
+            }
+        }
 
         /// <summary>
         /// Parameterized constructor.
@@ -252,6 +283,17 @@ namespace YPS.ViewModel
             set
             {
                 _IsLoadPhotosVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsRepoPhotosVisible = false;
+        public bool IsRepoPhotosVisible
+        {
+            get { return _IsRepoPhotosVisible; }
+            set
+            {
+                _IsRepoPhotosVisible = value;
                 NotifyPropertyChanged();
             }
         }

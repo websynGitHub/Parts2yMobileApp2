@@ -23,6 +23,34 @@ namespace YPS.Views
         YPSService service;
         #endregion
 
+
+        /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="photosList"></param>
+        /// <param name="photoId"></param>
+        /// <param name="Tags"></param>
+        public ImageView(ObservableCollection<PhotoRepoModel> photosList, int photoId)
+        {
+            try
+            {
+                InitializeComponent();
+                service = new YPSService();
+                Groupname.Text = "Repo Photos";
+                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+                synfRepoImageViewList.WidthRequest = App.ScreenWidth;
+                synfRepoImageViewList.HeightRequest = App.ScreenHeight;
+                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                Settings.currentPage = "ImageViewPage";
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
+        }
+
         /// <summary>
         /// Parameterized constructor.
         /// </summary>

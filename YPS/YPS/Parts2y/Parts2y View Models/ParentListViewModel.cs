@@ -300,13 +300,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupedlist.Add(groupdata);
                                     }
 
+                                    groupedlist = new ObservableCollection<AllPoData>(groupedlist.OrderBy(o => o.TaskStatus).ThenBy(tob => tob.TaskName).ThenBy(tob => tob.PONumber));
+
                                     if (postatus == -1)
                                     {
-                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.OrderBy(o => o.POID));
+                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist);
                                     }
                                     else
                                     {
-                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.Where(wr => wr.TaskStatus == postatus).OrderBy(o => o.POID));
+                                        PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.Where(wr => wr.TaskStatus == postatus));
                                     }
 
                                     List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();

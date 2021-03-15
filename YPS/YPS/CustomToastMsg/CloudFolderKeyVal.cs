@@ -283,6 +283,8 @@ namespace YPS.CustomToastMsg
         //public static string Appcenter_droid { get; set; } = "android=3068e436-13c0-4cac-873f-687d8c0830c3;";
         //public static string Appcenter_iOS { get; set; } = "ios=98470379-fccd-4f9d-8d22-8856a5af15c9;";
         //public static string Bdchk { get; set; } = "BjFAg4x7vCGTpW3dALvutCVBSpuI7d6rb+GuOgl/574=";
+        //public static string blob { get; set; } = "https://ypsuploadsdev.blob.core.windows.net/";
+
         #endregion
 
 
@@ -292,6 +294,8 @@ namespace YPS.CustomToastMsg
         public static string Appcenter_droid { get; set; } = "android=ebfaf0cf-af6f-4f28-a6c9-642352279430;";
         public static string Appcenter_iOS { get; set; } = "ios=37be6471-dc83-405d-b62f-e796ae44267d;";
         public static string Bdchk { get; set; } = "DprjHRPut1l2lsH4K5tRcw==";
+        public static string blob { get; set; } = "https://azrbsa026dv00a.blob.core.windows.net/";
+
         #endregion
 
         #region LIVE:
