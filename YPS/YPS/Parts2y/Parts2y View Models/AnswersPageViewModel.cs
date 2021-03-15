@@ -1,13 +1,19 @@
-﻿using System;
+﻿using Plugin.Media;
+using Plugin.Media.Abstractions;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using YPS.CommonClasses;
+using YPS.Helpers;
 using YPS.Model;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
@@ -24,11 +30,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public ICommand NextClick { get; set; }
 
+        public ICommand PhotoClickCommand { get; set; }
+
 
         public ICommand Backevnttapped { set; get; }
         AnswersPage pagename;
         YPSService trackService;
         int tagId;
+        int photoCounts;
+        Stream picStream;
+        string extension = "", Mediafile, fileName;
         ObservableCollection<InspectionConfiguration> inspectionConfigurationList;
         List<InspectionResultsList> inspectionResultsList;
 
@@ -52,6 +63,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             ShowConfigurationOptions();
             ViewallClick = new Command(ViewallClickMethod);
             NextClick = new Command(NextClickMethod);
+            PhotoClickCommand = new Command(async () => await SelectPic());
 
         }
 
@@ -93,9 +105,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called when clicked on the Camera icon for uploading photo.
+        /// </summary>
+        /// <returns></returns>
+        public async Task SelectPic()
+        {
+            loadindicator = true;
+            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId,InspectionConfiguration));
+            loadindicator = false;
+        }
+
         private async void NextClickMethod()
         {
-            if(NextButtonText== "COMPLETE")
+            if (NextButtonText == "COMPLETE")
             {
                 await Navigation.PopAsync();
             }
@@ -143,7 +166,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ShowConfigurationOptions();
                         }
 
-                        
+
                     }
                 }
             }
@@ -563,6 +586,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _PlaneFalse = value;
                 RaisePropertyChanged("PlaneFalse");
+            }
+        }
+
+        private ImageSource _ImageViewForUpload;
+        public ImageSource ImageViewForUpload
+        {
+            get { return _ImageViewForUpload; }
+            set
+            {
+                _ImageViewForUpload = value;
+                NotifyPropertyChanged();
             }
         }
 
