@@ -26,6 +26,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand Backevnttapped { set; get; }
 
         public ICommand QuestionClickCommand { get; set; }
+        public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
 
         private bool _RefreshDisable = true;
         public bool RefreshDisable
@@ -48,12 +49,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command LoadCmd { set; get; }
         #endregion
 
-        public QuestionsViewModel(INavigation _Navigation, QuestionsPage page, int tagId, string tagNumber, string indentCode, string bagNumber)
+        public QuestionsViewModel(INavigation _Navigation, QuestionsPage page, int tagId, string tagNumber, string indentCode, string bagNumber, QuestiionsPageHeaderData questiionsPageHeaderData)
         {
             Navigation = _Navigation;
             pagename = page;
             this.tagId = tagId;
             Task.Run(() => ChangeLabel()).Wait();
+            QuestiionsPageHeaderData = questiionsPageHeaderData;
             TagNumber = tagNumber;
             IndentCode = indentCode;
             TripNumber = bagNumber;
