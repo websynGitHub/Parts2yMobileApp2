@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YPS.Parts2y.Parts2y_Views.PhotoRepoPage"
+                  NavigationPage.HasNavigationBar="False" x:Name="PhotoRepo" 
+             xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:behaviours="clr-namespace:YPS.Behaviours" BackgroundColor="LightGray"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+                  xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+
+                <Grid RowSpacing="0" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" 
+                             HorizontalOptions="FillAndExpand" VerticalOptions="Start"
+                          RowDefinitions="*" ColumnDefinitions="60,*">
+                        <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                            <local:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Back_Tapped"/>
+                            </local:FontAwesomeIconLabel.GestureRecognizers>
+                        </local:FontAwesomeIconLabel>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Title}" Style="{StaticResource LableWithMediumFont}"
+                   TextColor="White" Margin="8,20,0,20"
+                              HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="CenterAndExpand"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1"  Margin="0" IsVisible="{Binding UploadViewContentVisible}" BackgroundColor="White">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0"/>
+                            <RowDefinition Height="{Binding NoRecHeight}"/>
+                            <RowDefinition Height="{Binding RowHeightOpenCam}"/>
+                        </Grid.RowDefinitions>
+                        
+                        <StackLayout Grid.Row="0" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0">
+                            <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
+                                          FlowItemsSource="{Binding RepoPhotosList,Mode=TwoWay}" 
+                                          IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" 
+                                          BackgroundColor="White">
+                                <flv:FlowListView.FlowColumnTemplate >
+                                    <DataTemplate>
+                                        <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="80"/>
+                                                </Grid.RowDefinitions>
+                                                <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
+                                                               DownsampleToViewSize="True"
+                                                               RetryCount="3"
+                                                               RetryDelay="3000"
+                                                               Source="{Binding PhotoURL}" ClassId="{Binding PhotoID}" 
+                                                               HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
+                                                    <forms:CachedImage.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.ViewPhotoDetailsCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
+                                                    </forms:CachedImage.GestureRecognizers>
+                                                </forms:CachedImage>
+                                                <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000" IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=PhotoRepo}}">
+                                                    <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.DeleteImageCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
+                                                    </StackLayout.GestureRecognizers>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </flv:FlowListView.FlowColumnTemplate>
+                            </flv:FlowListView>
+
+                        </StackLayout>
+
+                        <Label Grid.Row="0" Text="No photos available." IsVisible="{Binding IsNoPhotoTxt}" TextColor="Black"
+                           HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LableWithQuestionFont}"/>
+                        
+                        <ScrollView Grid.Row="0" IsVisible="{Binding IsImageViewForUploadVisible}" Padding="3" 
+                                    VerticalOptions="FillAndExpand">
+                            <Image Source="{Binding ImageViewForUpload}" x:Name="img" 
+                                   VerticalOptions="FillAndExpand"/>
+                        </ScrollView>
+
+                        <StackLayout Grid.Row="3" BackgroundColor="White" IsEnabled="{Binding IsUploadStackEnable}" IsVisible="{Binding IsUploadStackVisible}"
+                                 VerticalOptions="EndAndExpand" Padding="10" >
+                            <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
+                                <Grid HeightRequest="80" BackgroundColor="White">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding DescriptionText,Mode=TwoWay}"
+                                                HeightRequest="70"
+                                                Placeholder="{Binding DescriptipnPlaceholder}" TextColor="Black" PlaceholderColor="Gray" Keyboard="Text"
+                                                Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
+
+                                    <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
+                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                                        <sfbuttons:SfButton.Content>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Padding="10,10,10,10">
+                                                <Label Text="{Binding labelobj.Upload.Name}" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                            </StackLayout>
+                                        </sfbuttons:SfButton.Content>
+                                        <sfbuttons:SfButton.Behaviors>
+                                            <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                        </sfbuttons:SfButton.Behaviors>
+                                    </sfbuttons:SfButton>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+
+
+                        <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="4,0,4,0"
+                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" IsVisible="{Binding IsBottomButtonsVisible}">
+
+                            <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Grid.Column="0" Command="{Binding DeleteAllCmd}" 
+                                     Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
+                                <sfbuttons:SfButton.Content>
+                                    <Grid HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="Delete All" Grid.Column="0"
+                                   Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    </Grid>
+                                </sfbuttons:SfButton.Content>
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+
+                            <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="1"
+                                    Command="{Binding MoveLinkCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                            IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding LinkOpacity}">
+                                <sfbuttons:SfButton.Content>
+                                    <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding PageNextButton}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    </Grid>
+                                </sfbuttons:SfButton.Content>
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="1" RowDefinitions="*"  Margin="4,0,4,4" IsVisible="{Binding POTagLinkContentVisible}">
+
+                        <CollectionView x:Name="ChildDataList" Grid.Row="0" BackgroundColor="Transparent"
+                                 ItemsSource="{Binding AllPoTagCollections}"
+                                Margin="0,6,0,0" IsVisible="{Binding IsPOTagDataListVisible}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:Name="datatemplete">
+                                    <Grid Padding="6,0,6,6">
+                                        <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="15,12,15,12" 
+                                           BorderColor="{Binding SelectedTagBorderColor}"
+                                           CornerRadius="4"  HasShadow="False">
+                                            <StackLayout Orientation="Vertical">
+                                                <Grid RowDefinitions="*" ColumnDefinitions="*">
+
+                                                    <StackLayout Orientation="Vertical">
+                                                        <Grid HorizontalOptions="Start" 
+                                                              IsVisible="{Binding  BindingContext.labelobj.POID.Status, Source={x:Reference Name=PhotoRepo}}"
+                                                       VerticalOptions="Center"  RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                            <Label Text="{Binding BindingContext.labelobj.POID.Name , Source={x:Reference Name=PhotoRepo}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding PONumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                   HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+                                                        
+                                                        <Grid HorizontalOptions="Start" 
+                                                              IsVisible="{Binding  BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=PhotoRepo}}"
+                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                            <Label Text="{Binding  BindingContext.labelobj.TagNumber.Name, 
+                                                                Source={x:Reference Name=PhotoRepo}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" 
+                                                           HorizontalTextAlignment="Start" 
+                                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding TagNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+                                                       
+                                                        <Grid HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=PhotoRepo}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.TaskName.Name, Source={x:Reference Name=PhotoRepo}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+                                                    </StackLayout>
+                                                </Grid>
+
+                                                <StackLayout VerticalOptions="Start"
+                                                      HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+
+                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
+                                                         >
+                                                        <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="1"
+                                    Command="{Binding BindingContext.LinkPhotoCmd, Source={x:Reference Name=PhotoRepo}}" 
+                                                                            CommandParameter="{Binding .}"
+                                                                            Style="{StaticResource SfBtnBlue}" 
+                                                          BackgroundColor="{Binding BindingContext.BgColor, Source={x:Reference Name=PhotoRepo}}">
+                                                            <sfbuttons:SfButton.Content>
+                                                                <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Label Text="Link" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                                                </Grid>
+                                                            </sfbuttons:SfButton.Content>
+                                                            <sfbuttons:SfButton.Behaviors>
+                                                                <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                                            </sfbuttons:SfButton.Behaviors>
+                                                        </sfbuttons:SfButton>
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </Grid>
+
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </Grid>
+
+                <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent" IsVisible="{Binding IsPhotoUploadIconVisible}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-110}"
+                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-63}"
+                    Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="Center"
+                                                 >
+                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding select_pic}"/>
+                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                </local:FontAwesomeIconLabel>
+
+            </RelativeLayout>
+
+            <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Frame Style="{StaticResource FmForActivityIndicator}">
+                    <StackLayout Padding="15">
+                        <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"/>
+                        <Label Style="{StaticResource ActivityIndicatorLbl}"/>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+</ContentPage>
