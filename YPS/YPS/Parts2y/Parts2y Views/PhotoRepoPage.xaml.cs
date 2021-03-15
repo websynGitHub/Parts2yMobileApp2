@@ -29,30 +29,46 @@ namespace YPS.Parts2y.Parts2y_Views
 
         public PhotoRepoPage()
         {
-            InitializeComponent();
-            yPSService = new YPSService();
-
-            if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+            try
             {
-                var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                safeAreaInset.Bottom = 0;
-                safeAreaInset.Top = 20;
-                headerpart.Padding = safeAreaInset;
-            }
+                Vm.IndicatorVisibility = true;
 
-            BindingContext = Vm = new PhotoRepoPageViewModel(Navigation, this);
+                InitializeComponent();
+                yPSService = new YPSService();
+
+                if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                {
+                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                    safeAreaInset.Bottom = 0;
+                    safeAreaInset.Top = 20;
+                    headerpart.Padding = safeAreaInset;
+                }
+
+                BindingContext = Vm = new PhotoRepoPageViewModel(Navigation, this);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "PhotoRepoPage constructor -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
+                yPSService.Handleexception(ex);
+                Vm.IndicatorVisibility = false;
+            }
+            Vm.IndicatorVisibility = false;
         }
 
         protected async override void OnAppearing()
         {
             try
             {
+                Vm.IndicatorVisibility = true;
                 base.OnAppearing();
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OnAppearing method -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
+                await yPSService.Handleexception(ex);
+                Vm.IndicatorVisibility = false;
             }
+            Vm.IndicatorVisibility = false;
         }
 
 
@@ -70,7 +86,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 if (Vm.IsRepoaPage == true)
                 {
                     await Navigation.PopAsync();
-
                 }
                 else
                 {
@@ -82,14 +97,13 @@ namespace YPS.Parts2y.Parts2y_Views
                     //await Vm.GetPhotosData();
                     if (Settings.POID > 0)
                     {
-                        Vm.Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Vm.Navigation.NavigationStack[1]);
-                        //Vm.Navigation.InsertPageBefore(new ParentListPage(), Vm.Navigation.NavigationStack[1]);
-                        Vm.Navigation.RemovePage(Vm.Navigation.NavigationStack[Vm.Navigation.NavigationStack.Count - 1]);
-                        Vm.Navigation.RemovePage(Vm.Navigation.NavigationStack[0]);
+                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 1]);
+                        Navigation.RemovePage(Navigation.NavigationStack[0]);
 
                         Settings.POID = 0;
                         Vm.taskID = 0;
-                        await Vm.Navigation.PopAsync();
+                        await Navigation.PopAsync();
                     }
                     else
                     {
@@ -104,7 +118,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped method -> in ScanPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
                 await yPSService.Handleexception(ex);
                 Vm.IndicatorVisibility = false;
             }
