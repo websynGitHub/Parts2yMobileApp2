@@ -24,7 +24,7 @@ namespace YPS.Parts2y.Parts2y_Views
         bool checkInternet;
         #endregion
 
-        public InspVerificationScanPage(AllPoData selectedpotagdata)
+        public InspVerificationScanPage(AllPoData selectedtagdata,QuestiionsPageHeaderData questiionsPageHeaderData)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
 
                 yPSService = new YPSService();
-                BindingContext = Vm = new InspVerificationScanViewModel(Navigation, selectedpotagdata, this);
+                BindingContext = Vm = new InspVerificationScanViewModel(Navigation, selectedtagdata, this, questiionsPageHeaderData);
             }
             catch (Exception ex)
             {
