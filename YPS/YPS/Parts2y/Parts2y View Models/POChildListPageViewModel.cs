@@ -307,7 +307,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else if (Settings.VersionID == 2)
                         {
-                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail));
+                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail,new QuestiionsPageHeaderData()
+                            {
+                                VINLabel = labelobj.TagNumber.Name,
+                                VINLabelValue = POTagDetail.TagNumber,
+                                IdentCodeLabel = labelobj.IdentCode.Name,
+                                IdentCodeLabelValue = POTagDetail.IdentCode,
+                                ConditionNameLabel = labelobj.ConditionName.Name,
+                                ConditionNameLabelValue = POTagDetail.ConditionName
+                            }));
                         }
                     }
                 }
