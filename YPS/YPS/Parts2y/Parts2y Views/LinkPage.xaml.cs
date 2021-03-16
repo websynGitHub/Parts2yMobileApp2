@@ -18,22 +18,23 @@ using YPS.Service;
 namespace YPS.Parts2y.Parts2y_Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PhotoRepoPage : ContentPage
+    public partial class LinkPage : ContentPage
     {
         #region Data members declaration
-        PhotoRepoPageViewModel Vm;
+        LinkPageViewModel Vm;
         YPSService yPSService;
         bool checkInternet;
         SendPodata sendPodata = new SendPodata();
         #endregion
 
-        public PhotoRepoPage()
+        public LinkPage(ObservableCollection<PhotoRepoModel> photorepolist)
         {
             try
             {
                 InitializeComponent();
-                yPSService = new YPSService();
-                BindingContext = Vm = new PhotoRepoPageViewModel(Navigation, this);
+
+                BindingContext = Vm = new LinkPageViewModel(Navigation, photorepolist, this);
+
 
                 if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
                 {
@@ -42,34 +43,14 @@ namespace YPS.Parts2y.Parts2y_Views
                     safeAreaInset.Top = 20;
                     headerpart.Padding = safeAreaInset;
                 }
-
-                Vm.IndicatorVisibility = true;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PhotoRepoPage constructor -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LinkPage constructor -> in LinkPage.xaml.cs " + Settings.userLoginID);
                 yPSService.Handleexception(ex);
                 Vm.IndicatorVisibility = false;
             }
-            Vm.IndicatorVisibility = false;
         }
-
-        protected async override void OnAppearing()
-        {
-            try
-            {
-                Vm.IndicatorVisibility = true;
-                base.OnAppearing();
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
-                await yPSService.Handleexception(ex);
-                Vm.IndicatorVisibility = false;
-            }
-            Vm.IndicatorVisibility = false;
-        }
-
 
         /// <summary>
         /// Gets called when clicked on the back button and redirect to previous page.
@@ -81,48 +62,16 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.IndicatorVisibility = true;
-
-                //if (Vm.IsRepoaPage == true)
-                //{
-                    await Navigation.PopAsync();
-                //}
-                //else
-                //{
-                //    //Vm.UploadViewContentVisible = true;
-                //    //Vm.IsPhotoUploadIconVisible = true;
-                //    //Vm.POTagLinkContentVisible = false;
-                //    //Vm.IsRepoaPage = true;
-
-                //    //await Vm.GetPhotosData();
-                //    if (Settings.POID > 0)
-                //    {
-                //        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                //        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                //        Settings.POID = 0;
-                //        Vm.taskID = 0;
-                //        await Navigation.PopAsync();
-                //    }
-                //    else
-                //    {
-                //        Vm.UploadViewContentVisible = true;
-                //        Vm.IsPhotoUploadIconVisible = true;
-                //        Vm.POTagLinkContentVisible = false;
-                //        Vm.IsRepoaPage = true;
-                //        Vm.Title = "Photo Repo";
-                //        await Vm.GetPhotosData();
-                //    }
-                //}
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped method -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
-                await yPSService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in LinkPage.xaml.cs " + Settings.userLoginID);
+                yPSService.Handleexception(ex);
                 Vm.IndicatorVisibility = false;
             }
             Vm.IndicatorVisibility = false;
         }
-
 
         private async Task<ObservableCollection<AllPoData>> GetUpdatedAllPOData()
         {
@@ -131,7 +80,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.IndicatorVisibility = true;
-                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("LinkPage.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -160,6 +109,9 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in LinkPage.xaml.cs " + Settings.userLoginID);
+                yPSService.Handleexception(ex);
+                Vm.IndicatorVisibility = false;
             }
             finally
             {
@@ -167,5 +119,6 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             return AllPoDataList;
         }
+
     }
 }

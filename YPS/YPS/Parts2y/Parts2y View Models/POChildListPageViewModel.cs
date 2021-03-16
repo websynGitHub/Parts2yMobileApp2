@@ -307,7 +307,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else if (Settings.VersionID == 2)
                         {
-                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail,new QuestiionsPageHeaderData()
+                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, new QuestiionsPageHeaderData()
                             {
                                 VINLabel = labelobj.TagNumber.Name,
                                 VINLabelValue = POTagDetail.TagNumber,
@@ -566,7 +566,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-               
+
                 await Navigation.PopAsync();
 
             }
@@ -661,14 +661,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     if (selectedTagsData.photoTags.Count != 0)
                                     {
-                                        if (selectedTagsData.photoTags.Count > 1)
-                                        {
-                                            await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
-                                        }
-                                        else
-                                        {
-                                            await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, selectedTagsData, true, null));
-                                        }
+                                        //if (selectedTagsData.photoTags.Count > 1)
+                                        //{
+                                        await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                        //}
+                                        //else
+                                        //{
+                                        //    await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, selectedTagsData, true, null));
+                                        //}
                                     }
                                     else
                                     {
@@ -1341,6 +1341,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1366,6 +1367,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
+
 
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
@@ -1648,6 +1651,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Name = "TaskName"
             };
 
+            public DashboardLabelFields Resource { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "Resource"
+            };
+
             public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
             public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
@@ -1779,6 +1788,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private string _Resource;
+        public string Resource
+        {
+            get { return _Resource; }
+            set
+            {
+                _Resource = value;
+                RaisePropertyChanged("Resource");
+            }
+        }
+
         private ObservableCollection<AllPoData> _PoDataChild;
         public ObservableCollection<AllPoData> PoDataChildCollections
         {
@@ -1792,8 +1812,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     ShippingNumber = value[0].ShippingNumber;
                     REQNo = value[0].REQNo;
                     TaskName = value[0].TaskName;
+                    Resource = value[0].TaskResourceName;
+                    IsResourcecVisible = value[0].TaskResourceID == Settings.userLoginID ? false : true;
+
                 }
                 RaisePropertyChanged("PoDataChildCollections");
+            }
+        }
+
+        private bool _IsResourcecVisible;
+        public bool IsResourcecVisible
+        {
+            get { return _IsResourcecVisible; }
+            set
+            {
+                _IsResourcecVisible = value;
+                NotifyPropertyChanged();
             }
         }
 

@@ -101,6 +101,13 @@
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding IsResourcecVisible}" 
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Resource.Name}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Resource}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding SelectedTagCountVisible}"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding SelectedTagCount}"

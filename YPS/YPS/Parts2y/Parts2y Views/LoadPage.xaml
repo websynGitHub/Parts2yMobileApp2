@@ -191,6 +191,7 @@
                             </Grid>
                         </Frame>
                     </StackLayout>
+                
                 </Grid>
 
                 <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding IsPhotoUploadIconEnable}"

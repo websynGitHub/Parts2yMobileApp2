@@ -176,6 +176,25 @@ namespace YPS.Model
         public string POTaskStatusIcon { get; set; }
         public string TagTaskStatusIcon { get; set; }
 
+        public int TaskResourceID { get; set; }
+        public string TaskResourceName { get; set; }
+        public string TaskResourceRole { get; set; }
+
+        public bool _IsTaskResourceVisible { set; get; }
+        public bool IsTaskResourceVisible
+        {
+            get
+            {
+                return _IsTaskResourceVisible;
+            }
+            set
+            {
+                this._IsTaskResourceVisible = value;
+                RaisePropertyChanged("IsTaskResourceVisible");
+            }
+        }
+
+
         public bool _IsFilesVisible { set; get; }
         public bool IsFilesVisible
         {

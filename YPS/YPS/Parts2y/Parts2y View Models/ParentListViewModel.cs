@@ -282,6 +282,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.TaskName = val.Select(s => s.TaskName).FirstOrDefault();
                                         groupdata.TaskID = val.Select(s => s.TaskID).FirstOrDefault();
                                         groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
+                                        groupdata.TaskResourceName = val.Select(s => s.TaskResourceName).FirstOrDefault();
                                         groupdata.POTaskStatusIcon = null;
 
                                         if (groupdata.TaskStatus == 0)
@@ -296,6 +297,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         {
                                             groupdata.POTaskStatusIcon = Icons.CheckCircle;
                                         }
+
+                                        groupdata.IsTaskResourceVisible = val.Select(c => c.TaskResourceID).FirstOrDefault() == Settings.userLoginID ? false : true;
 
                                         groupedlist.Add(groupdata);
                                     }
@@ -396,14 +399,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         Exception ex = new Exception();
-                        YPSLogger.ReportException(ex, "LoginMethod method ->Your phone is rooted , please unroot to use app in LoginPageViewModel ");
+                        YPSLogger.ReportException(ex, "BindGridData method ->Your phone is rooted , please unroot to use app in ParentListViewModel.cs ");
                         await App.Current.MainPage.DisplayAlert("Warning", "Your phone is rooted , please unroot to use app", "OK");
                         System.Diagnostics.Process.GetCurrentProcess().Kill();
                     }
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "BindGridData method -> in PoDataViewModel! " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "BindGridData method -> in ParentListViewModel.cs " + Settings.userLoginID);
                     await trackService.Handleexception(ex);
                     loadingindicator = false;
                 }
@@ -412,7 +415,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "BindGridData method -> in MainPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "BindGridData method -> in ParentListViewModel.cs.cs " + Settings.userLoginID);
                 loadingindicator = false;
             }
             finally
@@ -1912,6 +1915,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var home = labelval.Where(wr => wr.FieldID == labelobj.Home.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var jobs = labelval.Where(wr => wr.FieldID == labelobj.Jobs.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1939,6 +1943,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
+
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
                         labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
@@ -2207,6 +2213,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "TaskName"
             };
+
+            public DashboardLabelFields Resource { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "Resource"
+            };
+
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };

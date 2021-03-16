@@ -35,7 +35,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         string extension = "", Mediafile, fileName, fullFilename;
         public ICommand DeleteAllCmd { set; get; }
         public ICommand MoveLinkCmd { set; get; }
-        public ICommand LinkPhotoCmd { set; get; }
+        //public ICommand LinkPhotoCmd { set; get; }
         public ICommand ViewPhotoDetailsCmd { set; get; }
         public ICommand DeleteImageCmd { set; get; }
         public Command select_pic { set; get; }
@@ -46,6 +46,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in PhotoRepoPageViewModel constructor" + DateTime.Now + " UserId: " + Settings.userLoginID);
+
                 service = new YPSService();
                 Navigation = navigation;
                 pagename = page;
@@ -55,14 +57,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 upload_pic = new Command(async () => await UploadPhoto());
                 MoveLinkCmd = new Command(async () => await ShowContentsToLink());
                 ViewPhotoDetailsCmd = new Command(ViewPhotoDetails);
-                LinkPhotoCmd = new Command(LinkPhotoToTag);
+                //LinkPhotoCmd = new Command(LinkPhotoToTag);
 
                 Task.Run(() => DynamicTextChange().Wait());
                 Task.Run(() => GetPhotosData().Wait());
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "Constructor method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
             }
         }
 
@@ -202,7 +205,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "LinkPhotoToTag method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LinkPhotoToTag method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -217,28 +220,29 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async Task ShowContentsToLink()
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel", "in MoveToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
             {
+                await Navigation.PushAsync(new LinkPage(RepoPhotosList));
 
-                var result = await GetAllPOData();
+                //var result = await GetAllPOData();
 
-                if (result != null && result.data != null && result.data.allPoData != null)
-                {
-                    IsRepoaPage = false;
-                    UploadViewContentVisible = false;
-                    IsPhotoUploadIconVisible = false;
-                    POTagLinkContentVisible = true;
-                    Title = Settings.VersionID == 2 ? "VIN" : "Parts";
-                    var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0).OrderBy(o => o.PONumber).ToList();
-                    AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
-                }
+                //if (result != null && result.data != null && result.data.allPoData != null)
+                //{
+                //    IsRepoaPage = false;
+                //    UploadViewContentVisible = false;
+                //    IsPhotoUploadIconVisible = false;
+                //    POTagLinkContentVisible = true;
+                //    Title = Settings.VersionID == 2 ? "VIN" : "Parts";
+                //    var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0).OrderBy(o => o.PONumber).ToList();
+                //    AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
+                //}
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ShowContentsToLink method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ShowContentsToLink method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -252,6 +256,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             GetPoData result = new GetPoData();
             try
             {
+                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
                 sendPodata = new SendPodata();
                 sendPodata.UserID = Settings.userLoginID;
                 sendPodata.PageSize = Settings.pageSizeYPS;
@@ -262,7 +268,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "GetAllPOData method -> in PhotoRepoPageViewModel.cs" + Settings.userLoginID);
+                var trackResult = await service.Handleexception(ex);
             }
             return result;
         }
@@ -276,6 +283,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in SearchResultGet method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                IndicatorVisibility = true;
+
                 var Serchdata = await service.GetSearchValuesService(Settings.userLoginID);
 
                 if (Serchdata != null)
@@ -320,7 +330,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SearchResultGet method -> in PhotoRepoPageViewModel.cs" + Settings.userLoginID);
                 var trackResult = await service.Handleexception(ex);
             }
         }
@@ -332,10 +342,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <returns></returns>
         private async Task SaveAndClearSearch(bool val)
         {
-            SendPodata SaveUserDS = new SendPodata();
-            SearchPassData defaultData = new SearchPassData();
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in SaveAndClearSearch method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            IndicatorVisibility = true;
             try
             {
+                SendPodata SaveUserDS = new SendPodata();
+                SearchPassData defaultData = new SearchPassData();
+
                 //Key
                 SaveUserDS.PONumber = Settings.PONumber = string.Empty;
                 SaveUserDS.REQNo = Settings.REQNo = string.Empty;
@@ -362,17 +375,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
+
         /// <summary>
         /// Gets called when clicked on any, already uploaded image to view it
         /// </summary>
         /// <param name="obj"></param>
         private async void ViewPhotoDetails(object obj)
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel", "in ViewPhotoDetails method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in ViewPhotoDetails method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -400,8 +414,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ViewPhotoDetails method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewPhotoDetails method -> in PhotoRepoPageViewModel.cs" + Settings.userLoginID);
                 await service.Handleexception(ex);
+                IndicatorVisibility = false;
             }
             finally
             {
@@ -415,7 +430,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void DeleteImage(object obj)
         {
-            YPSLogger.TrackEvent("LoadPageViewModel", "in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             IndicatorVisibility = true;
             try
@@ -477,8 +492,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DeleteImage method -> in LoadPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DeleteImage method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
+                IndicatorVisibility = false;
             }
             finally
             {
@@ -494,7 +510,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public async Task GetPhotosData()
         {
 
-            YPSLogger.TrackEvent("LoadPageViewModel", "in GetPhotosData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in GetPhotosData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -543,8 +559,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "GetPhotosData method -> in LoadPageViewModel " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "GetPhotosData method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                     await service.Handleexception(ex);
+                    IndicatorVisibility = false;
                 }
                 IndicatorVisibility = false;
             });
@@ -556,7 +573,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <returns></returns>
         public async Task UploadPhoto()
         {
-            YPSLogger.TrackEvent("LoadPageViewModel", "in UploadPhoto method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in UploadPhoto method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -666,8 +683,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "UploadPhoto method -> in LoadPageViewModel " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "UploadPhoto method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                     await service.Handleexception(ex);
+                    IndicatorVisibility = false;
                 }
                 finally
                 {
@@ -682,7 +700,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <returns></returns>
         public async Task SelectPic()
         {
-            YPSLogger.TrackEvent("LoadPageViewModel", "in SelectPic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in SelectPic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
@@ -825,8 +843,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectPic method -> in LoadPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectPic method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
+                IndicatorVisibility = false;
             }
             finally
             {
@@ -843,6 +862,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in DynamicTextChange method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+
                 if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
                 {
                     List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
@@ -852,12 +874,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var done = labelval.Where(wr => wr.FieldID == labelobj.Done.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var upload = labelval.Where(wr => wr.FieldID == labelobj.Upload.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == DescriptipnPlaceholder.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
+                        var afterpacking = labelval.Where(wr => wr.FieldID == labelobj.AfterPacking.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var beforepacking = labelval.Where(wr => wr.FieldID == labelobj.BeforePacking.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Getting Label values & Status based on FieldID
                         var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tagdesc = labelval.Where(wr => wr.FieldID == labelobj.TagDesc.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -873,6 +898,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
+                        labelobj.TagDesc.Status = tagdesc == null ? true : (tagdesc.Status == 1 ? true : false);
 
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
@@ -883,6 +910,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
 
+
+                        labelobj.AfterPacking.Name = "Link to " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
+                        labelobj.AfterPacking.Status = afterpacking == null ? true : (afterpacking.Status == 1 ? true : false);
+                        labelobj.BeforePacking.Name = "Link to " + (beforepacking != null ? (!string.IsNullOrEmpty(beforepacking.LblText) ? beforepacking.LblText : labelobj.BeforePacking.Name) : labelobj.BeforePacking.Name);
+                        labelobj.BeforePacking.Status = beforepacking == null ? true : (beforepacking.Status == 1 ? true : false);
 
                         labelobj.Done.Name = (done != null ? (!string.IsNullOrEmpty(done.LblText) ? done.LblText : labelobj.Done.Name) : labelobj.Done.Name);
                         labelobj.Done.Status = done == null ? true : (done.Status == 1 ? true : false);
@@ -904,7 +936,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DynamicTextChange method in LoadPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DynamicTextChange method in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -962,10 +994,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "TaskName"
             };
+            public LabelAndActionFields TagDesc { get; set; } = new LabelAndActionFields { Status = true, Name = "Tag Description" };
+
 
             public LabelAndActionFields IdentCode { get; set; } = new LabelAndActionFields { Status = true, Name = "IdentCode" };
             public LabelAndActionFields BagNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "BagNumber" };
             public LabelAndActionFields ConditionName { get; set; } = new LabelAndActionFields { Status = true, Name = "ConditionName" };
+            public LabelAndActionFields BeforePacking { get; set; } = new LabelAndActionFields { Status = true, Name = "Before Packing" };
+            public LabelAndActionFields AfterPacking { get; set; } = new LabelAndActionFields { Status = true, Name = "After Packing" };
+
         }
         public class LabelAndActionFields : IBase
         {
