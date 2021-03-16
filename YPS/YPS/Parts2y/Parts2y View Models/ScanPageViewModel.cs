@@ -125,7 +125,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 IsPageVisible = true;
 
-                                if (uploadType == 0 & selectedTagData == null)
+                                if (uploadType == 0 && selectedTagData == null)
                                 {
                                     await GetDataAndVerify();
                                 }
@@ -442,8 +442,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                             //{
-                                Settings.POID = podata.POID;
-                                await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber,null));
+                            Settings.POID = podata.POID;
+                            await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber, null));
                             //}
                         }
                         else if (uploadType != 0)
@@ -453,7 +453,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 if (isInitialPhoto == true && selectedTagData != null)
                                 {
                                     Settings.POID = selectedTagData.POID;
-                                    await Navigation.PushAsync(new PhotoUpload(selectedTagData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                    podata = new AllPoData();
+                                    podata.TagNumber = selectedTagData.photoTags[0].TagNumber;
+                                    await Navigation.PushAsync(new PhotoUpload(selectedTagData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
                                 }
                                 else
                                 {
@@ -522,7 +524,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                             if (selectedTagsData.photoTags.Count != 0)
                                             {
-                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
                                             }
                                         }
                                     }
