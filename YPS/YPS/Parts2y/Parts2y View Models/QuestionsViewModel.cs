@@ -276,9 +276,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                inspectionConfiguration.SelectedTagBorderColor = Color.DarkGreen;
+                inspectionConfiguration.SelectedTagBorderColor = YPS.CommonClasses.Settings.Bar_Background;
                 loadindicator = true;
-                await Navigation.PushAsync(new AnswersPage(inspectionConfiguration, this.tagId, QuestionsList, inspectionResultsLists,TagNumber,IndentCode, TripNumber));
+                await Navigation.PushAsync(new AnswersPage(inspectionConfiguration, this.tagId, QuestionsList, inspectionResultsLists, TagNumber, IndentCode, TripNumber, QuestiionsPageHeaderData));
                 loadindicator = false;
 
             }
