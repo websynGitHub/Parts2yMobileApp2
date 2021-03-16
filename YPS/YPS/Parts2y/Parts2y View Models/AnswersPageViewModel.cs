@@ -34,6 +34,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
 
         public ICommand Backevnttapped { set; get; }
+        public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
         AnswersPage pagename;
         YPSService trackService;
         int tagId;
@@ -41,17 +42,19 @@ namespace YPS.Parts2y.Parts2y_View_Models
         Stream picStream;
         string extension = "", Mediafile, fileName;
         ObservableCollection<InspectionConfiguration> inspectionConfigurationList;
+        ObservableCollection<InspectionPhotosResponseListData> finalPhotoListA;
         List<InspectionResultsList> inspectionResultsList;
 
 
         #endregion
 
-        public AnswersPageViewModel(INavigation _Navigation, AnswersPage page, InspectionConfiguration inspectionConfiguration, int tagId, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsList, string tagNumber, string indentCode, string bagNumber)
+        public AnswersPageViewModel(INavigation _Navigation, AnswersPage page, InspectionConfiguration inspectionConfiguration, int tagId, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsList, string tagNumber, string indentCode, string bagNumber, QuestiionsPageHeaderData questiionsPageHeaderData)
         {
             Backevnttapped = new Command(async () => await Backevnttapped_click());
             Navigation = _Navigation;
             pagename = page;
             this.tagId = tagId;
+            this.QuestiionsPageHeaderData = questiionsPageHeaderData;
             Task.Run(() => ChangeLabel()).Wait();
             TagNumber = tagNumber;
             IndentCode = indentCode;
@@ -64,6 +67,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             ViewallClick = new Command(ViewallClickMethod);
             NextClick = new Command(NextClickMethod);
             PhotoClickCommand = new Command(async () => await SelectPic());
+            finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>();
 
         }
 
@@ -112,7 +116,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public async Task SelectPic()
         {
             loadindicator = true;
-            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId,InspectionConfiguration));
+            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, QuestiionsPageHeaderData.VINLabelValue));
             loadindicator = false;
         }
 
@@ -151,6 +155,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (InspectionConfiguration.MInspectionConfigID < inspectionConfigurationList.Count)
                         {
+                            AnswersGridVisibility = false;
                             FrontRightTrue = false;
                             FrontRightFalse = false;
                             FrontLeftTrue = false;
@@ -216,6 +221,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             var answer = inspectionResultsList?.Find(x => x.QID == InspectionConfiguration.MInspectionConfigID);
             if (answer != null)
             {
+                ImagesCount = answer.PhotoCount;
                 Remarks = answer.Remarks;
                 if (answer.FrontLeft == 1)
                 {
@@ -277,6 +283,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     PlaneFalse = true;
                 }
             }
+
+            AnswersGridVisibility = true;
         }
 
         #region INotifyPropertyChanged Implimentation
@@ -468,6 +476,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private bool _AnswersGridVisibility = true;
+        public bool AnswersGridVisibility
+        {
+            get => _AnswersGridVisibility;
+            set
+            {
+                _AnswersGridVisibility = value;
+                RaisePropertyChanged("loadindicator");
+            }
+        }
+
         private string _Remarks;
         public string Remarks
         {
@@ -586,6 +605,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _PlaneFalse = value;
                 RaisePropertyChanged("PlaneFalse");
+            }
+        }
+
+        private int _ImagesCount;
+        public int ImagesCount
+        {
+            get => _ImagesCount;
+            set
+            {
+                _ImagesCount = value;
+                RaisePropertyChanged("ImagesCount");
             }
         }
 
