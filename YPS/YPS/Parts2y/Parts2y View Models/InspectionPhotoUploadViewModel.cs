@@ -20,6 +20,7 @@ using YPS.Parts2y.Parts2y_Services;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using static YPS.Parts2y.Parts2y_Models.PhotoModel;
+using YPS.Views;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
@@ -32,27 +33,78 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public INavigation Navigation { get; set; }
 
+        public ICommand tap_OnImge { set; get; }
+
         YPSService trackService;
         InspectionPhotosPage pagename;
         Stream picStream;
         string extension = "", fileName, Mediafile, types = string.Empty;
         int tagId;
+        bool multiple_Taps;
         InspectionConfiguration inspectionConfiguration;
 
         #endregion
 
-        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration)
+        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string headerData)
         {
             Navigation = _Navigation;
             pagename = page;
             this.tagId = tagId;
-            Tagnumbers = this.tagId;
+            Tagnumbers = headerData;
             this.inspectionConfiguration = inspectionConfiguration;
             trackService = new YPSService();
             ListOfImage = new ObservableCollection<GalleryImage>();
             Task.Run(() => GetInspectionPhotos()).Wait();
             select_pic = new Command(async () => await SelectPic());
             upload_pic = new Command(async () => await Photo_Upload());
+            tap_OnImge = new Command<InspectionPhotosResponseListData>(image_tap);
+        }
+
+        /// <summary>
+        /// Gets called when clicked on any, already uploaded image to view it
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void image_tap(InspectionPhotosResponseListData data)
+        {
+            YPSLogger.TrackEvent("PhotoUplodeViewModel", "in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            IndicatorVisibility = true;
+
+            try
+            {
+                if (!multiple_Taps)
+                {
+                    multiple_Taps = true;
+                    //var data = obj as CustomPhotoModel;
+                    int photoid = data.ID;
+                    //var des = (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP) ? finalPhotoListA.Where(x => x.PhotoID == photoid).FirstOrDefault() : finalPhotoListB.Where(x => x.PhotoID == photoid).FirstOrDefault();
+                    var imageLists = finalPhotoListA;
+
+                    //foreach (var items in imageLists)
+                    //{
+                    //    if (items.PhotoDescription.Length > 150)
+                    //    {
+                    //        items.ShowAndHideDescr = true;
+                    //        items.ShowAndHideBtn = true;
+                    //        items.ShowAndHideBtnEnable = true;
+                    //    }
+                    //    else if (items.PhotoDescription.Length > 0)
+                    //    {
+                    //        items.ShowAndHideDescr = true;
+                    //    }
+                    //}
+                    await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers));
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "image_tap method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
+            }
+            multiple_Taps = false;
         }
 
         /// <summary>
@@ -357,7 +409,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             var checkInternet = await App.CheckInterNetConnection();
             if (checkInternet)
             {
-                var result = await trackService.GeInspectionPhotosService(tagId);
+                var result = await trackService.GeInspectionPhotosService(tagId, inspectionConfiguration?.MInspectionConfigID);
                 if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
                 {
                     AStack = true;
@@ -437,8 +489,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public int _Tagnumbers;
-        public int Tagnumbers
+        public string _Tagnumbers;
+        public string Tagnumbers
         {
             get { return _Tagnumbers; }
             set
