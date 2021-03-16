@@ -36,7 +36,7 @@
                     </Grid>
 
                     <CollectionView Grid.Row="1" BackgroundColor="Transparent" VerticalOptions="Fill"
-                                 ItemsSource="{Binding AllPoTagCollections}" IsVisible="{Binding POTagLinkContentVisible}"
+                                 ItemsSource="{Binding AllPoTagCollections}"
                                 Margin="0,6,0,0" >
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:Name="datatemplete">

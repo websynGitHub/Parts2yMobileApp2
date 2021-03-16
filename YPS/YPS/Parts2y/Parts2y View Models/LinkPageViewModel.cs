@@ -260,7 +260,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                     var taskval = await service.UpdateTaskStatus(taskstatus);
                                                 }
 
-                                                DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
 
 
                                             }
@@ -278,6 +277,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, value, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, value.photoTickVisible));
                                             }
                                         }
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
                                     }
                                 }
                             }
@@ -306,7 +306,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     if (initialresult != null && initialresult.status == 1)
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
 
                                         if (styleid != null)
                                         {
@@ -320,6 +319,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, value, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, value.photoTickVisible));
                                             }
                                         }
+
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+
                                     }
 
                                 }
