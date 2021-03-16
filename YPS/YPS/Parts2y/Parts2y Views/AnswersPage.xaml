@@ -8,6 +8,7 @@
              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              BackgroundColor="White"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
              x:Class="YPS.Parts2y.Parts2y_Views.AnswersPage">
     <ContentPage.Resources>
         <syncfusion:SfRadioGroupKey x:Key="frontLeft" />
@@ -72,7 +73,9 @@
                                 </Grid>-->
                             </StackLayout>
                         </Grid>
-                        <StackLayout Grid.Row="1" Orientation="Vertical" Padding="10,12,10,12"  VerticalOptions="FillAndExpand">
+                        <ScrollView Grid.Row="1" Orientation="Vertical" Padding="10,12,10,12"  VerticalOptions="FillAndExpand">
+
+                        <StackLayout >
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -144,14 +147,23 @@
                                             </OnPlatform>
                                         </Entry.HeightRequest>
                                     </Entry>-->
-                                    <local:MyEditor HeightRequest="80"  Placeholder="Remarks"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
+                                    <local:MyEditor HeightRequest="{OnPlatform Android=80,iOS=65}"  Placeholder="Remarks"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
                                 </sfinput:SfTextInputLayout>
-                                <StackLayout Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White">
-                                    <Image Source="Chatcamera" Opacity="{Binding imgCamOpacityB}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                                <StackLayout Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  BackgroundColor="White">
+                                    <local:FontAwesomeIconLabel  BackgroundColor="Transparent"  Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" 
+                                                                 FontSize="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Opacity="{Binding imgCamOpacityB}"
+                                                 >
+                                        <local:FontAwesomeIconLabel.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding PhotoClickCommand}"/>
+                                        </local:FontAwesomeIconLabel.GestureRecognizers>
+                                    </local:FontAwesomeIconLabel>
+
+
+                                    <!--<Image Source="Chatcamera" Opacity="{Binding imgCamOpacityB}" HeightRequest="50" WidthRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding PhotoClickCommand}"/>
                                         </Image.GestureRecognizers>
-                                    </Image>
+                                    </Image>-->
                                 </StackLayout>
                             </Grid>
                             <Grid VerticalOptions="End" HorizontalOptions="FillAndExpand">
@@ -178,6 +190,7 @@
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium"/>
                             </Grid>
                         </StackLayout>
+                        </ScrollView>
                     </Grid>
                 </StackLayout>
             </RelativeLayout>
