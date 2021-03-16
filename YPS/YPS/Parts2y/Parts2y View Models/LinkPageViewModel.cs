@@ -20,10 +20,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
 {
     public class LinkPageViewModel : IBase
     {
+        public INavigation Navigation { get; set; }
+        public int taskID { get; set; }
         public ICommand LinkBeforePackingPhotoCmd { set; get; }
         public ICommand LinkAfterPackingPhotoCmd { set; get; }
-        public int taskID { get; set; }
-        public INavigation Navigation { get; set; }
+        public ICommand viewExistingBUPhotos { get; set; }
+        public ICommand viewExistingAUPhotos { get; set; }
+
         //public ObservableCollection<PhotoRepoModel> RepoPhotosList { get; set; }
         YPSService service;
         LinkPage pagename;
@@ -38,6 +41,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Navigation = navigation;
                 pagename = page;
                 RepoPhotosList = repophotosist;
+                viewExistingBUPhotos = new Command(tap_eachCamB);
+                viewExistingAUPhotos = new Command(tap_eachCamA);
                 LinkBeforePackingPhotoCmd = new Command(LinkPhotoToTag);
                 LinkAfterPackingPhotoCmd = new Command(LinkPhotoToTag);
 
@@ -49,6 +54,117 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "LinkPageViewModel constructor -> in LinkPageViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
+        }
+
+        private async void tap_eachCamB(object obj)
+        {
+            try
+            {
+                YPSLogger.TrackEvent("LinkPageViewModel.cs", "in tap_eachCamB method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                var potag = obj as AllPoData;
+                bool checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+                    if (potag.imgCamOpacityB != 0.5)
+                    {
+                        IndicatorVisibility = true;
+
+                        try
+                        {
+                            //if (potag.BPhotoCount > 0)
+                            //{
+                            Settings.CanOpenScanner = false;
+                            Settings.currentPuId = potag.PUID;
+                            Settings.BphotoCount = potag.TagBPhotoCount;
+                            await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
+                            //}
+                            //else
+                            //{
+                            //    DependencyService.Get<IToastMessage>().ShortAlert("No photos available.");
+                            //}
+                        }
+                        catch (Exception ex)
+                        {
+                            YPSLogger.ReportException(ex, "tap_eachCamB method -> in LinkPageViewModel.cs " + Settings.userLoginID);
+                            var trackResult = await service.Handleexception(ex);
+                        }
+                        IndicatorVisibility = false;
+                    }
+                }
+                else
+                {
+                    IndicatorVisibility = false;
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+                IndicatorVisibility = false;
+            }
+            IndicatorVisibility = false;
+        }
+
+        /// <summary>
+        /// This method is called when clicked on camera icon form data grid, to view After Packing photo(s).
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void tap_eachCamA(object obj)
+        {
+            try
+            {
+                IndicatorVisibility = true;
+
+                YPSLogger.TrackEvent("LinkPageViewModel.cs", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                var allPo = obj as AllPoData;
+
+                if (allPo.imgCamOpacityA != 0.5)
+                {
+                    IndicatorVisibility = true;
+
+                    bool checkInternet = await App.CheckInterNetConnection();
+
+                    if (checkInternet)
+                    {
+
+                        try
+                        {
+                            //if (allPo.APhotoCount > 0)
+                            //{
+                            Settings.CanOpenScanner = false;
+                            Settings.AphotoCount = allPo.TagAPhotoCount;
+                            Settings.currentPuId = allPo.PUID;
+                            await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
+                            //}
+                            //else
+                            //{
+                            //    DependencyService.Get<IToastMessage>().ShortAlert("No photos available.");
+                            //}
+                        }
+                        catch (Exception ex)
+                        {
+                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in LinkPageViewModel.cs " + Settings.userLoginID);
+                            var trackResult = await service.Handleexception(ex);
+                            IndicatorVisibility = false;
+                        }
+                        IndicatorVisibility = false;
+                    }
+                    else
+                    {
+                        IndicatorVisibility = false;
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_eachCamA method -> in LinkPageViewModel.cs " + Settings.userLoginID);
+                var trackResult = await service.Handleexception(ex);
+                IndicatorVisibility = false;
+            }
+            IndicatorVisibility = false;
         }
 
         /// <summary>

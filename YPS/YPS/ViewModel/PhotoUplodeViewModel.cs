@@ -1159,6 +1159,12 @@ namespace YPS.ViewModel
                     //    FirstMainStack = false;
                     //}
                 }
+
+                if (Settings.CanOpenScanner == false)
+                {
+                    FirstMainStack = false;
+                    //Settings.CanOpenScanner = false;
+                }
             }
             catch (Exception ex)
             {

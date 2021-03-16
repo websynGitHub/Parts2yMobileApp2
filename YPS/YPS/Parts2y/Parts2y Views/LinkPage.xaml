@@ -116,6 +116,10 @@
                                                        HeightRequest="15" WidthRequest="12"/>-->
 
                                                             </StackLayout>
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Command="{Binding BindingContext.viewExistingBUPhotos,Source={x:Reference Name=Link}}"
+                                                          CommandParameter="{Binding .}"/>
+                                                            </Frame.GestureRecognizers>
                                                         </Frame>
 
                                                         <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
@@ -132,8 +136,12 @@
                                                        IsVisible="{Binding photoTickVisible}" HorizontalOptions="Start"
                                                        HeightRequest="15" WidthRequest="12"/>-->
                                                             </StackLayout>
-
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Command="{Binding BindingContext.viewExistingAUPhotos,Source={x:Reference Name=Link}}"
+                                                          CommandParameter="{Binding .}"/>
+                                                            </Frame.GestureRecognizers>
                                                         </Frame>
+                                                        
                                                         <local:FontAwesomeIconLabel Text="{Binding TagTaskStatusIcon}" FontSize="28"  TextColor="#000000" 
                                                                                     HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,10,0"
                                                                                     />
