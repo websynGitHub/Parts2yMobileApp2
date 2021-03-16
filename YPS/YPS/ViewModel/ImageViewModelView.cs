@@ -19,6 +19,7 @@ namespace YPS.ViewModel
         public ObservableCollection<CustomPhotoModel> imageViews { get; set; }
         public ObservableCollection<PhotoRepoModel> repophotoimageViews { get; set; }
         public ObservableCollection<LoadPhotoModel> loadphotoimageViews { get; set; }
+        public ObservableCollection<InspectionPhotosResponseListData> inspectionImageViews { get; set; }
         public ObservableCollection<UploadFiles> imageViews1 { get; set; }
         YPSService service = new YPSService();// Creating new instance of the YPSService, which is used to call API
 
@@ -37,6 +38,7 @@ namespace YPS.ViewModel
                 IsRepoPhotosVisible = true;
                 pophoto = false;
                 Yshipphoto = false;
+                IsInspectionPhotosVisible = false;
                 int index = photosList.IndexOf(photosList.Single(x => x.PhotoID == photoId));
                 var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
                 VisibleCardInx = index;
@@ -64,12 +66,45 @@ namespace YPS.ViewModel
                 loadphotoimageViews = new ObservableCollection<LoadPhotoModel>();
                 loadphotoimageViews = photosList;
                 IsLoadPhotosVisible = true;
+                IsInspectionPhotosVisible = false;
+                IsRepoPhotosVisible = false;
                 pophoto = false;
                 Yshipphoto = false;
                 int index = photosList.IndexOf(photosList.Single(x => x.PhotoID == photoId));
                 var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
                 VisibleCardInx = index;
                 Settings.SPhotoDescription = getFirstValue.PhotoDescription;
+                HomeCommand = new Command(HomeCommand_btn);
+
+                DynamicTextChange();
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ImageViewModelView constructor -> in ImageViewModelView.cs " + Settings.userLoginID);
+            }
+        }
+
+        /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="photosList"></param>
+        /// <param name="photoId"></param>
+        public ImageViewModelView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId)
+        {
+            try
+            {
+                inspectionImageViews = new ObservableCollection<InspectionPhotosResponseListData>();
+                inspectionImageViews = photosList;
+                IsInspectionPhotosVisible = true;
+                IsLoadPhotosVisible = false;
+                IsRepoPhotosVisible = false;
+                pophoto = false;
+                Yshipphoto = false;
+                int index = photosList.IndexOf(photosList.Single(x => x.ID == photoId));
+                var getFirstValue = photosList.Where(X => X.ID == photoId).FirstOrDefault();
+                VisibleCardInx = index;
+                Settings.SPhotoDescription = getFirstValue.Remarks;
                 HomeCommand = new Command(HomeCommand_btn);
 
                 DynamicTextChange();
@@ -95,6 +130,8 @@ namespace YPS.ViewModel
                 imageViews = photosList;
                 pophoto = true;
                 Yshipphoto = false;
+                IsInspectionPhotosVisible = false;
+                IsRepoPhotosVisible = false;
                 int index = photosList.IndexOf(photosList.Single(x => x.PhotoID == photoId));
                 var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
                 VisibleCardInx = index;
@@ -143,6 +180,8 @@ namespace YPS.ViewModel
                 imageViews1 = photosList1;
                 pophoto = false;
                 Yshipphoto = true;
+                IsInspectionPhotosVisible = false;
+                IsRepoPhotosVisible = false;
                 int index = photosList1.IndexOf(photosList1.Single(x => x.ID == photoId1));
                 var getFirstValue = photosList1.Where(X => X.ID == photoId1).FirstOrDefault();
                 VisibleCardInx = index;
@@ -286,7 +325,6 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-
         private bool _IsRepoPhotosVisible = false;
         public bool IsRepoPhotosVisible
         {
@@ -294,6 +332,17 @@ namespace YPS.ViewModel
             set
             {
                 _IsRepoPhotosVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsInspectionPhotosVisible = false;
+        public bool IsInspectionPhotosVisible
+        {
+            get { return _IsInspectionPhotosVisible; }
+            set
+            {
+                _IsInspectionPhotosVisible = value;
                 NotifyPropertyChanged();
             }
         }
