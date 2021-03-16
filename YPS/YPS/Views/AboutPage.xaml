@@ -10,7 +10,7 @@
         <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                   >
             <Grid.RowDefinitions>
-                <RowDefinition Height="{OnPlatform iOS=70 , Android=Auto}"/>
+                <RowDefinition Height="{OnPlatform iOS=90 , Android=Auto}"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
