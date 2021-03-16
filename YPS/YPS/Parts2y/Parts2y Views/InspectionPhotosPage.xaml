@@ -63,7 +63,7 @@
                                                                DownsampleToViewSize="True"
                                                                RetryCount="3"
                                                                RetryDelay="3000"
-                                                               Source="{Binding FilrURl}" 
+                                                               Source="{Binding FileURL}" 
                                                                HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
                                             <!--ClassId="{Binding ID}"-->
                                             <forms:CachedImage.GestureRecognizers>
