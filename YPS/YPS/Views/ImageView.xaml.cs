@@ -107,6 +107,34 @@ namespace YPS.Views
         }
 
         /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="photosList"></param>
+        /// <param name="photoId"></param>
+        /// <param name="Tags"></param>
+        public ImageView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId, string Tags)
+        {
+            try
+            {
+                InitializeComponent();
+                service = new YPSService();
+                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+                synfImageViewList.WidthRequest = App.ScreenWidth;
+                synfImageViewList.HeightRequest = App.ScreenHeight;
+                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                Settings.currentPage = "ImageViewPage";
+                Usernames.Text = Tags;
+                Groupname.Text = "Inspection Photos";
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
         /// Gets called when back icon is clicked, to redirect  to the previous page.
         /// </summary>
         /// <param name="sender"></param>
