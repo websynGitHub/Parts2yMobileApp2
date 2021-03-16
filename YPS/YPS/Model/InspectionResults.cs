@@ -31,5 +31,6 @@ namespace YPS.Model
         public object FileName { get; set; }
         public object FilrURl { get; set; }
         public int UserID { get; set; }
+        public int PhotoCount { get; set; }
     }
 }
