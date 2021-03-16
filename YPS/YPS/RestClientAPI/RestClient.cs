@@ -1405,7 +1405,7 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl + "Inspection/GetInspectionPhotosByPOTagID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)) + "&QID="+ Helperclass.Encrypt(Convert.ToString(questionId)));
+                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl + "Inspection/GetInspectionPhotosByQID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)) + "&QID=" + questionId);
             }
             catch (Exception ex)
             {
