@@ -27,9 +27,12 @@ namespace YPS.Model
         public int BackLeft { get; set; }
         public int BackRight { get; set; }
         public int Direct { get; set; }
-        public object Remarks { get; set; }
+        public string Remarks { get; set; }
         public string FileName { get; set; }
-        public string FilrURl { get; set; }
+        public string FileURL { get; set; }
         public int UserID { get; set; }
+        public string FullName { get; set; }
+        public string RoleName { get; set; }
+        public string CreatedDate { get; set; }
     }
 }
