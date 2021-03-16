@@ -16,10 +16,10 @@ namespace YPS.Parts2y.Parts2y_Views
     public partial class AnswersPage : ContentPage
     {
         AnswersPageViewModel Vm;
-        public AnswersPage(InspectionConfiguration inspectionConfiguration, int tagId, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsLists, string tagNumber, string indentCode, string bagNumber)
+        public AnswersPage(InspectionConfiguration inspectionConfiguration, int tagId, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsLists, string tagNumber, string indentCode, string bagNumber, QuestiionsPageHeaderData questiionsPageHeaderData)
         {
             InitializeComponent();
-            BindingContext = Vm = new AnswersPageViewModel(Navigation, this, inspectionConfiguration, tagId, inspectionConfigurationList, inspectionResultsLists, tagNumber, indentCode, bagNumber);
+            BindingContext = Vm = new AnswersPageViewModel(Navigation, this, inspectionConfiguration, tagId, inspectionConfigurationList, inspectionResultsLists, tagNumber, indentCode, bagNumber, questiionsPageHeaderData);
 
             if (Device.RuntimePlatform == Device.iOS)
             {
