@@ -12,6 +12,7 @@ using YPS.ViewModel;
 using YPS.YShip.YshipModel;
 using static YPS.Model.SearchModel;
 using static YPS.Models.ChatMessage;
+using System.Collections.Generic;
 
 namespace YPS.Service
 {
@@ -875,7 +876,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<UpdateInspectionResponse> InsertInspectionPhotosService(UpdateInspectionRequest updateInspectionRequest)
+        public async Task<UpdateInspectionResponse> InsertInspectionPhotosService(List<UpdateInspectionRequest> updateInspectionRequest)
         {
             RestClient restClient = new RestClient();
             return await restClient.InsertInspectionPhotosClient(updateInspectionRequest);
