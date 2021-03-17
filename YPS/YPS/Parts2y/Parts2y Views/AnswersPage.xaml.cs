@@ -29,5 +29,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 headerpart.Padding = safeAreaInset;
             }
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Task.Run(() => Vm.GetInspectionPhotos()).Wait();
+        }
     }
 }
