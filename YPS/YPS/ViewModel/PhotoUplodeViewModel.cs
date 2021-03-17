@@ -512,7 +512,7 @@ namespace YPS.ViewModel
                             if (selectiontype_index == 0 && puid == 0)
                             {
                                 /// Calling the blob API to upload photo. 
-                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, Select_Items.PUID, fileName, UploadType, (int)BlobContainer.cnttagphotos, Select_Items, null, description_txt);
+                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, Select_Items.PUID, fileName, UploadType, (int)BlobContainer.cnttagfiles, Select_Items, null, description_txt);
 
                                 var initialresult = initialdata as InitialResponse;
                                 if (initialresult != null)
@@ -589,7 +589,7 @@ namespace YPS.ViewModel
                             else if (selectiontype_index == 1 && puid > 0)
                             {
                                 /// Calling the blob API to upload photo. 
-                                var data = await BlobUpload.YPSFileUpload(extension, picStream, puid, fileName, UploadType, (int)BlobContainer.cnttagphotos, null, null, description_txt);
+                                var data = await BlobUpload.YPSFileUpload(extension, picStream, puid, fileName, UploadType, (int)BlobContainer.cnttagfiles, null, null, description_txt);
                                 var result = data as SecondTimeResponse;
 
                                 if (result != null)
