@@ -80,7 +80,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var result = await trackService.GeInspectionPhotosService(tagId, InspectionConfiguration?.MInspectionConfigID);
                 if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
                 {
-                    ImagesCount = result.data.listData.Count;
+                   ImagesCount= result.data.listData.Count;
+                }
+                else
+                {
+                    ImagesCount = 0;
                 }
             }
 
@@ -132,7 +136,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public async Task SelectPic()
         {
             loadindicator = true;
-            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, QuestiionsPageHeaderData.VINLabelValue));
+            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration));
             loadindicator = false;
         }
 
@@ -200,6 +204,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     Remarks = string.Empty;
                 }
             }
+
+            await GetInspectionPhotos();
         }
         private async void ViewallClickMethod()
         {
@@ -237,6 +243,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             var answer = inspectionResultsList?.Find(x => x.QID == InspectionConfiguration.MInspectionConfigID);
             if (answer != null)
             {
+                ImagesCount = answer.PhotoCount;
                 Remarks = answer.Remarks;
                 if (answer.FrontLeft == 1)
                 {
