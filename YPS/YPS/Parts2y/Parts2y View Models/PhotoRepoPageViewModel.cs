@@ -594,7 +594,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             DescriptionText = Regex.Replace(DescriptionText, @"\s+", " ");
 
                             string FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
-                            BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagphotos), FullFilename, picStream);
+                            BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagfiles), FullFilename, picStream);
                             selectiontype_index = 1;
 
                             PhotoRepoModel photoRepoModel = new PhotoRepoModel();
