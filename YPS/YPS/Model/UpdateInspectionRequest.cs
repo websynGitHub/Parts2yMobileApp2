@@ -18,5 +18,9 @@ namespace YPS.Model
         public string FileName { get; set; }
         public string FileURL { get; set; }
         public int UserID { get; set; }
+        public string FullName { get; set; }
+        public string RoleName { get; set; }
+        public string CreatedDate { get; set; }
+        public int PhotoCount { get; set; }
     }
 }
