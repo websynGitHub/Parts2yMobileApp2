@@ -214,39 +214,5 @@ namespace YPS.Model
                 return null;
             }
         }
-
-        public static async Task<object> YPSInspectionFileUpload(string extension, Stream picStream, string fileName, int containertype, InspectionConfiguration inspectionConfiguration, int tagId, string description_txt = "")
-        {
-            try
-            {
-                YPSService service = new YPSService();
-                string FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
-                BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName(containertype), FullFilename, picStream);
-                UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest()
-                {
-                    BackLeft = inspectionConfiguration.BackLeft,
-                    BackRight = inspectionConfiguration.BackRight,
-                    Direct = inspectionConfiguration.BackRight,
-                    FileName = fileName,
-                    FileURL = FullFilename,
-                    FrontLeft = inspectionConfiguration.FrontLeft,
-                    FrontRight = inspectionConfiguration.FrontRight,
-                    POTagID = tagId,
-                    QID = inspectionConfiguration.MInspectionConfigID,
-                    Remarks = description_txt,
-                    UserID = Settings.userLoginID
-                };
-                var data = await service.InsertInspectionPhotosService(updateInspectionRequest);
-                return data;
-            }
-            catch (Exception ex)
-            {
-                YPSService service = new YPSService();
-                await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "UploadFile method -> in UploadFile.cs " + Settings.userLoginID);
-                return null;
-            }
-        }
-
     }
 }
