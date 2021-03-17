@@ -175,7 +175,7 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="0.3*"/>
                                     </Grid.RowDefinitions>
-                                    <forms1:CachedImage Grid.Row="0" Source="{Binding FilrURl}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                                    <forms1:CachedImage Grid.Row="0" Source="{Binding FileURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
                                             <!--<Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>-->
