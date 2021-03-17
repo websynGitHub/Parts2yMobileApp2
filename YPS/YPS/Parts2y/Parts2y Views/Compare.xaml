@@ -484,7 +484,7 @@
                             </LblIcons:FontAwesomeIconLabel>
                             <ScrollView VerticalOptions="FillAndExpand">
                                 <ListView ItemsSource="{Binding compareHistoryList}" HasUnevenRows="False" HeightRequest="200" 
-                                          SeparatorVisibility="None">
+                                          SeparatorVisibility="None" CachingStrategy="RecycleElementAndDataTemplate">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>
