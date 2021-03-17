@@ -45,12 +45,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #endregion
 
-        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string headerData)
+        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration)
         {
             Navigation = _Navigation;
             pagename = page;
             this.tagId = tagId;
-            Tagnumbers = headerData;
+            Tagnumbers = inspectionConfiguration.MInspectionConfigID + " " + inspectionConfiguration.Question;
             this.inspectionConfiguration = inspectionConfiguration;
             trackService = new YPSService();
             ListOfImage = new ObservableCollection<GalleryImage>();
@@ -161,12 +161,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 FirstMainStack = false;
                                 RowHeightOpenCam = 100;
 
-                                var stream = await photo.OpenReadAsync();
-                                var imageSource = ImageSource.FromStream(() =>
-                                {
-                                    return stream;
-
-                                });
                                 picStream = await photo.OpenReadAsync();
                                 extension = Path.GetExtension(photo.FullPath);
                                 fileName = Path.GetFileNameWithoutExtension(photo.FullPath);
@@ -176,9 +170,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     ID = 0,
                                     ImgPath = Mediafile,
-                                    Imgstream = imageSource,
                                     Fullfilename = fileName,
-                                    ImageOriginalStream = picStream
+                                    ImageOriginalStream = picStream,
+                                    Extension = extension
                                 });
                             }
                             else
@@ -201,10 +195,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     FirstMainStack = false;
                                     RowHeightOpenCam = 100;
 
-                                    var imageSource = ImageSource.FromStream(() =>
-                                    {
-                                        return file.GetStreamWithImageRotatedForExternalStorage(); ;
-                                    });
                                     picStream = file.GetStreamWithImageRotatedForExternalStorage();
                                     extension = Path.GetExtension(file.Path);
                                     Mediafile = file.Path;
@@ -214,9 +204,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     {
                                         ID = 0,
                                         ImgPath = Mediafile,
-                                        Imgstream = imageSource,
                                         Fullfilename = fileName,
-                                        ImageOriginalStream = picStream
+                                        ImageOriginalStream = picStream,
+                                        Extension = extension
                                     });
                                 }
                                 else
@@ -276,11 +266,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ListOfImage.Clear();
                             foreach (var item in fileOS)
                             {
-                                var stream = await item.OpenReadAsync();
-                                var imageSource = ImageSource.FromStream(() =>
-                                 {
-                                     return stream;
-                                 });
                                 picStream = await item.OpenReadAsync();
                                 extension = Path.GetExtension(item.FullPath);
                                 fileName = Path.GetFileNameWithoutExtension(item.FullPath);
@@ -288,37 +273,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     ID = id,
                                     ImgPath = item.FullPath,
-                                    Imgstream = imageSource,
                                     Fullfilename = fileName,
-                                    ImageOriginalStream = picStream
+                                    ImageOriginalStream = picStream,
+                                    Extension = extension
                                 });
                                 id++;
                             }
-
-                            //if (photoCounts == 0)
-                            //{
-                            //    CaptchaImage1 = ImageSource.FromFile(fileOS.);
-                            //    firstStack = true;
-                            //    listStack = false;
-                            //    secondStack = false;
-                            //}
-                            //else
-                            //{
-                            //    CaptchaImage2 = ImageSource.FromFile(fileOS.Path);
-                            //    firstStack = false;
-                            //    secondStack = true;
-                            //}
-
-                            //closeLabelText = false;
-                            //RowHeightcomplete = 0;
-                            //FirstMainStack = false;
-                            //RowHeightOpenCam = 100;
-                            //SecondMainStack = true;
-                            //NoPhotos_Visibility = false;
-                            //btnenable = true;
-                            //extension = Path.GetExtension(fileOS.Path);
-                            //picStream = fileOS.GetStreamWithImageRotatedForExternalStorage();
-                            //fileName = Path.GetFileNameWithoutExtension(fileOS.Path);
                         }
                     }
                     else
@@ -368,23 +328,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (extension.Trim().ToLower() == ".png" || extension.Trim().ToLower() == ".jpg" || extension.Trim().ToLower() == ".jpeg" || extension.Trim().ToLower() == ".gif" || extension.Trim().ToLower() == ".bmp")
                         {
                             description_txt = Regex.Replace(description_txt, @"\s+", " ");
+                            var listOfFiles = new List<UpdateInspectionRequest>();
                             foreach (var item in ListOfImage)
                             {
-                                var initialdata = await BlobUpload.YPSInspectionFileUpload(extension, picStream, item.Fullfilename, (int)BlobContainer.cnttagfiles, inspectionConfiguration, tagId, description_txt);
-                                var initialresult = initialdata as UpdateInspectionResponse;
-                                if (initialresult != null)
+                                string FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + item.Extension;
+                                BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagfiles), FullFilename, item.ImageOriginalStream);
+                                UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest()
                                 {
-                                    if (initialresult.status != 0)
-                                    {
-                                        await GetInspectionPhotos();
-                                    }
-                                }
+                                    BackLeft = inspectionConfiguration.BackLeft,
+                                    BackRight = inspectionConfiguration.BackRight,
+                                    Direct = inspectionConfiguration.BackRight,
+                                    FileName = item.Fullfilename,
+                                    FileURL = FullFilename,
+                                    FrontLeft = inspectionConfiguration.FrontLeft,
+                                    FrontRight = inspectionConfiguration.FrontRight,
+                                    POTagID = tagId,
+                                    QID = inspectionConfiguration.MInspectionConfigID,
+                                    Remarks = description_txt,
+                                    UserID = Settings.userLoginID
+                                };
+                                listOfFiles.Add(updateInspectionRequest);
                             }
 
-                            /// Calling the blob API to upload photo. 
-
-
-
+                            await trackService.InsertInspectionPhotosService(listOfFiles);
+                            await GetInspectionPhotos();
                         }
                     }
                     else
@@ -630,8 +597,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         public int ID { get; set; }
         public string ImgPath { get; set; }
-        public ImageSource Imgstream { get; set; }
         public Stream ImageOriginalStream { get; set; }
         public string Fullfilename { get; set; }
+        public string Extension { get; set; }
     }
 }
