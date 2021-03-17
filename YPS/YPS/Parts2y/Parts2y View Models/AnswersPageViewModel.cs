@@ -71,6 +71,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         }
 
+        public async Task GetInspectionPhotos()
+        {
+            loadindicator = true;
+            var checkInternet = await App.CheckInterNetConnection();
+            if (checkInternet)
+            {
+                var result = await trackService.GeInspectionPhotosService(tagId, InspectionConfiguration?.MInspectionConfigID);
+                if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+                {
+                    ImagesCount = result.data.listData.Count;
+                }
+            }
+
+            loadindicator = false;
+        }
+
         public async void ChangeLabel()
         {
             try
@@ -221,7 +237,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             var answer = inspectionResultsList?.Find(x => x.QID == InspectionConfiguration.MInspectionConfigID);
             if (answer != null)
             {
-                ImagesCount = answer.PhotoCount;
                 Remarks = answer.Remarks;
                 if (answer.FrontLeft == 1)
                 {
