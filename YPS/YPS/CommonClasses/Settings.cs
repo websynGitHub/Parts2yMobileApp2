@@ -327,132 +327,45 @@ namespace YPS.CommonClasses
         #endregion
     }
 
-    //enum UserRoles
-    //{
-    //    SuperAdmin = 1,
-    //    SuperUser = 2,
-    //    SuperViewer = 3,
-    //    SupplierAdmin = 4,
-    //    SupplierUser = 5,
-    //    MfrAdmin = 6,
-    //    MfrUser = 7,
-    //    DealerAdmin = 8,
-    //    DealerUser = 9,
-    //    LogisticsAdmin = 10,
-    //    LogisticsUser = 11,
-    //    TruckingAdmin = 12,
-    //    TruckingDriver = 13,
-    //    OwnerAdmin = 14,
-    //    OwnerUser = 15,
-    //}
-
-
-    /// <summary>
-    /// Blob Container Name
-    /// </summary>
-    //public enum BlobContainer
-    //{
-    //    /// <summary>
-    //    /// Container for Tag-Files
-    //    /// </summary>
-    //    cnttagfiles = 1,
-
-    //    /// <summary>
-    //    /// Container for Tag-Photos 
-    //    /// </summary>
-    //    cnttagphotos = 2,
-
-    //    /// <summary>
-    //    /// Container for Chat Photos
-    //    /// </summary>
-    //    cntchatphotos = 3,
-
-    //    /// <summary>
-    //    /// Container for PL Files
-    //    /// </summary>
-    //    cntplfiles = 4,
-
-    //    /// <summary>
-    //    /// Container for PL Final Files
-    //    /// </summary>
-    //    cntplfinal = 5,
-
-    //    /// <summary>
-    //    /// Container for Location Files
-    //    /// </summary>
-    //    cntlocationfiles = 6,
-
-    //    /// <summary>
-    //    /// Container for SP Mat Files
-    //    /// </summary>
-    //    cntspmatfiles = 7,
-
-    //    /// <summary>
-    //    /// Container for yShip Uploads
-    //    /// </summary>
-    //    cntyshipuploads = 8,
-    //    /// <summary>
-    //    /// Container for Mobile App Builds
-    //    /// </summary>
-    //    cntmobilebuilds = 9,
-    //    /// <summary>
-    //    /// Container for Chat Files
-    //    /// </summary>
-    //    cntchatfiles = 10
-    //}
-
     public enum BlobContainer
     {
         /// <summary>
-        /// Container for Tag-Files
+        /// Container for Tag-Files And Tag-Photos
         /// </summary>
         cnttagfiles = 1,
 
         /// <summary>
-        /// Container for Tag-Photos 
-        /// </summary>
-        cnttagphotos = 2,
-
-        /// <summary>
         /// Container for Chat Files and Photos
         /// </summary>
-        cntchatfiles = 3,
+        cntchatfiles = 2,
 
         /// <summary>
-        /// Container for PL Files
+        /// Container for PL Files And PL Final Files
         /// </summary>
-        cntplfiles = 4,
-
-        /// <summary>
-        /// Container for PL Final Files
-        /// </summary>
-        cntplfinal = 5,
+        cntplfiles = 3,
 
         /// <summary>
         /// Container for Location Files
         /// </summary>
-        cntlocationfiles = 6,
+        cntlocationfiles = 4,
 
         /// <summary>
         /// Container for SP Mat Files
         /// </summary>
-        cntspmatfiles = 7,
+        cntspmatfiles = 5,
 
         /// <summary>
         /// Container for yShip Uploads
         /// </summary>
-        cntyshipuploads = 8,
+        cntyshipuploads = 6,
 
         /// <summary>
         /// Container for Mobile App Builds
         /// </summary>
-        cntmobilebuilds = 9,
+        cntmobilebuilds = 7,
 
-        /// <summary>
-        /// Container for Task files
-        /// </summary>
-        cnttaskfiles = 10,
     }
+
 
     /// <summary>
     /// ChatType
