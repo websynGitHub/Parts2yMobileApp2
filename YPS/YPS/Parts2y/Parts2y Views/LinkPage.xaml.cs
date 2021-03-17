@@ -53,6 +53,31 @@ namespace YPS.Parts2y.Parts2y_Views
         }
 
         /// <summary>
+        /// Gets called when page is appearing.
+        /// </summary>
+        protected async override void OnAppearing()
+        {
+            YPSLogger.TrackEvent("LinkPage.xaml.cs", "OnAppearing method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+            try
+            {
+                base.OnAppearing();
+
+                if (Vm.updateList == true)
+                {
+                    await Vm.ShowContentsToLink();
+                    Vm.updateList = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnAppearing constructor -> in LinkPage.xaml.cs  " + Settings.userLoginID);
+                yPSService.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
         /// Gets called when clicked on the back button and redirect to previous page.
         /// </summary>
         /// <param name="sender"></param>

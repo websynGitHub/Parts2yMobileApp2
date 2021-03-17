@@ -465,16 +465,23 @@
                 </StackLayout>
             </ContentView>
 
-            <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="#C0808080" Padding="10" Margin="{OnPlatform iOS='0,7,0,0', Android='0'}"
+            <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="#C0808080" Padding="0" Margin="10,25,10,25"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Frame Padding="1">
-                    <StackLayout>
-                        <Image HorizontalOptions="End" Source="cross.png">
+                <Frame Padding="0" BorderColor="Transparent">
+                    <!--<StackLayout Spacing="0">-->
+                        <!--<Image HorizontalOptions="End" Source="cross.png">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="HideHistory"/>
                             </Image.GestureRecognizers>
-                        </Image>
-                        <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                        </Image>-->
+                       
+                        <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" BackgroundColor="White" Spacing="0">
+                            <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red"
+                                                           HorizontalOptions="EndAndExpand" VerticalOptions="End" Margin="0,15,10,0">
+                                <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HideHistory"/>
+                                </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            </LblIcons:FontAwesomeIconLabel>
                             <ScrollView VerticalOptions="FillAndExpand">
                                 <ListView ItemsSource="{Binding compareHistoryList}" HasUnevenRows="False" HeightRequest="200" 
                                           SeparatorVisibility="None">
@@ -482,22 +489,10 @@
                                         <DataTemplate>
                                             <ViewCell>
                                                 <ViewCell.View>
-                                                    <Frame Padding="15,12,15,1">
-                                                        <!--<Grid Margin="0" Padding="0" RowSpacing="0">
+                                                    <Frame Padding="0">
+                                                        <Grid Margin="6,0,6,0" Padding="0">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <Label Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}" />
-                                                            <Image Grid.Column="1" Margin="0" Source="{Binding IsMatchedImg}" HeightRequest="5"></Image>
-                                                            <Label Grid.Column="2" Margin="0" FontAttributes="Bold" Text="{Binding AValue}" />
-                                                            <Label Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" />
-                                                        </Grid>-->
-                                                        <Grid Margin="0" Padding="4">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="0.30*" />
+                                                                <ColumnDefinition Width="0.15*" />
                                                                 <ColumnDefinition Width="0.30*" />
                                                                 <ColumnDefinition Width="0.20*" />
                                                                 <ColumnDefinition Width="*" />
@@ -508,7 +503,7 @@
                                                             <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
                                                             <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding IsMatchedImg}"
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"></Image>
+                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand" HeightRequest="20"></Image>
                                                             <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
                                                             <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
@@ -523,7 +518,7 @@
                                 </ListView>
                             </ScrollView>
                         </StackLayout>
-                    </StackLayout>
+                    <!--</StackLayout>-->
                 </Frame>
             </ContentView>
         </AbsoluteLayout>

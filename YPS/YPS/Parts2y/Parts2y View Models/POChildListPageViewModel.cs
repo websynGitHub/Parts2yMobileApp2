@@ -132,7 +132,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else if (tabname == "job")
                 {
                     await Navigation.PopAsync();
-                    //await Navigation.PushAsync(new ParentListPage());
                 }
                 else if (tabname == "load")
                 {
@@ -1149,6 +1148,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             if (potag.cameImage == "Chatcamera.png")
                             {
+                                Settings.CanOpenScanner = false;
                                 Settings.currentPuId = potag.PUID;
                                 Settings.BphotoCount = potag.TagBPhotoCount;
                                 //await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, null, false, potag));
@@ -1205,6 +1205,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             if (allPo.cameImage == "Chatcamera.png")
                             {
+                                Settings.CanOpenScanner = false;
                                 Settings.AphotoCount = allPo.TagAPhotoCount;
                                 Settings.currentPuId = allPo.PUID;
                                 //await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_AP, null, false, allPo));

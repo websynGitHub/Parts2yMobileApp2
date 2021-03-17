@@ -126,11 +126,10 @@ namespace YPS.Views
             {
                 if (Settings.POID > 0)
                 {
-                    if (Navigation.NavigationStack.Count == 4)
-                    {
-                        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    }
-
+                    //if (Navigation.NavigationStack.Count == 4)
+                    //{
+                    //    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                    //}
                     Navigation.RemovePage(Navigation.NavigationStack[1]);
                     Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
                     Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);

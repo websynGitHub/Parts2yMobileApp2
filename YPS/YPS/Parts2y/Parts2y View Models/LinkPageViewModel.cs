@@ -22,6 +22,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         public INavigation Navigation { get; set; }
         public int taskID { get; set; }
+        public bool updateList { get; set; }
         public ICommand LinkBeforePackingPhotoCmd { set; get; }
         public ICommand LinkAfterPackingPhotoCmd { set; get; }
         public ICommand viewExistingBUPhotos { get; set; }
@@ -75,7 +76,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             //if (potag.BPhotoCount > 0)
                             //{
-                            Settings.CanOpenScanner = false;
+                            updateList = true;
+                            Settings.CanOpenScanner = true;
                             Settings.currentPuId = potag.PUID;
                             Settings.BphotoCount = potag.TagBPhotoCount;
                             await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
@@ -133,7 +135,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             //if (allPo.APhotoCount > 0)
                             //{
-                            Settings.CanOpenScanner = false;
+                            updateList = true;
+                            Settings.CanOpenScanner = true;
                             Settings.AphotoCount = allPo.TagAPhotoCount;
                             Settings.currentPuId = allPo.PUID;
                             await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
@@ -189,6 +192,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (move)
                     {
+                        updateList = true;
+
                         Settings.CanOpenScanner = true;
 
                         var firstphotovalue = RepoPhotosList.FirstOrDefault();
@@ -196,7 +201,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         PhotoUploadModel selectedTagsData = new PhotoUploadModel();
 
                         taskID = value.TaskID;
-                        Settings.POID = value.POID;
+                        //Settings.POID = value.POID;
                         selectedTagsData.POID = value.POID;
                         selectedTagsData.isCompleted = value.photoTickVisible;
 
@@ -320,7 +325,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             }
                                         }
 
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+                                         DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
 
                                     }
 
@@ -348,7 +353,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// Gets called when clicked on any, already uploaded image to view it
         /// </summary>
         /// <param name="obj"></param>
-        private async Task ShowContentsToLink()
+        public async Task ShowContentsToLink()
         {
             YPSLogger.TrackEvent("LinkPageViewModel.cs", "in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
