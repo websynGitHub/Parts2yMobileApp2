@@ -215,7 +215,7 @@ namespace YPS.Model
             }
         }
 
-        public static async Task<object> YPSInspectionFileUpload(string extension, Stream picStream, string fileName, int containertype, InspectionConfiguration inspectionConfiguration,int tagId,string description_txt = "")
+        public static async Task<object> YPSInspectionFileUpload(string extension, Stream picStream, string fileName, int containertype, InspectionConfiguration inspectionConfiguration, int tagId, string description_txt = "")
         {
             try
             {
@@ -228,14 +228,14 @@ namespace YPS.Model
                     BackRight = inspectionConfiguration.BackRight,
                     Direct = inspectionConfiguration.BackRight,
                     FileName = fileName,
-                    FilrURl=FullFilename,
+                    FileURL = FullFilename,
                     FrontLeft = inspectionConfiguration.FrontLeft,
                     FrontRight = inspectionConfiguration.FrontRight,
                     POTagID = tagId,
                     QID = inspectionConfiguration.MInspectionConfigID,
                     Remarks = description_txt,
                     UserID = Settings.userLoginID
-                };  
+                };
                 var data = await service.InsertInspectionPhotosService(updateInspectionRequest);
                 return data;
             }
