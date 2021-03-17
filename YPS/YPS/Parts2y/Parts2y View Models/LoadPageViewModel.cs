@@ -390,7 +390,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (selectedTagData != null && selectedTagData.POTagID != 0)
                             {
                                 /// Calling the blob API to upload photo. 
-                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, selectedTagData.TaskID, fileName, (int)UploadTypeEnums.TagLoadPhotos, (int)BlobContainer.cnttagphotos, null, null, DescriptionText);
+                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, selectedTagData.TaskID, fileName, (int)UploadTypeEnums.TagLoadPhotos, (int)BlobContainer.cnttagfiles, null, null, DescriptionText);
 
                                 var initialresult = initialdata as LoadPhotosUploadResponse;
                                 if (initialresult != null)
