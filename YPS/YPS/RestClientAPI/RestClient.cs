@@ -1379,6 +1379,25 @@ namespace YPS.RestClientAPI
         }
 
         /// <summary>
+        /// DeletInspection result
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<DeletePhotoResponce> DeleteInspectionPhoto(int QID)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<DeletePhotoResponce>(WebServiceUrl + "Inspection/DeleteInspectionPhoto?UserID=" + Settings.userLoginID + "&ID=" + Helperclass.Encrypt(Convert.ToString(QID)));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "InsertUpdateInspectionResult method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// GeInspectionResultsClient
         /// </summary>
         /// <param name="tagId"></param>
