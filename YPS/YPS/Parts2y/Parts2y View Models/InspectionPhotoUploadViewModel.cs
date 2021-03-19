@@ -34,6 +34,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public INavigation Navigation { get; set; }
 
         public ICommand tap_OnImge { set; get; }
+        public ICommand deleteImage { set; get; }
 
         YPSService trackService;
         InspectionPhotosPage pagename;
@@ -45,19 +46,62 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #endregion
 
-        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration)
+        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue)
         {
             Navigation = _Navigation;
             pagename = page;
             this.tagId = tagId;
-            Tagnumbers = inspectionConfiguration.MInspectionConfigID + " " + inspectionConfiguration.Question;
+            Tagnumbers = vinValue;
+            Question = inspectionConfiguration.MInspectionConfigID + " " + inspectionConfiguration.Question;
             this.inspectionConfiguration = inspectionConfiguration;
             trackService = new YPSService();
             ListOfImage = new ObservableCollection<GalleryImage>();
             Task.Run(() => GetInspectionPhotos()).Wait();
             select_pic = new Command(async () => await SelectPic());
             upload_pic = new Command(async () => await Photo_Upload());
+            deleteImage = new Command<InspectionPhotosResponseListData>(Delete_Photo);
             tap_OnImge = new Command<InspectionPhotosResponseListData>(image_tap);
+
+        }
+
+        private async void Delete_Photo(InspectionPhotosResponseListData inspectionPhotosResponseListData)
+        {
+            YPSLogger.TrackEvent("InspectionPhotoUploadPageViewModel", "in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            try
+            {
+                IndicatorVisibility = true;
+                bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+                if (conform)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        /// Verifying internet connection.
+                        var checkInternet = await App.CheckInterNetConnection();
+
+                        if (checkInternet)
+                        {
+                            var result = await trackService.DeleteInspectionPhoto(inspectionPhotosResponseListData.ID);
+                            if (result != null && result.status == 1)
+                            {
+                                finalPhotoListA.Remove(inspectionPhotosResponseListData);
+                            }
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Photo_Upload method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
+            }
         }
 
         /// <summary>
@@ -92,7 +136,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     //        items.ShowAndHideDescr = true;
                     //    }
                     //}
-                    await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers));
+                    await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers, Question));
                 }
             }
             catch (Exception ex)
@@ -343,8 +387,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     FrontLeft = inspectionConfiguration.FrontLeft,
                                     FrontRight = inspectionConfiguration.FrontRight,
                                     POTagID = tagId,
+                                    FileDescription = description_txt,
                                     QID = inspectionConfiguration.MInspectionConfigID,
-                                    Remarks = description_txt,
                                     UserID = Settings.userLoginID
                                 };
                                 listOfFiles.Add(updateInspectionRequest);
@@ -463,6 +507,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _Tagnumbers = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string _Question;
+        public string Question
+        {
+            get { return _Question; }
+            set
+            {
+                _Question = value;
                 NotifyPropertyChanged();
             }
         }
