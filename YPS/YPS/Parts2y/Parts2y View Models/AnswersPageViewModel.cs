@@ -80,7 +80,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var result = await trackService.GeInspectionPhotosService(tagId, InspectionConfiguration?.MInspectionConfigID);
                 if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
                 {
-                   ImagesCount= result.data.listData.Count;
+                    ImagesCount = result.data.listData.Count;
                 }
                 else
                 {
@@ -136,7 +136,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public async Task SelectPic()
         {
             loadindicator = true;
-            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration));
+            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, QuestiionsPageHeaderData.VINLabelValue));
             loadindicator = false;
         }
 
