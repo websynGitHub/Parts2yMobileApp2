@@ -882,10 +882,26 @@ namespace YPS.Service
             return await restClient.InsertInspectionPhotosClient(updateInspectionRequest);
         }
 
+        /// <summary>
+        /// Insert or Update Inspection Result
+        /// </summary>
+        /// <param name="updateInspectionRequest"></param>
+        /// <returns></returns>
         public async Task<UpdateInspectionResponse> InsertUpdateInspectionResult(UpdateInspectionRequest updateInspectionRequest)
         {
             RestClient restClient = new RestClient();
             return await restClient.InsertUpdateInspectionResult(updateInspectionRequest);
+        }
+
+        /// <summary>
+        /// Delete inspection Photos
+        /// </summary>
+        /// <param name="updateInspectionRequest"></param>
+        /// <returns></returns>
+        public async Task<DeletePhotoResponce> DeleteInspectionPhoto(int QID)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.DeleteInspectionPhoto(QID);
         }
 
         /// <summary>
