@@ -42,6 +42,7 @@ namespace YPS.Views
                 synfRepoImageViewList.HeightRequest = App.ScreenHeight;
                 YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
+                QuestionName.IsVisible = false;
             }
             catch (Exception ex)
             {
@@ -70,6 +71,7 @@ namespace YPS.Views
                 YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
+                QuestionName.IsVisible = false;
             }
             catch (Exception ex)
             {
@@ -97,6 +99,7 @@ namespace YPS.Views
                 YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
+                QuestionName.IsVisible = false;
             }
             catch (Exception ex)
             {
@@ -112,7 +115,7 @@ namespace YPS.Views
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
         /// <param name="Tags"></param>
-        public ImageView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId, string Tags)
+        public ImageView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId, string Tags,string questionNumber)
         {
             try
             {
@@ -125,6 +128,8 @@ namespace YPS.Views
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
                 Groupname.Text = "Inspection Photos";
+                QuestionName.Text = questionNumber;
+                QuestionName.IsVisible = true;
             }
             catch (Exception ex)
             {

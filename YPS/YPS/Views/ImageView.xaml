@@ -37,6 +37,8 @@
                    TextColor="White" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
                         <Label x:Name="Usernames" Grid.Row="1" LineBreakMode="TailTruncation" TextColor="White" 
                    VerticalTextAlignment="Start" Style="{StaticResource LblSubTitle}"/>
+                        <Label x:Name="QuestionName" Grid.Row="2" LineBreakMode="TailTruncation" TextColor="White" 
+                   VerticalTextAlignment="Start" Style="{StaticResource LblSubTitle}"/>
                     </Grid>
                     <local:FontAwesomeIconLabel Grid.Column="2" Text="{x:Static StaticIcons:Icons.HomeIc}"
                                                        Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
@@ -187,12 +189,12 @@
                                             </StackLayout>
                                             <Label Text="{Binding CreatedDate}" TextColor="Black"
                                        Style="{StaticResource LblSubTitle}"/>
-                                            <!--<Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
+                                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
                                                 <Label Text="{Binding BindingContext.DescriptionLabel, Source={x:Reference Name=ImgView}}"
                                                       Style="{StaticResource LblSubTitle}" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
-                                                <Label Text="{Binding PhotoDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
+                                                <Label Text="{Binding FileDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
                                                         Grid.Row="0" Grid.Column="1"/>
-                                            </Grid>-->
+                                            </Grid>
                                         </StackLayout>
                                     </ScrollView>
                                 </Grid>
