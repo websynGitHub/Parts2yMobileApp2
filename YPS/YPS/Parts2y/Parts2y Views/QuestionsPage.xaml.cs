@@ -16,6 +16,7 @@ namespace YPS.Parts2y.Parts2y_Views
     public partial class QuestionsPage : ContentPage
     {
         QuestionsViewModel Vm;
+
         public QuestionsPage(int tagId, string tagNumber, string indentCode, string bagNumber, QuestiionsPageHeaderData questiionsPageHeaderData)
         {
             try

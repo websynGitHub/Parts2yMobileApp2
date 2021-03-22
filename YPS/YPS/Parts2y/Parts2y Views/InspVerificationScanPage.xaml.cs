@@ -24,7 +24,7 @@ namespace YPS.Parts2y.Parts2y_Views
         bool checkInternet;
         #endregion
 
-        public InspVerificationScanPage(AllPoData selectedtagdata,QuestiionsPageHeaderData questiionsPageHeaderData)
+        public InspVerificationScanPage(AllPoData selectedtagdata,bool isalldone)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
 
                 yPSService = new YPSService();
-                BindingContext = Vm = new InspVerificationScanViewModel(Navigation, selectedtagdata, this, questiionsPageHeaderData);
+                BindingContext = Vm = new InspVerificationScanViewModel(Navigation, selectedtagdata, isalldone, this);
             }
             catch (Exception ex)
             {
@@ -55,20 +55,20 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnAppearing();
 
-                if (Vm.CanOpenScan == true)
-                {
-                    Vm.CanOpenScan = false;
-                    Vm.IsScanPage = true;
-                    await Vm.OpenScanner();
-                    Vm.IsScanPage = false;
-                }
-                else
-                {
-                    if (Vm.IsScanPage == true)
-                    {
-                        await Navigation.PopAsync();
-                    }
-                }
+                //if (Vm.CanOpenScan == true)
+                //{
+                //    Vm.CanOpenScan = false;
+                //    Vm.IsScanPage = true;
+                //    await Vm.OpenScanner();
+                //    Vm.IsScanPage = false;
+                //}
+                //else
+                //{
+                //    if (Vm.IsScanPage == true)
+                //    {
+                //        await Navigation.PopAsync();
+                //    }
+                //}
             }
             catch (Exception ex)
             {

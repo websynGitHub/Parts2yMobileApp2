@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace YPS.Model
 {
@@ -30,6 +31,7 @@ namespace YPS.Model
         public bool HideDeleteIc { get; set; }
         public string ImageURL { get; set; }
         public int UploadType { get; set; }
+        public Stream PicStream { get; set; }
     }
     public class MyData
     {
@@ -56,10 +58,18 @@ namespace YPS.Model
         public int FUID { get; set; }
         public int POID { get; set; }
         public List<FileTag> FileTags { get; set; }
+        public List<MyFile> files { get; set; }
         public MyFile file { get; set; }
         public int CreatedBy { get; set; }
         public string CheckFileUploadType { get; set; }
         public string alreadyExit { get; set; } = "";
+
+        public StartUploadFileModel()
+        {
+            FileTags = new List<FileTag>();
+            files = new List<MyFile>();
+            file = new MyFile();
+        }
     }
     public class DeleteFile
     {
@@ -86,7 +96,8 @@ namespace YPS.Model
     {
         public string message { get; set; }
         public int status { get; set; }
-        public MyFile data { get; set; }
+        //public MyFile data { get; set; }
+        public List<MyFile> data { get; set; }
     }
 
     #region PL Upload , Get PL Files and Delete PL File
@@ -106,6 +117,7 @@ namespace YPS.Model
         public string RoleName { get; set; }
         public string ImageURL { get; set; }
         public bool HideDeleteIc { get; set; } = false;
+        public Stream PicStream { get; set; }
     }
 
     public class PLFileUploadResult

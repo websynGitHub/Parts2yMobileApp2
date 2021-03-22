@@ -30,6 +30,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         ScanPage pagename;
         public ICommand reScanCmd { set; get; }
         public ICommand MoveNextCmd { set; get; }
+        public ICommand ScanResultCommand { set; get; }
+        public ICommand FlashCommand { set; get; }
         public PhotoUploadModel selectedTagData { get; set; }
         public AllPoData selectedPOTagData { get; set; }
         public static int uploadType;
@@ -49,6 +51,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
                 MoveNextCmd = new Command(async () => await MoveNext(ScannedAllPOData));
+                ScanResultCommand = new Command<ZXing.Result>(async (result) => await Scan_Result(result));
+                FlashCommand = new Command(Flash_Touch);
                 #endregion
 
                 if (Settings.VersionID == 2 && uploadtype == 0)
@@ -86,6 +90,51 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private async Task Scan_Result(ZXing.Result result)
+        {
+            try
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    IsScannerPage = false;
+                    ScannedResult = result.Text;
+
+                    if (!string.IsNullOrEmpty(ScannedResult))
+                    {
+                        IsPageVisible = true;
+
+                        if (uploadType == 0 && selectedTagData == null)
+                        {
+                            await GetDataAndVerify();
+                        }
+                        else
+                        {
+                            await SingleTagDataVerification();
+                        }
+                    }
+                });
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void Flash_Touch()
+        {
+            if (TorchOn)
+            {
+                TorchOn = false;
+                FlashIcon = Icons.flashOffIC;
+            }
+            else
+            {
+                TorchOn = true;
+                FlashIcon = Icons.flashOnIC;
+            }
+        }
+
         public async Task OpenScanner()
         {
             try
@@ -108,41 +157,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (pass1 == PermissionStatus.Granted)
                 {
-                    var ScannerPage = new ZXingScannerPage();
-
-                    ScannerPage.OnScanResult += (scanresult) =>
-                    {
-                        ScannerPage.IsScanning = false;
-                        //CanOpenScan = false;
-
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await Navigation.PopAsync();
-
-                            ScannedResult = scanresult.Text;
-
-                            if (!string.IsNullOrEmpty(ScannedResult))
-                            {
-                                IsPageVisible = true;
-
-                                if (uploadType == 0 && selectedTagData == null)
-                                {
-                                    await GetDataAndVerify();
-                                }
-                                else
-                                {
-                                    await SingleTagDataVerification();
-                                }
-                            }
-                        });
-                    };
-
-                    if (Navigation.ModalStack.Count == 0 ||
-                                        Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
-                    {
-                        await Navigation.PushAsync(ScannerPage);
-                    }
-
+                    IsScannerPage = true;
                 }
                 else
                 {
@@ -154,7 +169,77 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
 
             }
+
         }
+        //public async Task OpenScanner()
+        //{
+        //    try
+        //    {
+        //        var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+        //        var requestedPermissionStatus = requestedPermissions[Permission.Camera];
+        //        var pass1 = requestedPermissions[Permission.Camera];
+
+        //        if (pass1 == PermissionStatus.Denied)
+        //        {
+        //            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
+        //            switch (checkSelect)
+        //            {
+        //                case "Maybe Later":
+        //                    break;
+        //                case "Settings":
+        //                    CrossPermissions.Current.OpenAppSettings();
+        //                    break;
+        //            }
+        //        }
+        //        else if (pass1 == PermissionStatus.Granted)
+        //        {
+        //            var ScannerPage = new ZXingScannerPage();
+
+        //            ScannerPage.OnScanResult += (scanresult) =>
+        //            {
+        //                ScannerPage.IsScanning = false;
+        //                //CanOpenScan = false;
+
+        //                Device.BeginInvokeOnMainThread(async () =>
+        //                {
+        //                    await Navigation.PopAsync();
+
+        //                    ScannedResult = scanresult.Text;
+
+        //                    if (!string.IsNullOrEmpty(ScannedResult))
+        //                    {
+        //                        IsPageVisible = true;
+
+        //                        if (uploadType == 0 && selectedTagData == null)
+        //                        {
+        //                            await GetDataAndVerify();
+        //                        }
+        //                        else
+        //                        {
+        //                            await SingleTagDataVerification();
+        //                        }
+        //                    }
+        //                });
+        //            };
+
+        //            if (Navigation.ModalStack.Count == 0 ||
+        //                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+        //            {
+        //                await Navigation.PushAsync(ScannerPage);
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+        //        }
+        //        //CanOpenScan = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
 
         public async Task SingleTagDataVerification()
         {
@@ -443,7 +528,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                             //{
                             Settings.POID = podata.POID;
-                            await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber, null));
+                            //await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber, null));
+                            await Navigation.PushAsync(new VinInspectQuestionsPage(podata, false));
                             //}
                         }
                         else if (uploadType != 0)
@@ -455,7 +541,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     Settings.POID = selectedTagData.POID;
                                     podata = new AllPoData();
                                     podata.TagNumber = selectedTagData.photoTags[0].TagNumber;
-                                    await Navigation.PushAsync(new PhotoUpload(selectedTagData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+
+                                    Settings.CanUploadPhotos = true;
+                                    await Navigation.PopAsync();
+                                    //await Navigation.PushAsync(new PhotoUpload(selectedTagData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
                                 }
                                 else
                                 {
@@ -571,6 +660,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        public bool _IsScannerPage;
+        public bool IsScannerPage
+        {
+            get { return _IsScannerPage; }
+            set
+            {
+                _IsScannerPage = value;
+                RaisePropertyChanged("IsScannerPage");
+            }
+        }
+
+        public string _FlashIcon = Icons.flashOffIC;
+        public string FlashIcon
+        {
+            get { return _FlashIcon; }
+            set
+            {
+                _FlashIcon = value;
+                RaisePropertyChanged("FlashIcon");
+            }
+        }
+
+
+        public bool _TorchOn = false;
+        public bool TorchOn
+        {
+            get { return _TorchOn; }
+            set
+            {
+                _TorchOn = value;
+                RaisePropertyChanged("TorchOn");
+            }
+        }
 
         public string _ScannedCompareData;
         public string ScannedCompareData

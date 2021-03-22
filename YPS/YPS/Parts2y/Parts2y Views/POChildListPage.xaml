@@ -101,6 +101,7 @@
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
+                                
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding IsResourcecVisible}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Resource.Name}" TextColor="#FFFFFF" 
@@ -123,22 +124,10 @@
                                       HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Orientation="Horizontal">
-                                <!--<Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>-->
                                 <StackLayout BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                        <!--<Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding HomeCmd}"/>
-                                        </Label.GestureRecognizers>-->
                                     </Label>
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding HomeCmd}"/>
@@ -149,9 +138,6 @@
                                     <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
-                                        <!--<Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding JobCmd}"/>
-                                        </Label.GestureRecognizers>-->
                                     </Label>
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding JobCmd}"/>
@@ -162,9 +148,6 @@
                                     <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                        <!--<Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding PartsCmd}"/>
-                                        </Label.GestureRecognizers>-->
                                     </Label>
                                     <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
                                 </StackLayout>
@@ -173,13 +156,7 @@
                                     <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding LoadTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                        <!--<Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                        </Label.GestureRecognizers>-->
                                     </Label>
-                                    <!--<StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                    </StackLayout.GestureRecognizers>-->
                                 </StackLayout>
                             </StackLayout>
                         </StackLayout>

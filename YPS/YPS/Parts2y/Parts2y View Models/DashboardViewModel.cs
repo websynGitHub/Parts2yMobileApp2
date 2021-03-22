@@ -374,8 +374,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
                         //labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
                         //labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
-                        labelobj.Load.Name = Settings.VersionID == 2 ? "Insp" : "Load";
+                        labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+
+                        if (Settings.VersionID == 2)
+                        {
+                            IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                        }
                     }
                 }
             }
@@ -454,6 +459,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private bool _IsLoadTabVisible { set; get; } = true;
+        public bool IsLoadTabVisible
+        {
+            get
+            {
+                return _IsLoadTabVisible;
+            }
+            set
+            {
+                this._IsLoadTabVisible = value;
+                OnPropertyChanged("IsLoadTabVisible");
+            }
+        }
 
         private bool _IsPNenable = false;
         public bool IsPNenable

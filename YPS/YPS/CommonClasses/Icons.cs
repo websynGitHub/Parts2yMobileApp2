@@ -87,5 +87,8 @@
         public static readonly string reset = "\uf0e2";
         public static readonly string view = "\uf06e";
         public static readonly string back = "\uf060";
+
+        public static readonly string flashOffIC = "\uf185";
+        public static readonly string flashOnIC = "\uf0e7";
     }
 }

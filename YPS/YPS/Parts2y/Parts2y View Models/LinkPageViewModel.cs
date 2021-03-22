@@ -80,7 +80,48 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Settings.CanOpenScanner = true;
                             Settings.currentPuId = potag.PUID;
                             Settings.BphotoCount = potag.TagBPhotoCount;
-                            await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
+                            if (potag.PUID == 0)
+                            {
+                                PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+
+
+                                //var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                selectedTagsData.POID = potag.POID;
+                                selectedTagsData.isCompleted = potag.photoTickVisible;
+
+                                List<PhotoTag> lstdat = new List<PhotoTag>();
+
+                                if (potag.TagAPhotoCount == 0 && potag.TagBPhotoCount == 0 && potag.PUID == 0)
+                                {
+                                    PhotoTag tg = new PhotoTag();
+
+                                    if (potag.POTagID != 0)
+                                    {
+                                        tg.POTagID = potag.POTagID;
+                                        tg.TaskID = potag.TaskID;
+                                        tg.TaskStatus = potag.TaskStatus;
+                                        tg.TagTaskStatus = potag.TagTaskStatus;
+                                        tg.TagNumber = potag.TagNumber;
+                                        tg.IdentCode = potag.IdentCode;
+                                        Settings.Tagnumbers = potag.TagNumber;
+                                        lstdat.Add(tg);
+                                    }
+                                }
+                                else
+                                {
+                                    selectedTagsData.alreadyExit = "alreadyExit";
+                                }
+
+                                selectedTagsData.photoTags = lstdat;
+                                Settings.currentPoTagId_Inti = lstdat;
+
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                            }
+                            else
+                            {
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
+                            }
+
                             //}
                             //else
                             //{
@@ -120,9 +161,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 YPSLogger.TrackEvent("LinkPageViewModel.cs", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                var allPo = obj as AllPoData;
+                var potag = obj as AllPoData;
 
-                if (allPo.imgCamOpacityA != 0.5)
+                if (potag.imgCamOpacityA != 0.5)
                 {
                     IndicatorVisibility = true;
 
@@ -137,9 +178,51 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             //{
                             updateList = true;
                             Settings.CanOpenScanner = true;
-                            Settings.AphotoCount = allPo.TagAPhotoCount;
-                            Settings.currentPuId = allPo.PUID;
-                            await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
+                            Settings.AphotoCount = potag.TagAPhotoCount;
+                            Settings.currentPuId = potag.PUID;
+
+                            if (potag.PUID == 0)
+                            {
+                                PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+
+
+                                //var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                selectedTagsData.POID = potag.POID;
+                                selectedTagsData.isCompleted = potag.photoTickVisible;
+
+                                List<PhotoTag> lstdat = new List<PhotoTag>();
+
+                                if (potag.TagAPhotoCount == 0 && potag.TagBPhotoCount == 0 && potag.PUID == 0)
+                                {
+                                    PhotoTag tg = new PhotoTag();
+
+                                    if (potag.POTagID != 0)
+                                    {
+                                        tg.POTagID = potag.POTagID;
+                                        tg.TaskID = potag.TaskID;
+                                        tg.TaskStatus = potag.TaskStatus;
+                                        tg.TagTaskStatus = potag.TagTaskStatus;
+                                        tg.TagNumber = potag.TagNumber;
+                                        tg.IdentCode = potag.IdentCode;
+                                        Settings.Tagnumbers = potag.TagNumber;
+                                        lstdat.Add(tg);
+                                    }
+                                }
+                                else
+                                {
+                                    selectedTagsData.alreadyExit = "alreadyExit";
+                                }
+
+                                selectedTagsData.photoTags = lstdat;
+                                Settings.currentPoTagId_Inti = lstdat;
+
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, false));
+
+                            }
+                            else
+                            {
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, potag.photoTickVisible));
+                            }
                             //}
                             //else
                             //{
@@ -196,7 +279,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         Settings.CanOpenScanner = true;
 
-                        var firstphotovalue = RepoPhotosList.FirstOrDefault();
+                        //var firstphotovalue = RepoPhotosList.FirstOrDefault();
+                        var firstphotovalue = RepoPhotosList;
+
 
                         PhotoUploadModel selectedTagsData = new PhotoUploadModel();
 
@@ -223,20 +308,34 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 if (selectedTagsData.photoTags.Count != 0 && value.IsPhotoRequired != 0)
                                 {
+                                    //List<PhotoUploadModel> DataForFileUploadList = new List<PhotoUploadModel>();
+
+
                                     PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
                                     DataForFileUpload = selectedTagsData;
                                     DataForFileUpload.CreatedBy = Settings.userLoginID;
-                                    Photo phUpload = new Photo();
-                                    phUpload.PUID = value.PUID;
-                                    phUpload.PhotoID = 0;
-                                    phUpload.PhotoURL = firstphotovalue.FullFileName;
-                                    phUpload.PhotoDescription = firstphotovalue.Description;
-                                    phUpload.FileName = firstphotovalue.FileName;
-                                    phUpload.CreatedBy = Settings.userLoginID;
-                                    phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                    phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                    phUpload.GivenName = Settings.Username;
-                                    DataForFileUpload.photo = phUpload;
+                                    //DataForFileUpload.photo.FileName = firstphotovalue[0].FileName;
+                                    DataForFileUpload.photos = new List<Photo>();
+
+                                    foreach (var iniphoto in firstphotovalue)
+                                    {
+                                        Photo phUpload = new Photo();
+                                        phUpload.PUID = value.PUID;
+                                        phUpload.PhotoID = 0;
+                                        phUpload.PhotoURL = iniphoto.FullFileName;
+                                        phUpload.PhotoDescription = iniphoto.Description;
+                                        phUpload.FileName = iniphoto.FileName;
+                                        phUpload.CreatedBy = Settings.userLoginID;
+                                        phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
+                                        phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                        phUpload.GivenName = Settings.Username;
+
+                                        DataForFileUpload.photos.Add(phUpload);
+                                    }
+
+
+                                    //DataForFileUploadList.Add(DataForFileUpload);
+
                                     var data = await service.InitialUpload(DataForFileUpload);
 
                                     var result = data as InitialResponse;
@@ -295,17 +394,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 if (value.PUID != 0)
                                 {
-                                    CustomPhotoModel phUpload = new CustomPhotoModel();
-                                    phUpload.PUID = value.PUID;
-                                    phUpload.PhotoID = 0;
-                                    phUpload.PhotoURL = firstphotovalue.FullFileName;
-                                    phUpload.PhotoDescription = firstphotovalue.Description;
-                                    phUpload.FileName = firstphotovalue.FileName;
-                                    phUpload.CreatedBy = Settings.userLoginID;
-                                    phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                    phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                    phUpload.FullName = Settings.Username;
-                                    var data = await service.PhotosUpload(phUpload);
+                                    List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
+
+                                    foreach (var photo in firstphotovalue)
+                                    {
+                                        CustomPhotoModel phUpload = new CustomPhotoModel();
+                                        phUpload.PUID = value.PUID;
+                                        phUpload.PhotoID = 0;
+                                        phUpload.PhotoURL = photo.FullFileName;
+                                        phUpload.PhotoDescription = photo.Description;
+                                        phUpload.FileName = photo.FileName;
+                                        phUpload.CreatedBy = Settings.userLoginID;
+                                        phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
+                                        phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                        phUpload.FullName = Settings.Username;
+                                        phUploadList.Add(phUpload);
+
+                                    }
+
+
+                                    var data = await service.PhotosUpload(phUploadList);
 
                                     var initialresult = data as SecondTimeResponse;
 
@@ -314,7 +422,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                         if (styleid != null)
                                         {
-                                            value.PUID = initialresult.data.PUID;
+                                            foreach (var val in initialresult.data)
+                                            {
+                                                value.PUID = val.PUID;
+                                            }
+
                                             if (styleid.Trim() == "a".Trim())
                                             {
                                                 await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, value, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, value.photoTickVisible));
@@ -325,7 +437,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             }
                                         }
 
-                                         DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
 
                                     }
 
@@ -369,7 +481,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     UploadViewContentVisible = false;
                     IsPhotoUploadIconVisible = false;
                     POTagLinkContentVisible = true;
-                    var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0).OrderBy(o => o.TagTaskStatus).ThenBy(tob => tob.POTagID).ToList();
+                    var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0).OrderBy(o => o.TagTaskStatus).ThenBy(tob => tob.TagNumber).ThenBy(tob => tob.IdentCode).ToList();
 
                     foreach (var values in potagcolections)
                     {

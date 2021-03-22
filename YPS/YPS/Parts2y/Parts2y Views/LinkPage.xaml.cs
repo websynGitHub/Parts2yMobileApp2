@@ -65,6 +65,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Vm.updateList == true)
                 {
+                    Settings.CanOpenScanner = false;
                     await Vm.ShowContentsToLink();
                     Vm.updateList = false;
                 }

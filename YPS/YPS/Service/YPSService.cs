@@ -1,15 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
-using YPS.Model.Yship;
+//using YPS.Model.Yship;
 using YPS.RestClientAPI;
 using YPS.ViewModel;
-using YPS.YShip.YshipModel;
+//using YPS.YShip.YshipModel;
 using static YPS.Model.SearchModel;
 using static YPS.Models.ChatMessage;
 using System.Collections.Generic;
@@ -220,7 +221,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public async Task<object> SecondTimeFiles(MyFile obj)
+        public async Task<object> SecondTimeFiles(List<MyFile> obj)
         {
             RestClient restClient = new RestClient();
             return await restClient.UploadSecondTimeFiles(obj);
@@ -231,7 +232,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public async Task<object> PLUploadFile(PLFileUpload obj)
+        public async Task<object> PLUploadFile(List<PLFileUpload> obj)
         {
             RestClient restClient = new RestClient();
             return await restClient.PLUploadFilesRClient(obj);
@@ -286,7 +287,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public async Task<object> PhotosUpload(CustomPhotoModel obj)
+        public async Task<object> PhotosUpload(List<CustomPhotoModel> obj)
         {
             RestClient restClient = new RestClient();
             return await restClient.UploadPhotos(obj);
@@ -689,15 +690,15 @@ namespace YPS.Service
             return await restClient.GetMobileBuildsRClinet(mobileBModel);
         }
 
-        /// <summary>
-        /// GetYshipData
-        /// </summary>
-        /// <returns></returns>
-        public async Task<GetYshipData> LoadYshipData(yShipSearch yshipdata)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.LoadYshipData(yshipdata);
-        }
+        ///// <summary>
+        ///// GetYshipData
+        ///// </summary>
+        ///// <returns></returns>
+        //public async Task<GetYshipData> LoadYshipData(yShipSearch yshipdata)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.LoadYshipData(yshipdata);
+        //}
 
         /// <summary>
         /// Get YShip Filter Data
@@ -709,86 +710,86 @@ namespace YPS.Service
             return await restClient.FilterYshipDataRClient();
         }
 
-        /// <summary>
-        /// GetAllYShipPickerData
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<YShipPickerDataModel> GetAllYShipPickerData(int userId)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.GetAllYShipPickerDataRC(userId); ;
-        }
+        ///// <summary>
+        ///// GetAllYShipPickerData
+        ///// </summary>
+        ///// <param name="userId"></param>
+        ///// <returns></returns>
+        //public async Task<YShipPickerDataModel> GetAllYShipPickerData(int userId)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.GetAllYShipPickerDataRC(userId); ;
+        //}
 
-        /// <summary>
-        /// Update yShip Details
-        /// </summary>
-        /// <returns></returns>
-        public async Task<ResponseUpdateyShipDetails> UpdateyShipDetailsService(UpdateyShipDetails obj)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.UpdateyShipDetailsRClient(obj); ;
-        }
+        ///// <summary>
+        ///// Update yShip Details
+        ///// </summary>
+        ///// <returns></returns>
+        //public async Task<ResponseUpdateyShipDetails> UpdateyShipDetailsService(UpdateyShipDetails obj)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.UpdateyShipDetailsRClient(obj); ;
+        //}
 
-        /// <summary>
-        /// Uploadfiles
-        /// </summary>
-        /// <param name="UploadFiles obj"></param>
-        /// <returns></returns>
-        public async Task<object> UploadFiles(UploadFiles obj)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.Uploadfiles(obj);
-        }
+        ///// <summary>
+        ///// Uploadfiles
+        ///// </summary>
+        ///// <param name="UploadFiles obj"></param>
+        ///// <returns></returns>
+        //public async Task<object> UploadFiles(UploadFiles obj)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.Uploadfiles(obj);
+        //}
 
-        /// <summary>
-        /// GetYshipfiles
-        /// </summary>
-        /// <param name="UploadFiles obj"></param>
-        /// <returns></returns>
-        public async Task<GetYshipFiles> GetYshipfiles(int yshipid, string type)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.GetYshiFiles(yshipid, type); ;
-        }
+        ///// <summary>
+        ///// GetYshipfiles
+        ///// </summary>
+        ///// <param name="UploadFiles obj"></param>
+        ///// <returns></returns>
+        //public async Task<GetYshipFiles> GetYshipfiles(int yshipid, string type)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.GetYshiFiles(yshipid, type); ;
+        //}
 
-        /// <summary>
-        /// yShipDeleteFile
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="yShipId"></param>
-        /// <param name="UploadType"></param>
-        /// <returns></returns>
-        public async Task<InVoiceDeleteFile> yShipDeleteFile(int ID, int yShipId, int UploadType)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.RCyShipDeleteFile(ID, yShipId, UploadType); ;
-        }
+        ///// <summary>
+        ///// yShipDeleteFile
+        ///// </summary>
+        ///// <param name="ID"></param>
+        ///// <param name="yShipId"></param>
+        ///// <param name="UploadType"></param>
+        ///// <returns></returns>
+        //public async Task<InVoiceDeleteFile> yShipDeleteFile(int ID, int yShipId, int UploadType)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.RCyShipDeleteFile(ID, yShipId, UploadType); ;
+        //}
 
-        /// <summary>
-        /// GetyShipDetailService
-        /// </summary>
-        /// <param name="yShipId"></param>
-        /// <param name="yBkgNo"></param>
-        /// <returns></returns>
-        public async Task<GetyShipDetailsResponse> GetyShipDetailService(int yShipId)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.RCGetyShipDetails(yShipId); ;
-        }
+        ///// <summary>
+        ///// GetyShipDetailService
+        ///// </summary>
+        ///// <param name="yShipId"></param>
+        ///// <param name="yBkgNo"></param>
+        ///// <returns></returns>
+        //public async Task<GetyShipDetailsResponse> GetyShipDetailService(int yShipId)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.RCGetyShipDetails(yShipId); ;
+        //}
 
-        /// <summary>
-        /// CloseYShipSevice
-        /// </summary>
-        /// <param name="yShipId"></param>
-        /// <param name="complete"></param>
-        /// <param name="cancel"></param>
-        /// <returns></returns>
-        public async Task<YShipClose> CloseYShipSevice(int yShipId, int complete, int cancel)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.RCCloseYShip(yShipId, complete, cancel); ;
-        }
+        ///// <summary>
+        ///// CloseYShipSevice
+        ///// </summary>
+        ///// <param name="yShipId"></param>
+        ///// <param name="complete"></param>
+        ///// <param name="cancel"></param>
+        ///// <returns></returns>
+        //public async Task<YShipClose> CloseYShipSevice(int yShipId, int complete, int cancel)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.RCCloseYShip(yShipId, complete, cancel); ;
+        //}
 
         /// <summary>
         /// LogoutService
@@ -832,7 +833,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="UploadFiles obj"></param>
         /// <returns></returns>
-        public async Task<object> LoadPhotoUpload(LoadPhotoModel loadphotodata)
+        public async Task<object> LoadPhotoUpload(List<LoadPhotoModel> loadphotodata)
         {
             RestClient restClient = new RestClient();
             return await restClient.LoadPhotoUpload(loadphotodata);

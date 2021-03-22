@@ -545,7 +545,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsScanContentVisible = ScanTabVisibility = true;
                     IsConfigContentVisible = ConfigTabVisibility = false;
-                    ScanTabTextColor = Settings.Bar_Background;
+                    ScanTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
                     CompareTabTextColor = Color.Black;
 
                     showLatestViewFrame = latestCompareHistoryList != null && latestCompareHistoryList.Count > 0 ? true : false;
@@ -555,7 +555,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     showLatestViewFrame = IsScanContentVisible = ScanTabVisibility = false;
                     IsConfigContentVisible = ConfigTabVisibility = true;
                     ScanTabTextColor = Color.Black;
-                    CompareTabTextColor = Settings.Bar_Background;
+                    CompareTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
                 }
             }
             catch (Exception ex)
@@ -582,7 +582,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsConfigContentVisible = ConfigTabVisibility = false;
                     ScanOpacity = 1;
                     IsTotalValidMsg = false;
-                    ScanTabTextColor = Settings.Bar_Background;
+                    ScanTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
                     CompareTabTextColor = Color.Black;
                 }
                 else
@@ -609,7 +609,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private Color _CompareTabTextColor = Settings.Bar_Background;
+        private Color _CompareTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color CompareTabTextColor
         {
             get => _CompareTabTextColor;

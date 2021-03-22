@@ -208,9 +208,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             LoadPhotosList = new ObservableCollection<LoadPhotoModel>(result.data);
                         }
-                        else
-                        {
-                        }
                     }
                     else
                     {
@@ -382,6 +379,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         IsUploadStackVisible = IsImageViewForUploadVisible = false;
                         IsTabsVisible = true;
                         IsPhotosListStackVisible = true;
+                        IsNoPhotoTxt = false;
 
                         if (extension.Trim().ToLower() == ".png" || extension.Trim().ToLower() == ".jpg" || extension.Trim().ToLower() == ".jpeg" || extension.Trim().ToLower() == ".gif" || extension.Trim().ToLower() == ".bmp")
                         {
@@ -389,8 +387,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (selectedTagData != null && selectedTagData.POTagID != 0)
                             {
+                                List<LoadPhotoModel> loadPhotosList = new List<LoadPhotoModel>();
+
+                                LoadPhotoModel loadphoto = new LoadPhotoModel();
+                                loadphoto.TaskID = selectedTagData.TaskID;
+                                loadphoto.UploadType = (int)UploadTypeEnums.TagLoadPhotos;
+                                loadphoto.PhotoURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                                loadphoto.FileName = fileName;
+                                loadphoto.PhotoDescription = DescriptionText;
+                                loadphoto.CreatedBy = Settings.userLoginID;
+                                loadphoto.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                loadphoto.FullName = Settings.Username;
+                                loadphoto.PicStream = picStream;
+
+                                loadPhotosList.Add(loadphoto);
                                 /// Calling the blob API to upload photo. 
-                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, selectedTagData.TaskID, fileName, (int)UploadTypeEnums.TagLoadPhotos, (int)BlobContainer.cnttagfiles, null, null, DescriptionText);
+                                var initialdata = await BlobUpload.YPSFileUpload((int)UploadTypeEnums.TagLoadPhotos, (int)BlobContainer.cnttagfiles, null, null, null,
+                                    null, null, loadPhotosList);
 
                                 var initialresult = initialdata as LoadPhotosUploadResponse;
                                 if (initialresult != null)
@@ -577,6 +590,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsPhotoUploadIconVisible = false;
                                 IsPhotosListVisible = false;
                                 IsPhotosListStackVisible = false;
+                                IsNoPhotoTxt = false;
+                                IsImageViewForUploadVisible = true;
                                 RowHeightOpenCam = 100;
                             }
                         }
@@ -635,6 +650,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 RowHeightOpenCam = 100;
                                 IsPhotosListVisible = false;
                                 IsPhotosListStackVisible = false;
+                                IsNoPhotoTxt = false;
+                                IsImageViewForUploadVisible = true;
                                 extension = Path.GetExtension(fileOS.Path);
                                 picStream = fileOS.GetStreamWithImageRotatedForExternalStorage();
                                 fileName = Path.GetFileNameWithoutExtension(fileOS.Path);
@@ -871,7 +888,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsImageViewForUploadVisible = true;
+        private bool _IsImageViewForUploadVisible = false;
         public bool IsImageViewForUploadVisible
         {
             get { return _IsImageViewForUploadVisible; }

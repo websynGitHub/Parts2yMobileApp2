@@ -84,7 +84,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 //if (Vm.IsRepoaPage == true)
                 //{
-                    await Navigation.PopAsync();
+                await Navigation.PopAsync();
                 //}
                 //else
                 //{
@@ -166,6 +166,27 @@ namespace YPS.Parts2y.Parts2y_Views
                 Vm.IndicatorVisibility = false;
             }
             return AllPoDataList;
+        }
+
+        private void SelectionChanged(object sender, EventArgs e)
+        {
+            Vm.IndicatorVisibility = true;
+
+            try
+            {
+
+                var val = sender as Plugin.InputKit.Shared.Controls.CheckBox;
+                var item = (PhotoRepoModel)val.BindingContext;
+
+                item.IsSelected = val.IsChecked == true ? true : false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectionChanged method -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
+                yPSService.Handleexception(ex);
+                Vm.IndicatorVisibility = false;
+            }
+            Vm.IndicatorVisibility = false;
         }
     }
 }

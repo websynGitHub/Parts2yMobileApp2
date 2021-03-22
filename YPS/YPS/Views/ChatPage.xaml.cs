@@ -429,7 +429,7 @@ namespace YPS.Views
 
                 if (Settings.PerviousPage.Trim().ToLower() == "yship")
                 {
-                    App.Current.MainPage = new MenuPage(typeof(YshipPage));
+                    //App.Current.MainPage = new MenuPage(typeof(YshipPage));
                     Settings.PerviousPage = "";
                     Settings.RedirectPage = "";
                 }

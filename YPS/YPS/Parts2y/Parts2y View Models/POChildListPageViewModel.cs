@@ -43,7 +43,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         SendPodata sendPodata = new SendPodata();
         ObservableCollection<AllPoData> allPOTagData;
         int POID, TaskID;
-        bool isalldone;
+        public static bool isalldone;
 
         public POChildListPageViewModel(INavigation _Navigation, ObservableCollection<AllPoData> potag, SendPodata sendpodata)
         {
@@ -78,14 +78,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
 
-                if (Settings.VersionID == 4 || Settings.VersionID == 3)
-                {
-                    LoadTextColor = Color.Black;
-                }
-                else
-                {
-                    LoadTextColor = Color.Gray;
-                }
+                //if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                //{
+                //    LoadTextColor = Color.Black;
+                //}
+                //else
+                //{
+                //    LoadTextColor = Color.Gray;
+                //}
             }
             catch (Exception ex)
             {
@@ -122,20 +122,35 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                loadindicator = true;
-                await Task.Delay(1);
-
                 if (tabname == "home")
                 {
+                    loadindicator = true;
+                    await Task.Delay(1);
                     App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
                 else if (tabname == "job")
                 {
+                    loadindicator = true;
+                    await Task.Delay(1);
                     await Navigation.PopAsync();
                 }
                 else if (tabname == "load")
                 {
-                    await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
+                    if (Settings.VersionID == 2)
+                    {
+                        loadindicator = true;
+                        await Task.Delay(1);
+                        await Navigation.PushAsync(new CarrierInspectionQuestionsPage(allPOTagData, isalldone));
+                    }
+                    else
+                    {
+                        if (isalldone == true)
+                        {
+                            loadindicator = true;
+                            await Task.Delay(1);
+                            await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -299,22 +314,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        if (Settings.VersionID == 4 ||
-                            Settings.VersionID == 3)
+                        if ((Settings.VersionID == 4 ||
+                            Settings.VersionID == 3) && isalldone == true)
                         {
                             await Navigation.PushAsync(new LoadPage(POTagDetail, sendPodata, isalldone));
                         }
                         else if (Settings.VersionID == 2)
                         {
-                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, new QuestiionsPageHeaderData()
-                            {
-                                VINLabel = labelobj.TagNumber.Name,
-                                VINLabelValue = POTagDetail.TagNumber,
-                                IdentCodeLabel = labelobj.IdentCode.Name,
-                                IdentCodeLabelValue = POTagDetail.IdentCode,
-                                ConditionNameLabel = labelobj.ConditionName.Name,
-                                ConditionNameLabelValue = POTagDetail.ConditionName
-                            }));
+                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
+                            //await Navigation.PushAsync(new VinInspectQuestionsPage(POTagDetail, isalldone));
                         }
                     }
                 }
@@ -344,7 +352,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
 
         }
-
 
         public async Task UpdateTabCount(ObservableCollection<AllPoData> potaglist)
         {
@@ -532,7 +539,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                         }
 
-                        PoDataChildCollections = new ObservableCollection<AllPoData>(potaglist.OrderBy(o => o.TagTaskStatus).ThenBy(tob => tob.POTagID));
+                        PoDataChildCollections = new ObservableCollection<AllPoData>(potaglist.OrderBy(o => o.TagTaskStatus).ThenBy(tob => tob.TagNumber).ThenBy(tob => tob.IdentCode));
                         IsPOTagDataListVisible = true;
                         NoRecordsLbl = false;
                         IsStatusTabVisible = true;
@@ -949,6 +956,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     var taskval = await trackService.UpdateTaskStatus(taskstatus);
                                 }
                                 DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+
+
                             }
 
                             if (AllTabVisibility == true)
@@ -966,6 +975,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             else
                             {
                                 await Pending_Tap();
+                            }
+
+                            if ((Settings.VersionID == 4 || Settings.VersionID == 3))
+                            {
+                                if (isalldone == true)
+                                {
+                                    LoadTextColor = Color.Black;
+                                    MoveToNextPageCmd = new Command(MoveToNextPage);
+                                }
+                                else
+                                {
+                                    LoadTextColor = Color.Gray;
+                                    MoveToNextPageCmd = null;
+                                }
                             }
 
                             Settings.IsRefreshPartsPage = false;
@@ -1398,7 +1421,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
                         labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
 
-                        labelobj.Load.Name = Settings.VersionID == 2 ? "Insp" : "Load";
+                        labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
@@ -1411,6 +1434,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        private bool _IsLoadTabVisible { set; get; }
+        public bool IsLoadTabVisible
+        {
+            get
+            {
+                return _IsLoadTabVisible;
+            }
+            set
+            {
+                this._IsLoadTabVisible = value;
+                RaisePropertyChanged("IsLoadTabVisible");
+            }
+        }
+
         private int _SelectedTagCount { set; get; }
         public int SelectedTagCount
         {
@@ -1439,7 +1476,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public Color _LoadTextColor = (Settings.VersionID == 4 || Settings.VersionID == 3) ? Color.Black : Color.Gray;
+        public Color _LoadTextColor = ((Settings.VersionID == 4 || Settings.VersionID == 3) && isalldone == true) == true ? Color.Black : Color.Gray;
         public Color LoadTextColor
         {
             get => _LoadTextColor;

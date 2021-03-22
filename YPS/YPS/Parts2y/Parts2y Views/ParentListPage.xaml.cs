@@ -48,7 +48,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Settings.VersionID == 5 || Settings.VersionID == 1)
                 {
-                    loadStack.IsVisible = false;
+                    Vm.IsLoadTabVisible = false;
                 }
 
                 if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch

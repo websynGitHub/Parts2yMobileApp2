@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace YPS.Model
 {
@@ -8,6 +9,7 @@ namespace YPS.Model
         public int PUID { get; set; }
         public int POID { get; set; }
         public List<PhotoTag> photoTags { get; set; }
+        public List<Photo> photos { get; set; }
         public Photo photo { get; set; }
         public int CreatedBy { get; set; }
         public string alreadyExit { get; set; } = "";
@@ -17,6 +19,8 @@ namespace YPS.Model
         public PhotoUploadModel()
         {
             photoTags = new List<PhotoTag>();
+            photos = new List<Photo>();
+            photo = new Photo();
         }
     }
 
@@ -34,7 +38,9 @@ namespace YPS.Model
         public string GivenName { get; set; }
         public string FullName { get; set; }
         public string RoleName { get; set; }
+        public Stream PicStream { get; set; }
     }
+
     public class PhotoTag
     {
         public int PUID { get; set; }
@@ -59,7 +65,8 @@ namespace YPS.Model
     {
         public string message { get; set; }
         public int status { get; set; }
-        public CustomPhotoModel data { get; set; }
+        //public CustomPhotoModel data { get; set; }
+        public List<CustomPhotoModel> data { get; set; }
     }
 
     public class CustomPhotoModel
@@ -80,6 +87,7 @@ namespace YPS.Model
         public bool ShowAndHideDescr { get; set; }
         public bool ShowAndHideBtnEnable { get; set; }
         public string descriptionlbl { get; set; } = "Description";
+        public Stream PicStream { get; set; }
     }
 
     public class UploadedPhotosList<T>
@@ -137,6 +145,8 @@ namespace YPS.Model
         public bool ShowAndHideBtn { get; set; }
         public bool ShowAndHideDescr { get; set; }
         public bool ShowAndHideBtnEnable { get; set; }
+        public Stream PicStream { get; set; }
+
         //public string RoleName { get; set; }
     }
 

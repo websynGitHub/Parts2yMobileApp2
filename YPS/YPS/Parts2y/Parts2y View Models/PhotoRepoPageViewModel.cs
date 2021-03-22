@@ -38,6 +38,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         //public ICommand LinkPhotoCmd { set; get; }
         public ICommand ViewPhotoDetailsCmd { set; get; }
         public ICommand DeleteImageCmd { set; get; }
+        public ICommand CheckedChangedCmd { set; get; }
         public Command select_pic { set; get; }
         public Command upload_pic { set; get; }
         public int taskID { get; set; }
@@ -53,6 +54,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 pagename = page;
                 DeleteImageCmd = new Command(DeleteImage);
                 DeleteAllCmd = new Command(DeleteImage);
+                CheckedChangedCmd = new Command(CheckedChanged);
                 select_pic = new Command(async () => await SelectPic());
                 upload_pic = new Command(async () => await UploadPhoto());
                 MoveLinkCmd = new Command(async () => await ShowContentsToLink());
@@ -66,6 +68,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "Constructor method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when clicked on any, already uploaded image to view it
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void CheckedChanged(object sender)
+        {
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in CheckedChanged method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            IndicatorVisibility = true;
+
+            try
+            {
+                var val = sender as Plugin.InputKit.Shared.Controls.CheckBox;
+                var item = (PhotoRepoModel)val.BindingContext;
+
+                item.IsSelected = val.IsChecked == true ? true : false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "CheckedChanged method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
             }
         }
 
@@ -111,6 +140,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (selectedTagsData.photoTags.Count != 0 && value.IsPhotoRequired != 0)
                             {
+                                //List<PhotoUploadModel> DataForFileUploadList = new List<PhotoUploadModel>();
+
                                 PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
                                 DataForFileUpload = selectedTagsData;
                                 DataForFileUpload.CreatedBy = Settings.userLoginID;
@@ -124,7 +155,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 phUpload.UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
                                 phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
                                 phUpload.GivenName = Settings.Username;
-                                DataForFileUpload.photo = phUpload;
+                                DataForFileUpload.photos.Add(phUpload);
+
+                                //DataForFileUploadList.Add(DataForFileUpload);
+
                                 var data = await service.InitialUpload(DataForFileUpload);
 
                                 var result = data as InitialResponse;
@@ -168,6 +202,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             if (value.PUID != 0)
                             {
+                                List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
+
+
                                 CustomPhotoModel phUpload = new CustomPhotoModel();
                                 phUpload.PUID = value.PUID;
                                 phUpload.PhotoID = 0;
@@ -178,7 +215,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 phUpload.UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
                                 phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
                                 phUpload.FullName = Settings.Username;
-                                var data = await service.PhotosUpload(phUpload);
+                                phUploadList.Add(phUpload);
+
+                                var data = await service.PhotosUpload(phUploadList);
 
                                 var initialresult = data as SecondTimeResponse;
 
@@ -225,7 +264,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             try
             {
-                await Navigation.PushAsync(new LinkPage(RepoPhotosList));
+
+                if (RepoPhotosList != null)
+                {
+                    if ((RepoPhotosList.Where(wr => wr.IsSelected == true).FirstOrDefault()) != null)
+                    {
+                        bool move = await App.Current.MainPage.DisplayAlert("Move photo(s) for linking", "Are you sure to move the selected photo(s) for linking?", "Yes", "No");
+
+                        if (move)
+                        {
+                            await Navigation.PushAsync(new LinkPage(new ObservableCollection<PhotoRepoModel>(RepoPhotosList.Where(wr => wr.IsSelected == true).ToList())));
+                        }
+                    }
+                    else
+                    {
+                        bool move = await App.Current.MainPage.DisplayAlert("Move photo(s) for linking", "Are you sure to move all photo(s) for linking?", "Yes", "No");
+
+                        if (move)
+                        {
+                            await Navigation.PushAsync(new LinkPage(RepoPhotosList));
+                        }
+                    }
+
+                }
+
 
                 //var result = await GetAllPOData();
 
@@ -600,7 +662,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             PhotoRepoModel photoRepoModel = new PhotoRepoModel();
                             //https://ypsuploadsdev.blob.core.windows.net/tag-photos/
                             //photoRepoModel.PhotoURL = "https://azrbsa026dv00a.blob.core.windows.net/" + "tag-photos/" + FullFilename;
-                            photoRepoModel.PhotoURL = HostingURL.blob + "tag-photos/" + FullFilename;
+                            photoRepoModel.PhotoURL = HostingURL.blob + "tag-files/" + FullFilename;
                             photoRepoModel.FullFileName = FullFilename;
                             photoRepoModel.FileName = fileName;
                             photoRepoModel.Description = DescriptionText;
@@ -610,7 +672,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             PhotoRepoSQlLite photorepoDB = new PhotoRepoSQlLite();
                             photorepoDB.SavePhoto(photoRepoModel);
 
-                            await GetPhotosData();
+                            //await GetPhotosData();
 
                             DescriptionText = string.Empty;
 
@@ -1181,7 +1243,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsImageViewForUploadVisible = true;
+        private bool _IsImageViewForUploadVisible = false;
         public bool IsImageViewForUploadVisible
         {
             get { return _IsImageViewForUploadVisible; }

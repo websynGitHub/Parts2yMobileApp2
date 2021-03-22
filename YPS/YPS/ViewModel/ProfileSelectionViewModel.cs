@@ -867,7 +867,7 @@ namespace YPS.ViewModel
             }
         }
 
-        bool _profileVisibility = false;
+        bool _profileVisibility = true;
         public bool profileVisibility
         {
             get { return _profileVisibility; }
@@ -877,7 +877,7 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        bool _settingsVisibility = false;
+        bool _settingsVisibility = true;
         public bool settingsVisibility
         {
             get { return _settingsVisibility; }

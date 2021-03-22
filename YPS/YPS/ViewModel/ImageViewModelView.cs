@@ -7,7 +7,7 @@ using Xamarin.Forms;
 using YPS.CommonClasses;
 using YPS.Helpers;
 using YPS.Model;
-using YPS.Model.Yship;
+//using YPS.Model.Yship;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 
@@ -20,7 +20,7 @@ namespace YPS.ViewModel
         public ObservableCollection<PhotoRepoModel> repophotoimageViews { get; set; }
         public ObservableCollection<LoadPhotoModel> loadphotoimageViews { get; set; }
         public ObservableCollection<InspectionPhotosResponseListData> inspectionImageViews { get; set; }
-        public ObservableCollection<UploadFiles> imageViews1 { get; set; }
+        //public ObservableCollection<UploadFiles> imageViews1 { get; set; }
         YPSService service = new YPSService();// Creating new instance of the YPSService, which is used to call API
 
 
@@ -167,31 +167,31 @@ namespace YPS.ViewModel
 
         }
 
-        /// <summary>
-        /// Parameterized constructor.
-        /// </summary>
-        /// <param name="photosList1"></param>
-        /// <param name="photoId1"></param>
-        public ImageViewModelView(ObservableCollection<UploadFiles> photosList1, int photoId1)
-        {
-            try
-            {
-                imageViews1 = new ObservableCollection<UploadFiles>();
-                imageViews1 = photosList1;
-                pophoto = false;
-                Yshipphoto = true;
-                IsInspectionPhotosVisible = false;
-                IsRepoPhotosVisible = false;
-                int index = photosList1.IndexOf(photosList1.Single(x => x.ID == photoId1));
-                var getFirstValue = photosList1.Where(X => X.ID == photoId1).FirstOrDefault();
-                VisibleCardInx = index;
-            }
-            catch (Exception ex)
-            {
-                service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ImageViewModelView constructor -> in ImageViewModelView.cs " + Settings.userLoginID);
-            }
-        }
+        ///// <summary>
+        ///// Parameterized constructor.
+        ///// </summary>
+        ///// <param name="photosList1"></param>
+        ///// <param name="photoId1"></param>
+        //public ImageViewModelView(ObservableCollection<UploadFiles> photosList1, int photoId1)
+        //{
+        //    try
+        //    {
+        //        imageViews1 = new ObservableCollection<UploadFiles>();
+        //        imageViews1 = photosList1;
+        //        pophoto = false;
+        //        Yshipphoto = true;
+        //        IsInspectionPhotosVisible = false;
+        //        IsRepoPhotosVisible = false;
+        //        int index = photosList1.IndexOf(photosList1.Single(x => x.ID == photoId1));
+        //        var getFirstValue = photosList1.Where(X => X.ID == photoId1).FirstOrDefault();
+        //        VisibleCardInx = index;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        service.Handleexception(ex);
+        //        YPSLogger.ReportException(ex, "ImageViewModelView constructor -> in ImageViewModelView.cs " + Settings.userLoginID);
+        //    }
+        //}
 
         /// <summary>
         /// This method is for dynamic text change.

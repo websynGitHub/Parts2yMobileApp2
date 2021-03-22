@@ -8,7 +8,7 @@ using YPS.Helpers;
 using YPS.Model;
 using YPS.ViewModel;
 using YPS.Service;
-using YPS.Model.Yship;
+//using YPS.Model.Yship;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using YPS.Parts2y.Parts2y_Views;
 
@@ -19,7 +19,7 @@ namespace YPS.Views
     {
         #region Data member
         ImageViewModelView ImageVm;
-        public ObservableCollection<UploadFiles> All_YshipphotosList = new ObservableCollection<UploadFiles>();
+        //public ObservableCollection<UploadFiles> All_YshipphotosList = new ObservableCollection<UploadFiles>();
         YPSService service;
         #endregion
 
@@ -157,32 +157,32 @@ namespace YPS.Views
             }
         }
 
-        /// <summary>
-        /// Parameterized constructor.
-        /// </summary>
-        /// <param name="photosList"></param>
-        /// <param name="photoId"></param>
-        /// <param name="Tags"></param>
-        public ImageView(ObservableCollection<UploadFiles> photosList, int photoId, string Tags)
-        {
-            try
-            {
-                InitializeComponent();
-                service = new YPSService();
-                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
-                //synfImageViewList1.WidthRequest = App.ScreenWidth;
-                //synfImageViewList1.HeightRequest = App.ScreenHeight;
-                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
-                Settings.currentPage = "ImageViewPage";
-                All_YshipphotosList = photosList;
-                Usernames.Text = Tags;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
-                service.Handleexception(ex);
-            }
-        }
+        ///// <summary>
+        ///// Parameterized constructor.
+        ///// </summary>
+        ///// <param name="photosList"></param>
+        ///// <param name="photoId"></param>
+        ///// <param name="Tags"></param>
+        //public ImageView(ObservableCollection<UploadFiles> photosList, int photoId, string Tags)
+        //{
+        //    try
+        //    {
+        //        InitializeComponent();
+        //        service = new YPSService();
+        //        BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+        //        //synfImageViewList1.WidthRequest = App.ScreenWidth;
+        //        //synfImageViewList1.HeightRequest = App.ScreenHeight;
+        //        YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+        //        Settings.currentPage = "ImageViewPage";
+        //        All_YshipphotosList = photosList;
+        //        Usernames.Text = Tags;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+        //        service.Handleexception(ex);
+        //    }
+        //}
 
         /// <summary>
         /// Gets called when page is appearing.

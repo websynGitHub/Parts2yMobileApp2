@@ -191,6 +191,12 @@ namespace YPS.Parts2y.Parts2y_Views
                     imgChat.Opacity = ChatLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CreateChat".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
                     imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PrintTagReportDownload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
                     imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "TaskComplete".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+
+                    if (Settings.VersionID == 2)
+                    {
+                        Vm.LoadTextColor = Color.Black;
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                    }
                 }
 
                 #region Assigning method that must execute when page is loaded, for binding gestures
@@ -244,10 +250,26 @@ namespace YPS.Parts2y.Parts2y_Views
                     {
                         await Vm.Pending_Tap();
                     }
+
                     Settings.IsRefreshPartsPage = false;
                     Vm.SelectedTagCount = 0;
                     Vm.SelectedTagCountVisible = false;
                 }
+
+                if ((Settings.VersionID == 4 || Settings.VersionID == 3))
+                {
+                    if (POChildListPageViewModel.isalldone == true)
+                    {
+                        Vm.LoadTextColor = Color.Black;
+                        Vm.MoveToNextPageCmd = new Command(Vm.MoveToNextPage);
+                    }
+                    else
+                    {
+                        Vm.LoadTextColor = Color.Gray;
+                        Vm.MoveToNextPageCmd = null;
+                    }
+                }
+
                 Vm.loadindicator = false;
             }
             catch (Exception ex)
@@ -321,16 +343,13 @@ namespace YPS.Parts2y.Parts2y_Views
                         });
                     }
 
-                    if (Settings.VersionID == 4 ||
-                           Settings.VersionID == 3)
+                    if (Settings.VersionID == 4 || Settings.VersionID == 3 || Settings.VersionID == 2)
                     {
                         loadStack.GestureRecognizers.Add(new TapGestureRecognizer
                         {
                             Command = new Command(async () => await Vm.TabChange("load")),
                         });
                     }
-
-
 
 
                     //if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)

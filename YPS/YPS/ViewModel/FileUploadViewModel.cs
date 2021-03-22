@@ -303,8 +303,28 @@ namespace YPS.ViewModel
                     {
                         if (UploadType.ToLower().Trim() == "initialfile" && myFuid == 0)
                         {
+                            //List<StartUploadFileModel> DataForFileUploadList = new List<StartUploadFileModel>();
+                            List<MyFile> phUploadList = new List<MyFile>();
+
+                            StartUploadFileModel DataForFileUploadObj = new StartUploadFileModel();
+                            DataForFileUploadObj = DataForFileUpload;
+                            DataForFileUploadObj.CreatedBy = Settings.userLoginID;
+
+                            MyFile phUpload = new MyFile();
+                            phUpload.FUID = DataForFileUpload.FUID;
+                            phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                            phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
+                            phUpload.CreatedBy = Settings.userLoginID;
+                            phUpload.FileDescription = FileDescription;// uploadType;
+                            phUpload.UploadType = UploadTypevalue;
+                            phUpload.CreatedDate = String.Format("{0:dd MMMM yyyy hh:mm tt}", DateTime.Now);
+                            phUpload.PicStream = picStream;
+                            //DataForFileUploadObj.file.FileName = Path.GetFileNameWithoutExtension(FilePath64);
+                            DataForFileUploadObj.files.Add(phUpload);
+
                             /// Calling the blob API to initial upload file.
-                            var returnData = await BlobUpload.YPSFileUpload(extension, picStream, DataForFileUpload.FUID, Path.GetFileNameWithoutExtension(FilePath64), UploadTypevalue, (int)BlobContainer.cnttagfiles, null, DataForFileUpload, FileDescription, "", "");
+                            var returnData = await BlobUpload.YPSFileUpload(UploadTypevalue, (int)BlobContainer.cnttagfiles, null, null, DataForFileUploadObj,
+                                null, null, null, "", "");
 
                             if (returnData != null)
                             {
@@ -325,7 +345,10 @@ namespace YPS.ViewModel
                                     //}
                                     //else
                                     //{
-                                    ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = FinalReturnData.data.file.RoleName });
+                                    foreach (var file in DataForFileUpload.files)
+                                    {
+                                        ListOfFile.Insert(0, new MyFile() { FileName = file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = file.FileID, FileDescription = file.FileDescription, FileURL = file.FileURL, CreatedDate = file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = file.RoleName });
+                                    }
                                     //}
 
                                     HideListAndShow = true;
@@ -382,8 +405,22 @@ namespace YPS.ViewModel
                         }
                         else if (UploadType == "fileUpload")
                         {
+                            List<MyFile> phUploadlist = new List<MyFile>();
+
+                            MyFile phUpload = new MyFile();
+                            phUpload.FUID = myFuid;
+                            phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                            phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
+                            phUpload.CreatedBy = Settings.userLoginID;
+                            phUpload.FileDescription = FileDescription;// uploadType;
+                            phUpload.CreatedDate = String.Format("{0:dd MMMM yyyy hh:mm tt}", DateTime.Now);
+                            phUpload.PicStream = picStream;
+
+                            phUploadlist.Add(phUpload);
+
                             /// Calling the blob API to upload file.
-                            var returnplFileData = await BlobUpload.YPSFileUpload(extension, picStream, myFuid, Path.GetFileNameWithoutExtension(FilePath64), UploadTypevalue, (int)BlobContainer.cnttagfiles, null, null, FileDescription);
+                            var returnplFileData = await BlobUpload.YPSFileUpload(UploadTypevalue,
+                                (int)BlobContainer.cnttagfiles, null, null, null, phUploadlist);
 
                             if (returnplFileData != null)
                             {
@@ -404,7 +441,10 @@ namespace YPS.ViewModel
                                     //}
                                     //else
                                     //{
-                                    ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = response.data.RoleName });
+                                    foreach (var val in response.data)
+                                    {
+                                        ListOfFile.Insert(0, new MyFile() { FileName = val.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = val.FileID, FileDescription = val.FileDescription, FileURL = val.FileURL, CreatedDate = val.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = val.RoleName });
+                                    }
                                     //}
 
                                     HideListAndShow = true;
@@ -430,8 +470,21 @@ namespace YPS.ViewModel
                         }
                         else
                         {
+                            List<PLFileUpload> pluploadList = new List<PLFileUpload>();
+
+                            PLFileUpload phUpload = new PLFileUpload();
+                            phUpload.POID = plFileUploadData.POID;
+                            phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                            phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
+                            phUpload.FileDescription = FileDescription;
+                            phUpload.CreatedBy = Settings.userLoginID;
+                            phUpload.CreatedDate = String.Format("{0:dd MMMM yyyy hh:mm tt}", DateTime.Now);
+                            phUpload.PicStream = picStream;
+
+                            pluploadList.Add(phUpload);
+
                             /// Calling the blob API to PL upload file.
-                            var returnplData = await BlobUpload.YPSFileUpload(extension, picStream, plFileUploadData.POID, Path.GetFileNameWithoutExtension(FilePath64), UploadTypevalue, (int)BlobContainer.cntplfiles, null, null, FileDescription);
+                            var returnplData = await BlobUpload.YPSFileUpload(UploadTypevalue, (int)BlobContainer.cntplfiles, null, null, null, null, pluploadList);
 
                             if (returnplData != null)
                             {

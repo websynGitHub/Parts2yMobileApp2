@@ -88,11 +88,15 @@ namespace YPS.ViewModel
                         Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.IdentCode));
                     }
 
-                    select_items.photoTags = select_items.photoTags.Select(c =>
-                      {
-                          c.TagNumber = null;
-                          return c;
-                      }).ToList();
+                    if (select_items.photoTags.Count > 1)
+                    {
+                        select_items.photoTags = select_items.photoTags.Select(c =>
+                        {
+                            c.TagNumber = null;
+                            return c;
+                        }).ToList();
+                    }
+
                 }
                 else
                 {
@@ -511,8 +515,28 @@ namespace YPS.ViewModel
 
                             if (selectiontype_index == 0 && puid == 0)
                             {
+                                //List<PhotoUploadModel> phUploadlist = new List<PhotoUploadModel>();
+
+                                Photo singlePhoto = new Photo();
+                                singlePhoto.PUID = Select_Items.PUID;
+                                singlePhoto.PhotoID = 0;
+                                singlePhoto.PhotoURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                                singlePhoto.PhotoDescription = description_txt;
+                                singlePhoto.FileName = fileName;
+                                singlePhoto.CreatedBy = Settings.userLoginID;
+                                singlePhoto.UploadType = UploadType;// uploadType;
+                                singlePhoto.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                singlePhoto.FullName = Settings.Username;
+                                singlePhoto.PicStream = picStream;
+
+                                PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
+                                DataForFileUpload = Select_Items;
+                                DataForFileUpload.CreatedBy = Settings.userLoginID;
+                                //DataForFileUpload.photo.FileName = fileName;
+                                DataForFileUpload.photos.Add(singlePhoto);
+
                                 /// Calling the blob API to upload photo. 
-                                var initialdata = await BlobUpload.YPSFileUpload(extension, picStream, Select_Items.PUID, fileName, UploadType, (int)BlobContainer.cnttagfiles, Select_Items, null, description_txt);
+                                var initialdata = await BlobUpload.YPSFileUpload(UploadType, (int)BlobContainer.cnttagfiles, DataForFileUpload);
 
                                 var initialresult = initialdata as InitialResponse;
                                 if (initialresult != null)
@@ -530,7 +554,10 @@ namespace YPS.ViewModel
 
                                         if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
                                         {
-                                            AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel>() { Aphotos = { new CustomPhotoModel() { PhotoURL = initialresult.data.photo.PhotoURL, PhotoDescription = initialresult.data.photo.PhotoDescription, PhotoID = initialresult.data.photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = initialresult.data.photo.FullName, CreatedDate = initialresult.data.photo.CreatedDate } } };
+                                            foreach (var photo in initialresult.data.photos)
+                                            {
+                                                AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel>() { Aphotos = { new CustomPhotoModel() { PhotoURL = photo.PhotoURL, PhotoDescription = photo.PhotoDescription, PhotoID = photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = photo.FullName, CreatedDate = photo.CreatedDate } } };
+                                            }
                                             finalPhotoListA = AllPhotosData.data.Aphotos;
                                             AStack = true;
                                             BStack = false;
@@ -539,7 +566,11 @@ namespace YPS.ViewModel
                                         }
                                         else
                                         {
-                                            AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel> { BPhotos = { new CustomPhotoModel() { PhotoURL = initialresult.data.photo.PhotoURL, PhotoDescription = initialresult.data.photo.PhotoDescription, PhotoID = initialresult.data.photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = initialresult.data.photo.FullName, CreatedDate = initialresult.data.photo.CreatedDate } } };
+                                            foreach (var photo in initialresult.data.photos)
+                                            {
+                                                AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel> { BPhotos = { new CustomPhotoModel() { PhotoURL = photo.PhotoURL, PhotoDescription = photo.PhotoDescription, PhotoID = photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = photo.FullName, CreatedDate = photo.CreatedDate } } };
+                                            }
+
                                             finalPhotoListB = AllPhotosData.data.BPhotos;
                                             AStack = false;
                                             BStack = true;
@@ -588,8 +619,24 @@ namespace YPS.ViewModel
                             }
                             else if (selectiontype_index == 1 && puid > 0)
                             {
+                                List<CustomPhotoModel> phUploadlist = new List<CustomPhotoModel>();
+
+                                CustomPhotoModel phUpload = new CustomPhotoModel();
+                                phUpload.PUID = puid;
+                                phUpload.PhotoID = 0;
+                                phUpload.PhotoURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                                phUpload.PhotoDescription = description_txt;
+                                phUpload.FileName = fileName;
+                                phUpload.CreatedBy = Settings.userLoginID;
+                                phUpload.UploadType = UploadType;// uploadType;
+                                phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                phUpload.FullName = Settings.Username;
+                                phUpload.PicStream = picStream;
+
+                                phUploadlist.Add(phUpload);
+
                                 /// Calling the blob API to upload photo. 
-                                var data = await BlobUpload.YPSFileUpload(extension, picStream, puid, fileName, UploadType, (int)BlobContainer.cnttagfiles, null, null, description_txt);
+                                var data = await BlobUpload.YPSFileUpload(UploadType, (int)BlobContainer.cnttagfiles, null, phUploadlist);
                                 var result = data as SecondTimeResponse;
 
                                 if (result != null)
@@ -598,7 +645,10 @@ namespace YPS.ViewModel
                                     {
                                         if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP) //(uploadType == "A")
                                         {
-                                            AllPhotosData.data.Aphotos.Insert(0, new CustomPhotoModel() { PhotoURL = result.data.PhotoURL, PhotoDescription = result.data.PhotoDescription, PhotoID = result.data.PhotoID, UploadType = UploadType, FullName = result.data.FullName, CreatedDate = result.data.CreatedDate });
+                                            foreach (var val in result.data)
+                                            {
+                                                AllPhotosData.data.Aphotos.Insert(0, new CustomPhotoModel() { PhotoURL = val.PhotoURL, PhotoDescription = val.PhotoDescription, PhotoID = val.PhotoID, UploadType = UploadType, FullName = val.FullName, CreatedDate = val.CreatedDate });
+                                            }
                                             finalPhotoListA = AllPhotosData.data.Aphotos;
                                             NoPhotos_Visibility = finalPhotoListA.Count != 0 ? false : true;
                                             BStack = false;
@@ -606,7 +656,10 @@ namespace YPS.ViewModel
                                         }
                                         else
                                         {
-                                            AllPhotosData.data.BPhotos.Insert(0, new CustomPhotoModel() { PhotoURL = result.data.PhotoURL, PhotoDescription = result.data.PhotoDescription, PhotoID = result.data.PhotoID, UploadType = UploadType, FullName = result.data.FullName, CreatedDate = result.data.CreatedDate });
+                                            foreach (var val in result.data)
+                                            {
+                                                AllPhotosData.data.BPhotos.Insert(0, new CustomPhotoModel() { PhotoURL = val.PhotoURL, PhotoDescription = val.PhotoDescription, PhotoID = val.PhotoID, UploadType = UploadType, FullName = val.FullName, CreatedDate = val.CreatedDate });
+                                            }
                                             finalPhotoListB = AllPhotosData.data.BPhotos;
                                             NoPhotos_Visibility = finalPhotoListB.Count != 0 ? false : true;
                                             AStack = false;
@@ -929,12 +982,21 @@ namespace YPS.ViewModel
                 {
                     if (Settings.CanOpenScanner == true)
                     {
-                        Settings.CanOpenScanner = false;
+                        //Settings.CanOpenScanner = false;
                         await SelectPic();
                     }
                     else
                     {
-                        await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                        if (types.Trim().ToLower() == "initialphoto")
+                        {
+                            await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null));
+                            //await SelectPic();
+                        }
+                        else
+                        {
+                            await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                        }
+                        //    await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, selectedTagsData, true, null));
                     }
                 }
             }
@@ -953,6 +1015,16 @@ namespace YPS.ViewModel
             YPSLogger.TrackEvent("PhotoUplodeViewModel", "in SelectPic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
+                if (Select_Items != null && Select_Items.photoTags != null && Select_Items.photoTags.Count > 0)
+                {
+                    Select_Items.photoTags = Select_Items.photoTags.Select(c =>
+                    {
+                        c.TagNumber = null;
+                        return c;
+                    }).ToList();
+                }
+
+
                 string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
 
                 if (action == "Camera")

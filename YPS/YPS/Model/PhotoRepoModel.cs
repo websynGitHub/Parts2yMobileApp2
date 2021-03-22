@@ -16,5 +16,6 @@ namespace YPS.Model
         public string Description { get; set; }
         public string CreatedDate { get; set; }
         public bool ShowAndHideDescr { get; set; }
+        public bool IsSelected { get; set; }
     }
 }
