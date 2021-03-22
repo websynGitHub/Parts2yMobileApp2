@@ -36,29 +36,29 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public InspVerificationScanViewModel(INavigation _Navigation, AllPoData selectedtagdata, bool isalldone, InspVerificationScanPage page)
         {
- try
+            try
             {
-            Navigation = _Navigation;
-            pagename = page;
-            selectedTagData = selectedtagdata;
-            trackService = new YPSService();
-            var options = new MobileBarcodeScanningOptions();
-            options.TryHarder = true;
-            options.InitialDelayBeforeAnalyzingFrames = 300;
-            options.DelayBetweenContinuousScans = 100;
-            options.DelayBetweenAnalyzingFrames = 200;
-            options.AutoRotate = false;
-            ScanningOptions = options;
-            this.questiionsPageHeaderData = questiionsPageHeaderData;
-            Task.Run(async () => await RequestPermissions());
-            #region BInding tab & click event methods to respective ICommand properties
-            reScanCmd = new Command(async () => await ReScan());
-            MoveToInspCmd = new Command(async () => await MoveForInspection(selectedTagData));
-            ScanResultCommand = new Command<ZXing.Result>(async (result) => await Scan_Result(result));
-            FlashCommand = new Command(Flash_Touch);
+                Navigation = _Navigation;
+                pagename = page;
+                selectedTagData = selectedtagdata;
+                trackService = new YPSService();
+                var options = new MobileBarcodeScanningOptions();
+                options.TryHarder = true;
+                options.InitialDelayBeforeAnalyzingFrames = 300;
+                options.DelayBetweenContinuousScans = 100;
+                options.DelayBetweenAnalyzingFrames = 200;
+                options.AutoRotate = false;
+                ScanningOptions = options;
+                this.questiionsPageHeaderData = questiionsPageHeaderData;
+                Task.Run(async () => await RequestPermissions());
+                #region BInding tab & click event methods to respective ICommand properties
+                reScanCmd = new Command(async () => await ReScan());
+                MoveToInspCmd = new Command(async () => await MoveForInspection(selectedTagData));
+                ScanResultCommand = new Command<ZXing.Result>(async (result) => await Scan_Result(result));
+                FlashCommand = new Command(Flash_Touch);
 
-            #endregion
- }
+                #endregion
+            }
             catch (Exception ex)
             {
 
@@ -154,7 +154,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IsScanDataVisible = false;
                 IsScannerPage = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
