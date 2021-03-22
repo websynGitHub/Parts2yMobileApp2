@@ -191,7 +191,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             if (Device.RuntimePlatform == Device.Android)
                             {
-                                var photo = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
+                                var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                                {
+                                    PhotoSize = PhotoSize.Custom,
+                                    CustomPhotoSize = Settings.PhotoSize,
+                                    CompressionQuality = Settings.CompressionQuality
+                                });
                                 if (photo == null)
                                 {
                                     return;
@@ -205,10 +210,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 FirstMainStack = false;
                                 RowHeightOpenCam = 100;
 
-                                picStream = await photo.OpenReadAsync();
-                                extension = Path.GetExtension(photo.FullPath);
-                                fileName = Path.GetFileNameWithoutExtension(photo.FullPath);
-                                Mediafile = photo.FullPath;
+                                picStream = file.GetStreamWithImageRotatedForExternalStorage();
+                                extension = Path.GetExtension(file.Path);
+                                Mediafile = file.Path;
+                                fileName = Path.GetFileNameWithoutExtension(file.Path);
                                 ListOfImage.Clear();
                                 ListOfImage.Add(new GalleryImage()
                                 {

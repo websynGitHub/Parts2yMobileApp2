@@ -50,7 +50,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 options.DelayBetweenAnalyzingFrames = 200;
                 options.AutoRotate = false;
                 ScanningOptions = options;
-                this.questiionsPageHeaderData = questiionsPageHeaderData;
 
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
