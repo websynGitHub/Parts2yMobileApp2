@@ -30,9 +30,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
         //QuestiionsPageHeaderData questiionsPageHeaderData;
         public ICommand reScanCmd { set; get; }
         public ICommand MoveToInspCmd { set; get; }
+        public AllPoData selectedTagData { get; set; }
         public ICommand ScanResultCommand { set; get; }
         public ICommand FlashCommand { set; get; }
-        public AllPoData selectedTagData { get; set; }
 
         public InspVerificationScanViewModel(INavigation _Navigation, AllPoData selectedtagdata, bool isalldone, InspVerificationScanPage page)
         {
@@ -40,9 +40,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Navigation = _Navigation;
                 pagename = page;
+                isAllDone = isalldone;
                 selectedTagData = selectedtagdata;
                 trackService = new YPSService();
-                var options = new MobileBarcodeScanningOptions();
+ 				var options = new MobileBarcodeScanningOptions();
                 options.TryHarder = true;
                 options.InitialDelayBeforeAnalyzingFrames = 300;
                 options.DelayBetweenContinuousScans = 100;
@@ -50,13 +51,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 options.AutoRotate = false;
                 ScanningOptions = options;
                 this.questiionsPageHeaderData = questiionsPageHeaderData;
-                Task.Run(async () => await RequestPermissions());
+
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
                 MoveToInspCmd = new Command(async () => await MoveForInspection(selectedTagData));
+                Task.Run(async () => await RequestPermissions());
                 ScanResultCommand = new Command<ZXing.Result>(async (result) => await Scan_Result(result));
                 FlashCommand = new Command(Flash_Touch);
-
                 #endregion
             }
             catch (Exception ex)
@@ -64,6 +65,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             }
         }
+
 
         private async Task RequestPermissions()
         {
@@ -133,7 +135,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-
         public async Task ReScan()
         {
             try
@@ -158,9 +159,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
 
             }
-
         }
-
 
         public async Task GetDataAndVerify()
         {
@@ -192,6 +191,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             ScannedCompareData = (selectedTagData.IdentCode == ScannedResult) ? ScannedResult : null;
                         }
+
 
                         if (!string.IsNullOrEmpty(ScannedCompareData))
                         {
