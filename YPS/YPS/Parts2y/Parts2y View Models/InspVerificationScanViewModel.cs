@@ -30,34 +30,40 @@ namespace YPS.Parts2y.Parts2y_View_Models
         //QuestiionsPageHeaderData questiionsPageHeaderData;
         public ICommand reScanCmd { set; get; }
         public ICommand MoveToInspCmd { set; get; }
-        public AllPoData selectedTagData { get; set; }
         public ICommand ScanResultCommand { set; get; }
         public ICommand FlashCommand { set; get; }
+        public AllPoData selectedTagData { get; set; }
 
         public InspVerificationScanViewModel(INavigation _Navigation, AllPoData selectedtagdata, bool isalldone, InspVerificationScanPage page)
         {
-            try
+ try
             {
-                Navigation = _Navigation;
-                pagename = page;
-                isAllDone = isalldone;
-                selectedTagData = selectedtagdata;
-                trackService = new YPSService();
+            Navigation = _Navigation;
+            pagename = page;
+            selectedTagData = selectedtagdata;
+            trackService = new YPSService();
+            var options = new MobileBarcodeScanningOptions();
+            options.TryHarder = true;
+            options.InitialDelayBeforeAnalyzingFrames = 300;
+            options.DelayBetweenContinuousScans = 100;
+            options.DelayBetweenAnalyzingFrames = 200;
+            options.AutoRotate = false;
+            ScanningOptions = options;
+            this.questiionsPageHeaderData = questiionsPageHeaderData;
+            Task.Run(async () => await RequestPermissions());
+            #region BInding tab & click event methods to respective ICommand properties
+            reScanCmd = new Command(async () => await ReScan());
+            MoveToInspCmd = new Command(async () => await MoveForInspection(selectedTagData));
+            ScanResultCommand = new Command<ZXing.Result>(async (result) => await Scan_Result(result));
+            FlashCommand = new Command(Flash_Touch);
 
-                #region BInding tab & click event methods to respective ICommand properties
-                reScanCmd = new Command(async () => await ReScan());
-                MoveToInspCmd = new Command(async () => await MoveForInspection(selectedTagData));
-                Task.Run(async () => await RequestPermissions());
-                ScanResultCommand = new Command<ZXing.Result>(async (result) => await Scan_Result(result));
-                FlashCommand = new Command(Flash_Touch);
-                #endregion
-            }
+            #endregion
+ }
             catch (Exception ex)
             {
 
             }
         }
-
 
         private async Task RequestPermissions()
         {
@@ -127,6 +133,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+
         public async Task ReScan()
         {
             try
@@ -151,103 +158,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
 
             }
+
         }
-
-        //public async Task OpenScanner()
-        //{
-        //    try
-        //    {
-        //        var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-        //        var requestedPermissionStatus = requestedPermissions[Permission.Camera];
-        //        var pass1 = requestedPermissions[Permission.Camera];
-
-        //        if (pass1 == PermissionStatus.Denied)
-        //        {
-        //            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
-        //            switch (checkSelect)
-        //            {
-        //                case "Maybe Later":
-        //                    break;
-        //                case "Settings":
-        //                    CrossPermissions.Current.OpenAppSettings();
-        //                    break;
-        //            }
-        //        }
-        //        else if (pass1 == PermissionStatus.Granted)
-        //        {
-        //            IsScannerPage = true;
-        //        }
-        //        else
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
-        //        }
-        //        //CanOpenScan = true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-        //public async Task OpenScanner()
-        //{
-        //    try
-        //    {
-        //        var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-        //        var requestedPermissionStatus = requestedPermissions[Permission.Camera];
-        //        var pass1 = requestedPermissions[Permission.Camera];
-
-        //        if (pass1 == PermissionStatus.Denied)
-        //        {
-        //            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
-        //            switch (checkSelect)
-        //            {
-        //                case "Maybe Later":
-        //                    break;
-        //                case "Settings":
-        //                    CrossPermissions.Current.OpenAppSettings();
-        //                    break;
-        //            }
-        //        }
-        //        else if (pass1 == PermissionStatus.Granted)
-        //        {
-        //            var ScannerPage = new ZXingScannerPage();
-
-        //            ScannerPage.OnScanResult += (scanresult) =>
-        //            {
-        //                ScannerPage.IsScanning = false;
-
-        //                Device.BeginInvokeOnMainThread(async () =>
-        //                {
-        //                    await Navigation.PopAsync();
-
-        //                    ScannedResult = scanresult.Text;
-
-        //                    if (!string.IsNullOrEmpty(ScannedResult))
-        //                    {
-        //                        IsPageVisible = true;
-        //                        await GetDataAndVerify();
-        //                    }
-        //                });
-        //            };
-
-        //            if (Navigation.ModalStack.Count == 0 ||
-        //                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
-        //            {
-        //                await Navigation.PushAsync(ScannerPage);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
-        //        }
-        //        //CanOpenScan = true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
 
 
         public async Task GetDataAndVerify()
@@ -280,7 +192,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             ScannedCompareData = (selectedTagData.IdentCode == ScannedResult) ? ScannedResult : null;
                         }
-
 
                         if (!string.IsNullOrEmpty(ScannedCompareData))
                         {
