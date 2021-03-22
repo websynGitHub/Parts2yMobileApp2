@@ -86,13 +86,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     if (Settings.POID != 0)
                     {
-                        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                        Settings.POID = 0;
-                    }
-                    else
-                    {
                         if (Navigation.NavigationStack.Count() == 6)
                         {
                             Navigation.RemovePage(Navigation.NavigationStack[2]);
@@ -101,8 +94,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[2]);
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                         }
+
+                        Settings.POID = 0;
+                    }
+                    else
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[2]);
                     }
                     await Navigation.PopAsync();
                 }
@@ -110,20 +111,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     if (Settings.POID != 0)
                     {
-                        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                        Settings.POID = 0;
-                    }
-                    else
-                    {
                         if (Navigation.NavigationStack.Count() == 6)
                         {
                             Navigation.RemovePage(Navigation.NavigationStack[3]);
                             Navigation.RemovePage(Navigation.NavigationStack[3]);
                         }
+                        else
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                        }
+
+                        Settings.POID = 0;
                     }
+
                     await Navigation.PopAsync();
                 }
             }
@@ -282,6 +285,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 //}
                 //else
                 //{
+                if (Navigation.NavigationStack.Count() == 6)
+                {
+                    Navigation.RemovePage(Navigation.NavigationStack[3]);
+                    Navigation.RemovePage(Navigation.NavigationStack[3]);
+                }
                 await Navigation.PopAsync();
                 //}
             }

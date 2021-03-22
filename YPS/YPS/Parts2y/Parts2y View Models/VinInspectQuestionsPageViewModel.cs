@@ -93,8 +93,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (Settings.POID != 0)
                     {
-                        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                        if (Navigation.NavigationStack.Count() == 5)
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[2]);
+                            Navigation.RemovePage(Navigation.NavigationStack[2]);
+                            //Navigation.RemovePage(Navigation.NavigationStack[2]);
+                        }
+                        else
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                        }
                         Settings.POID = 0;
                     }
                     else
@@ -106,11 +115,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (tabname == "parts")
                 {
+                    loadindicator = true;
+                    await Task.Delay(1);
+
                     if (Settings.POID != 0)
                     {
-                        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                        if (Navigation.NavigationStack.Count() == 5)
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[3]);
+                            //Navigation.RemovePage(Navigation.NavigationStack[3]);
+                        }
+                        else
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                        }
                         Settings.POID = 0;
                     }
                     else

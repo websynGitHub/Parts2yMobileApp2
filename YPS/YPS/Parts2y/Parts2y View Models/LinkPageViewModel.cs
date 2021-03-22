@@ -317,21 +317,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     //DataForFileUpload.photo.FileName = firstphotovalue[0].FileName;
                                     DataForFileUpload.photos = new List<Photo>();
 
-                                    foreach (var iniphoto in firstphotovalue)
-                                    {
-                                        Photo phUpload = new Photo();
-                                        phUpload.PUID = value.PUID;
-                                        phUpload.PhotoID = 0;
-                                        phUpload.PhotoURL = iniphoto.FullFileName;
-                                        phUpload.PhotoDescription = iniphoto.Description;
-                                        phUpload.FileName = iniphoto.FileName;
-                                        phUpload.CreatedBy = Settings.userLoginID;
-                                        phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                        phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                        phUpload.GivenName = Settings.Username;
-
-                                        DataForFileUpload.photos.Add(phUpload);
-                                    }
+                                    //foreach (var iniphoto in firstphotovalue)
+                                    //{
+                                    Photo phUpload = new Photo();
+                                    phUpload.PUID = value.PUID;
+                                    phUpload.PhotoID = 0;
+                                    phUpload.PhotoURL = firstphotovalue[0].FullFileName;
+                                    phUpload.PhotoDescription = firstphotovalue[0].Description;
+                                    phUpload.FileName = firstphotovalue[0].FileName;
+                                    phUpload.CreatedBy = Settings.userLoginID;
+                                    phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
+                                    phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                    phUpload.GivenName = Settings.Username;
+                                    DataForFileUpload.photos.Add(phUpload);
+                                    //}
 
 
                                     //DataForFileUploadList.Add(DataForFileUpload);
@@ -342,6 +341,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     if (result != null && result.status == 1)
                                     {
+                                        #region single photo sending
                                         if (value.TagTaskStatus == 0)
                                         {
                                             TagTaskStatus tagtaskstatus = new TagTaskStatus();
@@ -363,9 +363,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                                     var taskval = await service.UpdateTaskStatus(taskstatus);
                                                 }
-
-
-
                                             }
                                         }
 
@@ -381,7 +378,65 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, value, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, value.photoTickVisible));
                                             }
                                         }
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+                                        #endregion single photo sending
+
+
+                                        #region upload photo from second item
+                                        List<PhotoRepoModel> newphotolist = new List<PhotoRepoModel>(firstphotovalue);
+                                        newphotolist.RemoveAt(0);
+
+                                        if (firstphotovalue.Count > 0)
+                                        {
+                                            List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
+
+                                            foreach (var photo in firstphotovalue)
+                                            {
+                                                CustomPhotoModel photomodel = new CustomPhotoModel();
+                                                photomodel.PUID = value.PUID;
+                                                photomodel.PhotoID = 0;
+                                                photomodel.PhotoURL = photo.FullFileName;
+                                                photomodel.PhotoDescription = photo.Description;
+                                                photomodel.FileName = photo.FileName;
+                                                photomodel.CreatedBy = Settings.userLoginID;
+                                                photomodel.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
+                                                photomodel.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                                photomodel.FullName = Settings.Username;
+                                                phUploadList.Add(photomodel);
+                                            }
+
+                                            var dataresult = await service.PhotosUpload(phUploadList);
+
+                                            var initialresult = dataresult as SecondTimeResponse;
+
+                                            if (initialresult != null && initialresult.status == 1)
+                                            {
+
+                                                if (styleid != null)
+                                                {
+                                                    foreach (var val in initialresult.data)
+                                                    {
+                                                        value.PUID = val.PUID;
+                                                    }
+
+                                                    Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count() - 1]);
+
+                                                    if (styleid.Trim() == "a".Trim())
+                                                    {
+                                                        await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, value, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, value.photoTickVisible));
+                                                    }
+                                                    else
+                                                    {
+                                                        await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, value, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, value.photoTickVisible));
+                                                    }
+                                                }
+
+                                                DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+
+                                            }
+                                        }
+                                        #endregion upload photo from second item
+
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
                                     }
                                 }
                             }

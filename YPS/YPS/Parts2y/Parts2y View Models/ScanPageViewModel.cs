@@ -20,6 +20,7 @@ using YPS.CustomToastMsg;
 using YPS.Helpers;
 using Newtonsoft.Json;
 using static YPS.Model.SearchModel;
+using ZXing.Mobile;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
@@ -51,6 +52,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
                 MoveNextCmd = new Command(async () => await MoveNext(ScannedAllPOData));
+                Task.Run(async () => await RequestPermissions());
                 ScanResultCommand = new Command<ZXing.Result>(async (result) => await Scan_Result(result));
                 FlashCommand = new Command(Flash_Touch);
                 #endregion
@@ -76,6 +78,35 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private async Task RequestPermissions()
+        {
+            var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+            var requestedPermissionStatus = requestedPermissions[Permission.Camera];
+            var pass1 = requestedPermissions[Permission.Camera];
+
+            if (pass1 == PermissionStatus.Denied)
+            {
+                var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
+                switch (checkSelect)
+                {
+                    case "Maybe Later":
+                        break;
+                    case "Settings":
+                        CrossPermissions.Current.OpenAppSettings();
+                        break;
+                }
+            }
+            else if (pass1 == PermissionStatus.Granted)
+            {
+                IsScanDataVisible = false;
+                IsScannerPage = true;
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+            }
+            //CanOpenScan = true;
+        }
 
         public async Task ReScan()
         {
@@ -97,6 +128,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     IsScannerPage = false;
+                    IsScanDataVisible = true;
                     ScannedResult = result.Text;
 
                     if (!string.IsNullOrEmpty(ScannedResult))
@@ -139,38 +171,51 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-                var requestedPermissionStatus = requestedPermissions[Permission.Camera];
-                var pass1 = requestedPermissions[Permission.Camera];
-
-                if (pass1 == PermissionStatus.Denied)
-                {
-                    var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
-                    switch (checkSelect)
-                    {
-                        case "Maybe Later":
-                            break;
-                        case "Settings":
-                            CrossPermissions.Current.OpenAppSettings();
-                            break;
-                    }
-                }
-                else if (pass1 == PermissionStatus.Granted)
-                {
-                    IsScannerPage = true;
-                }
-                else
-                {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
-                }
-                //CanOpenScan = true;
+                IsScanDataVisible = false;
+                IsScannerPage = true;
             }
             catch (Exception ex)
             {
 
             }
-
         }
+
+        //public async Task OpenScanner()
+        //{
+        //    try
+        //    {
+        //        var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+        //        var requestedPermissionStatus = requestedPermissions[Permission.Camera];
+        //        var pass1 = requestedPermissions[Permission.Camera];
+
+        //        if (pass1 == PermissionStatus.Denied)
+        //        {
+        //            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
+        //            switch (checkSelect)
+        //            {
+        //                case "Maybe Later":
+        //                    break;
+        //                case "Settings":
+        //                    CrossPermissions.Current.OpenAppSettings();
+        //                    break;
+        //            }
+        //        }
+        //        else if (pass1 == PermissionStatus.Granted)
+        //        {
+        //            IsScannerPage = true;
+        //        }
+        //        else
+        //        {
+        //            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+        //        }
+        //        //CanOpenScan = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+
+        //}
         //public async Task OpenScanner()
         //{
         //    try
@@ -660,6 +705,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        public bool _IsScanDataVisible;
+        public bool IsScanDataVisible
+        {
+            get { return _IsScanDataVisible; }
+            set
+            {
+                _IsScanDataVisible = value;
+                RaisePropertyChanged("IsScanDataVisible");
+            }
+        }
+
+        public MobileBarcodeScanningOptions _ScanningOptions;
+        public MobileBarcodeScanningOptions ScanningOptions
+        {
+            get { return _ScanningOptions; }
+            set
+            {
+                _ScanningOptions = value;
+                RaisePropertyChanged("ScanningOptions");
+            }
+        }
+
         public bool _IsScannerPage;
         public bool IsScannerPage
         {
