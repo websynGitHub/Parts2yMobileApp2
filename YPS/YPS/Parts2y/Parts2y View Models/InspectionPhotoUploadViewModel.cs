@@ -191,7 +191,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             if (Device.RuntimePlatform == Device.Android)
                             {
-                                var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                                var photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
                                 {
                                     PhotoSize = PhotoSize.Custom,
                                     CustomPhotoSize = Settings.PhotoSize,
@@ -210,10 +210,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 FirstMainStack = false;
                                 RowHeightOpenCam = 100;
 
-                                picStream = file.GetStreamWithImageRotatedForExternalStorage();
-                                extension = Path.GetExtension(file.Path);
-                                Mediafile = file.Path;
-                                fileName = Path.GetFileNameWithoutExtension(file.Path);
+                                picStream = photo.GetStreamWithImageRotatedForExternalStorage();
+                                extension = Path.GetExtension(photo.Path);
+                                Mediafile = photo.Path;
+                                fileName = Path.GetFileNameWithoutExtension(photo.Path);
                                 ListOfImage.Clear();
                                 ListOfImage.Add(new GalleryImage()
                                 {
