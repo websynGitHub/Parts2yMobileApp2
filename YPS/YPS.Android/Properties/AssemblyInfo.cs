@@ -33,6 +33,8 @@ using System.Runtime.InteropServices;
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
 [assembly: UsesFeature("android.hardware.camera", Required = false)]
 [assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]
+[assembly: UsesPermission(Android.Manifest.Permission.Flashlight)]
+[assembly: UsesPermission(Android.Manifest.Permission.Camera)]
 #if DEBUG
 [assembly: Application(Debuggable=false)]
 #else

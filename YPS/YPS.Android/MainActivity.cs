@@ -30,7 +30,7 @@ using YPS.Service;
 
 namespace YPS.Droid
 {
-    [Activity(Label = "Parts2y", Icon = "@drawable/ypslogo12", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize |
+    [Activity(Label = "Parts2y UAT", Icon = "@drawable/ypslogo33", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize |
         ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -83,6 +83,7 @@ namespace YPS.Droid
                 base.OnCreate(savedInstanceState);
                 CrossMedia.Current.Initialize();
                 CachedImageRenderer.Init();
+                ZXing.Net.Mobile.Forms.Android.Platform.Init();
                 initFontScale();
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -323,6 +324,13 @@ namespace YPS.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            
+            for (int i = 0; i < permissions.Length; i++)
+            {
+                if (permissions[i].Equals("android.permission.CAMERA") && grantResults[i] == Permission.Granted)
+                    global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
