@@ -29,6 +29,22 @@ namespace YPS.Model
             }
         }
 
+        private int _SerialCount;
+        public int SerialCount
+        {
+            get
+            {
+                return _SerialCount;
+            }
+            set
+            {
+                this._SerialCount = value++;
+                RaisePropertyChanged("SerialCount");
+            }
+        }
+
+
+
         private int _CategoryID;
         public int CategoryID
         {

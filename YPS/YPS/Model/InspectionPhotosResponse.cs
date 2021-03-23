@@ -34,6 +34,7 @@ namespace YPS.Model
         public int UserID { get; set; }
         public string FullName { get; set; }
         public string RoleName { get; set; }
+        public string EntityName { get; set; }
         public string CreatedDate { get; set; }
     }
 }

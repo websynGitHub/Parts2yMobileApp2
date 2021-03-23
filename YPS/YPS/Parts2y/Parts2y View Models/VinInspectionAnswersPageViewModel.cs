@@ -35,6 +35,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public bool isInspVIN, isAllDone;
         Stream picStream;
         string extension = "", Mediafile, fileName;
+        int count;
         ObservableCollection<InspectionConfiguration> inspectionConfigurationList;
         ObservableCollection<InspectionPhotosResponseListData> finalPhotoListA;
         List<InspectionResultsList> inspectionResultsList;
@@ -63,7 +64,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IndentCode = selectedtagdata.IdentCode;
                 ConditionName = selectedtagdata.ConditionName;
                 //this.QuestiionsPageHeaderData = questiionsPageHeaderData;
-                Task.Run(() => ChangeLabel()).Wait();
                 TagNumber = selectedtagdata.TagNumber;
                 IndentCode = selectedtagdata.IdentCode;
                 ConditionName = selectedtagdata.ConditionName;
@@ -80,6 +80,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignalTabCmd = new Command(SignTabClicked);
                 PhotoClickCommand = new Command(async () => await SelectPic());
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
+
+                Task.Run(() => ChangeLabel()).Wait();
             }
             catch (Exception ex)
             {
@@ -241,19 +243,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 SignTabClicked();
                             }
 
-                            if (IsQuickTabVisible == true)
+                            if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
                             {
+                                IsFullTabVisible = false;
                                 QuickTabClicked();
-                                //QuickTabVisibility = true;
-                                //FullTabVisibility = false;
-                                //SignTabVisibility = false;
                             }
                             else
                             {
+                                IsQuickTabVisible = false;
                                 FullTabClicked();
-                                //FullTabVisibility = true;
-                                //QuickTabVisibility = false;
-                                //SignTabVisibility = false;
                             }
                         }
                         else
@@ -341,12 +339,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (result != null && result.status == 1)
                         {
-                            if (InspectionConfiguration.MInspectionConfigID == inspectionConfigurationList.Count)
+                            if (InspectionConfiguration.SerialCount == inspectionConfigurationList.Count)
                             {
                                 NextButtonText = "COMPLETE";
                             }
 
-                            if (InspectionConfiguration.MInspectionConfigID < inspectionConfigurationList.Count)
+                            if (InspectionConfiguration.SerialCount < inspectionConfigurationList.Count)
                             {
                                 FrontRightTrue = false;
                                 FrontRightFalse = false;
@@ -360,11 +358,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 PlaneFalse = false;
                                 Remarks = string.Empty;
 
-                                //AnswersGridVisibility = false;
+                                AnswersGridVisibility = false;
 
                                 await Task.Delay(1);
 
                                 InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.MInspectionConfigID == InspectionConfiguration.MInspectionConfigID + 1);
+
+                                var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
+                                InspectionConfiguration.SerialCount = index + 1;
+
                                 ShowConfigurationOptions();
                             }
                         }
@@ -372,12 +374,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    if (InspectionConfiguration.MInspectionConfigID < inspectionConfigurationList.Count)
+                    if (InspectionConfiguration.SerialCount < inspectionConfigurationList.Count)
                     {
                         InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.MInspectionConfigID == InspectionConfiguration.MInspectionConfigID + 1);
                         ShowConfigurationOptions();
                         Remarks = string.Empty;
-
+                        var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
+                        InspectionConfiguration.SerialCount = index + 1;
                         //if (InspectionConfiguration.MInspectionConfigID == inspectionConfigurationList.Count())
                         //{
                         //    NextBtnOpacity = 0.5;
@@ -425,11 +428,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
+                var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
+                InspectionConfiguration.SerialCount = index + 1;
+
                 FrontLeft = InspectionConfiguration.FrontLeft == 1 || InspectionConfiguration.IsFront == 1;
                 FrontRight = InspectionConfiguration.FrontRight == 1;
                 RearLeft = InspectionConfiguration.BackLeft == 1 || InspectionConfiguration.IsBack == 1;
                 RearRight = InspectionConfiguration.BackRight == 1;
-                RearLabel = InspectionConfiguration.BackRight == 1 || InspectionConfiguration.BackLeft == 1 || InspectionConfiguration.IsFront == 1;
+                RearLabel = InspectionConfiguration.BackRight == 1 || InspectionConfiguration.BackLeft == 1 || InspectionConfiguration.IsBack == 1;
                 FrontLabel = InspectionConfiguration.FrontLeft == 1 || InspectionConfiguration.FrontRight == 1 || InspectionConfiguration.IsFront == 1;
                 PlaneOptions = InspectionConfiguration.FrontLeft == 0 &&
                               InspectionConfiguration.FrontRight == 0 &&
@@ -510,7 +516,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = false;
             }
-            //AnswersGridVisibility = true;
+            AnswersGridVisibility = true;
             loadindicator = false;
         }
 
