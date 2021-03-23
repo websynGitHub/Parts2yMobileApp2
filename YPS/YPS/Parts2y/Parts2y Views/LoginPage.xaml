@@ -38,7 +38,7 @@
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
                             <StackLayout Grid.Row="0" VerticalOptions="StartAndExpand" HorizontalOptions="Center">
-                                <Image  Source="ypslogo33.png"/>
+                                <Image  Source="ypslogo22.png"/>
                             </StackLayout>
                             <Label Style="{DynamicResource LableWithFont}" Grid.Row="1" Text="Please Login to Proceed" TextColor="Black" FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                             <BoxView Grid.Row="2" Color="Transparent"/>
