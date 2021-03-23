@@ -149,7 +149,7 @@
                                     </Entry>-->
                                     <local:MyEditor HeightRequest="{OnPlatform Android=80,iOS=65}"  Placeholder="Remarks"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
                                 </sfinput:SfTextInputLayout>
-                                <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand"  BackgroundColor="White">
+                                <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand"  BackgroundColor="Transparent">
                                     <local:FontAwesomeIconLabel  BackgroundColor="Transparent"  Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" 
                                                                  FontSize="50" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Opacity="{Binding imgCamOpacityB}"
                                                  >
