@@ -987,16 +987,15 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        if (types.Trim().ToLower() == "initialphoto")
+                        //if (types.Trim().ToLower() == "initialphoto")
+                        if (selectiontype_index == 0 && puid == 0)
                         {
                             await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null));
-                            //await SelectPic();
                         }
                         else
                         {
                             await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
                         }
-                        //    await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, selectedTagsData, true, null));
                     }
                 }
             }

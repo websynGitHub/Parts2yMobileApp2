@@ -243,33 +243,43 @@
                             <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
                             <Label Text=")" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
                         </StackLayout>
-                        <Label Grid.Row="2" x:Name="nameUploadedDatelbl" Grid.Column="0" 
-                               Text="{Binding labelobjFile.uploadeddate}" FontAttributes="Bold"
+                        <Label Grid.Row="2" Grid.Column="0" 
+                               Text="{Binding labelobjFile.entityname}" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
                         <Label Grid.Row="2" Grid.Column="1" 
                                Text=":" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
-                        <Label Grid.Row="2" Grid.Column="2" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"
+                        <Label Grid.Row="2" Grid.Column="2" Text="{Binding EntityName,Mode=TwoWay}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
-                        <Label Grid.Row="3" x:Name="nameFileNamelbl" Grid.Column="0"
-                               Text="{Binding labelobjFile.filename}" FontAttributes="Bold"
+                        
+                        <Label Grid.Row="3" x:Name="nameUploadedDatelbl" Grid.Column="0" 
+                               Text="{Binding labelobjFile.uploadeddate}" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
-                        <Label Grid.Row="3" Grid.Column="1"
+                        <Label Grid.Row="3" Grid.Column="1" 
                                Text=":" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
-                        <Label Grid.Row="3" Grid.Column="2" Text="{Binding FileName}" TextColor="Black"
+                        <Label Grid.Row="3" Grid.Column="2" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"
+                               Style="{DynamicResource LableWithSmallFont}"/>
+                        
+                        <Label Grid.Row="4" x:Name="nameFileNamelbl" Grid.Column="0"
+                               Text="{Binding labelobjFile.filename}" FontAttributes="Bold"
+                               Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="4" Grid.Column="1"
+                               Text=":" FontAttributes="Bold"
+                               Style="{DynamicResource LabelWithSendOTPFont}"/>
+                        <Label Grid.Row="4" Grid.Column="2" Text="{Binding FileName}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
                         <!--<Label Grid.Row="4" Grid.ColumnSpan="2">
                             <Label.FormattedText>
                                 <FormattedString>-->
                         <Label x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
                                           FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"
-                                           Grid.Row="4" Grid.Column="0"/>
-                        <Label Text=":" Grid.Row="4" Grid.Column="1"
+                                           Grid.Row="5" Grid.Column="0"/>
+                        <Label Text=":" Grid.Row="5" Grid.Column="1"
                                           FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"/>
                         <Label Text="{Binding Description}" TextColor="Black"
                                            Style="{DynamicResource LableWithSmallFont}"
-                                           Grid.Row="4" Grid.Column="2"/>
+                                           Grid.Row="5" Grid.Column="2"/>
                         <!--</FormattedString>
                             </Label.FormattedText>-->
                         <!--</Label>-->

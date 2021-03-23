@@ -100,6 +100,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ISimpleAudioPlayer playbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
                 playbeep.Load(sr);
 
+                Stream oksr = assembly.GetManifestResourceStream("YPS." + "okbeep.mp3");
+                ISimpleAudioPlayer okplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                okplaybeep.Load(oksr);
+
+                Stream ngsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
+                ISimpleAudioPlayer ngplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                ngplaybeep.Load(ngsr);
+
                 var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
                 var requestedPermissionStatus = requestedPermissions[Permission.Camera];
                 var pass1 = requestedPermissions[Permission.Camera];
@@ -118,8 +126,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (pass1 == PermissionStatus.Granted)
                 {
-                    var ScannerPage = new ZXingScannerPage();
+                    var overlay = new ZXingDefaultOverlay
+                    {
+                        ShowFlashButton = true,
+                        TopText = string.Empty,
+                        BottomText = string.Empty,
+                    };
 
+                    overlay.BindingContext = overlay;
+
+                    var ScannerPage = new ZXingScannerPage(null, overlay);
+                    ScannerPage = new ZXingScannerPage(null, overlay);
 
                     ScannerPage.OnScanResult += (scanresult) =>
                     {
@@ -322,6 +339,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
+                                        okplaybeep.Play();
                                     }
                                     else
                                     {
@@ -329,7 +347,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isMatchImage = "ng.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
-                                        playbeep.Play();
+                                        ngplaybeep.Play();
                                     }
                                     break;
 
@@ -342,6 +360,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
+                                        okplaybeep.Play();
+
                                     }
                                     else
                                     {
@@ -349,7 +369,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isMatchImage = "ng.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
-                                        playbeep.Play();
+                                        ngplaybeep.Play();
                                     }
                                     break;
 
@@ -364,6 +384,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
+                                        okplaybeep.Play();
+
                                     }
                                     else
                                     {
@@ -371,7 +393,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isMatchImage = "ng.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
-                                        playbeep.Play();
+                                        ngplaybeep.Play();
 
                                     }
                                     break;
@@ -387,6 +409,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
+                                        okplaybeep.Play();
+
                                     }
                                     else
                                     {
@@ -394,7 +418,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isMatchImage = "ng.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
-                                        playbeep.Play();
+                                        ngplaybeep.Play();
 
                                     }
                                     break;
@@ -410,6 +434,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
+                                        okplaybeep.Play();
+
                                     }
                                     else
                                     {
@@ -417,7 +443,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isMatchImage = "ng.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
-                                        playbeep.Play();
+                                        ngplaybeep.Play();
 
                                     }
                                     break;
@@ -433,6 +459,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
+                                        okplaybeep.Play();
+
                                     }
                                     else
                                     {
@@ -440,7 +468,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isMatchImage = "ng.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
-                                        playbeep.Play();
+                                        ngplaybeep.Play();
                                     }
                                     break;
 
@@ -453,6 +481,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
                                         scancountpermit--;
+                                        okplaybeep.Play();
+
                                     }
                                     else
                                     {
@@ -460,7 +490,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         isMatchImage = "ng.png";
                                         isScannedB = "ok.png";
                                         resultB = Settings.scanQRValueB;
-                                        playbeep.Play();
+                                        ngplaybeep.Play();
 
                                     }
                                     break;
@@ -470,7 +500,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     isMatchImage = "ng.png";
                                     isScannedB = "ok.png";
                                     resultB = Settings.scanQRValueB;
-                                    playbeep.Play();
+                                    ngplaybeep.Play();
 
                                     break;
                             }
@@ -514,7 +544,19 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (Navigation.ModalStack.Count == 0 ||
                                         Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
+                        ScannerPage.AutoFocus();
+                        //ScannerPage.DefaultOverlayShowFlashButton = true;
+                        //ScannerPage.Overlay.IsVisible = true;
+                        //ScannerPage.HasTorch = true;
+                        //ScannerPage.IsTorchOn = true;
+                        //ScannerPage.ToggleTorch();
                         await Navigation.PushAsync(ScannerPage);
+
+                        overlay.FlashButtonClicked += (s, ed) =>
+                        {
+                            ScannerPage.ToggleTorch();
+                        };
+
                     }
                 }
                 else

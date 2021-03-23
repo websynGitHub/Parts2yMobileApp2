@@ -83,6 +83,7 @@ namespace YPS.Model
         public string GivenName { get; set; }
         public string FullName { get; set; }
         public string RoleName { get; set; }
+        public string EntityName { get; set; }
         public bool ShowAndHideBtn { get; set; }
         public bool ShowAndHideDescr { get; set; }
         public bool ShowAndHideBtnEnable { get; set; }
@@ -136,6 +137,7 @@ namespace YPS.Model
         public string PhotoDescription { get; set; }
         public string FileName { get; set; }
         public string RoleName { get; set; }
+        public string EntityName { get; set; }
         public string PhotoURL { get; set; }
         public int CreatedBy { get; set; }
         public int ISPhotoClosed { get; set; }

@@ -21,6 +21,7 @@ namespace YPS.Model
         public string FileDescription { get; set; }
         public string FileName { get; set; }
         public string RoleName { get; set; }
+        public string EntityName { get; set; }
         public string FileURL { get; set; }
         public int CreatedBy { get; set; }
         public string CreatedDate { get; set; }
@@ -115,6 +116,7 @@ namespace YPS.Model
         public string GivenName { get; set; }
         public string FileName { get; set; }
         public string RoleName { get; set; }
+        public string EntityName { get; set; }
         public string ImageURL { get; set; }
         public bool HideDeleteIc { get; set; } = false;
         public Stream PicStream { get; set; }
@@ -124,7 +126,7 @@ namespace YPS.Model
     {
         public string message { get; set; }
         public int status { get; set; }
-        public PLFileUpload data { get; set; }
+        public List<PLFileUpload> data { get; set; }
     }
     public class GetPLFileUploadData
     {

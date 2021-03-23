@@ -55,20 +55,20 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnAppearing();
 
-                //if (Vm.CanOpenScan == true)
-                //{
-                //    Vm.CanOpenScan = false;
-                //    Vm.IsScanPage = true;
-                //    await Vm.OpenScanner();
-                //    Vm.IsScanPage = false;
-                //}
-                //else
-                //{
-                //    if (Vm.IsScanPage == true)
-                //    {
-                //        await Navigation.PopAsync();
-                //    }
-                //}
+                if (Vm.CanOpenScan == true)
+                {
+                    Vm.CanOpenScan = false;
+                    Vm.IsScanPage = true;
+                    await Vm.OpenScanner();
+                    Vm.IsScanPage = false;
+                }
+                else
+                {
+                    if (Vm.IsScanPage == true)
+                    {
+                        await Navigation.PopAsync();
+                    }
+                }
             }
             catch (Exception ex)
             {

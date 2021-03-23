@@ -214,7 +214,7 @@ namespace YPS.Views
         {
             try
             {
-                Navigation.PopAsync();
+                App.Current.MainPage = new Parts2y.Parts2y_Views.MenuPage(typeof(Parts2y.Parts2y_Views.HomePage));
             }
             catch (Exception ex)
             {

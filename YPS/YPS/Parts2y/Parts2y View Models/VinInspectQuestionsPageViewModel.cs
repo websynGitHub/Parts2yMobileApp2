@@ -402,6 +402,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         SignTabClicked();
                     }
+
+                    if (IsQuickTabVisible == true)
+                    {
+                        //QuickTabClicked();
+                        QuickTabVisibility = true;
+                        FullTabVisibility = false;
+                        SignTabVisibility = false;
+                    }
+                    else
+                    {
+                        //FullTabClicked();
+                        FullTabVisibility = true;
+                        QuickTabVisibility = false;
+                        SignTabVisibility = false;
+                    }
                 }
             }
             catch (Exception ex)

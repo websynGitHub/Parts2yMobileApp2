@@ -71,6 +71,8 @@
                                                 <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
                                                 <Label Text=")" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
                                             </StackLayout>
+                                            <Label Text="{Binding EntityName}" TextColor="Black"
+                                       Style="{StaticResource LblSubTitle}"/>
                                             <Label Text="{Binding CreatedDate}" TextColor="Black"
                                        Style="{StaticResource LblSubTitle}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
@@ -110,6 +112,8 @@
                                                 <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
                                                 <Label Text=")" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
                                             </StackLayout>
+                                            <Label Text="{Binding EntityName}" TextColor="Black"
+                                       Style="{StaticResource LblSubTitle}"/>
                                             <Label Text="{Binding CreatedDate}" TextColor="Black"
                                        Style="{StaticResource LblSubTitle}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
@@ -164,6 +168,7 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </cards:SfCardLayout>
+                
  <cards:SfCardLayout IsVisible="{Binding IsInspectionPhotosVisible}" Margin="0,4,0,4"
                                 Padding="0,2,0,2" x:Name="synfInspectionImageViewList" VisibleCardIndex="{Binding VisibleCardInx}"
                                 BindableLayout.ItemsSource="{Binding inspectionImageViews}" ShowSwipedCard="True"

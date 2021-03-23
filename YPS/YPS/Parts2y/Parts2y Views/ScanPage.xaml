@@ -5,8 +5,7 @@
              xmlns:local1="clr-namespace:YPS.CommonClasses"
              NavigationPage.HasNavigationBar="False" x:Name="scanpage" 
              xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
-             xmlns:behaviours="clr-namespace:YPS.Behaviours"
-             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms">
+             xmlns:behaviours="clr-namespace:YPS.Behaviours">
     
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -102,19 +101,6 @@
                 </Grid>
             </Grid>
 
-            <Grid IsVisible="{Binding IsScannerPage}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <zxing:ZXingScannerView IsTorchOn="{Binding TorchOn}" ScanResultCommand="{Binding ScanResultCommand}" x:Name = "scannerView" Grid.Row = "0" IsScanning="True" />
-                <zxing:ZXingDefaultOverlay x:Name="overlay" Grid.Row="0"/>
-                <local:FontAwesomeIconLabel x:Name="flashIcon" Text="{Binding FlashIcon}"
-                                                  TextColor="White" FontSize="25" Margin="0,0,25,25"
-                                                 HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand">
-                    <local:FontAwesomeIconLabel.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FlashCommand}"/>
-                    </local:FontAwesomeIconLabel.GestureRecognizers>
-                </local:FontAwesomeIconLabel>
-                <!---->
-            </Grid>
-            
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Style="{StaticResource FmForActivityIndicator}">
                     <StackLayout Padding="15">

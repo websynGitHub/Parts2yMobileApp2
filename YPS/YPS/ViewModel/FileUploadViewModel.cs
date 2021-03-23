@@ -347,7 +347,7 @@ namespace YPS.ViewModel
                                     //{
                                     foreach (var file in DataForFileUpload.files)
                                     {
-                                        ListOfFile.Insert(0, new MyFile() { FileName = file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = file.FileID, FileDescription = file.FileDescription, FileURL = file.FileURL, CreatedDate = file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = file.RoleName });
+                                        ListOfFile.Insert(0, new MyFile() { FileName = file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = file.FileID, FileDescription = file.FileDescription, FileURL = file.FileURL, CreatedDate = file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = file.RoleName, EntityName = file.EntityName });
                                     }
                                     //}
 
@@ -443,7 +443,7 @@ namespace YPS.ViewModel
                                     //{
                                     foreach (var val in response.data)
                                     {
-                                        ListOfFile.Insert(0, new MyFile() { FileName = val.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = val.FileID, FileDescription = val.FileDescription, FileURL = val.FileURL, CreatedDate = val.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = val.RoleName });
+                                        ListOfFile.Insert(0, new MyFile() { FileName = val.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = val.FileID, FileDescription = val.FileDescription, FileURL = val.FileURL, CreatedDate = val.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = val.RoleName, EntityName = val.EntityName });
                                     }
                                     //}
 
@@ -494,7 +494,10 @@ namespace YPS.ViewModel
                                 {
                                     /// Checking image and file extention.
                                     string PLIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
-                                    PLListOfFile.Insert(0, new PLFileUpload() { FileName = finalplData.data.FileName, GivenName = Settings.SGivenName, FileURL = finalplData.data.FileURL, ImageURL = PLIcon, ID = finalplData.data.ID, FileDescription = finalplData.data.FileDescription, CreatedDate = finalplData.data.CreatedDate, HideDeleteIc = true, RoleName = finalplData.data.RoleName });
+                                    foreach (var data in finalplData.data)
+                                    {
+                                        PLListOfFile.Insert(0, new PLFileUpload() { FileName = data.FileName, GivenName = Settings.SGivenName, FileURL = data.FileURL, ImageURL = PLIcon, ID = data.ID, FileDescription = data.FileDescription, CreatedDate = data.CreatedDate, HideDeleteIc = true, RoleName = data.RoleName, EntityName = data.EntityName });
+                                    }
                                     PLHideListAndShow = true;
                                     HideLabelAndShow = false;
                                     SetFileName = "Please choose a file";
@@ -598,7 +601,7 @@ namespace YPS.ViewModel
 
                                         if (access)
                                         {
-                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true, RoleName = items.RoleName });
+                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true, RoleName = items.RoleName, EntityName = items.EntityName });
                                         }
                                         else
                                         {
@@ -612,7 +615,7 @@ namespace YPS.ViewModel
                                             //}
                                             //else
                                             //{
-                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = items.RoleName });
+                                            addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = items.RoleName, EntityName = items.EntityName });
                                             //}
                                         }
                                     }
@@ -721,7 +724,7 @@ namespace YPS.ViewModel
 
                                     if (Settings.isFinalvol == 1)
                                     {
-                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = false, RoleName = items.RoleName });
+                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = false, RoleName = items.RoleName, EntityName = items.EntityName });
                                     }
                                     else
                                     {
@@ -732,7 +735,7 @@ namespace YPS.ViewModel
                                         //}
                                         //else
                                         //{
-                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true, RoleName = items.RoleName });
+                                        addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true, RoleName = items.RoleName, EntityName = items.EntityName });
                                         //}
                                     }
                                 }
@@ -789,6 +792,7 @@ namespace YPS.ViewModel
                         fileUpload = (from res in ListOfFile where res.FileID == (int)sender select res).FirstOrDefault();
                         Uploadedby = fileUpload.GivenName;
                         RoleName = fileUpload.RoleName;
+                        EntityName = fileUpload.EntityName;
                         UploadedDate = fileUpload.CreatedDate;
                         FileName = fileUpload.FileName;
                         Description = fileUpload.FileDescription;
@@ -801,6 +805,7 @@ namespace YPS.ViewModel
                         var plFileUpload = (from res in PLListOfFile where res.ID == (int)sender select res).FirstOrDefault();
                         Uploadedby = plFileUpload.GivenName;
                         RoleName = plFileUpload.RoleName;
+                        EntityName = plFileUpload.EntityName;
                         UploadedDate = plFileUpload.CreatedDate;
                         FileName = plFileUpload.FileName;
                         Description = plFileUpload.FileDescription;
@@ -1370,6 +1375,7 @@ namespace YPS.ViewModel
                         var uploadBtn = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjFile.upload.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var description = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjFile.description.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var uploadedBy = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjFile.uploadedBy.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
+                        var entityname = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjFile.entityname.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var uploadedDate = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjFile.uploadeddate.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var uploadFileName = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjFile.filename.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var complete = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjFile.complete.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
@@ -1379,6 +1385,7 @@ namespace YPS.ViewModel
                         labelobjFile.description = description != null ? (!string.IsNullOrEmpty(description) ? description : labelobjFile.description) : labelobjFile.description;
                         labelobjFile.descriptionlbl = (description != null ? (!string.IsNullOrEmpty(description) ? description : labelobjFile.descriptionlbl) : labelobjFile.descriptionlbl);
                         labelobjFile.uploadedBy = (uploadedBy != null ? (!string.IsNullOrEmpty(uploadedBy) ? uploadedBy : labelobjFile.uploadedBy) : labelobjFile.uploadedBy);
+                        labelobjFile.entityname = (entityname != null ? (!string.IsNullOrEmpty(entityname) ? entityname : labelobjFile.entityname) : labelobjFile.entityname);
                         labelobjFile.uploadeddate = (uploadedDate != null ? (!string.IsNullOrEmpty(uploadedDate) ? uploadedDate : labelobjFile.uploadeddate) : labelobjFile.uploadeddate);
                         labelobjFile.filename = (uploadFileName != null ? (!string.IsNullOrEmpty(uploadFileName) ? uploadFileName : labelobjFile.filename) : labelobjFile.filename);
                         labelobjFile.complete = (complete != null ? (!string.IsNullOrEmpty(complete) ? complete : "Complete") : "Complete");
@@ -1733,6 +1740,17 @@ namespace YPS.ViewModel
             }
         }
 
+        private string _EntityName;
+        public string EntityName
+        {
+            get { return _EntityName; }
+            set
+            {
+                _EntityName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private string _Uploadedby = string.Empty;
         public string Uploadedby
         {
@@ -1839,6 +1857,7 @@ namespace YPS.ViewModel
             public string upload { get; set; } = "Upload";
             public string uploadedBy { get; set; } = "Created By";
             public string uploadeddate { get; set; } = "Created Date";
+            public string entityname { get; set; } = "Company";
             public string filename { get; set; } = "File Name";
             public string complete { get; set; } = "LCUploadComplete";
             public string notcommplete { get; set; } = "LCUploadNotComplete ";

@@ -601,6 +601,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var data = taglist.Where(wr => wr.IsChecked == true).ToList();
                         //var data = taglist.SelectedItems.Cast<AllPoData>().ToList();
                         var uniq = data.GroupBy(x => x.POShippingNumber);
+                        AllPoData potagdata = new AllPoData();
+
+                        if (data != null && data.Count == 1)
+                        {
+                            potagdata = data[0];
+                        }
 
                         if (uniq.Count() >= 2)
                         {
@@ -669,7 +675,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     {
                                         //if (selectedTagsData.photoTags.Count > 1)
                                         //{
-                                        await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                        await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
                                         //}
                                         //else
                                         //{
