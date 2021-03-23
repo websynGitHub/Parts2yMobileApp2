@@ -29,7 +29,7 @@ namespace YPS.Model
         /// <param name="cntName">Blob Cnt Name </param>
         /// <param name="FileName">File Name </param>
         /// <param name="fileStream"> File Dataas Stream</param>
-        public static async void UploadFile(string cntName, string FileName, Stream fileStream)
+        public static async void UploadFile(string cntName, string FileName, Stream fileStream, string iosmultifile = "", string platformtype="")
         {
             // Retrieve storage account from connection string.
             CloudStorageAccount account = CloudStorageAccount.Parse(Settings.BlobStorageConnectionString);
@@ -43,7 +43,14 @@ namespace YPS.Model
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(FileName);
             try
             {
-                blockBlob.UploadFromStreamAsync(fileStream).Wait();
+                if (platformtype == "ios")
+                {
+                    blockBlob.UploadFromFileAsync(iosmultifile).Wait();
+                }
+                else
+                {
+                    blockBlob.UploadFromStreamAsync(fileStream).Wait();
+                }
             }
             catch (System.Exception ex)
             {

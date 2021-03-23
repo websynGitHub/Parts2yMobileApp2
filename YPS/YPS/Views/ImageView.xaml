@@ -167,7 +167,7 @@
  <cards:SfCardLayout IsVisible="{Binding IsInspectionPhotosVisible}" Margin="0,4,0,4"
                                 Padding="0,2,0,2" x:Name="synfInspectionImageViewList" VisibleCardIndex="{Binding VisibleCardInx}"
                                 BindableLayout.ItemsSource="{Binding inspectionImageViews}" ShowSwipedCard="True"
-                                VisibleCardIndexChanged="SynfImageViewList_VisibleCardIndexChanged" VerticalOptions="Center" 
+                                VisibleCardIndexChanged="SynfImageViewList_VisibleCardIndexChanged" VerticalOptions="FillAndExpand" 
                                 BackgroundColor="Transparent" Grid.Row="1" HorizontalOptions="FillAndExpand">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
