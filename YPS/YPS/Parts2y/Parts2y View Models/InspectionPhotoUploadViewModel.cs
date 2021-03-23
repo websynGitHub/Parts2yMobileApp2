@@ -301,33 +301,76 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             FileTypes = Xamarin.Essentials.FilePickerFileType.Images,
                         };
 
-                        var fileOS = await Xamarin.Essentials.FilePicker.PickMultipleAsync(options);
-
-                        if (fileOS != null)
+                        if (Device.RuntimePlatform == Device.Android)
                         {
-                            AStack = false;
-                            NoPhotos_Visibility = false;
-                            firstStack = true;
-                            SecondMainStack = true;
-                            FirstMainStack = false;
-                            RowHeightOpenCam = 100;
-                            int id = 0;
-                            ListOfImage.Clear();
-                            foreach (var item in fileOS)
+                            var fileOS = await Xamarin.Essentials.FilePicker.PickMultipleAsync(options);
+
+                            if (fileOS != null)
                             {
-                                picStream = await item.OpenReadAsync();
-                                extension = Path.GetExtension(item.FullPath);
-                                fileName = Path.GetFileNameWithoutExtension(item.FullPath);
-                                ListOfImage.Add(new GalleryImage()
+                                AStack = false;
+                                NoPhotos_Visibility = false;
+                                firstStack = true;
+                                SecondMainStack = true;
+                                FirstMainStack = false;
+                                RowHeightOpenCam = 100;
+                                int id = 0;
+                                ListOfImage.Clear();
+                                foreach (var item in fileOS)
                                 {
-                                    ID = id,
-                                    ImgPath = item.FullPath,
-                                    Fullfilename = fileName,
-                                    ImageOriginalStream = picStream,
-                                    Extension = extension
-                                });
-                                id++;
+                                    picStream = await item.OpenReadAsync();
+                                    extension = Path.GetExtension(item.FullPath);
+                                    fileName = Path.GetFileNameWithoutExtension(item.FullPath);
+                                    ListOfImage.Add(new GalleryImage()
+                                    {
+                                        ID = id,
+                                        ImgPath = item.FullPath,
+                                        Fullfilename = fileName,
+                                        ImageOriginalStream = picStream,
+                                        Extension = extension,
+                                        uploadplatform = "Android"
+                                    });
+                                    id++;
+                                }
                             }
+                        }
+                        else
+                        {
+                            bool imageModifiedWithDrawings = false;
+                            if (imageModifiedWithDrawings)
+                            {
+                                await GMMultiImagePicker.Current.PickMultiImage(true);
+                            }
+                            else
+                            {
+                                await GMMultiImagePicker.Current.PickMultiImage();
+                            }
+
+                            MessagingCenter.Unsubscribe<App, List<string>>((App)Xamarin.Forms.Application.Current, "ImagesSelectediOS");
+                            MessagingCenter.Subscribe<App, List<string>>((App)Xamarin.Forms.Application.Current, "ImagesSelectediOS", (s, images) =>
+                            {
+                                if (images.Count > 0)
+                                {
+                                    if (ListOfImage.Count != 0)
+                                        ListOfImage.Clear();
+                                    AStack = false;
+                                    NoPhotos_Visibility = false;
+                                    firstStack = true;
+                                    SecondMainStack = true;
+                                    FirstMainStack = false;
+                                    RowHeightOpenCam = 100;
+                                    extension = "ios";
+                                    int id = 0;
+                                    foreach (var item in images)
+                                    {
+                                        var filename = item.Split('/').Last();
+                                        ListOfImage.Add(new GalleryImage() { ID = id,Extension=".jpg", ImgPath = item, Fullfilename = filename, uploadplatform = "ios" });
+                                        id++;
+                                    }
+
+                                    //ImgCarouselView.ItemsSource = images;
+                                    //InfoText.IsVisible = true; //InfoText is optional
+                                }
+                            });
                         }
                     }
                     else
@@ -374,14 +417,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         firstStack = false;
                         FirstMainStack = false;
 
-                        if (extension.Trim().ToLower() == ".png" || extension.Trim().ToLower() == ".jpg" || extension.Trim().ToLower() == ".jpeg" || extension.Trim().ToLower() == ".gif" || extension.Trim().ToLower() == ".bmp")
+                        if (extension.Trim().ToLower() == ".png" || extension.Trim().ToLower() == ".jpg" || extension.Trim().ToLower() == ".jpeg" || extension.Trim().ToLower() == ".gif" || extension.Trim().ToLower() == ".bmp" || extension.Trim().ToLower() == "ios")
                         {
                             description_txt = Regex.Replace(description_txt, @"\s+", " ");
                             var listOfFiles = new List<UpdateInspectionRequest>();
                             foreach (var item in ListOfImage)
                             {
                                 string FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + item.Extension;
-                                BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagfiles), FullFilename, item.ImageOriginalStream);
+                                BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagfiles), FullFilename, item.ImageOriginalStream, item.ImgPath, item.uploadplatform);
                                 UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest()
                                 {
                                     BackLeft = inspectionConfiguration.BackLeft,
@@ -660,5 +703,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Stream ImageOriginalStream { get; set; }
         public string Fullfilename { get; set; }
         public string Extension { get; set; }
+
+        public string uploadplatform { get; set; }///Added ajay
+
     }
 }
