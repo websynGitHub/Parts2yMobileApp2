@@ -235,6 +235,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
                                 IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
                             }
+
+                            if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                            {
+                                SignTabClicked();
+                            }
+
+                            if (IsQuickTabVisible == true)
+                            {
+                                QuickTabClicked();
+                                //QuickTabVisibility = true;
+                                //FullTabVisibility = false;
+                                //SignTabVisibility = false;
+                            }
+                            else
+                            {
+                                FullTabClicked();
+                                //FullTabVisibility = true;
+                                //QuickTabVisibility = false;
+                                //SignTabVisibility = false;
+                            }
                         }
                         else
                         {
