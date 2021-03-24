@@ -84,8 +84,8 @@
                 <StackLayout Grid.Row="1" x:Name="Userstack" IsVisible="{Binding addchatUserStack,Mode=TwoWay}" 
                              HorizontalOptions="Center" Margin="2,0,2,0">
                     <Frame Style="{StaticResource FrameStyleForFileUpload}" HeightRequest="45" HorizontalOptions="FillAndExpand"
-                           >
-                        <Grid RowSpacing="0" VerticalOptions="FillAndExpand">
+                           BackgroundColor="White">
+                        <Grid RowSpacing="0" VerticalOptions="FillAndExpand"  BackgroundColor="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="45"/>
                             </Grid.RowDefinitions>
@@ -99,7 +99,8 @@
                            
                             <sfbuttons:SfButton Grid.Row="0" Grid.Column="1" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
                                                 HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="40"
-                                                BackgroundColor="{Binding BgColor}" IsVisible="{Binding IsUpdateBtnVisible}">
+                                                BackgroundColor="{Binding BgColor}" IsVisible="{Binding IsUpdateBtnVisible}"
+                                                Margin="0,0,5,0">
                                 <sfbuttons:SfButton.Content>
                                   
                                     <StackLayout Style="{StaticResource StackInSfButton}">
@@ -114,11 +115,11 @@
                         </Grid>
                     </Frame>
                    
-                    <Grid x:Name="StartUser" BackgroundColor="White" VerticalOptions="FillAndExpand"
+                    <Grid x:Name="StartUser" VerticalOptions="FillAndExpand"
                                 RowDefinitions="*,50" >
                         <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
                             <sflistView:SfListView x:Name="ChatUserlist" VerticalOptions="FillAndExpand" 
-                                                   ItemsSource="{Binding UserListCollections}" BackgroundColor="White" 
+                                                   ItemsSource="{Binding UserListCollections}"  
                                                    IsScrollBarVisible="True" AutoFitMode="Height">
                                 <sflistView:SfListView.ItemTemplate>
                                     <DataTemplate>
@@ -160,9 +161,9 @@
                         </Grid>
                     </Grid>
                    
-                    <StackLayout x:Name="Adduser" BackgroundColor="White"  VerticalOptions="FillAndExpand"
+                    <StackLayout x:Name="Adduser"   VerticalOptions="FillAndExpand"
                                Margin="4,0,4,0"  >
-                        <ListView BackgroundColor="White" x:Name="Userlist"
+                        <ListView  x:Name="Userlist"
                                   ItemsSource="{Binding UserListCollections,Mode=TwoWay}"
                                   SeparatorColor="Transparent" RowHeight="40" IsEnabled="True">
                             <ListView.ItemTemplate>
@@ -187,26 +188,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackLayout>
-                    
-                    <!--<Grid x:Name="Startstack" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
-                                 Margin="4,0,4,4" HeightRequest="50" >
-
-                        <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="0"
-                                            Text="{Binding labelobjdefval.closeQAStart}" Clicked="CancelClicked1"
-                                             Style="{StaticResource SfBtnRed}" >
-                            <sfbuttons:SfButton.Behaviors>
-                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                            </sfbuttons:SfButton.Behaviors>
-                        </sfbuttons:SfButton>
-
-                        <sfbuttons:SfButton  x:Name="nameStartChat"  HorizontalOptions="FillAndExpand" Grid.Column="1"
-                                             Text="{Binding labelobjdefval.startQA}" Clicked="AddToChatClicked"
-                                            Style="{StaticResource SfBtnBlue}">
-                            <sfbuttons:SfButton.Behaviors>
-                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                            </sfbuttons:SfButton.Behaviors>
-                        </sfbuttons:SfButton>
-                    </Grid>-->
+                  
                 </StackLayout>
                 
                 <StackLayout Grid.Row="1" IsVisible="{Binding QnACloseStack,Mode=TwoWay}">

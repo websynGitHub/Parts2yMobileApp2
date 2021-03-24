@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using YPS.CommonClasses;
+using YPS.CustomToastMsg;
+using YPS.Helpers;
 using YPS.Model;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
@@ -29,7 +31,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand SignalTabCmd { set; get; }
         //public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
         VinInspectionAnswersPage pagename;
-        //AllPoData selectedTagData;
+        AllPoData selectedTagData;
         YPSService trackService;
         int tagId, photoCounts;
         public bool isInspVIN, isAllDone;
@@ -53,6 +55,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 pagename = page;
                 isInspVIN = isVINInsp;
                 isAllDone = isalldone;
+                selectedTagData = selectedtagdata;
                 this.tagId = selectedtagdata.POTagID;
                 PONumber = selectedtagdata.PONumber;
                 ShippingNumber = selectedtagdata.ShippingNumber;
@@ -300,7 +303,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             try
             {
-                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber));
+                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber, selectedTagData));
             }
             catch (Exception ex)
             {
@@ -325,6 +328,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     var checkInternet = await App.CheckInterNetConnection();
                     if (checkInternet)
                     {
+                        await DoneClicked();
                         UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest();
                         updateInspectionRequest.BackLeft = RearLeftTrue ? 1 : 0;
                         updateInspectionRequest.QID = InspectionConfiguration.MInspectionConfigID;
@@ -339,12 +343,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (result != null && result.status == 1)
                         {
-                            if (InspectionConfiguration.SerialCount == inspectionConfigurationList.Count)
+                            if (InspectionConfiguration.SerialNo == inspectionConfigurationList.Count)
                             {
                                 NextButtonText = "COMPLETE";
                             }
 
-                            if (InspectionConfiguration.SerialCount < inspectionConfigurationList.Count)
+                            if (InspectionConfiguration.SerialNo < inspectionConfigurationList.Count)
                             {
                                 FrontRightTrue = false;
                                 FrontRightFalse = false;
@@ -362,10 +366,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 await Task.Delay(1);
 
-                                InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.MInspectionConfigID == InspectionConfiguration.MInspectionConfigID + 1);
+                                InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.SerialNo == InspectionConfiguration.SerialNo + 1);
 
-                                var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
-                                InspectionConfiguration.SerialCount = index + 1;
+                                //InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.MInspectionConfigID == InspectionConfiguration.MInspectionConfigID + 1);
+
+                                //var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
+                                //InspectionConfiguration.SerialCount = index + 1;
 
                                 ShowConfigurationOptions();
                             }
@@ -374,13 +380,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    if (InspectionConfiguration.SerialCount < inspectionConfigurationList.Count)
+                    if (InspectionConfiguration.SerialNo < inspectionConfigurationList.Count)
                     {
-                        InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.MInspectionConfigID == InspectionConfiguration.MInspectionConfigID + 1);
+                        //InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.MInspectionConfigID == InspectionConfiguration.MInspectionConfigID + 1);
+                        InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.SerialNo == InspectionConfiguration.SerialNo + 1);
                         ShowConfigurationOptions();
                         Remarks = string.Empty;
-                        var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
-                        InspectionConfiguration.SerialCount = index + 1;
+                        //var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
+                        //InspectionConfiguration.SerialCount = index + 1;
                         //if (InspectionConfiguration.MInspectionConfigID == inspectionConfigurationList.Count())
                         //{
                         //    NextBtnOpacity = 0.5;
@@ -422,14 +429,51 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private async Task DoneClicked()
+        {
+            try
+            {
+                if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus == 0)
+                {
+                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                    tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                    tagtaskstatus.Status = 1;
+                    tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                    var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+
+                    if (result.status == 1)
+                    {
+                        if (selectedTagData.TaskStatus == 0)
+                        {
+                            TagTaskStatus taskstatus = new TagTaskStatus();
+                            taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                            taskstatus.TaskStatus = 1;
+                            taskstatus.CreatedBy = Settings.userLoginID;
+
+                            var taskval = await trackService.UpdateTaskStatus(taskstatus);
+                        }
+                        selectedTagData.TagTaskStatus = 1;
+                        selectedTagData.TaskStatus = 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DoneClicked method -> in VinInspectionAnswersPageViewModel.cs  " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+        }
+
         private void ShowConfigurationOptions()
         {
             try
             {
                 loadindicator = true;
 
-                var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
-                InspectionConfiguration.SerialCount = index + 1;
+                //var index = inspectionConfigurationList.IndexOf(InspectionConfiguration);
+                //InspectionConfiguration.SerialCount = index + 1;
 
                 FrontLeft = InspectionConfiguration.FrontLeft == 1 || InspectionConfiguration.IsFront == 1;
                 FrontRight = InspectionConfiguration.FrontRight == 1;

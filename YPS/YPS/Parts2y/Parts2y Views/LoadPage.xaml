@@ -4,7 +4,7 @@
              x:Class="YPS.Parts2y.Parts2y_Views.LoadPage"
               xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
                   xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
-                  xmlns:local="clr-namespace:YPS.CustomRenders"
+                  xmlns:local="clr-namespace:YPS.CustomRenders" BackgroundColor="#E9E9E9"
                   xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
                   xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                       xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
@@ -124,7 +124,7 @@
                         <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
                                           FlowItemsSource="{Binding LoadPhotosList,Mode=TwoWay}" 
                                           IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" 
-                                          BackgroundColor="White">
+                                          >
                             <flv:FlowListView.FlowColumnTemplate >
                                 <DataTemplate>
                                     <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">

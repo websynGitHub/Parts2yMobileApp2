@@ -142,7 +142,7 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
                                                         
-                                                        <local:FontAwesomeIconLabel Text="{Binding TagTaskStatusIcon}" FontSize="28"  TextColor="#000000" 
+                                                        <local:FontAwesomeIconLabel Text="{Binding TagTaskStatusIcon}" FontSize="23"  TextColor="#000000" 
                                                                                     HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,10,0"
                                                                                     />
                                                     </StackLayout>

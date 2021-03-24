@@ -6,7 +6,7 @@
                   xmlns:sfRadioGroup="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
                   xmlns:local="clr-namespace:YPS.CustomRenders"
                   x:Class="YPS.Views.PhotoUpload" Title="Upload Photo" x:Name="pholist"
-                  NavigationPage.HasNavigationBar="False" BackgroundColor="White"
+                  NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9"
                   xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
                   xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
                       xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
@@ -56,7 +56,7 @@
                     </Grid>
                    
                     <StackLayout Grid.Row="1" IsVisible="{Binding listStack}" Margin="6,0,6,0">
-                        <Grid ClassId="{Binding UploadType}" x:Name="gridData" BackgroundColor="White">
+                        <Grid ClassId="{Binding UploadType}" x:Name="gridData" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="2"/>
@@ -65,7 +65,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Text="Before Packing" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" 
+                            <Label Text="Before Packing" Style="{DynamicResource LableWithMediumFont}"
                                  Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding BeforePackingTextColor}"
                                 VerticalOptions="Center" HorizontalTextAlignment="Center"  Grid.Row="0" Grid.Column="0"
                                    Margin="0,2,0,2">
@@ -89,7 +89,7 @@
                                 </BoxView.Triggers>
                             </BoxView>
                             <Label Text="After Packing" Style="{DynamicResource LableWithMediumFont}" 
-                               BackgroundColor="White" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
+                               Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
                                HorizontalTextAlignment="Center" TextColor="{Binding AfterPackingTextColor}" 
                                    Grid.Row="0" Grid.Column="1" Margin="0,2,0,2">
                                 <Label.GestureRecognizers>
@@ -115,7 +115,7 @@
                         <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
                                           FlowItemsSource="{Binding finalPhotoListA,Mode=TwoWay}" 
                                           IsVisible="{Binding AStack}" SeparatorVisibility="None" HasUnevenRows="True" 
-                                          BackgroundColor="White">
+                                          >
                             <flv:FlowListView.FlowColumnTemplate >
                                 <DataTemplate>
                                     <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
@@ -148,7 +148,7 @@
                         </flv:FlowListView>
                         
                         <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" FlowItemsSource="{Binding finalPhotoListB,Mode=TwoWay}"
-                                          BackgroundColor="White" SeparatorVisibility="None" HasUnevenRows="True" IsVisible="{Binding BStack}">
+                                           SeparatorVisibility="None" HasUnevenRows="True" IsVisible="{Binding BStack}">
                             <flv:FlowListView.FlowColumnTemplate >
                                 <DataTemplate>
                                     <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
@@ -298,10 +298,10 @@
                         <Image Source="{Binding CaptchaImage1}" x:Name="img"/>
                     </ScrollView>
                     
-                    <StackLayout Grid.Row="2" BackgroundColor="White" IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" 
+                    <StackLayout Grid.Row="2" IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" 
                                  VerticalOptions="EndAndExpand" Padding="10">
-                        <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
-                            <Grid HeightRequest="80" BackgroundColor="White">
+                        <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False"  BackgroundColor="White">
+                            <Grid HeightRequest="80">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>

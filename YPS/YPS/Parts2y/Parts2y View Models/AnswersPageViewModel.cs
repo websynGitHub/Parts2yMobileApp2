@@ -136,7 +136,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public async Task SelectPic()
         {
             loadindicator = true;
-            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, QuestiionsPageHeaderData.VINLabelValue));
+            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, QuestiionsPageHeaderData.VINLabelValue, null));
             loadindicator = false;
         }
 

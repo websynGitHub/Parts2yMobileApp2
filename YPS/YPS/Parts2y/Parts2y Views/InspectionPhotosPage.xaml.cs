@@ -15,10 +15,10 @@ namespace YPS.Parts2y.Parts2y_Views
     public partial class InspectionPhotosPage : ContentPage
     {
         InspectionPhotoUploadViewModel Vm;
-        public InspectionPhotosPage(int tagId, InspectionConfiguration inspectionConfiguration,string vinValue)
+        public InspectionPhotosPage(int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata)
         {
             InitializeComponent();
-            BindingContext = Vm = new InspectionPhotoUploadViewModel(Navigation, this, tagId, inspectionConfiguration, vinValue);
+            BindingContext = Vm = new InspectionPhotoUploadViewModel(Navigation, this, tagId, inspectionConfiguration, vinValue, selectedtagdata);
         }
 
         private async void Back_Tapped(object sender, EventArgs e)

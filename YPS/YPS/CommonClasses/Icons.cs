@@ -58,10 +58,10 @@
 
         public static readonly string search = "\uf002";
         public static readonly string arrow_circle_right = "\uf0a9";
-        public static readonly string CheckCircle = "\uf058";
-        public static readonly string circle = "\uf1db";
+        //public static readonly string CheckCircle = "\uf058";
+        //public static readonly string circle = "\uf1db";
         public static readonly string righticon = "\uf105";
-        public static readonly string Tickicon = "\uf05d";
+        //public static readonly string Tickicon = "\uf05d";
         public static readonly string Dashboard = "\uf0e4";
         public static readonly string Home = "\uf015";
         public static readonly string QRcode = "\uf029";
@@ -90,5 +90,10 @@
 
         public static readonly string flashOffIC = "\uf185";
         public static readonly string flashOnIC = "\uf0e7";
+
+        public static readonly string Pending = "\uf250";
+        public static readonly string Progress = "\uf252";
+        public static readonly string Done = "\uf254";
+
     }
 }

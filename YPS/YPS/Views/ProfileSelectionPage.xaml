@@ -5,7 +5,7 @@
              x:Class="YPS.Views.ProfileSelectionPage"
            
              NavigationPage.HasNavigationBar="False" 
-             BackgroundColor="White"
+             BackgroundColor="#E9E9E9"
               xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:FontAwsmLbl="clr-namespace:YPS.CustomRenders"
@@ -70,7 +70,7 @@
                 </Grid>
                 
                 <Grid Grid.Row="1" ColumnSpacing="2"   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                      BackgroundColor="White" Padding="0" RowSpacing="0" Margin="6,0,6,0"> 
+                    Padding="0" RowSpacing="0" Margin="6,0,6,0"> 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.30*"/>
                         <ColumnDefinition Width="0.30*"/>
@@ -78,7 +78,7 @@
                         <!--<ColumnDefinition Width="0.18*"/>-->
                     </Grid.ColumnDefinitions>
                     <StackLayout Grid.Column="0">
-                        <Label Text="Default Setting" Style="{DynamicResource LableWithMediumFont}" BackgroundColor="White" 
+                        <Label Text="Default Setting" Style="{DynamicResource LableWithMediumFont}"
                                  Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding settingsTextColor}"
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                             <!--<Label.GestureRecognizers>
@@ -92,7 +92,7 @@
                     </StackLayout>
                     <StackLayout Grid.Column="1">
                         <Label x:Name="UpdatePBtn" Text="Update Profile" Style="{DynamicResource LableWithMediumFont}" 
-                               BackgroundColor="White" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
+                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
                                HorizontalTextAlignment="Center" TextColor="{Binding profileTextColor}" Margin="0,2,0,2">
                             <!--<Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ICommandProfile}"/>
@@ -141,7 +141,7 @@
 
                                 <sfinput:SfTextInputLayout Grid.Row="1" Hint="{Binding Companylabel,Mode=TwoWay}"
                                                       ErrorColor="Red" HasError="{Binding companyHaserror}"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
                                     <combobox:SfComboBox x:Name="pkrCompany" Text="{Binding CompanyName,Mode=TwoWay}" ClassId="CompanyClassID"
                                                      DisplayMemberPath="Name" DataSource="{Binding CompanyList, Mode=TwoWay}"
                                                        SelectionChanged="ComapanyList_IndexChanged"
@@ -157,7 +157,7 @@
 
                                 <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding projectlabel,Mode=TwoWay}" 
                                                        ErrorColor="Red" HasError="{Binding projectHaserror}"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
                                     <combobox:SfComboBox x:Name="pkrProject" Text="{Binding ProjectName,Mode=TwoWay}" DataSource="{Binding ProjectList, Mode=TwoWay}"
                                                      DisplayMemberPath="Name" SelectionChanged="ProjectList_IndexChanged"
                                                              Style="{StaticResource SfComboBoxTextStyle}">
@@ -172,7 +172,7 @@
 
                                 <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding joblabel,Mode=TwoWay}" 
                                                          ErrorColor="Red" HasError="{Binding jobHaserror}"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
                                     <combobox:SfComboBox x:Name="pkrJob" Text="{Binding JobName,Mode=TwoWay}" DataSource="{Binding JobList, Mode=TwoWay}" 
                                                      DisplayMemberPath="Name" SelectionChanged="JobList_IndexChanged"
                                                              Style="{StaticResource SfComboBoxTextStyle}">
@@ -186,7 +186,7 @@
                                 </sfinput:SfTextInputLayout>
 
                                 <sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="4" 
-                                                        Hint="{Binding supplierlabel,Mode=TwoWay}"
+                                                        Hint="{Binding supplierlabel,Mode=TwoWay}" ContainerBackgroundColor="White"
                                                        Style="{StaticResource SfInputLayout}" InputViewPadding="0">
                                     <StackLayout x:Name="comboboxSupplier" Orientation="Horizontal" HeightRequest="23">
                                         <Label Style="{StaticResource LabelStyleInDropDown}" Text="{Binding SupplierName,Mode=TwoWay}" 
@@ -230,7 +230,7 @@
 
                                 <sfinput:SfTextInputLayout Hint="{Binding LoginLbl,Mode=TwoWay}" Grid.Row="1"
                                                        IsEnabled="False" ErrorColor="Red" HasError="{Binding loginIDHaserror}"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
                                     <Entry Text="{Binding LoginID,Mode=TwoWay}" IsReadOnly="True" 
                                                Style="{StaticResource EntryTextStyle}"  IsEnabled="False">
                                         <Entry.HeightRequest>
@@ -244,7 +244,7 @@
 
                                 <sfinput:SfTextInputLayout Grid.Row="2" Hint="{Binding EmailLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding emailHaserror}"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
                                     <Entry Text="{Binding Email,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
                                         <Entry.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
@@ -257,7 +257,7 @@
 
                                 <sfinput:SfTextInputLayout Grid.Row="3" Hint="{Binding GivenNameLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding givennameHaserror}"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
                                     <Entry Text="{Binding GivenName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
                                         <Entry.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
@@ -269,7 +269,7 @@
                                 </sfinput:SfTextInputLayout>
 
                                 <sfinput:SfTextInputLayout Grid.Row="4" Hint="{Binding FamilyNameLbl,Mode=TwoWay}" 
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
                                     <Entry Text="{Binding FamilyName,Mode=TwoWay}" Style="{StaticResource EntryTextStyle}">
                                         <Entry.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
@@ -282,7 +282,7 @@
 
                                 <sfinput:SfTextInputLayout Grid.Row="5"  Hint="{Binding TimeZoneLbl,Mode=TwoWay}"
                                                        ErrorColor="Red" HasError="{Binding timezoneHaserror}"
-                                                       Style="{StaticResource SfInputLayout}" InputViewPadding="0">
+                                                       Style="{StaticResource SfInputLayout}" InputViewPadding="0"  ContainerBackgroundColor="White">
                                     <StackLayout Orientation="Horizontal" x:Name="TimeZoneLabel">
                                         <Label Style="{StaticResource LabelStyleInDropDown}" 
                                                    Text="{Binding TimeZoneTextDisplay,Mode=TwoWay}"
@@ -302,7 +302,7 @@
                                 </sfinput:SfTextInputLayout>
 
                                 <sfinput:SfTextInputLayout x:Name="languagelayout" Hint="{Binding LangaugeLbl,Mode=TwoWay}" 
-                                                               Grid.Row="6"
+                                                               Grid.Row="6" ContainerBackgroundColor="White"
                                                        ErrorColor="Red" HasError="{Binding languageHaserror}"
                                                        Style="{StaticResource SfInputLayout}">
 

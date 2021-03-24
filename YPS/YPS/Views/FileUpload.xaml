@@ -5,7 +5,7 @@
              xmlns:CustomEntry="clr-namespace:YPS.CustomRender"
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
-             BackgroundColor="White" x:Name="xFileUpload"
+             BackgroundColor="#E9E9E9" x:Name="xFileUpload"
              NavigationPage.HasNavigationBar="False"
              xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
@@ -103,7 +103,7 @@
                                            HeightRequest="70"/>
 
                         <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}" IsVisible="{Binding HideUploadButton}"
-                                            Style="{StaticResource SfBtnBlue}" Margin="0,0,1,0" BackgroundColor="{Binding BgColor}">
+                                            Style="{StaticResource SfBtnBlue}" Margin="0,0,5,0" BackgroundColor="{Binding BgColor}">
                             <sfbuttons:SfButton.Content>
                                 <StackLayout Style="{StaticResource StackInSfButton}">
                                     <Label Text="{Binding labelobjFile.upload}" Style="{StaticResource SfButtonTextLbl}"></Label>

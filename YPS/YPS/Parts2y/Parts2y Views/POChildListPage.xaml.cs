@@ -124,7 +124,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         c.BPhotoCountVisible = true;
                         c.APhotoCountVisible = true;
                         c.IsPhotosVisible = true;
-                        c.TagTaskStatusIcon = c.TagTaskStatus == 0 ? Icons.Tickicon : Icons.CheckCircle;
+                        c.TagTaskStatusIcon = c.TagTaskStatus == 0 ? Icons.Progress : Icons.Pending;
                         c.TagTaskStatus = c.TagTaskStatus == 0 ? 1 : c.TagTaskStatus;
                         return c;
                     }).ToList();
@@ -142,7 +142,7 @@ namespace YPS.Parts2y.Parts2y_Views
                          c.FUID = Convert.ToInt16(count[1]);
                          c.filecountVisible = true;
                          c.IsFilesVisible = true;
-                         c.TagTaskStatusIcon = c.TagTaskStatus == 0 ? Icons.Tickicon : Icons.CheckCircle;
+                         c.TagTaskStatusIcon = c.TagTaskStatus == 0 ? Icons.Progress : Icons.Pending;
                          c.TagTaskStatus = c.TagTaskStatus == 0 ? 1 : c.TagTaskStatus;
                          return c;
                      }).ToList();

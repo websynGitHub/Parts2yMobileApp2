@@ -327,7 +327,7 @@
 
                                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                                                       
-                                                            <local:FontAwesomeIconLabel Text="{Binding POTaskStatusIcon}" FontSize="28" TextColor="#000000" 
+                                                            <local:FontAwesomeIconLabel Text="{Binding POTaskStatusIcon}" FontSize="23" TextColor="#000000" 
                                                                                  Margin="0,0,10,0" HorizontalOptions="End" VerticalOptions="Center" />
 
                                                         <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 

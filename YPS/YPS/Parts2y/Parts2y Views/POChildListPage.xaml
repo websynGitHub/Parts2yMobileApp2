@@ -362,7 +362,7 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <local:FontAwesomeIconLabel Text="{Binding TagTaskStatusIcon}" FontSize="28"  TextColor="#000000" 
+                                                        <local:FontAwesomeIconLabel Text="{Binding TagTaskStatusIcon}" FontSize="23"  TextColor="#000000" 
                                                                                     HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,10,0"
                                                                                     />
                                                         
@@ -414,7 +414,7 @@
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckDone">
-                                <local:FontAwesomeIconLabel x:Name="imgDone" Text="{Static local1:Icons.CheckCircle}" Style="{StaticResource LblIconStyle}"/>
+                                <local:FontAwesomeIconLabel x:Name="imgDone" FontSize="23" Text="{Static local1:Icons.Done}" Style="{StaticResource LblIconStyle}"/>
                                 <Label Text="Done" x:Name="DoneLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>

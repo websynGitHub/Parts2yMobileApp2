@@ -543,15 +543,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         #region Status icon
                         if (values.TagTaskStatus == 0)
                         {
-                            values.TagTaskStatusIcon = Icons.circle;
+                            values.TagTaskStatusIcon = Icons.Pending;
                         }
                         else if (values.TagTaskStatus == 1)
                         {
-                            values.TagTaskStatusIcon = Icons.Tickicon;
+                            values.TagTaskStatusIcon = Icons.Progress;
                         }
                         else
                         {
-                            values.TagTaskStatusIcon = Icons.CheckCircle;
+                            values.TagTaskStatusIcon = Icons.Done;
                         }
                         #endregion Status icon
                     }

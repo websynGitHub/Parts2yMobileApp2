@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:YPS.CustomRenders"
              x:Class="YPS.Parts2y.Parts2y_Views.PhotoRepoPage"
              NavigationPage.HasNavigationBar="False" x:Name="PhotoRepo"
-             BackgroundColor="White"
+             BackgroundColor="#E9E9E9"
               xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
 
     <ContentPage.Content>
@@ -38,7 +38,7 @@
                                         VerticalOptions="CenterAndExpand"/>
                     </Grid>
 
-                    <Grid Grid.Row="1"  Margin="0" IsVisible="{Binding UploadViewContentVisible}" BackgroundColor="White">
+                    <Grid Grid.Row="1"  Margin="0" IsVisible="{Binding UploadViewContentVisible}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -50,8 +50,7 @@
                         <StackLayout Grid.Row="0" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0">
                             <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
                                           FlowItemsSource="{Binding RepoPhotosList,Mode=TwoWay}" 
-                                          IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" 
-                                          BackgroundColor="White">
+                                          IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" >
                                 <flv:FlowListView.FlowColumnTemplate >
                                     <DataTemplate>
                                         <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
@@ -106,10 +105,10 @@
                                    VerticalOptions="FillAndExpand"/>
                         </ScrollView>
 
-                        <StackLayout Grid.Row="3" BackgroundColor="White" IsEnabled="{Binding IsUploadStackEnable}" IsVisible="{Binding IsUploadStackVisible}"
+                        <StackLayout Grid.Row="3"  IsEnabled="{Binding IsUploadStackEnable}" IsVisible="{Binding IsUploadStackVisible}"
                                  VerticalOptions="EndAndExpand" Padding="10" >
                             <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
-                                <Grid HeightRequest="80" BackgroundColor="White">
+                                <Grid HeightRequest="80">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
@@ -137,7 +136,7 @@
 
 
                         <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="4,0,4,0"
-                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" IsVisible="{Binding IsBottomButtonsVisible}">
+                  Padding="0,0,0,4" HeightRequest="45" IsVisible="{Binding IsBottomButtonsVisible}">
 
                             <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Grid.Column="0" Command="{Binding DeleteAllCmd}" 
                                      Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">

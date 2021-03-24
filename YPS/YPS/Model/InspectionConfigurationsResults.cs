@@ -29,21 +29,44 @@ namespace YPS.Model
             }
         }
 
-        private int _SerialCount;
-        public int SerialCount
+        //private int _SerialCount;
+        //public int SerialCount
+        //{
+        //    get
+        //    {
+        //        return _SerialCount;
+        //    }
+        //    set
+        //    {
+        //        this._SerialCount = value++;
+        //        RaisePropertyChanged("SerialCount");
+        //    }
+        //}
+
+        private int _SerialNo;
+        public int SerialNo
         {
             get
             {
-                return _SerialCount;
+                return _SerialNo;
             }
             set
             {
-                this._SerialCount = value++;
-                RaisePropertyChanged("SerialCount");
+                this._SerialNo = value++;
+                RaisePropertyChanged("SerialNo");
             }
         }
 
-
+        private Color _AreBgColor = Color.Yellow;
+        public Color AreBgColor
+        {
+            get => _AreBgColor;
+            set
+            {
+                _AreBgColor = value;
+                RaisePropertyChanged("AreBgColor");
+            }
+        }
 
         private int _CategoryID;
         public int CategoryID

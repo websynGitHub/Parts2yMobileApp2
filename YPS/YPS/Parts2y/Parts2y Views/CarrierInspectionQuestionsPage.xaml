@@ -2,11 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours" xmlns:local="clr-namespace:YPS.CustomRenders"
              x:Class="YPS.Parts2y.Parts2y_Views.CarrierInspectionQuestionsPage"  xmlns:local1="clr-namespace:YPS.CommonClasses"
-              x:Name="CarrierInspQuestionPage" NavigationPage.HasNavigationBar="False">
+              x:Name="CarrierInspQuestionPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <Style TargetType="Grid">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+            
             <Style TargetType="BoxView" x:Key="StyleBoxView">
                 <Setter Property="HeightRequest" Value="3"/>
                 <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
@@ -162,12 +177,12 @@
                         <CollectionView Grid.Row="3" x:Name="QuestionList" BackgroundColor="Transparent"
                                 SelectionMode="Single" ItemsSource="{Binding QuestionListCategory}" IsVisible="{Binding IsQuestionListVisible}"
                                 Margin="6,6,6,0">
-                            <CollectionView.ItemsLayout>
+                            <!--<CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="6"/>
-                            </CollectionView.ItemsLayout>
+                            </CollectionView.ItemsLayout>-->
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid Padding="0,0,0,6">
                                         <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="-1" 
                                            BorderColor="{Binding SelectedTagBorderColor}"
                                            CornerRadius="4"  HasShadow="False">
@@ -176,16 +191,25 @@
                                                     <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=CarrierInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
                                                 </Grid.GestureRecognizers>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="80"/>
+                                                </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="10"/>
+                                                    <!--<ColumnDefinition Width="10"/>
                                                     <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="*"/>-->
+                                                    <ColumnDefinition Width="0.04*"/>
+                                                    <ColumnDefinition Width="0.10*"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
+                                                <Frame Grid.Row="0" Grid.Column="2" CornerRadius="3"  Margin="0"  HasShadow="False" Padding="0"  BackgroundColor="{Binding AreBgColor}" HorizontalOptions="End" HeightRequest="20" VerticalOptions="Start" >
+                                                    <Label  VerticalTextAlignment="Start"  HorizontalTextAlignment="Start" Style="{StaticResource LableWithMicroFont}"  TextColor="Black" Text="{Binding Area}" Padding="5,2,5,3" />
+                                                </Frame>
                                                 <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Column="0" BackgroundColor="{Binding ItemBackground}"/>
-                                                <Label Margin="0,12,0,12" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Text="{Binding MInspectionConfigID}" TextColor="Black"
+                                                <Label Grid.Row="0" Grid.Column="1" Padding="5,0,0,0" HorizontalOptions="Start" VerticalOptions="Center" Text="{Binding SerialNo}" TextColor="Black"
                                                             Style="{DynamicResource LableWithQuestionFont}"/>
-                                                <Label Margin="0,12,15,12" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding Question}" TextColor="Black"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                <Label Grid.Row="0" Grid.Column="2" Padding="5,0,0,0" VerticalOptions="Center" Text="{Binding Question}" TextColor="Black"
+                                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                             </Grid>
                                         </Frame>
                                     </Grid>

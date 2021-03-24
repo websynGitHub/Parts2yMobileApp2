@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fontLabel="clr-namespace:YPS.Parts2y.Parts2y_Custom_Renderers"
              x:Class="YPS.Parts2y.Parts2y_Views.Compare"
-             BackgroundColor="White"
+             BackgroundColor="#E9E9E9"
              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
              xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
              NavigationPage.HasNavigationBar="False"
@@ -100,7 +100,7 @@
                 </Grid>
                 
                 <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                      BackgroundColor="White" Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
+                       Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.40*"/>
                         <ColumnDefinition Width="0.40*"/>
@@ -175,8 +175,8 @@
                                 </Frame.GestureRecognizers>
                             </Frame>
                         </StackLayout>
+                        
                         <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-
                             <Frame Margin="7,0,7,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                                CornerRadius="4" BorderColor="Gray" IsEnabled="{Binding isEnableBFrame}" Opacity="{Binding opacityB}">
                                 <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -277,62 +277,40 @@
                                     </Grid>
                             </Frame>
                         </StackLayout>
-                            <!--<Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                                  HeightRequest="45" Margin="6,0,6,2"
-                                  IsVisible="{Binding showLatestViewFrame}" BackgroundColor="White" >
-                                <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
-                                Grid.Column="0">
-                                    <Button.Behaviors>
-                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                    </Button.Behaviors>
-                                </Button>
-
-                                <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
-                                Grid.Column="1">
-
-                                    <Button.Behaviors>
-                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                    </Button.Behaviors>
-                                </Button>
-                            </Grid>-->
                         </Grid>
-                  
+
                         <StackLayout IsVisible="{Binding IsConfigContentVisible}" Orientation="Vertical"
-                                     VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="6,0,6,0">
-                            
-                                    <Grid HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="60"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
+                                     VerticalOptions="FillAndExpand" Margin="6,0,6,0">
 
-                                        <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="0" Hint="Rule" 
-                                                       Style="{StaticResource SfInputLayout}">
+                            <Grid HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                                            <combobox:SfComboBox x:Name="LanguagePicker"
+                                <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="0" Hint="Rule" 
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
+
+                                    <combobox:SfComboBox x:Name="LanguagePicker"
                                                                  DataSource="{Binding ScanRuleLst,Mode=TwoWay}" 
                                                      Text="{Binding SelectedScanRule,Mode=TwoWay}" 
                                                                  SelectedItem="{Binding SelectedScanRule}"
                                                       VerticalOptions="CenterAndExpand" 
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
-                                                <combobox:SfComboBox.HeightRequest>
-                                                    <OnPlatform x:TypeArguments="x:Double">
-                                                        <On Platform="iOS">20</On>
-                                                        <On Platform="Android">50</On>
-                                                    </OnPlatform>
-                                                </combobox:SfComboBox.HeightRequest>
-                                            </combobox:SfComboBox>
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
 
-                                        </sfinput:SfTextInputLayout>
+                                </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="1" Grid.Column="0" Hint="Total"
+                                <sfinput:SfTextInputLayout Grid.Row="1" Grid.Column="0" Hint="Total"  ContainerBackgroundColor="White"
                                                        Style="{StaticResource SfInputLayout}" ErrorText="{Binding TotalErrorTxt}"
                                                            ErrorColor="Red" 
                                                            HasError="{Binding IsTotalValidMsg}">
@@ -348,18 +326,8 @@
                                         </Entry.HeightRequest>
                                     </Entry>
                                 </sfinput:SfTextInputLayout>
-                                        
-                                       
-                                    </Grid>
-                            <!--<Label IsVisible="{Binding IsTotalValidMsg}"
-                                               Text="{Binding TotalErrorTxt}"
-                                       TextColor="Black" VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>-->
-                            
-                           
-                            <!--</Frame>-->
-                            </StackLayout>
-                    <!--</Grid>-->
+                            </Grid>
+                        </StackLayout>
                     </StackLayout>
                 </ScrollView>
 
@@ -385,59 +353,11 @@
                         </Button.Behaviors>
                     </Button>
                 </Grid>
-                <!--<ContentView IsVisible="{Binding ScanTabVisibility}" BackgroundColor="Transparent" 
-                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" 
-                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Grid.Row="3">
-                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" Margin="6,0,6,2">
-                        <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
-                                Grid.Column="0">
-                            <Button.Behaviors>
-                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                            </Button.Behaviors>
-                        </Button>
-
-                        <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
-                                Grid.Column="1">
-
-                            <Button.Behaviors>
-                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                            </Button.Behaviors>
-                        </Button>
-                    </Grid>
-                </ContentView>-->
+               
             </Grid>
 
 
-            <!--<ContentView IsVisible="{Binding showLatestViewFrame}" BackgroundColor="White" 
-                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" 
-                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" Margin="6,0,6,2">
-                    <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
-                                Grid.Column="0">
-                        <Button.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </Button.Behaviors>
-                    </Button>
-
-                    <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
-                                Grid.Column="1">
-
-                        <Button.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </Button.Behaviors>
-                    </Button>
-                </Grid>
-            </ContentView>-->
+         
             
             <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -468,12 +388,6 @@
             <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="#C0808080" Padding="0" Margin="10,25,10,25"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Padding="0" BorderColor="Transparent">
-                    <!--<StackLayout Spacing="0">-->
-                        <!--<Image HorizontalOptions="End" Source="cross.png">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="HideHistory"/>
-                            </Image.GestureRecognizers>
-                        </Image>-->
                        
                         <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" BackgroundColor="White" Spacing="0">
                             <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red"

@@ -287,15 +287,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                         if (groupdata.TaskStatus == 0)
                                         {
-                                            groupdata.POTaskStatusIcon = Icons.circle;
+                                            groupdata.POTaskStatusIcon = Icons.Pending;
                                         }
                                         else if (groupdata.TaskStatus == 1)
                                         {
-                                            groupdata.POTaskStatusIcon = Icons.Tickicon;
+                                            groupdata.POTaskStatusIcon = Icons.Progress;
                                         }
                                         else
                                         {
-                                            groupdata.POTaskStatusIcon = Icons.CheckCircle;
+                                            groupdata.POTaskStatusIcon = Icons.Done;
                                         }
 
                                         groupdata.IsTaskResourceVisible = val.Select(c => c.TaskResourceID).FirstOrDefault() == Settings.userLoginID ? false : true;

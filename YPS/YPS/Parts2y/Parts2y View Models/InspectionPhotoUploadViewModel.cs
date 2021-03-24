@@ -38,6 +38,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         YPSService trackService;
         InspectionPhotosPage pagename;
+        AllPoData selectedTagData;
         Stream picStream;
         string extension = "", fileName, Mediafile, types = string.Empty;
         int tagId;
@@ -46,10 +47,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #endregion
 
-        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue)
+        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata)
         {
             Navigation = _Navigation;
             pagename = page;
+            selectedTagData = selectedtagdata;
             this.tagId = tagId;
             Tagnumbers = vinValue;
             Question = inspectionConfiguration.MInspectionConfigID + " " + inspectionConfiguration.Question;
@@ -363,7 +365,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     foreach (var item in images)
                                     {
                                         var filename = item.Split('/').Last();
-                                        ListOfImage.Add(new GalleryImage() { ID = id,Extension=".jpg", ImgPath = item, Fullfilename = filename, uploadplatform = "ios" });
+                                        ListOfImage.Add(new GalleryImage() { ID = id, Extension = ".jpg", ImgPath = item, Fullfilename = filename, uploadplatform = "ios" });
                                         id++;
                                     }
 
@@ -444,6 +446,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             await trackService.InsertInspectionPhotosService(listOfFiles);
                             await GetInspectionPhotos();
+                            await DoneClicked();
                         }
                     }
                     else
@@ -491,6 +494,42 @@ namespace YPS.Parts2y.Parts2y_View_Models
             IndicatorVisibility = false;
         }
 
+        private async Task DoneClicked()
+        {
+            try
+            {
+                if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus == 0)
+                {
+                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                    tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                    tagtaskstatus.Status = 1;
+                    tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                    var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+
+                    if (result.status == 1)
+                    {
+                        if (selectedTagData.TaskStatus == 0)
+                        {
+                            TagTaskStatus taskstatus = new TagTaskStatus();
+                            taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                            taskstatus.TaskStatus = 1;
+                            taskstatus.CreatedBy = Settings.userLoginID;
+
+                            var taskval = await trackService.UpdateTaskStatus(taskstatus);
+                        }
+                        selectedTagData.TagTaskStatus = 1;
+                        selectedTagData.TaskStatus = 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DoneClicked method -> in InspectionPhotoUploadViewModel.cs  " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+        }
 
         #region Properties
 

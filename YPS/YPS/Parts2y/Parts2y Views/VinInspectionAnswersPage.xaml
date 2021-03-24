@@ -4,7 +4,7 @@
              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              x:Class="YPS.Parts2y.Parts2y_Views.VinInspectionAnswersPage" xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours"
-             x:Name="VinInspAnswerPage" NavigationPage.HasNavigationBar="False">
+             x:Name="VinInspAnswerPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -166,7 +166,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" VerticalOptions="StartAndExpand" Text="{Binding InspectionConfiguration.MInspectionConfigID}" TextColor="Black"
+                                    <Label Grid.Column="0" VerticalOptions="StartAndExpand" Text="{Binding InspectionConfiguration.SerialNo}" TextColor="Black"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Column="1" VerticalOptions="CenterAndExpand" Text="{Binding InspectionConfiguration.Question}" TextColor="Black" Margin="5,0,0,0"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
@@ -222,7 +222,7 @@
                                         <ColumnDefinition Width="100"/>
                                     </Grid.ColumnDefinitions>
                                     <sfinput:SfTextInputLayout Hint="Remarks" Grid.Column="0"
-                                                       Style="{StaticResource SfInputLayout}">
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
 
                                         <local:MyEditor HeightRequest="{OnPlatform Android=80,iOS=65}"  Placeholder="Remarks"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
                                     </sfinput:SfTextInputLayout>
@@ -245,7 +245,7 @@
                         </ScrollView>
 
                         <Grid VerticalOptions="End" HorizontalOptions="FillAndExpand" Grid.Row="3"
-                              BackgroundColor="White" Margin="6,0,6,6" HeightRequest="45" IsVisible="{Binding IsAnswersVisible}">
+                               Margin="6,0,6,6" HeightRequest="45" IsVisible="{Binding IsAnswersVisible}">
 
                             <syncfusion:SfButton Text="VIEW ALL"
                                     Command="{Binding ViewallClick}"

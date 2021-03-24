@@ -248,10 +248,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
 
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID).ToList());
+                        QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                     else
                     {
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID).ToList());
+                        QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                 }
             }
@@ -305,7 +307,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration, QuestionsList, inspectionResultsLists, SelectedPodataList[0], false, IsAllTagsDone));
+                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0], false, IsAllTagsDone));
             }
             catch (Exception ex)
             {
