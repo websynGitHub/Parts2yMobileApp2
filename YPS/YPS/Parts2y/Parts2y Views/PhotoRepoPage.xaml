@@ -47,9 +47,9 @@
                             <RowDefinition Height="{Binding RowHeightOpenCam}"/>
                         </Grid.RowDefinitions>
 
-                        <StackLayout Grid.Row="0" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0">
+                        <StackLayout Grid.Row="0" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0" BackgroundColor="#E9E9E9">
                             <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
-                                          FlowItemsSource="{Binding RepoPhotosList,Mode=TwoWay}" 
+                                          FlowItemsSource="{Binding RepoPhotosList,Mode=TwoWay}" BackgroundColor="#E9E9E9"
                                           IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" >
                                 <flv:FlowListView.FlowColumnTemplate >
                                     <DataTemplate>

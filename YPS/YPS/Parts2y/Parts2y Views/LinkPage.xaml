@@ -41,7 +41,7 @@
                 <StackLayout RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
 
-                    <Grid RowSpacing="0" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                    <Grid RowSpacing="0" VerticalOptions="FillAndExpand" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -297,7 +297,7 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
                                  Margin="4,0,4,4" Grid.Row="2">
                             <sfbuttons:SfButton x:Name="b" HorizontalOptions="FillAndExpand"
                                     Command="{Binding BindingContext.LinkBeforePackingPhotoCmd, Source={x:Reference Name=Link}}" 
