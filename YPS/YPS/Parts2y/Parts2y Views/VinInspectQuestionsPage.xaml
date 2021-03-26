@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS.CustomRenders"
-             x:Class="YPS.Parts2y.Parts2y_Views.VinInspectQuestionsPage"  xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours"
+             x:Class="YPS.Parts2y.Parts2y_Views.VinInspectQuestionsPage"  xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours" xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
              x:Name="VinInspQuestionPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
     <ContentPage.Resources>
@@ -206,6 +206,54 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
+
+                        <StackLayout Grid.Row="3" Margin="6,0,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
+                                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            
+                            <Grid x:Name="quickstackssigque" IsVisible="{Binding IsQuickTabVisible}"
+                                  RowDefinitions="Auto,*">
+                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Quick"
+                                   Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
+                                <flv:FlowListView FlowItemsSource="{Binding QuickSignQuestionListCategory}" HeightRequest="125"
+                                                  FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9"
+                                         HorizontalOptions="FillAndExpand" VerticalOptions="Start" Grid.Row="1"
+                              SeparatorVisibility="None" HasUnevenRows="True" >
+                                    <flv:FlowListView.FlowColumnTemplate>
+                                        <DataTemplate>
+                                            <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
+                                                <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=VinInspQuestionPage}}"
+                                                          CommandParameter="{Binding .}"/>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </flv:FlowListView.FlowColumnTemplate>
+                                </flv:FlowListView>
+                            </Grid>
+
+                            <Grid x:Name="fullstackssigque" IsVisible="{Binding IsFullTabVisible}"
+                                         HorizontalOptions="FillAndExpand" VerticalOptions="Start"
+                                  RowDefinitions="Auto,*">
+                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Full"
+                                   Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
+                                <flv:FlowListView FlowItemsSource="{Binding FullSignQuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9" 
+                              SeparatorVisibility="None" HasUnevenRows="True" Grid.Row="1" HeightRequest="125">
+                                    <flv:FlowListView.FlowColumnTemplate>
+                                        <DataTemplate>
+                                            <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
+                                                <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=VinInspQuestionPage}}"
+                                                          CommandParameter="{Binding .}"/>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </flv:FlowListView.FlowColumnTemplate>
+                                </flv:FlowListView>
+                            </Grid>
+
+                        </StackLayout>
                     </Grid>
                 </StackLayout>
 

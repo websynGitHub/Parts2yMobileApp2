@@ -58,11 +58,17 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Vm.QuickTabVisibility == true)
                 {
-                    await Vm.GetConfigurationResults(1);
+                    //await Vm.GetConfigurationResults(1);
+                    Vm.QuickTabClicked();
                 }
                 else if (Vm.FullTabVisibility == true)
                 {
-                    await Vm.GetConfigurationResults(2);
+                    //await Vm.GetConfigurationResults(2);
+                    Vm.FullTabClicked();
+                }
+                else if (Vm.SignTabVisibility == true)
+                {
+                    Vm.SignTabClicked();
                 }
             }
             catch (Exception ex)

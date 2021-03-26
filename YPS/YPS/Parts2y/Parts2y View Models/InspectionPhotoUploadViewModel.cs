@@ -54,7 +54,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             selectedTagData = selectedtagdata;
             this.tagId = tagId;
             Tagnumbers = vinValue;
-            Question = inspectionConfiguration.MInspectionConfigID + " " + inspectionConfiguration.Question;
+            Question = inspectionConfiguration.SerialNo + " " + inspectionConfiguration.Question;
             this.inspectionConfiguration = inspectionConfiguration;
             trackService = new YPSService();
             ListOfImage = new ObservableCollection<GalleryImage>();

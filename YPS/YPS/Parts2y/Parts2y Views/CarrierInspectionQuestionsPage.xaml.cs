@@ -54,7 +54,15 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnAppearing();
 
-                await Vm.GetConfigurationResults(3);
+                if (Vm.InspTabVisibility == true)
+                {
+                    Vm.InspTabClicked();
+                }
+                else
+                {
+                    Vm.SignTabClicked();
+                }
+                //await Vm.GetConfigurationResults(3);
             }
             catch (Exception ex)
             {

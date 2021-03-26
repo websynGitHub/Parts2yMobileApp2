@@ -252,7 +252,6 @@ namespace YPS.Views
                 Vm.Companylabel = data.Where(x => x.FieldID == Settings.Companylabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
                 Vm.projectlabel = data.Where(x => x.FieldID == Settings.projectlabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Project" + " *").FirstOrDefault();
                 Vm.joblabel = data.Where(x => x.FieldID == Settings.joblabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Job" + " *").FirstOrDefault();
-                Vm.supplierlabel = data.Where(x => x.FieldID == Settings.supplierlabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Supplier").FirstOrDefault();
                 Vm.SetAsDefaultBtn = data.Where(x => x.FieldID == Settings.SetAsDefaultBtn1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Set As Default").FirstOrDefault();
                 Vm.EmailLbl = data.Where(X => X.FieldID == Settings.Emaillabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Email" + " *").FirstOrDefault();
                 Vm.GivenNameLbl = data.Where(X => X.FieldID == Settings.GivenNamelabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Given Name" + " *").FirstOrDefault();
@@ -263,22 +262,22 @@ namespace YPS.Views
                 Vm.LoginLbl = data.Where(x => x.FieldID == Vm.LoginLbl).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Login ID *").FirstOrDefault();
                 var supplierstatus = data.Where(wr => wr.FieldID == Settings.supplierlabel1).FirstOrDefault();
 
-                if (DefaultSettingSupplier == false)
-                {
-                    Vm.SupplierLabelAndFrame = false;
-                    Settings.SupplierID = 0;
-                    Vm.SupplierGridRowHeight = 0;
-                }
+                //if (DefaultSettingSupplier == false)
+                //{
+                //    Vm.SupplierLabelAndFrame = false;
+                //    Settings.SupplierID = 0;
+                //    Vm.SupplierGridRowHeight = 0;
+                //}
                 //else if (supplierstatus.Status == 0) // if supplier status is in-active
                 //{
                 //    Vm.SupplierLabelAndFrame = false;
                 //    Settings.SupplierID = 0;
                 //    Vm.SupplierGridRowHeight = 0;
                 //}
-                else
-                {
-                    Vm.SupplierLabelAndFrame = true;
-                }
+                //else
+                //{
+                //    Vm.SupplierLabelAndFrame = true;
+                //}
 
             }
             catch (Exception ex)
@@ -509,113 +508,113 @@ namespace YPS.Views
             }
         }
 
-        /// <summary>
-        /// This method is used to show a list of suppliers.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void Supplier_Tapped(object sender, EventArgs e)
-        {
-            try
-            {
-                SupplierSrch.Text = "";
-                SupplierCntntView.IsVisible = true;
-                ListViewSupplier.ItemsSource = Vm.SupplierList;
-            }
-            catch (Exception ex)
-            {
-                service = new YPSService();
-                YPSLogger.ReportException(ex, "Supplier_Tapped method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-            finally
-            {
-                service = null;
-            }
-        }
+        ///// <summary>
+        ///// This method is used to show a list of suppliers.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private async void Supplier_Tapped(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        SupplierSrch.Text = "";
+        //        SupplierCntntView.IsVisible = true;
+        //        ListViewSupplier.ItemsSource = Vm.SupplierList;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        service = new YPSService();
+        //        YPSLogger.ReportException(ex, "Supplier_Tapped method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+        //        await service.Handleexception(ex);
+        //    }
+        //    finally
+        //    {
+        //        service = null;
+        //    }
+        //}
 
-        /// <summary>
-        /// This method is used to search for the suppliers.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SupplierSrch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(e.NewTextValue))
-                {
-                    ListViewSupplier.ItemsSource = Vm.SupplierList;
-                }
-                else
-                {
-                    ListViewSupplier.ItemsSource = Vm.SupplierList.Where(item => item.ToLower().Contains(e.NewTextValue.ToLower())).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                service = new YPSService();
-                YPSLogger.ReportException(ex, "SupplierSrch_TextChanged  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-                service.Handleexception(ex);
-            }
-        }
+        ///// <summary>
+        ///// This method is used to search for the suppliers.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void SupplierSrch_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(e.NewTextValue))
+        //        {
+        //            ListViewSupplier.ItemsSource = Vm.SupplierList;
+        //        }
+        //        else
+        //        {
+        //            ListViewSupplier.ItemsSource = Vm.SupplierList.Where(item => item.ToLower().Contains(e.NewTextValue.ToLower())).ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        service = new YPSService();
+        //        YPSLogger.ReportException(ex, "SupplierSrch_TextChanged  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+        //        service.Handleexception(ex);
+        //    }
+        //}
 
-        /// <summary>
-        /// Gets called whenever user has clicked on close button in supplier Popup.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SupplierClosePopUp(object sender, EventArgs e)
-        {
-            try
-            {
-                SupplierCntntView.IsVisible = false;
-            }
-            catch (Exception ex)
-            {
-                service = new YPSService();
-                YPSLogger.ReportException(ex, "SupplierClosePopUp  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-                service.Handleexception(ex);
-            }
-        }
+        ///// <summary>
+        ///// Gets called whenever user has clicked on close button in supplier Popup.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void SupplierClosePopUp(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        SupplierCntntView.IsVisible = false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        service = new YPSService();
+        //        YPSLogger.ReportException(ex, "SupplierClosePopUp  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+        //        service.Handleexception(ex);
+        //    }
+        //}
 
-        /// <summary>
-        /// Gets called whenever user has select supplier from the search supplier list.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void ListViewSupplier_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            SupplierCntntView.IsVisible = false;
-            try
-            {
-                ListViewSupplier.SelectedItem = null;
-                Settings.SupplierSelected = Vm.SupplierName = e.Item.ToString();
+        ///// <summary>
+        ///// Gets called whenever user has select supplier from the search supplier list.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private async void ListViewSupplier_ItemTapped(object sender, ItemTappedEventArgs e)
+        //{
+        //    SupplierCntntView.IsVisible = false;
+        //    try
+        //    {
+        //        ListViewSupplier.SelectedItem = null;
+        //        Settings.SupplierSelected = Vm.SupplierName = e.Item.ToString();
 
-                if (Vm.SupplierName == "ALL")
-                {
-                    Settings.SupplierID = 0; // 0 means all suppliers
-                }
-                else
-                {
-                    var filterJobtData = Vm.PDefaultSettingModel.data.Supplier.Where(x => x.Name == Vm.SupplierName).FirstOrDefault();
+        //        if (Vm.SupplierName == "ALL")
+        //        {
+        //            Settings.SupplierID = 0; // 0 means all suppliers
+        //        }
+        //        else
+        //        {
+        //            var filterJobtData = Vm.PDefaultSettingModel.data.Supplier.Where(x => x.Name == Vm.SupplierName).FirstOrDefault();
 
-                    if (filterJobtData != null)
-                    {
-                        Settings.SupplierID = filterJobtData.ID;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                service = new YPSService();
-                YPSLogger.ReportException(ex, "ListViewSupplier_ItemTapped  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-            finally
-            {
-                service = null;
-            }
-        }
+        //            if (filterJobtData != null)
+        //            {
+        //                Settings.SupplierID = filterJobtData.ID;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        service = new YPSService();
+        //        YPSLogger.ReportException(ex, "ListViewSupplier_ItemTapped  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+        //        await service.Handleexception(ex);
+        //    }
+        //    finally
+        //    {
+        //        service = null;
+        //    }
+        //}
     }
 }

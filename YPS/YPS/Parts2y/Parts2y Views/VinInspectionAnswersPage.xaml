@@ -277,7 +277,7 @@
 
             <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                               HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
-                         Margin="6,0,6,2" IsVisible="{Binding SignTabVisibility}">
+                         Margin="6,0,6,2" IsVisible="false">
                 <StackLayout Orientation="Vertical">
                     <syncfusion:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
                                                 Style="{StaticResource SfBtnBlue}" IsEnabled="{Binding IsDoneEnable}"

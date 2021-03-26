@@ -68,6 +68,17 @@ namespace YPS.Model
             }
         }
 
+        private Color _SignQuesBgColor = Color.Black;
+        public Color SignQuesBgColor
+        {
+            get => _SignQuesBgColor;
+            set
+            {
+                _SignQuesBgColor = value;
+                RaisePropertyChanged("SignQuesBgColor");
+            }
+        }
+
         private int _CategoryID;
         public int CategoryID
         {

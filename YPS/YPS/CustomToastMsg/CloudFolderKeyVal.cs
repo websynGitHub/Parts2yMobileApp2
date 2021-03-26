@@ -163,9 +163,9 @@ namespace YPS.CustomToastMsg
                 Settings.Username = Settings.UserMail =
                 Settings.SGivenName = Settings.EntityName = Settings.RoleName = Settings.access_token = Settings.JobSelected =
                 Settings.BlobConnection = Settings.BlobStorageConnectionString =
-                Settings.CompanySelected = Settings.SupplierSelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
+                Settings.CompanySelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
                 Settings.IIJConsumerSecret = string.Empty;
-                Settings.SupplierID = Settings.ProjectID = Settings.CompanyID = Settings.JobID =
+                Settings.ProjectID = Settings.CompanyID = Settings.JobID =
                 Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = 0;
                 Settings.IsIIJEnabled = false;
                 RememberPwdDB Db = new RememberPwdDB();
@@ -225,9 +225,9 @@ namespace YPS.CustomToastMsg
                 Settings.Username = Settings.UserMail =
                 Settings.SGivenName = Settings.EntityName = Settings.RoleName = Settings.access_token = Settings.JobSelected =
                 Settings.BlobConnection = Settings.BlobStorageConnectionString =
-                Settings.CompanySelected = Settings.SupplierSelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
+                Settings.CompanySelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
                 Settings.IIJConsumerSecret = string.Empty;
-                Settings.SupplierID = Settings.ProjectID = Settings.CompanyID = Settings.JobID =
+                Settings.ProjectID = Settings.CompanyID = Settings.JobID =
                 Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = 0;
                 Settings.IsEmailEnabled = true;
                 RememberPwdDB Db = new RememberPwdDB();
@@ -282,7 +282,6 @@ namespace YPS.CustomToastMsg
         public static string Appcenter_iOS { get; set; } = "ios=98470379-fccd-4f9d-8d22-8856a5af15c9;";
         public static string Bdchk { get; set; } = "BjFAg4x7vCGTpW3dALvutCVBSpuI7d6rb+GuOgl/574=";
         public static string blob { get; set; } = "https://ypsuploadsdev.blob.core.windows.net/";
-
         #endregion
 
 

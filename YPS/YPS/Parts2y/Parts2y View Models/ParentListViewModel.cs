@@ -1634,6 +1634,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SaveUserDS.ConditionID = Settings.ConditionID = 0;
                 SaveUserDS.ExpeditorID = Settings.ExpeditorID = 0;
                 SaveUserDS.PriorityID = Settings.PriorityID = 0;
+                SaveUserDS.ResourceID = Settings.ResourceID = 0;
                 SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
                 SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
                 SaveUserDS.BagNo = Settings.BagNo = string.Empty;
@@ -1665,7 +1666,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 if ((!String.IsNullOrEmpty(Settings.PONumber) || !String.IsNullOrEmpty(Settings.REQNo) || !String.IsNullOrEmpty(Settings.ShippingNo) || !string.IsNullOrEmpty(Settings.TaskName) ||
-                   Settings.DisciplineID != 0 || Settings.ELevelID != 0 || Settings.ConditionID != 0 || Settings.ExpeditorID != 0 || !string.IsNullOrEmpty(Settings.Ybkgnumber)
+                   Settings.DisciplineID != 0 || Settings.ELevelID != 0 || Settings.ConditionID != 0 || Settings.ResourceID != 0 || Settings.ExpeditorID != 0 || !string.IsNullOrEmpty(Settings.Ybkgnumber)
                    || Settings.PriorityID != 0 || !String.IsNullOrEmpty(Settings.TAGNo) || !String.IsNullOrEmpty(Settings.IdentCodeNo) || !String.IsNullOrEmpty(Settings.BagNo)) && Settings.SearchWentWrong == false)
                 {
                     //ClearSearchLbl = true;
@@ -1783,6 +1784,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 sendPodata.ConditionID = Settings.ConditionID = searchC.ConditionID;
                                 sendPodata.ExpeditorID = Settings.ExpeditorID = searchC.ExpeditorID;
                                 sendPodata.PriorityID = Settings.PriorityID = searchC.PriorityID;
+                                sendPodata.ResourceID = Settings.ResourceID = searchC.ResourceID;
                                 sendPodata.TagNo = Settings.TAGNo = searchC.TagNo;
                                 sendPodata.IdentCode = Settings.IdentCodeNo = searchC.IdentCode;
                                 sendPodata.BagNo = Settings.BagNo = searchC.BagNo;
@@ -2663,16 +2665,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
 
-        private string _SupplierName = Settings.SupplierSelected;
-        public string SupplierName
-        {
-            get { return _SupplierName; }
-            set
-            {
-                _SupplierName = value;
-                RaisePropertyChanged("SupplierName");
-            }
-        }
+        //private string _SupplierName = Settings.SupplierSelected;
+        //public string SupplierName
+        //{
+        //    get { return _SupplierName; }
+        //    set
+        //    {
+        //        _SupplierName = value;
+        //        RaisePropertyChanged("SupplierName");
+        //    }
+        //}
 
         //private string _Id = Settings.CompanyID.ToString();
         //public string Id

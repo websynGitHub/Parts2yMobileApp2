@@ -1212,11 +1212,16 @@ namespace YPS.ViewModel
                         var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjDesc.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
                         var complete = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjComplete.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var notcomplete = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjNotComplete.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
+                        var beforepacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == "Before Packing".Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
+                        var afterpacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == "After Packing".Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
 
                         labelobjUploadBtn = uploadBtn != null ? (!string.IsNullOrEmpty(uploadBtn) ? uploadBtn : labelobjUploadBtn) : labelobjUploadBtn;
                         labelobjDesc = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : labelobjDesc) : labelobjDesc;
                         labelobjComplete = (complete != null ? (!string.IsNullOrEmpty(complete) ? complete : "Complete") : "Complete");
                         labelobjNotComplete = (notcomplete != null ? (!string.IsNullOrEmpty(notcomplete) ? "Not " + notcomplete : "Not Complete") : "Not Complete");
+                        BeforePacking = (beforepacking != null ? (!string.IsNullOrEmpty(beforepacking) ? beforepacking : BeforePacking) : BeforePacking);
+                        AfterPacking = (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking) ? afterpacking : AfterPacking) : AfterPacking);
+
                     }
                 }
 
@@ -1589,6 +1594,28 @@ namespace YPS.ViewModel
             set
             {
                 _labelobjNotComplete = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _BeforePacking = "Before Packing";
+        public string BeforePacking
+        {
+            get => _BeforePacking;
+            set
+            {
+                _BeforePacking = value;
+                NotifyPropertyChanged();
+            }
+
+        }
+        private string _AfterPacking = "After Packing";
+        public string AfterPacking
+        {
+            get => _AfterPacking;
+            set
+            {
+                _AfterPacking = value;
                 NotifyPropertyChanged();
             }
         }

@@ -76,6 +76,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        public VinInspectQuestionsPageViewModel()
+        {
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
         public async Task TabChange(string tabname)
         {
             try
@@ -205,6 +217,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 await GetConfigurationResults(1);
 
+                IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
                 QuickTabTextColor = Settings.Bar_Background;
                 QuickTabVisibility = true;
@@ -228,6 +241,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 await GetConfigurationResults(2);
 
+                IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
                 QuickTabTextColor = Color.Black;
                 QuickTabVisibility = false;
@@ -250,6 +264,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 await Task.Delay(1);
 
+                if (IsQuickTabVisible == true)
+                {
+                    await GetConfigurationResults(1);
+                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 1).ToList());
+                    //QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.ToList());
+                    QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
+                }
+
+                if (IsFullTabVisible == true)
+                {
+                    await GetConfigurationResults(2);
+                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 2).ToList());
+                    //FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.ToList());
+                    FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
+                }
+
+
+                //if (QuickTabVisibility == true)
+                //{
+                //    await GetConfigurationResults(1);
+                //}
+                //else if (FullTabVisibility == true)
+                //{
+                //    await GetConfigurationResults(2);
+                //}
+
+                IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
                 QuickTabTextColor = Color.Black;
                 QuickTabVisibility = false;
@@ -347,7 +388,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, selectedTagData, true));
+                await GetConfigurationResults(inspectionConfiguration.CategoryID);
+                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration,
+                    new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID).ToList())
+                    , inspectionResultsLists, selectedTagData, true, null, this));
             }
             catch (Exception ex)
             {
@@ -461,6 +505,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+        private bool _IsSignQuestionListVisible = false;
+        public bool IsSignQuestionListVisible
+        {
+            get { return _IsSignQuestionListVisible; }
+            set
+            {
+                _IsSignQuestionListVisible = value;
+                RaisePropertyChanged("IsSignQuestionListVisible");
+            }
+        }
+
+        private bool _IsFullSignQuestionListVisible = false;
+        public bool IsFullSignQuestionListVisible
+        {
+            get { return _IsFullSignQuestionListVisible; }
+            set
+            {
+                _IsFullSignQuestionListVisible = value;
+                RaisePropertyChanged("IsFullSignQuestionListVisible");
+            }
+        }
+
+        private bool _IsQuickSignQuestionListVisible = false;
+        public bool IsQuickSignQuestionListVisible
+        {
+            get { return _IsQuickSignQuestionListVisible; }
+            set
+            {
+                _IsQuickSignQuestionListVisible = value;
+                RaisePropertyChanged("IsQuickSignQuestionListVisible");
+            }
+        }
+
         public Color _LoadTextColor = Color.Black;
         public Color LoadTextColor
         {
@@ -566,6 +643,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _QuestionListCategory = value;
                 RaisePropertyChanged("QuestionListCategory");
+            }
+        }
+
+        private ObservableCollection<InspectionConfiguration> _QuickSignQuestionListCategory;
+        public ObservableCollection<InspectionConfiguration> QuickSignQuestionListCategory
+        {
+            get => _QuickSignQuestionListCategory;
+            set
+            {
+                _QuickSignQuestionListCategory = value;
+                RaisePropertyChanged("QuickSignQuestionListCategory");
+            }
+        }
+
+        private ObservableCollection<InspectionConfiguration> _FullSignQuestionListCategory;
+        public ObservableCollection<InspectionConfiguration> FullSignQuestionListCategory
+        {
+            get => _FullSignQuestionListCategory;
+            set
+            {
+                _FullSignQuestionListCategory = value;
+                RaisePropertyChanged("FullSignQuestionListCategory");
             }
         }
 

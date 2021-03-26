@@ -952,7 +952,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (result.status == 1)
                             {
-                                if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TaskStatus == 1).Count()) != 0)
+                                if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TaskStatus != 1).Count()) != 0)
                                 {
                                     TagTaskStatus taskstatus = new TagTaskStatus();
                                     taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
@@ -1440,6 +1440,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : (Settings.VersionID == 3 || Settings.VersionID == 4) ? "Part(s) selected" : "";
+        public string SelectedPartsNo
+        {
+            get => _SelectedPartsNo;
+            set
+            {
+                _SelectedPartsNo = value;
+                RaisePropertyChanged("SelectedPartsNo");
+            }
+        }
+
         private bool _IsLoadTabVisible { set; get; }
         public bool IsLoadTabVisible
         {

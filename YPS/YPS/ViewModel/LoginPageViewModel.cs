@@ -188,11 +188,9 @@ namespace YPS.ViewModel
                                             Settings.CompanyID = DBresponse.data.CompanyID;
                                             Settings.ProjectID = DBresponse.data.ProjectID;
                                             Settings.JobID = DBresponse.data.JobID;
-                                            Settings.SupplierID = DBresponse.data.SupplierID;
                                             Settings.CompanySelected = DBresponse.data.CompanyName;
                                             Settings.ProjectSelected = DBresponse.data.ProjectName;
                                             Settings.JobSelected = DBresponse.data.JobNumber;
-                                            Settings.SupplierSelected = DBresponse.data.SupplierName;
                                             App.Current.MainPage = new MenuPage(typeof(HomePage));
                                         }
                                         else

@@ -114,7 +114,7 @@
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding SelectedTagCount}"
                                            TextColor="#FFFFFF" Margin="0,0,1,0"
                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="Job(s) selected" TextColor="#FFFFFF" 
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding SelectedPartsNo}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
                             </StackLayout>

@@ -16,7 +16,7 @@ namespace YPS.Model
         public ObservableCollection<DDLmaster> Company { get; set; }
         public List<DDLmaster> Project { get; set; }
         public List<DDLmaster> Job { get; set; }
-        public List<DDLmaster> Supplier { get; set; }
+        //public List<DDLmaster> Supplier { get; set; }
         public Data()
         {
             Company = new ObservableCollection<DDLmaster>();
@@ -32,11 +32,11 @@ namespace YPS.Model
         public int CompanyID { get; set; }
         public int ProjectID { get; set; }
         public int JobID { get; set; }
-        public int SupplierID { get; set; }
+        //public int SupplierID { get; set; }
         public string CompanyName { get; set; }
         public string ProjectName { get; set; }
         public string JobNumber { get; set; }
-        public string SupplierName { get; set; }
+        //public string SupplierName { get; set; }
         public int VersionID { get; set; }
         public string TagColumns { get; set; }
         public string yShipColumns { get; set; }

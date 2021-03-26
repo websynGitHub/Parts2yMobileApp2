@@ -460,6 +460,7 @@ namespace YPS.Model
         public int ConditionID { get; set; }
         public int ExpeditorID { get; set; }
         public int PriorityID { get; set; }
+        public int ResourceID { get; set; }
         public string TagNo { get; set; }
         public string IdentCode { get; set; }
         public string LocationDeliverPlace { get; set; }

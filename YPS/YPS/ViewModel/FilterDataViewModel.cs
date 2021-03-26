@@ -54,8 +54,10 @@ namespace YPS.ViewModel
             public filtterlabelFields BagNumber { get; set; } = new filtterlabelFields();
             public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields();
             public filtterlabelFields JobName { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ResourceName { get; set; } = new filtterlabelFields() { Name = "Resource", Status = true };
             public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
             public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
+
         }
         public class filtterlabelFields : IBase
         {
@@ -187,6 +189,7 @@ namespace YPS.ViewModel
                     SaveUserDS.ConditionID = Settings.ConditionID;
                     SaveUserDS.ExpeditorID = Settings.ExpeditorID;
                     SaveUserDS.PriorityID = Settings.PriorityID;
+                    SaveUserDS.ResourceID = Settings.ResourceID;
                     SaveUserDS.TagNo = Settings.TAGNo = tagNumber;
                     SaveUserDS.IdentCode = Settings.IdentCodeNo = Identcode;
                     SaveUserDS.BagNo = Settings.BagNo = BagNumber;
@@ -250,6 +253,8 @@ namespace YPS.ViewModel
                     SaveUserDS.ShippingNo = Settings.ShippingNo = shipNumber = string.Empty;
                     SaveUserDS.DisciplineID = Settings.DisciplineID = 0;
                     DisciplineDefaultValue = "ALL";
+                    SaveUserDS.ResourceID = Settings.ResourceID = 0;
+                    ResourceDefaultValue = "ALL";
                     SaveUserDS.ELevelID = Settings.ELevelID = 0;
                     ELevelDefaultValue = "ALL";
                     SaveUserDS.ConditionID = Settings.ConditionID = 0;
@@ -391,6 +396,12 @@ namespace YPS.ViewModel
                     Conditionlist.AddRange(conditionlist);
                     ConditionNames = Conditionlist.Select(x => x.Name).ToList();
 
+                    //var resourcelist = Settings.alldropdownvalues.Condition.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                    Resourcelist = new List<DDLmaster>();
+                    Resourcelist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                    Resourcelist.AddRange(Settings.alldropdownvalues.Resource.Where(x => x.ParentID == Settings.CompanyID).ToList());
+                    ResourceNames = Resourcelist.Select(x => x.Name).ToList();
+
                     BindKeyTabValues();
                 }
                 else
@@ -441,6 +452,16 @@ namespace YPS.ViewModel
                 else
                 {
                     DisciplineDefaultValue = DisciplineNames.FirstOrDefault();
+                }
+
+                if (Settings.ResourceID != 0)
+                {
+                    var name = Resourcelist.Where(x => x.ID == Settings.ResourceID).FirstOrDefault();
+                    ResourceDefaultValue = Settings.ResourceName = name.Name;
+                }
+                else
+                {
+                    ResourceDefaultValue = ResourceNames.FirstOrDefault();
                 }
 
                 if (Settings.ELevelID != 0)
@@ -501,7 +522,7 @@ namespace YPS.ViewModel
                 if (SelectedDisciplineValue != null)
                 {
                     DisciplineDefaultValue = SelectedDisciplineValue;
-                    var DisciplineValue = DisciplineList.Where(X => X.Name == DisciplineDefaultValue).FirstOrDefault();
+                    var DisciplineValue = DisciplineList.Where(X => X.Name == SelectedDisciplineValue).FirstOrDefault();
                     Settings.DisciplineID = DisciplineValue.ID;
                     Settings.DisciplineName = DisciplineValue.Name;
                 }
@@ -509,6 +530,28 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "SelectedDiscipline_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when an item is selected from Resource DropDownList
+        /// </summary>
+        public async void SelectedResource_TapEvent()
+        {
+            try
+            {
+                if (SelectedResourceValue != null)
+                {
+                    ResourceDefaultValue = SelectedResourceValue;
+                    var ResourceValue = Resourcelist.Where(X => X.Name == ResourceDefaultValue).FirstOrDefault();
+                    Settings.ResourceID = ResourceValue.ID;
+                    Settings.ResourceName = ResourceValue.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectedResource_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -633,6 +676,7 @@ namespace YPS.ViewModel
                         var BagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var ybkgnumber = filteredlabel.Where(wr => wr.FieldID == labelobj.yBkgNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var jobname = filteredlabel.Where(wr => wr.FieldID == labelobj.JobName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var resourcename = filteredlabel.Where(wr => wr.FieldID == labelobj.ResourceName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var ResetBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.ResetBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var SearchBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.SearchBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -661,9 +705,11 @@ namespace YPS.ViewModel
                         labelobj.BagNumber.Name = BagNumber != null ? BagNumber.LblText : "Outer Package";
                         BagNumberHeight = (labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
-                        yBkgNumberHeight = (labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false) == true ? 55 : 00;
+                        yBkgNumberHeight = (labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false) == true ? 55 : 0;
                         labelobj.JobName.Name = jobname != null ? jobname.LblText : "Job Name";
-                        labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false;
+                        TaskNameHeight = (labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false) == true ? 55 : 0; ;
+                        labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
+                        labelobj.ResourceName.Status = (resourcename == null ? true : false) || (resourcename != null && resourcename.Status == 1) ? true : false;
 
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
@@ -826,6 +872,17 @@ namespace YPS.ViewModel
             set
             {
                 _yBkgNumberHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _TaskNameHeight = 55;
+        public int TaskNameHeight
+        {
+            get { return _TaskNameHeight; }
+            set
+            {
+                _TaskNameHeight = value;
                 NotifyPropertyChanged();
             }
         }
@@ -1064,6 +1121,17 @@ namespace YPS.ViewModel
             }
         }
 
+        private List<DDLmaster> _Resourcelist;
+        public List<DDLmaster> Resourcelist
+        {
+            get { return _Resourcelist; }
+            set
+            {
+                _Resourcelist = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private string _SelectedDisciplineValue;
         public string SelectedDisciplineValue
         {
@@ -1072,6 +1140,17 @@ namespace YPS.ViewModel
             {
                 _SelectedDisciplineValue = value;
                 SelectedDiscipline_TapEvent();
+            }
+        }
+
+        private string _SelectedResourceValue;
+        public string SelectedResourceValue
+        {
+            get { return _SelectedResourceValue; }
+            set
+            {
+                _SelectedResourceValue = value;
+                SelectedResource_TapEvent();
             }
         }
 
@@ -1127,6 +1206,17 @@ namespace YPS.ViewModel
             set
             {
                 _DisciplineDefaultValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _ResourceDefaultValue;
+        public string ResourceDefaultValue
+        {
+            get { return _ResourceDefaultValue; }
+            set
+            {
+                _ResourceDefaultValue = value;
                 NotifyPropertyChanged();
             }
         }
@@ -1299,6 +1389,17 @@ namespace YPS.ViewModel
             set
             {
                 _ConditionNames = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<string> _ResourceNames;
+        public List<string> ResourceNames
+        {
+            get { return _ResourceNames; }
+            set
+            {
+                _ResourceNames = value;
                 NotifyPropertyChanged();
             }
         }

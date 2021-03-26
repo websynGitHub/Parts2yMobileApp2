@@ -65,7 +65,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Text="Before Packing" Style="{DynamicResource LableWithMediumFont}"
+                            <Label Text="{Binding BeforePacking}" Style="{DynamicResource LableWithMediumFont}"
                                  Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding BeforePackingTextColor}"
                                 VerticalOptions="Center" HorizontalTextAlignment="Center"  Grid.Row="0" Grid.Column="0"
                                    Margin="0,2,0,2">
@@ -88,7 +88,7 @@
                                     </DataTrigger>
                                 </BoxView.Triggers>
                             </BoxView>
-                            <Label Text="After Packing" Style="{DynamicResource LableWithMediumFont}" 
+                            <Label Text="{Binding AfterPacking}" Style="{DynamicResource LableWithMediumFont}" 
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
                                HorizontalTextAlignment="Center" TextColor="{Binding AfterPackingTextColor}" 
                                    Grid.Row="0" Grid.Column="1" Margin="0,2,0,2">

@@ -135,7 +135,6 @@
                                     <RowDefinition Height="55"/>
                                     <RowDefinition Height="55"/>
                                     <RowDefinition Height="55"/>
-                                    <RowDefinition Height="{Binding SupplierGridRowHeight}"/>
                                     <RowDefinition Height="55"/>
                                 </Grid.RowDefinitions>
 
@@ -185,7 +184,7 @@
                                     </combobox:SfComboBox>
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="4" 
+                                <!--<sfinput:SfTextInputLayout IsVisible="{Binding SupplierLabelAndFrame}" Grid.Row="4" 
                                                         Hint="{Binding supplierlabel,Mode=TwoWay}" ContainerBackgroundColor="White"
                                                        Style="{StaticResource SfInputLayout}" InputViewPadding="0">
                                     <StackLayout x:Name="comboboxSupplier" Orientation="Horizontal" HeightRequest="23">
@@ -203,7 +202,7 @@
                                             </OnPlatform>
                                         </StackLayout.HeightRequest>
                                     </StackLayout>
-                                </sfinput:SfTextInputLayout>
+                                </sfinput:SfTextInputLayout>-->
 
                                
                             </Grid>
@@ -685,7 +684,7 @@
                
             </ContentView>
             
-                <ContentView x:Name="SupplierCntntView" IsVisible="False" BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                <!--<ContentView x:Name="SupplierCntntView" IsVisible="False" BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                          AbsoluteLayout.LayoutFlags="All">
                 <StackLayout>
                     <Grid Padding="5">
@@ -711,7 +710,8 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
-            </ContentView>
+            </ContentView>-->
+            
             <ContentView x:Name="TimeZoneCntntView" IsVisible="False" BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout>
                     <Grid Padding="5">

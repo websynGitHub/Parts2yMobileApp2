@@ -41,15 +41,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
         ObservableCollection<InspectionConfiguration> inspectionConfigurationList;
         ObservableCollection<InspectionPhotosResponseListData> finalPhotoListA;
         List<InspectionResultsList> inspectionResultsList;
-
+        CarrierInspectionQuestionsViewModel CarQueVm;
+        VinInspectQuestionsPageViewModel VINQueVm;
 
         #endregion
 
-        public VinInspectionAnswersPageViewModel(INavigation _Navigation, VinInspectionAnswersPage page, InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsList, AllPoData selectedtagdata, bool isVINInsp, bool isalldone = false)
+        public VinInspectionAnswersPageViewModel(INavigation _Navigation, VinInspectionAnswersPage page, InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
+            List<InspectionResultsList> inspectionResultsList, AllPoData selectedtagdata, bool isVINInsp,
+             CarrierInspectionQuestionsViewModel carcueVm, VinInspectQuestionsPageViewModel vinqueVm, bool isalldone = false)
         {
             try
             {
                 Navigation = _Navigation;
+                CarQueVm = carcueVm;
+                VINQueVm = vinqueVm;
                 trackService = new YPSService();
                 finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>();
                 pagename = page;
@@ -105,6 +110,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 FullTabVisibility = false;
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
+                VINQueVm.QuickTabVisibility = true;
+                VINQueVm.FullTabVisibility = false;
+                VINQueVm.SignTabVisibility = false;
+
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
@@ -126,6 +136,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 FullTabVisibility = true;
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
+                VINQueVm.QuickTabVisibility = false;
+                VINQueVm.FullTabVisibility = true;
+                VINQueVm.SignTabVisibility = false;
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
@@ -140,11 +154,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                IsAnswersVisible = true;
-                InspTabTextColor = Settings.Bar_Background;
-                InspTabVisibility = true;
-                SignTabTextColor = Color.Black;
-                SignTabVisibility = false;
+                //IsAnswersVisible = true;
+                //InspTabTextColor = Settings.Bar_Background;
+                //InspTabVisibility = true;
+                //SignTabTextColor = Color.Black;
+                //SignTabVisibility = false;
+                CarQueVm.InspTabVisibility = true;
+                CarQueVm.SignTabVisibility = false;
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
@@ -160,7 +177,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 await Task.Delay(1);
 
-                IsAnswersVisible = false;
+                //IsAnswersVisible = false;
                 InspTabTextColor = Color.Black;
                 InspTabVisibility = false;
                 QuickTabTextColor = Color.Black;
@@ -169,6 +186,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 FullTabVisibility = false;
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
+
+                if (CarQueVm != null)
+                {
+                    CarQueVm.InspTabVisibility = false;
+                    CarQueVm.SignTabVisibility = true;
+                }
+
+                if (VINQueVm != null)
+                {
+                    VINQueVm.QuickTabVisibility = false;
+                    VINQueVm.FullTabVisibility = false;
+                    VINQueVm.SignTabVisibility = true;
+                }
+
+
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
@@ -245,8 +278,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 SignTabClicked();
                             }
-
-                            if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
+                            else if (IsQuickTabVisible == true && IsFullTabVisible == true)
+                            {
+                                //if (VINQueVm.QuickTabVisibility == true)
+                                if (InspectionConfiguration.CategoryID == 1)
+                                {
+                                    //IsFullTabVisible = false;
+                                    QuickTabClicked();
+                                }
+                                else if (InspectionConfiguration.CategoryID == 2)
+                                {
+                                    //IsQuickTabVisible = false;
+                                    FullTabClicked();
+                                }
+                            }
+                            else if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
                             {
                                 IsFullTabVisible = false;
                                 QuickTabClicked();
@@ -319,23 +365,46 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (NextButtonText == "COMPLETE")
                 {
-                    await Navigation.PopAsync();
+                    //await Navigation.PopAsync();
+                    SignTabClicked();
                 }
 
 
-                if (FrontRightTrue || FrontRightFalse || FrontLeftTrue || FrontLeftFalse || RearLeftTrue || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse)
+                if (FrontRightTrue || FrontRightFalse || FrontLeftTrue || FrontLeftFalse || RearLeftTrue
+                    || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse)
                 {
                     var checkInternet = await App.CheckInterNetConnection();
                     if (checkInternet)
                     {
                         await DoneClicked();
                         UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest();
-                        updateInspectionRequest.BackLeft = RearLeftTrue ? 1 : 0;
                         updateInspectionRequest.QID = InspectionConfiguration.MInspectionConfigID;
-                        updateInspectionRequest.BackRight = RearRightTrue ? 1 : 0;
-                        updateInspectionRequest.Direct = PlaneTrue ? 1 : 0;
-                        updateInspectionRequest.FrontLeft = FrontLeftTrue ? 1 : 0;
-                        updateInspectionRequest.FrontRight = FrontRightTrue ? 1 : 0;
+
+                        if (RearLeftTrue == true || RearLeftFalse == true)
+                        {
+                            updateInspectionRequest.BackLeft = RearLeftTrue ? 2 : 1;
+                        }
+
+                        if (RearRightTrue == true || RearRightFalse == true)
+                        {
+                            updateInspectionRequest.BackRight = RearRightTrue ? 2 : 1;
+                        }
+
+                        if (PlaneTrue == true || PlaneFalse == true)
+                        {
+                            updateInspectionRequest.Direct = PlaneTrue ? 2 : 1;
+                        }
+
+                        if (FrontLeftTrue == true || FrontLeftFalse == true)
+                        {
+                            updateInspectionRequest.FrontLeft = FrontLeftTrue ? 2 : 1;
+                        }
+
+                        if (FrontRightTrue == true || FrontRightFalse == true)
+                        {
+                            updateInspectionRequest.FrontRight = FrontRightTrue ? 2 : 1;
+                        }
+
                         updateInspectionRequest.POTagID = tagId;
                         updateInspectionRequest.Remarks = Remarks;
                         updateInspectionRequest.UserID = Settings.userLoginID;
@@ -375,6 +444,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 ShowConfigurationOptions();
                             }
+                            else
+                            {
+                                SignTabClicked();
+                            }
                         }
                     }
                 }
@@ -393,6 +466,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //    NextBtnOpacity = 0.5;
                         //    IsNextBtnEnable = false;
                         //}
+                    }
+                    else
+                    {
+                        SignTabClicked();
                     }
                 }
 
@@ -495,61 +572,61 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     ImagesCount = answer.PhotoCount;
                     Remarks = answer.Remarks;
-                    if (answer.FrontLeft == 1)
+                    if (answer.FrontLeft == 2)
                     {
                         FrontLeftTrue = true;
                         FrontLeftFalse = false;
                     }
 
-                    if (FrontLeft && answer.FrontLeft == 0)
+                    if (FrontLeft && answer.FrontLeft == 1)
                     {
                         FrontLeftTrue = false;
                         FrontLeftFalse = true;
                     }
 
-                    if (answer.FrontRight == 1)
+                    if (answer.FrontRight == 2)
                     {
                         FrontRightTrue = true;
                         FrontRightFalse = false;
                     }
 
-                    if (FrontRight && answer.FrontRight == 0)
+                    if (FrontRight && answer.FrontRight == 1)
                     {
                         FrontRightTrue = false;
                         FrontRightFalse = true;
                     }
 
-                    if (answer.BackLeft == 1)
+                    if (answer.BackLeft == 2)
                     {
                         RearLeftTrue = true;
                         RearLeftFalse = false;
                     }
 
-                    if (RearLeft && answer.BackLeft == 0)
+                    if (RearLeft && answer.BackLeft == 1)
                     {
                         RearLeftTrue = false;
                         RearLeftFalse = true;
                     }
 
-                    if (answer.BackRight == 1)
+                    if (answer.BackRight == 2)
                     {
                         RearRightTrue = true;
                         RearRightFalse = false;
                     }
 
-                    if (RearRight && answer.BackRight == 0)
+                    if (RearRight && answer.BackRight == 1)
                     {
                         RearRightTrue = false;
                         RearRightFalse = true;
                     }
 
-                    if (answer.Direct == 1)
+                    if (answer.Direct == 2)
                     {
                         PlaneTrue = true;
                         PlaneFalse = false;
                     }
 
-                    if (PlaneOptions && answer.Direct == 0)
+                    if (PlaneOptions && answer.Direct == 1)
                     {
                         PlaneTrue = false;
                         PlaneFalse = true;

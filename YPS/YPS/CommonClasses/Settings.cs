@@ -72,13 +72,13 @@ namespace YPS.CommonClasses
         public static string CompanySelected { get; set; }
         public static string ProjectSelected { get; set; }
         public static string JobSelected { get; set; }
-        public static string SupplierSelected { get; set; } = "ALL";
+        //public static string SupplierSelected { get; set; } = "ALL";
 
 
         public static int CompanyID { get; set; }
         public static int ProjectID { get; set; }
         public static int JobID { get; set; }
-        public static int SupplierID { get; set; }
+        //public static int SupplierID { get; set; }
         public static int FilterParentID { get; set; }
 
         #endregion
@@ -138,6 +138,9 @@ namespace YPS.CommonClasses
         public static string BagNo { get; set; } = string.Empty;
         public static string Ybkgnumber { get; set; } = string.Empty;
         public static string TaskName { get; set; } = string.Empty;
+
+        public static int ResourceID { get; set; } = 0;
+        public static string ResourceName { get; set; }
 
         public static int LocationPickupID { get; set; } = 0;
         public static string LocationPickupName { get; set; } = string.Empty;

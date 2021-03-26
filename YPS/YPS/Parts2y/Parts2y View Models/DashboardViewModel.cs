@@ -115,21 +115,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (!String.IsNullOrEmpty(Settings.ProjectSelected) || !String.IsNullOrEmpty(Settings.JobSelected))
                     {
-                        if (Settings.SupplierSelected == "ALL")
-                        {
+                        //if (Settings.SupplierSelected == "ALL")
+                        //{
                             //ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
                             ProjectName = Settings.ProjectSelected;
                             JobName = Settings.JobSelected;
-                        }
-                        else
-                        {
-                            var pNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
-                            string trimpNjobName = pNjobName.TrimEnd('/');
-                            ProNjobName = trimpNjobName;
-                            ProjectName = Settings.ProjectSelected;
-                            JobName = Settings.JobSelected;
-                            SupplierName = Settings.SupplierSelected;
-                        }
+                        //}
+                        //else
+                        //{
+                        //    var pNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
+                        //    string trimpNjobName = pNjobName.TrimEnd('/');
+                        //    ProNjobName = trimpNjobName;
+                        //    ProjectName = Settings.ProjectSelected;
+                        //    JobName = Settings.JobSelected;
+                        //    SupplierName = Settings.SupplierSelected;
+                        //}
                     }
                     #endregion
                 }
@@ -144,28 +144,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Settings.VersionID = DBresponse.data.VersionID;
                             Company = Settings.CompanySelected = DBresponse.data.CompanyName;
 
-                            if (DBresponse.data.SupplierName == "")
-                            {
-                                ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
-                                ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
-                                JobName = Settings.JobSelected = DBresponse.data.JobNumber;
-                                Settings.CompanyID = DBresponse.data.CompanyID;
-                                Settings.ProjectID = DBresponse.data.ProjectID;
-                                Settings.JobID = DBresponse.data.JobID;
-                                Settings.SupplierSelected = DBresponse.data.SupplierName;
-                                Settings.SupplierID = DBresponse.data.SupplierID;
-                            }
-                            else
-                            {
-                                ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber + "/" + DBresponse.data.SupplierName;
-                                ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
-                                JobName = Settings.JobSelected = DBresponse.data.JobNumber;
-                                Settings.CompanyID = DBresponse.data.CompanyID;
-                                Settings.ProjectID = DBresponse.data.ProjectID;
-                                Settings.JobID = DBresponse.data.JobID;
-                                SupplierName = Settings.SupplierSelected = DBresponse.data.SupplierName;
-                                Settings.SupplierID = DBresponse.data.SupplierID;
-                            }
+
+                            ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
+                            ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
+                            JobName = Settings.JobSelected = DBresponse.data.JobNumber;
+                            Settings.CompanyID = DBresponse.data.CompanyID;
+                            Settings.ProjectID = DBresponse.data.ProjectID;
+                            Settings.JobID = DBresponse.data.JobID;
                         }
                     }
                 }
@@ -530,16 +515,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
 
-        private string _SupplierName = Settings.SupplierSelected;
-        public string SupplierName
-        {
-            get { return _SupplierName; }
-            set
-            {
-                _SupplierName = value;
-                OnPropertyChanged("SupplierName");
-            }
-        }
+        //private string _SupplierName = Settings.SupplierSelected;
+        //public string SupplierName
+        //{
+        //    get { return _SupplierName; }
+        //    set
+        //    {
+        //        _SupplierName = value;
+        //        OnPropertyChanged("SupplierName");
+        //    }
+        //}
 
 
         //private string _Id = Settings.CompanyID.ToString();

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours" xmlns:local="clr-namespace:YPS.CustomRenders"
-             x:Class="YPS.Parts2y.Parts2y_Views.CarrierInspectionQuestionsPage"  xmlns:local1="clr-namespace:YPS.CommonClasses"
-              x:Name="CarrierInspQuestionPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
+             x:Class="YPS.Parts2y.Parts2y_Views.CarrierInspectionQuestionsPage"  xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             x:Name="CarrierInspQuestionPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
 
     <ContentPage.Resources>
@@ -177,9 +177,6 @@
                         <CollectionView Grid.Row="3" x:Name="QuestionList" BackgroundColor="Transparent"
                                 SelectionMode="Single" ItemsSource="{Binding QuestionListCategory}" IsVisible="{Binding IsQuestionListVisible}"
                                 Margin="6,6,6,0">
-                            <!--<CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6"/>
-                            </CollectionView.ItemsLayout>-->
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Padding="0,0,0,6">
@@ -216,6 +213,26 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
+
+                        <StackLayout Grid.Row="3" Margin="6,0,6,0" IsVisible="{Binding IsSignQuestionListVisible}">
+                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Carrier Insp"
+                                   Style="{DynamicResource LableWithQuestionFont}" TextColor="Black"/>
+                            <flv:FlowListView FlowItemsSource="{Binding QuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9" 
+                              BackgroundColor="#E9E9E9" SeparatorVisibility="None" HasUnevenRows="True" >
+                                <flv:FlowListView.FlowColumnTemplate>
+                                    <DataTemplate>
+                                        <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
+                                            <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=CarrierInspQuestionPage}}"
+                                                          CommandParameter="{Binding .}"/>
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                    </DataTemplate>
+                                </flv:FlowListView.FlowColumnTemplate>
+                            </flv:FlowListView>
+                        </StackLayout>
+                       
                     </Grid>
                 </StackLayout>
 

@@ -63,6 +63,7 @@
                             <RowDefinition Height="{Binding IdentCodeHeight}"/>
                             <RowDefinition Height="{Binding BagNumberHeight}"/>
                             <RowDefinition Height="{Binding yBkgNumberHeight}"/>
+                            <RowDefinition Height="{Binding TaskNameHeight}"/>
                         </Grid.RowDefinitions>
                             <sfinput:SfTextInputLayout Hint="{Binding labelobj.PO.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.PO.Status}"
@@ -315,6 +316,22 @@
                                     </sfinput:LabelStyle.FontFamily>
                                 </sfinput:LabelStyle>
                             </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
+
+                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.ResourceName.Name}" ContainerBackgroundColor="White"
+                                                   HorizontalOptions="Start" IsVisible="{Binding labelobj.ResourceName.Status}"
+                                                   Style="{StaticResource SfInputLayout}" Grid.Row="13">
+                            <combobox:SfComboBox Text="{Binding ResourceDefaultValue,Mode=TwoWay}"
+                                                 SelectedItem="{Binding SelectedResourceValue}" DataSource="{Binding ResourceNames,Mode=TwoWay}"
+                                               HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                                                     Style="{StaticResource SfComboBoxTextStyle}">
+                                <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">20</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
                         </sfinput:SfTextInputLayout>
 
                     </Grid>

@@ -143,7 +143,6 @@ namespace YPS.ViewModel
                                     Companylabel = !string.IsNullOrEmpty(company) ? company + " *" : "Company" + " *";
                                     joblabel = !string.IsNullOrEmpty(job) ? job + " *" : "Job" + " *";
                                     projectlabel = !string.IsNullOrEmpty(proj) ? proj + " *" : "Project" + " *";
-                                    supplierlabel = !string.IsNullOrEmpty(supplier) ? supplier : "Supplier";
                                     SetAsDefaultBtn = !string.IsNullOrEmpty(setAsDefaultBtn) ? setAsDefaultBtn : "Set As Default";
                                     EmailLbl = !string.IsNullOrEmpty(email) ? email + " *" : "Email" + " *";
                                     GivenNameLbl = !string.IsNullOrEmpty(givenName) ? givenName + " *" : "Given Name" + " *";
@@ -179,41 +178,7 @@ namespace YPS.ViewModel
                             // List of job based on project id.
                             JobList = PDefaultSettingModel.data.Job.Where(s => s.ParentID == projectData.ID).ToList();
 
-                            if (DefaultSettingSupplier == true)
-                            {
-                                //Checking supplier status based on RoleID, Base on status supplier picker Hide/Show.
-                                if (DefaultSettingSupplier == true)
-                                {
-                                    SupplierLabelAndFrame = true;
-                                }
-                                else
-                                {
-                                    SupplierLabelAndFrame = false;
-                                    SupplierGridRowHeight = 0;
-                                }
-                                var supplierData = PDefaultSettingModel.data.Supplier.Where(s => s.ID == DBresponse.data.SupplierID).FirstOrDefault();
-                                if (supplierData != null)
-                                {
-                                    SupplierName = supplierData.Name;
-                                    Settings.SupplierID = supplierData.ID;
-                                }
-                                else
-                                {
-                                    SupplierName = "ALL";
-                                    Settings.SupplierID = 0;
-                                }
-                                List<string> allValues = new List<string>();
 
-                                //Getting a list of supplier names from a list supplier model.
-                                var list = PDefaultSettingModel.data.Supplier.Select(s => s.Name).ToList();
-                                allValues.Add("ALL");
-                                allValues.AddRange(list);
-                                SupplierList = new ObservableCollection<string>(allValues);
-                            }
-                            else
-                            {
-                                SupplierGridRowHeight = 0;
-                            }
                         }
                         else
                         {
@@ -226,37 +191,11 @@ namespace YPS.ViewModel
                         {
                             //Getting a list of company name from company list model.
                             CompanyList = PDefaultSettingModel.data.Company;
-
-                            if (DefaultSettingSupplier == true)
-                            {
-                                //Supplier layout showing with a list of suppliers base on supplier id.
-                                SupplierLabelAndFrame = true;
-                                var supplierData = PDefaultSettingModel.data.Supplier.Where(s => s.ID == DBresponse.data.SupplierID).FirstOrDefault();
-
-                                if (supplierData != null)
-                                {
-                                    SupplierName = supplierData.Name;
-                                    Settings.SupplierID = supplierData.ID;
-                                }
-                                else
-                                {
-                                    SupplierName = "ALL";
-                                    Settings.SupplierID = 0;
-                                }
-                                List<string> allValues = new List<string>();
-
-                                //Getting a list of supplier name from a list supplier model.
-                                var list = PDefaultSettingModel.data.Supplier.Select(s => s.Name).ToList();
-                                allValues.Add("ALL");
-                                allValues.AddRange(list);
-                                SupplierList = new ObservableCollection<string>(allValues);
-                            }
                         }
 
                         Companylabel = "Company" + " *";
                         joblabel = "Job" + " *";
                         projectlabel = "Project" + " *";
-                        supplierlabel = "Supplier";
                         SetAsDefaultBtn = "Set As Default";
                         EmailLbl = "Email" + " *";
                         GivenNameLbl = "Given Name" + " *";
@@ -331,7 +270,6 @@ namespace YPS.ViewModel
                             SaveUDS.ProjectID = Settings.ProjectID = allProjectValues.ID;
                             SaveUDS.JobID = Settings.JobID = allJobValues.ID;
                             SaveUDS.UserID = Settings.userLoginID;
-                            SaveUDS.SupplierID = Settings.SupplierID;
                             // Calling API to save and upadate default settings data.
                             var DBresponse = await service.SaveUserDefaultSettings(SaveUDS);
 
@@ -804,27 +742,27 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private bool _SupplierFrame = false;
-        public bool SupplierLabelAndFrame
-        {
-            get => _SupplierFrame;
-            set
-            {
-                _SupplierFrame = value;
-                NotifyPropertyChanged();
-            }
-        }
+        //private bool _SupplierFrame = false;
+        //public bool SupplierLabelAndFrame
+        //{
+        //    get => _SupplierFrame;
+        //    set
+        //    {
+        //        _SupplierFrame = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
 
-        private int _SupplierGridRowHeight = 55;
-        public int SupplierGridRowHeight
-        {
-            get => _SupplierGridRowHeight;
-            set
-            {
-                _SupplierGridRowHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
+        //private int _SupplierGridRowHeight = 55;
+        //public int SupplierGridRowHeight
+        //{
+        //    get => _SupplierGridRowHeight;
+        //    set
+        //    {
+        //        _SupplierGridRowHeight = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
 
         private Color _profileBgColor = Color.LightBlue;
         public Color profileBgColor
@@ -938,16 +876,16 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        string _supplierlabel;
-        public string supplierlabel
-        {
-            get { return _supplierlabel; }
-            set
-            {
-                _supplierlabel = value;
-                NotifyPropertyChanged();
-            }
-        }
+        //string _supplierlabel;
+        //public string supplierlabel
+        //{
+        //    get { return _supplierlabel; }
+        //    set
+        //    {
+        //        _supplierlabel = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
         private string _SetAsDefaultBtn;
         public string SetAsDefaultBtn
         {

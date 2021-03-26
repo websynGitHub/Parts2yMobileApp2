@@ -25,13 +25,15 @@ namespace YPS.Parts2y.Parts2y_Views
         YPSService service;
         AllPoData selectedTagData;
 
-        public VinInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp, bool isalldone = false)
+        public VinInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp,
+            CarrierInspectionQuestionsViewModel CarQueVm, VinInspectQuestionsPageViewModel VINQueVm, bool isalldone = false
+            )
         {
             try
             {
                 InitializeComponent();
                 selectedTagData = selectedtagdata;
-                BindingContext = Vm = new VinInspectionAnswersPageViewModel(Navigation, this, inspectionConfiguration, inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, isalldone);
+                BindingContext = Vm = new VinInspectionAnswersPageViewModel(Navigation, this, inspectionConfiguration, inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, CarQueVm, VINQueVm, isalldone);
 
                 if (Device.RuntimePlatform == Device.iOS)
                 {

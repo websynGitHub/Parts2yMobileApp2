@@ -71,6 +71,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        public CarrierInspectionQuestionsViewModel()
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
         public async Task TabChange(string tabname)
         {
             try
@@ -189,6 +200,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 await GetConfigurationResults(3);
 
+                IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
                 InspTabTextColor = Settings.Bar_Background;
                 InspTabVisibility = true;
@@ -209,6 +221,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 await Task.Delay(1);
 
+                await GetConfigurationResults(3);
+
+                QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
+                IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
                 InspTabTextColor = Color.Black;
                 InspTabVisibility = false;
@@ -307,7 +323,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0], false, IsAllTagsDone));
+                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0], false, this, null, IsAllTagsDone));
             }
             catch (Exception ex)
             {
@@ -541,6 +557,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _IsQuestionListVisible = value;
                 RaisePropertyChanged("IsQuestionListVisible");
+            }
+        }
+
+        private bool _IsSignQuestionListVisible = false;
+        public bool IsSignQuestionListVisible
+        {
+            get { return _IsSignQuestionListVisible; }
+            set
+            {
+                _IsSignQuestionListVisible = value;
+                RaisePropertyChanged("IsSignQuestionListVisible");
             }
         }
 

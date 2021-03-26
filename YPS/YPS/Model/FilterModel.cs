@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace YPS.Model
 {
-    public class FilterModel{}
+    public class FilterModel { }
     public class DDLMasterData
     {
         public string message { get; set; }
@@ -38,6 +38,7 @@ namespace YPS.Model
         public List<DDLmaster> Priority { get; set; }
         public List<DDLmaster> Expeditor { get; set; }
         public List<DDLmaster> Condition { get; set; }
+        public List<DDLmaster> Resource { get; set; }
 
         public HeaderFilter()
         {
@@ -46,6 +47,7 @@ namespace YPS.Model
             Priority = new List<DDLmaster>();
             Expeditor = new List<DDLmaster>();
             Condition = new List<DDLmaster>();
+            Resource = new List<DDLmaster>();
         }
     }
 
@@ -91,9 +93,9 @@ namespace YPS.Model
         public string DisplayText { get; set; }
         public int Status { get; set; }
     }
-   
-    public class SearchData: DDLmaster
-    {               
+
+    public class SearchData : DDLmaster
+    {
         public string NationHash { get; set; }
         public string Nation { get; set; }
         public string CityHash { get; set; }
