@@ -119,6 +119,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     taskID = value.TaskID;
                     Settings.POID = value.POID;
+                    Settings.TaskID = value.TaskID;
                     selectedTagsData.POID = value.POID;
                     selectedTagsData.isCompleted = value.photoTickVisible;
 

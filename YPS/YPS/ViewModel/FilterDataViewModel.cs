@@ -709,11 +709,16 @@ namespace YPS.ViewModel
                         labelobj.JobName.Name = jobname != null ? jobname.LblText : "Job Name";
                         TaskNameHeight = (labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false) == true ? 55 : 0; ;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
-                        labelobj.ResourceName.Status = (resourcename == null ? true : false) || (resourcename != null && resourcename.Status == 1) ? true : false;
+                        //labelobj.ResourceName.Status = (resourcename == null ? true : false) || (resourcename != null && resourcename.Status == 1) ? true : false;
 
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
                     }
+                }
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    labelobj.ResourceName.Status = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CreateTask").FirstOrDefault() != null ? true : false;
                 }
             }
             catch (Exception ex)

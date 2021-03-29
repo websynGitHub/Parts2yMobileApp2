@@ -254,6 +254,7 @@ namespace YPS.CommonClasses
         public static int toGoPageIndexyShip { get; set; }
         public static string TagNumber { get; set; }
         public static int POID { set; get; }
+        public static int TaskID { set; get; }
         public static bool CanUploadPhotos { set; get; }
         public static bool CanOpenScanner { set; get; }
 

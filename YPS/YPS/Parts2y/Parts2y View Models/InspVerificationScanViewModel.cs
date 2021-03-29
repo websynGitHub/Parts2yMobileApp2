@@ -123,12 +123,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
 
                     if (Navigation.ModalStack.Count == 0 ||
-                                        Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
                         ScannerPage.AutoFocus();
 
                         await Navigation.PushAsync(ScannerPage);
-                        
+
                         overlay.FlashButtonClicked += (s, ed) =>
                         {
                             ScannerPage.ToggleTorch();
@@ -324,6 +324,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                     //{
                     Settings.POID = podata.POID;
+                    Settings.TaskID = podata.TaskID;
 
                     //if (podata.TagTaskStatus == 2)
                     //{

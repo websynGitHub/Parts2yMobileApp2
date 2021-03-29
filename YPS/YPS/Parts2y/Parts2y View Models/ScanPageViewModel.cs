@@ -469,6 +469,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                             //{
                             Settings.POID = podata.POID;
+                            Settings.TaskID = podata.TaskID;
                             //await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber, null));
                             await Navigation.PushAsync(new VinInspectQuestionsPage(podata, false));
                             //}
@@ -480,6 +481,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 if (isInitialPhoto == true && selectedTagData != null)
                                 {
                                     Settings.POID = selectedTagData.POID;
+                                    Settings.TaskID = selectedTagData.photoTags[0].TaskID;
                                     podata = new AllPoData();
                                     podata.TagNumber = selectedTagData.photoTags[0].TagNumber;
 
@@ -492,6 +494,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     if (selectedPOTagData != null)
                                     {
                                         Settings.POID = selectedPOTagData.POID;
+                                        Settings.TaskID = selectedPOTagData.TaskID;
                                     }
 
                                     Settings.CanUploadPhotos = true;
@@ -524,6 +527,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     PhotoUploadModel selectedTagsData = new PhotoUploadModel();
 
                                     Settings.POID = podata.POID;
+                                    Settings.TaskID = podata.TaskID;
                                     selectedTagsData.POID = podata.POID;
                                     selectedTagsData.isCompleted = podata.photoTickVisible;
 
@@ -568,6 +572,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             try
                                             {
                                                 Settings.POID = podata.POID;
+                                                Settings.TaskID = podata.TaskID;
                                                 Settings.currentPuId = podata.PUID;
                                                 Settings.BphotoCount = podata.TagBPhotoCount;
                                                 await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible));

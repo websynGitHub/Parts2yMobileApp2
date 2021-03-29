@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS.CustomRenders"
              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
-             x:Class="YPS.Parts2y.Parts2y_Views.VinInspectionAnswersPage" xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours"
+             x:Class="YPS.Parts2y.Parts2y_Views.VinInspectionAnswersPage" xmlns:local1="clr-namespace:YPS.CommonClasses" 
+             xmlns:behaviours="clr-namespace:YPS.Behaviours"
              x:Name="VinInspAnswerPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
     <ContentPage.Resources>
@@ -255,7 +256,7 @@
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium">
 
                                 <syncfusion:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                                 </syncfusion:SfButton.Behaviors>
                             </syncfusion:SfButton>
 
@@ -267,7 +268,7 @@
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium">
 
                                 <syncfusion:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                                 </syncfusion:SfButton.Behaviors>
                             </syncfusion:SfButton>
                         </Grid>
@@ -284,7 +285,7 @@
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
                         <syncfusion:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                         </syncfusion:SfButton.Behaviors>
                     </syncfusion:SfButton>
                 </StackLayout>

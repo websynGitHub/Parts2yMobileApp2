@@ -97,6 +97,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Navigation.RemovePage(Navigation.NavigationStack[1]);
                             Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                             Settings.POID = 0;
+                            Settings.TaskID = 0;
                         }
                     }
 
@@ -117,6 +118,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
                             Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                             Settings.POID = 0;
+                            Settings.TaskID = 0;
                         }
                     }
 
@@ -156,7 +158,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID && wr.TaskID == Settings.TaskID));
                         }
                     }
                 }
@@ -262,6 +264,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
                         Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                         Settings.POID = 0;
+                        Settings.TaskID = 0;
                     }
                 }
                 await Navigation.PopAsync();
