@@ -32,6 +32,8 @@
         public string VehicleNumPlate { get; set; }
         public string TrailerNumPlate { get; set; }
         public string ContainerNumber { get; set; }
+        public int ScanConfigID { get; set; }
+        public int ScanCount { get; set; }
     }
     public class GetProfile
     {

@@ -51,34 +51,51 @@
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
 
-                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
-                              HorizontalOptions="StartAndExpand"  RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,Auto"
-                                        VerticalOptions="CenterAndExpand">
-                        <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="Rule"
+                    <StackLayout Grid.Row="0" Grid.Column="1" Margin="8,15,0,15"
+                              HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="Rule : "
                                Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text=":"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White" Grid.Column="2" Grid.Row="0" Text="{Binding SelectedScanRuleHeader}"
+                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text=":"
+                               Style="{DynamicResource LableWithQuestionFont}"/>-->
+                            <Label TextColor="White" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedScanRuleHeader}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White" Grid.Column="0" Grid.Row="1" Text="Total"
+                        </Grid>
+                        
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                            <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="Total : "
                              Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="1" Grid.Row="1" Text=":"
+                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="1" Text=":"
+                              Style="{DynamicResource LableWithQuestionFont}"/>-->
+                            <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding TotalCountHeader}"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        </Grid>
+                       
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="OK Count : "
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="2" Text=":"
+                              Style="{DynamicResource LableWithQuestionFont}"/>-->
+                            <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding OKCount}"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        </Grid>
+
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="NG Count : "
                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="2" Grid.Row="1" Text="{Binding TotalCountHeader}"
+                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="3" Text=":"
+                               Style="{DynamicResource LableWithQuestionFont}"/>-->
+                            <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding NGCount}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="0" Grid.Row="2" Text="OK Count"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="1" Grid.Row="2" Text=":"
-                              Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="2" Grid.Row="2" Text="{Binding OKCount}"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="0" Grid.Row="3" Text="NG Count"
-                              Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="1" Grid.Row="3" Text=":"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        <Label TextColor="White"  Grid.Column="2" Grid.Row="3" Text="{Binding NGCount}"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                    </Grid>
+                        </Grid>
+                       
+                    </StackLayout>
 
                     <Grid IsVisible="{Binding showCurrentStatus}"  Grid.Column="2"
                           HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"
@@ -110,7 +127,8 @@
                     </Grid.RowDefinitions>
                     <StackLayout IsEnabled="{Binding IsScanEnable}" Grid.Column="0" Grid.Row="0">
                         <Label  Text="Scan" Style="{DynamicResource LableWithQuestionFont}" 
-                                TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0" HorizontalOptions="Center" 
+                                TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0"
+                                HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                             <!--<Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ScanTabCmd}"/>
@@ -296,8 +314,8 @@
 
                                     <combobox:SfComboBox x:Name="LanguagePicker"
                                                                  DataSource="{Binding ScanRuleLst,Mode=TwoWay}" 
-                                                     Text="{Binding SelectedScanRule,Mode=TwoWay}" 
-                                                                 SelectedItem="{Binding SelectedScanRule}"
+                                                     Text="{Binding SelectedScanRule,Mode=TwoWay}" DisplayMemberPath="Name"
+                                                                 SelectedItem="{Binding SelectedRule}"
                                                       VerticalOptions="CenterAndExpand" 
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                         <combobox:SfComboBox.HeightRequest>

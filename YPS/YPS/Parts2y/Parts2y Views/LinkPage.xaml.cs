@@ -27,7 +27,7 @@ namespace YPS.Parts2y.Parts2y_Views
         SendPodata sendPodata = new SendPodata();
         #endregion
 
-        public LinkPage(ObservableCollection<PhotoRepoModel> photorepolist)
+        public LinkPage(ObservableCollection<PhotoRepoDBModel> photorepolist)
         {
             try
             {

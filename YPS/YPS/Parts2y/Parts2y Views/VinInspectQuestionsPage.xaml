@@ -153,7 +153,7 @@
                             </StackLayout>
 
                             <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsSignTabVisible}">
-                                <Label Text="Sign" TextColor="{Binding SignTabTextColor}"
+                                <Label Text="{Binding SignTabText}" TextColor="{Binding SignTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
                                 </Label>
@@ -266,7 +266,8 @@
                     <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
                                                 Style="{StaticResource SfBtnBlue}"
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
-                                        BackgroundColor="{Binding BgColor}">
+                                        BackgroundColor="{Binding BgColor}" IsEnabled="{Binding IsDoneEnable}"
+                                        Opacity="{Binding DoneOpacity}">
                         <sfbuttons:SfButton.Behaviors>
                             <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>

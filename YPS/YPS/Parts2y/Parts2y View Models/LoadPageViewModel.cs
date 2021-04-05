@@ -73,8 +73,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (selectedTagData.TaskStatus == 2)
                 {
-                    closeLabelText = false;
-                    //DoneBtnOpacity = 0.5;
+                    closeLabelText = true;
+                    DoneBtnOpacity = 0.5;
+                    NotDoneVal = false;
                     IsPhotoUploadIconVisible = false;
                 }
                 else

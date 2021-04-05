@@ -75,18 +75,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             loadindicator = true;
             var checkInternet = await App.CheckInterNetConnection();
-            if (checkInternet)
-            {
-                var result = await trackService.GeInspectionPhotosService(tagId, InspectionConfiguration?.MInspectionConfigID);
-                if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
-                {
-                    ImagesCount = result.data.listData.Count;
-                }
-                else
-                {
-                    ImagesCount = 0;
-                }
-            }
+            //if (checkInternet)
+            //{
+            //    var result = await trackService.GeInspectionPhotosService(tagId, InspectionConfiguration?.MInspectionConfigID);
+            //    if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+            //    {
+            //        ImagesCount = result.data.listData.Count;
+            //    }
+            //    else
+            //    {
+            //        ImagesCount = 0;
+            //    }
+            //}
 
             loadindicator = false;
         }
@@ -136,7 +136,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public async Task SelectPic()
         {
             loadindicator = true;
-            await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, QuestiionsPageHeaderData.VINLabelValue, null));
+            //await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, QuestiionsPageHeaderData.VINLabelValue, null));
             loadindicator = false;
         }
 

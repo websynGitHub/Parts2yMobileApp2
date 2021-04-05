@@ -28,7 +28,7 @@
 
                     <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
                           RowDefinitions="*" ColumnDefinitions="60,*,40">
-                       
+
                         <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
                                                   VerticalOptions="Center" Margin="10,10,10,10">
@@ -54,7 +54,7 @@
                             </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         </LblIcons:FontAwesomeIconLabel>
                     </Grid>
-                   
+
                     <StackLayout Grid.Row="1" IsVisible="{Binding listStack}" Margin="6,0,6,0">
                         <Grid ClassId="{Binding UploadType}" x:Name="gridData" >
                             <Grid.RowDefinitions>
@@ -112,47 +112,75 @@
                                 </BoxView.Triggers>
                             </BoxView>
                         </Grid>
-                        <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
+                        <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="1" 
                                           FlowItemsSource="{Binding finalPhotoListA,Mode=TwoWay}" 
                                           IsVisible="{Binding AStack}" SeparatorVisibility="None" HasUnevenRows="True" 
                                           >
                             <flv:FlowListView.FlowColumnTemplate >
                                 <DataTemplate>
-                                    <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="30"/>
-                                                <RowDefinition Height="80"/>
-                                            </Grid.RowDefinitions>
-                                            <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
+                                    <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2"
+                                           BackgroundColor="#E9E9E9">
+                                        <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                            <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="80"/>
+                                                </Grid.RowDefinitions>
+                                                <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
                                                                DownsampleToViewSize="True"
                                                                RetryCount="3"
                                                                RetryDelay="3000"
                                                                Source="{Binding PhotoURL}" ClassId="{Binding PhotoID}" 
                                                                HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
-                                                <forms:CachedImage.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.tap_OnImge,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
-                                                </forms:CachedImage.GestureRecognizers>
-                                            </forms:CachedImage>
-                                            <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000"
+                                                    <forms:CachedImage.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.tap_OnImge,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                    </forms:CachedImage.GestureRecognizers>
+                                                </forms:CachedImage>
+                                                <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000"
                                                          IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=pholist}}">
-                                                <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
-                                                <StackLayout.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.deleteImage,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
-                                                </StackLayout.GestureRecognizers>
+                                                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.deleteImage,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
+                                                    </StackLayout.GestureRecognizers>
+                                                </StackLayout>
+                                            </Grid>
+
+                                            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
+                                                         HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
+                                                <Label Text="{Binding CreatedDate}" Style="{StaticResource LblSubTitle}"
+                                                       TextColor="Black" Margin="1,2,0,0"/>
+
+
+                                                <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" 
+                                                       BackgroundColor="White" HeightRequest="80"
+                                                       VerticalOptions="EndAndExpand">
+                                                    <ScrollView Orientation="Vertical" HeightRequest="80"
+                                                                VerticalScrollBarVisibility="Never">
+
+                                                        <Label Text="{Binding PhotoDescription}" TextColor="Black"
+                                                               VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"
+                                                                           Style="{StaticResource LblSubTitle}"
+                                                               LineBreakMode="WordWrap"/>
+                                                    </ScrollView>
+
+                                                </Frame>
                                             </StackLayout>
+
                                         </Grid>
+
                                     </Frame>
                                 </DataTemplate>
                             </flv:FlowListView.FlowColumnTemplate>
                         </flv:FlowListView>
-                        
-                        <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" FlowItemsSource="{Binding finalPhotoListB,Mode=TwoWay}"
+
+                        <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="1" FlowItemsSource="{Binding finalPhotoListB,Mode=TwoWay}"
                                            SeparatorVisibility="None" HasUnevenRows="True" IsVisible="{Binding BStack}">
                             <flv:FlowListView.FlowColumnTemplate >
                                 <DataTemplate>
-                                    <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
-                                        <Grid>
+                                    <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2"
+                                           BackgroundColor="#E9E9E9">
+                                        <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                            <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="30"/>
                                                 <RowDefinition Height="80"/>
@@ -174,12 +202,34 @@
                                                 </StackLayout.GestureRecognizers>
                                             </StackLayout>
                                         </Grid>
+
+                                        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
+                                                         HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
+                                                <Label Text="{Binding CreatedDate}" Style="{StaticResource LblSubTitle}"
+                                                       TextColor="Black" HorizontalOptions="StartAndExpand"
+                                                       Margin="1,0,0,0"/>
+
+
+                                                <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" 
+                                                       BackgroundColor="White" HeightRequest="85">
+                                                <ScrollView Orientation="Vertical" HeightRequest="80"
+                                                                VerticalScrollBarVisibility="Never">
+
+                                                    <Label Text="{Binding PhotoDescription}" TextColor="Black"
+                                                               VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"
+                                                                           Style="{StaticResource LblSubTitle}"
+                                                               LineBreakMode="WordWrap"/>
+                                                </ScrollView>
+
+                                            </Frame>
+                                        </StackLayout>
+                                        </Grid>
                                     </Frame>
                                 </DataTemplate>
                             </flv:FlowListView.FlowColumnTemplate>
                         </flv:FlowListView>
                     </StackLayout>
-                    
+
                     <!--<StackLayout Grid.Row="2" IsVisible="{Binding listStack}" Margin="5,5,5,0">
                         <Grid ClassId="{Binding UploadType}" x:Name="gridData">
                             <Grid.RowDefinitions>
@@ -291,13 +341,13 @@
                             </flv:FlowListView.FlowColumnTemplate>
                         </flv:FlowListView>
                     </StackLayout>-->
-                    
+
                     <Label Grid.Row="1" Text="No photos available." IsVisible="{Binding NoPhotos_Visibility}" TextColor="Black"
                            HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LableWithQuestionFont}"/>
                     <ScrollView Grid.Row="1" IsVisible="{Binding firstStack}" Padding="3">
                         <Image Source="{Binding CaptchaImage1}" x:Name="img"/>
                     </ScrollView>
-                    
+
                     <StackLayout Grid.Row="2" IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" 
                                  VerticalOptions="EndAndExpand" Padding="10">
                         <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False"  BackgroundColor="White">
@@ -310,7 +360,7 @@
                                                 HeightRequest="70"
                                                 Placeholder="{Binding labelobjDesc}" TextColor="Black" PlaceholderColor="Gray" Keyboard="Text"
                                                 Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
-                                
+
                                 <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
                                                     Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                                     <sfbuttons:SfButton.Content>

@@ -21,6 +21,7 @@ namespace YPS.Model
     {
         public int ID { get; set; }
         public int POTagID { get; set; }
+        public int TaskID { get; set; }
         public int QID { get; set; }
         public int FrontLeft { get; set; }
         public int FrontRight { get; set; }

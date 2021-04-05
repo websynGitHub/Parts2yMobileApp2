@@ -226,7 +226,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (checkInternet)
                 {
                     loadindicator = true;
-                    var result = await trackService.GeInspectionResultsService(tagId);
+                    var result = await trackService.GetInspectionResultsService(0,tagId);
                     loadindicator = false;
                     if (result != null && result.data != null && result.data.listData != null)
                     {

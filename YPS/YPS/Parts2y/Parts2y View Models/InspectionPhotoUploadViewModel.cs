@@ -41,19 +41,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
         AllPoData selectedTagData;
         Stream picStream;
         string extension = "", fileName, Mediafile, types = string.Empty;
-        int tagId;
-        bool multiple_Taps;
+        int tagId, taskid;
+        bool multiple_Taps, IsCarrierInsp;
         InspectionConfiguration inspectionConfiguration;
 
         #endregion
 
-        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata)
+        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata, bool iscarrierinsp)
         {
             Navigation = _Navigation;
             pagename = page;
             selectedTagData = selectedtagdata;
             this.tagId = tagId;
+            taskid = selectedtagdata.TaskID;
             Tagnumbers = vinValue;
+            IsCarrierInsp = iscarrierinsp;
             Question = inspectionConfiguration.SerialNo + " " + inspectionConfiguration.Question;
             this.inspectionConfiguration = inspectionConfiguration;
             trackService = new YPSService();
@@ -85,7 +87,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var result = await trackService.DeleteInspectionPhoto(inspectionPhotosResponseListData.ID);
                             if (result != null && result.status == 1)
                             {
-                                finalPhotoListA.Remove(inspectionPhotosResponseListData);
+                                //finalPhotoListA.Remove(inspectionPhotosResponseListData);
+                                await GetInspectionPhotos();
                             }
                         }
                         else
@@ -427,6 +430,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 string FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + item.Extension;
                                 BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagfiles), FullFilename, item.ImageOriginalStream, item.ImgPath, item.uploadplatform);
+
                                 UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest()
                                 {
                                     BackLeft = inspectionConfiguration.BackLeft,
@@ -436,7 +440,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     FileURL = FullFilename,
                                     FrontLeft = inspectionConfiguration.FrontLeft,
                                     FrontRight = inspectionConfiguration.FrontRight,
-                                    POTagID = tagId,
+                                    POTagID = IsCarrierInsp == false ? tagId : 0,
+                                    TaskID = taskid,
                                     FileDescription = description_txt,
                                     QID = inspectionConfiguration.MInspectionConfigID,
                                     UserID = Settings.userLoginID
@@ -471,24 +476,51 @@ namespace YPS.Parts2y.Parts2y_View_Models
             var checkInternet = await App.CheckInterNetConnection();
             if (checkInternet)
             {
-                var result = await trackService.GeInspectionPhotosService(tagId, inspectionConfiguration?.MInspectionConfigID);
-                if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+                if (IsCarrierInsp == true)
                 {
-                    AStack = true;
-                    FirstMainStack = true;
-                    SecondMainStack = false;
-                    NoPhotos_Visibility = false;
-                    firstStack = false;
-                    finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>(result.data.listData);
+                    var result = await trackService.GeInspectionPhotosByTask(taskid, inspectionConfiguration?.MInspectionConfigID);
+
+                    if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+                    {
+                        AStack = true;
+                        FirstMainStack = true;
+                        SecondMainStack = false;
+                        NoPhotos_Visibility = false;
+                        firstStack = false;
+                        finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>(result.data.listData);
+                    }
+                    else
+                    {
+                        AStack = false;
+                        FirstMainStack = true;
+                        NoPhotos_Visibility = true;
+                        firstStack = false;
+                        SecondMainStack = false;
+                    }
                 }
                 else
                 {
-                    AStack = false;
-                    FirstMainStack = true;
-                    NoPhotos_Visibility = true;
-                    firstStack = false;
-                    SecondMainStack = false;
+                    var vinresult = await trackService.GeInspectionPhotosByTag(taskid, tagId, inspectionConfiguration?.MInspectionConfigID);
+
+                    if (vinresult != null && vinresult.data != null && vinresult.data.listData != null && vinresult.data.listData.Count > 0)
+                    {
+                        AStack = true;
+                        FirstMainStack = true;
+                        SecondMainStack = false;
+                        NoPhotos_Visibility = false;
+                        firstStack = false;
+                        finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>(vinresult.data.listData);
+                    }
+                    else
+                    {
+                        AStack = false;
+                        FirstMainStack = true;
+                        NoPhotos_Visibility = true;
+                        firstStack = false;
+                        SecondMainStack = false;
+                    }
                 }
+
             }
 
             IndicatorVisibility = false;

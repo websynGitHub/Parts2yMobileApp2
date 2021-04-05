@@ -163,7 +163,7 @@
                             </StackLayout>
 
                             <StackLayout HorizontalOptions="FillAndExpand">
-                                <Label Text="Sign" TextColor="{Binding SignTabTextColor}"
+                                <Label Text="Check List &amp; Sign" TextColor="{Binding SignTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
                                 </Label>

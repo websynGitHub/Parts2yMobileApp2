@@ -82,7 +82,6 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-
                 if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
                 {
                     TagTaskStatus tagtaskstatus = new TagTaskStatus();
@@ -95,6 +94,8 @@ namespace YPS.Parts2y.Parts2y_Views
 
                     if (result.status == 1)
                     {
+                        selectedTagData.TagTaskStatus = 2;
+
                         if (selectedTagData.TaskStatus == 0)
                         {
                             TagTaskStatus taskstatus = new TagTaskStatus();
@@ -103,6 +104,8 @@ namespace YPS.Parts2y.Parts2y_Views
                             taskstatus.CreatedBy = Settings.userLoginID;
 
                             var taskval = await service.UpdateTaskStatus(taskstatus);
+
+                            selectedTagData.TaskStatus = 1;
                         }
 
                         DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");

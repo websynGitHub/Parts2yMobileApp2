@@ -34,7 +34,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         VinInspectQuestionsPage pageName;
         YPSService trackService;
-        int tagId;
+        int tagId, taskid;
         bool isAllDone;
         List<InspectionResultsList> inspectionResultsLists;
         public Command HomeCmd { get; set; }
@@ -53,6 +53,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 isAllDone = isalldone;
                 selectedTagData = selectedtagdata;
                 this.tagId = selectedTagData.POTagID;
+                taskid = selectedTagData.TaskID;
                 TagNumber = selectedTagData.TagNumber;
                 IndentCode = selectedTagData.IdentCode;
                 ConditionName = selectedTagData.ConditionName;
@@ -282,6 +283,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
+                if (QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                    FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                    selectedTagData.TagTaskStatus != 2)
+                {
+                    IsDoneEnable = true;
+                    DoneOpacity = 1.0;
+                }
 
                 //if (QuickTabVisibility == true)
                 //{
@@ -320,7 +328,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
-                    var result = await trackService.GeInspectionResultsService(tagId);
+                    var result = await trackService.GetInspectionResultsService(taskid, tagId);
 
                     if (result != null && result.data != null && result.data.listData != null)
                     {
@@ -444,6 +452,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         LoadTextColor = Color.Black;
                         IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                        SignTabText = IsLoadTabVisible == false ? "Check List & Sign" : "Sign";
                     }
 
                     if (IsQuickTabVisible == false && IsFullTabVisible == false)
@@ -507,6 +516,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+        private string _SignTabText = "Sign";
+        public string SignTabText
+        {
+            get { return _SignTabText; }
+            set
+            {
+                _SignTabText = value;
+                RaisePropertyChanged("SignTabText");
+            }
+        }
+
+        private bool _IsDoneEnable = false;
+        public bool IsDoneEnable
+        {
+            get { return _IsDoneEnable; }
+            set
+            {
+                _IsDoneEnable = value;
+                RaisePropertyChanged("IsDoneEnable");
+            }
+        }
+
+        private double _DoneOpacity = 0.5;
+        public double DoneOpacity
+        {
+            get { return _DoneOpacity; }
+            set
+            {
+                _DoneOpacity = value;
+                RaisePropertyChanged("DoneOpacity");
+            }
+        }
+
         private bool _IsSignQuestionListVisible = false;
         public bool IsSignQuestionListVisible
         {

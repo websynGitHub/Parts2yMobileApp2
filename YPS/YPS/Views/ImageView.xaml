@@ -143,7 +143,7 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="0.3*"/>
                                     </Grid.RowDefinitions>
-                                    <forms1:CachedImage Grid.Row="0" Source="{Binding PhotoURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                                    <forms1:CachedImage Grid.Row="0" Source="{Binding FullFileUrl}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
                                             <!--<Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>-->
@@ -158,7 +158,7 @@
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
                                                 <Label Text="{Binding BindingContext.DescriptionLabel, Source={x:Reference Name=ImgView}}"
                                                       Style="{StaticResource LblSubTitle}" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
-                                                <Label Text="{Binding Description}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
+                                                <Label Text="{Binding FileDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
                                                         Grid.Row="0" Grid.Column="1"/>
                                             </Grid>
                                         </StackLayout>

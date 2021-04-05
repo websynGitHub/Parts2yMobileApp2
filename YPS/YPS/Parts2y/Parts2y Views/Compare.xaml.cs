@@ -11,18 +11,22 @@ using YPS.Model;
 using YPS.Parts2y.Parts2y_Common_Classes;
 using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
+using YPS.Service;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Compare : ContentPage
     {
+        YPSService trackService;
         CompareViewModel Vm;
+
         public Compare()
         {
             try
             {
                 InitializeComponent();
+                trackService = new YPSService();
                 BindingContext = Vm = new CompareViewModel(Navigation, this, false);
                 //int count = 1;
                 //Vm.compareHistoryList = new List<CompareHistoryList>()
@@ -56,7 +60,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-        private void ClearHistory(object sender, EventArgs e)
+        private async void ClearHistory(object sender, EventArgs e)
         {
             try
             {
@@ -186,21 +190,15 @@ namespace YPS.Parts2y.Parts2y_Views
                     int? total = Vm.TotalCount;
                     string selectedrule = Vm.SelectedScanRule;
 
-                    RememberPwdDB Db = new RememberPwdDB();
-                    var user = Db.GetUserDetails();
 
-                    if (user != null && user.Count > 0)
-                    {
-                        RememberPwd UpdateData = new RememberPwd();
-                        user[0].SelectedScanRule = Vm.SelectedScanRule;
-                        user[0].EnteredScanTotal = Vm.TotalCount;
-                        Db.UpdatePWd(user[0], YPS.CommonClasses.Settings.userLoginID);
-                    }
-
-                    BindingContext = Vm = new CompareViewModel(Navigation, this, false);
                     Vm.TotalCount = total;
                     Vm.SelectedScanRule = selectedrule;
-                    await Vm.SaveConfig();
+                    bool value = await Vm.SaveConfig();
+
+                    if (value == true)
+                    {
+                        BindingContext = Vm = new CompareViewModel(Navigation, this, false);
+                    }
                 }
             }
             catch (Exception ex)

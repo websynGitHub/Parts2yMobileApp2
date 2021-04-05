@@ -257,6 +257,9 @@ namespace YPS.CommonClasses
         public static int TaskID { set; get; }
         public static bool CanUploadPhotos { set; get; }
         public static bool CanOpenScanner { set; get; }
+        public static int ScanConfigID { set; get; }
+        public static int ScanCount { set; get; }
+
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }

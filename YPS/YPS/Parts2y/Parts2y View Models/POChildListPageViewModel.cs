@@ -932,7 +932,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0)
+                        bool makeitdone = true;
+
+                        if (Settings.VersionID == 2)
+                        {
+                            makeitdone = await App.Current.MainPage.DisplayAlert("Mark as done", "Make sure you have finished the inspection for selected tag(s)", "Ok", "Cancel");
+                        }
+
+                        if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0 && makeitdone == true)
                         {
                             TagTaskStatus tagtaskstatus = new TagTaskStatus();
                             tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());

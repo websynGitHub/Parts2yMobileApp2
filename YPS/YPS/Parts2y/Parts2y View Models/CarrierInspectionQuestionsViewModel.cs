@@ -28,7 +28,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
         CarrierInspectionQuestionsPage pageName;
         YPSService trackService;
-        int tagId;
+        //int tagId;
+        int taskid;
         bool IsAllTagsDone;
         List<InspectionResultsList> inspectionResultsLists;
         public Command HomeCmd { get; set; }
@@ -45,7 +46,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService = new YPSService();
                 pageName = pagename;
                 SelectedPodataList = selectedpodatalist;
-                this.tagId = SelectedPodataList[0].POTagID;
+                //this.tagId = SelectedPodataList[0].POTagID;
+                taskid = SelectedPodataList[0].TaskID;
                 IsAllTagsDone = isalltagdone;
                 PONumber = SelectedPodataList[0].PONumber;
                 ShippingNumber = SelectedPodataList[0].ShippingNumber;
@@ -233,7 +235,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if (IsAllTagsDone == true)
+                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null
+                    && SelectedPodataList[0].TaskID != 2)
                 {
                     IsDoneEnable = true;
                     DoneOpacity = 1.0;
@@ -258,7 +261,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
-                    var result = await trackService.GeInspectionResultsService(tagId);
+                    var result = await trackService.GetInspectionResultsByTask(taskid);
 
                     if (result != null && result.data != null && result.data.listData != null)
                     {
@@ -391,7 +394,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     //IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
                     //IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
-
                 }
             }
             catch (Exception ex)

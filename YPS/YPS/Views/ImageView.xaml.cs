@@ -30,7 +30,7 @@ namespace YPS.Views
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
         /// <param name="Tags"></param>
-        public ImageView(ObservableCollection<PhotoRepoModel> photosList, int photoId)
+        public ImageView(ObservableCollection<PhotoRepoDBModel> photosList, int photoId)
         {
             try
             {

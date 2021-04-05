@@ -833,7 +833,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="UploadFiles obj"></param>
         /// <returns></returns>
-        public async Task<object> LoadPhotoUpload(List<LoadPhotoModel> loadphotodata)
+        public async Task<LoadPhotosListResponse> LoadPhotoUpload(List<LoadPhotoModel> loadphotodata)
         {
             RestClient restClient = new RestClient();
             return await restClient.LoadPhotoUpload(loadphotodata);
@@ -853,12 +853,24 @@ namespace YPS.Service
         /// <summary>
         /// GeInspectionResultsService
         /// </summary>
+        /// <param name="taskid"></param>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<InspectionResults> GeInspectionResultsService(int tagId)
+        public async Task<InspectionResults> GetInspectionResultsService(int taskid, int tagId)
         {
             RestClient restClient = new RestClient();
-            return await restClient.GeInspectionResultsClient(tagId);
+            return await restClient.GetInspectionResultsClient(taskid, tagId);
+        }
+
+        /// <summary>
+        /// GeInspectionResultsService
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<InspectionResults> GetInspectionResultsByTask(int taskid)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetInspectionResultsByTask(taskid);
         }
 
         /// <summary>
@@ -866,10 +878,21 @@ namespace YPS.Service
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<InspectionPhotosResponse> GeInspectionPhotosService(int tagId, int? questionId)
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosByTag(int taskid, int tagId, int? questionId)
         {
             RestClient restClient = new RestClient();
-            return await restClient.GeInspectionPhotosClient(tagId, questionId);
+            return await restClient.GeInspectionPhotosByTag(taskid, tagId, questionId);
+        }
+
+        /// <summary>
+        /// GeInspectionPhotosService
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosByTask(int taskid, int? questionId)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GeInspectionPhotosByTask(taskid, questionId);
         }
 
         /// <summary>
@@ -877,7 +900,7 @@ namespace YPS.Service
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<UpdateInspectionResponse> InsertInspectionPhotosService(List<UpdateInspectionRequest> updateInspectionRequest)
+        public async Task<UpdateInsertInspectionResponse> InsertInspectionPhotosService(List<UpdateInspectionRequest> updateInspectionRequest)
         {
             RestClient restClient = new RestClient();
             return await restClient.InsertInspectionPhotosClient(updateInspectionRequest);
@@ -913,6 +936,77 @@ namespace YPS.Service
         {
             RestClient restClient = new RestClient();
             return await restClient.GetAllMInspectionConfigurations();
+        }
+
+        /// <summary>
+        /// Get Scan Config
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SaveScanConfigResponse> SaveScanConfig(CompareModel compareobj, int? scancount)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.SaveScanConfig(compareobj, Convert.ToInt32(scancount));
+        }
+
+        /// <summary>
+        /// Get saved compare config.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<GetSavedConfigResponse> GetSaveScanConfig()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetSaveScanConfig();
+        }
+
+        /// <summary>
+        /// Get Scan Config
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ScanConfigResponse> GetScanConfig()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetScanConfig();
+        }
+
+        /// <summary>
+        /// Get Repo Photos
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoResponse> GetRepoPhotos()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetRepoPhotos();
+        }
+
+        /// <summary>
+        /// Upload Repo Photos
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoResponse> UploadRepoPhotos(List<PhotoRepoDBModel> repophotolist)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.UploadRepoPhotos(repophotolist);
+        }
+
+        /// <summary>
+        /// Delete Single Repo Photo
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoDelResponse> DeleteSingleRepoPhoto(int photoid)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.DeleteSingleRepoPhoto(photoid);
+        }
+
+        /// <summary>
+        /// Delete Single Repo Photo
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoDelAllResponse> DeleteAllRepoPhoto()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.DeleteAllRepoPhoto();
         }
     }
 }

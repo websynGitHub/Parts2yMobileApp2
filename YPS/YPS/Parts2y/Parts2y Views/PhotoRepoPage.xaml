@@ -48,13 +48,15 @@
                         </Grid.RowDefinitions>
 
                         <StackLayout Grid.Row="0" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0" BackgroundColor="#E9E9E9">
-                            <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3" 
+                            <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="1" 
                                           FlowItemsSource="{Binding RepoPhotosList,Mode=TwoWay}" BackgroundColor="#E9E9E9"
                                           IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" >
                                 <flv:FlowListView.FlowColumnTemplate >
                                     <DataTemplate>
-                                        <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
-                                            <Grid>
+                                        <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" 
+                                               CornerRadius="2" BackgroundColor="#E9E9E9">
+                                            <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="80"/>
                                                     <!--<RowDefinition Height="Auto"/>-->
@@ -65,7 +67,7 @@
                                                                DownsampleToViewSize="True"
                                                                RetryCount="3"
                                                                RetryDelay="3000"
-                                                               Source="{Binding PhotoURL}" ClassId="{Binding PhotoID}" 
+                                                               Source="{Binding FullFileUrl}" ClassId="{Binding FileID}" 
                                                                HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
                                                     <forms:CachedImage.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.ViewPhotoDetailsCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
@@ -89,6 +91,28 @@
                                                                  />
                                                 <!--</StackLayout>-->
                                             </Grid>
+
+                                            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
+                                                         HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
+                                                    <Label Text="{Binding CreatedDate}" Style="{StaticResource LblSubTitle}"
+                                                       TextColor="Black" Margin="1,5,0,0"/>
+
+
+                                                    <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4"
+                                                           HasShadow="False" VerticalOptions="EndAndExpand"
+                                                       BackgroundColor="White" HeightRequest="79">
+                                                        <ScrollView Orientation="Vertical" HeightRequest="85"
+                                                                VerticalScrollBarVisibility="Never">
+
+                                                            <Label Text="{Binding FileDescription}" TextColor="Black"
+                                                               VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"
+                                                                           Style="{StaticResource LblSubTitle}"
+                                                               LineBreakMode="WordWrap"/>
+                                                        </ScrollView>
+                                                    </Frame>
+                                            </StackLayout>
+                                            </Grid>
+
                                         </Frame>
                                     </DataTemplate>
                                 </flv:FlowListView.FlowColumnTemplate>

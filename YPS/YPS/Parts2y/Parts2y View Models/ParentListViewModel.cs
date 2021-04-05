@@ -303,7 +303,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupedlist.Add(groupdata);
                                     }
 
-                                    groupedlist = new ObservableCollection<AllPoData>(groupedlist.OrderBy(o => o.TaskStatus).ThenBy(tob => tob.TaskName).ThenBy(tob => tob.PONumber));
+                                    groupedlist = new ObservableCollection<AllPoData>(groupedlist.OrderBy(o => o.TaskStatus).
+                                        ThenBy(tob => tob.TaskName));
 
                                     if (postatus == -1)
                                     {

@@ -48,15 +48,17 @@
                         </Grid>
                     </Grid>
                     
-                    <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="3"  Grid.Row="1"
+                    <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="1"  Grid.Row="1"
                                           FlowItemsSource="{Binding finalPhotoListA,Mode=TwoWay}" 
                                           IsVisible="{Binding AStack}" SeparatorVisibility="None" HasUnevenRows="True" 
                                           >
                         <flv:FlowListView.FlowColumnTemplate >
                             <DataTemplate>
-                                <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
+                                <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" CornerRadius="2"
+                                       BackgroundColor="#E9E9E9">
+                                    <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                        <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                            <Grid.RowDefinitions>
                                             <RowDefinition Height="30"/>
                                             <RowDefinition Height="80"/>
                                         </Grid.RowDefinitions>
@@ -78,7 +80,27 @@
                                             </StackLayout.GestureRecognizers>
                                         </StackLayout>
                                     </Grid>
-                                </Frame>
+
+                                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
+                                                         HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
+                                            <Label Text="{Binding CreatedDate}" Style="{StaticResource LblSubTitle}"
+                                                       TextColor="Black" Margin="1,0,0,0"/>
+
+
+                                        <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" 
+                                                       BackgroundColor="White" HeightRequest="85">
+                                            <ScrollView Orientation="Vertical" HeightRequest="80"
+                                                                VerticalScrollBarVisibility="Never">
+
+                                                    <Label Text="{Binding FileDescription}" TextColor="Black"
+                                                               VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"
+                                                                           Style="{StaticResource LblSubTitle}"
+                                                               LineBreakMode="WordWrap"/>
+                                            </ScrollView>
+                                        </Frame>
+                                    </StackLayout>
+                </Grid>
+                </Frame>
                             </DataTemplate>
                         </flv:FlowListView.FlowColumnTemplate>
                     </flv:FlowListView>

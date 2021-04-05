@@ -33,7 +33,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         VinInspectionAnswersPage pagename;
         AllPoData selectedTagData;
         YPSService trackService;
-        int tagId, photoCounts;
+        int tagId, taskid, photoCounts;
         public bool isInspVIN, isAllDone;
         Stream picStream;
         string extension = "", Mediafile, fileName;
@@ -62,6 +62,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 isAllDone = isalldone;
                 selectedTagData = selectedtagdata;
                 this.tagId = selectedtagdata.POTagID;
+                taskid = selectedtagdata.TaskID;
                 PONumber = selectedtagdata.PONumber;
                 ShippingNumber = selectedtagdata.ShippingNumber;
                 REQNo = selectedtagdata.REQNo;
@@ -219,16 +220,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-                    var result = await trackService.GeInspectionPhotosService(tagId, InspectionConfiguration?.MInspectionConfigID);
-
-                    if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+                    if (IsInspTabVisible == true)
                     {
-                        ImagesCount = result.data.listData.Count;
+                        var result = await trackService.GeInspectionPhotosByTask(taskid, InspectionConfiguration?.MInspectionConfigID);
+
+                        if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+                        {
+                            ImagesCount = result.data.listData.Count;
+                        }
+                        else
+                        {
+                            ImagesCount = 0;
+                        }
                     }
                     else
                     {
-                        ImagesCount = 0;
+                        var vinresult = await trackService.GeInspectionPhotosByTag(taskid, tagId, InspectionConfiguration?.MInspectionConfigID);
+
+                        if (vinresult != null && vinresult.data != null && vinresult.data.listData != null && vinresult.data.listData.Count > 0)
+                        {
+                            ImagesCount = vinresult.data.listData.Count;
+                        }
+                        else
+                        {
+                            ImagesCount = 0;
+                        }
                     }
+
                 }
             }
             catch (Exception ex)
@@ -272,6 +290,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
                                 IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
+
+                                if (Settings.VersionID == 2)
+                                {
+                                    var isloadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                                    SignTabText = isloadTabVisible == false ? "Check List & Sign" : "Sign";
+                                }
                             }
 
                             if (IsQuickTabVisible == false && IsFullTabVisible == false)
@@ -349,7 +373,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             try
             {
-                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber, selectedTagData));
+                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber, selectedTagData, IsInspTabVisible == true ? true : false));
             }
             catch (Exception ex)
             {
@@ -405,7 +429,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             updateInspectionRequest.FrontRight = FrontRightTrue ? 2 : 1;
                         }
 
-                        updateInspectionRequest.POTagID = tagId;
+                        if (IsInspTabVisible == false)
+                        {
+                            updateInspectionRequest.POTagID = tagId;
+                        }
+
+                        updateInspectionRequest.TaskID = taskid;
                         updateInspectionRequest.Remarks = Remarks;
                         updateInspectionRequest.UserID = Settings.userLoginID;
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
@@ -699,6 +728,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private string _SignTabText = "Sign";
+        public string SignTabText
+        {
+            get { return _SignTabText; }
+            set
+            {
+                _SignTabText = value;
+                RaisePropertyChanged("SignTabText");
+            }
+        }
 
         private bool _IsDoneEnable = true;
         public bool IsDoneEnable

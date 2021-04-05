@@ -83,7 +83,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 var val = sender as Plugin.InputKit.Shared.Controls.CheckBox;
-                var item = (PhotoRepoModel)val.BindingContext;
+                var item = (PhotoRepoDBModel)val.BindingContext;
 
                 item.IsSelected = val.IsChecked == true ? true : false;
             }
@@ -149,8 +149,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 Photo phUpload = new Photo();
                                 phUpload.PUID = value.PUID;
                                 phUpload.PhotoID = 0;
-                                phUpload.PhotoURL = firstphotovalue.FullFileName;
-                                phUpload.PhotoDescription = firstphotovalue.Description;
+                                phUpload.PhotoURL = firstphotovalue.FileUrl;
+                                phUpload.PhotoDescription = firstphotovalue.FileDescription;
                                 phUpload.FileName = firstphotovalue.FileName;
                                 phUpload.CreatedBy = Settings.userLoginID;
                                 phUpload.UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
@@ -209,8 +209,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 CustomPhotoModel phUpload = new CustomPhotoModel();
                                 phUpload.PUID = value.PUID;
                                 phUpload.PhotoID = 0;
-                                phUpload.PhotoURL = firstphotovalue.FullFileName;
-                                phUpload.PhotoDescription = firstphotovalue.Description;
+                                phUpload.PhotoURL = firstphotovalue.FileUrl;
+                                phUpload.PhotoDescription = firstphotovalue.FileDescription;
                                 phUpload.FileName = firstphotovalue.FileName;
                                 phUpload.CreatedBy = Settings.userLoginID;
                                 phUpload.UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
@@ -274,7 +274,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (move)
                         {
-                            await Navigation.PushAsync(new LinkPage(new ObservableCollection<PhotoRepoModel>(RepoPhotosList.Where(wr => wr.IsSelected == true).ToList())));
+                            await Navigation.PushAsync(new LinkPage(new ObservableCollection<PhotoRepoDBModel>(RepoPhotosList.Where(wr => wr.IsSelected == true).ToList())));
                         }
                     }
                     else
@@ -454,20 +454,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             try
             {
-                var data = obj as PhotoRepoModel;
-                int photoid = Convert.ToInt32(data.PhotoID);
-                var des = RepoPhotosList.Where(x => x.PhotoID == photoid).FirstOrDefault();
+                var data = obj as PhotoRepoDBModel;
+                int photoid = data.FileID;
+                var des = RepoPhotosList.Where(x => x.FileID == photoid).FirstOrDefault();
                 var imageLists = RepoPhotosList;
 
 
                 foreach (var items in imageLists)
                 {
-                    if (items.Description.Length > 150)
+                    if (items.FileDescription.Length > 150)
                     {
                         items.ShowAndHideDescr = true;
 
                     }
-                    else if (items.Description.Length > 0)
+                    else if (items.FileDescription.Length > 0)
                     {
                         items.ShowAndHideDescr = true;
                     }
@@ -512,30 +512,38 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (checkInternet)
                             {
-                                var data = obj as PhotoRepoModel;
+                                var data = obj as PhotoRepoDBModel;
+                                bool update = false;
 
-                                PhotoRepoSQlLite phoroRepoDB = new PhotoRepoSQlLite();
 
                                 if (data != null)
                                 {
-                                    phoroRepoDB.DeleteOfUser(data.PhotoID);
+                                    var response = await service.DeleteSingleRepoPhoto(data.FileID);
 
-                                    var item = RepoPhotosList.Where(x => x.PhotoID == data.PhotoID).FirstOrDefault();
-                                    RepoPhotosList.Remove(item);
+                                    if (response.status == 1)
+                                    {
+                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
+                                        update = true;
+                                    }
                                 }
                                 else
                                 {
-                                    phoroRepoDB.DeleteOfUser(0);
-                                    RepoPhotosList = new ObservableCollection<PhotoRepoModel>();
-                                }
+                                    var allresponse = await service.DeleteAllRepoPhoto();
 
+                                    if (allresponse.status == 1)
+                                    {
+                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
+                                        update = true;
+                                    }
+                                }
 
                                 NoRecHeight = (IsNoPhotoTxt = RepoPhotosList.Count == 0 ? true : false) == true ? 30 : 0;
 
-                                await GetPhotosData();
 
-                                await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
-
+                                if (update)
+                                {
+                                    await GetPhotosData();
+                                }
                             }
                             else
                             {
@@ -564,6 +572,79 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IndicatorVisibility = false;
             }
         }
+        //private async void DeleteImage(object obj)
+        //{
+        //    YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+        //    IndicatorVisibility = true;
+        //    try
+        //    {
+        //        bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+
+        //        if (conform)
+        //        {
+        //            Device.BeginInvokeOnMainThread(async () =>
+        //            {
+        //                IndicatorVisibility = true;
+        //                try
+        //                {
+        //                    /// Verifying internet connection.
+        //                    var checkInternet = await App.CheckInterNetConnection();
+
+        //                    if (checkInternet)
+        //                    {
+        //                        var data = obj as PhotoRepoModel;
+
+        //                        PhotoRepoSQlLite phoroRepoDB = new PhotoRepoSQlLite();
+
+        //                        if (data != null)
+        //                        {
+        //                            phoroRepoDB.DeleteOfUser(data.PhotoID);
+
+        //                            var item = RepoPhotosList.Where(x => x.FileID == data.PhotoID).FirstOrDefault();
+        //                            RepoPhotosList.Remove(item);
+        //                        }
+        //                        else
+        //                        {
+        //                            phoroRepoDB.DeleteOfUser(0);
+        //                            RepoPhotosList = new ObservableCollection<PhotoRepoDBModel>();
+        //                        }
+
+
+        //                        NoRecHeight = (IsNoPhotoTxt = RepoPhotosList.Count == 0 ? true : false) == true ? 30 : 0;
+
+        //                        await GetPhotosData();
+
+        //                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
+
+        //                    }
+        //                    else
+        //                    {
+        //                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+        //                    }
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    YPSLogger.ReportException(ex, "delete_image method from if(conform) -> in LoadPageViewModel " + Settings.userLoginID);
+        //                    await service.Handleexception(ex);
+        //                }
+
+        //                IndicatorVisibility = false;
+        //            });
+        //        }
+        //        //}
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        YPSLogger.ReportException(ex, "DeleteImage method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
+        //        await service.Handleexception(ex);
+        //        IndicatorVisibility = false;
+        //    }
+        //    finally
+        //    {
+        //        IndicatorVisibility = false;
+        //    }
+        //}
 
         /// <summary>
         /// Get the existing uploaded photo(s).
@@ -585,10 +666,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        PhotoRepoSQlLite photorepoDB = new PhotoRepoSQlLite();
-                        var photos = photorepoDB.GetPhotosOfUser();
+                        var data = await service.GetRepoPhotos();
+                        //var data = result as GetRepoPhotoResponse;
 
-                        if (photos != null && photos.Count > 0)
+                        if (data != null && data.status == 1 && data.data.Count > 0)
                         {
                             IsPhotosListVisible = true;
                             IsPhotosListStackVisible = true;
@@ -598,10 +679,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             IsLinkEnable = true;
                             LinkOpacity = 1.0;
                             IsPhotoUploadIconVisible = true;
-                            IsDeleteAllEnable = photos.Count > 2 ? true : false;
-                            DeleteAllOpacity = photos.Count > 2 ? 1.0 : 0.5;
+                            IsDeleteAllEnable = data.data.Count > 2 ? true : false;
+                            DeleteAllOpacity = data.data.Count > 2 ? 1.0 : 0.5;
 
-                            RepoPhotosList = new ObservableCollection<PhotoRepoModel>(photos);
+                            foreach (var val in data.data)
+                            {
+                                val.FullFileUrl = HostingURL.blob + "tag-files/" + val.FileUrl;
+                            }
+
+                            RepoPhotosList = new ObservableCollection<PhotoRepoDBModel>(data.data);
                         }
                         else
                         {
@@ -629,6 +715,71 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IndicatorVisibility = false;
             });
         }
+
+        ///// <summary>
+        ///// Get the existing uploaded photo(s).
+        ///// </summary>
+        ///// <param name="potagid"></param>
+        ///// <returns></returns>
+        //public async Task GetPhotosDataLocal()
+        //{
+
+        //    YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in GetPhotosData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+        //    Device.BeginInvokeOnMainThread(async () =>
+        //    {
+        //        try
+        //        {
+        //            IndicatorVisibility = true;
+        //            /// Verifying internet connection.
+        //            var checkInternet = await App.CheckInterNetConnection();
+
+        //            if (checkInternet)
+        //            {
+        //                PhotoRepoSQlLite photorepoDB = new PhotoRepoSQlLite();
+        //                var photos = photorepoDB.GetPhotosOfUser();
+
+        //                if (photos != null && photos.Count > 0)
+        //                {
+        //                    IsPhotosListVisible = true;
+        //                    IsPhotosListStackVisible = true;
+        //                    IsNoPhotoTxt = false;
+        //                    NoRecHeight = 0;
+        //                    IsBottomButtonsVisible = true;
+        //                    IsLinkEnable = true;
+        //                    LinkOpacity = 1.0;
+        //                    IsPhotoUploadIconVisible = true;
+        //                    IsDeleteAllEnable = photos.Count > 2 ? true : false;
+        //                    DeleteAllOpacity = photos.Count > 2 ? 1.0 : 0.5;
+
+        //                    RepoPhotosList = new ObservableCollection<PhotoRepoModel>(photos);
+        //                }
+        //                else
+        //                {
+        //                    IsPhotosListVisible = false;
+        //                    IsPhotosListStackVisible = false;
+        //                    IsNoPhotoTxt = true;
+        //                    NoRecHeight = 30;
+        //                    IsBottomButtonsVisible = false;
+        //                    IsDeleteAllEnable = IsLinkEnable = false;
+        //                    DeleteAllOpacity = LinkOpacity = 0.5;
+        //                    IsPhotoUploadIconVisible = true;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            YPSLogger.ReportException(ex, "GetPhotosData method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
+        //            await service.Handleexception(ex);
+        //            IndicatorVisibility = false;
+        //        }
+        //        IndicatorVisibility = false;
+        //    });
+        //}
 
         /// <summary>
         /// Gets called when clicked on Upload Button.
@@ -660,20 +811,31 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagfiles), FullFilename, picStream);
                             selectiontype_index = 1;
 
-                            PhotoRepoModel photoRepoModel = new PhotoRepoModel();
-                            //https://ypsuploadsdev.blob.core.windows.net/tag-photos/
+                            //PhotoRepoModel photoRepoModel = new PhotoRepoModel();
+                            ////https://ypsuploadsdev.blob.core.windows.net/tag-photos/
+                            ////photoRepoModel.PhotoURL = "https://azrbsa026dv00a.blob.core.windows.net/" + "tag-photos/" + FullFilename;
+                            //photoRepoModel.PhotoURL = HostingURL.blob + "tag-files/" + FullFilename;
+                            //photoRepoModel.FullFileName = FullFilename;
+                            //photoRepoModel.FileName = fileName;
+                            //photoRepoModel.Description = DescriptionText;
+                            //photoRepoModel.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                            //photoRepoModel.UserID = Settings.userLoginID;
+
+                            //PhotoRepoSQlLite photorepoDB = new PhotoRepoSQlLite();
+                            //photorepoDB.SavePhoto(photoRepoModel);
+                            PhotoRepoDBModel photoobj = new PhotoRepoDBModel();
+                            List<PhotoRepoDBModel> photolistobj = new List<PhotoRepoDBModel>();
                             //photoRepoModel.PhotoURL = "https://azrbsa026dv00a.blob.core.windows.net/" + "tag-photos/" + FullFilename;
-                            photoRepoModel.PhotoURL = HostingURL.blob + "tag-files/" + FullFilename;
-                            photoRepoModel.FullFileName = FullFilename;
-                            photoRepoModel.FileName = fileName;
-                            photoRepoModel.Description = DescriptionText;
-                            photoRepoModel.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                            photoRepoModel.UserID = Settings.userLoginID;
+                            photoobj.FullName = FullFilename;
+                            photoobj.FileName = fileName;
+                            photoobj.FileUrl = FullFilename;
+                            photoobj.FileDescription = DescriptionText;
+                            photoobj.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                            photoobj.CreatedBy = Settings.userLoginID;
+                            photolistobj.Add(photoobj);
 
-                            PhotoRepoSQlLite photorepoDB = new PhotoRepoSQlLite();
-                            photorepoDB.SavePhoto(photoRepoModel);
-
-                            //await GetPhotosData();
+                            var response = await service.UploadRepoPhotos(photolistobj);
+                            var data = response as GetRepoPhotoResponse;
 
                             DescriptionText = string.Empty;
 
@@ -915,7 +1077,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IndicatorVisibility = false;
             }
         }
-
 
 
         /// <summary>
@@ -1255,8 +1416,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private ObservableCollection<PhotoRepoModel> _RepoPhotosList;
-        public ObservableCollection<PhotoRepoModel> RepoPhotosList
+        private ObservableCollection<PhotoRepoDBModel> _RepoPhotosList;
+        public ObservableCollection<PhotoRepoDBModel> RepoPhotosList
         {
             get { return _RepoPhotosList; }
             set

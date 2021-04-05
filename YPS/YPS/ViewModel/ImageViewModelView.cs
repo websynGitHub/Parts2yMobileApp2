@@ -17,7 +17,7 @@ namespace YPS.ViewModel
     {
         public ICommand HomeCommand { get; set; }
         public ObservableCollection<CustomPhotoModel> imageViews { get; set; }
-        public ObservableCollection<PhotoRepoModel> repophotoimageViews { get; set; }
+        public ObservableCollection<PhotoRepoDBModel> repophotoimageViews { get; set; }
         public ObservableCollection<LoadPhotoModel> loadphotoimageViews { get; set; }
         public ObservableCollection<InspectionPhotosResponseListData> inspectionImageViews { get; set; }
         //public ObservableCollection<UploadFiles> imageViews1 { get; set; }
@@ -29,20 +29,20 @@ namespace YPS.ViewModel
         /// </summary>
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
-        public ImageViewModelView(ObservableCollection<PhotoRepoModel> photosList, int photoId)
+        public ImageViewModelView(ObservableCollection<PhotoRepoDBModel> photosList, int photoId)
         {
             try
             {
-                repophotoimageViews = new ObservableCollection<PhotoRepoModel>();
+                repophotoimageViews = new ObservableCollection<PhotoRepoDBModel>();
                 repophotoimageViews = photosList;
                 IsRepoPhotosVisible = true;
                 pophoto = false;
                 Yshipphoto = false;
                 IsInspectionPhotosVisible = false;
-                int index = photosList.IndexOf(photosList.Single(x => x.PhotoID == photoId));
-                var getFirstValue = photosList.Where(X => X.PhotoID == photoId).FirstOrDefault();
+                int index = photosList.IndexOf(photosList.Single(x => x.FileID == photoId));
+                var getFirstValue = photosList.Where(X => X.FileID == photoId).FirstOrDefault();
                 VisibleCardInx = index;
-                Settings.SPhotoDescription = getFirstValue.Description;
+                Settings.SPhotoDescription = getFirstValue.FileDescription;
                 HomeCommand = new Command(HomeCommand_btn);
 
                 DynamicTextChange();

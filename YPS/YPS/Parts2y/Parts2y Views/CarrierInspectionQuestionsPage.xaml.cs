@@ -85,11 +85,11 @@ namespace YPS.Parts2y.Parts2y_Views
                         taskstatus.TaskID = Helperclass.Encrypt(SelectedPodataList[0].TaskID.ToString());
                         taskstatus.TaskStatus = 2;
                         taskstatus.CreatedBy = Settings.userLoginID;
-
                         var taskval = await service.UpdateTaskStatus(taskstatus);
 
                         if (taskval.status == 1)
                         {
+                            SelectedPodataList[0].TaskID = 2;
                             DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                         }
                     }

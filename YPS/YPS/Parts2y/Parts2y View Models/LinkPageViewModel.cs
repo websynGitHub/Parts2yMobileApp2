@@ -35,7 +35,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         LinkPage pagename;
         SendPodata sendPodata;
 
-        public LinkPageViewModel(INavigation navigation, ObservableCollection<PhotoRepoModel> repophotosist, LinkPage page)
+        public LinkPageViewModel(INavigation navigation, ObservableCollection<PhotoRepoDBModel> repophotosist, LinkPage page)
         {
             try
             {
@@ -338,8 +338,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             CustomPhotoModel phUpload = new CustomPhotoModel();
                                             phUpload.PUID = eachpuid.FirstOrDefault().PUID;
                                             phUpload.PhotoID = 0;
-                                            phUpload.PhotoURL = photo.FullFileName;
-                                            phUpload.PhotoDescription = photo.Description;
+                                            phUpload.PhotoURL = photo.FileUrl;
+                                            phUpload.PhotoDescription = photo.FileDescription;
                                             phUpload.FileName = photo.FileName;
                                             phUpload.CreatedBy = Settings.userLoginID;
                                             phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
@@ -414,8 +414,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 Photo phUpload = new Photo();
                                                 phUpload.PUID = parts.PUID;
                                                 phUpload.PhotoID = 0;
-                                                phUpload.PhotoURL = iniphoto.FullFileName;
-                                                phUpload.PhotoDescription = iniphoto.Description;
+                                                phUpload.PhotoURL = iniphoto.FileUrl;
+                                                phUpload.PhotoDescription = iniphoto.FileDescription;
                                                 phUpload.FileName = iniphoto.FileName;
                                                 phUpload.CreatedBy = Settings.userLoginID;
                                                 phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
@@ -976,8 +976,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private ObservableCollection<PhotoRepoModel> _RepoPhotosList;
-        public ObservableCollection<PhotoRepoModel> RepoPhotosList
+        private ObservableCollection<PhotoRepoDBModel> _RepoPhotosList;
+        public ObservableCollection<PhotoRepoDBModel> RepoPhotosList
         {
             get { return _RepoPhotosList; }
             set

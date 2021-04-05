@@ -1326,11 +1326,11 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <param name="fileobj"></param>
         /// <returns></returns>
-        public async Task<object> LoadPhotoUpload(List<LoadPhotoModel> photodata)
+        public async Task<LoadPhotosListResponse> LoadPhotoUpload(List<LoadPhotoModel> photodata)
         {
             try
             {
-                return await requestProvider.PostAsync<List<LoadPhotoModel>, LoadPhotosUploadResponse>(WebServiceUrl + "Upload/LoadPhoto/Upload", photodata);
+                return await requestProvider.PostAsync<List<LoadPhotoModel>, LoadPhotosListResponse>(WebServiceUrl + "Upload/LoadPhoto/Upload", photodata);
             }
             catch (Exception ex)
             {
@@ -1403,11 +1403,55 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<InspectionResults> GeInspectionResultsClient(int tagId)
+        public async Task<InspectionResults> GetInspectionResultsClient(int taskid, int tagId)
         {
             try
             {
-                return await requestProvider.PostAsync<InspectionResults>(WebServiceUrl + "Inspection/GetInspectionResultsByPOTagID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)));
+                return await requestProvider.PostAsync<InspectionResults>(WebServiceUrl +
+                    "Inspection/GetInspectionResultsByTag?TaskID=" + Helperclass.Encrypt(Convert.ToString(taskid))
+                    + "&POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GeInspectionResultsClient method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Ge Inspection Results for task
+        /// </summary>
+        /// <param name="taskid"></param>
+        /// <returns></returns>
+        public async Task<InspectionResults> GetInspectionResultsByTask(int taskid)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionResults>(WebServiceUrl +
+                    "Inspection/GetInspectionResultsByTask?TaskID=" + Helperclass.Encrypt(Convert.ToString(taskid)));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GeInspectionResultsByTask method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// GeInspectionPhotosClient
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosByTag(int taskid, int tagId, int? questionId)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl
+                    + "Inspection/GetInspectionPhotosByTag?TaskID=" + Helperclass.Encrypt(Convert.ToString(taskid))
+                    + "&POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId))
+                    + "&QID=" + questionId);
             }
             catch (Exception ex)
             {
@@ -1422,11 +1466,13 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<InspectionPhotosResponse> GeInspectionPhotosClient(int tagId, int? questionId)
+        public async Task<InspectionPhotosResponse> GeInspectionPhotosByTask(int tagId, int? questionId)
         {
             try
             {
-                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl + "Inspection/GetInspectionPhotosByQID?POTagID=" + Helperclass.Encrypt(Convert.ToString(tagId)) + "&QID=" + questionId);
+                return await requestProvider.PostAsync<InspectionPhotosResponse>(WebServiceUrl
+                    + "Inspection/GetInspectionPhotosByTask?TaskID=" + Helperclass.Encrypt(Convert.ToString(tagId))
+                    + "&QID=" + questionId);
             }
             catch (Exception ex)
             {
@@ -1441,11 +1487,11 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public async Task<UpdateInspectionResponse> InsertInspectionPhotosClient(List<UpdateInspectionRequest> updateInspectionRequest)
+        public async Task<UpdateInsertInspectionResponse> InsertInspectionPhotosClient(List<UpdateInspectionRequest> updateInspectionRequest)
         {
             try
             {
-                return await requestProvider.PostAsync<List<UpdateInspectionRequest>, UpdateInspectionResponse>(WebServiceUrl + "Inspection/InsertInspectionPhotos", updateInspectionRequest);
+                return await requestProvider.PostAsync<List<UpdateInspectionRequest>, UpdateInsertInspectionResponse>(WebServiceUrl + "Inspection/InsertInspectionPhotos", updateInspectionRequest);
             }
             catch (Exception ex)
             {
@@ -1469,6 +1515,145 @@ namespace YPS.RestClientAPI
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "GetAllMInspectionConfigurations method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Scan Config
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SaveScanConfigResponse> SaveScanConfig(CompareModel compareobj, int scancount)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<SaveScanConfigResponse>(WebServiceUrl +
+                    "User/UpdateScanConfiguration?UserID=" + Settings.userLoginID
+                    + "&ScanConfigID=" + compareobj.ID
+                    + "&ScanCount=" + scancount);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetScanConfig method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get saved compare config.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<GetSavedConfigResponse> GetSaveScanConfig()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<GetSavedConfigResponse>(WebServiceUrl + "User/GetScanConfiguration?UserID=" +
+                    Helperclass.Encrypt(Settings.userLoginID.ToString()));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetProfileRClinet method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Scan Config
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ScanConfigResponse> GetScanConfig()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<ScanConfigResponse>(WebServiceUrl + "Login/ScanConfig?UserID=" + Settings.userLoginID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetScanConfig method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Scan Config
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoResponse> GetRepoPhotos()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<GetRepoPhotoResponse>(WebServiceUrl +
+                    "Upload/FileRepository/Files?UserID=" + Helperclass.Encrypt(Settings.userLoginID.ToString()));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetRepoPhotos method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Uploadfiles
+        /// </summary>
+        /// <param name="fileobj"></param>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoResponse> UploadRepoPhotos(List<PhotoRepoDBModel> photodata)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<List<PhotoRepoDBModel>, GetRepoPhotoResponse>(WebServiceUrl +
+                    "Upload/FileRepository/Upload", photodata);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Delete Single Repo Photo
+        /// </summary>
+        /// <param name="fileobj"></param>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoDelResponse> DeleteSingleRepoPhoto(int photoid)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<GetRepoPhotoDelResponse>(WebServiceUrl +
+                    "Upload/FileRepository/DeleteFile?UserID=" + Settings.userLoginID
+                    + "&ID=" + Helperclass.Encrypt(photoid.ToString()));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Delete ALL Repo Photo
+        /// </summary>
+        /// <param name="fileobj"></param>
+        /// <returns></returns>
+        public async Task<GetRepoPhotoDelAllResponse> DeleteAllRepoPhoto()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<GetRepoPhotoDelAllResponse>(WebServiceUrl +
+                    "Upload/FileRepository/DeleteAllFiles?UserID=" + Helperclass.Encrypt(Settings.userLoginID.ToString()));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

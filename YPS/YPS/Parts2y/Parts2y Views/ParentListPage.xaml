@@ -240,7 +240,7 @@
                                         <StackLayout Orientation="Vertical">
                                             <Grid RowDefinitions="*" ColumnDefinitions="*">
                                                     <StackLayout Orientation="Vertical">
-                                                        <Grid  HorizontalOptions="Start" RowSpacing="0"
+                                                        <!--<Grid  HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.POID.Status, Source={x:Reference Name=POPage}}"
                                                               VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                                             <Label Text="{Binding BindingContext.labelobj.POID.Name, Source={x:Reference Name=POPage}}"
@@ -250,7 +250,7 @@
                                                             <Label Text="{Binding PONumber}" Grid.Row="0" Grid.Column="1"
                                                            TextColor="Black" HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>
+                                                        </Grid>-->
                                                         
                                                         <Grid  HorizontalOptions="Start" RowSpacing="0" 
                                                            IsVisible="{Binding BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=POPage}}"
