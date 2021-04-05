@@ -119,7 +119,7 @@
                                 RowDefinitions="*,50" >
                         <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
                             <sflistView:SfListView x:Name="ChatUserlist" VerticalOptions="FillAndExpand" 
-                                                   ItemsSource="{Binding UserListCollections}"  
+                                                   ItemsSource="{Binding UserListCollections}" SelectionMode="None"
                                                    IsScrollBarVisible="True" AutoFitMode="Height">
                                 <sflistView:SfListView.ItemTemplate>
                                     <DataTemplate>

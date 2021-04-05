@@ -448,7 +448,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 };
                                 listOfFiles.Add(updateInspectionRequest);
                             }
-
+                            description_txt = string.Empty;
                             await trackService.InsertInspectionPhotosService(listOfFiles);
                             await GetInspectionPhotos();
                             await DoneClicked();

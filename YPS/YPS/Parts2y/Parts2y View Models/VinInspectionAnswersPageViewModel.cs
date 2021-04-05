@@ -294,7 +294,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 if (Settings.VersionID == 2)
                                 {
                                     var isloadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                                    SignTabText = isloadTabVisible == false ? "Check List & Sign" : "Sign";
+                                    SignTabText = isloadTabVisible == false ? "Checklist & Sign" : "Sign";
                                 }
                             }
 

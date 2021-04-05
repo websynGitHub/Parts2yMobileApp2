@@ -398,7 +398,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await GetConfigurationResults(inspectionConfiguration.CategoryID);
+                GetConfigurationResults(inspectionConfiguration.CategoryID);
                 await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration,
                     new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID).ToList())
                     , inspectionResultsLists, selectedTagData, true, null, this));
@@ -452,7 +452,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         LoadTextColor = Color.Black;
                         IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                        SignTabText = IsLoadTabVisible == false ? "Check List & Sign" : "Sign";
+                        SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Sign";
                     }
 
                     if (IsQuickTabVisible == false && IsFullTabVisible == false)
