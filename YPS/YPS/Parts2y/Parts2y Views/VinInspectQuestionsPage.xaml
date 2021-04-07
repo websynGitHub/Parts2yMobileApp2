@@ -238,7 +238,7 @@
                                   RowDefinitions="Auto,*">
                                     <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Full"
                                    Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
-                                    <flv:FlowListView FlowItemsSource="{Binding FullSignQuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9" 
+                                    <flv:FlowListView FlowItemsSource="{Binding FullSignQuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9" BackgroundColor="#E9E9E9"
                               SeparatorVisibility="None" HasUnevenRows="True" Grid.Row="1" HeightRequest="125">
                                         <flv:FlowListView.FlowColumnTemplate>
                                             <DataTemplate>
