@@ -408,7 +408,7 @@
                                                       CommandParameter="{x:Reference Name=BackIcon}"/>
                             </local:FontAwesomeIconLabel.GestureRecognizers>
                         </local:FontAwesomeIconLabel>
-                        <Label Text="{Binding Signature}" TextColor="White" HorizontalOptions="StartAndExpand" 
+                        <Label Text="Signature" TextColor="White" HorizontalOptions="StartAndExpand" 
                                Style="{StaticResource LableWithLargeFont}" VerticalTextAlignment="Center"  Margin="10,10,10,10"/>
                     </StackLayout>
                     <forms:SignaturePadView x:Name="PadView"  

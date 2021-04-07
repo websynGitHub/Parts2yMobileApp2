@@ -256,9 +256,9 @@ namespace YPS.Parts2y.Parts2y_Views
                     Vm.SelectedTagCountVisible = false;
                 }
 
-                if ((Settings.VersionID == 4 || Settings.VersionID == 3)
+                if (Settings.VersionID == 4 || (Settings.VersionID == 3
                     && (Settings.EntityTypeName.Trim() == "Owner" || Settings.EntityTypeName.Trim() == "Dealer"
-                    || Settings.EntityTypeName.Trim() == "LLP"))
+                    || Settings.EntityTypeName.Trim() == "LLP")))
                 {
                     if (POChildListPageViewModel.isalldone == true)
                     {
@@ -345,9 +345,9 @@ namespace YPS.Parts2y.Parts2y_Views
                         });
                     }
 
-                    if ((Settings.VersionID == 4 || Settings.VersionID == 3 || Settings.VersionID == 2)
+                    if ((Settings.VersionID == 4 || Settings.VersionID == 2) || (Settings.VersionID == 3
                     && (Settings.EntityTypeName.Trim() == "Owner" || Settings.EntityTypeName.Trim() == "Dealer"
-                    || Settings.EntityTypeName.Trim() == "LLP"))
+                    || Settings.EntityTypeName.Trim() == "LLP")))
                     {
                         loadStack.GestureRecognizers.Add(new TapGestureRecognizer
                         {

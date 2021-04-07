@@ -214,132 +214,125 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <StackLayout Grid.Row="3" Margin="6,0,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
+                        <ScrollView Grid.Row="3" Margin="6,0,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
+                                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#E9E9E9">
+                            <StackLayout Spacing="0"
                                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Carrier Insp"
+                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Carrier Insp"
                                    Style="{DynamicResource LableWithQuestionFont}" TextColor="Black"/>
-                            <flv:FlowListView FlowItemsSource="{Binding QuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9" 
-                              BackgroundColor="#E9E9E9" SeparatorVisibility="None" HasUnevenRows="True" HeightRequest="125">
-                                <flv:FlowListView.FlowColumnTemplate>
-                                    <DataTemplate>
-                                        <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
-                                            <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=CarrierInspQuestionPage}}"
+                                <flv:FlowListView FlowItemsSource="{Binding QuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" 
+                                                  FlowColumnCount="9"
+                              BackgroundColor="#E9E9E9" SeparatorVisibility="None" HasUnevenRows="True" HeightRequest="115">
+                                    <flv:FlowListView.FlowColumnTemplate>
+                                        <DataTemplate>
+                                            <Frame Padding="2,1,2,0" Margin="2,2,2,0"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
+                                                <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=CarrierInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
-                                    </DataTemplate>
-                                </flv:FlowListView.FlowColumnTemplate>
-                            </flv:FlowListView>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </flv:FlowListView.FlowColumnTemplate>
+                                </flv:FlowListView>
 
-                            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand" 
-                                         VerticalOptions="EndAndExpand" Spacing="0">
-                                <StackLayout BackgroundColor="Black" Spacing="0" VerticalOptions="Center">
-                                    <Label Text="Signatures - CBUs" TextColor="White" HorizontalTextAlignment="Center"
+                                <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand" 
+                                         VerticalOptions="End" Spacing="0" Margin="0" >
+                                    <StackLayout BackgroundColor="Black" Spacing="0" VerticalOptions="Center">
+                                        <Label Text="Signatures - CBUs" TextColor="White" HorizontalTextAlignment="Center"
                                            Style="{StaticResource LableWithMediumFont}" Margin="0,8,0,8" Padding="0"/>
-                                </StackLayout>
+                                    </StackLayout>
 
-                                <StackLayout Orientation="Horizontal" Spacing="0" VerticalOptions="FillAndExpand"
-                                             HorizontalOptions="FillAndExpand">
+                                    <Grid VerticalOptions="FillAndExpand" ColumnSpacing="0"
+                                             HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*">
 
-                                    <StackLayout Spacing="0" HorizontalOptions="FillAndExpand"
-                                                 VerticalOptions="FillAndExpand" Margin="2,2,2,0">
-                                        <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
+                                        <Grid HorizontalOptions="FillAndExpand" Grid.Column="0" RowDefinitions="38,90"
+                                                 VerticalOptions="FillAndExpand" Margin="2,2,2,0" RowSpacing="0">
+                                            <StackLayout BackgroundColor="Black" Padding="0,6,0,6" Grid.Row="0"
                                                      HorizontalOptions="FillAndExpand">
-                                            <Label x:Name="CBUSupervisor" Text="Supervisor" TextColor="White"  HorizontalTextAlignment="Center" 
+                                                <Label x:Name="CBUSupervisor" Text="Supervisor" TextColor="White"  HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
-                                        </StackLayout>
-                                        <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
-                                               CornerRadius="0" HeightRequest="70">
-                                            <Image  Source="{Binding SupervisorImageSignCBU}"/>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SignatureCmd}"
+                                            </StackLayout>
+                                            <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
+                                               CornerRadius="0" Grid.Row="1">
+                                                <Image  Source="{Binding SupervisorImageSignCBU}"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding SignatureCmd}"
                                                                        CommandParameter="{x:Reference Name=CBUSupervisor}"/>
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
-                                    </StackLayout>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </Grid>
 
-                                    <StackLayout Spacing="0" HorizontalOptions="FillAndExpand" Margin="0,2,2,0">
-                                        <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
+                                        <Grid HorizontalOptions="FillAndExpand" Margin="0,2,2,0" RowSpacing="0"
+                                                 VerticalOptions="FillAndExpand" Grid.Column="1" RowDefinitions="38,90">
+                                            <StackLayout BackgroundColor="Black" Padding="0,6,0,6" Grid.Row="0"
                                                      HorizontalOptions="FillAndExpand">
-                                            <Label x:Name="CBUAuditor" Text="Auditor" TextColor="White" HorizontalTextAlignment="Center" 
+                                                <Label x:Name="CBUAuditor" Text="Auditor" TextColor="White" HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
-                                        </StackLayout>
-                                        <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
-                                                CornerRadius="0" HeightRequest="70">
-                                            <Image  Source="{Binding AuditorImageSignCBU}"/>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SignatureCmd}"
+                                            </StackLayout>
+                                            <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
+                                                CornerRadius="0" HeightRequest="70" Grid.Row="1">
+                                                <Image  Source="{Binding AuditorImageSignCBU}"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding SignatureCmd}"
                                                                       CommandParameter="{x:Reference Name=CBUAuditor}"/>
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
-                                    </StackLayout>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </Grid>
+                                    </Grid>
                                 </StackLayout>
-                            </StackLayout>
 
-                            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
-                                         Spacing="0" IsVisible="{Binding IsSignatureCarrierVisible}">
-                                <StackLayout BackgroundColor="Black" Spacing="0" VerticalOptions="Center">
-                                    <Label Text="Signatures - Carrier" TextColor="White" HorizontalTextAlignment="Center"
+                                <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                                         Spacing="0" IsVisible="{Binding IsSignatureCarrierVisible}" Margin="0,0,0,45">
+                                    <StackLayout BackgroundColor="Black" Spacing="0" VerticalOptions="Center">
+                                        <Label Text="Signatures - Carrier" TextColor="White" HorizontalTextAlignment="Center"
                                            Style="{StaticResource LableWithMediumFont}" Margin="0,8,0,8" Padding="0"/>
-                                </StackLayout>
+                                    </StackLayout>
 
-                                <StackLayout Orientation="Horizontal" Spacing="0" VerticalOptions="FillAndExpand"
-                                             HorizontalOptions="FillAndExpand">
+                                    <Grid VerticalOptions="FillAndExpand" ColumnDefinitions="*,*"
+                                             HorizontalOptions="FillAndExpand" ColumnSpacing="0">
 
-                                    <StackLayout Spacing="0" HorizontalOptions="FillAndExpand"
-                                                 VerticalOptions="FillAndExpand" Margin="2,2,2,0">
-                                        <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
-                                                     HorizontalOptions="FillAndExpand">
-                                            <Label x:Name="CarrierSupervisor" Text="Supervisor" TextColor="White"  HorizontalTextAlignment="Center" 
+                                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" Grid.Column="0"
+                                                 VerticalOptions="FillAndExpand" Margin="2,2,2,0" RowDefinitions="38,90">
+                                            <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
+                                                     HorizontalOptions="FillAndExpand" Grid.Row="0">
+                                                <Label x:Name="CarrierSupervisor" Text="Supervisor" TextColor="White"  HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
-                                        </StackLayout>
-                                        <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
-                                               CornerRadius="0" HeightRequest="70">
-                                            <Image  Source="{Binding SupervisorImageSignCarrier}"/>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SignatureCmd}"
+                                            </StackLayout>
+                                            <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
+                                               CornerRadius="0" Grid.Row="1">
+                                                <Image  Source="{Binding SupervisorImageSignCarrier}"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding SignatureCmd}"
                                                                       CommandParameter="{x:Reference Name=CarrierSupervisor}"/>
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
-                                    </StackLayout>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </Grid>
 
-                                    <StackLayout Spacing="0" HorizontalOptions="FillAndExpand" Margin="0,2,2,0">
-                                        <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
-                                                     HorizontalOptions="FillAndExpand">
-                                            <Label x:Name="CarrierAuditor" Text="Auditor" TextColor="White" HorizontalTextAlignment="Center" 
+                                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" Margin="0,2,2,0"
+                                                 VerticalOptions="FillAndExpand" Grid.Column="1" RowDefinitions="38,90">
+                                            <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
+                                                     HorizontalOptions="FillAndExpand" Grid.Row="0">
+                                                <Label x:Name="CarrierAuditor" Text="Auditor" TextColor="White" HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
-                                        </StackLayout>
-                                        <Frame  BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5"
-                                                CornerRadius="0" HeightRequest="70">
-                                            <Image Source="{Binding AuditorImageSignCarrier}"/>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SignatureCmd}"
+                                            </StackLayout>
+                                            <Frame  BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5"
+                                                CornerRadius="0" Grid.Row="1">
+                                                <Image Source="{Binding AuditorImageSignCarrier}"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding SignatureCmd}"
                                                                       CommandParameter="{x:Reference Name=CarrierAuditor}"/>
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
-                                    </StackLayout>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </Grid>
 
+                                    </Grid>
                                 </StackLayout>
+
+                              
                             </StackLayout>
-
-                            <!--<ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
-                         Margin="6,0,6,2" IsVisible="{Binding SignTabVisibility}">-->
-                                <StackLayout Orientation="Vertical" IsVisible="{Binding SignTabVisibility}"
-                                             HorizontalOptions="FillAndExpand" VerticalOptions="End"  Margin="0,0,0,4">
-                                    <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
-                                                Style="{StaticResource SfBtnBlue}" IsEnabled="{Binding IsDoneEnable}"
-                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
-                                        BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
-                                        <sfbuttons:SfButton.Behaviors>
-                                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                        </sfbuttons:SfButton.Behaviors>
-                                    </sfbuttons:SfButton>
-                                </StackLayout>
-                            <!--</ContentView>-->
-                        </StackLayout>
+                        </ScrollView>
+                       
                        
                     </Grid>
                 </StackLayout>
@@ -361,7 +354,7 @@
                                                       CommandParameter="{x:Reference Name=BackIcon}"/>
                             </local:FontAwesomeIconLabel.GestureRecognizers>
                         </local:FontAwesomeIconLabel>
-                        <Label Text="{Binding Signature}" TextColor="White" HorizontalOptions="StartAndExpand" 
+                        <Label Text="Signature" TextColor="White" HorizontalOptions="StartAndExpand" 
                                Style="{StaticResource LableWithLargeFont}" VerticalTextAlignment="Center"  Margin="10,10,10,10"/>
                     </StackLayout>
                     <forms:SignaturePadView x:Name="PadView"  
@@ -379,7 +372,7 @@
                     </Frame>
                 </StackLayout>
             </ContentView>
-            <!--<ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                               HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
                          Margin="6,0,6,2" IsVisible="{Binding SignTabVisibility}">
                 <StackLayout Orientation="Vertical">
@@ -392,7 +385,7 @@
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
                 </StackLayout>
-            </ContentView>-->
+            </ContentView>
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
