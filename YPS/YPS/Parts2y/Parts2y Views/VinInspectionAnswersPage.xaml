@@ -218,7 +218,7 @@
                                         <syncfusion:SfRadioButton IsChecked="{Binding RearLeftFalse,Mode=TwoWay}" Text="NG" GroupKey="{StaticResource rearLeft}" FontSize= "18" TextColor="Black" />-->
 
                                         <input:RadioButton IsChecked="{Binding RearLeftTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0"  Clicked="RearLeftClicked"/>
-                                        <input:RadioButton IsChecked="{Binding RearLeftFalse,Mode=TwoWay}" Text="NGggg"  TextFontSize="18" TextColor="Black" ClassId="1" Clicked="RearLeftClicked"/>
+                                        <input:RadioButton IsChecked="{Binding RearLeftFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" TextColor="Black" ClassId="1" Clicked="RearLeftClicked"/>
 
                                     </StackLayout>
                                     <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding RearRight}" Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
