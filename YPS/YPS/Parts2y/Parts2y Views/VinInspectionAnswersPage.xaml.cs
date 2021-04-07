@@ -15,6 +15,8 @@ using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Service;
 using YPS.CommonClasses;
+using RadioButton = Plugin.InputKit.Shared.Controls.RadioButton;
+
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -120,6 +122,118 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 YPSLogger.ReportException(ex, "DoneClicked constructor -> in VinInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
+            }
+        }
+
+        private void PlaneradioClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var rb = (RadioButton)sender;
+                if (rb.ClassId == "0")
+                {
+                    Vm.PlaneTrue = true;
+                    Vm.PlaneFalse = false;
+                }
+                else
+                {
+                    Vm.PlaneFalse = true;
+                    Vm.PlaneTrue = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void RearRightClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var rb = (RadioButton)sender;
+                if (rb.ClassId == "0")
+                {
+                    Vm.RearRightTrue = true;
+                    Vm.RearRightFalse = false;
+                }
+                else
+                {
+                    Vm.RearRightFalse = true;
+                    Vm.RearRightTrue = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void RearLeftClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var rb = (RadioButton)sender;
+                if (rb.ClassId == "0")
+                {
+                    Vm.RearLeftTrue = true;
+                    Vm.RearLeftFalse = false;
+                }
+                else
+                {
+                    Vm.RearLeftTrue = false;
+                    Vm.RearLeftFalse = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void FrontRightClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var rb = (RadioButton)sender;
+                if (rb.ClassId == "0")
+                {
+                    Vm.FrontRightTrue = true;
+                    Vm.FrontRightFalse = false;
+
+                }
+                else
+                {
+                    Vm.FrontRightFalse = true;
+                    Vm.FrontRightTrue = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void FrontLeftClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var rb = (RadioButton)sender;
+                if (rb.ClassId == "0")
+                {
+                    Vm.FrontLeftTrue = true;
+                    Vm.FrontLeftFalse = false;
+
+                }
+                else
+                {
+                    Vm.FrontLeftTrue = false;
+                    Vm.FrontLeftFalse = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }
