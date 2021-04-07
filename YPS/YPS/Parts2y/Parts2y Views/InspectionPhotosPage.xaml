@@ -81,14 +81,14 @@
                                         </StackLayout>
                                     </Grid>
 
-                                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
+                                    <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand"
                                                          HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
                                             <Label Text="{Binding CreatedDate}" Style="{StaticResource LblSubTitle}"
                                                        TextColor="Black" Margin="1,0,0,0"/>
 
 
                                         <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" 
-                                                       BackgroundColor="White" HeightRequest="85">
+                                                       BackgroundColor="White" HeightRequest="80" VerticalOptions="EndAndExpand">
                                             <ScrollView Orientation="Vertical" HeightRequest="80"
                                                                 VerticalScrollBarVisibility="Never">
 

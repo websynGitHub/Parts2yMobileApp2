@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 //using System.Drawing;
 using System.Threading.Tasks;
@@ -36,6 +37,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command JobCmd { get; set; }
         public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
+        public ICommand SignatureCmd { get; set; }
+        public ICommand HideSignaturePadCmd { get; set; }
         #endregion
 
         public CarrierInspectionQuestionsViewModel(INavigation _Navigation, CarrierInspectionQuestionsPage pagename, ObservableCollection<AllPoData> selectedpodatalist, bool isalltagdone)
@@ -63,9 +66,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
+                SignatureCmd = new Command(SignaturePadShowHide);
+                HideSignaturePadCmd = new Command(SignaturePadShowHide);
+
 
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => GetQuestionsLIst()).Wait();
+                Task.Run(() => GetInspSignature()).Wait();
             }
             catch (Exception ex)
             {
@@ -73,17 +80,76 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public CarrierInspectionQuestionsViewModel()
+        //public CarrierInspectionQuestionsViewModel()
+        //{
+        //    try
+        //    {
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
+
+        public async Task GetInspSignature()
         {
             try
             {
+                var signature = await trackService.GetInspSignatureByTask(taskid);
 
+                if (signature != null && signature.status == 1)
+                {
+                    SupervisorImageSignCBU = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
+                                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinSupervisor
+                                            && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+
+                    AuditorImageSignCBU = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinAuditor
+                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+
+                    SupervisorImageSignCarrier = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierSupervisor
+                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+
+                    AuditorImageSignCarrier = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierAuditor
+                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                }
             }
             catch (Exception ex)
             {
-
             }
         }
+
+        public async void SignaturePadShowHide(object sender)
+        {
+            try
+            {
+                var sign = sender as Label;
+                var back = sender as YPS.CustomRenders.FontAwesomeIconLabel;
+
+                if (back != null)
+                {
+                    SignaturePadPopup = false;
+                    SignTabVisibility = true;
+                }
+                else
+                {
+                    SignaturePadPopup = true;
+                    SignTabVisibility = false;
+                }
+
+                if (sign != null)
+                {
+                    Signature = sign.StyleId;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
         public async Task TabChange(string tabname)
         {
             try
@@ -464,6 +530,84 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private bool _IsSignatureCarrierVisible = true;
+        public bool IsSignatureCarrierVisible
+        {
+            get => _IsSignatureCarrierVisible;
+            set
+            {
+                _IsSignatureCarrierVisible = value;
+                RaisePropertyChanged("IsSignatureCarrierVisible");
+            }
+        }
+
+        private ImageSource _AuditorImageSignCBU;
+        public ImageSource AuditorImageSignCBU
+        {
+            get => _AuditorImageSignCBU;
+            set
+            {
+                _AuditorImageSignCBU = value;
+                RaisePropertyChanged("AuditorImageSignCBU");
+            }
+        }
+
+        private ImageSource _SupervisorImageSignCBU;
+        public ImageSource SupervisorImageSignCBU
+        {
+            get => _SupervisorImageSignCBU;
+            set
+            {
+                _SupervisorImageSignCBU = value;
+                RaisePropertyChanged("SupervisorImageSignCBU");
+            }
+
+        }
+
+        private ImageSource _AuditorImageSignCarrier;
+        public ImageSource AuditorImageSignCarrier
+        {
+            get => _AuditorImageSignCarrier;
+            set
+            {
+                _AuditorImageSignCarrier = value;
+                RaisePropertyChanged("AuditorImageSignCarrier");
+            }
+        }
+        private ImageSource _SupervisorImageSignCarrier;
+        public ImageSource SupervisorImageSignCarrier
+        {
+            get => _SupervisorImageSignCarrier;
+            set
+            {
+                _SupervisorImageSignCarrier = value;
+                RaisePropertyChanged("SupervisorImageSignCarrier");
+            }
+
+        }
+
+        private string _Signature;
+        public string Signature
+        {
+            get => _Signature;
+            set
+            {
+                _Signature = value;
+                RaisePropertyChanged("Signature");
+            }
+        }
+
+        private bool _SignaturePadPopup = false;
+        public bool SignaturePadPopup
+        {
+            get { return _SignaturePadPopup; }
+            set
+            {
+                _SignaturePadPopup = value;
+                RaisePropertyChanged("SignaturePadPopup");
+            }
+        }
 
         private bool _IsDoneEnable = false;
         public bool IsDoneEnable

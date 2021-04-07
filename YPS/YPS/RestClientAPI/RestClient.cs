@@ -1639,6 +1639,67 @@ namespace YPS.RestClientAPI
         }
 
         /// <summary>
+        /// Insert Insp Signatures
+        /// </summary>
+        /// <param name="fileobj"></param>
+        /// <returns></returns>
+        public async Task<InspectionResultsRespnse> InsertUpdateSignature(InspectionResultsList inspobj)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionResultsList, InspectionResultsRespnse>(WebServiceUrl +
+                    "Inspection/InsertUpdateInspectionSignature", inspobj);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Insp Signature By Tag
+        /// </summary>
+        /// <param name="fileobj"></param>
+        /// <returns></returns>
+        public async Task<InspectionResults> GetInspSignatureByTag(int taskid, int potagid)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionResults>(WebServiceUrl +
+                    "Inspection/GetInspectionSignatureByTag?TaskID=" + Helperclass.Encrypt(taskid.ToString())
+                    + "&POTagID=" + Helperclass.Encrypt(potagid.ToString()));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Insp Signature By Task
+        /// </summary>
+        /// <param name="fileobj"></param>
+        /// <returns></returns>
+        public async Task<InspectionResults> GetInspSignatureByTask(int taskid)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<InspectionResults>(WebServiceUrl +
+                    "Inspection/GetInspectionSignatureByTask?TaskID=" + Helperclass.Encrypt(taskid.ToString()));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Delete ALL Repo Photo
         /// </summary>
         /// <param name="fileobj"></param>

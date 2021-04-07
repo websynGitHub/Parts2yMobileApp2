@@ -102,6 +102,7 @@ namespace YPS.Model
         public string LanguageName { get; set; }
         public object EntityID { get; set; }
         public string EntityName { get; set; }
+        public string EntityTypeName { get; set; }
         public string SessionToken { get; set; }
         public token JwToken { get; set; }
         public int VersionID { get; set; }

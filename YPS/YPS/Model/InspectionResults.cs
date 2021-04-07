@@ -11,6 +11,13 @@ namespace YPS.Model
         public InspectionResultsData data { get; set; }
     }
 
+    public class InspectionResultsRespnse
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public int data { get; set; }
+    }
+
     public class InspectionResultsData
     {
         public List<InspectionResultsList> listData { get; set; }
@@ -33,5 +40,8 @@ namespace YPS.Model
         public object FilrURl { get; set; }
         public int UserID { get; set; }
         public int PhotoCount { get; set; }
+        public int SignType { get; set; }
+        public string Signature { get; set; }
+
     }
 }

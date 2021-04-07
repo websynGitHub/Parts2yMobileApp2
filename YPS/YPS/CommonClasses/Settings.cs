@@ -51,6 +51,7 @@ namespace YPS.CommonClasses
         public static string ChatClosedOrNot { get; set; }
         public static string encryUserMail { get; set; }
         public static string EntityName { get; set; }
+        public static string EntityTypeName { get; set; }
         public static string encryEntityName { get; set; }
         public static string RoleName { get; set; }
         public static string encryRoleName { get; set; }
@@ -506,6 +507,45 @@ namespace YPS.CommonClasses
         TagLoadPhotos = 22
 
     }
+
+    public enum InspectionSignatureType
+    {
+        /// <summary>
+        /// Vin Driver
+        /// </summary>
+        VinDriver = 1,
+
+        /// <summary>
+        /// Vin Supervisor
+        /// </summary>
+        VinSupervisor = 2,
+
+        /// <summary>
+        /// Vin Auditor
+        /// </summary>
+        VinAuditor = 3,
+
+        /// <summary>
+        /// Carrier Supervisor
+        /// </summary>
+        CarrierSupervisor = 4,
+
+        /// <summary>
+        /// Carrier Auditor
+        /// </summary>
+        CarrierAuditor = 5,
+
+        /// <summary>
+        /// Carrier Driver
+        /// </summary>
+        CarrierDriver = 6,
+
+        /// <summary>
+        /// Vin Dealer
+        /// </summary>
+        VinDealer = 7
+    }
+
     /// <summary>
     /// Page Name Enums
     /// </summary>

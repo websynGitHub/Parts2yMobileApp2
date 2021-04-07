@@ -146,7 +146,7 @@ namespace YPS.CustomToastMsg
                 Settings.IIJConsumerSecret = EncryptManager.Decrypt(result.data.JwToken.GlobalSettings.IIJConsumerSecret);
                 Settings.AndroidVersion = result.data.JwToken.GlobalSettings.AndroidVersion;
                 Settings.iOSversion = result.data.JwToken.GlobalSettings.iOSversion;
-
+                Settings.EntityTypeName = result.data.EntityTypeName;
             }
             catch (Exception ex)
             {

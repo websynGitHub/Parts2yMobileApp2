@@ -171,6 +171,9 @@ namespace YPS.Model
         public int TaskID { get; set; }
         public List<int> TaskIDList { get; set; }
 
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+
         public int TagTaskStatus { get; set; }
         public int TaskStatus { get; set; }
         public string POTaskStatusIcon { get; set; }

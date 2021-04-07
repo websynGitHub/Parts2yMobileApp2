@@ -1000,6 +1000,37 @@ namespace YPS.Service
         }
 
         /// <summary>
+        /// Insert Insp Signatures
+        /// </summary>
+        /// <returns></returns>
+        public async Task<InspectionResultsRespnse> InsertUpdateSignature(InspectionResultsList inspobj)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.InsertUpdateSignature(inspobj);
+        }
+
+        /// <summary>
+        /// Get Insp Signature By Task
+        /// </summary>
+        /// <returns></returns>
+        public async Task<InspectionResults> GetInspSignatureByTag(int taskid, int potagid)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetInspSignatureByTag(taskid, potagid);
+        }
+
+        /// <summary>
+        /// Get Insp Signature By Task
+        /// </summary>
+        /// <returns></returns>
+        public async Task<InspectionResults> GetInspSignatureByTask(int taskid)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetInspSignatureByTask(taskid);
+        }
+
+
+        /// <summary>
         /// Delete Single Repo Photo
         /// </summary>
         /// <returns></returns>

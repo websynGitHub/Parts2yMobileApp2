@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 //using System.Drawing;
 using System.Text;
@@ -27,6 +28,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand FullTabCmd { set; get; }
         public ICommand SignalTabCmd { set; get; }
         public ICommand QuestionClickCommand { get; set; }
+        public ICommand DriverSignatureCmd { get; set; }
+        public ICommand HideSignaturePadCmd { get; set; }
         //public ObservableCollection<InspectionConfiguration> QuestionListCategory { get; set; }
         public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
 
@@ -61,6 +64,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => GetQuestionsLIst()).Wait();
+                Task.Run(() => GetInspSignature()).Wait();
 
 
                 QuickTabCmd = new Command(QuickTabClicked);
@@ -70,6 +74,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
+                DriverSignatureCmd = new Command(SignaturePadShowHide);
+                HideSignaturePadCmd = new Command(SignaturePadShowHide);
             }
             catch (Exception ex)
             {
@@ -77,14 +83,80 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public VinInspectQuestionsPageViewModel()
+        //public VinInspectQuestionsPageViewModel()
+        //{
+        //    try
+        //    {
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
+
+        public async Task GetInspSignature()
         {
             try
             {
+                if (Settings.EntityTypeName.Trim() == "Dealer")
+                {
+                    IsDealerSignVisible = true;
+                    IsOwnerSignVisible = false;
+                }
+                else if (Settings.EntityTypeName.Trim() == "Owner")
+                {
+                    IsDealerSignVisible = false;
+                    IsOwnerSignVisible = true;
+                }
+
+
+                var result = await trackService.GetInspSignatureByTag(taskid, tagId);
+
+                if (result != null && result.status == 1)
+                {
+                    CarrierDriverImageSign = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(result.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver
+                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+
+                    VINDealerImageSignCarrier = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(result.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDealer
+                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+
+                    DriverImageSign = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(result.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver
+                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                }
             }
             catch (Exception ex)
             {
+            }
+        }
 
+        public async void SignaturePadShowHide(object sender)
+        {
+            try
+            {
+                var sign = sender as Label;
+                var back = sender as YPS.CustomRenders.FontAwesomeIconLabel;
+
+                if (back != null)
+                {
+                    SignaturePadPopup = false;
+                    SignTabVisibility = true;
+                }
+                else
+                {
+                    SignaturePadPopup = true;
+                    SignTabVisibility = false;
+                }
+
+                if (sign != null)
+                {
+                    Signature = sign.StyleId;
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
@@ -398,7 +470,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                GetConfigurationResults(inspectionConfiguration.CategoryID);
+                await GetConfigurationResults(inspectionConfiguration.CategoryID);
                 await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration,
                     new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID).ToList())
                     , inspectionResultsLists, selectedTagData, true, null, this));
@@ -451,8 +523,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (Settings.VersionID == 2)
                     {
                         LoadTextColor = Color.Black;
-                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                        SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Sign";
+                        IsSignatureCarrierVisible = (IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false) == true ? false : true;
+                        SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Checklist";
                     }
 
                     if (IsQuickTabVisible == false && IsFullTabVisible == false)
@@ -516,6 +588,151 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        //private base64 _SignaturePadPopup = false;
+        //public bool SignaturePadPopup
+        //{
+        //    get { return _SignaturePadPopup; }
+        //    set
+        //    {
+        //        _SignaturePadPopup = value;
+        //        RaisePropertyChanged("SignaturePadPopup");
+        //    }
+        //}
+
+        private bool _IsDealerSignVisible;
+        public bool IsDealerSignVisible
+        {
+            get => _IsDealerSignVisible;
+            set
+            {
+                _IsDealerSignVisible = value;
+                RaisePropertyChanged("IsDealerSignVisible");
+            }
+        }
+
+        private bool _IsOwnerSignVisible;
+        public bool IsOwnerSignVisible
+        {
+            get => _IsOwnerSignVisible;
+            set
+            {
+                _IsOwnerSignVisible = value;
+                RaisePropertyChanged("IsOwnerSignVisible");
+            }
+        }
+
+        private ImageSource _CarrierDriverImageSign;
+        public ImageSource CarrierDriverImageSign
+        {
+            get => _CarrierDriverImageSign;
+            set
+            {
+                _CarrierDriverImageSign = value;
+                RaisePropertyChanged("CarrierDriverImageSign");
+            }
+        }
+
+        private ImageSource _VINDealerImageSignCarrier;
+        public ImageSource VINDealerImageSignCarrier
+        {
+            get => _VINDealerImageSignCarrier;
+            set
+            {
+                _VINDealerImageSignCarrier = value;
+                RaisePropertyChanged("VINDealerImageSignCarrier");
+            }
+        }
+
+        private ImageSource _DriverImageSign;
+        public ImageSource DriverImageSign
+        {
+            get => _DriverImageSign;
+            set
+            {
+                _DriverImageSign = value;
+                RaisePropertyChanged("DriverImageSign");
+            }
+        }
+
+        private bool _IsSignatureCarrierVisible = true;
+        public bool IsSignatureCarrierVisible
+        {
+            get => _IsSignatureCarrierVisible;
+            set
+            {
+                _IsSignatureCarrierVisible = value;
+                RaisePropertyChanged("IsSignatureCarrierVisible");
+            }
+        }
+
+        private ImageSource _AuditorImageSignCBU;
+        public ImageSource AuditorImageSignCBU
+        {
+            get => _AuditorImageSignCBU;
+            set
+            {
+                _AuditorImageSignCBU = value;
+                RaisePropertyChanged("AuditorImageSignCBU");
+            }
+        }
+
+        private ImageSource _SupervisorImageSignCBU;
+        public ImageSource SupervisorImageSignCBU
+        {
+            get => _SupervisorImageSignCBU;
+            set
+            {
+                _SupervisorImageSignCBU = value;
+                RaisePropertyChanged("SupervisorImageSignCBU");
+            }
+
+        }
+
+        private ImageSource _AuditorImageSignCarrier;
+        public ImageSource AuditorImageSignCarrier
+        {
+            get => _AuditorImageSignCarrier;
+            set
+            {
+                _AuditorImageSignCarrier = value;
+                RaisePropertyChanged("AuditorImageSignCarrier");
+            }
+        }
+        private ImageSource _SupervisorImageSignCarrier;
+        public ImageSource SupervisorImageSignCarrier
+        {
+            get => _SupervisorImageSignCarrier;
+            set
+            {
+                _SupervisorImageSignCarrier = value;
+                RaisePropertyChanged("SupervisorImageSignCarrier");
+            }
+
+        }
+
+        private string _Signature;
+        public string Signature
+        {
+            get => _Signature;
+            set
+            {
+                _Signature = value;
+                RaisePropertyChanged("Signature");
+            }
+        }
+
+        private bool _SignaturePadPopup = false;
+        public bool SignaturePadPopup
+        {
+            get { return _SignaturePadPopup; }
+            set
+            {
+                _SignaturePadPopup = value;
+                RaisePropertyChanged("SignaturePadPopup");
+            }
+        }
+
         private string _SignTabText = "Sign";
         public string SignTabText
         {

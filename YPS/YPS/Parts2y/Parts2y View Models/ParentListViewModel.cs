@@ -280,6 +280,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.ShippingNumber = val.Select(s => s.ShippingNumber).FirstOrDefault();
                                         groupdata.POShippingNumber = val.Select(s => s.POShippingNumber).FirstOrDefault();
                                         groupdata.TaskName = val.Select(s => s.TaskName).FirstOrDefault();
+                                        groupdata.StartTime = val.Select(s => s.StartTime).FirstOrDefault();
+                                        groupdata.EndTime = val.Select(s => s.EndTime).FirstOrDefault();
                                         groupdata.TaskID = val.Select(s => s.TaskID).FirstOrDefault();
                                         groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
                                         groupdata.TaskResourceName = val.Select(s => s.TaskResourceName).FirstOrDefault();
@@ -1918,6 +1920,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        
+                        var starttime = labelval.Where(wr => wr.FieldID == labelobj.StartTime.Name.Trim().Replace(" ",string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var endtime = labelval.Where(wr => wr.FieldID == labelobj.EndTime.Name.Trim().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
                         var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var home = labelval.Where(wr => wr.FieldID == labelobj.Home.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1946,6 +1952,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                       
+                        labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name) + " :";
+                        labelobj.StartTime.Status = starttime == null ? true : (starttime.Status == 1 ? true : false);
+                        labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
+                        labelobj.EndTime.Status = endtime == null ? true : (endtime.Status == 1 ? true : false);
+
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
 
@@ -2250,6 +2262,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
             public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
             public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+            public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = true, Name = "Start Time" };
+            public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = true, Name = "End Time" };
         }
         public class DashboardLabelFields : IBase
         {

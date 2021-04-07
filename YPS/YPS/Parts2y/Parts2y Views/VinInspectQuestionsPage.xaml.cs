@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SignaturePad.Forms;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,6 +118,107 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 YPSLogger.ReportException(ex, "DoneClicked constructor -> in VinInspectQuestionsPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
+            }
+        }
+
+        private async void ConfirmSignatureTapped(object sender, EventArgs e)
+        {
+
+            try
+            {
+                byte[] result;
+                var strokes = PadView.Strokes;
+                Stream image = await PadView.GetImageStreamAsync(SignatureImageFormat.Png);
+                if (image != null)
+                {
+                    //List<SignatureImagesModel> signature = new List<SignatureImagesModel>();
+
+                    //var val = DependencyService.Get<ISaveImage>().OnSaveSignature(image,"Signature_Downloads");
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        image.CopyTo(ms);
+                        result = ms.ToArray();
+                        string base64 = Convert.ToBase64String(result);
+                        if (result != null)
+                        {
+                            InspectionResultsList inspobj = new InspectionResultsList
+                            {
+                                TaskID = selectedTagData.TaskID,
+                                POTagID = selectedTagData.POTagID,
+                                UserID = Settings.userLoginID,
+                                Signature = base64,
+                            };
+
+                            if (Vm.Signature == "Driver")
+                            {
+                                inspobj.SignType = (int)InspectionSignatureType.VinDriver;
+
+
+                                var sign = await service.InsertUpdateSignature(inspobj);
+                            }
+                            else if (Vm.Signature == "CarrierDriver")
+                            {
+                                inspobj.SignType = (int)InspectionSignatureType.CarrierDriver;
+
+
+                                var sign = await service.InsertUpdateSignature(inspobj);
+                            }
+                            else if (Vm.Signature == "VINDealer")
+                            {
+                                inspobj.SignType = (int)InspectionSignatureType.VinDealer;
+
+
+                                var sign = await service.InsertUpdateSignature(inspobj);
+                            }
+
+
+                            await Vm.GetInspSignature();
+
+                            Vm.SignaturePadPopup = false;
+                            Vm.SignTabVisibility = true;
+                            PadView.Clear();
+
+                            //else
+                            //{
+                            //    //if (Vm.AuditorImageSign != null)
+                            //    //{
+                            //    //    byte[] Base64Stream = Convert.FromBase64String(base64);
+                            //    //    Vm.result[0].signatureSupervisorBase64 = Base64Stream;
+                            //    //    Vm.result[0].Vindata.PDICompleted = DateTime.Now.ToString("h:mm");
+                            //    //    Vm.result[0].Vindata.Load = DateTime.Now.ToString("h:mm");
+                            //    //    Vm.SupervisorImageSign = ImageSource.FromStream(() => new MemoryStream(Base64Stream));
+
+                            //    //    if (Vm.SupervisorImageSign != null)
+                            //    //    {
+                            //    //        Vm.OkToLoadColor = Settings.Bar_Background;
+                            //    //        Vm.OkayToGoEnable = true;
+                            //    //    }
+                            //    //    Vm.SignaturePadPopup = false;
+                            //    //    PadView.Clear();
+                            //    //}
+                            //    //else
+                            //    //{
+                            //    //    PadView.Clear();
+                            //    //    App.Current.MainPage.DisplayAlert("Alert", "Please complete Auditor's signature", "Ok");
+                            //    //}
+                            //}
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+                else
+                {
+                    App.Current.MainPage.DisplayAlert("Alert", "Please sign before saving..", "Ok");
+
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }
