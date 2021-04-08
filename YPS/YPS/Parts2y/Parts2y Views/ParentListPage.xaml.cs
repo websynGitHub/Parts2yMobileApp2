@@ -46,6 +46,9 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 InitializeComponent();
 
+                BindingContext = Vm = new ParentListViewModel(Navigation, this);
+
+
                 if (Settings.VersionID == 5 || Settings.VersionID == 1)
                 {
                     Vm.IsLoadTabVisible = false;
@@ -65,7 +68,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 //Task.Run(() => PageSizeDDLBinding()).Wait();
                 //dataPager.PageIndexChanged += pageIndexChanged;
 
-                BindingContext = Vm = new ParentListViewModel(Navigation, this);
                 lastButtonCount = 0;
                 isloading = false;
                 iscalled = false;

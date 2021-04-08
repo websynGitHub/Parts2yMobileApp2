@@ -117,9 +117,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         //if (Settings.SupplierSelected == "ALL")
                         //{
-                            //ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
-                            ProjectName = Settings.ProjectSelected;
-                            JobName = Settings.JobSelected;
+                        //ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
+                        ProjectName = Settings.ProjectSelected;
+                        JobName = Settings.JobSelected;
                         //}
                         //else
                         //{
@@ -361,11 +361,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
                         labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+                    }
+                }
 
-                        if (Settings.VersionID == 2)
-                        {
-                            IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                        }
+                if (Settings.VersionID == 2)
+                {
+                    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim())
+                            .FirstOrDefault()) != null && (Settings.EntityTypeName.Trim() == "Owner" || Settings.EntityTypeName.Trim() == "Dealer"
+                    || Settings.EntityTypeName.Trim() == "LLP") ? true : false;
                     }
                 }
             }

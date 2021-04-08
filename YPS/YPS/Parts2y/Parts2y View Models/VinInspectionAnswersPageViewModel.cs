@@ -345,6 +345,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
                             labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
+                            if (Settings.VersionID == 2)
+                            {
+                                SignTabText = "Checklist & Sign";
+                            }
+
+                            InspTabClicked();
                             IsInspTabVisible = true;
 
                             if (isAllDone == false)

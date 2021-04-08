@@ -178,8 +178,8 @@
                                 <Grid IsVisible="{Binding AnswersGridVisibility}" >
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -198,7 +198,8 @@
                                         <syncfusion:SfRadioButton IsChecked="{Binding FrontLeftFalse,Mode=TwoWay}" Text="NG" GroupKey="{StaticResource frontLeft}" FontSize= "18" TextColor="Black" />-->
 
                                         <input:RadioButton IsChecked="{Binding FrontLeftTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="FrontLeftClicked"/>
-                                        <input:RadioButton IsChecked="{Binding FrontLeftFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" TextColor="Black" ClassId="1" Clicked="FrontLeftClicked"/>
+                                        <input:RadioButton IsChecked="{Binding FrontLeftFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" 
+                                                          Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="FrontLeftClicked"/>
 
                                     </StackLayout>
                                     <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding FrontRight}" Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
@@ -207,7 +208,8 @@
 
 
                                         <input:RadioButton IsChecked="{Binding FrontRightTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="FrontRightClicked"/>
-                                        <input:RadioButton IsChecked="{Binding FrontRightFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" TextColor="Black" ClassId="1" Clicked="FrontRightClicked"/>
+                                        <input:RadioButton IsChecked="{Binding FrontRightFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="FrontRightClicked"/>
 
                                     </StackLayout>
                                     <Label IsVisible="{Binding RearLabel}" Text="Rear" Grid.Column="0" Grid.Row="2" TextColor="Black" VerticalOptions="Center"
@@ -218,7 +220,8 @@
                                         <syncfusion:SfRadioButton IsChecked="{Binding RearLeftFalse,Mode=TwoWay}" Text="NG" GroupKey="{StaticResource rearLeft}" FontSize= "18" TextColor="Black" />-->
 
                                         <input:RadioButton IsChecked="{Binding RearLeftTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0"  Clicked="RearLeftClicked"/>
-                                        <input:RadioButton IsChecked="{Binding RearLeftFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" TextColor="Black" ClassId="1" Clicked="RearLeftClicked"/>
+                                        <input:RadioButton IsChecked="{Binding RearLeftFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="RearLeftClicked"/>
 
                                     </StackLayout>
                                     <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding RearRight}" Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
@@ -226,7 +229,8 @@
                                         <syncfusion:SfRadioButton IsChecked="{Binding RearRightFalse,Mode=TwoWay}" Text="NG" GroupKey="{StaticResource rearRight}" FontSize= "18" TextColor="Black" />-->
 
                                         <input:RadioButton IsChecked="{Binding RearRightTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="RearRightClicked"/>
-                                        <input:RadioButton IsChecked="{Binding RearRightFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" TextColor="Black" ClassId="1"  Clicked="RearRightClicked"/>
+                                        <input:RadioButton IsChecked="{Binding RearRightFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1"  Clicked="RearRightClicked"/>
 
                                     </StackLayout>
 
@@ -235,7 +239,8 @@
                                         <syncfusion:SfRadioButton IsChecked="{Binding PlaneFalse,Mode=TwoWay}" Text="NG" GroupKey="{StaticResource plane}" FontSize= "18" TextColor="Black" />-->
 
                                         <input:RadioButton IsChecked="{Binding PlaneTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="PlaneradioClicked"/>
-                                        <input:RadioButton IsChecked="{Binding PlaneFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" TextColor="Black" ClassId="1" Clicked="PlaneradioClicked"/>
+                                        <input:RadioButton IsChecked="{Binding PlaneFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="PlaneradioClicked"/>
 
                                     </StackLayout>
                                 </Grid>
