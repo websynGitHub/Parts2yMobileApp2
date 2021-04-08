@@ -178,8 +178,8 @@
                                 <Grid IsVisible="{Binding AnswersGridVisibility}" >
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="50"/>
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -193,7 +193,8 @@
                                     <Label  Text="Front" IsVisible="{Binding FrontLabel}" TextColor="Black" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"
                                                            HorizontalTextAlignment="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding FrontLeft}" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding FrontLeft}" Grid.Column="1" Grid.Row="1"
+                                                 Orientation="Horizontal" Margin="0,0,0,15">
                                         <!--<syncfusion:SfRadioButton IsChecked="{Binding FrontLeftTrue,Mode=TwoWay}" Text="OK" GroupKey="{StaticResource frontLeft}"  FontSize="18" TextColor="Black" />
                                         <syncfusion:SfRadioButton IsChecked="{Binding FrontLeftFalse,Mode=TwoWay}" Text="NG" GroupKey="{StaticResource frontLeft}" FontSize= "18" TextColor="Black" />-->
 
@@ -202,7 +203,8 @@
                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="FrontLeftClicked"/>
 
                                     </StackLayout>
-                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding FrontRight}" Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding FrontRight}" Grid.Column="2" Grid.Row="1"
+                                                 Margin="0,0,0,15" Orientation="Horizontal">
                                         <!--<syncfusion:SfRadioButton IsChecked="{Binding FrontRightTrue,Mode=TwoWay}"  Text="OK" GroupKey="{StaticResource frontRight}"  FontSize="18" TextColor="Black" />
                                         <syncfusion:SfRadioButton IsChecked="{Binding FrontRightFalse,Mode=TwoWay}" Text="NG" GroupKey="{StaticResource frontRight}" FontSize= "18" TextColor="Black" />-->
 
