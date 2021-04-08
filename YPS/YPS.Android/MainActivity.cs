@@ -30,7 +30,7 @@ using YPS.Service;
 
 namespace YPS.Droid
 {
-    [Activity(Label = "Parts2y UAT", Icon = "@drawable/ypslogo33", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize |
+    [Activity(Label = "Parts2y WS", Icon = "@drawable/ypslogo22", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize |
         ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -48,13 +48,13 @@ namespace YPS.Droid
         /// <summary>
         /// Alpha
         /// </summary>
-        string Appcenter_droid = "3068e436-13c0-4cac-873f-687d8c0830c3";
+        //string Appcenter_droid = "3068e436-13c0-4cac-873f-687d8c0830c3";
         /// <summary>
         /// Beta
         /// </summary>
         /// <param name="Appcenter_droid"></param>
         //string Appcenter_droid = "ebfaf0cf-af6f-4f28-a6c9-642352279430";///Old beta Key
-        //string Appcenter_droid = "951a37fc-c630-42e1-afda-7c6644f4b418";
+        string Appcenter_droid = "951a37fc-c630-42e1-afda-7c6644f4b418";
 
         /// <summary>
         /// Production
