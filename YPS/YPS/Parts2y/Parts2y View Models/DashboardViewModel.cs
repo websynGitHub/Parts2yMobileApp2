@@ -58,7 +58,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "DashboardViewModel constructor -> in DashboardViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -75,6 +76,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
             }
             catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "TabChange method -> in DashboardViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
             {
                 loadindicator = false;
             }
@@ -157,7 +163,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RememberUserDetails method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RememberUserDetails method -> in DashboardViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -190,7 +196,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                //UserDialogs.Instance.HideLoading(); ;
+                YPSLogger.ReportException(ex, "RedirectToPage method -> in DashboardViewModel " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+            finally
+            {
                 loadindicator = false;
             }
             loadindicator = false;
@@ -240,7 +250,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetPNCount method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetPNCount method -> in DashboardViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -286,7 +296,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetallApplabels method -> in DashboardViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetallApplabels method -> in DashboardViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -313,7 +323,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetallApplabels method -> in DashboardViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetActionStatus method -> in DashboardViewModel! " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -377,7 +387,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabelAndShowHide method -> in yShipFilterDataViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in DashboardViewModel " + Settings.userLoginID);
             }
         }
 

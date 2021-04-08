@@ -49,6 +49,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata, bool iscarrierinsp)
         {
+            try
+            {
             Navigation = _Navigation;
             pagename = page;
             selectedTagData = selectedtagdata;
@@ -65,7 +67,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             upload_pic = new Command(async () => await Photo_Upload());
             deleteImage = new Command<InspectionPhotosResponseListData>(Delete_Photo);
             tap_OnImge = new Command<InspectionPhotosResponseListData>(image_tap);
-
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "InspectionPhotoUploadViewModel constructor -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
         }
 
         private async void Delete_Photo(InspectionPhotosResponseListData inspectionPhotosResponseListData)
@@ -100,7 +107,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Photo_Upload method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Delete_Photo method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -146,7 +153,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "image_tap method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "image_tap method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -472,6 +479,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         private async Task GetInspectionPhotos()
         {
+            try
+            {
             IndicatorVisibility = true;
             var checkInternet = await App.CheckInterNetConnection();
             if (checkInternet)
@@ -524,6 +533,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
 
             IndicatorVisibility = false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
+            }
         }
 
         private async Task DoneClicked()

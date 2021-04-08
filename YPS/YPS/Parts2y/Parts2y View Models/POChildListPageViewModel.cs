@@ -89,7 +89,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "POChildListPageViewModel constructor -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -114,7 +115,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "TagLongPessed method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -156,8 +158,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
+                YPSLogger.ReportException(ex, "TabChange method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async Task Pending_Tap()
@@ -180,9 +187,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-
+                YPSLogger.ReportException(ex, "Pending_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
 
         }
 
@@ -207,9 +218,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-
+                YPSLogger.ReportException(ex, "InProgress_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
 
         }
 
@@ -234,9 +249,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-
+                YPSLogger.ReportException(ex, "Complete_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
 
         }
 
@@ -260,9 +279,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-
+                YPSLogger.ReportException(ex, "Complete_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
 
         }
 
@@ -279,7 +302,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "GetRefreshedData method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
             return result;
         }
@@ -292,7 +316,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "CheckBoxTap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -334,8 +359,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
+                YPSLogger.ReportException(ex, "MoveToNextPage method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         /// <summary>
@@ -351,7 +381,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HomeCommand_btn method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HomeCommand_btn method -> in POChildListPageViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
 
@@ -374,7 +404,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "UpdateTabCount method -> in POChildListPageViewModel " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
@@ -569,7 +600,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 await trackService.Handleexception(ex);
                 loadindicator = false;
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async Task Backevnttapped_click()
@@ -582,6 +616,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in POChildListPageViewModel.cs" + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
@@ -593,7 +629,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
 
-                    YPSLogger.TrackEvent("PoDataViewModel", "in tap_InitialCamera method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_InitialCamera method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     bool checkInternet = await App.CheckInterNetConnection();
 
@@ -703,7 +739,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_InitialCamera method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_InitialCamera method -> in POChildListPageViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
                 loadindicator = false;
             }
@@ -721,7 +757,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (!loadindicator)
                 {
-                    YPSLogger.TrackEvent("PoDataViewModel", "in tap_OnMessage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_OnMessage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     loadindicator = true;
 
@@ -789,7 +825,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_OnMessage method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_OnMessage method -> in POChildListPageViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -806,7 +842,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (!loadindicator)
                 {
-                    YPSLogger.TrackEvent("PoDataViewModel", "in tap_InitialFileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_InitialFileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     loadindicator = true;
 
@@ -884,7 +920,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         catch (Exception ex)
                         {
-                            YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
+                            YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in POChildListPageViewModel! " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                         }
                         //}
@@ -897,7 +933,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in POChildListPageViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -1040,7 +1076,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
 
-                    YPSLogger.TrackEvent("PoDataViewModel", "in tap_Printer method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_Printer method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
                     //{
@@ -1132,7 +1168,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_Printer method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_Printer method -> in POChildListPageViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -1164,9 +1200,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "RedirectToPage method -> in POChildListPageViewModel! " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         private async void tap_eachCamB(object obj)
@@ -1204,7 +1244,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                         }
-                        loadindicator = false;
+                        finally
+                        {
+                            loadindicator = false;
+                        }
                     }
                 }
                 else
@@ -1216,8 +1259,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
+                YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         /// <summary>
@@ -1226,7 +1274,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void tap_eachCamA(object obj)
         {
-            YPSLogger.TrackEvent("PoDataViewModel", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             if (!loadindicator)
             {
@@ -1258,11 +1306,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         catch (Exception ex)
                         {
-                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in PoDataViewModel! " + Settings.userLoginID);
+                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in POChildListPageViewModel! " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                             loadindicator = false;
                         }
-                        loadindicator = false;
+                        finally
+                        {
+                            loadindicator = false;
+                        }
                     }
                     else
                     {
@@ -1446,7 +1497,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabelAndShowHide method -> in ParentListViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
             }
         }
 

@@ -71,7 +71,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ScanPageViewModel constructor -> in ScanPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -85,7 +86,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ReScan method -> in ScanPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -173,7 +175,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OpenScanner method -> in ScanPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -265,6 +268,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "SingleTagDataVerification method -> in ScanPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
             finally
             {
@@ -351,6 +356,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "GetDataAndVerify method -> in ScanPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
             finally
             {
@@ -406,7 +413,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SearchResultGet method -> in ScanPageViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
@@ -444,7 +451,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in ScanPageViewModel! " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -599,6 +606,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 IndicatorVisibility = false;
+                YPSLogger.ReportException(ex, "MoveNext method -> in ScanPageViewModel! " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
             finally
             {

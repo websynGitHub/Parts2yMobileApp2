@@ -97,7 +97,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "LoadPageViewModel constructor -> in LoadPageViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = service.Handleexception(ex);
             }
         }
 
@@ -131,6 +132,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in LoadPageViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = service.Handleexception(ex);
             }
             finally
             {
@@ -163,6 +166,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
             }
             catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "TabChange method -> in LoadPageViewModel " + Settings.userLoginID);
+                var trackResult = service.Handleexception(ex);
+            }
+            finally
             {
                 IndicatorVisibility = false;
             }
@@ -220,7 +228,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     YPSLogger.ReportException(ex, "GetPhotosData method -> in LoadPageViewModel " + Settings.userLoginID);
                     await service.Handleexception(ex);
                 }
-                IndicatorVisibility = false;
+                finally
+                {
+                    IndicatorVisibility = false;
+                }
             });
         }
 
@@ -259,7 +270,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "image_tap method -> in LoadPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewPhotoDetails method -> in LoadPageViewModel " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally

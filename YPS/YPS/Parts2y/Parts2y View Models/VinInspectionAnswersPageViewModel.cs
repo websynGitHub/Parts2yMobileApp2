@@ -94,7 +94,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "VinInspectionAnswersPageViewModel constructor -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -119,9 +120,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "QuickTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
+
         }
 
         public async void FullTabClicked()
@@ -144,9 +150,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "FullTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async void InspTabClicked()
@@ -166,9 +176,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "InspTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async void SignTabClicked()
@@ -206,9 +220,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async Task GetInspectionPhotos()
@@ -251,9 +269,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async void ChangeLabel()
@@ -365,7 +387,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                //YPSLogger.ReportException(ex, "ChangeLabelAndShowHide method -> in ParentListViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -383,8 +405,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "SelectPic method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         private async void NextClickMethod()
@@ -512,9 +539,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "NextClickMethod method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
-            loadindicator = false;
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         private async void ViewallClickMethod()
@@ -525,7 +556,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ViewallClickMethod method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -538,6 +570,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -671,9 +705,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ShowConfigurationOptions method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
-            AnswersGridVisibility = true;
-            loadindicator = false;
+            finally
+            {
+                AnswersGridVisibility = true;
+                loadindicator = false;
+            }
         }
 
         #region Properties

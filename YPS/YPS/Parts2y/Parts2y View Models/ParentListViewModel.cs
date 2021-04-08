@@ -137,8 +137,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadingindicator = false;
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "TabChange method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
-            loadingindicator = false;
+            finally
+            {
+                loadingindicator = false;
+            }
         }
 
         public async Task Pending_Tap()
@@ -155,7 +160,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Pending_Tap method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -172,7 +178,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "InProgress_Tap method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -189,7 +196,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Complete_Tap method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -206,7 +214,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "All_Tap method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -225,7 +234,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetRefreshedData method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
             return result;
         }
@@ -418,7 +428,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "BindGridData method -> in ParentListViewModel.cs.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "BindGridData method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 loadingindicator = false;
             }
             finally
@@ -445,7 +455,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     catch (Exception ex)
                     {
-
+                        trackService.Handleexception(ex);
+                        YPSLogger.ReportException(ex, "SelectedParentDetails method -> in ParentListViewModel.cs " + Settings.userLoginID);
                     }
                     finally
                     {
@@ -515,11 +526,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_shipmarkPrinter method -> in Main Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PrintShippingMarkReport method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
                 loadingindicator = false;
             }
-            loadingindicator = false;
+            finally
+            {
+                loadingindicator = false;
+            }
         }
 
         /// <summary>
@@ -563,6 +577,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in ParentListViewModel.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
@@ -647,7 +663,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "IsRequired_Tap method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "IsRequired_Tap method -> in ParentListViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
@@ -730,7 +746,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "IsNotRequired_Tap method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "IsNotRequired_Tap method -> in ParentListViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
@@ -793,10 +809,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "doneBtn method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "doneBtn method -> in ParentListViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
-            loadingindicator = false;
+            finally
+            {
+                loadingindicator = false;
+            }
         }
 
         /// <summary>
@@ -824,7 +843,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "profile_Tap method -> in PoDataViewModel! " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "profile_Tap method -> in ParentListViewModel! " + Settings.userLoginID);
                     await trackService.Handleexception(ex);
                 }
                 finally
@@ -840,9 +859,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private void closeBtn(object obj)
         {
+            try
+            {
             popup = false;
             SearchDisable = true;
             RefreshDisable = true;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "closeBtn method -> in ParentListViewModel! " + Settings.userLoginID);
+                 trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -863,7 +890,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "ChooseColumns method -> in PoDataViewModel! " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "ChooseColumns method -> in ParentListViewModel! " + Settings.userLoginID);
                     trackService.Handleexception(ex);
                 }
                 finally
@@ -1490,7 +1517,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "FilterClicked method-> in PoDataViewModel! " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "FilterClicked method-> in ParentListViewModel! " + Settings.userLoginID);
                     await trackService.Handleexception(ex);
                 }
                 finally
@@ -1541,7 +1568,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RefreshPage -> in PoDataViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RefreshPage -> in ParentListViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -1562,7 +1589,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ArchivedChats method -> in PoDataViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ArchivedChats method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
@@ -1607,7 +1634,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "ClearSearch method -> in PoDataViewModel! " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "ClearSearch method -> in ParentListViewModel! " + Settings.userLoginID);
                     var trackResult = await trackService.Handleexception(ex);
                 }
                 finally
@@ -1655,7 +1682,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in ParentListViewModel! " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -1697,7 +1724,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CheckingSearchValues method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CheckingSearchValues method -> in ParentListViewModel! " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -1811,7 +1838,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SearchResultGet method -> in ParentListViewModel! " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
@@ -1821,6 +1848,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// </summary>
         public void CheckToolBarPopUpHideOrShow()
         {
+            try
+            {
             if (ToolBarItemPopUp == false)
             {
                 MoreItemIconColor = Color.Gray;
@@ -1830,6 +1859,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 MoreItemIconColor = Color.White;
                 ToolBarItemPopUp = false;
+            }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "CheckToolBarPopUpHideOrShow method -> in ParentListViewModel! " + Settings.userLoginID);
+                var trackResult =  trackService.Handleexception(ex);
             }
         }
 
@@ -1876,7 +1911,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetPNCount method -> in PoDataViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetPNCount method -> in ParentListViewModel! " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -2000,7 +2035,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabelAndShowHide method -> in ParentListViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
         }
 

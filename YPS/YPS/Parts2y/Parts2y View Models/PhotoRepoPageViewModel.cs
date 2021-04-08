@@ -66,7 +66,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Constructor method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PhotoRepoPageViewModel Constructor  -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -854,7 +854,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     catch (Exception ex)
                                     {
                                         await service.Handleexception(ex);
-                                        YPSLogger.ReportException(ex, "while deleting the Mediafile in Photo_Upload method -> in LoadPageViewModel " + Settings.userLoginID);
+                                        YPSLogger.ReportException(ex, "UploadPhoto method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
                                     }
                                 }
                             }
@@ -871,7 +871,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     catch (Exception ex)
                                     {
                                         await service.Handleexception(ex);
-                                        YPSLogger.ReportException(ex, "while deleting the folder in Photo_Upload method -> in LoadPageViewModel " + Settings.userLoginID);
+                                        YPSLogger.ReportException(ex, "while deleting the folder in Photo_Upload method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
                                     }
                                 }
                                 var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -892,7 +892,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     catch (Exception ex)
                                     {
                                         await service.Handleexception(ex);
-                                        YPSLogger.ReportException(ex, "while deleting the each files in Parts2y folder -> Photo_Upload method -> in LoadPageViewModel " + Settings.userLoginID);
+                                        YPSLogger.ReportException(ex, "while deleting the each files in Parts2y folder -> Photo_Upload method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
                                     }
                                 }
                             }

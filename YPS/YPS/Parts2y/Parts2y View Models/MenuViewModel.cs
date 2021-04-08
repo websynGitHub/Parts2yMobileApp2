@@ -5,21 +5,25 @@ using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 using YPS.CommonClasses;
+using YPS.Helpers;
 using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_Services;
 using YPS.Parts2y.Parts2y_SQLITE;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
+using YPS.Service;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
     public class MenuViewModel : BaseViewModel
     {
+        private YPSService trackService;
         public MenuViewModel()
         {
             try
             {
-                bool isarchive = true; ;
+                bool isarchive = true;
+                trackService = new YPSService();
                 UserName = Settings.Username;
                 usermail = Settings.LoginIDDisplay;
                 EntityName = Settings.EntityName;
@@ -35,7 +39,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "MenuViewModel constructor -> in MenuViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
         #region Properties

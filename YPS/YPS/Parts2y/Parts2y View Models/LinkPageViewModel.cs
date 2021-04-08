@@ -81,7 +81,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "TagLongPessed method -> in LinkPageViewModel.cs " + Settings.userLoginID);
+                var trackResult =  service.Handleexception(ex);
             }
         }
 
@@ -171,6 +172,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
             }
             catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "tap_eachCamB method -> in LinkPageViewModel.cs " + Settings.userLoginID);
+                var trackResult = await service.Handleexception(ex);
+            }
+            finally
             {
                 IndicatorVisibility = false;
             }
@@ -278,7 +284,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var trackResult = await service.Handleexception(ex);
                 IndicatorVisibility = false;
             }
-            IndicatorVisibility = false;
+            finally
+            {
+                IndicatorVisibility = false;
+            }
         }
 
         /// <summary>
