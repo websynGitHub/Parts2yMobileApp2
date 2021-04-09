@@ -290,7 +290,8 @@ namespace YPS.CustomToastMsg
         //public static string WebServiceUrl { get; set; } = "https://dev.parts2y.com/api/";
         //public static string Appcenter_droid { get; set; } = "android=ebfaf0cf-af6f-4f28-a6c9-642352279430;";
         //public static string Appcenter_iOS { get; set; } = "ios=37be6471-dc83-405d-b62f-e796ae44267d;";
-        //public static string Bdchk { get; set; } = "DprjHRPut1l2lsH4K5tRcw==";
+        /////public static string Bdchk { get; set; } = "DprjHRPut1l2lsH4K5tRcw==";///old key 
+        //public static string Bdchk { get; set; } = "BzrCZM9KiA31bPvjUJJNmA=="; 
         //public static string blob { get; set; } = "https://azrbsa026dv00a.blob.core.windows.net/";
 
         #endregion
@@ -300,7 +301,9 @@ namespace YPS.CustomToastMsg
         //public static string WebServiceUrl { get; set; } = "https://www.parts2y.com/api/";
         //public static string Appcenter_droid { get; set; } = "android=187f2593-7ed5-4ea9-8bb8-61f03175e30f;";
         //public static string Appcenter_iOS { get; set; } = "ios=6aeae3ae-1423-41c0-b9ec-0de97e33789d;";
-        //public static string Bdchk { get; set; } = "jjWxg36jzbNTyL3cTAx+fBKuerSOTbzE8vK9hcyzKbA=";
+        //public static string Bdchk { get; set; } = "TXXv/K4nwyXFxNfZDiFY4pTAH4PhtGwuuMq5br5uqJw=";
+        /////public static string Bdchk { get; set; } = "jjWxg36jzbNTyL3cTAx+fBKuerSOTbzE8vK9hcyzKbA=";//old key
+
         #endregion
     }
 }
