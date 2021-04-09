@@ -124,7 +124,7 @@ namespace YPS.Parts2y.Parts2y_Views
                     {
                         if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID && wr.TaskID == Vm.taskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == Vm.taskID));
                         }
                     }
                 }

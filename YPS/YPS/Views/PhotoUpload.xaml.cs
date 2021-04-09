@@ -173,7 +173,7 @@ namespace YPS.Views
                     {
                         if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID && wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == Settings.TaskID));
                         }
                     }
                 }

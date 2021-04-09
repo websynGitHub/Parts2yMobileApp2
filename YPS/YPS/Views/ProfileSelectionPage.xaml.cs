@@ -211,12 +211,12 @@ namespace YPS.Views
                         Vm.ProjectName = "Please select project";
                         Vm.JobName = "Please select job";
 
-                        Settings.VersionID = selectedItem.ParentID;
+                        //Settings.VersionID = selectedItem.ParentID;
 
-                        if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
-                        {
-                            GetAllLabelData(selectedItem.ParentID);
-                        }
+                        //if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                        //{
+                        //    GetAllLabelData(selectedItem.ParentID);
+                        //}
                     }
                 }
             }

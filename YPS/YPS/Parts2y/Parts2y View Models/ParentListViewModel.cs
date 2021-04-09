@@ -278,7 +278,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     Settings.AllPOData = new ObservableCollection<AllPoData>();
                                     Settings.AllPOData = result.data.allPoData;
 
-                                    var groubbyval = result.data.allPoData.GroupBy(gb => new { gb.POID, gb.TaskID });
+                                    //var groubbyval = result.data.allPoData.GroupBy(gb => new { gb.POID, gb.TaskID });
+                                    var groubbyval = result.data.allPoData.GroupBy(gb => new { gb.TaskID });
+
                                     ObservableCollection<AllPoData> groupedlist = new ObservableCollection<AllPoData>();
 
                                     foreach (var val in groubbyval)
@@ -448,7 +450,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         loadingindicator = true;
                         PODetails.SelectedTagBorderColor = Settings.Bar_Background;
                         var PoDataChilds = new ObservableCollection<AllPoData>(
-                            Settings.AllPOData.Where(wr => wr.POID == PODetails.POID && wr.TaskID == PODetails.TaskID).ToList()
+                            Settings.AllPOData.Where(wr => wr.TaskID == PODetails.TaskID).ToList()
                             );
 
                         await Navigation.PushAsync(new POChildListPage(PoDataChilds, sendPodata));
@@ -861,14 +863,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-            popup = false;
-            SearchDisable = true;
-            RefreshDisable = true;
+                popup = false;
+                SearchDisable = true;
+                RefreshDisable = true;
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "closeBtn method -> in ParentListViewModel! " + Settings.userLoginID);
-                 trackService.Handleexception(ex);
+                trackService.Handleexception(ex);
             }
         }
 
@@ -1850,21 +1852,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-            if (ToolBarItemPopUp == false)
-            {
-                MoreItemIconColor = Color.Gray;
-                ToolBarItemPopUp = true;
-            }
-            else
-            {
-                MoreItemIconColor = Color.White;
-                ToolBarItemPopUp = false;
-            }
+                if (ToolBarItemPopUp == false)
+                {
+                    MoreItemIconColor = Color.Gray;
+                    ToolBarItemPopUp = true;
+                }
+                else
+                {
+                    MoreItemIconColor = Color.White;
+                    ToolBarItemPopUp = false;
+                }
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "CheckToolBarPopUpHideOrShow method -> in ParentListViewModel! " + Settings.userLoginID);
-                var trackResult =  trackService.Handleexception(ex);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 

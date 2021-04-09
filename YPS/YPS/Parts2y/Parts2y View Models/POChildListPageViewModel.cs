@@ -1502,7 +1502,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
-        public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : (Settings.VersionID == 3 || Settings.VersionID == 4) ? "Part(s) selected" : "";
+        public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : "Part(s) selected";
         public string SelectedPartsNo
         {
             get => _SelectedPartsNo;
