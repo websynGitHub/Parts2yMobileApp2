@@ -123,7 +123,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
 
                     if (Navigation.ModalStack.Count == 0 ||
-                                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
                         ScannerPage.AutoFocus();
 
