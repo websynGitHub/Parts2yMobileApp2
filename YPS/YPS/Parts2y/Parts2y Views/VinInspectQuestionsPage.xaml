@@ -306,14 +306,14 @@
                                             <StackLayout Spacing="0" HorizontalOptions="FillAndExpand" Margin="0,2,2,0">
                                                 <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
                                                      HorizontalOptions="FillAndExpand">
-                                                    <Label x:Name="VINDealer" Text="Auditor" TextColor="White" HorizontalTextAlignment="Center" 
+                                                    <Label x:Name="VINDealer" Text="Dealer" TextColor="White" HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                 </StackLayout>
                                                 <Frame  BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5"
                                                 CornerRadius="0" HeightRequest="70">
                                                     <Image Source="{Binding VINDealerImageSignCarrier}"/>
                                                     <Frame.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding SignatureCmd}"
+                                                        <TapGestureRecognizer Command="{Binding DriverSignatureCmd}"
                                                                       CommandParameter="{x:Reference Name=VINDealer}"/>
                                                     </Frame.GestureRecognizers>
                                                 </Frame>

@@ -291,6 +291,7 @@ namespace YPS.ViewModel
                                     if (val != null && val.data != null)
                                     {
                                         Settings.Bar_Background = Color.FromHex(val.data.VersionColorCode);
+                                        Settings.VersionID = val.data.VersionID;
                                     }
 
                                     App.Current.MainPage = new MenuPage(typeof(HomePage));
