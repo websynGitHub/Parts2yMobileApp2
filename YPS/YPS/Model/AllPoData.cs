@@ -35,6 +35,7 @@ namespace YPS.Model
         public int POID { get; set; }
         public int POTagID { get; set; }
         public string POShippingNumber { get; set; }
+        public string InvoiceNumber { get; set; }
 
 
         public string TagNumber { get; set; }

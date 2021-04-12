@@ -273,6 +273,14 @@
                                                             <Label Text="{Binding ConditionName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
+                                                        <Grid HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.InvoiceNumber.Status, Source={x:Reference Name=POTagPage}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.InvoiceNumber.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding InvoiceNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
                                                     </StackLayout>
                                                 </Grid>
 
