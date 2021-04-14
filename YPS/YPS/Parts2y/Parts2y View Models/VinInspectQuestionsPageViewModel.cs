@@ -151,6 +151,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
 
                 }
+                else
+                {
+                    IsSignatureCarrierVisible = false;
+
+                    if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                      FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                      (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                      (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
+                      selectedTagData.TagTaskStatus != 2)
+                    {
+                        IsDoneEnable = true;
+                        DoneOpacity = 1.0;
+                    }
+                }
             }
             catch (Exception ex)
             {
