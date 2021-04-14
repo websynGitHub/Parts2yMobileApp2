@@ -327,12 +327,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 var versionname = Settings.encryVersionID;
                 var versionID = Settings.VersionID;
+                var isquicktabvisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                var isfulltabvisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
                 //if (Settings.VersionID != 5 && Settings.VersionID != 1)
                 if (Settings.VersionID == 4 || Settings.VersionID == 3
-                    || (Settings.VersionID == 2 && (Settings.EntityTypeName.Trim() == "Owner"
-                    || Settings.EntityTypeName.Trim() == "Dealer"
-                    || Settings.EntityTypeName.Trim() == "LLP")))
+                    || (Settings.VersionID == 2 && (isquicktabvisible == true || isfulltabvisible == true)))
                 {
                     loadindicator = true;
                     POTagDetail = sender as AllPoData;
@@ -555,6 +555,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     data.TagTaskStatusIcon = Icons.Done;
                                 }
                                 #endregion Status icon
+
+                                data.IsTaskResourceVisible = data.TaskResourceID == Settings.userLoginID ? false : true;
+                                data.IsTagDescLabelVisible = string.IsNullOrEmpty(data.TagDescription) ? false : true;
+                                data.IsConditionNameLabelVisible = string.IsNullOrEmpty(data.ConditionName) ? false : true;
                             }
                             else if (data.TagNumber == null)
                             {
@@ -1442,6 +1446,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var invoicenumber = labelval.Where(wr => wr.FieldID == labelobj.InvoiceNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tagdesc = labelval.Where(wr => wr.FieldID == labelobj.TagDesc.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1479,6 +1484,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
                         labelobj.InvoiceNumber.Status = invoicenumber == null ? true : (invoicenumber.Status == 1 ? true : false);
+                        labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
+                        labelobj.TagDesc.Status = tagdesc == null ? true : (tagdesc.Status == 1 ? true : false);
 
                         labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) + "\n";
                         labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
@@ -1511,6 +1518,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
         public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : "Part(s) selected";
         public string SelectedPartsNo
         {
@@ -1790,6 +1798,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
             public DashboardLabelFields InvoiceNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "InvoiceNumber" };
+            public DashboardLabelFields TagDesc { get; set; } = new DashboardLabelFields { Status = true, Name = "Tag Description" };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };

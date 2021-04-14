@@ -98,6 +98,93 @@
 
                                                     <StackLayout Orientation="Vertical" Grid.Row="0" Margin="10,0,10,0">
                                                         <Grid HorizontalOptions="Start" 
+                                                              IsVisible="{Binding  BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=Link}}"
+                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                            <Label Text="{Binding  BindingContext.labelobj.TagNumber.Name, 
+                                                                Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" 
+                                                           HorizontalTextAlignment="Start" 
+                                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding TagNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+
+                                                        <Grid HorizontalOptions="Start" 
+                                                              IsVisible="{Binding  BindingContext.labelobj.IdentCode.Status, Source={x:Reference Name=Link}}"
+                                                       VerticalOptions="Center"  RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                                            <Label Text="{Binding BindingContext.labelobj.IdentCode.Name , Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding IdentCode}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                   HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+
+                                                        <Grid HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.InvoiceNumber.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.InvoiceNumber.Name, Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding InvoiceNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+
+                                                        <Grid HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.POID.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.POID.Name, Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding PONumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+
+                                                        <StackLayout HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.TagDesc.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center">
+                                                            <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding TagDescription}" TextColor="Black"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"
+                                                                   IsVisible="{Binding IsTagDescLabelVisible}"/>
+                                                        </StackLayout>
+
+                                                        <!--<Grid HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.ConditionName.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding ConditionName}" Grid.Row="1" Grid.Column="0" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>-->
+
+                                                        <StackLayout HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.ConditionName.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center">
+                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding ConditionName}" TextColor="Black"
+                                                                   IsVisible="{Binding IsConditionNameLabelVisible}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </StackLayout>
+
+                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
+                                                           IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.TaskName.Name, 
+                                                                Source={x:Reference Name=Link}}"  TextColor="#4c4c4c" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+
+                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
+                                                           IsVisible="{Binding IsTaskResourceVisible}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.Resource.Name, 
+                                                                Source={x:Reference Name=Link}}"  TextColor="#4c4c4c" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding TaskResourceName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+                                                        <!--<Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.POID.Status, Source={x:Reference Name=Link}}"
                                                        VerticalOptions="Center"  RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                                             <Label Text="{Binding BindingContext.labelobj.POID.Name , Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
@@ -127,14 +214,14 @@
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
 
-                                                        <!--<StackLayout HorizontalOptions="Start" Orientation="Horizontal"
+                                                        --><!--<StackLayout HorizontalOptions="Start" Orientation="Horizontal"
                                                               IsVisible="{Binding  BindingContext.labelobj.TagDesc.Status, Source={x:Reference Name=PhotoRepo}}"
                                                       VerticalOptions="Center"  >
                                                             <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=PhotoRepo}}" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                             <Label Text="{Binding TagDescription}" Grid.Row="0" Grid.Column="0" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </StackLayout>-->
+                                                        </StackLayout>--><!--
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=Link}}"
@@ -143,7 +230,7 @@
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                             <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>
+                                                        </Grid>-->
                                                     </StackLayout>
 
                                                     <StackLayout VerticalOptions="EndAndExpand" Grid.Row="1"

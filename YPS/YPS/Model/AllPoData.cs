@@ -199,6 +199,35 @@ namespace YPS.Model
         }
 
 
+        private bool _IsTagDescLabelVisible { set; get; }
+        public bool IsTagDescLabelVisible
+        {
+            get
+            {
+                return _IsTagDescLabelVisible;
+            }
+            set
+            {
+                this._IsTagDescLabelVisible = value;
+                RaisePropertyChanged("IsTagDescLabelVisible");
+            }
+        }
+
+        private bool _IsConditionNameLabelVisible { set; get; }
+        public bool IsConditionNameLabelVisible
+        {
+            get
+            {
+                return _IsConditionNameLabelVisible;
+            }
+            set
+            {
+                this._IsConditionNameLabelVisible = value;
+                RaisePropertyChanged("IsConditionNameLabelVisible");
+            }
+        }
+
+
         public bool _IsFilesVisible { set; get; }
         public bool IsFilesVisible
         {

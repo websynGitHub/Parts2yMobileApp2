@@ -64,7 +64,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => GetQuestionsLIst()).Wait();
-                Task.Run(() => GetInspSignature()).Wait();
+                //Task.Run(() => GetInspSignature()).Wait();
 
 
                 QuickTabCmd = new Command(QuickTabClicked);
@@ -84,52 +84,78 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        //public VinInspectQuestionsPageViewModel()
-        //{
-        //    try
-        //    {
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-
         public async Task GetInspSignature()
         {
             try
             {
+                var result = await trackService.GetInspSignatureByTag(taskid, tagId);
+
+
                 if (Settings.EntityTypeName.Trim() == "Dealer")
                 {
                     IsDealerSignVisible = true;
                     IsOwnerSignVisible = false;
+
+                    if (result != null && result.status == 1)
+                    {
+                        var carrierdriverimagesign = result.data.listData.
+                            Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver).Select(c => c.Signature).FirstOrDefault();
+
+                        var vindealerimagesigncarrier = result.data.listData.
+                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinDealer).Select(c => c.Signature).FirstOrDefault();
+
+                        CarrierDriverImageSign = carrierdriverimagesign != null ?
+                            ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(carrierdriverimagesign))) : null;
+
+                        VINDealerImageSignCarrier = vindealerimagesigncarrier != null ?
+                            ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(vindealerimagesigncarrier))) : null;
+
+                        if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                       FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                       (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                       (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
+                       selectedTagData.TagTaskStatus != 2 &&
+                       (carrierdriverimagesign != null && vindealerimagesigncarrier != null))
+                        {
+                            IsDoneEnable = true;
+                            DoneOpacity = 1.0;
+                        }
+                    }
+
                 }
                 else if (Settings.EntityTypeName.Trim() == "Owner")
                 {
                     IsDealerSignVisible = false;
                     IsOwnerSignVisible = true;
-                }
 
 
-                var result = await trackService.GetInspSignatureByTag(taskid, tagId);
+                    if (result != null && result.status == 1)
+                    {
+                        var driverimagesign = result.data.listData.
+                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver).
+                            Select(c => c.Signature).FirstOrDefault();
 
-                if (result != null && result.status == 1)
-                {
-                    CarrierDriverImageSign = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(result.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver
-                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
 
-                    VINDealerImageSignCarrier = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(result.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDealer
-                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                        DriverImageSign = driverimagesign != null ?
+                            ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(driverimagesign))) : null;
 
-                    DriverImageSign = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(result.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver
-                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                        if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                       FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                       (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                       (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
+                       selectedTagData.TagTaskStatus != 2 && driverimagesign != null)
+                        {
+                            IsDoneEnable = true;
+                            DoneOpacity = 1.0;
+                        }
+                    }
+
                 }
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "GetInspSignature method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -158,9 +184,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "SignaturePadShowHide method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
-
 
         public async Task TabChange(string tabname)
         {
@@ -355,11 +382,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 await Task.Delay(1);
 
+
                 if (IsQuickTabVisible == true)
                 {
                     await GetConfigurationResults(1);
                     QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 1).ToList());
-                    //QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.ToList());
                     QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
@@ -367,26 +394,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await GetConfigurationResults(2);
                     FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 2).ToList());
-                    //FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.ToList());
                     FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
-                if (QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                    FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                    selectedTagData.TagTaskStatus != 2)
-                {
-                    IsDoneEnable = true;
-                    DoneOpacity = 1.0;
-                }
-
-                //if (QuickTabVisibility == true)
-                //{
-                //    await GetConfigurationResults(1);
-                //}
-                //else if (FullTabVisibility == true)
-                //{
-                //    await GetConfigurationResults(2);
-                //}
+                await GetInspSignature();
 
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;

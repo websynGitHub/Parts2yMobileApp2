@@ -72,7 +72,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => GetQuestionsLIst()).Wait();
-                Task.Run(() => GetInspSignature()).Wait();
+                //Task.Run(() => GetInspSignature()).Wait();
             }
             catch (Exception ex)
             {
@@ -80,18 +80,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var trackResult = trackService.Handleexception(ex);
             }
         }
-
-        //public CarrierInspectionQuestionsViewModel()
-        //{
-        //    try
-        //    {
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
 
         public async Task GetInspSignature()
         {
@@ -101,25 +89,47 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (signature != null && signature.status == 1)
                 {
-                    SupervisorImageSignCBU = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
-                                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinSupervisor
-                                            && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                    var supervisorimagesignCBU = signature.data.listData.
+                                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinSupervisor).
+                                            Select(c => c.Signature).FirstOrDefault();
 
-                    AuditorImageSignCBU = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinAuditor
-                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                    var auditorimagesignCBU = signature.data.listData.
+                      Where(wr => wr.SignType == (int)InspectionSignatureType.VinAuditor).
+                      Select(c => c.Signature).FirstOrDefault();
 
-                    SupervisorImageSignCarrier = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierSupervisor
-                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                    var supervisorimagesignCarrier = signature.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierSupervisor).
+                        Select(c => c.Signature).FirstOrDefault();
 
-                    AuditorImageSignCarrier = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(signature.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierAuditor
-                        && wr.UserID == Settings.userLoginID).FirstOrDefault().Signature)));
+                    var auditorimagesignCarrier = signature.data.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierAuditor).
+                        Select(c => c.Signature).FirstOrDefault();
+
+                    SupervisorImageSignCBU = supervisorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCBU))) :
+                        null;
+
+                    AuditorImageSignCBU = auditorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCBU))) :
+                    null;
+
+                    SupervisorImageSignCarrier = supervisorimagesignCarrier != null ?
+                    ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCarrier))) : null;
+
+                    AuditorImageSignCarrier = auditorimagesignCarrier != null ?
+                    ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCarrier))) : null;
+
+                    if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null
+                        && SelectedPodataList[0].TaskID != 2 && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
+                        supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
+                    {
+                        IsDoneEnable = true;
+                        DoneOpacity = 1.0;
+                    }
                 }
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "GetInspSignature method -> in CarrierInspectQuestionsPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -148,6 +158,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "SignaturePadShowHide method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -306,19 +318,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 await GetConfigurationResults(3);
 
                 QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
+
+                await GetInspSignature();
+
+
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
                 InspTabTextColor = Color.Black;
                 InspTabVisibility = false;
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
-
-                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null
-                    && SelectedPodataList[0].TaskID != 2)
-                {
-                    IsDoneEnable = true;
-                    DoneOpacity = 1.0;
-                }
             }
             catch (Exception ex)
             {
