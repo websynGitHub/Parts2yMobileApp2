@@ -22,7 +22,16 @@ namespace YPS.ViewModel
         /// </summary>
         public CheckInterNetConnModelVew()
         {
-            CheckConnectionBtn = new Command(async () => await CheckConnection());
+            try
+            {
+                CheckConnectionBtn = new Command(async () => await CheckConnection());
+            }
+            catch (Exception ex)
+            {
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "CheckInterNetConnModelVew constructor -> in CheckInterNetConnModelVew.cs " + Settings.userLoginID);
+            }
         }
 
         /// <summary>

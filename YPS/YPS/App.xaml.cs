@@ -138,90 +138,101 @@ namespace YPS
 
             try
             {
-
                 InitializeComponent();
                 MyNavigationPage = new NavigationPage();
                 Current.MainPage = MyNavigationPage;
 
-                #region YPS Relatesd code
-                var globalResult = Task.Run(async () => await YPSService.GetglobelSettings()).Result; ///Fetching global settings
+                var internet = Connectivity.NetworkAccess;
 
-                if (globalResult != null && globalResult.status == 1 && (globalResult.data.sSLPinningKeys != null && EncryptManager.Decrypt(globalResult.data.sSLPinningKeys.SecCode) == Settings.CertificateSecCode))
+                if (internet == NetworkAccess.Internet)
                 {
-                    if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
+                  
+
+                    #region YPS Related code
+                    var globalResult = Task.Run(async () => await YPSService.GetglobelSettings()).Result; ///Fetching global settings
+
+                    if (globalResult != null && globalResult.status == 1 && (globalResult.data.sSLPinningKeys != null && EncryptManager.Decrypt(globalResult.data.sSLPinningKeys.SecCode) == Settings.CertificateSecCode))
                     {
-                        Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
-                        SetupCertificatePinningCheck();
-                    }
-
-                    FlowListView.Init();
-
-                    RememberPwdDB Db = new RememberPwdDB();
-                    var user = Db.GetUserDetails();
-
-                    if (user.Count == 1)
-                    {
-                        var userData = user.FirstOrDefault();
-
-                        Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-                        Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-                        Settings.LoginID = userData.encLoginID;
-                        Settings.Sessiontoken = userData.encSessiontoken;
-                        Settings.AndroidVersion = userData.AndroidVersion;
-                        Settings.iOSversion = userData.iOSversion;
-                        Settings.IsIIJEnabled = userData.IIJEnable;
-                        Settings.IsPNEnabled = userData.IsPNEnabled;
-                        Settings.IsEmailEnabled = userData.IsEmailEnabled;
-                        Settings.Bar_Background = System.Drawing.Color.FromArgb(userData.BgColor);
-
-                        var current = Connectivity.NetworkAccess;
-                        if (current == NetworkAccess.Internet)
+                        if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
                         {
-                            Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
-                            if (Settings.userRoleID != 0)
-                                //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                            Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
+                            SetupCertificatePinningCheck();
                         }
-                        else
-                        {
-                            MyNavigationPage.PushAsync(new CheckInterNetConn());
-                        }
-                    }
-                    else
-                    {
-                        Task.Run(async () => await GlobelSettings(globalResult)).Wait();
 
-                        if (Settings.IsIIJEnabled)
+                        FlowListView.Init();
+
+                        RememberPwdDB Db = new RememberPwdDB();
+                        var user = Db.GetUserDetails();
+
+                        if (user.Count == 1)
                         {
-                            if (OAuthConfig.User == null)
-                            {
-                                MyNavigationPage.PushAsync(new ProviderLoginPage());
-                            }
-                        }
-                        else
-                        {
+                            var userData = user.FirstOrDefault();
+
+                            Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                            Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                            Settings.LoginID = userData.encLoginID;
+                            Settings.Sessiontoken = userData.encSessiontoken;
+                            Settings.AndroidVersion = userData.AndroidVersion;
+                            Settings.iOSversion = userData.iOSversion;
+                            Settings.IsIIJEnabled = userData.IIJEnable;
+                            Settings.IsPNEnabled = userData.IsPNEnabled;
+                            Settings.IsEmailEnabled = userData.IsEmailEnabled;
+                            Settings.Bar_Background = System.Drawing.Color.FromArgb(userData.BgColor);
+
                             var current = Connectivity.NetworkAccess;
                             if (current == NetworkAccess.Internet)
                             {
-                                MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
+                                Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+                                if (Settings.userRoleID != 0)
+                                    //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
                             }
                             else
                             {
                                 MyNavigationPage.PushAsync(new CheckInterNetConn());
                             }
                         }
+                        else
+                        {
+                            Task.Run(async () => await GlobelSettings(globalResult)).Wait();
+
+                            if (Settings.IsIIJEnabled)
+                            {
+                                if (OAuthConfig.User == null)
+                                {
+                                    MyNavigationPage.PushAsync(new ProviderLoginPage());
+                                }
+                            }
+                            else
+                            {
+                                var current = Connectivity.NetworkAccess;
+                                if (current == NetworkAccess.Internet)
+                                {
+                                    MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
+                                }
+                                else
+                                {
+                                    MyNavigationPage.PushAsync(new CheckInterNetConn());
+                                }
+                            }
+                        }
                     }
+                    else
+                    {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Close");
+                            CloudFolderKeyVal.Appredirectloginwithoutlogout(false);
+                        });
+                    }
+
+                    #endregion
                 }
                 else
                 {
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Close");
-                        CloudFolderKeyVal.Appredirectloginwithoutlogout(false);
-                    });
+                    MyNavigationPage.PushAsync(new CheckInterNetConn());
                 }
 
-                #endregion
             }
             catch (Exception ex)
             {

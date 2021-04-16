@@ -26,7 +26,7 @@ namespace YPS.Views
             {
                 YPSService service = new YPSService();
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChatUsers constructor with 2 params -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CheckInterNetConn constructor -> in CheckInterNetConn.xaml.cs " + Settings.userLoginID);
             }
         }
     }

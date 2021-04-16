@@ -38,11 +38,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                trackService = new YPSService();
                 Navigation = _Navigation;
                 pagename = page;
                 isAllDone = isalldone;
                 selectedTagData = selectedtagdata;
-                trackService = new YPSService();
 
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
@@ -51,7 +51,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "InspVerificationScanViewModel constructor -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
             }
         }
 
@@ -65,9 +66,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "ReScan method -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
-
 
         public async Task OpenScanner()
         {
@@ -144,10 +146,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OpenScanner method -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
-
 
         public async Task GetDataAndVerify()
         {
@@ -212,6 +214,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "GetDataAndVerify method -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
             finally
             {
@@ -272,11 +276,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-
         private async Task SaveAndClearSearch(bool val)
         {
             SendPodata SaveUserDS = new SendPodata();
             SearchPassData defaultData = new SearchPassData();
+
             try
             {
                 //Key
@@ -321,23 +325,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    //{
                     Settings.POID = podata.POID;
                     Settings.TaskID = podata.TaskID;
 
-                    //if (podata.TagTaskStatus == 2)
-                    //{
-                    //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
-                    //    StatusText = "Done";
-                    //    StatusTextBgColor = Color.DarkGreen;
-                    //    IsInspEnable = false;
-                    //    InspOpacity = 0.5;
-                    //}
                     await Navigation.PushAsync(new VinInspectQuestionsPage(podata, isAllDone));
-                    //await Navigation.PushAsync(new VinInspectQuestionsPage(podata, podata.POTagID, podata.PONumber, podata.IdentCode, podata.ConditionName));
-                    //await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.PONumber, podata.IdentCode, podata.ConditionName, questiionsPageHeaderData));
-                    //}
                 }
                 else
                 {
@@ -346,7 +337,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                IndicatorVisibility = false;
+                YPSLogger.ReportException(ex, "MoveForInspection method -> in InspVerificationScanViewModel.cs" + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
             finally
             {

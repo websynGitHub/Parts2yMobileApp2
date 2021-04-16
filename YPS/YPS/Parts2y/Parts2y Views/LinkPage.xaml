@@ -385,7 +385,7 @@
                         </CollectionView>
 
                         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
-                                 Margin="4,0,4,4" Grid.Row="2">
+                                 Margin="4,0,4,4" Grid.Row="2" IsVisible="{Binding IsLinkButtonsVisible}">
                             <sfbuttons:SfButton x:Name="b" HorizontalOptions="FillAndExpand"
                                     Command="{Binding BindingContext.LinkBeforePackingPhotoCmd, Source={x:Reference Name=Link}}" 
                                                                             CommandParameter="{x:Reference b}"

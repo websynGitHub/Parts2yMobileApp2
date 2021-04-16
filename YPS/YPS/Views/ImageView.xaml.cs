@@ -115,7 +115,7 @@ namespace YPS.Views
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
         /// <param name="Tags"></param>
-        public ImageView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId, string Tags,string questionNumber)
+        public ImageView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId, string Tags, string questionNumber)
         {
             try
             {
@@ -223,11 +223,11 @@ namespace YPS.Views
                 var newCard = e.NewCard;
                 var oldCard = e.OldCard;
 
-                if (e.NewCard != null)
-                {
-                    var newmodelCV = (CustomPhotoModel)newCard.Content.BindingContext;
-                    Settings.SPhotoDescription = newmodelCV.PhotoDescription;
-                }
+                //if (e.NewCard != null)
+                //{
+                //    var newmodelCV = (CustomPhotoModel)newCard.Content.BindingContext;
+                //    Settings.SPhotoDescription = newmodelCV.PhotoDescription;
+                //}
                 if (e.NewCard == null)
                 {
                     synfImageViewList.VisibleCardIndex = 0;

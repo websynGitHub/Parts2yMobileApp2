@@ -302,233 +302,238 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 var sfbutton = sender as SfButton;
-                var valuewithPUID = AllPoTagCollections.Where(wr => wr.IsChecked == true && wr.PUID != 0).GroupBy(g => g.PUID).ToList();
-                var valuewithnoPUID = AllPoTagCollections.Where(wr => wr.IsChecked == true && wr.PUID == 0).ToList();
-                var styleid = sfbutton.StyleId;
 
-                if (valuewithPUID.Count > 0 || valuewithnoPUID.Count > 0)
+                if (AllPoTagCollections != null && AllPoTagCollections.Count > 0)
                 {
-                    //bool move = await App.Current.MainPage.DisplayAlert("Photo(s) linking", "Are you sure you want to link the photo(s) to " + linkfor + "?", "Yes", "No");
-                    bool move = await App.Current.MainPage.DisplayAlert("Photo(s) linking", "Are you sure you want to link the photo(s) to the selected"
-                        + (Settings.VersionID == 2 ? " VIN(s)" : "Part(s)"), "Yes", "No");
+                    var valuewithPUID = AllPoTagCollections.Where(wr => wr.IsChecked == true && wr.PUID != 0).GroupBy(g => g.PUID).ToList();
+                    var valuewithnoPUID = AllPoTagCollections.Where(wr => wr.IsChecked == true && wr.PUID == 0).ToList();
+                    var styleid = sfbutton.StyleId;
 
-                    if (move)
+                    if (valuewithPUID.Count > 0 || valuewithnoPUID.Count > 0)
                     {
-                        updateList = true;
-                        //Settings.CanOpenScanner = true;
+                        //bool move = await App.Current.MainPage.DisplayAlert("Photo(s) linking", "Are you sure you want to link the photo(s) to " + linkfor + "?", "Yes", "No");
+                        bool move = await App.Current.MainPage.DisplayAlert("Photo(s) linking", "Are you sure you want to link the photo(s) to the selected"
+                            + (Settings.VersionID == 2 ? " VIN(s)" : "Part(s)"), "Yes", "No");
 
-                        //var firstphotovalue = RepoPhotosList.FirstOrDefault();
-                        var firstphotovalue = RepoPhotosList;
-
-                        if (valuewithPUID.Count > 0)
+                        if (move)
                         {
-                            foreach (var eachpuid in valuewithPUID)
+                            updateList = true;
+                            //Settings.CanOpenScanner = true;
+
+                            //var firstphotovalue = RepoPhotosList.FirstOrDefault();
+                            var firstphotovalue = RepoPhotosList;
+
+                            if (valuewithPUID.Count > 0)
                             {
-                                PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
-                                taskID = eachpuid.FirstOrDefault().TaskID;
-                                //Settings.POID = value.POID;
-                                selectedTagsData.POID = eachpuid.FirstOrDefault().POID;
-                                selectedTagsData.isCompleted = eachpuid.FirstOrDefault().photoTickVisible;
-
-                                List<PhotoTag> lstdat = new List<PhotoTag>();
-
-
-                                selectedTagsData.alreadyExit = "alreadyExit";
-
-                                if (eachpuid.FirstOrDefault().imgCamOpacityB != 0.5 && eachpuid.FirstOrDefault().IsPhotoRequired != 0)
+                                foreach (var eachpuid in valuewithPUID)
                                 {
-                                    if (eachpuid.FirstOrDefault().PUID != 0)
+                                    PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+
+                                    taskID = eachpuid.FirstOrDefault().TaskID;
+                                    //Settings.POID = value.POID;
+                                    selectedTagsData.POID = eachpuid.FirstOrDefault().POID;
+                                    selectedTagsData.isCompleted = eachpuid.FirstOrDefault().photoTickVisible;
+
+                                    List<PhotoTag> lstdat = new List<PhotoTag>();
+
+
+                                    selectedTagsData.alreadyExit = "alreadyExit";
+
+                                    if (eachpuid.FirstOrDefault().imgCamOpacityB != 0.5 && eachpuid.FirstOrDefault().IsPhotoRequired != 0)
                                     {
-                                        List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
-
-                                        foreach (var photo in firstphotovalue)
+                                        if (eachpuid.FirstOrDefault().PUID != 0)
                                         {
-                                            CustomPhotoModel phUpload = new CustomPhotoModel();
-                                            phUpload.PUID = eachpuid.FirstOrDefault().PUID;
-                                            phUpload.PhotoID = 0;
-                                            phUpload.PhotoURL = photo.FileUrl;
-                                            phUpload.PhotoDescription = photo.FileDescription;
-                                            phUpload.FileName = photo.FileName;
-                                            phUpload.CreatedBy = Settings.userLoginID;
-                                            phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                            phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                            phUpload.FullName = Settings.Username;
-                                            phUploadList.Add(phUpload);
+                                            List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
 
-                                        }
-
-
-                                        var data = await service.PhotosUpload(phUploadList);
-
-                                        var initialresult = data as SecondTimeResponse;
-
-                                        if (initialresult != null && initialresult.status == 1)
-                                        {
-                                            foreach (var val in initialresult.data)
+                                            foreach (var photo in firstphotovalue)
                                             {
-                                                eachpuid.FirstOrDefault().PUID = val.PUID;
-                                            }
-
-                                            //DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
-                                            //await ShowContentsToLink();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (valuewithnoPUID.Count > 0)
-                        {
-                            foreach (var parts in valuewithnoPUID)
-                            {
-
-                                PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
-                                taskID = parts.TaskID;
-                                //Settings.POID = value.POID;
-                                selectedTagsData.POID = parts.POID;
-                                selectedTagsData.isCompleted = parts.photoTickVisible;
-
-                                List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                                if (parts.TagAPhotoCount == 0 && parts.TagBPhotoCount == 0 && parts.PUID == 0)
-                                {
-                                    PhotoTag tg = new PhotoTag();
-
-                                    if (parts.POTagID != 0)
-                                    {
-                                        tg.POTagID = parts.POTagID;
-                                        Settings.Tagnumbers = parts.TagNumber;
-                                        lstdat.Add(tg);
-
-                                        selectedTagsData.photoTags = lstdat;
-                                        Settings.currentPoTagId_Inti = lstdat;
-
-
-                                        if (selectedTagsData.photoTags.Count != 0 && parts.IsPhotoRequired != 0)
-                                        {
-                                            //List<PhotoUploadModel> DataForFileUploadList = new List<PhotoUploadModel>();
-
-                                            #region single photo sending
-
-                                            PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
-                                            DataForFileUpload = selectedTagsData;
-                                            DataForFileUpload.CreatedBy = Settings.userLoginID;
-                                            //DataForFileUpload.photo.FileName = firstphotovalue[0].FileName;
-                                            DataForFileUpload.photos = new List<Photo>();
-
-                                            foreach (var iniphoto in firstphotovalue)
-                                            {
-                                                Photo phUpload = new Photo();
-                                                phUpload.PUID = parts.PUID;
+                                                CustomPhotoModel phUpload = new CustomPhotoModel();
+                                                phUpload.PUID = eachpuid.FirstOrDefault().PUID;
                                                 phUpload.PhotoID = 0;
-                                                phUpload.PhotoURL = iniphoto.FileUrl;
-                                                phUpload.PhotoDescription = iniphoto.FileDescription;
-                                                phUpload.FileName = iniphoto.FileName;
+                                                phUpload.PhotoURL = photo.FileUrl;
+                                                phUpload.PhotoDescription = photo.FileDescription;
+                                                phUpload.FileName = photo.FileName;
                                                 phUpload.CreatedBy = Settings.userLoginID;
                                                 phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
                                                 phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                                phUpload.GivenName = Settings.Username;
-                                                DataForFileUpload.photos.Add(phUpload);
+                                                phUpload.FullName = Settings.Username;
+                                                phUploadList.Add(phUpload);
+
                                             }
 
 
-                                            //DataForFileUploadList.Add(DataForFileUpload);
+                                            var data = await service.PhotosUpload(phUploadList);
 
-                                            var data = await service.InitialUpload(DataForFileUpload);
-                                            #endregion single photo sending
+                                            var initialresult = data as SecondTimeResponse;
 
-
-                                            var result = data as InitialResponse;
-
-                                            if (result != null && result.status == 1)
+                                            if (initialresult != null && initialresult.status == 1)
                                             {
-                                                #region Update task status
-
-                                                if (parts.TaskID != 0 && parts.TagTaskStatus == 0)
+                                                foreach (var val in initialresult.data)
                                                 {
-                                                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                                                    tagtaskstatus.TaskID = Helperclass.Encrypt(parts.TaskID.ToString());
-                                                    tagtaskstatus.POTagID = Helperclass.Encrypt(parts.POTagID.ToString());
-                                                    tagtaskstatus.Status = 1;
-                                                    tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                                                    var val = await service.UpdateTagTaskStatus(tagtaskstatus);
-
-                                                    if (result.status == 1)
-                                                    {
-                                                        if (parts.TaskStatus == 0)
-                                                        {
-                                                            TagTaskStatus taskstatus = new TagTaskStatus();
-                                                            taskstatus.TaskID = Helperclass.Encrypt(parts.TaskID.ToString());
-                                                            taskstatus.TaskStatus = 1;
-                                                            taskstatus.CreatedBy = Settings.userLoginID;
-
-                                                            var taskval = await service.UpdateTaskStatus(taskstatus);
-                                                        }
-                                                    }
+                                                    eachpuid.FirstOrDefault().PUID = val.PUID;
                                                 }
 
-                                                parts.PUID = result.data.PUID;
-
-                                                #endregion Update task status
-
-
-                                                #region upload photo from second item
-                                                //List<PhotoRepoModel> newphotolist = new List<PhotoRepoModel>(firstphotovalue);
-                                                //newphotolist.RemoveAt(0);
-
-                                                //if (newphotolist.Count > 0)
-                                                //{
-                                                //    List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
-
-                                                //    foreach (var photo in newphotolist)
-                                                //    {
-                                                //        CustomPhotoModel photomodel = new CustomPhotoModel();
-                                                //        photomodel.PUID = parts.PUID;
-                                                //        photomodel.PhotoID = 0;
-                                                //        photomodel.PhotoURL = photo.FullFileName;
-                                                //        photomodel.PhotoDescription = photo.Description;
-                                                //        photomodel.FileName = photo.FileName;
-                                                //        photomodel.CreatedBy = Settings.userLoginID;
-                                                //        photomodel.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                                //        photomodel.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                                //        photomodel.FullName = Settings.Username;
-                                                //        phUploadList.Add(photomodel);
-                                                //    }
-
-                                                //    var dataresult = await service.PhotosUpload(phUploadList);
-
-                                                //    var initialresult = dataresult as SecondTimeResponse;
-
-                                                //    if (initialresult != null && initialresult.status == 1)
-                                                //    {
-                                                //        foreach (var val in initialresult.data)
-                                                //        {
-                                                //            parts.PUID = val.PUID;
-                                                //        }
-
-                                                //    }
-                                                //}
-                                                #endregion upload photo from second item
-
+                                                //DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+                                                //await ShowContentsToLink();
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
-                        await ShowContentsToLink();
+                            if (valuewithnoPUID.Count > 0)
+                            {
+                                foreach (var parts in valuewithnoPUID)
+                                {
+
+                                    PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+
+                                    taskID = parts.TaskID;
+                                    //Settings.POID = value.POID;
+                                    selectedTagsData.POID = parts.POID;
+                                    selectedTagsData.isCompleted = parts.photoTickVisible;
+
+                                    List<PhotoTag> lstdat = new List<PhotoTag>();
+
+                                    if (parts.TagAPhotoCount == 0 && parts.TagBPhotoCount == 0 && parts.PUID == 0)
+                                    {
+                                        PhotoTag tg = new PhotoTag();
+
+                                        if (parts.POTagID != 0)
+                                        {
+                                            tg.POTagID = parts.POTagID;
+                                            Settings.Tagnumbers = parts.TagNumber;
+                                            lstdat.Add(tg);
+
+                                            selectedTagsData.photoTags = lstdat;
+                                            Settings.currentPoTagId_Inti = lstdat;
+
+
+                                            if (selectedTagsData.photoTags.Count != 0 && parts.IsPhotoRequired != 0)
+                                            {
+                                                //List<PhotoUploadModel> DataForFileUploadList = new List<PhotoUploadModel>();
+
+                                                #region single photo sending
+
+                                                PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
+                                                DataForFileUpload = selectedTagsData;
+                                                DataForFileUpload.CreatedBy = Settings.userLoginID;
+                                                //DataForFileUpload.photo.FileName = firstphotovalue[0].FileName;
+                                                DataForFileUpload.photos = new List<Photo>();
+
+                                                foreach (var iniphoto in firstphotovalue)
+                                                {
+                                                    Photo phUpload = new Photo();
+                                                    phUpload.PUID = parts.PUID;
+                                                    phUpload.PhotoID = 0;
+                                                    phUpload.PhotoURL = iniphoto.FileUrl;
+                                                    phUpload.PhotoDescription = iniphoto.FileDescription;
+                                                    phUpload.FileName = iniphoto.FileName;
+                                                    phUpload.CreatedBy = Settings.userLoginID;
+                                                    phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
+                                                    phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                                    phUpload.GivenName = Settings.Username;
+                                                    DataForFileUpload.photos.Add(phUpload);
+                                                }
+
+
+                                                //DataForFileUploadList.Add(DataForFileUpload);
+
+                                                var data = await service.InitialUpload(DataForFileUpload);
+                                                #endregion single photo sending
+
+
+                                                var result = data as InitialResponse;
+
+                                                if (result != null && result.status == 1)
+                                                {
+                                                    #region Update task status
+
+                                                    if (parts.TaskID != 0 && parts.TagTaskStatus == 0)
+                                                    {
+                                                        TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                                        tagtaskstatus.TaskID = Helperclass.Encrypt(parts.TaskID.ToString());
+                                                        tagtaskstatus.POTagID = Helperclass.Encrypt(parts.POTagID.ToString());
+                                                        tagtaskstatus.Status = 1;
+                                                        tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                                        var val = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                                        if (result.status == 1)
+                                                        {
+                                                            if (parts.TaskStatus == 0)
+                                                            {
+                                                                TagTaskStatus taskstatus = new TagTaskStatus();
+                                                                taskstatus.TaskID = Helperclass.Encrypt(parts.TaskID.ToString());
+                                                                taskstatus.TaskStatus = 1;
+                                                                taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                                var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    parts.PUID = result.data.PUID;
+
+                                                    #endregion Update task status
+
+
+                                                    #region upload photo from second item
+                                                    //List<PhotoRepoModel> newphotolist = new List<PhotoRepoModel>(firstphotovalue);
+                                                    //newphotolist.RemoveAt(0);
+
+                                                    //if (newphotolist.Count > 0)
+                                                    //{
+                                                    //    List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
+
+                                                    //    foreach (var photo in newphotolist)
+                                                    //    {
+                                                    //        CustomPhotoModel photomodel = new CustomPhotoModel();
+                                                    //        photomodel.PUID = parts.PUID;
+                                                    //        photomodel.PhotoID = 0;
+                                                    //        photomodel.PhotoURL = photo.FullFileName;
+                                                    //        photomodel.PhotoDescription = photo.Description;
+                                                    //        photomodel.FileName = photo.FileName;
+                                                    //        photomodel.CreatedBy = Settings.userLoginID;
+                                                    //        photomodel.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
+                                                    //        photomodel.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                                    //        photomodel.FullName = Settings.Username;
+                                                    //        phUploadList.Add(photomodel);
+                                                    //    }
+
+                                                    //    var dataresult = await service.PhotosUpload(phUploadList);
+
+                                                    //    var initialresult = dataresult as SecondTimeResponse;
+
+                                                    //    if (initialresult != null && initialresult.status == 1)
+                                                    //    {
+                                                    //        foreach (var val in initialresult.data)
+                                                    //        {
+                                                    //            parts.PUID = val.PUID;
+                                                    //        }
+
+                                                    //    }
+                                                    //}
+                                                    #endregion upload photo from second item
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+                            await ShowContentsToLink();
+                        }
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : "Part(s)")
+                            + " to start linking photo(s).");
                     }
                 }
-                else
-                {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : "Part(s)")
-                        + " to start linking photo(s).");
-                }
+
             }
             catch (Exception ex)
             {
@@ -588,6 +593,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
 
                     AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
+
+                    IsLinkButtonsVisible = AllPoTagCollections != null && AllPoTagCollections.Count > 0 ? true : false;
+                }
+                else
+                {
+                    IsLinkButtonsVisible = false;
                 }
             }
             catch (Exception ex)
@@ -808,6 +819,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private bool _IsLinkButtonsVisible { set; get; }
+        public bool IsLinkButtonsVisible
+        {
+            get
+            {
+                return _IsLinkButtonsVisible;
+            }
+            set
+            {
+                this._IsLinkButtonsVisible = value;
+                RaisePropertyChanged("IsLinkButtonsVisible");
+            }
+        }
+
         public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : "Part(s) selected";
         public string SelectedPartsNo
         {

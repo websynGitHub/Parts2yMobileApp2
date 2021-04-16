@@ -28,7 +28,7 @@ namespace YPS.ViewModel
 
         YPSService service;
         SaveUserDefaultSettingsModel SaveUDS;
-        bool checkInternet, DefaultSettingSupplier;
+        bool checkInternet;
         #endregion
 
         /// <summary>
@@ -102,21 +102,16 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
-                    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
-                    {
-                        DefaultSettingSupplier = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "DefaultSettingSupplier".Trim()).FirstOrDefault()) != null ? true : false;
-                    }
-
                     // Calling API to get update profile data for the login user.
                     PDefaultSettingModel = await service.DefaultSettingProfile(Settings.userLoginID);
                     // Calling API to get default settings data for login user.
                     var DBresponse = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
 
-                    if (DBresponse.status != 0)
+                    if (DBresponse != null && DBresponse.status != 0)
                     {
                         Settings.VersionID = DBresponse.data.VersionID;
 
-                        if (PDefaultSettingModel != null && PDefaultSettingModel.status != 0)
+                        if (PDefaultSettingModel != null && PDefaultSettingModel.status != 0 && PDefaultSettingModel.data != null)
                         {
                             // Getting all Label values based on the language Id and version Id from the settings page. 
                             if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
@@ -154,31 +149,34 @@ namespace YPS.ViewModel
                                 }
                             }
 
-                            // Getting company data based on company id from a list of the company.
-                            var companyData = PDefaultSettingModel.data.Company.Where(s => s.ID == DBresponse.data.CompanyID).FirstOrDefault();
-                            CompanyName = companyData.Name;
-                            Settings.CompanyID = companyData.ID;
+                            if (PDefaultSettingModel.data.Company != null && PDefaultSettingModel.data.Company.Count > 0 &&
+                                PDefaultSettingModel.data.Project != null && PDefaultSettingModel.data.Project.Count > 0 &&
+                                PDefaultSettingModel.data.Job != null && PDefaultSettingModel.data.Job.Count > 0)
+                            {
+                                // Getting company data based on company id from a list of the company.
+                                var companyData = PDefaultSettingModel.data.Company.Where(s => s.ID == DBresponse.data.CompanyID).FirstOrDefault();
+                                CompanyName = companyData.Name;
+                                Settings.CompanyID = companyData.ID;
 
-                            // List of company
-                            CompanyList = PDefaultSettingModel.data.Company;
+                                // List of company
+                                CompanyList = PDefaultSettingModel.data.Company;
 
-                            // Getting project data based on project id from a list of the project.
-                            var projectData = PDefaultSettingModel.data.Project.Where(s => s.ID == DBresponse.data.ProjectID).FirstOrDefault();
-                            ProjectName = projectData.Name;
-                            Settings.ProjectID = projectData.ID;
+                                // Getting project data based on project id from a list of the project.
+                                var projectData = PDefaultSettingModel.data.Project.Where(s => s.ID == DBresponse.data.ProjectID).FirstOrDefault();
+                                ProjectName = projectData.Name;
+                                Settings.ProjectID = projectData.ID;
 
-                            // List of project based on company id.
-                            ProjectList = PDefaultSettingModel.data.Project.Where(s => s.ParentID == companyData.ID).ToList();
+                                // List of project based on company id.
+                                ProjectList = PDefaultSettingModel.data.Project.Where(s => s.ParentID == companyData.ID).ToList();
 
-                            // Getting job data based on job id from a list of the job.
-                            var jobData = PDefaultSettingModel.data.Job.Where(s => s.ID == DBresponse.data.JobID).FirstOrDefault();
-                            JobName = jobData.Name;
-                            Settings.JobID = jobData.ID;
+                                // Getting job data based on job id from a list of the job.
+                                var jobData = PDefaultSettingModel.data.Job.Where(s => s.ID == DBresponse.data.JobID).FirstOrDefault();
+                                JobName = jobData.Name;
+                                Settings.JobID = jobData.ID;
 
-                            // List of job based on project id.
-                            JobList = PDefaultSettingModel.data.Job.Where(s => s.ParentID == projectData.ID).ToList();
-
-
+                                // List of job based on project id.
+                                JobList = PDefaultSettingModel.data.Job.Where(s => s.ParentID == projectData.ID).ToList();
+                            }
                         }
                         else
                         {

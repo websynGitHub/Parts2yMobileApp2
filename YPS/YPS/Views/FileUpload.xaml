@@ -123,7 +123,7 @@
                                       SeparatorVisibility="None" BackgroundColor="White" HasUnevenRows="false" RowHeight="150">
                         <flv:FlowListView.FlowColumnTemplate>
                             <DataTemplate>
-                                <Frame Style="{StaticResource ListVFrame}"  BorderColor="{Binding BindingContext.BgColor, Source={x:Reference Name=xFileUpload}}" Margin="0,0,5,0">
+                                <Frame Style="{StaticResource ListVFrame}"  BorderColor="{Binding BindingContext.BgColor, Source={x:Reference Name=xFileUpload}}" Margin="0,0,5,5">
                                     <Grid RowSpacing="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1.8*"/>
@@ -168,7 +168,7 @@
                                       SeparatorVisibility="None" HasUnevenRows="false" RowHeight="150">
                         <flv:FlowListView.FlowColumnTemplate>
                             <DataTemplate >
-                                <Frame Style="{StaticResource ListVFrame}"  BorderColor="{Binding BindingContext.BgColor, Source={x:Reference Name=xFileUpload}}" Margin="0,0,5,0">
+                                <Frame Style="{StaticResource ListVFrame}"  BorderColor="{Binding BindingContext.BgColor, Source={x:Reference Name=xFileUpload}}" Margin="0,0,5,5">
                                     <Grid RowSpacing="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1.8*"/>
