@@ -20,10 +20,10 @@
             </Grid>
             <ContentView x:Name="popupMyCourseView" IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                    <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110">
+                    <Frame Style="{StaticResource FmForActivityIndicator}">
                         <StackLayout Padding="15">
-                            <ActivityIndicator IsRunning="True" x:Name="activityIndicator" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
-                            <Label x:Name="lblLoadingText" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..."></Label>
+                            <ActivityIndicator Style="{StaticResource ActivityIndicatorStyle}"></ActivityIndicator>
+                            <Label x:Name="lblLoadingText" Style="{StaticResource ActivityIndicatorLbl}"/>
                         </StackLayout>
                     </Frame>
                 </StackLayout>
