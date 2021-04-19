@@ -83,7 +83,7 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs" + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID +  " from Api="+ url);
                     await service.Handleexception(ex);
                     throw new Exception("Poor Internet Connection.");
                 }
@@ -116,6 +116,7 @@ namespace YPS.RestClientAPI
         /// <param name="data"></param>
         /// <returns></returns>
         public async Task<TResult> PostAsync<TRequest, TResult>(string url, TRequest data)
+        
         {
             try
             {
@@ -147,7 +148,7 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs" + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
                     await service.Handleexception(ex);
                     throw new Exception("Poor internet connection.");
                 }
@@ -193,7 +194,7 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with three parameters and type string -> in RequestProvider.cs" + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "PostAsync method with three parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
                     await service.Handleexception(ex);
                     throw new Exception("Poor Internet Connection.");
                 }
@@ -235,13 +236,13 @@ namespace YPS.RestClientAPI
                 if (Settings.isExpectedPublicKey == false || ex.Message.ToLower().Replace(" ", null) == EndpointConfiguration.message)
                 {
                     Settings.isExpectedPublicKey = true;
-                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string because of SSL public key mismatch-> in RequestProvider.cs" + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string because of SSL public key mismatch-> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
                     CloudFolderKeyVal.Appredirectloginwithoutlogout(true);
                 }
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs" + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
                     await service.Handleexception(ex);
                     throw new Exception("Poor Internet Connection.");
                 }
@@ -284,13 +285,13 @@ namespace YPS.RestClientAPI
                 if (Settings.isExpectedPublicKey == false || ex.Message.ToLower().Replace(" ", null) == EndpointConfiguration.message)
                 {
                     Settings.isExpectedPublicKey = true;
-                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model because of SSL public key mismatch -> in RequestProvider.cs" + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model because of SSL public key mismatch -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
                     CloudFolderKeyVal.Appredirectloginwithoutlogout(true);
                 }
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs" + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
                     await service.Handleexception(ex);
                     throw new Exception("Poor internet connection.");
                 }
