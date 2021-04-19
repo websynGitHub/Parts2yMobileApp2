@@ -33,6 +33,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                service = new YPSService();
                 InitializeComponent();
                 selectedTagData = selectedtagdata;
                 BindingContext = Vm = new VinInspectionAnswersPageViewModel(Navigation, this, inspectionConfiguration, inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, CarQueVm, VINQueVm, isalldone);
@@ -47,11 +48,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "VinInspectionAnswersPage Constructor -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             try
             {
@@ -60,7 +62,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OnAppearing Constructor -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
@@ -120,12 +123,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked constructor -> in VinInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked Method -> in VinInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
 
-        private void PlaneradioClicked(object sender, EventArgs e)
+        private async void PlaneradioClicked(object sender, EventArgs e)
         {
             try
             {
@@ -143,11 +146,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "PlaneradioClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
-        private void RearRightClicked(object sender, EventArgs e)
+        private async void RearRightClicked(object sender, EventArgs e)
         {
             try
             {
@@ -165,11 +169,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "RearRightClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
-        private void RearLeftClicked(object sender, EventArgs e)
+        private async void RearLeftClicked(object sender, EventArgs e)
         {
             try
             {
@@ -187,11 +192,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "RearLeftClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
-        private void FrontRightClicked(object sender, EventArgs e)
+        private async void FrontRightClicked(object sender, EventArgs e)
         {
             try
             {
@@ -210,11 +216,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "FrontRightClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
-        private void FrontLeftClicked(object sender, EventArgs e)
+        private async void FrontLeftClicked(object sender, EventArgs e)
         {
             try
             {
@@ -233,7 +240,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "FrontLeftClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
     }

@@ -24,13 +24,15 @@ namespace YPS.Parts2y.Parts2y_Views
         POChildListPageViewModel Vm;
         public static Timer loadertimer;
         YPSService trackService;
+
         public POChildListPage(ObservableCollection<AllPoData> potag, SendPodata sendpodata)
         {
             try
             {
+                trackService = new YPSService();
                 InitializeComponent();
                 Settings.refreshPage = 1;
-                trackService = new YPSService();
+
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
                 if (Settings.VersionID == 5 || Settings.VersionID == 1)
@@ -55,27 +57,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
 
                 Settings.refreshPage = 1;
-
-                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                //{
-                //    imgCamera.Opacity = imgChat.Opacity = imgFileUpload.Opacity = imgPrinter.Opacity = 0.5;
-                //    CameraLbl.Opacity = ChatLbl.Opacity = FileUploadLbl.Opacity = PrinterLbl.Opacity = 0.5;
-                //    stckCamera.GestureRecognizers.Clear();
-                //    stckFileUpload.GestureRecognizers.Clear();
-                //    stckChat.GestureRecognizers.Clear();
-                //    stckPrinter.GestureRecognizers.Clear();
-                //}
-                //else if (Settings.userRoleID == (int)UserRoles.CustomerAdmin || Settings.userRoleID == (int)UserRoles.CustomerUser)
-                //{
-                //    picRequiredStk1.IsVisible = picRequiredStk2.IsVisible = true;
-                //}
-
-                //if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                //{
-                //    imgPrinter.Opacity = 0.5;
-                //    PrinterLbl.Opacity = 0.5;
-                //    stckPrinter.GestureRecognizers.Clear();
-                //}
 
                 #region Subscribing MessageCenter
                 //MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseCount", (sender, args) =>
@@ -182,7 +163,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 });
 
                 #endregion
-                //ChildDataList.ItemTapped += (s, e) => ChildDataList.SelectedItem = null;
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
@@ -213,7 +193,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "POChildListPage Constructor -> in POChildListPage.xaml.cs " + Settings.userLoginID);
+                Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
 

@@ -15,7 +15,7 @@ namespace YPS.ViewModel
     public class CheckInterNetConnModelVew : IBase
     {
         /// Declaring ICommand.
-        public ICommand CheckConnectionBtn { get; set; } 
+        public ICommand CheckConnectionBtn { get; set; }
 
         /// <summary>
         /// Parameter less constructor
@@ -49,28 +49,30 @@ namespace YPS.ViewModel
 
                 if (conn)
                 {
-                    RememberPwdDB Db = new RememberPwdDB();
-                    var user = Db.GetUserDetails();
+                    //RememberPwdDB Db = new RememberPwdDB();
+                    //var user = Db.GetUserDetails();
 
-                    if (user.Count == 1)
-                    {
-                        var userData = user.FirstOrDefault();
-                        Settings.userLoginID = userData.UserId;
-                        Settings.userRoleID = userData.UserRollID;
-                        Settings.UserMail = userData.Email;
-                        Settings.Username = userData.UserName;
-                        Settings.SGivenName = userData.GivenName;
-                        Settings.EntityName = userData.EntityName;
-                        Settings.RoleName = userData.RoleName;
-                        Settings.BlobStorageConnectionString = userData.BlobConnection;
-                        Settings.PhotoSize = userData.PhotoSize;
-                        Settings.CompressionQuality = userData.CompressionQuality;
-                        App.Current.MainPage = new MenuPage(typeof(HomePage));
-                    }
-                    else
-                    {
-                        await Application.Current.MainPage.Navigation.PushAsync(new YPS.Views.LoginPage(), true);
-                    }
+                    //if (user.Count == 1)
+                    //{
+                    //    var userData = user.FirstOrDefault();
+                    //    Settings.userLoginID = userData.UserId;
+                    //    Settings.userRoleID = userData.UserRollID;
+                    //    Settings.UserMail = userData.Email;
+                    //    Settings.Username = userData.UserName;
+                    //    Settings.SGivenName = userData.GivenName;
+                    //    Settings.EntityName = userData.EntityName;
+                    //    Settings.RoleName = userData.RoleName;
+                    //    Settings.BlobStorageConnectionString = userData.BlobConnection;
+                    //    Settings.PhotoSize = userData.PhotoSize;
+                    //    Settings.CompressionQuality = userData.CompressionQuality;
+                    //    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                    //}
+                    //else
+                    //{
+                    //    await Application.Current.MainPage.Navigation.PushAsync(new YPS.Views.LoginPage(), true);
+                    //}
+                    await App.GetSSLKeysAndUserDetails();
+                    //App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
                 else
                 {

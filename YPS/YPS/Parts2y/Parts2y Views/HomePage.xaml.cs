@@ -25,10 +25,9 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                trackService = new YPSService();
                 InitializeComponent();
 
-
-                trackService = new YPSService();
                 BindingContext = Vm = new DashboardViewModel(Navigation);
 
                 Vm.IsPNenable = Settings.IsPNEnabled;
@@ -51,7 +50,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                Task.Run(() => trackService.Handleexception(ex)).Wait();
+                YPSLogger.ReportException(ex, "HomePage Constructor-> in HomePage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -76,7 +76,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Notification_Tap method -> in HomePage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Notification_Tap method -> in HomePage.xaml.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
                 Vm.loadindicator = false;
                 //UserDialogs.Instance.HideLoading();
@@ -101,7 +101,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in Main Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in MainPage.xaml.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
                 Vm.loadindicator = false;
             }

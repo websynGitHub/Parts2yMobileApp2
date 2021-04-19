@@ -25,8 +25,8 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                InitializeComponent();
                 trackService = new YPSService();
+                InitializeComponent();
                 BindingContext = Vm = new CompareViewModel(Navigation, this, false);
                 //int count = 1;
                 //Vm.compareHistoryList = new List<CompareHistoryList>()
@@ -56,7 +56,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "Compare Constructor -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
 
@@ -65,33 +66,11 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 BindingContext = Vm = new CompareViewModel(Navigation, this, true);
-                //Vm.historySerialNo = 1;
-                //Vm.compareList.Clear();
-                //Vm.compareHistoryList.Clear();
-                //Vm.latestCompareHistoryList.Clear();
-                //Vm.showLatestViewFrame = false;
-                //Vm.showCurrentStatus = false;
-                //Vm.ScannedValueA = "";
-                //Vm.ScannedValueB = "";
-                //Vm.isMatch = "UNMATCHED";
-                //Vm.isMatchImage = "unmatch.png";
-                //Vm.isScannedA = "cross.png";
-                //Vm.isScannedB = "cross.png";
-                //Vm.resultA = "";
-                //Vm.resultB = "";
-                //Vm.isShowMatch = false;
-                //Vm.opacityB = 0.50;
-                //Vm.opacityA = 1;
-                //Vm.isEnableAFrame = true;
-                //Vm.isEnableBFrame = false;
-                //Vm.showScanHistory = false;
-                //Vm.showLatestViewFrame = false;
-                //Vm.showCurrentStatus = false;
-
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ClearHistory Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
@@ -108,10 +87,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "Back_Tapped Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
-        private void ViewHistory(object sender, EventArgs e)
+        private async void ViewHistory(object sender, EventArgs e)
         {
             try
             {
@@ -139,11 +120,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ViewHistory Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
-        private void HideHistory(object sender, EventArgs e)
+        private async void HideHistory(object sender, EventArgs e)
         {
             try
             {
@@ -151,23 +133,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "HideHistory Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
-        //private void ShowPicker(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        scanrulepicker.Focus();
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-
-        private void TotalEntryTextChanged(object sender, TextChangedEventArgs e)
+        private async void TotalEntryTextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -175,7 +146,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "TotalEntryTextChanged Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
@@ -203,13 +175,9 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "SaveClick Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
-        }
-
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-
         }
     }
 }

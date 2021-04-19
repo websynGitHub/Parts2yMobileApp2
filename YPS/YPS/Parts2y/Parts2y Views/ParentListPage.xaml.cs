@@ -44,6 +44,10 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                trackService = new YPSService();
+
+                YPSLogger.TrackEvent("MainPage", "Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
                 InitializeComponent();
 
                 BindingContext = Vm = new ParentListViewModel(Navigation, this);
@@ -71,49 +75,10 @@ namespace YPS.Parts2y.Parts2y_Views
                 lastButtonCount = 0;
                 isloading = false;
                 iscalled = false;
-                YPSLogger.TrackEvent("MainPage", "Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "MainPage";
                 Settings.PerviousPage = "MainPage1";
                 Settings.countmenu = 1;
                 Settings.QAType = (int)QAType.PT;
-                //Vm.IsPNenable = Settings.IsPNEnabled;
-
-                trackService = new YPSService();
-
-
-                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                //{
-                //    //imgCamera.Opacity = imgChat.Opacity = imgFileUpload.Opacity = imgPrinter.Opacity = 0.5;
-                //    //CameraLbl.Opacity = ChatLbl.Opacity = FileUploadLbl.Opacity = PrinterLbl.Opacity = 0.5;
-                //    //stckCamera.GestureRecognizers.Clear();
-                //    //stckFileUpload.GestureRecognizers.Clear();
-                //    //stckChat.GestureRecognizers.Clear();
-                //    //stckPrinter.GestureRecognizers.Clear();
-                //    Vm.IsPNenable = false;
-                //}
-
-
-                //else if (Settings.userRoleID == (int)UserRoles.CustomerAdmin || Settings.userRoleID == (int)UserRoles.CustomerUser)
-                //{
-                //    picRequiredStk1.IsVisible = picRequiredStk2.IsVisible = true;
-                //}
-
-                //if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                //{
-                //    imgPrinter.Opacity = 0.5;
-                //    PrinterLbl.Opacity = 0.5;
-                //    stckPrinter.GestureRecognizers.Clear();
-                //}
-
-
-                //if (Settings.userRoleID == (int)UserRoles.OwnerAdmin)
-                //{
-                //    Vm.Archivedchat = true;
-                //}
-                //else
-                //{
-                //    //SetHeightOfFrame.HeightRequest = 100;
-                //}
 
                 #region Assigning method that must execute when page is loaded, for binding gestures
                 loadertimer = new System.Timers.Timer();
@@ -122,12 +87,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 loadertimer.AutoReset = false;
                 loadertimer.Enabled = true;
                 #endregion
-
-
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ParentListPage Constructor -> in ParentListPage.cs " + Settings.userLoginID);
+                Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
 

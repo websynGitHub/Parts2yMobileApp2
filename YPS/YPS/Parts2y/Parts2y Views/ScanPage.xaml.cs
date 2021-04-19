@@ -31,6 +31,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                yPSService = new YPSService();
                 InitializeComponent();
 
                 if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
@@ -41,11 +42,12 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-                yPSService = new YPSService();
                 BindingContext = Vm = new ScanPageViewModel(Navigation, uploadtype, selectedtagdata, isinitialphoto, selectepotagdata, this);
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "ScanPage Constructor -> in ScanPage.xaml.cs " + Settings.userLoginID);
+                Task.Run(() => yPSService.Handleexception(ex)).Wait();
             }
         }
 
@@ -72,7 +74,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OnAppearing Method -> in ScanPage.xaml.cs " + Settings.userLoginID);
+                await yPSService.Handleexception(ex);
             }
         }
         /// <summary>
@@ -80,7 +83,7 @@ namespace YPS.Parts2y.Parts2y_Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Back_Tapped(object sender, EventArgs e)
+        private async void Back_Tapped(object sender, EventArgs e)
         {
             try
             {
@@ -88,8 +91,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped method -> in ScanPage.cs " + Settings.userLoginID);
-                yPSService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in ScanPage.xaml.cs " + Settings.userLoginID);
+                await yPSService.Handleexception(ex);
             }
         }
     }

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using YPS.Parts2y.Parts2y_Common_Classes;
+//using YPS.Parts2y.Parts2y_Common_Classes;
 using YPS.Parts2y.Parts2y_Models;
 using YPS.CustomToastMsg;
 using YPS.Service;
 using YPS.Views;
 using YPS.CommonClasses;
+using YPS.Helpers;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -27,15 +28,15 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                service = new YPSService();
                 InitializeComponent();
+
                 if (PageName != null)
                 {
                     Page displayPage = (Page)Activator.CreateInstance(PageName);
                     this.MasterBehavior = MasterBehavior.Popover;
                     Detail = new NavigationPage(displayPage)
                     {
-                        //BackgroundColor = Color.FromHex("#0d0d0d"),
-                        //BackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
                         BarBackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
                         BarTextColor = Color.White
                     };
@@ -44,8 +45,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     Detail = new NavigationPage(new HomePage())
                     {
-                        //BackgroundColor = Color.FromHex("#0d0d0d"),
-                        //BackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
                         BarBackgroundColor = YPS.CommonClasses.Settings.Bar_Background,
                         BarTextColor = Color.White,
                     };
@@ -54,7 +53,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "MenuPage Constructor -> in MenuPage.xaml.cs " + Settings.userLoginID);
+                Task.Run(() => service.Handleexception(ex));
             }
 
         }
@@ -138,9 +138,9 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "MenuItems_ItemTapped Method -> in MenuPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
-
         }
     }
 }

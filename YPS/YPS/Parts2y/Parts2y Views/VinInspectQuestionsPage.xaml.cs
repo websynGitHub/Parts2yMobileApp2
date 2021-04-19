@@ -31,8 +31,8 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                InitializeComponent();
                 service = new YPSService();
+                InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 selectedTagData = selectedtagdata;
 
@@ -48,7 +48,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "VinInspectQuestionsPage Constructor -> in VinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
+                Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
 
@@ -75,7 +76,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OnAppearing OnAppearing -> in VinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
@@ -116,29 +118,27 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked constructor -> in VinInspectQuestionsPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked Method -> in VinInspectQuestionsPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
 
         private async void ConfirmSignatureTapped(object sender, EventArgs e)
         {
-
             try
             {
                 byte[] result;
                 var strokes = PadView.Strokes;
                 Stream image = await PadView.GetImageStreamAsync(SignatureImageFormat.Png);
+
                 if (image != null)
                 {
-                    //List<SignatureImagesModel> signature = new List<SignatureImagesModel>();
-
-                    //var val = DependencyService.Get<ISaveImage>().OnSaveSignature(image,"Signature_Downloads");
                     using (MemoryStream ms = new MemoryStream())
                     {
                         image.CopyTo(ms);
                         result = ms.ToArray();
                         string base64 = Convert.ToBase64String(result);
+
                         if (result != null)
                         {
                             InspectionResultsList inspobj = new InspectionResultsList
@@ -177,32 +177,6 @@ namespace YPS.Parts2y.Parts2y_Views
                             Vm.SignaturePadPopup = false;
                             Vm.SignTabVisibility = true;
                             PadView.Clear();
-
-                            //else
-                            //{
-                            //    //if (Vm.AuditorImageSign != null)
-                            //    //{
-                            //    //    byte[] Base64Stream = Convert.FromBase64String(base64);
-                            //    //    Vm.result[0].signatureSupervisorBase64 = Base64Stream;
-                            //    //    Vm.result[0].Vindata.PDICompleted = DateTime.Now.ToString("h:mm");
-                            //    //    Vm.result[0].Vindata.Load = DateTime.Now.ToString("h:mm");
-                            //    //    Vm.SupervisorImageSign = ImageSource.FromStream(() => new MemoryStream(Base64Stream));
-
-                            //    //    if (Vm.SupervisorImageSign != null)
-                            //    //    {
-                            //    //        Vm.OkToLoadColor = Settings.Bar_Background;
-                            //    //        Vm.OkayToGoEnable = true;
-                            //    //    }
-                            //    //    Vm.SignaturePadPopup = false;
-                            //    //    PadView.Clear();
-                            //    //}
-                            //    //else
-                            //    //{
-                            //    //    PadView.Clear();
-                            //    //    App.Current.MainPage.DisplayAlert("Alert", "Please complete Auditor's signature", "Ok");
-                            //    //}
-                            //}
-
                         }
                         else
                         {
@@ -218,7 +192,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ConfirmSignatureTapped OnAppearing -> in VinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
     }

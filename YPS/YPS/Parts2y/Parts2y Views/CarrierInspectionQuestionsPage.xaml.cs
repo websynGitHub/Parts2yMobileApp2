@@ -29,8 +29,8 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                InitializeComponent();
                 service = new YPSService();
+                InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 SelectedPodataList = selectedpodatalist;
 
@@ -46,7 +46,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "CarrierInspectionQuestionsPage Constructor -> in CarrierInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                Task.Run(() => service.Handleexception(ex));
             }
         }
 
@@ -68,7 +69,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OnAppearing Method -> in CarrierInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
@@ -77,7 +79,6 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-
                 if (SelectedPodataList[0].TaskID != 0)
                 {
 
@@ -112,6 +113,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 byte[] result;
                 var strokes = PadView.Strokes;
                 Stream image = await PadView.GetImageStreamAsync(SignatureImageFormat.Png);
+
                 if (image != null)
                 {
                     using (MemoryStream ms = new MemoryStream())
@@ -204,7 +206,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ConfirmSignatureTapped Method -> in CarrierInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
     }

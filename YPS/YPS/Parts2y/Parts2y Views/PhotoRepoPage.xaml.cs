@@ -31,8 +31,8 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                InitializeComponent();
                 yPSService = new YPSService();
+                InitializeComponent();
                 BindingContext = Vm = new PhotoRepoPageViewModel(Navigation, this);
 
                 if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
@@ -48,7 +48,7 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "PhotoRepoPage constructor -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
-                yPSService.Handleexception(ex);
+                Task.Run(() => yPSService.Handleexception(ex)).Wait();
                 Vm.IndicatorVisibility = false;
             }
             Vm.IndicatorVisibility = false;

@@ -24,10 +24,11 @@ namespace YPS.Parts2y.Parts2y_Views
         bool checkInternet;
         #endregion
 
-        public InspVerificationScanPage(AllPoData selectedtagdata,bool isalldone)
+        public InspVerificationScanPage(AllPoData selectedtagdata, bool isalldone)
         {
             try
             {
+                yPSService = new YPSService();
                 InitializeComponent();
 
                 if (Device.RuntimePlatform == Device.iOS)
@@ -38,13 +39,12 @@ namespace YPS.Parts2y.Parts2y_Views
                     headerpart.Padding = safeAreaInset;
                 }
 
-
-                yPSService = new YPSService();
                 BindingContext = Vm = new InspVerificationScanViewModel(Navigation, selectedtagdata, isalldone, this);
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "InspVerificationScanPage Constructor -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                Task.Run(() => yPSService.Handleexception(ex)).Wait();
             }
         }
 
@@ -72,7 +72,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OnAppearing Method -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await yPSService.Handleexception(ex);
             }
         }
 
@@ -81,16 +82,16 @@ namespace YPS.Parts2y.Parts2y_Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Back_Tapped(object sender, EventArgs e)
+        private async void Back_Tapped(object sender, EventArgs e)
         {
             try
             {
-                Navigation.PopAsync();
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped method -> in ScanPage.cs " + Settings.userLoginID);
-                yPSService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Back_Tapped Method -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await yPSService.Handleexception(ex);
             }
         }
     }

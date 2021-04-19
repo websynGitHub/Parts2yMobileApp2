@@ -58,7 +58,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DashboardViewModel constructor -> in DashboardViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DashboardViewModel constructor -> in DashboardViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -77,7 +77,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "TabChange method -> in DashboardViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -163,7 +163,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RememberUserDetails method -> in DashboardViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RememberUserDetails method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -196,7 +196,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RedirectToPage method -> in DashboardViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RedirectToPage method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -250,7 +250,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetPNCount method -> in DashboardViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetPNCount method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -258,7 +258,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This method get all label texts, used in the app.
         /// </summary>
-        public async void GetallApplabels()
+        public async Task GetallApplabels()
         {
             try
             {
@@ -296,7 +296,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetallApplabels method -> in DashboardViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetallApplabels method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -304,7 +304,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This method is to get the status of actions present in application.
         /// </summary>
-        public async void GetActionStatus()
+        public async Task GetActionStatus()
         {
             try
             {
@@ -331,7 +331,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This is for changing the labels dynamically
         /// </summary>
-        public async void ChangeLabel()
+        public async Task ChangeLabel()
         {
             try
             {
@@ -387,21 +387,29 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in DashboardViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in DashboardViewModel.cs " + Settings.userLoginID);
             }
         }
 
-        private async void GetQuestions()
+        private async Task GetQuestions()
         {
-            var checkInternet = await App.CheckInterNetConnection();
-
-            if (checkInternet)
+            try
             {
-                var configurationResult = await trackService.GetAllMInspectionConfigurations();
-                if (configurationResult != null && configurationResult.data != null)
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
                 {
-                    Settings.allInspectionConfigurations = configurationResult.data;
+                    var configurationResult = await trackService.GetAllMInspectionConfigurations();
+                    if (configurationResult != null && configurationResult.data != null)
+                    {
+                        Settings.allInspectionConfigurations = configurationResult.data;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetQuestions method -> in DashboardViewModel.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 

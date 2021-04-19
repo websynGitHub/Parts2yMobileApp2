@@ -31,10 +31,10 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                yPSService = new YPSService();
                 InitializeComponent();
 
                 BindingContext = Vm = new LinkPageViewModel(Navigation, photorepolist, this);
-
 
                 if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
                 {
@@ -47,7 +47,7 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "LinkPage constructor -> in LinkPage.xaml.cs " + Settings.userLoginID);
-                yPSService.Handleexception(ex);
+                Task.Run(() => yPSService.Handleexception(ex)).Wait();
                 Vm.IndicatorVisibility = false;
             }
         }
@@ -73,8 +73,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing constructor -> in LinkPage.xaml.cs  " + Settings.userLoginID);
-                yPSService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "OnAppearing Method -> in LinkPage.xaml.cs  " + Settings.userLoginID);
+                await yPSService.Handleexception(ex);
             }
         }
 
@@ -93,7 +93,7 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "Back_Tapped method -> in LinkPage.xaml.cs " + Settings.userLoginID);
-                yPSService.Handleexception(ex);
+                await yPSService.Handleexception(ex);
                 Vm.IndicatorVisibility = false;
             }
             Vm.IndicatorVisibility = false;
