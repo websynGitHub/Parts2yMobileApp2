@@ -196,13 +196,20 @@ namespace YPS.CustomToastMsg
 
                 if (!Settings.IsIIJEnabled)
                 {
-                    App.Current.MainPage = new NavigationPage(new LoginPage());
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        App.Current.MainPage = new NavigationPage(new LoginPage());
+                    });
                 }
                 else
                 {
                     if (OAuthConfig.User == null)
                     {
-                        App.Current.MainPage = new NavigationPage(new ProviderLoginPage());
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            App.Current.MainPage = new NavigationPage(new ProviderLoginPage());
+                        }
+                        );
                     }
                 }
                 //var Logoutresult = await service.LogoutService();
@@ -291,7 +298,7 @@ namespace YPS.CustomToastMsg
         //public static string Appcenter_droid { get; set; } = "android=ebfaf0cf-af6f-4f28-a6c9-642352279430;";
         //public static string Appcenter_iOS { get; set; } = "ios=37be6471-dc83-405d-b62f-e796ae44267d;";
         /////public static string Bdchk { get; set; } = "DprjHRPut1l2lsH4K5tRcw==";///old key 
-        //public static string Bdchk { get; set; } = "BzrCZM9KiA31bPvjUJJNmA=="; 
+        //public static string Bdchk { get; set; } = "BzrCZM9KiA31bPvjUJJNmA==";
         //public static string blob { get; set; } = "https://azrbsa026dv00a.blob.core.windows.net/";
 
         #endregion

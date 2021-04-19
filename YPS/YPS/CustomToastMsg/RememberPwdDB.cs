@@ -60,14 +60,14 @@ namespace YPS.CustomToastMsg
         {
             try
             {
-                var data = _sqlconnection.Table<RememberPwd>().ToList();
-                var getUpdate = data.Where(wr => (Convert.ToInt32(EncryptManager.Decrypt(wr.encUserId))) == ID).FirstOrDefault();
-                getUpdate.tagnamelabel = user.tagnamelabel;
-                getUpdate.descrptionlabel = user.descrptionlabel;
-                getUpdate.GivenName = user.GivenName;
-                getUpdate.SelectedScanRule = user.SelectedScanRule;
-                getUpdate.EnteredScanTotal = user.EnteredScanTotal;
-                _sqlconnection.Update(getUpdate);
+                var data = _sqlconnection?.Table<RememberPwd>()?.ToList();
+                var getUpdate = data?.Where(wr => (Convert.ToInt32(EncryptManager.Decrypt(wr.encUserId))) == ID).FirstOrDefault();
+                getUpdate.tagnamelabel = user?.tagnamelabel;
+                getUpdate.descrptionlabel = user?.descrptionlabel;
+                getUpdate.GivenName = user?.GivenName;
+                getUpdate.SelectedScanRule = user?.SelectedScanRule;
+                getUpdate.EnteredScanTotal = user?.EnteredScanTotal;
+                _sqlconnection?.Update(getUpdate);
             }
             catch (Exception ex)
             {
