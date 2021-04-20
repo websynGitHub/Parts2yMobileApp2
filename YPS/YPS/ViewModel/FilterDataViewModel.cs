@@ -447,7 +447,7 @@ namespace YPS.ViewModel
                 if (Settings.DisciplineID != 0)
                 {
                     var name = DisciplineList.Where(x => x.ID == Settings.DisciplineID).FirstOrDefault();
-                    DisciplineDefaultValue = Settings.DisciplineName = name.Name;
+                    DisciplineDefaultValue = Settings.DisciplineName = name?.Name;
                 }
                 else
                 {
@@ -457,7 +457,7 @@ namespace YPS.ViewModel
                 if (Settings.ResourceID != 0)
                 {
                     var name = Resourcelist.Where(x => x.ID == Settings.ResourceID).FirstOrDefault();
-                    ResourceDefaultValue = Settings.ResourceName = name.Name;
+                    ResourceDefaultValue = Settings.ResourceName = name?.Name;
                 }
                 else
                 {
@@ -467,7 +467,7 @@ namespace YPS.ViewModel
                 if (Settings.ELevelID != 0)
                 {
                     var name = ELevelList.Where(x => x.ID == Settings.ELevelID).FirstOrDefault();
-                    ELevelDefaultValue = Settings.ELevelName = name.Name;
+                    ELevelDefaultValue = Settings.ELevelName = name?.Name;
                 }
                 else
                 {
@@ -477,7 +477,7 @@ namespace YPS.ViewModel
                 if (Settings.ConditionID != 0)
                 {
                     var name = Conditionlist.Where(x => x.ID == Settings.ConditionID).FirstOrDefault();
-                    ConditionDefaultValue = Settings.ConditionName = name.Name;
+                    ConditionDefaultValue = Settings.ConditionName = name?.Name;
                 }
                 else
                 {
@@ -487,7 +487,7 @@ namespace YPS.ViewModel
                 if (Settings.ExpeditorID != 0)
                 {
                     var name = Expeditorlist.Where(x => x.ID == Settings.ExpeditorID).FirstOrDefault();
-                    ExpeditorDefaultValue = Settings.ExpeditorName = name.Name;
+                    ExpeditorDefaultValue = Settings.ExpeditorName = name?.Name;
                 }
                 else
                 {
@@ -497,7 +497,7 @@ namespace YPS.ViewModel
                 if (Settings.PriorityID != 0)
                 {
                     var name = PriorityList.Where(x => x.ID == Settings.PriorityID).FirstOrDefault();
-                    PriorityDefaultValue = Settings.PriorityName = name.Name;
+                    PriorityDefaultValue = Settings.PriorityName = name?.Name;
                 }
                 else
                 {
@@ -683,31 +683,31 @@ namespace YPS.ViewModel
 
                         //Changing label & Show/Hide fields
                         labelobj.PO.Name = poval != null ? poval.LblText : "Purchase#";
-                        POHeight = (labelobj.PO.Status = (poval == null ? true : false) || (poval != null && poval.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.PO.Status = (poval == null ? true : false) || (poval != null && poval.Status == 1) ? true : false;
                         labelobj.REQNo.Name = REQNo != null ? REQNo.LblText : "REQ#";
-                        REQHeight = (labelobj.REQNo.Status = (REQNo == null ? true : false) || (REQNo != null && REQNo.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.REQNo.Status = (REQNo == null ? true : false) || (REQNo != null && REQNo.Status == 1) ? true : false;
                         labelobj.ShippingNumber.Name = ShippingNumber != null ? ShippingNumber.LblText : "Shipping#";
-                        ShippingHeight = (labelobj.ShippingNumber.Status = (ShippingNumber == null ? true : false) || (ShippingNumber != null && ShippingNumber.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.ShippingNumber.Status = (ShippingNumber == null ? true : false) || (ShippingNumber != null && ShippingNumber.Status == 1) ? true : false;
                         labelobj.DisciplineName.Name = DisciplineName != null ? DisciplineName.LblText : "Discipline";
-                        DisciplineNameHeight = (labelobj.DisciplineName.Status = (DisciplineName == null ? true : false) || ((DisciplineName != null && DisciplineName.Status == 1) ? true : false)) == true ? 55 : 0;
+                        labelobj.DisciplineName.Status = (DisciplineName == null ? true : false) || ((DisciplineName != null && DisciplineName.Status == 1) ? true : false);
                         labelobj.ELevelName.Name = ELevelName != null ? ELevelName.LblText : "ELeavel";
-                        ELevelNameHeight = (labelobj.ELevelName.Status = (ELevelName == null ? true : false) || (ELevelName != null && ELevelName.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.ELevelName.Status = (ELevelName == null ? true : false) || (ELevelName != null && ELevelName.Status == 1) ? true : false;
                         labelobj.Condition.Name = Condition != null ? Condition.LblText : "Condition";
-                        ConditionHeight = (labelobj.Condition.Status = (Condition == null ? true : false) || (Condition != null && Condition.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.Condition.Status = (Condition == null ? true : false) || (Condition != null && Condition.Status == 1) ? true : false;
                         labelobj.Expeditor.Name = Expeditor != null ? Expeditor.LblText : "Expeditor";
-                        ExpeditorHeight = (labelobj.Expeditor.Status = (Expeditor == null ? true : false) || (Expeditor != null && Expeditor.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.Expeditor.Status = (Expeditor == null ? true : false) || (Expeditor != null && Expeditor.Status == 1) ? true : false;
                         labelobj.PriorityName.Name = PriorityName != null ? PriorityName.LblText : "Priority";
-                        PriorityNameHeight = (labelobj.PriorityName.Status = (PriorityName == null ? true : false) || (PriorityName != null && PriorityName.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.PriorityName.Status = (PriorityName == null ? true : false) || (PriorityName != null && PriorityName.Status == 1) ? true : false;
                         labelobj.TagNumber.Name = TagNumber != null ? TagNumber.LblText : "Tag#";
-                        TagNumberHeight = (labelobj.TagNumber.Status = (TagNumber == null ? true : false) || (TagNumber != null && TagNumber.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.TagNumber.Status = (TagNumber == null ? true : false) || (TagNumber != null && TagNumber.Status == 1) ? true : false;
                         labelobj.IdentCode.Name = IdentCode != null ? IdentCode.LblText : "Ident Code";
-                        IdentCodeHeight = (labelobj.IdentCode.Status = (IdentCode == null ? true : false) || (IdentCode != null && IdentCode.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.IdentCode.Status = (IdentCode == null ? true : false) || (IdentCode != null && IdentCode.Status == 1) ? true : false;
                         labelobj.BagNumber.Name = BagNumber != null ? BagNumber.LblText : "Outer Package";
-                        BagNumberHeight = (labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false;
                         labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
-                        yBkgNumberHeight = (labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false) == true ? 55 : 0;
+                        labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false;
                         labelobj.JobName.Name = jobname != null ? jobname.LblText : "Job Name";
-                        TaskNameHeight = (labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false) == true ? 55 : 0; ;
+                        labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
                         //labelobj.ResourceName.Status = (resourcename == null ? true : false) || (resourcename != null && resourcename.Status == 1) ? true : false;
 
@@ -749,148 +749,7 @@ namespace YPS.ViewModel
         }
 
         #region Properties
-        private int _POHeight = 55;
-        public int POHeight
-        {
-            get { return _POHeight; }
-            set
-            {
-                _POHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
 
-        private int _REQHeight = 55;
-        public int REQHeight
-        {
-            get { return _REQHeight; }
-            set
-            {
-                _REQHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _ShippingHeight = 55;
-        public int ShippingHeight
-        {
-            get { return _ShippingHeight; }
-            set
-            {
-                _ShippingHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _DisciplineNameHeight = 55;
-        public int DisciplineNameHeight
-        {
-            get { return _DisciplineNameHeight; }
-            set
-            {
-                _DisciplineNameHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _ELevelNameHeight = 55;
-        public int ELevelNameHeight
-        {
-            get { return _ELevelNameHeight; }
-            set
-            {
-                _ELevelNameHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _ConditionHeight = 55;
-        public int ConditionHeight
-        {
-            get { return _ConditionHeight; }
-            set
-            {
-                _ConditionHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _ExpeditorHeight = 55;
-        public int ExpeditorHeight
-        {
-            get { return _ExpeditorHeight; }
-            set
-            {
-                _ExpeditorHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _PriorityNameHeight = 55;
-        public int PriorityNameHeight
-        {
-            get { return _PriorityNameHeight; }
-            set
-            {
-                _PriorityNameHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _TagNumberHeight = 55;
-        public int TagNumberHeight
-        {
-            get { return _TagNumberHeight; }
-            set
-            {
-                _TagNumberHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _IdentCodeHeight = 55;
-        public int IdentCodeHeight
-        {
-            get { return _IdentCodeHeight; }
-            set
-            {
-                _IdentCodeHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _BagNumberHeight = 55;
-        public int BagNumberHeight
-        {
-            get { return _BagNumberHeight; }
-            set
-            {
-                _BagNumberHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _yBkgNumberHeight = 55;
-        public int yBkgNumberHeight
-        {
-            get { return _yBkgNumberHeight; }
-            set
-            {
-                _yBkgNumberHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _TaskNameHeight = 55;
-        public int TaskNameHeight
-        {
-            get { return _TaskNameHeight; }
-            set
-            {
-                _TaskNameHeight = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
