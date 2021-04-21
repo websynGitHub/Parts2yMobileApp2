@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-//using System.Drawing;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -16,20 +15,19 @@ using YPS.Service;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    public class CarrierInspectionQuestionsViewModel : IBase
+    public class LoadInspectionQuestionViewModel : IBase
     {
         #region IComman and data members declaration
         SendPodata sendPodata = new SendPodata();
         public INavigation Navigation { get; set; }
         public ICommand Backevnttapped { set; get; }
-        public ICommand InspTabCmd { set; get; }
+        public ICommand LoadInspTabCmd { set; get; }
         public ICommand SignalTabCmd { set; get; }
         public ICommand QuestionClickCommand { get; set; }
         ObservableCollection<AllPoData> SelectedPodataList;
         public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
-        CarrierInspectionQuestionsPage pageName;
+        LoadInspectionQuestionPage pageName;
         YPSService trackService;
-        //int tagId;
         int taskid;
         bool IsAllTagsDone;
         List<InspectionResultsList> inspectionResultsLists;
@@ -41,7 +39,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand HideSignaturePadCmd { get; set; }
         #endregion
 
-        public CarrierInspectionQuestionsViewModel(INavigation _Navigation, CarrierInspectionQuestionsPage pagename, ObservableCollection<AllPoData> selectedpodatalist, bool isalltagdone)
+        public LoadInspectionQuestionViewModel(INavigation _Navigation, LoadInspectionQuestionPage pagename, ObservableCollection<AllPoData> selectedpodatalist, bool isalltagdone)
         {
             try
             {
@@ -49,7 +47,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService = new YPSService();
                 pageName = pagename;
                 SelectedPodataList = selectedpodatalist;
-                //this.tagId = SelectedPodataList[0].POTagID;
                 taskid = SelectedPodataList[0].TaskID;
                 IsAllTagsDone = isalltagdone;
                 PONumber = SelectedPodataList[0].PONumber;
@@ -60,105 +57,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IsResourcecVisible = SelectedPodataList[0].TaskResourceID == Settings.userLoginID ? false : true;
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
-                InspTabCmd = new Command(InspTabClicked);
+                LoadInspTabCmd = new Command(LoadInspTabClicked);
                 SignalTabCmd = new Command(SignTabClicked);
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
-                SignatureCmd = new Command(SignaturePadShowHide);
-                HideSignaturePadCmd = new Command(SignaturePadShowHide);
 
 
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => GetQuestionsLIst()).Wait();
-                //Task.Run(() => GetInspSignature()).Wait();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CarrierInspectionQuestionsViewModel constructor -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-        }
-
-        public async Task GetInspSignature()
-        {
-            try
-            {
-                var signature = await trackService.GetInspSignatureByTask(taskid);
-
-                if (signature != null && signature.status == 1)
-                {
-                    var supervisorimagesignCBU = signature.data.listData.
-                                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinSupervisor).
-                                            Select(c => c.Signature).FirstOrDefault();
-
-                    var auditorimagesignCBU = signature.data.listData.
-                      Where(wr => wr.SignType == (int)InspectionSignatureType.VinAuditor).
-                      Select(c => c.Signature).FirstOrDefault();
-
-                    var supervisorimagesignCarrier = signature.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierSupervisor).
-                        Select(c => c.Signature).FirstOrDefault();
-
-                    var auditorimagesignCarrier = signature.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierAuditor).
-                        Select(c => c.Signature).FirstOrDefault();
-
-                    SupervisorImageSignCBU = supervisorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCBU))) :
-                        null;
-
-                    AuditorImageSignCBU = auditorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCBU))) :
-                    null;
-
-                    SupervisorImageSignCarrier = supervisorimagesignCarrier != null ?
-                    ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCarrier))) : null;
-
-                    AuditorImageSignCarrier = auditorimagesignCarrier != null ?
-                    ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCarrier))) : null;
-
-                    if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null
-                        && SelectedPodataList[0].TaskID != 2 && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
-                        supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "GetInspSignature method -> in CarrierInspectQuestionsPageViewModel " + Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-        }
-
-        public async void SignaturePadShowHide(object sender)
-        {
-            try
-            {
-                var sign = sender as Label;
-                var back = sender as YPS.CustomRenders.FontAwesomeIconLabel;
-
-                if (back != null)
-                {
-                    SignaturePadPopup = false;
-                    SignTabVisibility = true;
-                }
-                else
-                {
-                    SignaturePadPopup = true;
-                    SignTabVisibility = false;
-                }
-
-                if (sign != null)
-                {
-                    Signature = sign.StyleId;
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SignaturePadShowHide method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoadInspectionQuestionViewModel constructor -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -226,7 +138,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "TabChange method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -272,7 +184,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -282,7 +194,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             return AllPoDataList;
         }
 
-        public async void InspTabClicked()
+        public async void LoadInspTabClicked()
         {
             try
             {
@@ -292,14 +204,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
-                InspTabTextColor = Settings.Bar_Background;
-                InspTabVisibility = true;
+                LoadInspTabTextColor = Settings.Bar_Background;
+                LoadInspTabVisibility = true;
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "InspTabClicked method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoadInspTabClicked method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -319,19 +231,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
 
-                await GetInspSignature();
-
-
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
-                InspTabTextColor = Color.Black;
-                InspTabVisibility = false;
+                LoadInspTabTextColor = Color.Black;
+                LoadInspTabVisibility = false;
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SignTabClicked method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -371,7 +280,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -388,7 +297,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -415,7 +324,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -427,11 +336,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0], false, this, null, IsAllTagsDone));
+                await Navigation.PushAsync(new LoadInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0],
+                    false, null, this, IsAllTagsDone));
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuestionClick method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuestionClick method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -502,7 +412,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in CarrierInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -854,14 +764,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private Color _InspTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
-        public Color InspTabTextColor
+        private Color _LoadInspTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color LoadInspTabTextColor
         {
-            get => _InspTabTextColor;
+            get => _LoadInspTabTextColor;
             set
             {
-                _InspTabTextColor = value;
-                NotifyPropertyChanged("InspTabTextColor");
+                _LoadInspTabTextColor = value;
+                NotifyPropertyChanged("LoadInspTabTextColor");
             }
         }
 
@@ -888,14 +798,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _InspTabVisibility = true;
-        public bool InspTabVisibility
+        private bool _LoadInspTabVisibility = true;
+        public bool LoadInspTabVisibility
         {
-            get => _InspTabVisibility;
+            get => _LoadInspTabVisibility;
             set
             {
-                _InspTabVisibility = value;
-                NotifyPropertyChanged("InspTabVisibility");
+                _LoadInspTabVisibility = value;
+                NotifyPropertyChanged("LoadInspTabVisibility");
             }
         }
 

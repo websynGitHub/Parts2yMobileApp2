@@ -9,10 +9,8 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
-//using YPS.Model.Yship;
 using YPS.Service;
 using YPS.ViewModel;
-//using YPS.YShip.YshipModel;
 using static YPS.Model.SearchModel;
 using static YPS.Models.ChatMessage;
 using System.Collections.Generic;
@@ -1120,157 +1118,6 @@ namespace YPS.RestClientAPI
             }
         }
 
-        ///// <summary>
-        ///// GetYshipData
-        ///// </summary>
-        ///// <returns></returns>
-        //public async Task<GetYshipData> LoadYshipData(yShipSearch yShipData)
-        //{
-        //    try
-        //    {
-        //        return await requestProvider.PostAsync<yShipSearch, GetYshipData>(WebServiceUrl + "yShip/GetyShipListNew", yShipData);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await service.Handleexception(ex);
-        //        YPSLogger.ReportException(ex, "LoadYshipData method -> in RestClient.cs" + Settings.userLoginID);
-        //        return null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// GetAllYShipPickerDataRC
-        ///// </summary>
-        ///// <param name="userId"></param>
-        ///// <returns></returns>
-        //public async Task<YShipPickerDataModel> GetAllYShipPickerDataRC(int userId)
-        //{
-        //    string url = WebServiceUrl + "DDLMaster/ALLyShipMasters?userID=" + userId;
-        //    return await requestProvider.PostAsync<YShipPickerDataModel>(url);
-        //}
-
-        ///// <summary>
-        ///// Update yShip Details
-        ///// </summary>
-        ///// <returns></returns>
-        //public async Task<ResponseUpdateyShipDetails> UpdateyShipDetailsRClient(UpdateyShipDetails obj)
-        //{
-        //    try
-        //    {
-        //        return await requestProvider.PostAsync<UpdateyShipDetails, ResponseUpdateyShipDetails>(WebServiceUrl + "yShip/UpdateyShipDetails", obj);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await service.Handleexception(ex);
-        //        YPSLogger.ReportException(ex, "UpdateyShipDetailsRClient method -> in RestClient.cs" + Settings.userLoginID);
-        //        return null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Uploadfiles
-        ///// </summary>
-        ///// <param name="fileobj"></param>
-        ///// <returns></returns>
-        //public async Task<object> Uploadfiles(UploadFiles fileobj)
-        //{
-        //    try
-        //    {
-        //        return await requestProvider.PostAsync<UploadFiles, yShipFileUploadResponse>(WebServiceUrl + "yShip/UploadyShipFile", fileobj);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await service.Handleexception(ex);
-        //        YPSLogger.ReportException(ex, "Uploadfiles method -> in RestClient.cs" + Settings.userLoginID);
-        //        return null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// GetYshipFiles
-        ///// </summary>
-        ///// <param name="yshipid"></param>
-        ///// <param name="type"></param>
-        ///// <returns></returns>
-        //public async Task<GetYshipFiles> GetYshiFiles(int yshipid, string type)
-        //{
-        //    try
-        //    {
-        //        string url = WebServiceUrl + "yShip/GetyShipUploadFiles?UserId=" + Settings.userLoginID + "&yShipId=" + Helperclass.Encrypt(Convert.ToString(yshipid)) + "&UploadType=" + type;
-        //        return await requestProvider.PostAsync<GetYshipFiles>(url);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await service.Handleexception(ex);
-        //        YPSLogger.ReportException(ex, "GetyShipUploadFiles method -> in RestClient.cs" + Settings.userLoginID);
-        //        return null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// RCyShipDeleteFile
-        ///// </summary>
-        ///// <param name="ID"></param>
-        ///// <param name="yShipId"></param>
-        ///// <param name="UploadType"></param>
-        ///// <returns></returns>
-        //public async Task<InVoiceDeleteFile> RCyShipDeleteFile(int ID, int yShipId, int UploadType)
-        //{
-        //    try
-        //    {
-        //        string url = WebServiceUrl + "yShip/DeleteyShipFiles?UserID=" + Settings.userLoginID + "&YSID= " + Helperclass.Encrypt(Convert.ToString(ID)) + "&yShipId=" + Helperclass.Encrypt(Convert.ToString(yShipId)); // +"&UploadType=" + UploadType;
-        //        return await requestProvider.PostAsync<InVoiceDeleteFile>(url);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await service.Handleexception(ex);
-        //        YPSLogger.ReportException(ex, "RCyShipDeleteFile method -> in RestClient.cs" + Settings.userLoginID);
-        //        return null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// RCGetyShipDetails
-        ///// </summary>
-        ///// <param name="yShipId"></param>
-        ///// <param name="yBkgNo"></param>
-        ///// <returns></returns>
-        //public async Task<GetyShipDetailsResponse> RCGetyShipDetails(int yShipId)
-        //{
-        //    try
-        //    {
-        //        string url = WebServiceUrl + "yShip/GetyShipDetails?UserID=" + Settings.userLoginID + "&yShipId=" + Helperclass.Encrypt(Convert.ToString(yShipId));
-        //        return await requestProvider.PostAsync<GetyShipDetailsResponse>(url);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await service.Handleexception(ex);
-        //        YPSLogger.ReportException(ex, "RCGetyShipDetails method -> in RestClient.cs" + Settings.userLoginID);
-        //        return null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// RCCloseYShip
-        ///// </summary>
-        ///// <param name="yShipId"></param>
-        ///// <param name="complete"></param>
-        ///// <param name="cancel"></param>
-        ///// <returns></returns>
-        //public async Task<YShipClose> RCCloseYShip(int yShipId, int complete, int cancel)
-        //{
-        //    try
-        //    {
-        //        string url = WebServiceUrl + "yShip/CloseyShip?UserID=" + Settings.userLoginID + "&yShipId=" + Helperclass.Encrypt(Convert.ToString(yShipId)) + "&IsCompleted=" + complete + "&IsCancelled=" + cancel;
-        //        return await requestProvider.PostAsync<YShipClose>(url);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await service.Handleexception(ex);
-        //        YPSLogger.ReportException(ex, "RCCloseYShip method -> in RestClient.cs" + Settings.userLoginID);
-        //        return null;
-        //    }
-        //}
 
         /// <summary>
         /// Logout
@@ -1731,9 +1578,6 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                //YPSException obj = new YPSException();
-                //obj.Ex = ErrorMessage;
-                //obj.LoginID = Settings.LoginID;
                 string errorMessage = string.Empty;
                 var json = JsonConvert.SerializeObject(ErrorMessage);
                 HttpContent httpContent = new StringContent(json);

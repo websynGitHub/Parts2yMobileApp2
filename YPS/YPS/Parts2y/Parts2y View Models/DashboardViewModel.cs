@@ -369,7 +369,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
                         //labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
                         //labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
-                        labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
+                        //labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
@@ -378,10 +378,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                     {
-                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim())
-                            .FirstOrDefault()) != null && (Settings.EntityTypeName.Trim() == "Owner" || Settings.EntityTypeName.Trim() == "Dealer"
-                    || Settings.EntityTypeName.Trim() == "LLP") ? true : false;
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
                     }
+                }
+                else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                {
+                    IsLoadTabVisible = Settings.userRoleID == 1 ? true : false;
                 }
             }
             catch (Exception ex)

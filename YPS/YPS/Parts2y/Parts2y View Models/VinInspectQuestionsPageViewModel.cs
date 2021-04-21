@@ -568,20 +568,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
-                        labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
+                        //labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                    IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                    IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "QuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "FullInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
 
                     if (Settings.VersionID == 2)
                     {
                         LoadTextColor = Color.Black;
-                        IsSignatureCarrierVisible = (IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false) == true ? false : true;
+                        IsSignatureCarrierVisible = (IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false) == true ? false : true;
                         SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Checklist";
                     }
 

@@ -328,7 +328,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     Settings.POID = podata.POID;
                     Settings.TaskID = podata.TaskID;
 
-                    await Navigation.PushAsync(new VinInspectQuestionsPage(podata, isAllDone));
+                    if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    {
+                        await Navigation.PushAsync(new PartsInspectionQuestionPage(podata, isAllDone));
+                    }
+
+                    if (Settings.VersionID == 2)
+                    {
+                        await Navigation.PushAsync(new VinInspectQuestionsPage(podata, isAllDone));
+                    }
                 }
                 else
                 {

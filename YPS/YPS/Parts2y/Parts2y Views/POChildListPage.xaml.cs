@@ -35,7 +35,8 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
-                if (Settings.VersionID == 5 || Settings.VersionID == 1)
+                if (Settings.VersionID == 5 || Settings.VersionID == 1 ||
+                    ((Settings.VersionID == 4 || Settings.VersionID == 3) && Settings.userRoleID != 1))
                 {
                     loadStack.IsVisible = false;
                 }
@@ -177,9 +178,6 @@ namespace YPS.Parts2y.Parts2y_Views
                         Vm.LoadTextColor = Color.Black;
                         loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim())
                           .FirstOrDefault()) != null ? true : false;
-                        //loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim())
-                        //    .FirstOrDefault()) != null && (Settings.EntityTypeName.Trim() == "Owner" || Settings.EntityTypeName.Trim()
-                        //    == "Dealer" || Settings.EntityTypeName.Trim() == "LLP") ? true : false;
                     }
                 }
 

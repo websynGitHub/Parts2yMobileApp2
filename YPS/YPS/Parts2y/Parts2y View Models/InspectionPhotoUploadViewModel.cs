@@ -181,7 +181,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     /// Checking camera is available or not in in mobile.
                     if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
                     {
-                        btnenable = false;
+                        //btnenable = false;
                         /// Request permission a user to allowed take photos from the camera.
                         var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
                         var statusiOS = resultIOS[Permission.Camera];

@@ -7,10 +7,8 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
-//using YPS.Model.Yship;
 using YPS.RestClientAPI;
 using YPS.ViewModel;
-//using YPS.YShip.YshipModel;
 using static YPS.Model.SearchModel;
 using static YPS.Models.ChatMessage;
 using System.Collections.Generic;
@@ -690,15 +688,6 @@ namespace YPS.Service
             return await restClient.GetMobileBuildsRClinet(mobileBModel);
         }
 
-        ///// <summary>
-        ///// GetYshipData
-        ///// </summary>
-        ///// <returns></returns>
-        //public async Task<GetYshipData> LoadYshipData(yShipSearch yshipdata)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.LoadYshipData(yshipdata);
-        //}
 
         /// <summary>
         /// Get YShip Filter Data
@@ -709,87 +698,6 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.FilterYshipDataRClient();
         }
-
-        ///// <summary>
-        ///// GetAllYShipPickerData
-        ///// </summary>
-        ///// <param name="userId"></param>
-        ///// <returns></returns>
-        //public async Task<YShipPickerDataModel> GetAllYShipPickerData(int userId)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.GetAllYShipPickerDataRC(userId); ;
-        //}
-
-        ///// <summary>
-        ///// Update yShip Details
-        ///// </summary>
-        ///// <returns></returns>
-        //public async Task<ResponseUpdateyShipDetails> UpdateyShipDetailsService(UpdateyShipDetails obj)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.UpdateyShipDetailsRClient(obj); ;
-        //}
-
-        ///// <summary>
-        ///// Uploadfiles
-        ///// </summary>
-        ///// <param name="UploadFiles obj"></param>
-        ///// <returns></returns>
-        //public async Task<object> UploadFiles(UploadFiles obj)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.Uploadfiles(obj);
-        //}
-
-        ///// <summary>
-        ///// GetYshipfiles
-        ///// </summary>
-        ///// <param name="UploadFiles obj"></param>
-        ///// <returns></returns>
-        //public async Task<GetYshipFiles> GetYshipfiles(int yshipid, string type)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.GetYshiFiles(yshipid, type); ;
-        //}
-
-        ///// <summary>
-        ///// yShipDeleteFile
-        ///// </summary>
-        ///// <param name="ID"></param>
-        ///// <param name="yShipId"></param>
-        ///// <param name="UploadType"></param>
-        ///// <returns></returns>
-        //public async Task<InVoiceDeleteFile> yShipDeleteFile(int ID, int yShipId, int UploadType)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.RCyShipDeleteFile(ID, yShipId, UploadType); ;
-        //}
-
-        ///// <summary>
-        ///// GetyShipDetailService
-        ///// </summary>
-        ///// <param name="yShipId"></param>
-        ///// <param name="yBkgNo"></param>
-        ///// <returns></returns>
-        //public async Task<GetyShipDetailsResponse> GetyShipDetailService(int yShipId)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.RCGetyShipDetails(yShipId); ;
-        //}
-
-        ///// <summary>
-        ///// CloseYShipSevice
-        ///// </summary>
-        ///// <param name="yShipId"></param>
-        ///// <param name="complete"></param>
-        ///// <param name="cancel"></param>
-        ///// <returns></returns>
-        //public async Task<YShipClose> CloseYShipSevice(int yShipId, int complete, int cancel)
-        //{
-        //    RestClient restClient = new RestClient();
-        //    return await restClient.RCCloseYShip(yShipId, complete, cancel); ;
-        //}
 
         /// <summary>
         /// LogoutService
