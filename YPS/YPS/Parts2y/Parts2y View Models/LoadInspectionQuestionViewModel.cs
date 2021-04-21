@@ -237,6 +237,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 LoadInspTabVisibility = false;
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
+
+                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null)
+                {
+                    IsDoneEnable = true;
+                    DoneOpacity = 1.0;
+                }
             }
             catch (Exception ex)
             {

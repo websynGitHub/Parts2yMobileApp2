@@ -209,14 +209,13 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <ScrollView Grid.Row="3" Margin="6,0,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
+                        <ScrollView Grid.Row="3" Margin="6,6,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
                                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
                                 <Grid x:Name="quickstackssigque" IsVisible="{Binding IsQuickTabVisible}"
                                   RowDefinitions="Auto,*">
-                                    <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Quick"
-                                   Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
+                                    
                                     <flv:FlowListView FlowItemsSource="{Binding QuickSignQuestionListCategory}" HeightRequest="125"
                                                   FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9"
                                          HorizontalOptions="FillAndExpand" VerticalOptions="Start" Grid.Row="1"
