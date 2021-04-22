@@ -184,6 +184,18 @@
                                                             <Label Text="{Binding TaskResourceName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
+
+                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
+                                                           IsVisible="{Binding BindingContext.labelobj.EventName.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.EventName.Name, 
+                                                                Source={x:Reference Name=Link}}"  TextColor="#4c4c4c" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" 
+                                                                   Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding EventName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+                                                        
                                                         <!--<Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.POID.Status, Source={x:Reference Name=Link}}"
                                                        VerticalOptions="Center"  RowDefinitions="Auto" ColumnDefinitions="Auto,*">
@@ -384,6 +396,10 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
+                        <Label IsVisible="{Binding NoRecordsLbl}" Grid.Row="1" FontSize="Large" HorizontalTextAlignment="Center"
+                          Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
+                        
                         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
                                  Margin="4,0,4,4" Grid.Row="2" IsVisible="{Binding IsLinkButtonsVisible}">
                             <sfbuttons:SfButton x:Name="b" HorizontalOptions="FillAndExpand"

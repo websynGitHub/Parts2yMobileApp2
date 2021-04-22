@@ -594,11 +594,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
 
-                    IsLinkButtonsVisible = AllPoTagCollections != null && AllPoTagCollections.Count > 0 ? true : false;
+                    NoRecordsLbl = (IsLinkButtonsVisible = AllPoTagCollections != null && AllPoTagCollections.Count > 0 ? true : false) == true ? false : true;
                 }
                 else
                 {
                     IsLinkButtonsVisible = false;
+                    NoRecordsLbl = true;
                 }
             }
             catch (Exception ex)
@@ -626,24 +627,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (labelval.Count > 0)
                     {
-                        var done = labelval.Where(wr => wr.FieldID == labelobj.Done.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var upload = labelval.Where(wr => wr.FieldID == labelobj.Upload.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == DescriptipnPlaceholder.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
-                        var afterpacking = labelval.Where(wr => wr.FieldID == labelobj.AfterPacking.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var beforepacking = labelval.Where(wr => wr.FieldID == labelobj.BeforePacking.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var done = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Done.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var upload = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Upload.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == DescriptipnPlaceholder.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
+                        var afterpacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.AfterPacking.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var beforepacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.BeforePacking.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Getting Label values & Status based on FieldID
-                        var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var tagdesc = labelval.Where(wr => wr.FieldID == labelobj.TagDesc.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var invoicenumber = labelval.Where(wr => wr.FieldID == labelobj.InvoiceNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.POID.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tagdesc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TagDesc.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var invoicenumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InvoiceNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -656,6 +658,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
                         labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
                         labelobj.TagDesc.Status = tagdesc == null ? true : (tagdesc.Status == 1 ? true : false);
+                        labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                        labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
@@ -771,6 +775,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "Resource"
             };
+            public LabelAndActionFields EventName { get; set; } = new LabelAndActionFields
+            {
+                Status = true,
+                Name = "Event"
+            };
 
             public LabelAndActionFields TagDesc { get; set; } = new LabelAndActionFields { Status = true, Name = "Tag Description" };
 
@@ -819,6 +828,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private bool _NoRecordsLbl { set; get; }
+        public bool NoRecordsLbl
+        {
+            get
+            {
+                return _NoRecordsLbl;
+            }
+            set
+            {
+                this._NoRecordsLbl = value;
+                RaisePropertyChanged("NoRecordsLbl");
+            }
+        }
 
         private bool _IsLinkButtonsVisible { set; get; }
         public bool IsLinkButtonsVisible

@@ -292,8 +292,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null
-                    && selectedTagData.TagTaskStatus != 2))
+                if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null))
                 {
                     IsDoneEnable = true;
                     DoneOpacity = 1.0;

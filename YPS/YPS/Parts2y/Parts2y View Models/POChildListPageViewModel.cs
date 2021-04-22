@@ -1442,6 +1442,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var starttime = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.StartTime.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var endtime = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.EndTime.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1474,6 +1475,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.StartTime.Status = starttime == null ? true : (starttime.Status == 1 ? true : false);
                         labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
                         labelobj.EndTime.Status = endtime == null ? true : (endtime.Status == 1 ? true : false);
+                        labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                        labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
 
 
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
@@ -1758,6 +1761,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("AllTabTextColor");
             }
         }
+
         #region Properties for dynamic label change
         public class DashboardLabelChangeClass
         {
@@ -1791,6 +1795,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Status = true,
                 Name = "Resource"
+            };
+
+            public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "Event"
             };
 
             public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = true, Name = "Start Time" };
@@ -1961,6 +1971,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private string _EventName;
+        public string EventName
+        {
+            get { return _EventName; }
+            set
+            {
+                _EventName = value;
+                RaisePropertyChanged("EventName");
+            }
+        }
+
         private ObservableCollection<AllPoData> _PoDataChild;
         public ObservableCollection<AllPoData> PoDataChildCollections
         {
@@ -1976,9 +1997,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     TaskName = value[0].TaskName;
                     StartTime = value[0].StartTime;
                     EndTime = value[0].EndTime;
+                    EventName = value[0].EventName;
                     Resource = value[0].TaskResourceName;
                     IsResourcecVisible = value[0].TaskResourceID == Settings.userLoginID ? false : true;
-
                 }
                 RaisePropertyChanged("PoDataChildCollections");
             }
