@@ -313,7 +313,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
                             labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                             labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
-
+                            IsResourcecVisible = false;
 
                             if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                             {
