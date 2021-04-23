@@ -55,6 +55,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 TagNumber = selectedTagData.TagNumber;
                 IndentCode = selectedTagData.IdentCode;
                 ConditionName = selectedTagData.ConditionName;
+                TaskName = selectedTagData.TaskName;
+                EventName = selectedTagData.EventName;
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
                 Task.Run(() => ChangeLabel()).Wait();
@@ -62,6 +64,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
 
                 QuickTabCmd = new Command(QuickTabClicked);
+                FullTabCmd = new Command(FullTabClicked);
                 SignalTabCmd = new Command(SignTabClicked);
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
@@ -211,14 +214,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(1);
+                await GetConfigurationResults(Settings.VersionID == 4 ? 7 : 4);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
                 QuickTabTextColor = Settings.Bar_Background;
                 QuickTabVisibility = true;
-                //FullTabTextColor = Color.Black;
-                //FullTabVisibility = false;
+                FullTabTextColor = Color.Black;
+                FullTabVisibility = false;
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
             }
@@ -239,14 +242,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(2);
+                await GetConfigurationResults(Settings.VersionID == 4 ? 8 : 5);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
                 QuickTabTextColor = Color.Black;
                 QuickTabVisibility = false;
-                //FullTabTextColor = Settings.Bar_Background;
-                //FullTabVisibility = true;
+                FullTabTextColor = Settings.Bar_Background;
+                FullTabVisibility = true;
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
             }
@@ -271,24 +274,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (IsQuickTabVisible == true)
                 {
-                    await GetConfigurationResults(1);
-                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 1).ToList());
+                    await GetConfigurationResults(Settings.VersionID == 4 ? 7 : 4);
+                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == (Settings.VersionID == 4 ? 7 : 4)).ToList());
                     QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
-                //if (IsFullTabVisible == true)
-                //{
-                //    await GetConfigurationResults(2);
-                //    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 2).ToList());
-                //    FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
-                //}
+                if (IsFullTabVisible == true)
+                {
+                    await GetConfigurationResults(Settings.VersionID == 4 ? 8 : 5);
+                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == (Settings.VersionID == 4 ? 8 : 5)).ToList());
+                    FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
+                }
 
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
                 QuickTabTextColor = Color.Black;
                 QuickTabVisibility = false;
-                //FullTabTextColor = Color.Black;
-                //FullTabVisibility = false;
+                FullTabTextColor = Color.Black;
+                FullTabVisibility = false;
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
@@ -328,12 +331,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         inspectionResultsLists = result.data.listData;
                         QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
 
-                        QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID).ToList());
+                        QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
                         QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                     else
                     {
-                        QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID).ToList());
+                        QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
                         QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                 }
@@ -401,7 +404,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
                 await GetConfigurationResults(inspectionConfiguration.CategoryID);
                 await Navigation.PushAsync(new LoadInspectionAnswersPage(inspectionConfiguration,
-                    new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID).ToList())
+                    new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID
+                    && wr.VersionID == Settings.VersionID).ToList())
                     , inspectionResultsLists, selectedTagData, true, this, null));
             }
             catch (Exception ex)
@@ -433,6 +437,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        //var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        //var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
 
                         //Assigning the Labels & Show/Hide the controls based on the data
@@ -444,37 +452,47 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                        labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
+                        labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                        labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
+                        //labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
+
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "QuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-                    //IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                    IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ItemQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ItemFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
+                    if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    {
+                        LoadTextColor = Color.Black;
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    }
 
-                    //if (IsQuickTabVisible == false && IsFullTabVisible == false)
-                    if (IsQuickTabVisible == false)
+                    if (IsQuickTabVisible == false && IsFullTabVisible == false)
                     {
                         SignTabClicked();
                     }
-                    else
+
+                    if (IsQuickTabVisible == true)
                     {
                         QuickTabVisibility = true;
-                        //FullTabVisibility = false;
+                        FullTabVisibility = false;
                         SignTabVisibility = false;
                     }
-                    //else
-                    //{
-                    //    FullTabVisibility = true;
-                    //    QuickTabVisibility = false;
-                    //    SignTabVisibility = false;
-                    //}
+                    else
+                    {
+                        FullTabVisibility = true;
+                        QuickTabVisibility = false;
+                        SignTabVisibility = false;
+                    }
                 }
 
                 //IsLoadTabVisible = ((Settings.VersionID == 4 || Settings.VersionID == 3) && Settings.userRoleID == 1) ? true : false;
-                IsLoadTabVisible = Settings.userRoleID == 1 ? true : false;
             }
             catch (Exception ex)
             {
@@ -502,7 +520,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
             public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
             public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+            public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
+            {
+                Status = false,
+                Name = "TaskName"
+            };
 
+            //public DashboardLabelFields Resource { get; set; } = new DashboardLabelFields
+            //{
+            //    Status = false,
+            //    Name = "Resource"
+            //};
+
+            public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
+            {
+                Status = false,
+                Name = "Event"
+            };
         }
         public class DashboardLabelFields : IBase
         {
@@ -778,16 +812,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 NotifyPropertyChanged("IsQuickTabVisible");
             }
         }
-        //private bool _IsFullTabVisible = true;
-        //public bool IsFullTabVisible
-        //{
-        //    get => _IsFullTabVisible;
-        //    set
-        //    {
-        //        _IsFullTabVisible = value;
-        //        NotifyPropertyChanged("IsFullTabVisible");
-        //    }
-        //}
+        private bool _IsFullTabVisible = true;
+        public bool IsFullTabVisible
+        {
+            get => _IsFullTabVisible;
+            set
+            {
+                _IsFullTabVisible = value;
+                NotifyPropertyChanged("IsFullTabVisible");
+            }
+        }
         private bool _IsSignTabVisible = true;
         public bool IsSignTabVisible
         {
@@ -829,6 +863,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private string _TaskName;
+        public string TaskName
+        {
+            get { return _TaskName; }
+            set
+            {
+                _TaskName = value;
+                RaisePropertyChanged("TaskName");
+            }
+        }
+
+        private string _Resource;
+        public string Resource
+        {
+            get { return _Resource; }
+            set
+            {
+                _Resource = value;
+                RaisePropertyChanged("Resource");
+            }
+        }
+
+        private string _EventName;
+        public string EventName
+        {
+            get { return _EventName; }
+            set
+            {
+                _EventName = value;
+                RaisePropertyChanged("EventName");
+            }
+        }
+
         private ObservableCollection<InspectionConfiguration> _QuestionListCategory;
         public ObservableCollection<InspectionConfiguration> QuestionListCategory
         {
@@ -851,16 +918,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        //private ObservableCollection<InspectionConfiguration> _FullSignQuestionListCategory;
-        //public ObservableCollection<InspectionConfiguration> FullSignQuestionListCategory
-        //{
-        //    get => _FullSignQuestionListCategory;
-        //    set
-        //    {
-        //        _FullSignQuestionListCategory = value;
-        //        RaisePropertyChanged("FullSignQuestionListCategory");
-        //    }
-        //}
+        private ObservableCollection<InspectionConfiguration> _FullSignQuestionListCategory;
+        public ObservableCollection<InspectionConfiguration> FullSignQuestionListCategory
+        {
+            get => _FullSignQuestionListCategory;
+            set
+            {
+                _FullSignQuestionListCategory = value;
+                RaisePropertyChanged("FullSignQuestionListCategory");
+            }
+        }
 
         private ObservableCollection<InspectionConfiguration> _QuestionsList;
         public ObservableCollection<InspectionConfiguration> QuestionsList
@@ -895,16 +962,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
 
-        //private Color _FullTabTextColor = Color.Black;
-        //public Color FullTabTextColor
-        //{
-        //    get => _FullTabTextColor;
-        //    set
-        //    {
-        //        _FullTabTextColor = value;
-        //        NotifyPropertyChanged("FullTabTextColor");
-        //    }
-        //}
+        private Color _FullTabTextColor = Color.Black;
+        public Color FullTabTextColor
+        {
+            get => _FullTabTextColor;
+            set
+            {
+                _FullTabTextColor = value;
+                NotifyPropertyChanged("FullTabTextColor");
+            }
+        }
 
         private Color _SignTabTextColor = Color.Black;
         public Color SignTabTextColor
@@ -948,16 +1015,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 NotifyPropertyChanged("QuickTabVisibility");
             }
         }
-        //private bool _FullTabVisibility = false;
-        //public bool FullTabVisibility
-        //{
-        //    get => _FullTabVisibility;
-        //    set
-        //    {
-        //        _FullTabVisibility = value;
-        //        NotifyPropertyChanged("FullTabVisibility");
-        //    }
-        //}
+        private bool _FullTabVisibility = false;
+        public bool FullTabVisibility
+        {
+            get => _FullTabVisibility;
+            set
+            {
+                _FullTabVisibility = value;
+                NotifyPropertyChanged("FullTabVisibility");
+            }
+        }
         private bool _SignTabVisibility = false;
         public bool SignTabVisibility
         {

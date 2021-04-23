@@ -25,6 +25,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand Backevnttapped { set; get; }
         public ICommand LoadInspTabCmd { set; get; }
         public ICommand SignalTabCmd { set; get; }
+        public ICommand QuickTabCmd { set; get; }
+        public ICommand FullTabCmd { set; get; }
         LoadInspectionAnswersPage pagename;
         AllPoData selectedTagData;
         YPSService trackService;
@@ -63,6 +65,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 REQNo = selectedtagdata.REQNo;
                 TaskName = selectedtagdata.TaskName;
                 Resource = selectedtagdata.TaskResourceName;
+                EventName = selectedTagData.EventName;
                 IsResourcecVisible = selectedtagdata.TaskResourceID == Settings.userLoginID ? false : true;
                 TagNumber = selectedtagdata.TagNumber;
                 IndentCode = selectedtagdata.IdentCode;
@@ -77,6 +80,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 ViewallClick = new Command(ViewallClickMethod);
                 NextClick = new Command(NextClickMethod);
+                QuickTabCmd = new Command(QuickTabClicked);
+                FullTabCmd = new Command(FullTabClicked);
                 LoadInspTabCmd = new Command(LoadInspTabClicked);
                 SignalTabCmd = new Command(SignTabClicked);
                 PhotoClickCommand = new Command(async () => await SelectPic());
@@ -104,7 +109,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
                 PartsQueVm.QuickTabVisibility = true;
-                //PartsQueVm.FullTabVisibility = false;
+                PartsQueVm.FullTabVisibility = false;
                 PartsQueVm.SignTabVisibility = false;
 
                 await Navigation.PopAsync();
@@ -119,6 +124,35 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = false;
             }
 
+        }
+
+        public async void FullTabClicked()
+        {
+            try
+            {
+                loadindicator = true;
+
+                IsAnswersVisible = true;
+                QuickTabTextColor = Color.Black;
+                QuickTabVisibility = false;
+                FullTabTextColor = Settings.Bar_Background;
+                FullTabVisibility = true;
+                SignTabTextColor = Color.Black;
+                SignTabVisibility = false;
+                PartsQueVm.QuickTabVisibility = false;
+                PartsQueVm.FullTabVisibility = true;
+                PartsQueVm.SignTabVisibility = false;
+                await Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "FullTabClicked method -> in LoadInspectionAnswersViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async void LoadInspTabClicked()
@@ -161,6 +195,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     LoadQueVm.LoadInspTabVisibility = false;
                     LoadQueVm.SignTabVisibility = true;
+                }
+
+                if (PartsQueVm != null)
+                {
+                    PartsQueVm.QuickTabVisibility = false;
+                    PartsQueVm.FullTabVisibility = false;
+                    PartsQueVm.SignTabVisibility = true;
                 }
 
                 await Navigation.PopAsync();
@@ -240,10 +281,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //Assigning the Labels & Show/Hide the controls based on the data
                         if (isInspVIN == true)
                         {
-                            var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                             labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
@@ -253,18 +296,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                             labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                             labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                            labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
+                            labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                            labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                            labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
 
 
                             if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                             {
-                                IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                                IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                                IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ItemQuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                                IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ItemFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
-                                if (Settings.VersionID == 2)
-                                {
-                                    var isloadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                                    SignTabText = isloadTabVisible == false ? "Checklist & Sign" : "Checklist";
-                                }
+                                //if (Settings.VersionID == 4 && Settings.VersionID == 3)
+                                //{
+                                //    var isloadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                                //    SignTabText = isloadTabVisible == false ? "Checklist & Sign" : "Checklist";
+                                //}
                             }
 
                             if (IsQuickTabVisible == false && IsFullTabVisible == false)
@@ -274,33 +321,64 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             else if (IsQuickTabVisible == true && IsFullTabVisible == true)
                             {
                                 //if (VINQueVm.QuickTabVisibility == true)
-                                if (InspectionConfiguration.CategoryID == 1)
+                                if (InspectionConfiguration.CategoryID == 4 || InspectionConfiguration.CategoryID == 7)
                                 {
+                                    //IsFullTabVisible = false;
                                     QuickTabClicked();
                                 }
-                                //else if (InspectionConfiguration.CategoryID == 2)
-                                //{
-                                //    FullTabClicked();
-                                //}
+                                else if (InspectionConfiguration.CategoryID == 5 | InspectionConfiguration.CategoryID == 8)
+                                {
+                                    //IsQuickTabVisible = false;
+                                    FullTabClicked();
+                                }
                             }
-                            else if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
+                            else if (IsQuickTabVisible == true &&
+                                (InspectionConfiguration.CategoryID == 4 || InspectionConfiguration.CategoryID == 7))
                             {
-                                //IsFullTabVisible = false;
+                                IsFullTabVisible = false;
                                 QuickTabClicked();
                             }
-                            //else
+                            else
+                            {
+                                IsQuickTabVisible = false;
+                                FullTabClicked();
+                            }
+
+                            //if (IsQuickTabVisible == false && IsFullTabVisible == false)
                             //{
-                            //    IsQuickTabVisible = false;
-                            //    FullTabClicked();
+                            //    SignTabClicked();
                             //}
+                            //else if (IsQuickTabVisible == true && IsFullTabVisible == true)
+                            //{
+                            //    //if (VINQueVm.QuickTabVisibility == true)
+                            //    if (InspectionConfiguration.CategoryID == 1)
+                            //    {
+                            //        QuickTabClicked();
+                            //    }
+                            //    //else if (InspectionConfiguration.CategoryID == 2)
+                            //    //{
+                            //    //    FullTabClicked();
+                            //    //}
+                            //}
+                            //else if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
+                            //{
+                            //    //IsFullTabVisible = false;
+                            //    QuickTabClicked();
+                            //}
+                            ////else
+                            ////{
+                            ////    IsQuickTabVisible = false;
+                            ////    FullTabClicked();
+                            ////}
                         }
                         else
                         {
-                            var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.POID.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                             labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
@@ -310,6 +388,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                             labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                             labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                            labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                            labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
                             labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                             LoadInspTabClicked();
@@ -680,6 +760,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = false,
                 Name = "Resource"
             };
+
+            public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
+            {
+                Status = false,
+                Name = "Event"
+            };
         }
         public class DashboardLabelFields : IBase
         {
@@ -968,6 +1054,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _Resource = value;
                 RaisePropertyChanged("Resource");
+            }
+        }
+
+        private string _EventName;
+        public string EventName
+        {
+            get { return _EventName; }
+            set
+            {
+                _EventName = value;
+                RaisePropertyChanged("EventName");
             }
         }
 

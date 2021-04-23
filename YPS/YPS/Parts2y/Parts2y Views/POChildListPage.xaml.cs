@@ -35,8 +35,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
-                if (Settings.VersionID == 5 || Settings.VersionID == 1 ||
-                    ((Settings.VersionID == 4 || Settings.VersionID == 3) && Settings.userRoleID != 1))
+                if (Settings.VersionID == 5 || Settings.VersionID == 1)
                 {
                     loadStack.IsVisible = false;
                 }
@@ -179,6 +178,12 @@ namespace YPS.Parts2y.Parts2y_Views
                         loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim())
                           .FirstOrDefault()) != null ? true : false;
                     }
+                    else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    {
+                        Vm.LoadTextColor = Color.Black;
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "LoadInspection".Trim())
+                          .FirstOrDefault()) != null ? true : false;
+                    }
                 }
 
                 #region Assigning method that must execute when page is loaded, for binding gestures
@@ -241,16 +246,16 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Settings.VersionID == 4 || Settings.VersionID == 3)
                 {
-                    if (POChildListPageViewModel.isalldone == true)
-                    {
-                        Vm.LoadTextColor = Color.Black;
-                        Vm.MoveToNextPageCmd = new Command(Vm.MoveToNextPage);
-                    }
-                    else
-                    {
-                        Vm.LoadTextColor = Color.Gray;
-                        Vm.MoveToNextPageCmd = null;
-                    }
+                    //if (POChildListPageViewModel.isalldone == true)
+                    //{
+                    Vm.LoadTextColor = Color.Black;
+                    Vm.MoveToNextPageCmd = new Command(Vm.MoveToNextPage);
+                    //}
+                    //else
+                    //{
+                    //    Vm.LoadTextColor = Color.Gray;
+                    //    Vm.MoveToNextPageCmd = null;
+                    //}
                 }
 
                 Vm.loadindicator = false;

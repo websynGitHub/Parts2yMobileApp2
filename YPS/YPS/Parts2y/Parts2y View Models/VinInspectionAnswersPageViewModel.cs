@@ -68,6 +68,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 REQNo = selectedtagdata.REQNo;
                 TaskName = selectedtagdata.TaskName;
                 Resource = selectedtagdata.TaskResourceName;
+                EventName = selectedtagdata.EventName;
                 IsResourcecVisible = selectedtagdata.TaskResourceID == Settings.userLoginID ? false : true;
                 TagNumber = selectedtagdata.TagNumber;
                 IndentCode = selectedtagdata.IdentCode;
@@ -297,6 +298,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                             labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
@@ -306,6 +309,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                             labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                             labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                            labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
+                            labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                            labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                            labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
 
 
                             if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
@@ -356,6 +363,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                             labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
@@ -365,6 +373,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                             labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                             labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                            labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                            labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
                             labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                             if (Settings.VersionID == 2)
@@ -755,6 +765,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = false,
                 Name = "Resource"
             };
+
+            public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
+            {
+                Status = false,
+                Name = "Event"
+            };
         }
         public class DashboardLabelFields : IBase
         {
@@ -1043,6 +1059,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _Resource = value;
                 RaisePropertyChanged("Resource");
+            }
+        }
+
+        private string _EventName;
+        public string EventName
+        {
+            get { return _EventName; }
+            set
+            {
+                _EventName = value;
+                RaisePropertyChanged("EventName");
             }
         }
 

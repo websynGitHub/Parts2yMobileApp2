@@ -144,14 +144,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         await Task.Delay(1);
                         await Navigation.PushAsync(new CarrierInspectionQuestionsPage(allPOTagData, isalldone));
                     }
+                    else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    {
+                        //if (isalldone == true)
+                        //{
+                        loadindicator = true;
+                        await Task.Delay(1);
+                        await Navigation.PushAsync(new LoadInspectionQuestionPage(allPOTagData, isalldone));
+                        //await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
+                        //}
+                    }
                     else
                     {
                         if (isalldone == true)
                         {
                             loadindicator = true;
                             await Task.Delay(1);
-                            await Navigation.PushAsync(new LoadInspectionQuestionPage(allPOTagData, isalldone));
-                            //await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
+                            await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
                         }
                     }
                 }
@@ -343,8 +352,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        if ((Settings.VersionID == 4 ||
-                            Settings.VersionID == 3) && isalldone == true)
+                        //if ((Settings.VersionID == 4 ||
+                        //    Settings.VersionID == 3) && isalldone == true)
+                        if (Settings.VersionID == 4 || Settings.VersionID == 3)
                         {
                             await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
                             //await Navigation.PushAsync(new LoadInspectionQuestionPage(allPOTagData, isalldone));

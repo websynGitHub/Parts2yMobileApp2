@@ -60,11 +60,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     Vm.QuickTabClicked();
                 }
-                //else if (Vm.FullTabVisibility == true)
-                //{
-                //    //await Vm.GetConfigurationResults(2);
-                //    Vm.FullTabClicked();
-                //}
+                else if (Vm.FullTabVisibility == true)
+                {
+                    //await Vm.GetConfigurationResults(2);
+                    Vm.FullTabClicked();
+                }
                 else if (Vm.SignTabVisibility == true)
                 {
                     Vm.SignTabClicked();

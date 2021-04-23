@@ -41,10 +41,14 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="{Binding RowHeightTitle,Mode=TwoWay}"/>
                                 <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
+                                <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
+                                <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
                             </Grid.RowDefinitions>
                             <Label Grid.Row="0" Text="Inspection Photos" Style="{StaticResource LblTitleName}"/>
                             <Label Grid.Row="1" Text="{Binding Tagnumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
                             <Label Grid.Row="2" Text="{Binding Question,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                            <Label Grid.Row="3" Text="{Binding TaskName,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                            <Label Grid.Row="4" Text="{Binding EventName,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
                         </Grid>
                     </Grid>
                     

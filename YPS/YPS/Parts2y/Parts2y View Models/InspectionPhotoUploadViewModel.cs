@@ -51,22 +51,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-            Navigation = _Navigation;
-            pagename = page;
-            selectedTagData = selectedtagdata;
-            this.tagId = tagId;
-            taskid = selectedtagdata.TaskID;
-            Tagnumbers = vinValue;
-            IsCarrierInsp = iscarrierinsp;
-            Question = inspectionConfiguration.SerialNo + " " + inspectionConfiguration.Question;
-            this.inspectionConfiguration = inspectionConfiguration;
-            trackService = new YPSService();
-            ListOfImage = new ObservableCollection<GalleryImage>();
-            Task.Run(() => GetInspectionPhotos()).Wait();
-            select_pic = new Command(async () => await SelectPic());
-            upload_pic = new Command(async () => await Photo_Upload());
-            deleteImage = new Command<InspectionPhotosResponseListData>(Delete_Photo);
-            tap_OnImge = new Command<InspectionPhotosResponseListData>(image_tap);
+                Navigation = _Navigation;
+                pagename = page;
+                selectedTagData = selectedtagdata;
+                this.tagId = tagId;
+                taskid = selectedtagdata.TaskID;
+                Tagnumbers = vinValue;
+                IsCarrierInsp = iscarrierinsp;
+                Question = inspectionConfiguration.SerialNo + " " + inspectionConfiguration.Question;
+                TaskName = selectedTagData.TaskName;
+                EventName = selectedTagData.EventName;
+                this.inspectionConfiguration = inspectionConfiguration;
+                trackService = new YPSService();
+                ListOfImage = new ObservableCollection<GalleryImage>();
+                Task.Run(() => GetInspectionPhotos()).Wait();
+                select_pic = new Command(async () => await SelectPic());
+                upload_pic = new Command(async () => await Photo_Upload());
+                deleteImage = new Command<InspectionPhotosResponseListData>(Delete_Photo);
+                tap_OnImge = new Command<InspectionPhotosResponseListData>(image_tap);
             }
             catch (Exception ex)
             {
@@ -481,58 +483,58 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-            IndicatorVisibility = true;
-            var checkInternet = await App.CheckInterNetConnection();
-            if (checkInternet)
-            {
-                if (IsCarrierInsp == true)
+                IndicatorVisibility = true;
+                var checkInternet = await App.CheckInterNetConnection();
+                if (checkInternet)
                 {
-                    var result = await trackService.GeInspectionPhotosByTask(taskid, inspectionConfiguration?.MInspectionConfigID);
-
-                    if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+                    if (IsCarrierInsp == true)
                     {
-                        AStack = true;
-                        FirstMainStack = true;
-                        SecondMainStack = false;
-                        NoPhotos_Visibility = false;
-                        firstStack = false;
-                        finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>(result.data.listData);
+                        var result = await trackService.GeInspectionPhotosByTask(taskid, inspectionConfiguration?.MInspectionConfigID);
+
+                        if (result != null && result.data != null && result.data.listData != null && result.data.listData.Count > 0)
+                        {
+                            AStack = true;
+                            FirstMainStack = true;
+                            SecondMainStack = false;
+                            NoPhotos_Visibility = false;
+                            firstStack = false;
+                            finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>(result.data.listData);
+                        }
+                        else
+                        {
+                            AStack = false;
+                            FirstMainStack = true;
+                            NoPhotos_Visibility = true;
+                            firstStack = false;
+                            SecondMainStack = false;
+                        }
                     }
                     else
                     {
-                        AStack = false;
-                        FirstMainStack = true;
-                        NoPhotos_Visibility = true;
-                        firstStack = false;
-                        SecondMainStack = false;
-                    }
-                }
-                else
-                {
-                    var vinresult = await trackService.GeInspectionPhotosByTag(taskid, tagId, inspectionConfiguration?.MInspectionConfigID);
+                        var vinresult = await trackService.GeInspectionPhotosByTag(taskid, tagId, inspectionConfiguration?.MInspectionConfigID);
 
-                    if (vinresult != null && vinresult.data != null && vinresult.data.listData != null && vinresult.data.listData.Count > 0)
-                    {
-                        AStack = true;
-                        FirstMainStack = true;
-                        SecondMainStack = false;
-                        NoPhotos_Visibility = false;
-                        firstStack = false;
-                        finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>(vinresult.data.listData);
+                        if (vinresult != null && vinresult.data != null && vinresult.data.listData != null && vinresult.data.listData.Count > 0)
+                        {
+                            AStack = true;
+                            FirstMainStack = true;
+                            SecondMainStack = false;
+                            NoPhotos_Visibility = false;
+                            firstStack = false;
+                            finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>(vinresult.data.listData);
+                        }
+                        else
+                        {
+                            AStack = false;
+                            FirstMainStack = true;
+                            NoPhotos_Visibility = true;
+                            firstStack = false;
+                            SecondMainStack = false;
+                        }
                     }
-                    else
-                    {
-                        AStack = false;
-                        FirstMainStack = true;
-                        NoPhotos_Visibility = true;
-                        firstStack = false;
-                        SecondMainStack = false;
-                    }
+
                 }
 
-            }
-
-            IndicatorVisibility = false;
+                IndicatorVisibility = false;
             }
             catch (Exception ex)
             {
@@ -657,6 +659,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _Question = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        private string _TaskName;
+        public string TaskName
+        {
+            get { return _TaskName; }
+            set
+            {
+                _TaskName = value;
+                RaisePropertyChanged("TaskName");
+            }
+        }
+
+        private string _Resource;
+        public string Resource
+        {
+            get { return _Resource; }
+            set
+            {
+                _Resource = value;
+                RaisePropertyChanged("Resource");
+            }
+        }
+
+        private string _EventName;
+        public string EventName
+        {
+            get { return _EventName; }
+            set
+            {
+                _EventName = value;
+                RaisePropertyChanged("EventName");
             }
         }
 

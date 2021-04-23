@@ -29,19 +29,33 @@ namespace YPS.Model
             }
         }
 
-        //private int _SerialCount;
-        //public int SerialCount
-        //{
-        //    get
-        //    {
-        //        return _SerialCount;
-        //    }
-        //    set
-        //    {
-        //        this._SerialCount = value++;
-        //        RaisePropertyChanged("SerialCount");
-        //    }
-        //}
+        private int _VersionID;
+        public int VersionID
+        {
+            get
+            {
+                return _VersionID;
+            }
+            set
+            {
+                this._VersionID = value;
+                RaisePropertyChanged("VersionID");
+            }
+        }
+
+        private string _VersionName;
+        public string VersionName
+        {
+            get
+            {
+                return _VersionName;
+            }
+            set
+            {
+                this._VersionName = value;
+                RaisePropertyChanged("VersionName");
+            }
+        }
 
         private int _SerialNo;
         public int SerialNo

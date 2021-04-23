@@ -374,18 +374,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                 }
 
-                if (Settings.VersionID == 2)
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    if (Settings.VersionID == 2)
                     {
                         IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
+
+                    }
+                    else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
                     }
                 }
-                else if (Settings.VersionID == 4 || Settings.VersionID == 3)
-                {
-                    IsLoadTabVisible = Settings.userRoleID == 1 ? true : false;
-                }
+
+                //if (Settings.VersionID == 2)
+                //{
+                //    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                //    {
+                //        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower())
+                //            .FirstOrDefault()) != null ? true : false;
+                //    }
+                //}
+                //else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                //{
+                //    IsLoadTabVisible = Settings.userRoleID == 1 ? true : false;
+                //}
             }
             catch (Exception ex)
             {

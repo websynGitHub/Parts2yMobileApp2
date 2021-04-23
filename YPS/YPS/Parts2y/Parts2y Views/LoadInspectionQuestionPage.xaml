@@ -234,8 +234,10 @@
                               BackgroundColor="#E9E9E9" SeparatorVisibility="None" HasUnevenRows="True" HeightRequest="115">
                                     <flv:FlowListView.FlowColumnTemplate>
                                         <DataTemplate>
-                                            <Frame Padding="2,1,2,0" Margin="2,2,2,0"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
-                                                <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
+                                            <Frame Padding="2,1,2,0" Margin="2,2,2,0"  IsClippedToBounds="True" CornerRadius="10" 
+                                                   HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
+                                                <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
                                                 <Frame.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=LoadInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
