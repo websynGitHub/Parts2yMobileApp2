@@ -54,6 +54,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 taskid = selectedTagData.TaskID;
                 TagNumber = selectedTagData.TagNumber;
                 IndentCode = selectedTagData.IdentCode;
+                IsConditionNameLabelVisible = string.IsNullOrEmpty(selectedTagData.ConditionName) ? false : true;
                 ConditionName = selectedTagData.ConditionName;
                 TaskName = selectedTagData.TaskName;
                 EventName = selectedTagData.EventName;
@@ -566,6 +567,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
         //        RaisePropertyChanged("SignaturePadPopup");
         //    }
         //}
+        private bool _IsConditionNameLabelVisible = true;
+        public bool IsConditionNameLabelVisible
+        {
+            get { return _IsConditionNameLabelVisible; }
+            set
+            {
+                _IsConditionNameLabelVisible = value;
+                RaisePropertyChanged("IsConditionNameLabelVisible");
+            }
+        }
 
         private bool _IsDealerSignVisible;
         public bool IsDealerSignVisible

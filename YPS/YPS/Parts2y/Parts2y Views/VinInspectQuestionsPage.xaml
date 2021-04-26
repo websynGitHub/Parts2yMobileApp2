@@ -69,14 +69,23 @@
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding IndentCode}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
-                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 
+                                <StackLayout HorizontalOptions="Start"
+                                                              IsVisible="{Binding  labelobj.ConditionName.Status}"
+                                                      VerticalOptions="Center">
+                                    <Label Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Text="{Binding ConditionName}" TextColor="#FFFFFF"
+                                                                   IsVisible="{Binding IsConditionNameLabelVisible}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                </StackLayout>
+                                <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 
                                       IsVisible="{Binding  labelobj.ConditionName.Status}"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="1"  Grid.Column="0" Text="{Binding ConditionName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>
+                                </Grid>-->
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.TaskName.Status}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.TaskName.Name}" TextColor="#FFFFFF" 

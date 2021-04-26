@@ -351,7 +351,7 @@
 
                 <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End"
                                   HeightRequest="45" Margin="6,0,6,2"
-                                  IsVisible="{Binding showLatestViewFrame}" BackgroundColor="White" >
+                                  IsVisible="{Binding showLatestViewFrame}" BackgroundColor="Transparent" >
                     <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
                                                 HeightRequest="43"  BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"

@@ -67,13 +67,23 @@
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
 
-                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.ConditionName.Status}"
+                                <StackLayout HorizontalOptions="Start"
+                                                              IsVisible="{Binding  labelobj.ConditionName.Status}"
+                                                      VerticalOptions="Center">
+                                    <Label Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}" HorizontalTextAlignment="Start"/>
+                                    <Label Text="{Binding ConditionName}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding IsConditionNameLabelVisible}"
+                                                           HorizontalTextAlignment="Start"/>
+                                </StackLayout>
+                                
+                                <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.ConditionName.Status}"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="1"  Grid.Column="0" Text="{Binding ConditionName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>
+                                </Grid>-->
 
                                 <Grid RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.POID.Status}"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"

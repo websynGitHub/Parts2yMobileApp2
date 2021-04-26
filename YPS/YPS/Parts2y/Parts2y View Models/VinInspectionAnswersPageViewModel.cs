@@ -72,6 +72,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IsResourcecVisible = selectedtagdata.TaskResourceID == Settings.userLoginID ? false : true;
                 TagNumber = selectedtagdata.TagNumber;
                 IndentCode = selectedtagdata.IdentCode;
+                IsConditionNameLabelVisible = string.IsNullOrEmpty(selectedTagData.ConditionName) ? false : true;
                 ConditionName = selectedtagdata.ConditionName;
                 //this.QuestiionsPageHeaderData = questiionsPageHeaderData;
                 TagNumber = selectedtagdata.TagNumber;
@@ -789,6 +790,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+        private bool _IsConditionNameLabelVisible = true;
+        public bool IsConditionNameLabelVisible
+        {
+            get { return _IsConditionNameLabelVisible; }
+            set
+            {
+                _IsConditionNameLabelVisible = value;
+                RaisePropertyChanged("IsConditionNameLabelVisible");
+            }
+        }
 
         private string _SignTabText = "Sign";
         public string SignTabText
