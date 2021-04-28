@@ -120,13 +120,17 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
 
-                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.EventName.Status}" 
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.EventName.Name}" TextColor="#FFFFFF" 
+                                <Frame VerticalOptions="Center" HorizontalOptions="Start" BackgroundColor="#FFBB00" 
+                                       CornerRadius="5" Padding="4,1,4,1">
+                                    <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.EventName.Status}" 
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,Auto">
+                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.EventName.Name}" TextColor="Black" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding EventName}" TextColor="#FFFFFF" 
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding EventName}" TextColor="Black" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>
+                                    </Grid>
+                                </Frame>
+                                
                             </StackLayout>
                         </Grid>
 
