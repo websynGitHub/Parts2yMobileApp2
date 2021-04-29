@@ -335,6 +335,10 @@ namespace YPS.Parts2y.Parts2y_Views
                         Command = new Command(async () => await Vm.RefreshPage()),
                     });
 
+                    searchEngineName.GestureRecognizers.Add(new TapGestureRecognizer
+                    {
+                        Command = new Command(async () => await Vm.ShowHideSearFilterList())
+                    });
                 });
             }
             catch (Exception ex)

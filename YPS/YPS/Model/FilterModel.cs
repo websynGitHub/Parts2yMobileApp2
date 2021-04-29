@@ -92,6 +92,7 @@ namespace YPS.Model
         public int ParentID { get; set; }
         public string DisplayText { get; set; }
         public int Status { get; set; }
+        public string DisplayText1 { get; set; }
     }
 
     public class SearchData : DDLmaster

@@ -30,7 +30,7 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                
+
                 if (Device.RuntimePlatform == Device.iOS)
                 {
                     var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
@@ -220,6 +220,32 @@ namespace YPS.Views
             {
                 YPSLogger.ReportException(ex, "GoToHome_Tapped method -> in FilterData.cs " + Settings.userLoginID);
                 yPSService.Handleexception(ex);
+            }
+        }
+
+        private async void search_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                vm.IsSaveSearchContentVisible = true;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "search_Clicked method -> in FilterData.cs " + Settings.userLoginID);
+                await yPSService.Handleexception(ex);
+            }
+        }
+
+        private async void CloseSearchFilterPopUp(object sender, EventArgs e)
+        {
+            try
+            {
+                vm.IsSaveSearchContentVisible = false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "CloseSearchFilterPopUp Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await yPSService.Handleexception(ex);
             }
         }
     }

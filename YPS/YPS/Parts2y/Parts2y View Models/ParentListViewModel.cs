@@ -121,6 +121,54 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        public async Task ShowHideSearFilterList()
+        {
+            try
+            {
+                YPSLogger.TrackEvent("PoDataViewModel", "in ShowHideSearFilterList method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                var result = await trackService.GetSavedUserSearchSettings();
+
+                if (result != null && result.data != null)
+                {
+                    SearchFilterList = new List<SearchFilterDDLmaster>();
+                    SearchFilterList.AddRange(result.data);
+
+                    SelectedFilterName = SearchFilterList?.Where(wr => wr.Status == 1).FirstOrDefault();
+
+                    IsSearchFilterListVisible = IsSearchFilterListVisible == true ? false : true;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ShowHideSearFilterList -> in ParentListViewModel.cs " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadingindicator = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets called when an item is selected from Filter DropDownList
+        /// </summary>
+        public async void FilterSelected()
+        {
+            try
+            {
+                if (SelectedFilterName != null)
+                {
+                    //FilterName = (IsNewSaveSearchEntryVisible = SelectedFilterName.Name.Trim().ToLower() == "new" ? true : false) == false ? SelectedFilterName.Name : string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "FilterSelected method -> in ParentListViewModel " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+        }
+
 
         private async Task TabChange(string tabname)
         {
@@ -2043,6 +2091,54 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        private List<SearchFilterDDLmaster> _SearchFilterList;
+        public List<SearchFilterDDLmaster> SearchFilterList
+        {
+            get { return _SearchFilterList; }
+            set
+            {
+                _SearchFilterList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private SearchFilterDDLmaster _SelectedFilterName;
+        public SearchFilterDDLmaster SelectedFilterName
+        {
+            get { return _SelectedFilterName; }
+            set
+            {
+                _SelectedFilterName = value;
+                NotifyPropertyChanged();
+                FilterSelected();
+            }
+        }
+
+        private string _FilterName;
+        public string FilterName
+        {
+            get { return _FilterName; }
+            set
+            {
+                _FilterName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsSearchFilterListVisible { set; get; }
+        public bool IsSearchFilterListVisible
+        {
+            get
+            {
+                return _IsSearchFilterListVisible;
+            }
+            set
+            {
+                this._IsSearchFilterListVisible = value;
+                RaisePropertyChanged("IsSearchFilterListVisible");
+            }
+        }
+
         private bool _IsLoadTabVisible { set; get; } = true;
         public bool IsLoadTabVisible
         {

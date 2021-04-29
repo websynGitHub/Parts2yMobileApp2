@@ -1,14 +1,24 @@
-﻿namespace YPS.Model
+﻿using System.Collections.ObjectModel;
+using System.Drawing;
+using YPS.Service;
+
+namespace YPS.Model
 {
     public class SearchModel
     {
         public class SearchPassData
         {
+            public int ID { get; set; }
             public int UserID { get; set; }
             public int CompanyID { get; set; }
+            public int ProjectID { get; set; }
+            public int JobID { get; set; }
             public string SearchCriteria { get; set; }
             public string yShipSearchCriteria { get; set; }
+            public string SearchName { get; set; }
+            public bool IsCurrentSearch { get; set; }
         }
+
         public class SearchSetting
         {
             public string message { get; set; }
@@ -18,6 +28,37 @@
             public SearchSetting()
             {
                 data = new SearchPassData();
+            }
+        }
+
+        public class GetSearchFilterListResponse
+        {
+            public string message { get; set; }
+            public int status { get; set; }
+            public ObservableCollection<SearchFilterDDLmaster> data { get; set; }
+        }
+
+        public class SearchFilterDDLmaster : IBase
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public int ParentID { get; set; }
+            public string DisplayText { get; set; }
+            public int Status { get; set; }
+            public string DisplayText1 { get; set; }
+
+            private Color _SelectedTagBorderColor = Color.Transparent;
+            public Color SelectedTagBorderColor
+            {
+                get
+                {
+                    return _SelectedTagBorderColor;
+                }
+                set
+                {
+                    this._SelectedTagBorderColor = value;
+                    RaisePropertyChanged("SelectedTagBorderColor");
+                }
             }
         }
     }

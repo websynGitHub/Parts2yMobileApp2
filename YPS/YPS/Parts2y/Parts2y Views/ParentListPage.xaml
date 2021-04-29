@@ -104,7 +104,18 @@
                                 <Label Grid.Row="0"  Grid.Column="1" Text="{Binding JobName}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                             </Grid>
-                        </StackLayout>
+
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="false"
+                          HorizontalOptions="End" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <local:FontAwesomeIconLabel x:Name="searchEngineName" 
+                                                            AutomationId="AutoRefreshToolbarIcon" 
+                                                            Text="{x:Static local1:Icons.SearchEngine}"
+                                                            Style="{StaticResource LblIconStyle}"
+                                                             HorizontalOptions="Start"
+                                        VerticalOptions="Center" Margin="10,0,10,10"/>
+
+                                </Grid>
+                            </StackLayout>
                     </Grid>
 
                         <StackLayout Grid.Row="1" Padding="0" Margin="0" BackgroundColor="Transparent"
@@ -410,12 +421,69 @@
             </StackLayout>
             
             </RelativeLayout>
+            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
+                         VerticalOptions="FillAndExpand" IsVisible="False" 
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                    <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
+                    <CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" SelectedItem="{Binding SelectedFilterName}" 
+                                    VerticalOptions="Fill" Margin="0,6,0,0" SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                    <Frame Margin="0,0,0,0" Padding="15,12,15,12" BorderColor="{Binding SelectedTagBorderColor}" 
+                                       BackgroundColor="White" CornerRadius="4"  HasShadow="False">
+                                        <StackLayout Orientation="Vertical">
+                                            <Grid RowDefinitions="*" ColumnDefinitions="*">
+                                                <StackLayout Orientation="Vertical">
+
+                                                <Label Text="{Binding DisplayText}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                <!--<Grid HorizontalOptions="Start" RowSpacing="0"
+                                                           IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=POPage}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                        <Label Text="{Binding BindingContext.labelobj.TaskName.Name, 
+                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                    </Grid>-->
+                                                    
+                                                </StackLayout>
+                                            </Grid>
+
+                                            <StackLayout VerticalOptions="Start"
+                                                      HorizontalOptions="FillAndExpand" Orientation="Horizontal"
+                                                             >
+
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+
+                                                    <local:FontAwesomeIconLabel Text="{Binding POTaskStatusIcon}" FontSize="23" TextColor="#000000" 
+                                                                                 Margin="0,0,10,0" HorizontalOptions="End" VerticalOptions="Center" />
+
+                                                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.MyDeleteIc}" 
+                                                 FontSize="37" TextColor="#000000" HorizontalOptions="End" 
+                                                 VerticalOptions="Start" Margin="0,0,0,3">
+                                                    </local:FontAwesomeIconLabel>
+                                                </StackLayout>
+                                            </StackLayout>
+
+
+                                        </StackLayout>
+
+
+                                    </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    </Frame>
+            </ContentView>
+            
             <ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
                          VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Label HorizontalTextAlignment="Center"
                          Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
             </ContentView>
+            
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadingindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">

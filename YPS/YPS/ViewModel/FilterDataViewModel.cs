@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Newtonsoft.Json;
+using Syncfusion.XForms.Buttons;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,6 +36,7 @@ namespace YPS.ViewModel
         public ICommand Priority_PickerCommand { set; get; }
         public ICommand resetCommand { set; get; }
         public ICommand applyCommand { set; get; }
+        public ICommand SaveAndSearchCmd { set; get; }
         public ICommand keyTabCommand { set; get; }
         #endregion
 
@@ -57,6 +59,7 @@ namespace YPS.ViewModel
             public filtterlabelFields ResourceName { get; set; } = new filtterlabelFields() { Name = "Resource", Status = true };
             public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
             public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
+            public filtterlabelFields SaveSearchBtn { get; set; } = new filtterlabelFields() { Name = "Save & Search", Status = true };
 
         }
         public class filtterlabelFields : IBase
@@ -123,13 +126,15 @@ namespace YPS.ViewModel
                 #endregion
 
                 #region BInding tab & click event methods to respective ICommand properties
-                applyCommand = new Command(async () => await ApplyFilter());
+                applyCommand = new Command(ApplyFilter);
+                SaveAndSearchCmd = new Command(ApplyFilter);
                 resetCommand = new Command(async () => await ResetFilter());
                 keyTabCommand = new Command(async () => await KeyTabClick());
                 #endregion
 
                 ChangeLabel();
                 HeaderFilterData();
+                Task.Run(() => GetSavedUserSearchSettings());
             }
             catch (Exception ex)
             {
@@ -139,6 +144,48 @@ namespace YPS.ViewModel
             finally
             {
                 IndicatorVisibility = false;
+            }
+        }
+
+        public async Task GetSavedUserSearchSettings()
+        {
+            try
+            {
+                SearchFilterList = new List<SearchFilterDDLmaster>();
+                SearchFilterList.Add(new SearchFilterDDLmaster() { Name = "New", ID = 0 });
+
+                var result = await service.GetSavedUserSearchSettings();
+
+                if (result != null && result.data != null)
+                {
+                   
+                    SearchFilterList.AddRange(result.data);
+
+                    SelectedFilterName = SearchFilterList?.Where(wr => wr.Status == 1).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetSavedUserSearchSettings method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+        /// <summary>
+        /// Gets called when an item is selected from Filter DropDownList
+        /// </summary>
+        public async void FilterSelected()
+        {
+            try
+            {
+                if (SelectedFilterName != null)
+                {
+                    FilterName = (IsNewSaveSearchEntryVisible = SelectedFilterName.Name.Trim().ToLower() == "new" ? true : false) == false ? SelectedFilterName.Name : string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "FilterSelected method -> in FilterDataViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
@@ -164,7 +211,7 @@ namespace YPS.ViewModel
         /// Gets called when clicked on "Search" button.
         /// </summary>
         /// <returns></returns>
-        private async Task ApplyFilter()
+        private async void ApplyFilter(object sender)
         {
             try
             {
@@ -200,10 +247,18 @@ namespace YPS.ViewModel
                     SearchPassData defaultData = new SearchPassData();
                     defaultData.UserID = Settings.userLoginID;
                     defaultData.CompanyID = Settings.CompanyID;
+                    defaultData.ProjectID = Settings.ProjectID;
+                    defaultData.JobID = Settings.JobID;
+                    defaultData.SearchName = FilterName;
+                    //defaultData.IsCurrentSearch = true;
+                    defaultData.ID = defaultData.SearchName.Trim().ToLower() == "new" ? 0 : SelectedFilterName.ID;
                     defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
+                    //defaultData.SearchCriteria = defaultData.SearchName.Trim().ToLower() == "new" ? JsonConvert.SerializeObject(SelectedFilterName.DisplayText1) : JsonConvert.SerializeObject(SaveUserDS);
                     var responseData = await service.SaveSerchvaluesSetting(defaultData);
 
                     Settings.IsFilterreset = true;
+                    FilterName = string.Empty;
+
                     //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
                     await Navigation.PopAsync();
                 }
@@ -246,7 +301,12 @@ namespace YPS.ViewModel
                     SearchPassData defaultData = new SearchPassData();
                     defaultData.CompanyID = Settings.CompanyID;
                     defaultData.UserID = Settings.userLoginID;
-
+                    defaultData.CompanyID = Settings.CompanyID;
+                    defaultData.ProjectID = Settings.ProjectID;
+                    defaultData.JobID = Settings.JobID;
+                    //defaultData.SearchName = FilterName;
+                    ////defaultData.IsCurrentSearch = true;
+                    //defaultData.ID = defaultData.SearchName.Trim().ToLower() == "new" ? 0 : SelectedFilterName.ID;
                     // Setting the default values for fields in Key tab
                     SaveUserDS.PONumber = Settings.PONumber = poNumber = string.Empty;
                     SaveUserDS.REQNo = Settings.REQNo = reqNumber = string.Empty;
@@ -680,6 +740,7 @@ namespace YPS.ViewModel
 
                         var ResetBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.ResetBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var SearchBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.SearchBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var SaveSearchBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.SaveSearchBtn.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Changing label & Show/Hide fields
                         labelobj.PO.Name = poval != null ? poval.LblText : "Purchase#";
@@ -713,6 +774,7 @@ namespace YPS.ViewModel
 
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
+                        labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SearchBtn.LblText : "Save And Search";
                     }
                 }
 
@@ -749,7 +811,61 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+        private List<SearchFilterDDLmaster> _SearchFilterList;
+        public List<SearchFilterDDLmaster> SearchFilterList
+        {
+            get { return _SearchFilterList; }
+            set
+            {
+                _SearchFilterList = value;
+                NotifyPropertyChanged();
+            }
+        }
 
+        private SearchFilterDDLmaster _SelectedFilterName;
+        public SearchFilterDDLmaster SelectedFilterName
+        {
+            get { return _SelectedFilterName; }
+            set
+            {
+                _SelectedFilterName = value;
+                NotifyPropertyChanged();
+                FilterSelected();
+            }
+        }
+
+        private string _FilterName;
+        public string FilterName
+        {
+            get { return _FilterName; }
+            set
+            {
+                _FilterName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsNewSaveSearchEntryVisible;
+        public bool IsNewSaveSearchEntryVisible
+        {
+            get { return _IsNewSaveSearchEntryVisible; }
+            set
+            {
+                _IsNewSaveSearchEntryVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsSaveSearchContentVisible;
+        public bool IsSaveSearchContentVisible
+        {
+            get { return _IsSaveSearchContentVisible; }
+            set
+            {
+                _IsSaveSearchContentVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor

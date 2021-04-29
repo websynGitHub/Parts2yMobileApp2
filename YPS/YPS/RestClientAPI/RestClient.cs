@@ -210,7 +210,10 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                string url = WebServiceUrl + "PO/GetUserSearchSettings?UserID=" + userId + "&CompanyID=" + Settings.CompanyID;
+                string url = WebServiceUrl + "PO/GetUserSearchSettings?UserID=" + userId
+                    + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID;
                 return await requestProvider.PostAsync<SearchSetting>(url);
             }
             catch (Exception ex)
@@ -1562,6 +1565,28 @@ namespace YPS.RestClientAPI
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "LoadPhotoUpload method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Saved User Search Settings
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetSearchFilterListResponse> GetSavedUserSearchSettings()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<GetSearchFilterListResponse>(WebServiceUrl +
+                    "PO/GetSavedUserSearchSettings?UserID=" + Settings.userLoginID
+                    + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetScanConfig method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

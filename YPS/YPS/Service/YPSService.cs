@@ -947,5 +947,15 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.DeleteAllRepoPhoto();
         }
+
+        /// <summary>
+        /// Get Saved User Search Settings
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetSearchFilterListResponse> GetSavedUserSearchSettings()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetSavedUserSearchSettings();
+        }
     }
 }
