@@ -258,7 +258,7 @@
                                         <flv:FlowListView.FlowColumnTemplate>
                                             <DataTemplate>
                                                 <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10"
-                                                       HasShadow="False" BackgroundColor="Black" >
+                                                       HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
                                                     <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center"
                                                            VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
                                                     <Frame.GestureRecognizers>
