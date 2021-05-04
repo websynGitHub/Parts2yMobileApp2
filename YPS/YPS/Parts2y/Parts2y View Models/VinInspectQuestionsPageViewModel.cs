@@ -98,6 +98,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsDealerSignVisible = true;
                     IsOwnerSignVisible = false;
+                    IsSignatureCarrierVisible = true;
+
 
                     if (result != null && result.status == 1)
                     {
@@ -130,6 +132,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsDealerSignVisible = false;
                     IsOwnerSignVisible = true;
+                    IsSignatureCarrierVisible = true;
 
 
                     if (result != null && result.status == 1)

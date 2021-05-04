@@ -1586,7 +1586,47 @@ namespace YPS.RestClientAPI
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "GetScanConfig method -> in RestClient.cs" + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetSavedUserSearchSetting method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Saved User Search Settings
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SearchSetting> GetSavedUserSearchSettingsByID(SearchPassData obj)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<SearchSetting>(WebServiceUrl +
+                    "PO/GetUserSearchSettingByID?UserID=" + Settings.userLoginID
+                    + "&ID=" + Helperclass.Encrypt(Convert.ToString(obj.ID)));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetSavedUserSearchSettingsByID method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Delete User Search Filter
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SearchDataSimpleResponse> DeleteUserSearchFilter(SearchPassData obj)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<SearchDataSimpleResponse>(WebServiceUrl +
+                    "PO/DeleteUserSearchFilter?UserID=" + Settings.userLoginID
+                    + "&ID=" + Helperclass.Encrypt(Convert.ToString(obj.ID)));
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "DeleteUserSearchFilter method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

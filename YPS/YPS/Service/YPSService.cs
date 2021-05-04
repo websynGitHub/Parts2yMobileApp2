@@ -957,5 +957,25 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.GetSavedUserSearchSettings();
         }
+
+        /// <summary>
+        /// Get Saved User Search Settings by ID
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SearchSetting> GetSavedUserSearchSettingsByID(SearchPassData obj)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetSavedUserSearchSettingsByID(obj);
+        }
+
+        /// <summary>
+        /// Delete User Search Filter
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SearchDataSimpleResponse> DeleteUserSearchFilter(SearchPassData obj)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.DeleteUserSearchFilter(obj);
+        }
     }
 }

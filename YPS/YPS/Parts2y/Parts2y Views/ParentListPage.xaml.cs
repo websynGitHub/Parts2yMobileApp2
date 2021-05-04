@@ -58,13 +58,13 @@ namespace YPS.Parts2y.Parts2y_Views
                     Vm.IsLoadTabVisible = false;
                 }
 
-                if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                {
-                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    safeAreaInset.Bottom = 0;
-                    safeAreaInset.Top = 30;
-                    headerpart.Padding = safeAreaInset;
-                }
+                //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                //{
+                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                //    safeAreaInset.Bottom = 0;
+                //    safeAreaInset.Top = 30;
+                //    headerpart.Padding = safeAreaInset;
+                //}
 
                 Settings.mutipleTimeClick = false;
                 bool reloadGrid = true;
@@ -256,12 +256,13 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Settings.mutipleTimeClick = false;
 
-                if (Settings.refreshPage == 1)
-                {
-                    var checkInternet = await App.CheckInterNetConnection();
+                var checkInternet = await App.CheckInterNetConnection();
 
-                    if (checkInternet)
+                if (checkInternet)
+                {
+                    if (Settings.refreshPage == 1)
                     {
+
                         Settings.refreshPage = 0;
 
                         if (Settings.IsFilterreset == true)
@@ -270,6 +271,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             //Task.Run(() => PageSizeDDLBinding()).Wait();
                             //dataPager.PageIndexChanged += pageIndexChanged;
                         }
+
 
                         if (Vm.AllTabVisibility == true)
                         {
@@ -289,11 +291,15 @@ namespace YPS.Parts2y.Parts2y_Views
                         }
                         //await Vm.BindGridData(false, false,-1);
                     }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
+
+                    Vm.IsSearchFilterListVisible = true;
+                    await Vm.ShowHideSearFilterList();
                 }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+
                 Vm.loadingindicator = false;
             }
             catch (Exception ex)
@@ -363,6 +369,19 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
+            }
+        }
+
+        private async void HideSearchFilter(object sender, EventArgs e)
+        {
+            try
+            {
+                Vm.IsSearchFilterListVisible = false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "HideSearchFilter Method -> in ParentListPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
     }

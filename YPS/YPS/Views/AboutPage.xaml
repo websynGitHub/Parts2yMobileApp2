@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
             <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="DarkGreen" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                          RowDefinitions="*" ColumnDefinitions="60,*,Auto">
+                          RowDefinitions="*" ColumnDefinitions="60,*,Auto" Padding="0,48,0,0">
                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
                                                   VerticalOptions="Center" Margin="10,10,10,10">

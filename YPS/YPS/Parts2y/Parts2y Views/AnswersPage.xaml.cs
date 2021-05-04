@@ -21,13 +21,13 @@ namespace YPS.Parts2y.Parts2y_Views
             InitializeComponent();
             BindingContext = Vm = new AnswersPageViewModel(Navigation, this, inspectionConfiguration, tagId, inspectionConfigurationList, inspectionResultsLists, tagNumber, indentCode, bagNumber, questiionsPageHeaderData);
 
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                safeAreaInset.Bottom = 0;
-                safeAreaInset.Top = 30;
-                headerpart.Padding = safeAreaInset;
-            }
+            //if (Device.RuntimePlatform == Device.iOS)
+            //{
+            //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+            //    safeAreaInset.Bottom = 0;
+            //    safeAreaInset.Top = 30;
+            //    headerpart.Padding = safeAreaInset;
+            //}
         }
 
         protected override void OnAppearing()

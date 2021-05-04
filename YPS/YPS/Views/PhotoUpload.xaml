@@ -27,7 +27,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
-                          RowDefinitions="*" ColumnDefinitions="60,*,40">
+                          RowDefinitions="*" ColumnDefinitions="60,*,40" Padding="0,48,0,0">
 
                         <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 

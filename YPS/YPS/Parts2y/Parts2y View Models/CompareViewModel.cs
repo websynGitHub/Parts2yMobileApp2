@@ -82,8 +82,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     SelectedRule.ID = result.data.ScanConfigID;
                     TotalCount = result.data.ScanCount;
-                    //YPS.CommonClasses.Settings.ScanConfigID = result.data.ScanConfigID;
-                    //YPS.CommonClasses.Settings.ScanCount = result.data.ScanCount;
                 }
 
                 var daatddl = await trackService.GetScanConfig();

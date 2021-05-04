@@ -151,15 +151,15 @@ namespace YPS.ViewModel
         {
             try
             {
-                SearchFilterList = new List<SearchFilterDDLmaster>();
-                SearchFilterList.Add(new SearchFilterDDLmaster() { Name = "New", ID = 0 });
+                SearchFilterList = new List<SearchPassData>();
+                SearchFilterList.Add(new SearchPassData() { Name = "New", ID = 0 });
 
                 var result = await service.GetSavedUserSearchSettings();
 
                 if (result != null && result.data != null)
                 {
-                   
-                    SearchFilterList.AddRange(result.data);
+
+                    SearchFilterList.AddRange(result.data.Where(wr => !string.IsNullOrEmpty(wr.Name)));
 
                     SelectedFilterName = SearchFilterList?.Where(wr => wr.Status == 1).FirstOrDefault();
                 }
@@ -219,53 +219,67 @@ namespace YPS.ViewModel
                 await Task.Delay(50);
                 UserDialogs.Instance.ShowLoading("Loading...");
 
-                //Verifying internet connection.
-                checkInternet = await App.CheckInterNetConnection();
+                var val = sender as SfButton;
 
-                if (checkInternet)
+
+                if (val.StyleId.Trim().ToLower() != "searchfilter".Trim().ToLower() ||
+                    (val.StyleId.Trim().ToLower() == "searchfilter".Trim().ToLower() && SelectedFilterName != null &&
+                    !string.IsNullOrEmpty(FilterName)))
                 {
-                    SendPodata SaveUserDS = new SendPodata();
-                    Settings.UserID = Settings.userLoginID;
+                    //Verifying internet connection.
+                    checkInternet = await App.CheckInterNetConnection();
 
-                    //Getting the entered feild values from Key tab
-                    SaveUserDS.PONumber = Settings.PONumber = poNumber;
-                    SaveUserDS.REQNo = Settings.REQNo = reqNumber;
-                    SaveUserDS.ShippingNo = Settings.ShippingNo = shipNumber;
-                    SaveUserDS.DisciplineID = Settings.DisciplineID;
-                    SaveUserDS.ELevelID = Settings.ELevelID;
-                    SaveUserDS.ConditionID = Settings.ConditionID;
-                    SaveUserDS.ExpeditorID = Settings.ExpeditorID;
-                    SaveUserDS.PriorityID = Settings.PriorityID;
-                    SaveUserDS.ResourceID = Settings.ResourceID;
-                    SaveUserDS.TagNo = Settings.TAGNo = tagNumber;
-                    SaveUserDS.IdentCode = Settings.IdentCodeNo = Identcode;
-                    SaveUserDS.BagNo = Settings.BagNo = BagNumber;
-                    SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber;
-                    SaveUserDS.TaskName = Settings.TaskName = JobName;
+                    if (checkInternet)
+                    {
 
-                    //Save the filter field values to DB
-                    SearchPassData defaultData = new SearchPassData();
-                    defaultData.UserID = Settings.userLoginID;
-                    defaultData.CompanyID = Settings.CompanyID;
-                    defaultData.ProjectID = Settings.ProjectID;
-                    defaultData.JobID = Settings.JobID;
-                    defaultData.SearchName = FilterName;
-                    //defaultData.IsCurrentSearch = true;
-                    defaultData.ID = defaultData.SearchName.Trim().ToLower() == "new" ? 0 : SelectedFilterName.ID;
-                    defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
-                    //defaultData.SearchCriteria = defaultData.SearchName.Trim().ToLower() == "new" ? JsonConvert.SerializeObject(SelectedFilterName.DisplayText1) : JsonConvert.SerializeObject(SaveUserDS);
-                    var responseData = await service.SaveSerchvaluesSetting(defaultData);
+                        SendPodata SaveUserDS = new SendPodata();
+                        Settings.UserID = Settings.userLoginID;
 
-                    Settings.IsFilterreset = true;
-                    FilterName = string.Empty;
+                        //Getting the entered feild values from Key tab
+                        SaveUserDS.PONumber = Settings.PONumber = poNumber;
+                        SaveUserDS.REQNo = Settings.REQNo = reqNumber;
+                        SaveUserDS.ShippingNo = Settings.ShippingNo = shipNumber;
+                        SaveUserDS.DisciplineID = Settings.DisciplineID;
+                        SaveUserDS.ELevelID = Settings.ELevelID;
+                        SaveUserDS.ConditionID = Settings.ConditionID;
+                        SaveUserDS.ExpeditorID = Settings.ExpeditorID;
+                        SaveUserDS.PriorityID = Settings.PriorityID;
+                        SaveUserDS.ResourceID = Settings.ResourceID;
+                        SaveUserDS.TagNo = Settings.TAGNo = tagNumber;
+                        SaveUserDS.IdentCode = Settings.IdentCodeNo = Identcode;
+                        SaveUserDS.BagNo = Settings.BagNo = BagNumber;
+                        SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber;
+                        SaveUserDS.TaskName = Settings.TaskName = JobName;
 
-                    //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                    await Navigation.PopAsync();
+                        //Save the filter field values to DB
+                        SearchPassData defaultData = new SearchPassData();
+                        defaultData.UserID = Settings.userLoginID;
+                        defaultData.CompanyID = Settings.CompanyID;
+                        defaultData.ProjectID = Settings.ProjectID;
+                        defaultData.JobID = Settings.JobID;
+                        defaultData.SearchName = val.StyleId.Trim().ToLower() != "search".Trim().ToLower() ? FilterName : null;
+                        //defaultData.IsCurrentSearch = true;
+                        defaultData.ID = defaultData.SearchName?.Trim().ToLower() == "new" || val.StyleId.Trim().ToLower() == "search".Trim().ToLower() ? 0 : SelectedFilterName.ID;
+                        defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
+                        var responseData = await service.SaveSerchvaluesSetting(defaultData);
+
+                        Settings.IsFilterreset = true;
+                        FilterName = string.Empty;
+
+                        //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
+                        await Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    SearchFilterDDlHasError = SelectedFilterName == null ? true : false;
+                    SearchFilterEntryHasError = string.IsNullOrEmpty(FilterName) ? true : false;
                 }
+
             }
             catch (Exception ex)
             {
@@ -774,7 +788,7 @@ namespace YPS.ViewModel
 
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
-                        labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SearchBtn.LblText : "Save And Search";
+                        labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SearchBtn.LblText : "Save & Search";
                     }
                 }
 
@@ -811,8 +825,41 @@ namespace YPS.ViewModel
         }
 
         #region Properties
-        private List<SearchFilterDDLmaster> _SearchFilterList;
-        public List<SearchFilterDDLmaster> SearchFilterList
+        private Color _FiltercontainerColor = Color.FromHex("#772F4F4F");
+        public Color FiltercontainerColor
+        {
+            get { return _FiltercontainerColor; }
+            set
+            {
+                _FiltercontainerColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _SearchFilterDDlHasError;
+        public bool SearchFilterDDlHasError
+        {
+            get { return _SearchFilterDDlHasError; }
+            set
+            {
+                _SearchFilterDDlHasError = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _SearchFilterEntryHasError;
+        public bool SearchFilterEntryHasError
+        {
+            get { return _SearchFilterEntryHasError; }
+            set
+            {
+                _SearchFilterEntryHasError = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<SearchPassData> _SearchFilterList;
+        public List<SearchPassData> SearchFilterList
         {
             get { return _SearchFilterList; }
             set
@@ -822,8 +869,8 @@ namespace YPS.ViewModel
             }
         }
 
-        private SearchFilterDDLmaster _SelectedFilterName;
-        public SearchFilterDDLmaster SelectedFilterName
+        private SearchPassData _SelectedFilterName;
+        public SearchPassData SelectedFilterName
         {
             get { return _SelectedFilterName; }
             set

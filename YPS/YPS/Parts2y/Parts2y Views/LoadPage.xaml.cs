@@ -35,13 +35,13 @@ namespace YPS.Parts2y.Parts2y_Views
                     loadStack.IsVisible = false;
                 }
 
-                if (Device.RuntimePlatform == Device.iOS)
-                {
-                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    safeAreaInset.Bottom = 0;
-                    safeAreaInset.Top = 20;
-                    headerpart.Padding = safeAreaInset;
-                }
+                //if (Device.RuntimePlatform == Device.iOS)
+                //{
+                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                //    safeAreaInset.Bottom = 0;
+                //    safeAreaInset.Top = 20;
+                //    headerpart.Padding = safeAreaInset;
+                //}
 
                 Settings.IsRefreshPartsPage = true;
                 BindingContext = Vm = new LoadPageViewModel(Navigation, selectedtagdata, sendpodata, isalltasksdone, this);

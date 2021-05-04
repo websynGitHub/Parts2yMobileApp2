@@ -5,7 +5,7 @@
         public static readonly string RefreshIc = "\uf021";
         public static readonly string SearchIc = "\uf002";
         public static readonly string SearchPlusIc = "\uf00e";
-        public static readonly string SearchEngine = "\uf36b";
+        public static readonly string Filter = "\uf0b0";
         public static readonly string CheckBoxIc = "\uf14a";
         public static readonly string CameraIc = "\uf030";
         public static readonly string ChatIc = "\uf086";

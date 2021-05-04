@@ -39,7 +39,7 @@
 
                     <Grid RowDefinitions="Auto,Auto,Auto,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                           RowSpacing="0">
-                        <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart" Grid.Row="0"
+                        <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart" Grid.Row="0" Padding="0,48,0,0"
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="60,*">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal">

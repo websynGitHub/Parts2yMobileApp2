@@ -36,13 +36,13 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings.IsRefreshPartsPage = true;
                 selectedTagData = selectedtagdata;
 
-                if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                {
-                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    safeAreaInset.Bottom = 0;
-                    safeAreaInset.Top = 30;
-                    headerpart.Padding = safeAreaInset;
-                }
+                //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                //{
+                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                //    safeAreaInset.Bottom = 0;
+                //    safeAreaInset.Top = 30;
+                //    headerpart.Padding = safeAreaInset;
+                //}
 
                 BindingContext = Vm = new VinInspectQuestionsPageViewModel(Navigation, this, selectedTagData, isalldone);
             }

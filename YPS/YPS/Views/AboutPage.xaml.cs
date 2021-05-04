@@ -26,13 +26,13 @@ namespace YPS.Views
             {
                 InitializeComponent();
 
-                if (Device.RuntimePlatform == Device.iOS)
-                {
-                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    safeAreaInset.Bottom = 0;
-                    safeAreaInset.Top = 20;
-                    headerpart.Padding = safeAreaInset;
-                }
+                //if (Device.RuntimePlatform == Device.iOS)
+                //{
+                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                //    safeAreaInset.Bottom = 0;
+                //    safeAreaInset.Top = 20;
+                //    headerpart.Padding = safeAreaInset;
+                //}
 
                 headerpart.BackgroundColor = Settings.Bar_Background;
                 var currentVersion = VersionTracking.CurrentVersion;

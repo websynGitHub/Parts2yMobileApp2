@@ -56,6 +56,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command JobCmd { get; set; }
         public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
+        public ICommand DeleteFilterSearchCmd { get; set; }
 
         YPSService trackService;
         ParentListPage pagename;
@@ -86,7 +87,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 mainStack = true;
 
                 Task.Run(() => ChangeLabel()).Wait();
-                Task.Run(() => BindGridData(false, false, -1)).Wait();
+                Task.Run(() => BindGridData(-1)).Wait();
 
                 #region Assigning methods to the respective ICommands
                 tab_ClearSearch = new Command(async () => await ClearSearch());
@@ -106,11 +107,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PendingCmd = new Command(async () => await Pending_Tap());
                 AllCmd = new Command(async () => await All_Tap());
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
+                DeleteFilterSearchCmd = new Command(DeleteFilterSearch);
 
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
+
                 #endregion
 
             }
@@ -121,22 +124,65 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        public async void DeleteFilterSearch(object sender)
+        {
+            try
+            {
+                YPSLogger.TrackEvent("ParentListViewModel", "in DeleteFilterSearch method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                if (await App.Current.MainPage.DisplayAlert("Delete", "you sure you want to delete?", "OK", "Cancel") == true)
+                {
+                    var value = sender as SearchPassData;
+                    var result = await trackService.DeleteUserSearchFilter(value);
+
+                    if (result != null && result.data != null)
+                    {
+                        SearchFilterList.Remove(value);
+
+                        if (SearchFilterList == null || SearchFilterList.Count == 0)
+                        {
+                            IsSearchFilterListVisible = false;
+                            IsSearchFilterIconVisible = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DeleteFilterSearch -> in ParentListViewModel.cs " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadingindicator = false;
+            }
+        }
+
         public async Task ShowHideSearFilterList()
         {
             try
             {
-                YPSLogger.TrackEvent("PoDataViewModel", "in ShowHideSearFilterList method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel", "in ShowHideSearFilterList method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var result = await trackService.GetSavedUserSearchSettings();
 
                 if (result != null && result.data != null)
                 {
-                    SearchFilterList = new List<SearchFilterDDLmaster>();
-                    SearchFilterList.AddRange(result.data);
+                    SearchFilterList = new ObservableCollection<SearchPassData>(result.data);
 
-                    SelectedFilterName = SearchFilterList?.Where(wr => wr.Status == 1).FirstOrDefault();
+                    SearchFilterList.Where(wr => wr.Status == 1).Select(c =>
+                    {
+                        c.SelectedTagBorderColor = Settings.Bar_Background;
+                        return c;
+                    }).ToList();
 
-                    IsSearchFilterListVisible = IsSearchFilterListVisible == true ? false : true;
+                    IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
+                    IsSearchFilterListVisible = IsSearchFilterIconVisible == false ? false : IsSearchFilterListVisible == true ? false : true;
+                }
+                else
+                {
+                    IsSearchFilterIconVisible = false;
+                    IsSearchFilterIconVisible = false;
                 }
             }
             catch (Exception ex)
@@ -159,7 +205,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (SelectedFilterName != null)
                 {
-                    //FilterName = (IsNewSaveSearchEntryVisible = SelectedFilterName.Name.Trim().ToLower() == "new" ? true : false) == false ? SelectedFilterName.Name : string.Empty;
+                    SearchFilterList?.Where(wr => wr.SelectedTagBorderColor == Settings.Bar_Background)
+ .Select(c =>
+ {
+     c.SelectedTagBorderColor = Color.White;
+     return c;
+ }).ToList();
+                    SelectedFilterName.SelectedTagBorderColor = Settings.Bar_Background;
+                    await BindGridData(-1, true);
                 }
             }
             catch (Exception ex)
@@ -198,7 +251,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(false, false, 0);
+                await BindGridData(0);
 
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
@@ -217,7 +270,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(false, false, 1);
+                await BindGridData(1);
 
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -235,7 +288,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(false, false, 2);
+                await BindGridData(2);
 
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -253,7 +306,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(false, false, -1);
+                await BindGridData(-1);
 
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
@@ -267,7 +320,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async Task<GetPoData> GetRefreshedData()
+        public async Task<GetPoData> GetRefreshedData(bool isfromsearchfilter)
         {
             GetPoData result = new GetPoData();
             try
@@ -276,7 +329,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 sendPodata.UserID = Settings.userLoginID;
                 sendPodata.PageSize = Settings.pageSizeYPS;
                 sendPodata.StartPage = Settings.startPageYPS;
-                SearchResultGet(sendPodata);
+                await SearchResultGet(sendPodata, isfromsearchfilter);
 
                 result = await trackService.LoadPoDataService(sendPodata);
             }
@@ -294,7 +347,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// </summary>
         /// <param name="iSPagingNoAuto"></param>
         /// <returns></returns>
-        public async Task BindGridData(bool iscall, bool ISRefresh, int postatus)
+        public async Task BindGridData(int postatus, bool isfromsearchfilter = false)
         {
             try
             {
@@ -317,7 +370,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (checkInternet)
                         {
-                            var result = await GetRefreshedData();
+                            var result = await GetRefreshedData(isfromsearchfilter);
 
                             if (result != null)
                             {
@@ -446,7 +499,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     NoRecordsLbl = true;
                                     await CheckingSearchValues();
                                     ISPoDataListVisible = false;
-                                    iscall = false;
+                                    //iscall = false;
                                     loadingindicator = false;
                                     PendingText = labelobj.Pending.Name + "\n" + "(0)";
                                     InProgress = labelobj.Inprogress.Name + "\n" + "(0)";
@@ -639,7 +692,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         public async void IsRequired_Tap(object obj)
         {
-            YPSLogger.TrackEvent("PoDataViewModel", "in IsRequired_Tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ParentListViewModel", "in IsRequired_Tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
 
@@ -725,7 +778,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         public async void IsNotRequired_Tap(object obj)
         {
-            YPSLogger.TrackEvent("PoDataViewModel", "in IsNotRequired_Tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ParentListViewModel", "in IsNotRequired_Tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 var checkInternet = await App.CheckInterNetConnection();
@@ -958,7 +1011,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void tap_eachCamA(object obj)
         {
-            YPSLogger.TrackEvent("PoDataViewModel", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ParentListViewModel", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             if (!loadingindicator)
             {
@@ -982,7 +1035,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         catch (Exception ex)
                         {
-                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in PoDataViewModel! " + Settings.userLoginID);
+                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in ParentListViewModel! " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                         }
                         loadingindicator = false;
@@ -1555,6 +1608,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (Settings.filterPageCount == 0)
                         {
+                            IsSearchFilterListVisible = false;
                             Settings.filterPageCount = 1;
                             Settings.refreshPage = 1;
                             await Navigation.PushAsync(new FilterData());
@@ -1655,7 +1709,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             if (!loadingindicator)
             {
-                YPSLogger.TrackEvent("PoDataViewModel", "in clearData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel", "in clearData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 try
                 {
@@ -1669,11 +1723,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (NoRecordsLbl == true)
                         {
-                            BindGridData(false, false, -1);
+                            BindGridData(-1);
                         }
                         else if (NoRecordsLbl == false)
                         {
-                            BindGridData(true, false, -1);
+                            BindGridData(-1);
                         }
 
                         isloading = true;
@@ -1840,11 +1894,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// This method gets the search result based on search values.
         /// </summary>
         /// <param name="sendPodata"></param>
-        public async void SearchResultGet(SendPodata sendPodata)
+        public async Task SearchResultGet(SendPodata sendPodata, bool isfromsearchfilter = false)
         {
             try
             {
-                var Serchdata = await trackService.GetSearchValuesService(Settings.userLoginID);
+                SearchSetting Serchdata = new SearchSetting();
+
+                if (isfromsearchfilter == true)
+                {
+                    Serchdata = await trackService.GetSavedUserSearchSettingsByID(SelectedFilterName);
+
+                    if (Serchdata != null && Serchdata.data != null && !string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
+                    {
+                        SearchPassData defaultData = new SearchPassData();
+                        defaultData.SearchName = !string.IsNullOrEmpty(SelectedFilterName?.Name) ? SelectedFilterName?.Name : null;
+                        defaultData.ID = SelectedFilterName != null && SelectedFilterName.ID != 0 ? SelectedFilterName.ID : 0;
+                        defaultData.UserID = Settings.userLoginID;
+                        defaultData.CompanyID = Settings.CompanyID;
+                        defaultData.ProjectID = Settings.ProjectID;
+                        defaultData.JobID = Settings.JobID;
+                        defaultData.SearchCriteria = Serchdata.data.SearchCriteria;
+                        var responseData = await trackService.SaveSerchvaluesSetting(defaultData);
+                    }
+                }
+                else
+                {
+                    Serchdata = await trackService.GetSearchValuesService(Settings.userLoginID);
+                }
 
                 if (Serchdata != null)
                 {
@@ -1884,6 +1960,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         Settings.SearchWentWrong = true;
+                        await SaveAndClearSearch(true);
                     }
                 }
             }
@@ -2091,8 +2168,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
-        private List<SearchFilterDDLmaster> _SearchFilterList;
-        public List<SearchFilterDDLmaster> SearchFilterList
+        private bool _IsSearchFilterIconVisible { set; get; }
+        public bool IsSearchFilterIconVisible
+        {
+            get
+            {
+                return _IsSearchFilterIconVisible;
+            }
+            set
+            {
+                this._IsSearchFilterIconVisible = value;
+                RaisePropertyChanged("IsSearchFilterIconVisible");
+            }
+        }
+
+        private ObservableCollection<SearchPassData> _SearchFilterList;
+        public ObservableCollection<SearchPassData> SearchFilterList
         {
             get { return _SearchFilterList; }
             set
@@ -2102,14 +2193,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private SearchFilterDDLmaster _SelectedFilterName;
-        public SearchFilterDDLmaster SelectedFilterName
+        private SearchPassData _SelectedFilterName;
+        public SearchPassData SelectedFilterName
         {
             get { return _SelectedFilterName; }
             set
             {
                 _SelectedFilterName = value;
                 NotifyPropertyChanged();
+                IsSearchFilterListVisible = false;
                 FilterSelected();
             }
         }
@@ -2125,7 +2217,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsSearchFilterListVisible { set; get; }
+        private bool _IsSearchFilterListVisible { set; get; } = true;
         public bool IsSearchFilterListVisible
         {
             get

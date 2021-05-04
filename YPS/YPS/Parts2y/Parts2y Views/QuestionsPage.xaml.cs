@@ -23,13 +23,13 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 InitializeComponent();
 
-                if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                {
-                    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    safeAreaInset.Bottom = 0;
-                    safeAreaInset.Top = 30;
-                    headerpart.Padding = safeAreaInset;
-                }
+                //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
+                //{
+                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
+                //    safeAreaInset.Bottom = 0;
+                //    safeAreaInset.Top = 30;
+                //    headerpart.Padding = safeAreaInset;
+                //}
 
                 BindingContext = Vm = new QuestionsViewModel(Navigation, this, tagId, tagNumber, indentCode, bagNumber, questiionsPageHeaderData);
             }
