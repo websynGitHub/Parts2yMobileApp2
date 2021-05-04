@@ -177,7 +177,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }).ToList();
 
                     IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
-                    IsSearchFilterListVisible = IsSearchFilterIconVisible == false ? false : IsSearchFilterListVisible == true ? false : true;
+                    IsSearchFilterListVisible = IsSearchFilterIconVisible == false ? false : true;
                 }
                 else
                 {
@@ -2217,7 +2217,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsSearchFilterListVisible { set; get; } = true;
+        private bool _IsSearchFilterListVisible { set; get; } = false;
         public bool IsSearchFilterListVisible
         {
             get
