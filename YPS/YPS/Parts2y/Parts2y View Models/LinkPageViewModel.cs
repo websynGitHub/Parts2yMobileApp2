@@ -674,9 +674,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.InvoiceNumber.Status = invoicenumber == null ? true : (invoicenumber.Status == 1 ? true : false);
 
 
-                        labelobj.AfterPacking.Name = "Link to " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
+                        labelobj.AfterPacking.Name = "To " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
                         labelobj.AfterPacking.Status = afterpacking == null ? true : (afterpacking.Status == 1 ? true : false);
-                        labelobj.BeforePacking.Name = "Link to " + (beforepacking != null ? (!string.IsNullOrEmpty(beforepacking.LblText) ? beforepacking.LblText : labelobj.BeforePacking.Name) : labelobj.BeforePacking.Name);
+                        labelobj.BeforePacking.Name = "To " + (beforepacking != null ? (!string.IsNullOrEmpty(beforepacking.LblText) ? beforepacking.LblText : labelobj.BeforePacking.Name) : labelobj.BeforePacking.Name);
                         labelobj.BeforePacking.Status = beforepacking == null ? true : (beforepacking.Status == 1 ? true : false);
 
                         labelobj.Done.Name = (done != null ? (!string.IsNullOrEmpty(done.LblText) ? done.LblText : labelobj.Done.Name) : labelobj.Done.Name);
@@ -918,7 +918,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _Title = Settings.VersionID == 2 ? "VIN" : "Parts";
+        private string _Title = Settings.VersionID == 2 ? "Link VIN" : "Link Parts";
         public string Title
         {
             get { return _Title; }

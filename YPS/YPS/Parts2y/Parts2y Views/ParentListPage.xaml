@@ -417,7 +417,7 @@
             </RelativeLayout>
 
 
-            <ContentView BackgroundColor="#E9E9E9" Padding="0" Margin="10,25,10,25"
+            <ContentView BackgroundColor="Transparent" Padding="0" Margin="10,25,10,25"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                           IsVisible="{Binding IsSearchFilterListVisible}">
                 <Frame Padding="2" CornerRadius="8" BackgroundColor="#E9E9E9" BorderColor="{Binding BgColor}"
