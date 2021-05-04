@@ -34,7 +34,7 @@
         <AbsoluteLayout>
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="{OnPlatform iOS=90 , Android=Auto}"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <!--<RowDefinition Height="Auto"/>-->

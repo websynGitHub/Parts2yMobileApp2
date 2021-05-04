@@ -10,7 +10,7 @@
         <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                   >
             <Grid.RowDefinitions>
-                <RowDefinition Height="{OnPlatform iOS=90 , Android=Auto}"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -30,10 +30,11 @@
                                         VerticalOptions="CenterAndExpand"
                        Style="{StaticResource LblTitleName}"/>
             </Grid>
-            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1">
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1"
+                         Orientation="Vertical">
                 <Frame BackgroundColor="White" Margin="10"  VerticalOptions="FillAndExpand" 
                     CornerRadius="4" HasShadow="False">
-                    <Grid VerticalOptions="Center">
+                    <Grid VerticalOptions="Start">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
                             <RowDefinition Height="20"/>
