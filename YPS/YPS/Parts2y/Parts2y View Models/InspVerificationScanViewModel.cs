@@ -106,15 +106,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     ScannerPage = new ZXingScannerPage(null, overlay);
 
-                    ScannerPage.OnScanResult += (scanresult) =>
-                    {
+                    //ScannerPage.OnScanResult += (scanresult) =>
+                    //{
                         ScannerPage.IsScanning = false;
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             await Navigation.PopAsync();
 
-                            ScannedResult = scanresult.Text;
+                            ScannedResult = "TL3UWB22WLL672344";
 
                             if (!string.IsNullOrEmpty(ScannedResult))
                             {
@@ -122,10 +122,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 await GetDataAndVerify();
                             }
                         });
-                    };
+                    //};
 
                     if (Navigation.ModalStack.Count == 0 ||
-                                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                                                    Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
                         ScannerPage.AutoFocus();
 
