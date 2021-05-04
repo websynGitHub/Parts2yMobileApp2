@@ -39,7 +39,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                Title = Settings.VersionID == 2 ? "VIN" : "Parts";
+                Title = Settings.VersionID == 2 ? "Link VIN" : "Link Parts";
                 service = new YPSService();
                 Navigation = navigation;
                 pagename = page;
