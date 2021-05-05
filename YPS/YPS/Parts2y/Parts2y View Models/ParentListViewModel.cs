@@ -158,7 +158,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async Task ShowHideSearFilterList()
+        public async Task ShowHideSearFilterList(bool popfilterlist)
         {
             try
             {
@@ -170,14 +170,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     SearchFilterList = new ObservableCollection<SearchPassData>(result.data);
 
-                    SearchFilterList.Where(wr => wr.Status == 1).Select(c =>
-                    {
-                        c.SelectedTagBorderColor = Settings.Bar_Background;
-                        return c;
-                    }).ToList();
+                    SearchFilterList.Where(wr => wr.Status == 1 && Settings.IsSearchClicked == false).Select(c =>
+                      {
+                          c.SelectedTagBorderColor = Settings.Bar_Background;
+                          return c;
+                      }).ToList();
 
                     IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
-                    IsSearchFilterListVisible = IsSearchFilterIconVisible == false ? false : true;
+                    IsSearchFilterListVisible = popfilterlist == true ? true : false;
                 }
                 else
                 {
@@ -212,6 +212,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
      return c;
  }).ToList();
                     SelectedFilterName.SelectedTagBorderColor = Settings.Bar_Background;
+                    Settings.IsSearchClicked = false;
                     await BindGridData(-1, true);
                 }
             }
@@ -1719,7 +1720,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        await SaveAndClearSearch(false);
+                        await SaveAndClearSearch(new SendPodata(), false);
 
                         if (NoRecordsLbl == true)
                         {
@@ -1754,35 +1755,52 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        private async Task SaveAndClearSearch(bool val)
+        private async Task SaveAndClearSearch(SendPodata sendPodata, bool val)
         {
-            SendPodata SaveUserDS = new SendPodata();
+            //SendPodata SaveUserDS = new SendPodata();
             SearchPassData defaultData = new SearchPassData();
             try
             {
                 //Key
-                SaveUserDS.PONumber = Settings.PONumber = string.Empty;
-                SaveUserDS.REQNo = Settings.REQNo = string.Empty;
-                SaveUserDS.ShippingNo = Settings.ShippingNo = string.Empty;
-                SaveUserDS.DisciplineID = Settings.DisciplineID = 0;
-                SaveUserDS.ELevelID = Settings.ELevelID = 0;
-                SaveUserDS.ConditionID = Settings.ConditionID = 0;
-                SaveUserDS.ExpeditorID = Settings.ExpeditorID = 0;
-                SaveUserDS.PriorityID = Settings.PriorityID = 0;
-                SaveUserDS.ResourceID = Settings.ResourceID = 0;
-                SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
-                SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
-                SaveUserDS.BagNo = Settings.BagNo = string.Empty;
-                SaveUserDS.yBkgNumber = Settings.Ybkgnumber = string.Empty;
-                SaveUserDS.TaskName = Settings.TaskName = string.Empty;
+                sendPodata.PONumber = Settings.PONumber = Settings.IsSearchClicked == false ? string.Empty : Settings.PONumber;
+                sendPodata.REQNo = Settings.REQNo = Settings.IsSearchClicked == false ? string.Empty : Settings.REQNo;
+                sendPodata.ShippingNo = Settings.ShippingNo = Settings.IsSearchClicked == false ? string.Empty : Settings.ShippingNo;
+                sendPodata.DisciplineID = Settings.DisciplineID = Settings.IsSearchClicked == false ? 0 : Settings.DisciplineID;
+                sendPodata.ELevelID = Settings.ELevelID = Settings.IsSearchClicked == false ? 0 : Settings.ELevelID;
+                sendPodata.ConditionID = Settings.ConditionID = Settings.IsSearchClicked == false ? 0 : Settings.ConditionID;
+                sendPodata.ExpeditorID = Settings.ExpeditorID = Settings.IsSearchClicked == false ? 0 : Settings.ExpeditorID;
+                sendPodata.PriorityID = Settings.PriorityID = Settings.IsSearchClicked == false ? 0 : Settings.PriorityID;
+                sendPodata.ResourceID = Settings.ResourceID = Settings.IsSearchClicked == false ? 0 : Settings.ResourceID;
+                sendPodata.TagNo = Settings.TAGNo = Settings.IsSearchClicked == false ? string.Empty : Settings.TAGNo;
+                sendPodata.IdentCode = Settings.IdentCodeNo = Settings.IsSearchClicked == false ? string.Empty : Settings.IdentCodeNo;
+                sendPodata.BagNo = Settings.BagNo = Settings.IsSearchClicked == false ? string.Empty : Settings.BagNo;
+                sendPodata.yBkgNumber = Settings.Ybkgnumber = Settings.IsSearchClicked == false ? string.Empty : Settings.Ybkgnumber;
+                sendPodata.TaskName = Settings.TaskName = Settings.IsSearchClicked == false ? string.Empty : Settings.TaskName;
+
                 defaultData.CompanyID = Settings.CompanyID;
                 defaultData.UserID = Settings.userLoginID;
-                defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
-                var responseData = await trackService.SaveSerchvaluesSetting(defaultData);
+                defaultData.SearchCriteria = JsonConvert.SerializeObject(sendPodata);
+                //var responseData = await trackService.SaveSerchvaluesSetting(defaultData);
+
+                //SaveUserDS.PONumber = Settings.PONumber = string.Empty;
+                //SaveUserDS.REQNo = Settings.REQNo = string.Empty;
+                //SaveUserDS.ShippingNo = Settings.ShippingNo = string.Empty;
+                //SaveUserDS.DisciplineID = Settings.DisciplineID = 0;
+                //SaveUserDS.ELevelID = Settings.ELevelID = 0;
+                //SaveUserDS.ConditionID = Settings.ConditionID = 0;
+                //SaveUserDS.ExpeditorID = Settings.ExpeditorID = 0;
+                //SaveUserDS.PriorityID = Settings.PriorityID = 0;
+                //SaveUserDS.ResourceID = Settings.ResourceID = 0;
+                //SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
+                //SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
+                //SaveUserDS.BagNo = Settings.BagNo = string.Empty;
+                //SaveUserDS.yBkgNumber = Settings.Ybkgnumber = string.Empty;
+                //SaveUserDS.TaskName = Settings.TaskName = string.Empty;
+
 
                 if (val == true)
                 {
-                    SearchResultGet(SaveUserDS);
+                    await SearchResultGet(sendPodata);
                 }
             }
             catch (Exception ex)
@@ -1933,34 +1951,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (searchC != null)
                             {
                                 //Key
-                                sendPodata.PONumber = Settings.PONumber = searchC.PONumber;
-                                sendPodata.REQNo = Settings.REQNo = searchC.REQNo;
-                                sendPodata.ShippingNo = Settings.ShippingNo = searchC.ShippingNo;
-                                sendPodata.DisciplineID = Settings.DisciplineID = searchC.DisciplineID;
-                                sendPodata.ELevelID = Settings.ELevelID = searchC.ELevelID;
-                                sendPodata.ConditionID = Settings.ConditionID = searchC.ConditionID;
-                                sendPodata.ExpeditorID = Settings.ExpeditorID = searchC.ExpeditorID;
-                                sendPodata.PriorityID = Settings.PriorityID = searchC.PriorityID;
-                                sendPodata.ResourceID = Settings.ResourceID = searchC.ResourceID;
-                                sendPodata.TagNo = Settings.TAGNo = searchC.TagNo;
-                                sendPodata.IdentCode = Settings.IdentCodeNo = searchC.IdentCode;
-                                sendPodata.BagNo = Settings.BagNo = searchC.BagNo;
-                                sendPodata.yBkgNumber = Settings.Ybkgnumber = searchC.yBkgNumber;
-                                sendPodata.TaskName = Settings.TaskName = searchC.TaskName;
+                                sendPodata.PONumber = Settings.PONumber = Settings.IsSearchClicked == false ? searchC.PONumber : Settings.PONumber;
+                                sendPodata.REQNo = Settings.REQNo = Settings.IsSearchClicked == false ? searchC.REQNo : Settings.REQNo;
+                                sendPodata.ShippingNo = Settings.ShippingNo = Settings.IsSearchClicked == false ? searchC.ShippingNo : Settings.ShippingNo;
+                                sendPodata.DisciplineID = Settings.DisciplineID = Settings.IsSearchClicked == false ? searchC.DisciplineID : Settings.DisciplineID;
+                                sendPodata.ELevelID = Settings.ELevelID = Settings.IsSearchClicked == false ? searchC.ELevelID : Settings.ELevelID;
+                                sendPodata.ConditionID = Settings.ConditionID = Settings.IsSearchClicked == false ? searchC.ConditionID : Settings.ConditionID;
+                                sendPodata.ExpeditorID = Settings.ExpeditorID = Settings.IsSearchClicked == false ? searchC.ExpeditorID : Settings.ExpeditorID;
+                                sendPodata.PriorityID = Settings.PriorityID = Settings.IsSearchClicked == false ? searchC.PriorityID : Settings.PriorityID;
+                                sendPodata.ResourceID = Settings.ResourceID = Settings.IsSearchClicked == false ? searchC.ResourceID : Settings.ResourceID;
+                                sendPodata.TagNo = Settings.TAGNo = Settings.IsSearchClicked == false ? searchC.TagNo : Settings.TAGNo;
+                                sendPodata.IdentCode = Settings.IdentCodeNo = Settings.IsSearchClicked == false ? searchC.IdentCode : Settings.IdentCodeNo;
+                                sendPodata.BagNo = Settings.BagNo = Settings.IsSearchClicked == false ? searchC.BagNo : Settings.BagNo;
+                                sendPodata.yBkgNumber = Settings.Ybkgnumber = Settings.IsSearchClicked == false ? searchC.yBkgNumber : Settings.Ybkgnumber;
+                                sendPodata.TaskName = Settings.TaskName = Settings.IsSearchClicked == false ? searchC.TaskName : Settings.TaskName;
 
                                 Settings.SearchWentWrong = false;
                             }
-
                         }
                         else
                         {
-                            await SaveAndClearSearch(true);
+                            await SaveAndClearSearch(sendPodata, false);
                         }
                     }
                     else
                     {
                         Settings.SearchWentWrong = true;
-                        await SaveAndClearSearch(true);
+                        await SaveAndClearSearch(sendPodata, false);
                     }
                 }
             }

@@ -220,7 +220,7 @@ namespace YPS.ViewModel
                 UserDialogs.Instance.ShowLoading("Loading...");
 
                 var val = sender as SfButton;
-
+                Settings.IsSearchClicked = val.StyleId.Trim().ToLower() == "search".Trim().ToLower() ? true : false;
 
                 if (val.StyleId.Trim().ToLower() != "searchfilter".Trim().ToLower() ||
                     (val.StyleId.Trim().ToLower() == "searchfilter".Trim().ToLower() && SelectedFilterName != null &&
@@ -261,7 +261,11 @@ namespace YPS.ViewModel
                         //defaultData.IsCurrentSearch = true;
                         defaultData.ID = defaultData.SearchName?.Trim().ToLower() == "new" || val.StyleId.Trim().ToLower() == "search".Trim().ToLower() ? 0 : SelectedFilterName.ID;
                         defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
-                        var responseData = await service.SaveSerchvaluesSetting(defaultData);
+
+                        if (val.StyleId.Trim().ToLower() != "search".Trim().ToLower())
+                        {
+                            var responseData = await service.SaveSerchvaluesSetting(defaultData);
+                        }
 
                         Settings.IsFilterreset = true;
                         FilterName = string.Empty;

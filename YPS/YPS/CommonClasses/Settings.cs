@@ -118,6 +118,7 @@ namespace YPS.CommonClasses
 
         public static bool IsFilterreset { get; set; } = false;
         public static bool IsRefreshPartsPage { get; set; } = false;
+        public static bool IsSearchClicked { get; set; }
 
         #region for filter properties
         public static int UserID { get; set; } = 0;

@@ -292,8 +292,8 @@ namespace YPS.Parts2y.Parts2y_Views
                         //await Vm.BindGridData(false, false,-1);
                     }
 
-                    Vm.IsSearchFilterListVisible = true;
-                    await Vm.ShowHideSearFilterList();
+                    //Vm.IsSearchFilterListVisible = true;
+                    await Vm.ShowHideSearFilterList(false);
                 }
                 else
                 {
@@ -343,7 +343,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                     searchEngineName.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        Command = new Command(async () => await Vm.ShowHideSearFilterList())
+                        Command = new Command(async () => await Vm.ShowHideSearFilterList(true))
                     });
                 });
             }
@@ -376,7 +376,26 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                if (Vm.AllTabVisibility == true)
+                {
+                    await Vm.All_Tap();
+                }
+                else if (Vm.CompleteTabVisibility == true)
+                {
+                    await Vm.Complete_Tap();
+                }
+                else if (Vm.InProgressTabVisibility == true)
+                {
+                    await Vm.InProgress_Tap();
+                }
+                else
+                {
+                    await Vm.Pending_Tap();
+                }
+
                 Vm.IsSearchFilterListVisible = false;
+
+
             }
             catch (Exception ex)
             {
