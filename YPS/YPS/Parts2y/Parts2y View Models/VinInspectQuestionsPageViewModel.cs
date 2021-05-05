@@ -98,7 +98,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsDealerSignVisible = true;
                     IsOwnerSignVisible = false;
-                    IsSignatureCarrierVisible = true;
+                    IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
 
 
                     if (result != null && result.status == 1)
@@ -120,7 +120,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                        (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
                        (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
                        selectedTagData.TagTaskStatus != 2 &&
-                       (carrierdriverimagesign != null && vindealerimagesigncarrier != null))
+                       ((IsLoadTabVisible == false && carrierdriverimagesign != null && vindealerimagesigncarrier != null) ||
+                       (IsLoadTabVisible == true)))
                         {
                             IsDoneEnable = true;
                             DoneOpacity = 1.0;
@@ -132,8 +133,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsDealerSignVisible = false;
                     IsOwnerSignVisible = true;
-                    IsSignatureCarrierVisible = true;
-
+                    IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
 
                     if (result != null && result.status == 1)
                     {
@@ -149,7 +149,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                        FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
                        (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
                        (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
-                       selectedTagData.TagTaskStatus != 2 && driverimagesign != null)
+                       selectedTagData.TagTaskStatus != 2 &&
+                       ((IsLoadTabVisible == false && driverimagesign != null) || (IsLoadTabVisible == true)))
                         {
                             IsDoneEnable = true;
                             DoneOpacity = 1.0;
