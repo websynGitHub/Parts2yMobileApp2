@@ -439,7 +439,7 @@
                         
                         <!--<ScrollView VerticalOptions="FillAndExpand">-->
                             <CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" 
-                                     Margin="2,8,2,0" SelectionMode="Single"  HeightRequest="200" 
+                                     Margin="2,8,2,0" SelectionMode="Single"
                                         SelectedItem="{Binding SelectedFilterName}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
