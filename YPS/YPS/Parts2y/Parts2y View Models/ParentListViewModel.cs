@@ -141,6 +141,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (SearchFilterList == null || SearchFilterList.Count == 0)
                         {
+                            if (AllTabVisibility == true)
+                            {
+                                await All_Tap();
+                            }
+                            else if (CompleteTabVisibility == true)
+                            {
+                                await Complete_Tap();
+                            }
+                            else if (InProgressTabVisibility == true)
+                            {
+                                await InProgress_Tap();
+                            }
+                            else
+                            {
+                                await Pending_Tap();
+                            }
+
                             IsSearchFilterListVisible = false;
                             IsSearchFilterIconVisible = false;
                         }
