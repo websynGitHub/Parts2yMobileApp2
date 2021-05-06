@@ -424,7 +424,7 @@
                                                HasError="{Binding SearchFilterDDlHasError}"
                                                    Style="{StaticResource SfInputLayout}" ReserveSpaceForAssistiveLabels="False">
                             <combobox:SfComboBox DataSource="{Binding SearchFilterList}" DisplayMemberPath="Name"
-                                         SelectedItem="{Binding SelectedFilterName}" IsDropDownOpen="True"
+                                         SelectedItem="{Binding SelectedFilterName}" MaximumDropDownHeight="200"
                                          HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
                                          Style="{StaticResource SfComboBoxTextStyle}">
                                 <combobox:SfComboBox.HeightRequest>

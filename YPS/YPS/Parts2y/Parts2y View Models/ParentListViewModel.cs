@@ -178,10 +178,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
                     IsSearchFilterListVisible = popfilterlist == true ? true : false;
+
+                    if (NoRecordsLbl == true && popfilterlist == true)
+                    {
+                        NoRecordsLbl = false;
+                    }
                 }
                 else
                 {
-                    IsSearchFilterIconVisible = false;
                     IsSearchFilterIconVisible = false;
                 }
             }

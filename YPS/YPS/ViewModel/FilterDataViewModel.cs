@@ -134,7 +134,7 @@ namespace YPS.ViewModel
 
                 ChangeLabel();
                 HeaderFilterData();
-                Task.Run(() => GetSavedUserSearchSettings());
+                Task.Run(() => GetSavedUserSearchSettings()).Wait();
             }
             catch (Exception ex)
             {

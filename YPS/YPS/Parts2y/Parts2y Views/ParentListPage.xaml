@@ -437,7 +437,6 @@
                             </local:FontAwesomeIconLabel>
                         </Grid>
                         
-                        <!--<ScrollView VerticalOptions="FillAndExpand">-->
                             <CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" 
                                      Margin="2,8,2,0" SelectionMode="Single"
                                         SelectedItem="{Binding SelectedFilterName}">
@@ -465,7 +464,6 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                        <!--</ScrollView>-->
                     </StackLayout>
                 </Frame>
             </ContentView>

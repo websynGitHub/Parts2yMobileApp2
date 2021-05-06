@@ -394,8 +394,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
 
                 Vm.IsSearchFilterListVisible = false;
-
-
             }
             catch (Exception ex)
             {
