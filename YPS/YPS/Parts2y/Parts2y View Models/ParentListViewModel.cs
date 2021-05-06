@@ -131,6 +131,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadingindicator = true;
+                await Task.Delay(1);
                 SearchPassData value = sender as SearchPassData;
                 SelectedFilterName = value;
             }
@@ -253,6 +254,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadingindicator = true;
+                await Task.Delay(1);
+
                 if (SelectedFilterName != null)
                 {
                     SearchFilterList?.Where(wr => wr.SelectedTagBorderColor == Settings.Bar_Background)
@@ -270,6 +274,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "FilterSelected method -> in ParentListViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadingindicator = false;
             }
         }
 
