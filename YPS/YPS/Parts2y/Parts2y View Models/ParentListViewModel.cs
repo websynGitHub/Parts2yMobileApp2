@@ -57,6 +57,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
         public ICommand DeleteFilterSearchCmd { get; set; }
+        public ICommand SelectedFilterbyName { get; set; }
 
         YPSService trackService;
         ParentListPage pagename;
@@ -113,6 +114,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
+                SelectedFilterbyName = new Command(SelectedFilterbyNameMethod);
 
                 #endregion
 
@@ -121,6 +123,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 trackService.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ParentListViewModel constructor -> in ParentListViewModel.cs " + Settings.userLoginID);
+            }
+        }
+
+        public async void SelectedFilterbyNameMethod(object sender)
+        {
+            try
+            {
+                loadingindicator = true;
+                SearchPassData value = sender as SearchPassData;
+                SelectedFilterName = value;
+            }
+            catch (Exception ex)
+            {
+                loadingindicator = false;
+                YPSLogger.ReportException(ex, "SelectedFilterbyNameMethod -> in ParentListViewModel.cs " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadingindicator = false;
             }
         }
 
@@ -185,20 +207,27 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (result != null && result.data != null)
                 {
-                    SearchFilterList = new ObservableCollection<SearchPassData>(result.data);
-
-                    SearchFilterList.Where(wr => wr.Status == 1 && Settings.IsSearchClicked == false).Select(c =>
-                      {
-                          c.SelectedTagBorderColor = Settings.Bar_Background;
-                          return c;
-                      }).ToList();
-
-                    IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
-                    IsSearchFilterListVisible = popfilterlist == true ? true : false;
-
-                    if (NoRecordsLbl == true && popfilterlist == true)
+                    if (result.data.Count != 0)
                     {
-                        NoRecordsLbl = false;
+                        SearchFilterList = new ObservableCollection<SearchPassData>(result.data);
+
+                        SearchFilterList.Where(wr => wr.Status == 1 && Settings.IsSearchClicked == false).Select(c =>
+                          {
+                              c.SelectedTagBorderColor = Settings.Bar_Background;
+                              return c;
+                          }).ToList();
+
+                        IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
+                        IsSearchFilterListVisible = popfilterlist == true ? true : false;
+
+                        if (NoRecordsLbl == true && popfilterlist == true)
+                        {
+                            NoRecordsLbl = false;
+                        }
+                    }
+                    else
+                    {
+                        IsSearchFilterIconVisible = false;
                     }
                 }
                 else

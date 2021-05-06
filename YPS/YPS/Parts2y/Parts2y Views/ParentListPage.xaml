@@ -55,7 +55,7 @@
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart"
-                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                           RowDefinitions="*,Auto" ColumnDefinitions="60,*,Auto" Padding="0,48,0,0">
 
                             <StackLayout Orientation="Vertical">
@@ -437,10 +437,11 @@
                             </local:FontAwesomeIconLabel>
                         </Grid>
                         
-                            <CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" 
+                            <!--<CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" 
                                      Margin="2,8,2,0" SelectionMode="Single"
-                                        SelectedItem="{Binding SelectedFilterName}">
-                                <CollectionView.ItemTemplate>
+                                        SelectedItem="{Binding SelectedFilterName}">-->
+                        <StackLayout BindableLayout.ItemsSource="{Binding SearchFilterList}"  BackgroundColor="Transparent" Margin="2,8,2,0" >
+                                <BindableLayout.ItemTemplate>
                                     <DataTemplate>
                                         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                               Padding="6,0,6,6" BackgroundColor="Transparent">
@@ -459,11 +460,15 @@
                                                         </local:FontAwesomeIconLabel.GestureRecognizers>
                                                     </local:FontAwesomeIconLabel>
                                                 </Grid>
-                                            </Frame>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.SelectedFilterbyName,Source={x:Reference Name=POPage}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
                                         </Grid>
                                     </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
+                                </BindableLayout.ItemTemplate>                           
+                        </StackLayout>
+                        <!--</CollectionView>-->
                     </StackLayout>
                 </Frame>
             </ContentView>
