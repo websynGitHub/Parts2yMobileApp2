@@ -41,42 +41,6 @@ namespace YPS.Views
                 aboutbuild.Text = "This is a mobile solution app that allows effective communication between stakeholders in the supply chain, such as logistics, purchasing, production, sales and their suppliers and customers. This app will fill the gap between the location and the office worldwide.";
 
                 if (currentVersion == Settings.iOSversion) { }
-
-                switch (Device.RuntimePlatform)
-                {
-                    case Device.iOS:
-                        if (currentVersion != Settings.iOSversion)
-                        {
-                            ios.IsVisible = true;
-                            android.IsVisible = true;
-                            updatetext.Text = "Update to latest version " + Settings.iOSversion + " from store";
-                            updatetext.IsVisible = true;
-                        }
-                        else
-                        {
-                            ios.IsVisible = false;
-                            android.IsVisible = false;
-                            updatetext.IsVisible = false;
-                        }
-
-                        break;
-                    case Device.Android:
-                        if (currentVersion != Settings.AndroidVersion)
-                        {
-                            android.IsVisible = true;
-                            ios.IsVisible = true;
-                            updatetext.Text = "Update to latest version " + Settings.AndroidVersion + " from store";
-                            updatetext.IsVisible = true;
-                        }
-                        else
-                        {
-                            android.IsVisible = false;
-                            ios.IsVisible = false;
-                            updatetext.IsVisible = false;
-
-                        }
-                        break;
-                }
             }
             catch (Exception ex)
             {

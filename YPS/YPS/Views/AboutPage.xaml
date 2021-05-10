@@ -68,42 +68,6 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-
-
-                        <Label Text="Support Android Versions" Grid.Row="7" FontAttributes="Bold" VerticalOptions="CenterAndExpand" 
-                           HorizontalOptions="StartAndExpand" TextColor="Gray" Style="{StaticResource LableWithSmallFontBold}"/>
-                        <Label Text="Android 6.0 (Marshmallow) and above"   Grid.Row="8" LineBreakMode="TailTruncation" 
-                           VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" TextColor="Black" 
-                           Style="{StaticResource LableWithSmallFont}"/>
-                        <Label Text="Support iOS Versions" Grid.Row="10"  FontAttributes="Bold" VerticalOptions="CenterAndExpand" 
-                           HorizontalOptions="StartAndExpand" TextColor="Gray" Style="{StaticResource LableWithSmallFontBold}"/>
-                        <Label Text="iOS 9 and above" Grid.Row="11" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" 
-                           HorizontalOptions="StartAndExpand" TextColor="Black" Style="{StaticResource LableWithSmallFont}"/>
-
-                        <Grid Grid.Row="13">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="60"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="5*"/>
-                                <ColumnDefinition Width="5*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label x:Name="updatetext" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" 
-                               TextColor="Black" FontAttributes="Bold" Style="{StaticResource LableWithSmallFontBold}"/>
-                            <Image x:Name="android" Source="Playstore.png" Grid.Row="1" HorizontalOptions="Center" Grid.Column="0" Aspect="AspectFit" Margin="-5,0,0,3" >
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="Playstore_Tapped">
-                                    </TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Image x:Name="ios" Source="appstore.png" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center"  Aspect="AspectFit" >
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="appstore_Tapped">
-                                    </TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Grid>
                     </Grid>
                 </Frame>
             </StackLayout>
