@@ -12,6 +12,7 @@ namespace YPS.Model
         public int TaskID { get; set; }
         public int TagTaskStatus { get; set; }
         public int TaskStatus { get; set; }
+        public string IdentCode { get; set; }
     }
 
     public class MyFile

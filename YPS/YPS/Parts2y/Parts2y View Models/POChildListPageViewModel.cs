@@ -186,8 +186,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                //allPOTagData = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TagTaskStatus == 0 && wr.POID == allPOTagData[0].POID));
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), 0);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), 0);
 
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
@@ -217,8 +216,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                //allPOTagData = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TagTaskStatus == 1 && wr.POID == allPOTagData[0].POID));
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), 1);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), 1);
 
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -248,8 +246,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                //allPOTagData = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TagTaskStatus == 2 && wr.POID == allPOTagData[0].POID));
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), 2);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), 2);
 
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -279,7 +276,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == POID && wr.TaskID == TaskID)), -1);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), -1);
 
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
@@ -388,6 +385,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
                 //await Navigation.PopAsync(true);
                 App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
@@ -395,6 +393,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "HomeCommand_btn method -> in POChildListPageViewModel " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = true;
             }
 
         }
@@ -904,6 +906,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 tg.TaskID = item.TaskID;
                                                 tg.TaskStatus = item.TaskStatus;
                                                 tg.TagTaskStatus = item.TagTaskStatus;
+                                                tg.TagNumber = item.TagNumber;
+                                                tg.IdentCode = item.IdentCode;
                                                 lstdat.Add(tg);
                                             }
                                         }

@@ -44,16 +44,20 @@
                     <!--<StackLayout Grid.Row="0" HeightRequest="10" BackgroundColor="{Binding BgColor}" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>-->
 
-                    <FontAwsmLbl:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0"
-                                                  TextColor="#FFFFFF" HorizontalOptions="Start" Grid.Column="0"
-                                                  VerticalOptions="Center" Margin="10,10,10,10"  Style="{StaticResource LblIconStyle}">
-                        <FontAwsmLbl:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
-                        </FontAwsmLbl:FontAwesomeIconLabel.GestureRecognizers>
-                    </FontAwsmLbl:FontAwesomeIconLabel>
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10"
+                                 VerticalOptions="StartAndExpand" Spacing="15">
+                        <FontAwsmLbl:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
+                                                  TextColor="#FFFFFF" HorizontalOptions="Start"
+                                                  VerticalOptions="Start" Style="{StaticResource LblIconStyle}">
+                            <FontAwsmLbl:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
+                            </FontAwsmLbl:FontAwesomeIconLabel.GestureRecognizers>
+                        </FontAwsmLbl:FontAwesomeIconLabel>
 
-                    <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="8,20,0,20" Padding="0,0,0,0"
-                      HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="1">
+                    </StackLayout>
+                        
+                    <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"  Margin="8,10,0,20" Padding="0,0,0,0"
+                      HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>

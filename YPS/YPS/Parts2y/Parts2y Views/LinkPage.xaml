@@ -52,10 +52,12 @@
                              HorizontalOptions="FillAndExpand" VerticalOptions="Start"
                           RowDefinitions="*" ColumnDefinitions="60,*" Padding="0,48,0,0">
 
-                            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal"
+                                         Margin="10,10,10,10" VerticalOptions="StartAndExpand"
+                                         Spacing="15">
                                 <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                                                  VerticalOptions="Start">
                                     <local:FontAwesomeIconLabel.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="Back_Tapped"/>
                                     </local:FontAwesomeIconLabel.GestureRecognizers>
@@ -64,7 +66,7 @@
 
                             <StackLayout Grid.Row="0" Grid.Column="1"  BackgroundColor="{Binding BgColor}"  
                                          Orientation="Vertical" HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="CenterAndExpand" Margin="8,15,0,15">
+                                        VerticalOptions="StartAndExpand" Margin="8,10,0,15">
                                 <Label Text="{Binding Title}" Style="{StaticResource LableWithMediumFont}"
                    TextColor="White"
                               HorizontalOptions="StartAndExpand" 

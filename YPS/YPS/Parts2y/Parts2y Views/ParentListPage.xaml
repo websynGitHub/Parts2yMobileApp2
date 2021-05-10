@@ -58,24 +58,25 @@
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                           RowDefinitions="*,Auto" ColumnDefinitions="60,*,Auto" Padding="0,48,0,0">
 
-                            <StackLayout Orientation="Vertical">
+                            <StackLayout Orientation="Vertical" Margin="10,10,10,10" VerticalOptions="StartAndExpand"
+                                         Spacing="15">
                                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                                                  VerticalOptions="Start">
                                     <local:FontAwesomeIconLabel.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
                                     </local:FontAwesomeIconLabel.GestureRecognizers>
                                 </local:FontAwesomeIconLabel>
                                 <local:FontAwesomeIconLabel x:Name="Namefilter" Text="{Binding SearchIcon}" 
                                          TextColor="White"  HorizontalOptions="Start" Style="{StaticResource LblIconStyle}"
-                                        VerticalOptions="Center" Margin="10,0,10,10"/>
+                                        VerticalOptions="Start"/>
 
                                 <local:FontAwesomeIconLabel x:Name="refreshName" IsEnabled="{Binding RefreshDisable,Mode=TwoWay}" 
                                                             AutomationId="AutoRefreshToolbarIcon" 
                                                             Text="{x:Static local1:Icons.RefreshIc}"
                                                             Style="{StaticResource LblIconStyle}"
                                                              HorizontalOptions="Start"
-                                        VerticalOptions="Center" Margin="10,0,10,10"/>
+                                        VerticalOptions="Start"/>
                             </StackLayout>
 
 

@@ -36,6 +36,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
                 Navigation = _Navigation;
                 trackService = new YPSService();
                 BgColor = YPS.CommonClasses.Settings.Bar_Background;
@@ -60,6 +61,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "DashboardViewModel constructor -> in DashboardViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
             }
         }
 

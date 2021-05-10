@@ -25,10 +25,11 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                BindingContext = Vm = new DashboardViewModel(Navigation);
+
+                Vm.loadindicator = true;
                 trackService = new YPSService();
                 InitializeComponent();
-
-                BindingContext = Vm = new DashboardViewModel(Navigation);
 
                 Vm.IsPNenable = Settings.IsPNEnabled;
 
@@ -52,6 +53,10 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
                 YPSLogger.ReportException(ex, "HomePage Constructor-> in HomePage.xaml.cs " + Settings.userLoginID);
+            }
+            finally
+            {
+                Vm.loadindicator = false;
             }
         }
 

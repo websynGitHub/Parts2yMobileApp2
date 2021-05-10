@@ -33,17 +33,21 @@
                         <ColumnDefinition Width="38"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
+
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
+                                         Margin="10,10,10,10" Spacing="15" VerticalOptions="StartAndExpand">
+                        <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
-                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="BackTapped"/>
-                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                    </LblIcons:FontAwesomeIconLabel>
-                    <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="BackTapped" BackgroundColor="Green"/>-->
-                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
+                                                  VerticalOptions="Start">
+                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BackTapped"/>
+                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        </LblIcons:FontAwesomeIconLabel>
+                    </StackLayout>
+                        
+                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,10,0,15"
                               HorizontalOptions="StartAndExpand" IsVisible="{Binding IsGroupAndUserNameVisible}"
-                                        VerticalOptions="CenterAndExpand">
+                                        VerticalOptions="StartAndExpand">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="20"/>
@@ -52,9 +56,9 @@
                         <Label Grid.Row="1" x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
                     </Grid>
                     <Label Grid.Row="0" Grid.Column="1" x:Name="singleheader"  Style="{StaticResource LblTitleName}"
-                                Margin="8,20,0,20"
+                                Margin="8,10,0,20"
                               HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="CenterAndExpand"/>
+                                        VerticalOptions="StartAndExpand"/>
                     <!--</Grid>-->
                     <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" 
                                                    Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">

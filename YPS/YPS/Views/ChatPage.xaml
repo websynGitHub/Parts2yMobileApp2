@@ -25,8 +25,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" 
-                  Padding="{OnPlatform iOS='0,12,0,0',Android='0,0,0,0'}" BackgroundColor="{Binding BgColor}">
+            <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" Style="{StaticResource ToolbarNavGrid}"
+                      BackgroundColor="{Binding BgColor}" Padding="0,48,0,0"
+                      HorizontalOptions="FillAndExpand" VerticalOptions="Start"
+                          RowDefinitions="*">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="*"/>
@@ -35,25 +37,28 @@
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
-                <LblIcons:FontAwesomeIconLabel x:Name="Backchathide" Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Column="0"
+
+                <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
+                                         Margin="10,10,10,10" Spacing="15" VerticalOptions="StartAndExpand">
+                    <LblIcons:FontAwesomeIconLabel x:Name="Backchathide" Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Column="0"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="12,10,10,10">
-                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="BackTapped"/>
-                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                </LblIcons:FontAwesomeIconLabel>
-                <!--<Button Grid.Column="0"  Style="{StaticResource BackNavBtn}" x:Name="Backchathide"
-                        Clicked="BackTapped" />-->
-                <Grid Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
-                              HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="CenterAndExpand">
-                    <Grid.RowDefinitions>
+                                                  VerticalOptions="Start">
+                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BackTapped"/>
+                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                    </LblIcons:FontAwesomeIconLabel>
+                </StackLayout>
+                   
+                <StackLayout Grid.Column="1" Margin="8,10,0,15"
+                              HorizontalOptions="StartAndExpand" Orientation="Vertical"
+                                        VerticalOptions="StartAndExpand">
+                    <!--<Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
-                    <Label Grid.Row="1" x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
-                </Grid>
+                    </Grid.RowDefinitions>-->
+                    <Label x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
+                    <Label x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
+                </StackLayout>
                 <LblIcons:FontAwesomeIconLabel Grid.Column="3" Text="{Static StaticIcons:Icons.RefreshIc}" Style="{StaticResource LblIconStyle}">
                     <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="RefreshTap"/>

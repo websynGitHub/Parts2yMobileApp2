@@ -37,10 +37,12 @@
                         <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart" Grid.Row="0" Padding="0,48,0,0"
                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="60,*">
 
-                            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
+                                         Margin="10,10,10,10" VerticalOptions="StartAndExpand"
+                                         Spacing="15">
                                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
+                                                  VerticalOptions="Start">
                                     <local:FontAwesomeIconLabel.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
                                     </local:FontAwesomeIconLabel.GestureRecognizers>
@@ -49,7 +51,7 @@
 
                             <StackLayout  Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
                                          Orientation="Vertical" HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="CenterAndExpand" Margin="8,15,0,15">
+                                        VerticalOptions="StartAndExpand" Margin="8,10,0,15">
                                 <Grid  RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.TagNumber.Status}"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                RowDefinitions="Auto" ColumnDefinitions="Auto,*">

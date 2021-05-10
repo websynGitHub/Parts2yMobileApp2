@@ -22,7 +22,7 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0">
-            <Label Text="Home-UAT" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+            <Label Text="Home" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
@@ -169,7 +169,7 @@
                                         </local:FontAwesomeIconLabel>
 
                                         <Label Text="Job" Style="{DynamicResource LableWithQuestionFont}"
-                                               HorizontalOptions="CenterAndExpand"/>
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
                                     
                                     <!--<Image Source="Task.png"></Image>-->
@@ -190,7 +190,7 @@
                                         </local:FontAwesomeIconLabel>
 
                                         <Label Text="Scan" Style="{DynamicResource LableWithQuestionFont}"
-                                               HorizontalOptions="CenterAndExpand"/>
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ScanClickCmd}"></TapGestureRecognizer>
@@ -210,7 +210,7 @@
                                         </Image>
 
                                         <Label Text="Compare" Style="{DynamicResource LableWithQuestionFont}"
-                                               HorizontalOptions="CenterAndExpand"/>
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
                                     <!--<Image Source="Compare.png"></Image>-->
                                     <Frame.GestureRecognizers>
@@ -230,7 +230,7 @@
                                         </local:FontAwesomeIconLabel>
 
                                         <Label Text="Photo" Style="{DynamicResource LableWithQuestionFont}"
-                                               HorizontalOptions="CenterAndExpand"/>
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
                                     <!--<Image Source="Compare.png"></Image>-->
                                     <Frame.GestureRecognizers>

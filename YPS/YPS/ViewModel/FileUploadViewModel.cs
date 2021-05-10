@@ -92,6 +92,22 @@ namespace YPS.ViewModel
                     HideLabelAndShow = true;
                     closeLabelText = false;
                     RowHeightcomplete = 0;
+
+                    tagNumbers = string.Join(",", selectedTagsData.FileTags.Select(c => c.TagNumber));
+
+                    if (string.IsNullOrEmpty(tagNumbers))
+                    {
+                        tagNumbers = string.Join(",", selectedTagsData.FileTags.Select(c => c.IdentCode));
+                    }
+
+                    if (selectedTagsData.FileTags.Count > 0)
+                    {
+                        selectedTagsData.FileTags = selectedTagsData.FileTags.Select(c =>
+                        {
+                            c.TagNumber = null;
+                            return c;
+                        }).ToList();
+                    }
                 }
                 else if (compareFileValue.ToLower().Trim() == "fileupload") /// After one file uploaded then this condition will execute.
                 {
@@ -112,17 +128,7 @@ namespace YPS.ViewModel
                         RowHeightChooseFile = 0;
                         RowHeightUploadFile = 0;
                     }
-                    //else if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                    //{
-                    //    /// Based on the user roll id, user can upload files or not.
-                    //    closeLabelText = false;
-                    //    FrameForChooseFile = false;
-                    //    FrameForUploadFile = false;
-                    //    access = fileAccess;
-                    //    RowHeightChooseFile = 0;
-                    //    RowHeightUploadFile = 0;
-                    //    RowHeightcomplete = 0;
-                    //}
+
                     GetMyFile(fuid); /// To fetch files based on file upload id.
                 }
                 else /// PL File file upload.
@@ -185,13 +191,17 @@ namespace YPS.ViewModel
         {
             try
             {
-                //await Navigation.PopAsync(true);
+                IndicatorVisibility = true;
                 App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "Home_btn method-> in FileUploadViewModel " + Settings.userLoginID);
                 await service.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
             }
         }
 

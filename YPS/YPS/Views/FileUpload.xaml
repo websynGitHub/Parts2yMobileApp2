@@ -22,34 +22,36 @@
                     <RowDefinition Height="{Binding RowHeightUploadFile}"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
-                      >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="40"/>
-                    </Grid.ColumnDefinitions>
-                    <LblIcons:FontAwesomeIconLabel x:Name="Backchathide" Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Column="0"
-                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
-                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Back_Tapped"/>
-                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                    </LblIcons:FontAwesomeIconLabel>
-                    <!--<Button Grid.Column="0" Style="{StaticResource BackNavBtn}" Clicked="Back_Tapped"
-                            BackgroundColor="Green"/>-->
-                    <Grid Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
-                              HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="CenterAndExpand">
-                        <Grid.RowDefinitions>
+                <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"
+                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                          RowDefinitions="*" ColumnDefinitions="60,*,40" Padding="0,48,0,0">
+
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" Spacing="15"
+                                         VerticalOptions="StartAndExpand" Margin="10,10,10,10">
+                        <LblIcons:FontAwesomeIconLabel x:Name="Backchathide" Text="{x:Static StaticIcons:Icons.arrowLeft}"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF"
+                                                  HorizontalOptions="Start" 
+                                                  VerticalOptions="Start">
+                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Back_Tapped"/>
+                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        </LblIcons:FontAwesomeIconLabel>
+                    </StackLayout>
+                        
+                    <StackLayout Grid.Column="1" Grid.Row="0" Margin="8,10,0,15"
+                              HorizontalOptions="StartAndExpand" Orientation="Vertical" 
+                                        VerticalOptions="StartAndExpand">
+                        <!--<Grid.RowDefinitions>
                             <RowDefinition Height="{Binding RowHeightUploadFileTitle}"/>
                             <RowDefinition Height="{Binding RowHeightTagNumber}"/>
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
-                        <Label Grid.Row="1" Text="{Binding tagNumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
-                    </Grid>
-                    <LblIcons:FontAwesomeIconLabel Grid.Column="2"  Text="{x:Static StaticIcons:Icons.HomeIc}"
-                                                   Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                        </Grid.RowDefinitions>-->
+                        <Label x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
+                        <Label Text="{Binding tagNumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                    </StackLayout>
+                    
+                    <LblIcons:FontAwesomeIconLabel Grid.Column="2" Grid.Row="0"  Text="{x:Static StaticIcons:Icons.HomeIc}"
+                                                   Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start"
+                                                   VerticalOptions="StartAndExpand"  Margin="8,10,0,15">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ICommandHome}"/>
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>

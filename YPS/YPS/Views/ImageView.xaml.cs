@@ -36,7 +36,7 @@ namespace YPS.Views
             {
                 InitializeComponent();
                 service = new YPSService();
-                Groupname.Text = "Repo Photos";
+                Groupname.Text = "Photo Repo";
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
                 synfRepoImageViewList.WidthRequest = App.ScreenWidth;
                 synfRepoImageViewList.HeightRequest = App.ScreenHeight;

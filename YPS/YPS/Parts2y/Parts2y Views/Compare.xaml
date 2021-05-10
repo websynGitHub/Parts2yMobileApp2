@@ -16,7 +16,7 @@
     <ContentPage.BindingContext>
         <parts2yVM:MenuViewModel/>
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="BoxView" x:Key="StyleBoxView">
@@ -26,7 +26,7 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
@@ -36,23 +36,26 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
-
-                    <!--<RowDefinition Height="Auto"/>-->
-                    <!--<RowDefinition Height="Auto"/>-->
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
-                          RowDefinitions="*" ColumnDefinitions="60,*,Auto">
 
-                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
+                <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"
+                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                          RowDefinitions="*" ColumnDefinitions="60,*,Auto" Padding="0,48,0,0">
+
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" Spacing="15"
+                                         VerticalOptions="StartAndExpand" Margin="10,10,10,10">
+                        <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
-                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Back_Tapped"/>
-                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                    </LblIcons:FontAwesomeIconLabel>
+                                                  VerticalOptions="Start">
+                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Back_Tapped"/>
+                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        </LblIcons:FontAwesomeIconLabel>
+                    </StackLayout>
 
-                    <StackLayout Grid.Row="0" Grid.Column="1" Margin="8,15,0,15"
-                              HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+
+                    <StackLayout Grid.Row="0" Grid.Column="1" Margin="8,10,0,15"
+                              HorizontalOptions="StartAndExpand" VerticalOptions="Start">
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
 
@@ -63,7 +66,7 @@
                             <Label TextColor="White" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedScanRuleHeader}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
-                        
+
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                             <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="Total : "
@@ -73,7 +76,7 @@
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding TotalCountHeader}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
-                       
+
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
 
@@ -94,7 +97,7 @@
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding NGCount}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
-                       
+
                     </StackLayout>
 
                     <Grid IsVisible="{Binding showCurrentStatus}"  Grid.Column="2"
@@ -113,9 +116,9 @@
                                    HorizontalOptions="StartAndExpand" TextColor="White"
                                VerticalOptions="CenterAndExpand" FontSize="Medium" FontAttributes="Bold"></Label>
                     </Grid>
-                    
+
                 </Grid>
-                
+
                 <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                        Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
                     <Grid.ColumnDefinitions>
@@ -130,9 +133,6 @@
                                 TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0"
                                 HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
-                            <!--<Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ScanTabCmd}"/>
-                            </Label.GestureRecognizers>-->
                         </Label>
                         <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding ScanTabVisibility}" />
                         <StackLayout.GestureRecognizers>
@@ -153,121 +153,119 @@
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </Grid>
-                
+
                 <ScrollView Grid.Row="2">
                     <StackLayout>
-                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding IsScanContentVisible}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="*"/>
-                                <!--<RowDefinition Height="50"/>-->
-
+                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding IsScanContentVisible}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                        <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Frame HasShadow="False" Margin="7,5,7,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                            <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Frame HasShadow="False" Margin="7,5,7,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                CornerRadius="2" BorderColor="Gray"
                                   IsEnabled="{Binding isEnableAFrame}" Opacity="{Binding opacityA}" >
-                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.35*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Image HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="0" Source="qrcodecompare.png"></Image>
-                                    <Image Grid.Column="1" Grid.Row="0" Source="a.png" HorizontalOptions="StartAndExpand"></Image>
-                                    <Image Grid.Column="2" Grid.Row="0" Source="equal.png" HorizontalOptions="End" 
+                                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.35*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="0" Source="qrcodecompare.png"></Image>
+                                        <Image Grid.Column="1" Grid.Row="0" Source="a.png" HorizontalOptions="StartAndExpand"></Image>
+                                        <Image Grid.Column="2" Grid.Row="0" Source="equal.png" HorizontalOptions="End" 
                                            VerticalOptions="CenterAndExpand"/>
-                                    <Label Text="{Binding resultA}" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
+                                        <Label Text="{Binding resultA}" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
                                                HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
-                                </Grid>
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding CompareQRCodeACmd}"></TapGestureRecognizer>
-                                </Frame.GestureRecognizers>
-                            </Frame>
-                        </StackLayout>
-                        
-                        <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Frame Margin="7,0,7,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CompareQRCodeACmd}"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </StackLayout>
+
+                            <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Frame Margin="7,0,7,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                                CornerRadius="4" BorderColor="Gray" IsEnabled="{Binding isEnableBFrame}" Opacity="{Binding opacityB}">
-                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.35*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Image HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="0" Source="qrcodecompare.png"></Image>
-                                    <Image Grid.Column="1" Grid.Row="0" Source="b.png" HorizontalOptions="StartAndExpand"></Image>
-                                    <Image Grid.Column="2" Grid.Row="0" Source="equal.png" HorizontalOptions="End"
+                                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.35*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="0" Source="qrcodecompare.png"></Image>
+                                        <Image Grid.Column="1" Grid.Row="0" Source="b.png" HorizontalOptions="StartAndExpand"></Image>
+                                        <Image Grid.Column="2" Grid.Row="0" Source="equal.png" HorizontalOptions="End"
                                            VerticalOptions="CenterAndExpand"/>
-                                    
-                                    <Label Text="{Binding resultB}" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
+
+                                        <Label Text="{Binding resultB}" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
                                                HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
 
-                                </Grid>
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding CompareQRCodeBCmd}"></TapGestureRecognizer>
-                                </Frame.GestureRecognizers>
-                            </Frame>
-                        </StackLayout>
-                        <StackLayout Grid.Row="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CompareQRCodeBCmd}"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Grid.Row="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                 <Frame IsVisible="{Binding showLatestViewFrame}" HasShadow="False" Margin="7,0,7,5"
                                CornerRadius="4" BorderColor="Gray">
-                                <Grid Grid.Row="0"
+                                    <Grid Grid.Row="0"
                              BackgroundColor="White"    >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <!--<RowDefinition Height="125"/>-->
-                                        <!--<RowDefinition Height="*"/>-->
-                                        <RowDefinition Height="225"/>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <!--<RowDefinition Height="125"/>-->
+                                            <!--<RowDefinition Height="*"/>-->
+                                            <RowDefinition Height="225"/>
                                         </Grid.RowDefinitions>
 
-                                            <ListView  Grid.Row="0" ItemsSource="{Binding latestCompareHistoryList}" HasUnevenRows="False"
+                                        <ListView  Grid.Row="0" ItemsSource="{Binding latestCompareHistoryList}" HasUnevenRows="False"
                                           SeparatorVisibility="Default" SelectionMode="None">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <ViewCell>
-                                                            <ViewCell.View>
-                                                                <Grid Margin="0" Padding="4">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.30*" />
-                                                                        <ColumnDefinition Width="0.30*" />
-                                                                        <ColumnDefinition Width="0.20*" />
-                                                                        <ColumnDefinition Width="*" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Grid.RowDefinitions>
-                                                                        <RowDefinition Height="*"/>
-                                                                    </Grid.RowDefinitions>
-                                                                    <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <ViewCell.View>
+                                                            <Grid Margin="0" Padding="4">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="0.30*" />
+                                                                    <ColumnDefinition Width="0.30*" />
+                                                                    <ColumnDefinition Width="0.20*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                                    <Image Grid.Row="0" Grid.Column="1" Margin="4" Source="{Binding IsMatchedImg}"
+                                                                <Image Grid.Row="0" Grid.Column="1" Margin="4" Source="{Binding IsMatchedImg}"
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"></Image>
-                                                                    <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
+                                                                <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                                    <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
+                                                                <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
                                                                        HorizontalOptions="Start"  VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
-                                                                </Grid>
-                                                            </ViewCell.View>
-                                                        </ViewCell>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                   
-                                       
-                                  
+                                                            </Grid>
+                                                        </ViewCell.View>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+
+
                                         <!--<Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
                                  Margin="4,0,4,4">
                                                 <Button x:Name="clearhistory"
@@ -293,8 +291,8 @@
                                             </Button>
                                         </Grid>-->
                                     </Grid>
-                            </Frame>
-                        </StackLayout>
+                                </Frame>
+                            </StackLayout>
                         </Grid>
 
                         <StackLayout IsVisible="{Binding IsConfigContentVisible}" Orientation="Vertical"
@@ -371,12 +369,10 @@
                         </Button.Behaviors>
                     </Button>
                 </Grid>
-               
+
             </Grid>
 
 
-         
-            
             <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Button Text="Save" Clicked="SaveClick" Margin="6,0,6,4"
@@ -391,7 +387,7 @@
                 </Button>
 
             </ContentView>
-                <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                          IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
                     <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
@@ -403,54 +399,65 @@
                 </StackLayout>
             </ContentView>
 
-            <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="#C0808080" Padding="0" Margin="10,25,10,25"
+            <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="Transparent" Padding="0" Margin="10,25,10,25"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Frame Padding="0" BorderColor="Transparent">
-                       
-                        <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" BackgroundColor="White" Spacing="0">
-                            <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" TextColor="Red"
-                                                           HorizontalOptions="EndAndExpand" VerticalOptions="End" Margin="0,15,10,0">
+                <Frame Padding="2" CornerRadius="8" BackgroundColor="#E9E9E9" BorderColor="{Binding BgColor}"
+                          HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand">
+
+                    <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" 
+                                 BackgroundColor="Transparent" Spacing="0">
+
+                        <Grid ColumnDefinitions="*,Auto" HorizontalOptions="Fill" Margin="10,15,0,0">
+                            <Label Grid.Column="0" Text="Scan Results" Style="{DynamicResource LableWithQuestionFont}"
+                               TextColor="Black"/>
+                            <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.CloseIc}" 
+                                                           Style="{StaticResource LblIconStyle}" TextColor="Red" Grid.Column="1"
+                                                           HorizontalOptions="EndAndExpand" VerticalOptions="End" Margin="0,0,10,0">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="HideHistory"/>
                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             </LblIcons:FontAwesomeIconLabel>
-                            <ScrollView VerticalOptions="FillAndExpand">
-                                <ListView ItemsSource="{Binding compareHistoryList}" HasUnevenRows="False" HeightRequest="200" 
-                                          SeparatorVisibility="None" CachingStrategy="RecycleElementAndDataTemplate">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <ViewCell>
-                                                <ViewCell.View>
-                                                    <Frame Padding="0">
-                                                        <Grid Margin="6,0,6,0" Padding="0">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="0.15*" />
-                                                                <ColumnDefinition Width="0.30*" />
-                                                                <ColumnDefinition Width="0.20*" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="*"/>
-                                                            </Grid.RowDefinitions>
-                                                            <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                            <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding IsMatchedImg}"
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand" HeightRequest="20"></Image>
-                                                            <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                            <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
-                                                                       HorizontalOptions="Start"  VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
-                                                        </Grid>
-                                                    </Frame>
+                        </Grid>
 
-                                                </ViewCell.View>
-                                            </ViewCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </ScrollView>
-                        </StackLayout>
-                    <!--</StackLayout>-->
+                        <ScrollView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                            <ListView ItemsSource="{Binding compareHistoryList}" HasUnevenRows="False"
+                                          HeightRequest="200" BackgroundColor="Transparent"
+                                          SeparatorVisibility="None" CachingStrategy="RecycleElementAndDataTemplate">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <ViewCell.View>
+                                                <Frame Padding="10,2,10,2" BorderColor="{Binding SelectedTagBorderColor}" 
+                                       BackgroundColor="White" CornerRadius="4"  HasShadow="False"
+                                                           Margin="6,6,6,0">
+                                                    <Grid >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.20*" />
+                                                            <ColumnDefinition Width="0.30*" />
+                                                            <ColumnDefinition Width="0.20*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Row="0" Grid.Column="0" Margin="0" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
+                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
+                                                                   TextColor="Black" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding IsMatchedImg}"
+                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand" HeightRequest="20"></Image>
+                                                        <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
+                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
+                                                                   TextColor="Black" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
+                                                                       HorizontalOptions="Start"  VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"
+                                                                   TextColor="Black" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                    </Grid>
+                                                </Frame>
+                                            </ViewCell.View>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ScrollView>
+                    </StackLayout>
                 </Frame>
             </ContentView>
         </AbsoluteLayout>

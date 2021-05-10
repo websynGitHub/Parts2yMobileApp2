@@ -29,26 +29,32 @@
                     <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
                           RowDefinitions="*" ColumnDefinitions="60,*,40" Padding="0,48,0,0">
 
-                        <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}" Grid.Row="0" Grid.Column="0"
+                        <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10"
+                                 VerticalOptions="StartAndExpand" Spacing="15">
+                            <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
-                                                  VerticalOptions="Center" Margin="10,10,10,10">
-                            <local:FontAwesomeIconLabel.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Back_Tapped"/>
-                            </local:FontAwesomeIconLabel.GestureRecognizers>
-                        </local:FontAwesomeIconLabel>
+                                                  VerticalOptions="Start">
+                                <local:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Back_Tapped"/>
+                                </local:FontAwesomeIconLabel.GestureRecognizers>
+                            </local:FontAwesomeIconLabel>
 
-                        <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,15,0,15"
+                        </StackLayout>
+                        
+                        <StackLayout Grid.Row="0" Grid.Column="1" Margin="8,10,0,15"
                               HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="CenterAndExpand">
-                            <Grid.RowDefinitions>
+                                        VerticalOptions="StartAndExpand">
+                            <!--<Grid.RowDefinitions>
                                 <RowDefinition Height="{Binding RowHeightTitle,Mode=TwoWay}"/>
                                 <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Text="Product Photos" Style="{StaticResource LblTitleName}"/>
-                            <Label Grid.Row="1" Text="{Binding Tagnumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
-                        </Grid>
+                            </Grid.RowDefinitions>-->
+                            <Label Text="Product Photos" Style="{StaticResource LblTitleName}"/>
+                            <Label Text="{Binding Tagnumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                        </StackLayout>
+                        
                         <LblIcons:FontAwesomeIconLabel Grid.Column="2" Text="{x:Static StaticIcons:Icons.HomeIc}"
-                                                       Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
+                                                       Style="{StaticResource LblIconStyle}" VerticalOptions="StartAndExpand"
+                                                       Margin="8,10,0,15" HorizontalTextAlignment="Start">
                             <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding HomeCommand}"/>
                             </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
