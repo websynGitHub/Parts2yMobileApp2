@@ -39,8 +39,8 @@
 
                     <Grid RowDefinitions="Auto,Auto,Auto,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                           RowSpacing="0">
-                        <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart" Grid.Row="0" Padding="0,48,0,0"
-                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="60,*">
+                        <Grid x:Name="headerpart" Grid.Row="0" ColumnDefinitions="60,*"
+                              Style="{StaticResource HeaderMainGrid}">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
                                          Margin="10,10,10,10" VerticalOptions="StartAndExpand"
@@ -205,9 +205,6 @@
                         <CollectionView Grid.Row="3" x:Name="QuestionList" BackgroundColor="Transparent"
                                 SelectionMode="Single" ItemsSource="{Binding QuestionListCategory}" IsVisible="{Binding IsQuestionListVisible}"
                                 Margin="6,6,6,0">
-                            <!--<CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
-                            </CollectionView.ItemsLayout>-->
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Padding="0,0,0,6">
@@ -245,64 +242,84 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <ScrollView Grid.Row="3" Margin="6,0,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
-                                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid Grid.Row="3" Margin="6,0,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
+                                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                              RowDefinitions="*,Auto">
 
-                                <Grid x:Name="quickstackssigque" IsVisible="{Binding IsQuickTabVisible}"
+                            <ScrollView Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                                    <Grid x:Name="quickstackssigque" IsVisible="{Binding IsQuickTabVisible}"
                                   RowDefinitions="Auto,*">
-                                    <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Quick"
+                                        <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Quick"
                                    Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
-                                    <flv:FlowListView FlowItemsSource="{Binding QuickSignQuestionListCategory}" HeightRequest="125"
+                                        <flv:FlowListView FlowItemsSource="{Binding QuickSignQuestionListCategory}" HeightRequest="125"
                                                   FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9"
                                          HorizontalOptions="FillAndExpand" VerticalOptions="Start" Grid.Row="1" BackgroundColor="Transparent"
                               SeparatorVisibility="None" HasUnevenRows="True" >
-                                        <flv:FlowListView.FlowColumnTemplate>
-                                            <DataTemplate>
-                                                <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10"
+                                            <flv:FlowListView.FlowColumnTemplate>
+                                                <DataTemplate>
+                                                    <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10"
                                                        HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
-                                                    <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center"
+                                                        <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center"
                                                            VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
-                                                    <Frame.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand
                                                             ,Source={x:Reference Name=PartsInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                                    </Frame.GestureRecognizers>
-                                                </Frame>
-                                            </DataTemplate>
-                                        </flv:FlowListView.FlowColumnTemplate>
-                                    </flv:FlowListView>
-                                </Grid>
+                                                        </Frame.GestureRecognizers>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </flv:FlowListView.FlowColumnTemplate>
+                                        </flv:FlowListView>
+                                    </Grid>
 
-                                <Grid x:Name="fullstackssigque" IsVisible="{Binding IsFullTabVisible}"
+                                    <Grid x:Name="fullstackssigque" IsVisible="{Binding IsFullTabVisible}"
                                          HorizontalOptions="FillAndExpand" VerticalOptions="Start"
                                   RowDefinitions="Auto,*">
-                                    <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Full"
+                                        <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Full"
                                    Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
-                                    <flv:FlowListView FlowItemsSource="{Binding FullSignQuestionListCategory}"
+                                        <flv:FlowListView FlowItemsSource="{Binding FullSignQuestionListCategory}"
                                                       FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9" BackgroundColor="#E9E9E9"
                               SeparatorVisibility="None" HasUnevenRows="True" Grid.Row="1" HeightRequest="125"
                                HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
-                                        <flv:FlowListView.FlowColumnTemplate>
-                                            <DataTemplate>
-                                                <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
-                                                    <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
-                                                    <Frame.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=PartsInspQuestionPage}}"
+                                            <flv:FlowListView.FlowColumnTemplate>
+                                                <DataTemplate>
+                                                    <Frame Padding="2,1,2,1" Margin="2"  IsClippedToBounds="True" CornerRadius="10" HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
+                                                        <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=PartsInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                                    </Frame.GestureRecognizers>
-                                                </Frame>
-                                            </DataTemplate>
-                                        </flv:FlowListView.FlowColumnTemplate>
-                                    </flv:FlowListView>
-                                </Grid>
-                            </StackLayout>
-                        </ScrollView>
+                                                        </Frame.GestureRecognizers>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </flv:FlowListView.FlowColumnTemplate>
+                                        </flv:FlowListView>
+                                    </Grid>
+                                </StackLayout>
+                            </ScrollView>
+
+                                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
+                                             BackgroundColor="Transparent" Margin="0,0,0,2"
+                                             Grid.Row="1" IsVisible="{Binding SignTabVisibility}">
+                                    <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
+                                                Style="{StaticResource SfBtnBlue}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}" IsEnabled="{Binding IsDoneEnable}"
+                                        Opacity="{Binding DoneOpacity}">
+                                        <sfbuttons:SfButton.Behaviors>
+                                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                        </sfbuttons:SfButton.Behaviors>
+                                    </sfbuttons:SfButton>
+                                </StackLayout>
+                        </Grid>
+                        
                     </Grid>
                 </StackLayout>
             </RelativeLayout>
 
-            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+            <!--<ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                               HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
                          Margin="6,0,6,2" IsVisible="{Binding SignTabVisibility}">
                 <StackLayout Orientation="Vertical">
@@ -316,7 +333,7 @@
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
                 </StackLayout>
-            </ContentView>
+            </ContentView>-->
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

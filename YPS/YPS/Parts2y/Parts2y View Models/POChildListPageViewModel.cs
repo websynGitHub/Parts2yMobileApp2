@@ -1110,17 +1110,19 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     //var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                     var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                    if (uniq.Count() >= 2)
-                    {
-                        //Please select any one group.
-                        DependencyService.Get<IToastMessage>().ShortAlert("please select tag(s) under same po.");
-                    }
-                    else if (uniq.Count() == 0)
+                    //if (uniq.Count() >= 2)
+                    //{
+                    //    //Please select any one group.
+                    //    DependencyService.Get<IToastMessage>().ShortAlert("please select tag(s) under same po.");
+                    //}
+                    //else if (uniq.Count() == 0)
+                    if (uniq?.Count() == 0)
                     {
                         //Please select tag(s) to download the report
                         DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s).");
                     }
-                    else if (uniq.Count() == 1)
+                    //else if (uniq.Count() == 1)
+                    else
                     {
                         var checkInternet = await App.CheckInterNetConnection();
                         if (checkInternet)

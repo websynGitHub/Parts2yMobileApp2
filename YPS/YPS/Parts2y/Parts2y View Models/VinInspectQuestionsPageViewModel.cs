@@ -101,32 +101,31 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
 
 
-                    if (result != null && result.status == 1)
+                    //if (result != null && result.status == 1)
+                    //{
+                    var carrierdriverimagesign = result?.data?.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver).Select(c => c.Signature).FirstOrDefault();
+
+                    var vindealerimagesigncarrier = result?.data?.listData.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDealer).Select(c => c.Signature).FirstOrDefault();
+
+                    CarrierDriverImageSign = carrierdriverimagesign != null ?
+                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(carrierdriverimagesign))) : null;
+
+                    VINDealerImageSignCarrier = vindealerimagesigncarrier != null ?
+                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(vindealerimagesigncarrier))) : null;
+
+                    if (selectedTagData.TagTaskStatus != 2 && ((IsLoadTabVisible == false && carrierdriverimagesign != null && vindealerimagesigncarrier != null) || (IsLoadTabVisible == true)) &&
+                   (QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                   FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null)
+                   )
                     {
-                        var carrierdriverimagesign = result.data.listData.
-                            Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver).Select(c => c.Signature).FirstOrDefault();
-
-                        var vindealerimagesigncarrier = result.data.listData.
-                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinDealer).Select(c => c.Signature).FirstOrDefault();
-
-                        CarrierDriverImageSign = carrierdriverimagesign != null ?
-                            ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(carrierdriverimagesign))) : null;
-
-                        VINDealerImageSignCarrier = vindealerimagesigncarrier != null ?
-                            ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(vindealerimagesigncarrier))) : null;
-
-                        if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                       FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                       (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                       (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
-                       selectedTagData.TagTaskStatus != 2 &&
-                       ((IsLoadTabVisible == false && carrierdriverimagesign != null && vindealerimagesigncarrier != null) ||
-                       (IsLoadTabVisible == true)))
-                        {
-                            IsDoneEnable = true;
-                            DoneOpacity = 1.0;
-                        }
+                        IsDoneEnable = true;
+                        DoneOpacity = 1.0;
                     }
+                    //}
 
                 }
                 else if (Settings.EntityTypeName.Trim() == "Owner")
@@ -135,28 +134,27 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsOwnerSignVisible = true;
                     IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
 
-                    if (result != null && result.status == 1)
+                    //if (result != null && result.status == 1)
+                    //{
+                    var driverimagesign = result?.data?.listData?.
+                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver).
+                        Select(c => c.Signature).FirstOrDefault();
+
+
+                    DriverImageSign = driverimagesign != null ?
+                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(driverimagesign))) : null;
+
+                    if (selectedTagData.TagTaskStatus != 2 && ((IsLoadTabVisible == false && driverimagesign != null) || (IsLoadTabVisible == true)) &&
+                   (QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                   FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null)
+                   )
                     {
-                        var driverimagesign = result.data.listData.
-                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver).
-                            Select(c => c.Signature).FirstOrDefault();
-
-
-                        DriverImageSign = driverimagesign != null ?
-                            ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(driverimagesign))) : null;
-
-                        if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                       FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                       (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                       (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
-                       selectedTagData.TagTaskStatus != 2 &&
-                       ((IsLoadTabVisible == false && driverimagesign != null) || (IsLoadTabVisible == true)))
-                        {
-                            IsDoneEnable = true;
-                            DoneOpacity = 1.0;
-                        }
+                        IsDoneEnable = true;
+                        DoneOpacity = 1.0;
                     }
-
+                    //}
                 }
                 else
                 {

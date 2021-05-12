@@ -54,9 +54,8 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart"
-                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                          RowDefinitions="*,Auto" ColumnDefinitions="60,*,Auto" Padding="0,48,0,0">
+                        <Grid Grid.Row="0" x:Name="headerpart" RowDefinitions="*,Auto" ColumnDefinitions="60,*,Auto" 
+                              Style="{StaticResource HeaderMainGrid}">
 
                             <StackLayout Orientation="Vertical" Margin="10,10,10,10" VerticalOptions="StartAndExpand"
                                          Spacing="15">

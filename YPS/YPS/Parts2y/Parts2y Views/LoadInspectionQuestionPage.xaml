@@ -41,8 +41,8 @@
                     <Grid RowDefinitions="Auto,Auto,Auto,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                           RowSpacing="0">
 
-                        <Grid RowSpacing="5" BackgroundColor="{Binding BgColor}" x:Name="headerpart" Grid.Row="0" Padding="0,48,0,0"
-                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="60,*">
+                        <Grid x:Name="headerpart" Grid.Row="0" ColumnDefinitions="60,*"
+                              Style="{StaticResource HeaderMainGrid}">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
                                          Margin="10,10,10,10" VerticalOptions="StartAndExpand"
@@ -230,36 +230,52 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <ScrollView Grid.Row="3" Margin="6,6,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
-                                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#E9E9E9">
-                            <StackLayout Spacing="0"
-                                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                               
-                                <flv:FlowListView FlowItemsSource="{Binding QuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" 
+
+                        <Grid Grid.Row="3" Margin="6,6,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
+                                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                              RowDefinitions="*,Auto" BackgroundColor="#E9E9E9">
+                            
+                            <ScrollView Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#E9E9E9">
+                                <StackLayout Spacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                                    <flv:FlowListView FlowItemsSource="{Binding QuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" 
                                                   FlowColumnCount="9" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"
                               BackgroundColor="#E9E9E9" SeparatorVisibility="None" HasUnevenRows="True" HeightRequest="115">
-                                    <flv:FlowListView.FlowColumnTemplate>
-                                        <DataTemplate>
-                                            <Frame Padding="2,1,2,0" Margin="2,2,2,0"  IsClippedToBounds="True" CornerRadius="10" 
+                                        <flv:FlowListView.FlowColumnTemplate>
+                                            <DataTemplate>
+                                                <Frame Padding="2,1,2,0" Margin="2,2,2,0"  IsClippedToBounds="True" CornerRadius="10" 
                                                    HasShadow="False" BackgroundColor="{Binding SignQuesBgColor}" >
-                                                <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center"
+                                                    <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center"
                                                        VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
-                                                <Frame.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=LoadInspQuestionPage}}"
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=LoadInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                                </Frame.GestureRecognizers>
-                                            </Frame>
-                                        </DataTemplate>
-                                    </flv:FlowListView.FlowColumnTemplate>
-                                </flv:FlowListView>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </flv:FlowListView.FlowColumnTemplate>
+                                    </flv:FlowListView>
+                                </StackLayout>
+                            </ScrollView>
 
-                            </StackLayout>
-                        </ScrollView>
+                                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                                             BackgroundColor="Transparent" Margin="0,0,0,2"
+                                             Grid.Row="1" IsVisible="{Binding SignTabVisibility}">
+                                    <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
+                                                Style="{StaticResource SfBtnBlue}" IsEnabled="{Binding IsDoneEnable}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
+                                        <sfbuttons:SfButton.Behaviors>
+                                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                        </sfbuttons:SfButton.Behaviors>
+                                    </sfbuttons:SfButton>
+                                </StackLayout>
+                        </Grid>
                     </Grid>
                 </StackLayout>
             </RelativeLayout>
             
-            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+            <!--<ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                               HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
                          Margin="6,0,6,2" IsVisible="{Binding SignTabVisibility}">
                 <StackLayout Orientation="Vertical">
@@ -272,7 +288,7 @@
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
                 </StackLayout>
-            </ContentView>
+            </ContentView>-->
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

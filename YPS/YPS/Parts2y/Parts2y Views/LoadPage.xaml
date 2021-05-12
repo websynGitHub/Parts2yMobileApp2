@@ -23,8 +23,8 @@
                         <RowDefinition Height="{Binding RowHeightOpenCam}"/>
                     </Grid.RowDefinitions>
 
-                    <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" BackgroundColor="{Binding BgColor}"
-                              RowDefinitions="*" ColumnDefinitions="60,*,40" Padding="0,48,0,0">
+                    <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*,40" 
+                          Style="{StaticResource HeaderMainGrid}">
 
                         <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
                                          Margin="10,10,10,10" VerticalOptions="StartAndExpand"

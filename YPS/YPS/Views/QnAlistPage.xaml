@@ -13,8 +13,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}" 
-                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="0,48,0,0">
+            <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource HeaderMainGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>

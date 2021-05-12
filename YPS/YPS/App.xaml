@@ -21,7 +21,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
                 <Setter Property="FontSize" Value="30"/>
             </Style>
-            
+
             <Style TargetType="Label" x:Key="LblIconStyleForList" BasedOn="{StaticResource LblIconStyle}">
                 <Setter Property="TextColor" Value="Gray"/>
                 <Setter Property="FontSize" Value="Large"/>
@@ -33,6 +33,8 @@
                 <Setter Property="BackgroundColor" Value="Black"/>
                 <Setter Property="Padding" Value="{OnPlatform Android='0,0,0,0',iOS='0,17,0,0'}"/>
                 <Setter Property="RowSpacing" Value="0"/>
+                <Setter Property="Padding" Value="0,48,0,0"/>
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
             </Style>
             <Style TargetType="Button" x:Key="BackNavBtn">
                 <Setter Property="Image" Value="backIc.png"/>
@@ -256,13 +258,13 @@
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="TextColor" Value="Black"/>
             </Style>
-            
+
             <Style x:Key="SfRadioButtonTextStyle" TargetType="sfbuttons:SfRadioButton">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="TextColor" Value="Black"/>
             </Style>
-            
+
             <Style x:Key="SfBtnBlue" TargetType="sfbuttons:SfButton">
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="BackgroundColor" Value="#269DC9"/>
@@ -352,10 +354,26 @@
                 <Setter Property="Margin" Value="0,0,2,0"/>
             </Style>
             <!--Sf related styles End-->
-            
-            
-            
+
+
+
             <!--Parts2y Start-->
+            <Style TargetType="Grid" x:Key="HeaderMainGrid">
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="Padding" Value="0,48,0,0"/>
+                <Setter Property="RowSpacing" Value="5"/>
+            </Style>
+
+            <Style TargetType="Grid" x:Key="HeaderMainGridRowSpacingZero">
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="Padding" Value="0,48,0,0"/>
+                <Setter Property="RowSpacing" Value="0"/>
+            </Style>
+
             <Style TargetType="Label" x:Key="LableWithSmallFont">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="14"/>

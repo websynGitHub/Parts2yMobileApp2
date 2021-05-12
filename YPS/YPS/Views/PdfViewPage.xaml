@@ -27,7 +27,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-        <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource ToolbarNavGrid}" Padding="0,48,0,0">
+        <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource HeaderMainGrid}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>

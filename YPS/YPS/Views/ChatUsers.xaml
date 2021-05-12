@@ -22,10 +22,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" Style="{StaticResource ToolbarNavGrid}"
-                      BackgroundColor="{Binding BgColor}" Padding="0,48,0,0"
-                      HorizontalOptions="FillAndExpand" VerticalOptions="Start"
-                          RowDefinitions="*">
+                <Grid x:Name="headerpart" Grid.Row="0" Style="{StaticResource HeaderMainGrid}" RowDefinitions="*">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="*"/>

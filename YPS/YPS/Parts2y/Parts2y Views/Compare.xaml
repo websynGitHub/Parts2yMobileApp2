@@ -38,9 +38,8 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <Grid x:Name="headerpart" Grid.Row="0" RowSpacing="5" BackgroundColor="{Binding BgColor}"
-                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                          RowDefinitions="*" ColumnDefinitions="60,*,Auto" Padding="0,48,0,0">
+                <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*,Auto" 
+                      Style="{StaticResource HeaderMainGrid}">
 
                     <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" Spacing="15"
                                          VerticalOptions="StartAndExpand" Margin="10,10,10,10">
@@ -422,7 +421,7 @@
 
                         <ScrollView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                             <ListView ItemsSource="{Binding compareHistoryList}" HasUnevenRows="False"
-                                          HeightRequest="200" BackgroundColor="Transparent"
+                                          HeightRequest="200" BackgroundColor="Transparent" SelectionMode="None"
                                           SeparatorVisibility="None" CachingStrategy="RecycleElementAndDataTemplate">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
