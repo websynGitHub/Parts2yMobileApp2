@@ -112,7 +112,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             await Navigation.PopAsync();
 
-                            ScannedResult = "TL3UWB22WLL672193";
+                            ScannedResult = scanresult.Text;
 
                             if (!string.IsNullOrEmpty(ScannedResult))
                             {
