@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using YPS.Helpers;
 //using YPS.Parts2y.Parts2y_Common_Classes;
-using YPS.Parts2y.Parts2y_View_Models;
+//using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
@@ -17,7 +17,7 @@ using ZXing.Net.Mobile.Forms;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    class DashboardViewModel : BaseViewModel
+    class DashboardViewModel : IBase
     {
         public INavigation Navigation { get; set; }
         public Command TaskClickCmd { get; set; }
@@ -73,7 +73,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Task.Delay(1);
+                //await Task.Delay(1);
 
                 if (tabname == "job")
                 {
@@ -100,6 +100,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
+
                 RememberPwdDB Db = new RememberPwdDB();
                 var user = Db.GetUserDetails();
 
@@ -171,6 +173,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "RememberUserDetails method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         public async Task RedirectToPage(string page)
@@ -179,7 +185,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Task.Delay(2);
+                //await Task.Delay(2);
 
                 if (page == "task")
                 {
@@ -267,6 +273,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
+
                 if (Settings.alllabeslvalues == null || Settings.alllabeslvalues.Count == 0)
                 {
                     var lblResult = await trackService.GetallApplabelsService();
@@ -304,6 +312,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "GetallApplabels method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         /// <summary>
@@ -313,6 +325,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
+
                 //if (Settings.alllabeslvalues == null || Settings.alllabeslvalues.Count == 0)
                 //{
                 var lblResult = await trackService.GetallActionStatusService();
@@ -331,6 +345,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "GetActionStatus method -> in DashboardViewModel! " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         /// <summary>
@@ -340,6 +358,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
+
                 labelobj = new DashboardLabelChangeClass();
 
                 if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
@@ -412,12 +432,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 await trackService.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ChangeLabel method -> in DashboardViewModel.cs " + Settings.userLoginID);
             }
+            finally
+            {
+                loadindicator = false;
+            }
         }
 
         private async Task GetQuestions()
         {
             try
             {
+                loadindicator = true;
+
                 var checkInternet = await App.CheckInterNetConnection();
 
                 if (checkInternet)
@@ -433,6 +459,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "GetQuestions method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
             }
         }
 
@@ -501,7 +531,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 this._IsLoadTabVisible = value;
-                OnPropertyChanged("IsLoadTabVisible");
+                NotifyPropertyChanged("IsLoadTabVisible");
             }
         }
 
@@ -534,7 +564,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _Company = value;
-                OnPropertyChanged("Company");
+                NotifyPropertyChanged("Company");
             }
         }
 
@@ -545,7 +575,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _ProjectName = value;
-                OnPropertyChanged("ProjectName");
+                NotifyPropertyChanged("ProjectName");
             }
         }
 
@@ -556,33 +586,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _JobName = value;
-                OnPropertyChanged("JobName");
+                NotifyPropertyChanged("JobName");
             }
         }
-
-
-        //private string _SupplierName = Settings.SupplierSelected;
-        //public string SupplierName
-        //{
-        //    get { return _SupplierName; }
-        //    set
-        //    {
-        //        _SupplierName = value;
-        //        OnPropertyChanged("SupplierName");
-        //    }
-        //}
-
-
-        //private string _Id = Settings.CompanyID.ToString();
-        //public string Id
-        //{
-        //    get { return _Id; }
-        //    set
-        //    {
-        //        _UserName = value;
-        //        OnPropertyChanged("Id");
-        //    }
-        //}
 
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
@@ -591,7 +597,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _BgColor = value;
-                OnPropertyChanged("BgColor");
+                NotifyPropertyChanged("BgColor");
             }
         }
 

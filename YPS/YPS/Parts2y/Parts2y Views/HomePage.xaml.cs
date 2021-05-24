@@ -9,7 +9,7 @@ using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
-using YPS.Parts2y.Parts2y_Models;
+//using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
 using YPS.Views;
@@ -93,6 +93,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                Vm.loadindicator = true;
                 Settings.ShowSuccessAlert = true;
 
                 base.OnAppearing();

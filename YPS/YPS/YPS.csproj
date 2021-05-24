@@ -10,20 +10,86 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ePod\**" />
     <Compile Remove="Model\Yship\**" />
+    <Compile Remove="Parts2y\Parts2y Behaviours\**" />
+    <Compile Remove="Parts2y\Parts2y Common Classes\**" />
+    <Compile Remove="Parts2y\Parts2y Custom Renderers\**" />
+    <Compile Remove="Parts2y\Parts2y Models\**" />
+    <Compile Remove="Parts2y\Parts2y Services\**" />
+    <Compile Remove="Parts2y\Parts2y SQLITE\**" />
     <Compile Remove="Views\Menu\**" />
     <Compile Remove="YshipViewModel\**" />
+    <Compile Remove="YShip\**" />
+    <EmbeddedResource Remove="ePod\**" />
     <EmbeddedResource Remove="Model\Yship\**" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Behaviours\**" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Common Classes\**" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Custom Renderers\**" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Models\**" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Services\**" />
+    <EmbeddedResource Remove="Parts2y\Parts2y SQLITE\**" />
     <EmbeddedResource Remove="Views\Menu\**" />
     <EmbeddedResource Remove="YshipViewModel\**" />
+    <EmbeddedResource Remove="YShip\**" />
+    <None Remove="ePod\**" />
     <None Remove="Model\Yship\**" />
+    <None Remove="Parts2y\Parts2y Behaviours\**" />
+    <None Remove="Parts2y\Parts2y Common Classes\**" />
+    <None Remove="Parts2y\Parts2y Custom Renderers\**" />
+    <None Remove="Parts2y\Parts2y Models\**" />
+    <None Remove="Parts2y\Parts2y Services\**" />
+    <None Remove="Parts2y\Parts2y SQLITE\**" />
     <None Remove="Views\Menu\**" />
     <None Remove="YshipViewModel\**" />
+    <None Remove="YShip\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="CommonClasses\ScanditPageSettings.cs" />
+    <Compile Remove="CustomRenders\Dark.cs" />
+    <Compile Remove="CustomRenders\GridSwitchRendererExt.cs" />
+    <Compile Remove="GridConverters\CustomSelectionController.cs" />
+    <Compile Remove="GridConverters\GridThemeColor.cs" />
+    <Compile Remove="GridConverters\GroupCaption1stValue.cs" />
+    <Compile Remove="GridConverters\GroupCaption2ndValue.cs" />
+    <Compile Remove="GridConverters\GroupCaptionConverter.cs" />
+    <Compile Remove="GridConverters\PlCount.cs" />
+    <Compile Remove="GridConverters\poShipConverter.cs" />
+    <Compile Remove="MainPage.xaml.cs" />
     <Compile Remove="Model\PoDataTags.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\AnswersPageViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\BaseViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\BusScheduleViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\CarrierInspectionAnswerViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\DealerCarrierDetailViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\DealerPageViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\DealerVehicleDetailsViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\DriverPageViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\DriverVehicleDetailsViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\EPODPhotoUplodeViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\HomeViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\LoginViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\QuestionsViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\VehicleDetailViewModel.cs" />
+    <Compile Remove="Parts2y\Parts2y View Models\VMTransportReportDetails.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\AnswersPage.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\BusSchedule.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\CarrierInspectionAnswerPage.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\DealerCarrierDetails.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\DealerPage.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\DealerVehicleDetails.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\Driverpage.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\DriverVehicleDetails.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\LoadIndicatorPage.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\PhotoUploadePOD.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\PO.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\ScanditScannerPage.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\TransportReportDetails.xaml.cs" />
+    <Compile Remove="Parts2y\Parts2y Views\VehicleDetails.xaml.cs" />
     <Compile Remove="ViewModel\CoachMGuidedTViewModel.cs" />
+    <Compile Remove="ViewModel\MasterPageViewModel.cs" />
+    <Compile Remove="ViewModel\PoDataViewModel.cs" />
     <Compile Remove="ViewModel\UpdateProfileModelView.cs" />
     <Compile Remove="ViewModel\VMImageViewer.cs" />
     <Compile Remove="Views\ChatListView.cs" />
@@ -34,19 +100,49 @@
     <Compile Remove="Views\RFID.xaml.cs" />
     <Compile Remove="Views\RootPage.cs" />
     <Compile Remove="Views\SearchListpicker.xaml.cs" />
+    <Compile Remove="Views\YPSMasterPage.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="MainPage.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\AnswersPage.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\BusSchedule.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\CarrierInspectionAnswerPage.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\DealerCarrierDetails.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\DealerPage.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\DealerVehicleDetails.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\Driverpage.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\DriverVehicleDetails.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\LoadIndicatorPage.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\PhotoUploadePOD.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\PO.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\ScanditScannerPage.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\TransportReportDetails.xaml" />
+    <EmbeddedResource Remove="Parts2y\Parts2y Views\VehicleDetails.xaml" />
     <EmbeddedResource Remove="Views\CoachMAndGuidedTourP.xaml" />
     <EmbeddedResource Remove="Views\PrinterPage.xaml" />
     <EmbeddedResource Remove="Views\RFID.xaml" />
     <EmbeddedResource Remove="Views\SearchListpicker.xaml" />
+    <EmbeddedResource Remove="Views\YPSMasterPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="beep.mp3" />
+    <None Remove="ngbeep.mp3" />
+    <None Remove="okbeep.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="beep.mp3" />
+    <EmbeddedResource Include="ngbeep.mp3" />
+    <EmbeddedResource Include="okbeep.mp3" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.442" />
     <PackageReference Include="CardsView" Version="2.1.2" />
     <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.11" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.10.1" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.0" />
@@ -56,25 +152,28 @@
     <PackageReference Include="PCLCrypto" Version="2.0.147" />
     <PackageReference Include="PCLStorage" Version="1.0.2" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
+    <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.19.3.10" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+    <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
     <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="18.1.0.42" />
     <PackageReference Include="Syncfusion.Xamarin.Cards" Version="18.1.0.42" />
     <PackageReference Include="Syncfusion.Xamarin.Core" Version="18.1.0.42" />
-    <PackageReference Include="Syncfusion.Xamarin.DataSource" Version="18.1.0.42" />
     <PackageReference Include="Syncfusion.Xamarin.SfBadgeView" Version="16.4.0.54" />
-    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator" Version="16.4.0.54" />
     <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="18.1.0.42" />
-    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="18.1.0.42" />
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="18.1.0.42" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
+    <PackageReference Include="Xam.Plugin.SimpleAudioPlayer" Version="1.4.0" />
     <PackageReference Include="Xamarin.Auth" Version="1.7.0" />
-    <PackageReference Include="Xamarin.Auth.XamarinForms" Version="1.7.0" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.3.0" />
+    <PackageReference Include="Xamarin.Controls.SignaturePad.Forms" Version="3.0.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.1.8" />
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1142" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
+    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.4.4" />
     <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.0.135" />
+    <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
+    <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -82,6 +181,9 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Parts2y\Parts2y Views\LoadPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Views\ChatPage.xaml">
@@ -150,19 +252,9 @@
     <None Update="Views\YPSMasterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
-    <None Update="YShip\YshipViews\PermitsFileUpload.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="YShip\YshipViews\YshipFileUpload.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="YShip\YshipViews\YshipPhotoUpload.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CustomRenders\" />
     <Folder Include="Behaviours\" />
     <Folder Include="ChatServices\" />
     <Folder Include="Service\" />
@@ -185,6 +277,57 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Parts2y\Parts2y Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\CarrierInspectionQuestionsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\ChildListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\InspVerificationScanPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\LinkPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\LoadInspectionAnswersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\LoadInspectionQuestionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\LoadPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\ParentListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\PartsInspectionQuestionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\PhotoRepoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\POChildListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\QuestionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\ScanPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\VinInspectionAnswersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Parts2y\Parts2y Views\VinInspectQuestionsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\AboutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -195,12 +338,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ImageView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="YShip\YshipViews\PermitsFileUpload.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="YShip\YshipViews\YshipFileUpload.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
