@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace YPS.Model
@@ -40,5 +41,14 @@ namespace YPS.Model
         public string message { get; set; }
         public int status { get; set; }
         public GetSavedScanConfigModel data { get; set; }
+    }
+
+    public class CompareHistoryList
+    {
+        [Key]
+        public int HistorySerialNo { get; set; }
+        public string AValue { get; set; }
+        public string BValue { get; set; }
+        public string IsMatchedImg { get; set; }
     }
 }
