@@ -34,7 +34,7 @@
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
-    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a;x86_64;arm64-v8a</AndroidSupportedAbis>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
@@ -42,6 +42,8 @@
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidLinkTool>r8</AndroidLinkTool>
     <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
+    <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -61,10 +63,10 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
-    <AndroidDexTool>dx</AndroidDexTool>
-    <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidDexTool>d8</AndroidDexTool>
     <MandroidI18n />
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HorizontalList">
@@ -85,23 +87,11 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.1.0.442</Version>
     </PackageReference>
-    <PackageReference Include="CardsView">
-      <Version>2.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="DLToolkit.Forms.Controls.FlowListView">
-      <Version>2.0.11</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
       <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client">
-      <Version>1.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="PCLCrypto">
       <Version>2.0.147</Version>
@@ -118,12 +108,6 @@
     <PackageReference Include="RootBeer">
       <Version>0.0.8.2</Version>
     </PackageReference>
-    <PackageReference Include="sqlite-net-pcl">
-      <Version>1.7.335</Version>
-    </PackageReference>
-    <PackageReference Include="SQLiteNetExtensions">
-      <Version>2.1.0</Version>
-    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.Buttons">
       <Version>18.1.0.42</Version>
     </PackageReference>
@@ -133,44 +117,14 @@
     <PackageReference Include="Syncfusion.Xamarin.Core">
       <Version>18.1.0.42</Version>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.DataSource">
-      <Version>18.1.0.42</Version>
-    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfBadgeView">
       <Version>16.4.0.54</Version>
-    </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator">
-      <Version>16.4.0.54</Version>
-    </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.SfComboBox">
-      <Version>18.1.0.42</Version>
-    </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid">
-      <Version>18.1.0.42</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfListView">
       <Version>18.1.0.42</Version>
     </PackageReference>
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.4</Version>
-    </PackageReference>
-    <PackageReference Include="WindowsAzure.Storage">
-      <Version>9.3.3</Version>
-    </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
       <Version>4.0.1.5</Version>
-    </PackageReference>
-    <PackageReference Include="Xam.Plugin.SimpleAudioPlayer">
-      <Version>1.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.Annotations">
-      <Version>28.0.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.CustomTabs">
-      <Version>28.0.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.Design">
-      <Version>28.0.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v4">
       <Version>28.0.0.1</Version>
@@ -187,8 +141,11 @@
     <PackageReference Include="Xamarin.AndroidX.AppCompat">
       <Version>1.1.0</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources">
+      <Version>1.2.0.5</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.AppCompat.Resources">
-      <Version>1.1.0.1</Version>
+      <Version>1.1.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.MediaRouter">
       <Version>1.1.0</Version>
@@ -196,14 +153,8 @@
     <PackageReference Include="Xamarin.Auth">
       <Version>1.7.0</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Auth.XamarinForms">
-      <Version>1.7.0</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Controls.SignaturePad.Forms">
-      <Version>3.0.0</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
-      <Version>1.3.0</Version>
+      <Version>1.6.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.1.8</Version>
@@ -219,12 +170,6 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>5.0.0.1931</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms.InputKit">
-      <Version>3.4.4</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>5.0.0.1874</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Base">
       <Version>71.1610.1</Version>
@@ -249,13 +194,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom Renderers\AndroidLongPressedEffect.cs" />
     <Compile Include="Custom Renderers\ExtendedLabelRendererAndroid.cs" />
     <Compile Include="Custom Renderers\FontAwesomeIconRenderer.cs" />
     <Compile Include="Custom Renderers\HyperlinkLabelRenderer.cs" />
     <Compile Include="Custom Renderers\MyButtonAnmiRender.cs" />
     <Compile Include="Custom Renderers\MyEditorRenderer.cs" />
     <Compile Include="Custom Renderers\MyEntryRenderer.cs" />
-    <Compile Include="Custom Renderers\MyFrameRenderer .cs" />
     <Compile Include="Custom Renderers\NullableDatePickerRenderer.cs" />
     <Compile Include="Custom Renderers\PdfViewRenderer.cs" />
     <Compile Include="Dependencies\AndroidDownloader.cs" />
@@ -271,13 +216,6 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="MyFirebaseMessagingService.cs" />
     <Compile Include="PageRenderer\LoginRenderer.cs" />
-    <Compile Include="Parts2y\Parts2y Custom Renderers\CustomMapRenderer.cs" />
-    <Compile Include="Parts2y\Parts2y Custom Renderers\FontAwesomeIconRenderer.cs" />
-    <Compile Include="Parts2y\Parts2y Custom Renderers\MyButtonAnmiRender.cs" />
-    <Compile Include="Parts2y\Parts2y Custom Renderers\MyEditorRenderer.cs" />
-    <Compile Include="Parts2y\Parts2y Custom Renderers\MyEntryRenderer.cs" />
-    <Compile Include="Parts2y\Parts2y Custom Renderers\MyNavgtnPageRenderer.cs" />
-    <Compile Include="Parts2y\Parts2y Dependencies\RememberParts2ySQLite.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YpsSplashActivity.cs" />
@@ -569,11 +507,138 @@
     <AndroidAsset Include="Assets\Lato-Regular.ttf" />
     <AndroidAsset Include="Assets\Lato-Light.ttf" />
     <AndroidAsset Include="Assets\Lato-Bold.ttf" />
+    <AndroidAsset Include="Assets\Overpass-ExtraLight.ttf" />
+    <AndroidAsset Include="Assets\Overpass-Regular.ttf" />
+    <AndroidAsset Include="Assets\Overpass-Light.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <AndroidResource Include="Resources\drawable\ZIP.webp" />
+    <AndroidResource Include="Resources\drawable\a.webp" />
+    <AndroidResource Include="Resources\drawable\APK.webp" />
+    <AndroidResource Include="Resources\drawable\appstore.webp" />
+    <AndroidResource Include="Resources\drawable\attachb.webp" />
+    <AndroidResource Include="Resources\drawable\b.webp" />
+    <AndroidResource Include="Resources\drawable\backIc.webp" />
+    <AndroidResource Include="Resources\drawable\BMP.webp" />
+    <AndroidResource Include="Resources\drawable\bus.webp" />
+    <AndroidResource Include="Resources\drawable\chatb.webp" />
+    <AndroidResource Include="Resources\drawable\chatbg2.webp" />
+    <AndroidResource Include="Resources\drawable\Chatcamera.webp" />
+    <AndroidResource Include="Resources\drawable\ChatDocument.webp" />
+    <AndroidResource Include="Resources\drawable\chatIcon.webp" />
+    <AndroidResource Include="Resources\drawable\ChooseFile.webp" />
+    <AndroidResource Include="Resources\drawable\Compare.webp" />
+    <AndroidResource Include="Resources\drawable\cross.webp" />
+    <AndroidResource Include="Resources\drawable\DOC.webp" />
+    <AndroidResource Include="Resources\drawable\DOCX.webp" />
+    <AndroidResource Include="Resources\drawable\equal.webp" />
+    <AndroidResource Include="Resources\drawable\GIF.webp" />
+    <AndroidResource Include="Resources\drawable\green_marker.webp" />
+    <AndroidResource Include="Resources\drawable\GTour.webp" />
+    <AndroidResource Include="Resources\drawable\home.webp" />
+    <AndroidResource Include="Resources\drawable\icon.webp" />
+    <AndroidResource Include="Resources\drawable\ISO.webp" />
+    <AndroidResource Include="Resources\drawable\JPEG.webp" />
+    <AndroidResource Include="Resources\drawable\JPG.webp" />
+    <AndroidResource Include="Resources\drawable\menu.webp" />
+    <AndroidResource Include="Resources\drawable\menuusers.webp" />
+    <AndroidResource Include="Resources\drawable\menuW48.webp" />
+    <AndroidResource Include="Resources\drawable\message.webp" />
+    <AndroidResource Include="Resources\drawable\minus.webp" />
+    <AndroidResource Include="Resources\drawable\minusIc.webp" />
+    <AndroidResource Include="Resources\drawable\ng.webp" />
+    <AndroidResource Include="Resources\drawable\notification1.webp" />
+    <AndroidResource Include="Resources\drawable\ok.webp" />
+    <AndroidResource Include="Resources\drawable\ook.webp" />
+    <AndroidResource Include="Resources\drawable\ookblack.webp" />
+    <AndroidResource Include="Resources\drawable\PDF.webp" />
+    <AndroidResource Include="Resources\drawable\personIc.webp" />
+    <AndroidResource Include="Resources\drawable\pictureb.webp" />
+    <AndroidResource Include="Resources\drawable\Playstore.webp" />
+    <AndroidResource Include="Resources\drawable\plicon.webp" />
+    <AndroidResource Include="Resources\drawable\plUpload.webp" />
+    <AndroidResource Include="Resources\drawable\PNG.webp" />
+    <AndroidResource Include="Resources\drawable\qrcode.webp" />
+    <AndroidResource Include="Resources\drawable\qrcodecompare.webp" />
+    <AndroidResource Include="Resources\drawable\red_marker.webp" />
+    <AndroidResource Include="Resources\drawable\right.webp" />
+    <AndroidResource Include="Resources\drawable\shipicon.webp" />
+    <AndroidResource Include="Resources\drawable\shipreport.webp" />
+    <AndroidResource Include="Resources\drawable\TEXT.webp" />
+    <AndroidResource Include="Resources\drawable\tickb.webp" />
+    <AndroidResource Include="Resources\drawable\TIF.webp" />
+    <AndroidResource Include="Resources\drawable\TIFF.webp" />
+    <AndroidResource Include="Resources\drawable\TXT.webp" />
+    <AndroidResource Include="Resources\drawable\wifiNotAvailable.webp" />
+    <AndroidResource Include="Resources\drawable\XLS.webp" />
+    <AndroidResource Include="Resources\drawable\XLSX.webp" />
+    <AndroidResource Include="Resources\drawable\yellow_marker.webp" />
+    <AndroidResource Include="Resources\drawable\ypsbg.webp" />
+    <AndroidResource Include="Resources\drawable\ypslogo.webp" />
+    <AndroidResource Include="Resources\drawable\ypslogo12.webp" />
+    <AndroidResource Include="Resources\drawable\ypslogo22.webp" />
+    <AndroidResource Include="Resources\drawable\ypslogo33.webp" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.webp" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.webp" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\icon.webp" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-mdpi\icon.webp" />
+    <AndroidResource Include="Resources\mipmap-mdpi\launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-hdpi\icon.webp" />
+    <AndroidResource Include="Resources\mipmap-hdpi\launcher_foreground.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\attach.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\marker.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\message.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\pictureb.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\tick.webp" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\tickb.webp" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\attach.webp" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home.webp" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu.webp" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\message.webp" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\pictureb.webp" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tick.webp" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tickb.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\attach.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\camera.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\message.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\pictureb.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tick.webp" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tickb.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\attachb.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\backIc.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\home.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\job.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\logouM.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\message.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\notification1.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\notRequiredIc.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ok.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\pictureb.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\plUpload.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\projects.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\reportM.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\requiredIc.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\rightA.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\shipreport.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ShipreportM.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\SPMatM.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\supplierM.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\tick.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\tickb.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\users.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\Wsend.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\yshipM.webp" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
@@ -582,16 +647,6 @@
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\icon.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\icon_round.xml" />
-    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-hdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YPS\YPS.csproj">
@@ -600,187 +655,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Chatcamera.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\chatIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\cross.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\downarrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\menuW48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\minus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\personIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\message.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\message.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\tick.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\attach.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\camera.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\message.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\tick.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\attach.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\message.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\tick.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\attach.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\message.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\tick.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\chatb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\home.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\pictureb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\tickb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\home.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\pictureb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\tickb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\home.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\pictureb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\tickb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\home.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\pictureb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\tickb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\home.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\pictureb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\tickb.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\xml\file_paths.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\calendarIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\notification1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\notification1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\attachb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ChooseFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\rightA.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\Wsend.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\DOC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\DOCX.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\JPEG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\JPG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\PDF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\PNG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TEXT.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TXT.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\XLS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\XLSX.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ZIP.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\pdfjs\build\pdf.js" />
@@ -1059,223 +934,16 @@
     <AndroidAsset Include="Assets\pdfjs\web\images\treeitem-expanded%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\plusIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\minusIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ok.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\splash_centered.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ypslogo12.png" />
+    <Folder Include="Parts2y\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ypsbg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\plUpload.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\plUpload.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\notRequiredIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\requiredIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\notRequiredIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\requiredIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ok.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\shipreport.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\job.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\projects.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\shipreport.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\users.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\BMP.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\GIF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TIF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TIFF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\backIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\wifiNotAvailable.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\backIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\plicon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\shipicon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\logouM.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\reportM.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ShipreportM.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\supplierM.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\SPMatM.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\yshipM.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\GTour.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Yshipcross.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Yshipexclamation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\YshipflagG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\YshipflagO.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\YshipflagR.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Yshiptick.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CancelShip.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CompleteShipment.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\chatbg2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\APK.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ISO.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ypslogo22.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ypslogo33.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ChatDocument.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\appstore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Playstore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TimerIc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\attachb.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\dropdownarrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\menuusers.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Owner.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\Owner.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\a.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\b.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\bus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\epodlogo.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\equal.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\green_marker.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ng.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ook.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ookblack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\qrcode.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\qrcodecompare.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\red_marker.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\yellow_marker.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\marker.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ypslogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Compare.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
