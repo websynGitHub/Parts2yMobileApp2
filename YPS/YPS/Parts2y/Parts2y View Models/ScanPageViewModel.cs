@@ -67,7 +67,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     isbuttonenable = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
                 }
-                //Task.Run(() => OpenScanner()).Wait();
             }
             catch (Exception ex)
             {
@@ -75,7 +74,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var trackResult = trackService.Handleexception(ex);
             }
         }
-
 
         public async Task ReScan()
         {
@@ -90,7 +88,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var trackResult = trackService.Handleexception(ex);
             }
         }
-
 
         public async Task OpenScanner()
         {
@@ -129,7 +126,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     ScannerPage.OnScanResult += (scanresult) =>
                     {
                         ScannerPage.IsScanning = false;
-                        //CanOpenScan = false;
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
@@ -165,13 +161,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ScannerPage.ToggleTorch();
                         };
                     }
-
                 }
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
                 }
-                //CanOpenScan = true;
             }
             catch (Exception ex)
             {
@@ -322,11 +316,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 if (Settings.VersionID == 2)
                                 {
-                                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                                    //{
                                     IsPhotoEnable = true;
                                     PhotoOpacity = 1.0;
-                                    //}
                                 }
                                 else
                                 {
@@ -365,97 +356,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async void SearchResultGet(SendPodata sendPodata)
-        {
-            try
-            {
-                var Serchdata = await trackService.GetSearchValuesService(Settings.userLoginID);
-
-                if (Serchdata != null)
-                {
-                    if (Serchdata.status == 1)
-                    {
-                        if (!string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
-                        {
-                            var searchC = JsonConvert.DeserializeObject<SendPodata>(Serchdata.data.SearchCriteria);
-
-                            if (searchC != null)
-                            {
-                                //Key
-                                sendPodata.PONumber = Settings.PONumber = searchC.PONumber;
-                                sendPodata.REQNo = Settings.REQNo = searchC.REQNo;
-                                sendPodata.ShippingNo = Settings.ShippingNo = searchC.ShippingNo;
-                                sendPodata.DisciplineID = Settings.DisciplineID = searchC.DisciplineID;
-                                sendPodata.ELevelID = Settings.ELevelID = searchC.ELevelID;
-                                sendPodata.ConditionID = Settings.ConditionID = searchC.ConditionID;
-                                sendPodata.ExpeditorID = Settings.ExpeditorID = searchC.ExpeditorID;
-                                sendPodata.PriorityID = Settings.PriorityID = searchC.PriorityID;
-                                sendPodata.TagNo = Settings.TAGNo = searchC.TagNo;
-                                sendPodata.IdentCode = Settings.IdentCodeNo = searchC.IdentCode;
-                                sendPodata.BagNo = Settings.BagNo = searchC.BagNo;
-                                sendPodata.yBkgNumber = Settings.Ybkgnumber = searchC.yBkgNumber;
-                                sendPodata.TaskName = Settings.TaskName = searchC.TaskName;
-
-                                Settings.SearchWentWrong = false;
-                            }
-
-                        }
-                        else
-                        {
-                            await SaveAndClearSearch(true);
-                        }
-                    }
-                    else
-                    {
-                        Settings.SearchWentWrong = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in ScanPageViewModel! " + Settings.userLoginID);
-                var trackResult = await trackService.Handleexception(ex);
-            }
-        }
-
-
-        private async Task SaveAndClearSearch(bool val)
-        {
-            SendPodata SaveUserDS = new SendPodata();
-            SearchPassData defaultData = new SearchPassData();
-            try
-            {
-                //Key
-                SaveUserDS.PONumber = Settings.PONumber = string.Empty;
-                SaveUserDS.REQNo = Settings.REQNo = string.Empty;
-                SaveUserDS.ShippingNo = Settings.ShippingNo = string.Empty;
-                SaveUserDS.DisciplineID = Settings.DisciplineID = 0;
-                SaveUserDS.ELevelID = Settings.ELevelID = 0;
-                SaveUserDS.ConditionID = Settings.ConditionID = 0;
-                SaveUserDS.ExpeditorID = Settings.ExpeditorID = 0;
-                SaveUserDS.PriorityID = Settings.PriorityID = 0;
-                SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
-                SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
-                SaveUserDS.BagNo = Settings.BagNo = string.Empty;
-                SaveUserDS.yBkgNumber = Settings.Ybkgnumber = string.Empty;
-                SaveUserDS.TaskName = Settings.TaskName = string.Empty;
-                defaultData.CompanyID = Settings.CompanyID;
-                defaultData.UserID = Settings.userLoginID;
-                defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
-                var responseData = await trackService.SaveSerchvaluesSetting(defaultData);
-
-                if (val == true)
-                {
-                    SearchResultGet(SaveUserDS);
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in ScanPageViewModel! " + Settings.userLoginID);
-                await trackService.Handleexception(ex);
-            }
-        }
-
         public async Task MoveNext(AllPoData podata)
         {
             try
@@ -469,17 +369,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        //{
                         if (Settings.VersionID == 2 && uploadType == 0)
                         {
-                            //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                            //{
                             Settings.POID = podata.POID;
                             Settings.TaskID = podata.TaskID;
-                            //await Navigation.PushAsync(new QuestionsPage(podata.POTagID, podata.TagNumber, podata.IdentCode, podata.BagNumber, null));
                             await Navigation.PushAsync(new VinInspectQuestionsPage(podata, false));
-                            //}
                         }
                         else if (uploadType != 0)
                         {
@@ -494,7 +388,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     Settings.CanUploadPhotos = true;
                                     await Navigation.PopAsync();
-                                    //await Navigation.PushAsync(new PhotoUpload(selectedTagData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
                                 }
                                 else
                                 {
@@ -506,17 +399,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     Settings.CanUploadPhotos = true;
                                     await Navigation.PopAsync();
-
-                                    //Settings.POID = selectedPOTagData.POID;
-                                    //if (uploadType == (int)UploadTypeEnums.GoodsPhotos_BP)
-                                    //{
-
-                                    //    await Navigation.PushAsync(new PhotoUpload(null, selectedPOTagData, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, selectedPOTagData.photoTickVisible));
-                                    //}
-                                    //else
-                                    //{
-                                    //    await Navigation.PushAsync(new PhotoUpload(null, selectedPOTagData, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, selectedPOTagData.photoTickVisible));
-                                    //}
                                 }
                             }
                         }
@@ -532,7 +414,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 else
                                 {
                                     PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
                                     Settings.POID = podata.POID;
                                     Settings.TaskID = podata.TaskID;
                                     selectedTagsData.POID = podata.POID;
@@ -540,15 +421,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     List<PhotoTag> lstdat = new List<PhotoTag>();
 
-                                    //if (podata.TagTaskStatus == 2)
-                                    //{
-                                    //    ScannedOn = DateTime.Now.ToString(@"dd/MM/yyyy hh:mm:ss tt");
-                                    //    StatusText = "Done";
-                                    //    StatusTextBgColor = Settings.Bar_Background;
-                                    //    IsPhotoEnable = false;
-                                    //    PhotoOpacity = 0.5;
-                                    //}
-                                    //else 
                                     if (podata.TagAPhotoCount == 0 && podata.TagBPhotoCount == 0 && podata.PUID == 0)
                                     {
                                         PhotoTag tg = new PhotoTag();
@@ -595,7 +467,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 #endregion PhotoUpload
                             }
                         }
-                        //}
                     }
                     else
                     {

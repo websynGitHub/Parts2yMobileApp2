@@ -30,15 +30,6 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 yPSService = new YPSService();
                 InitializeComponent();
-
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 BindingContext = Vm = new InspVerificationScanViewModel(Navigation, selectedtagdata, isalldone, this);
             }
             catch (Exception ex)
@@ -47,7 +38,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 Task.Run(() => yPSService.Handleexception(ex)).Wait();
             }
         }
-
 
         protected async override void OnAppearing()
         {

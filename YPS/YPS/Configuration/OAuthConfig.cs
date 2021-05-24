@@ -19,7 +19,6 @@ namespace YPS
     public class OAuthConfig
     {
         #region Data member declaration
-        public static MainPage _HomePage;
         static NavigationPage _NavigationPage;
         public static UserDetails User;
         YPSService service = new YPSService();

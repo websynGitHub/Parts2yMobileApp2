@@ -1,13 +1,10 @@
 ﻿using SignaturePad.Forms;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
@@ -26,7 +23,6 @@ namespace YPS.Parts2y.Parts2y_Views
         YPSService service;
         bool isAllDone;
 
-        //public VinInspectQuestionsPage(AllPoData selectedtagdata, int tagId, string tagNumber, string indentCode, string bagNumber)
         public VinInspectQuestionsPage(AllPoData selectedtagdata, bool isalldone)
         {
             try
@@ -35,15 +31,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 selectedTagData = selectedtagdata;
-
-                //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 30;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 BindingContext = Vm = new VinInspectQuestionsPageViewModel(Navigation, this, selectedTagData, isalldone);
             }
             catch (Exception ex)
@@ -61,12 +48,10 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Vm.QuickTabVisibility == true)
                 {
-                    //await Vm.GetConfigurationResults(1);
                     Vm.QuickTabClicked();
                 }
                 else if (Vm.FullTabVisibility == true)
                 {
-                    //await Vm.GetConfigurationResults(2);
                     Vm.FullTabClicked();
                 }
                 else if (Vm.SignTabVisibility == true)
@@ -80,7 +65,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 await service.Handleexception(ex);
             }
         }
-
 
         private async void DoneClicked(object sender, EventArgs e)
         {
@@ -100,11 +84,12 @@ namespace YPS.Parts2y.Parts2y_Views
                     {
                         selectedTagData.TagTaskStatus = 2;
 
-                        if (selectedTagData.TaskStatus == 0)
+                        if (selectedTagData.TaskStatus != 2)
                         {
+                            ObservableCollection<AllPoData> podate = await Vm.GetUpdatedAllPOData();
                             TagTaskStatus taskstatus = new TagTaskStatus();
                             taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                            taskstatus.TaskStatus = 1;
+                            taskstatus.TaskStatus = (podate?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault() != null) ? 1 : 2;
                             taskstatus.CreatedBy = Settings.userLoginID;
 
                             var taskval = await service.UpdateTaskStatus(taskstatus);
@@ -112,6 +97,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             selectedTagData.TaskStatus = 1;
                         }
 
+                        await Vm.TabChange("job");
                         DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                     }
                 }
@@ -171,16 +157,11 @@ namespace YPS.Parts2y.Parts2y_Views
                                 var sign = await service.InsertUpdateSignature(inspobj);
                             }
 
-
                             await Vm.GetInspSignature();
 
                             Vm.SignaturePadPopup = false;
                             Vm.SignTabVisibility = true;
                             PadView.Clear();
-                        }
-                        else
-                        {
-
                         }
                     }
                 }

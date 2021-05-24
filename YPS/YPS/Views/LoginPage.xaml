@@ -26,7 +26,7 @@
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="ypslogo33.png" VerticalOptions="StartAndExpand" HorizontalOptions="Center"/>
+                            <Image Grid.Row="0" Source="ypslogo22.png" VerticalOptions="StartAndExpand" HorizontalOptions="Center"/>
                             <Label Grid.Row="1" Style="{DynamicResource LableWithFont}" Text="Please Login to Proceed" TextColor="Black" FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                             <BoxView Grid.Row="2" Color="Transparent"/>
 
@@ -53,17 +53,6 @@
                                     <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
-                            <!--<customrender:MyButton AutomationId="AutoLoginBtn" Grid.Row="5" CornerRadius="6" 
-                                                   BorderRadius="5" Style="{DynamicResource BtnWithFont}" 
-                                                   Text="LOGIN" Command="{Binding ILoginCommand}"
-                                                   BackgroundColor="#269DC9" TextColor="White"
-                                                   HorizontalOptions="Center" WidthRequest="200">
-                                <customrender:MyButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}"
-                                                                        AnimationType="Scale"/>
-
-                                </customrender:MyButton.Behaviors>
-                            </customrender:MyButton>-->
                         </Grid>
                     </Frame>
                 </StackLayout>

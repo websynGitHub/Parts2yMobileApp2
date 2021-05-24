@@ -19,7 +19,6 @@ namespace YPS.Parts2y.Parts2y_Views
         InspectionPhotoUploadViewModel Vm;
         YPSService trackService;
 
-
         public InspectionPhotosPage(int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata, bool iscarrierinsp)
         {
             try

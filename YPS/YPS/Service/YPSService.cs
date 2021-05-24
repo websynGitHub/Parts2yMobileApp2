@@ -597,11 +597,11 @@ namespace YPS.Service
         /// <param name="potagIDs"></param>
         /// <param name="IsRequiredID"></param>
         /// <returns></returns>
-        public async Task<ModelForIsPhotoRequired> IsRequiredOrNotReuired(string potagIDs, int IsRequiredID)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.IsRequiredOrNotReuiredRClient(potagIDs, IsRequiredID); ;
-        }
+        //public async Task<ModelForIsPhotoRequired> IsRequiredOrNotReuired(string potagIDs, int IsRequiredID)
+        //{
+        //    RestClient restClient = new RestClient();
+        //    return await restClient.IsRequiredOrNotReuiredRClient(potagIDs, IsRequiredID); ;
+        //}
 
         /// <summary>
         /// LocationSearch

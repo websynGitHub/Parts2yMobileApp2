@@ -32,15 +32,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 SelectedPodataList = selectedpodatalist;
-
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 30;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 BindingContext = Vm = new LoadInspectionQuestionViewModel(Navigation, this, SelectedPodataList, isalltagsdone);
             }
             catch (Exception ex)
@@ -49,7 +40,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 Task.Run(() => service.Handleexception(ex));
             }
         }
-      
+
         protected async override void OnAppearing()
         {
             try
@@ -91,10 +82,10 @@ namespace YPS.Parts2y.Parts2y_Views
                         if (taskval.status == 1)
                         {
                             SelectedPodataList[0].TaskID = 2;
+                            await Vm.TabChange("job");
                             DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                         }
                     }
-
                 }
             }
             catch (Exception ex)

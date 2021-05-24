@@ -40,7 +40,7 @@
                                          Orientation="Vertical" HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="StartAndExpand" Margin="8,10,0,15">
                             <Label Text="{Binding Title}" Style="{StaticResource LableWithMediumFont}" 
-                                   TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/> 
+                                   TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
                         </StackLayout>
                     </Grid>
 
@@ -63,42 +63,39 @@
                                                CornerRadius="2" BackgroundColor="#E9E9E9">
                                             <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                                 <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="80"/>
-                                                    <!--<RowDefinition Height="Auto"/>-->
-                                                    <!--<RowDefinition Height="80"/>
-                                                    <RowDefinition Height="80"/>-->
-                                                </Grid.RowDefinitions>
-                                                <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="80"/>
+                                                    </Grid.RowDefinitions>
+                                                    <forms:CachedImage Grid.Row="0" Grid.RowSpan="2" ErrorPlaceholder="pictureb.png" LoadingPlaceholder="loader.gif" 
                                                                DownsampleToViewSize="True"
                                                                RetryCount="3"
                                                                RetryDelay="3000"
                                                                Source="{Binding FullFileUrl}" ClassId="{Binding FileID}" 
                                                                HeightRequest="150" WidthRequest="150" Aspect="AspectFill" CacheDuration="60">
-                                                    <forms:CachedImage.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding BindingContext.ViewPhotoDetailsCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
-                                                    </forms:CachedImage.GestureRecognizers>
-                                                </forms:CachedImage>
-                                                <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000"
+                                                        <forms:CachedImage.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding BindingContext.ViewPhotoDetailsCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
+                                                        </forms:CachedImage.GestureRecognizers>
+                                                    </forms:CachedImage>
+                                                    <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000"
                                                              VerticalOptions="Start"
                                                              IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=PhotoRepo}}"
                                                              >
-                                                    <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
-                                                    <StackLayout.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding BindingContext.DeleteImageCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
-                                                    </StackLayout.GestureRecognizers>
-                                                </StackLayout>
-                                                <!--<StackLayout Grid.Row="1" Padding="1"  HorizontalOptions="End" VerticalOptions="End"
+                                                        <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                        <StackLayout.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding BindingContext.DeleteImageCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
+                                                        </StackLayout.GestureRecognizers>
+                                                    </StackLayout>
+                                                    <!--<StackLayout Grid.Row="1" Padding="1"  HorizontalOptions="End" VerticalOptions="End"
                                                               Spacing="0" HeightRequest="45" WidthRequest="30" BackgroundColor="#80000000">-->
-                                                <input:CheckBox HeightRequest="35"  WidthRequest="35" BorderColor="HotPink" BoxBackgroundColor="WhiteSmoke"
+                                                    <input:CheckBox HeightRequest="35"  WidthRequest="35" BorderColor="HotPink" BoxBackgroundColor="WhiteSmoke"
                                                                   Grid.Row="1" Padding="1" Margin="0"  HorizontalOptions="End" VerticalOptions="End"
                                                                  Spacing="0" IsChecked="{Binding IsSelected}" 
                                                                     CheckChangedCommand="{Binding BindingContext.CheckedChangedCmd,Source={x:Reference Name=PhotoRepo}}"
                                                                  />
-                                                <!--</StackLayout>-->
-                                            </Grid>
+                                                    <!--</StackLayout>-->
+                                                </Grid>
 
-                                            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
+                                                <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"
                                                          HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
                                                     <Label Text="{Binding CreatedDate}" Style="{StaticResource LblSubTitle}"
                                                        TextColor="Black" Margin="1,5,0,0"/>
@@ -116,7 +113,7 @@
                                                                LineBreakMode="WordWrap"/>
                                                         </ScrollView>
                                                     </Frame>
-                                            </StackLayout>
+                                                </StackLayout>
                                             </Grid>
 
                                         </Frame>

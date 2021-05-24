@@ -34,15 +34,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 yPSService = new YPSService();
                 InitializeComponent();
                 BindingContext = Vm = new PhotoRepoPageViewModel(Navigation, this);
-
-                //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 Vm.IndicatorVisibility = true;
             }
             catch (Exception ex)
@@ -81,38 +72,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.IndicatorVisibility = true;
-
-                //if (Vm.IsRepoaPage == true)
-                //{
                 await Navigation.PopAsync();
-                //}
-                //else
-                //{
-                //    //Vm.UploadViewContentVisible = true;
-                //    //Vm.IsPhotoUploadIconVisible = true;
-                //    //Vm.POTagLinkContentVisible = false;
-                //    //Vm.IsRepoaPage = true;
-
-                //    //await Vm.GetPhotosData();
-                //    if (Settings.POID > 0)
-                //    {
-                //        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                //        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                //        Settings.POID = 0;
-                //        Vm.taskID = 0;
-                //        await Navigation.PopAsync();
-                //    }
-                //    else
-                //    {
-                //        Vm.UploadViewContentVisible = true;
-                //        Vm.IsPhotoUploadIconVisible = true;
-                //        Vm.POTagLinkContentVisible = false;
-                //        Vm.IsRepoaPage = true;
-                //        Vm.Title = "Photo Repo";
-                //        await Vm.GetPhotosData();
-                //    }
-                //}
             }
             catch (Exception ex)
             {
@@ -123,58 +83,12 @@ namespace YPS.Parts2y.Parts2y_Views
             Vm.IndicatorVisibility = false;
         }
 
-
-        private async Task<ObservableCollection<AllPoData>> GetUpdatedAllPOData()
-        {
-            ObservableCollection<AllPoData> AllPoDataList = new ObservableCollection<AllPoData>();
-
-            try
-            {
-                Vm.IndicatorVisibility = true;
-                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-                var checkInternet = await App.CheckInterNetConnection();
-
-                if (checkInternet)
-                {
-
-                    sendPodata = new SendPodata();
-                    sendPodata.UserID = Settings.userLoginID;
-                    sendPodata.PageSize = Settings.pageSizeYPS;
-                    sendPodata.StartPage = Settings.startPageYPS;
-
-                    var result = await yPSService.LoadPoDataService(sendPodata);
-
-                    if (result != null && result.data != null)
-                    {
-                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
-                        {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID && wr.TaskID == Vm.taskID));
-                        }
-                    }
-                }
-                else
-                {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-            finally
-            {
-                Vm.IndicatorVisibility = false;
-            }
-            return AllPoDataList;
-        }
-
         private void SelectionChanged(object sender, EventArgs e)
         {
             Vm.IndicatorVisibility = true;
 
             try
             {
-
                 var val = sender as Plugin.InputKit.Shared.Controls.CheckBox;
                 var item = (PhotoRepoModel)val.BindingContext;
 

@@ -181,8 +181,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Task.Delay(1);
-
                 InspTabTextColor = Color.Black;
                 InspTabVisibility = false;
                 QuickTabTextColor = Color.Black;
@@ -284,7 +282,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -293,8 +290,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
                             labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
                             labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
-                            labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
-                            labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                             labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                             labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
                             labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
@@ -302,17 +297,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                             labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
 
-
                             if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                             {
                                 IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ItemQuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
                                 IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ItemFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
-
-                                //if (Settings.VersionID == 4 && Settings.VersionID == 3)
-                                //{
-                                //    var isloadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                                //    SignTabText = isloadTabVisible == false ? "Checklist & Sign" : "Checklist";
-                                //}
                             }
 
                             if (IsQuickTabVisible == false && IsFullTabVisible == false)
@@ -321,15 +309,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else if (IsQuickTabVisible == true && IsFullTabVisible == true)
                             {
-                                //if (VINQueVm.QuickTabVisibility == true)
                                 if (InspectionConfiguration.CategoryID == 4 || InspectionConfiguration.CategoryID == 7)
                                 {
-                                    //IsFullTabVisible = false;
                                     QuickTabClicked();
                                 }
                                 else if (InspectionConfiguration.CategoryID == 5 | InspectionConfiguration.CategoryID == 8)
                                 {
-                                    //IsQuickTabVisible = false;
                                     FullTabClicked();
                                 }
                             }
@@ -344,33 +329,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsQuickTabVisible = false;
                                 FullTabClicked();
                             }
-
-                            //if (IsQuickTabVisible == false && IsFullTabVisible == false)
-                            //{
-                            //    SignTabClicked();
-                            //}
-                            //else if (IsQuickTabVisible == true && IsFullTabVisible == true)
-                            //{
-                            //    //if (VINQueVm.QuickTabVisibility == true)
-                            //    if (InspectionConfiguration.CategoryID == 1)
-                            //    {
-                            //        QuickTabClicked();
-                            //    }
-                            //    //else if (InspectionConfiguration.CategoryID == 2)
-                            //    //{
-                            //    //    FullTabClicked();
-                            //    //}
-                            //}
-                            //else if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
-                            //{
-                            //    //IsFullTabVisible = false;
-                            //    QuickTabClicked();
-                            //}
-                            ////else
-                            ////{
-                            ////    IsQuickTabVisible = false;
-                            ////    FullTabClicked();
-                            ////}
                         }
                         else
                         {
@@ -443,15 +401,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (NextButtonText == "COMPLETE")
                 {
-                    //await Navigation.PopAsync();
                     SignTabClicked();
                 }
-
 
                 if (FrontRightTrue || FrontRightFalse || FrontLeftTrue || FrontLeftFalse || RearLeftTrue
                     || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse)
                 {
                     var checkInternet = await App.CheckInterNetConnection();
+
                     if (checkInternet)
                     {
                         await DoneClicked();
@@ -516,8 +473,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 AnswersGridVisibility = false;
 
-                                await Task.Delay(1);
-
                                 InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.SerialNo == InspectionConfiguration.SerialNo + 1);
 
                                 ShowConfigurationOptions();
@@ -533,7 +488,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     if (InspectionConfiguration.SerialNo < inspectionConfigurationList.Count)
                     {
-                        //InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.MInspectionConfigID == InspectionConfiguration.MInspectionConfigID + 1);
                         InspectionConfiguration = inspectionConfigurationList.FirstOrDefault(x => x.SerialNo == InspectionConfiguration.SerialNo + 1);
                         ShowConfigurationOptions();
                         Remarks = string.Empty;
@@ -575,7 +529,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 await Navigation.PopAsync();
-
             }
             catch (Exception ex)
             {
@@ -732,7 +685,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Name = "TagNumber"
             };
             public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = false, Name = "IdentCode" };
-            public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = false, Name = "BagNumber" };
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = false, Name = "ConditionName" };
 
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
@@ -795,7 +747,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("IsConditionNameLabelVisible");
             }
         }
-        
+
         private string _SignTabText = "Checklist";
         public string SignTabText
         {

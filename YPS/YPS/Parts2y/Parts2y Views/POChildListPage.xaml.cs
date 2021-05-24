@@ -40,15 +40,6 @@ namespace YPS.Parts2y.Parts2y_Views
                     loadStack.IsVisible = false;
                 }
 
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 30;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
-
                 if (Settings.VersionID != 2 && Settings.VersionID != 4 &&
                     Settings.VersionID != 5 && Settings.VersionID != 3 && Settings.VersionID != 1)
                 {
@@ -59,10 +50,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings.refreshPage = 1;
 
                 #region Subscribing MessageCenter
-                //MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseCount", (sender, args) =>
-                //{
-                //    Vm.NotifyCountTxt = args;
-                //});
 
                 MessagingCenter.Subscribe<string, string>("APhotoCount", "msgA", (sender, args) =>
                 {
@@ -136,8 +123,6 @@ namespace YPS.Parts2y.Parts2y_Views
                     foreach (var item in updateCount)
                     {
                         item.TagFilesCount = Convert.ToInt32(count[0]);
-                        //item.TagTaskStatus = item.TagTaskStatus == 0 ? 1 : item.TagTaskStatus;
-
                     }
                 });
 
@@ -166,22 +151,22 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    imgCamera.Opacity = CameraLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    imgFileUpload.Opacity = FileUploadLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    imgChat.Opacity = ChatLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CreateChat".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PrintTagReportDownload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "TaskComplete".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgCamera.Opacity = CameraLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PhotoUpload".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgFileUpload.Opacity = FileUploadLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "FileUpload".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgChat.Opacity = ChatLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CreateChat".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PrintTagReportDownload".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "TaskComplete".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
 
                     if (Settings.VersionID == 2)
                     {
                         Vm.LoadTextColor = Color.Black;
-                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim())
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower())
                           .FirstOrDefault()) != null ? true : false;
                     }
                     else if (Settings.VersionID == 4 || Settings.VersionID == 3)
                     {
                         Vm.LoadTextColor = Color.Black;
-                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "LoadInspection".Trim())
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "LoadInspection".Trim().ToLower())
                           .FirstOrDefault()) != null ? true : false;
                     }
                 }
@@ -214,12 +199,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 Vm.loadindicator = true;
                 base.OnAppearing();
 
-                //if (Navigation.NavigationStack.Count == 1)
-                //{
-                //    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[0]);
-                //    Navigation.InsertPageBefore(new HomePage(), Navigation.NavigationStack[0]);
-                //}
-
                 if (Settings.IsRefreshPartsPage == true)
                 {
                     if (Vm.AllTabVisibility == true)
@@ -246,16 +225,8 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Settings.VersionID == 4 || Settings.VersionID == 3)
                 {
-                    //if (POChildListPageViewModel.isalldone == true)
-                    //{
                     Vm.LoadTextColor = Color.Black;
                     Vm.MoveToNextPageCmd = new Command(Vm.MoveToNextPage);
-                    //}
-                    //else
-                    //{
-                    //    Vm.LoadTextColor = Color.Gray;
-                    //    Vm.MoveToNextPageCmd = null;
-                    //}
                 }
 
                 Vm.loadindicator = false;
@@ -338,40 +309,6 @@ namespace YPS.Parts2y.Parts2y_Views
                             Command = new Command(async () => await Vm.TabChange("load")),
                         });
                     }
-
-
-                    //if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
-                    //{
-                    //    imgCamera.Opacity = CameraLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    //    imgFileUpload.Opacity = FileUploadLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    //    imgChat.Opacity = ChatLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CreateChat".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    //    imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PrintTagReportDownload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-                    //    imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "TaskComplete".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
-
-                    //    if (imgCamera.Opacity == 0.5)
-                    //    {
-                    //        stckCamera.GestureRecognizers.Clear();
-
-                    //    }
-                    //    if (imgFileUpload.Opacity == 0.5)
-                    //    {
-                    //        stckFileUpload.GestureRecognizers.Clear();
-
-                    //    }
-                    //    if (imgChat.Opacity == 0.5)
-                    //    {
-                    //        stckChat.GestureRecognizers.Clear();
-                    //    }
-                    //    if (imgPrinter.Opacity == 0.5)
-                    //    {
-                    //        stckPrinter.GestureRecognizers.Clear();
-                    //    }
-                    //    if (imgDone.Opacity == 0.5)
-                    //    {
-                    //        stckPrinter.GestureRecognizers.Clear();
-                    //    }
-                    //}
-
                 });
             }
             catch (Exception ex)
@@ -383,74 +320,5 @@ namespace YPS.Parts2y.Parts2y_Views
             Vm.loadindicator = false;
         }
         #endregion
-
-        private async void MoveToPage(object sender, EventArgs e)
-        {
-            try
-            {
-                Vm.loadindicator = true;
-                var val = sender as Label;
-                var selecteditem = (((TappedEventArgs)e).Parameter as CollectionView).SelectedItems as ObservableCollection<AllPoData>;
-
-                if (selecteditem != null)
-                {
-                    if (val.StyleId == "file")
-                    {
-                        if (selecteditem[0].TagFilesCount > 0)
-                        {
-                            await Navigation.PushAsync(new FileUpload(null, selecteditem[0].POID
-                           , selecteditem[0].FUID, "fileUpload", selecteditem[0].fileTickVisible));
-                        }
-                        else
-                        {
-                            await Navigation.PushAsync(new FileUpload(null, selecteditem[0].POID
-                          , selecteditem[0].FUID, "fileUpload", selecteditem[0].fileTickVisible));
-                        }
-
-                    }
-                    else if (val.StyleId == "photo")
-                    {
-                        await Navigation.PushAsync(new PhotoUpload(null, selecteditem[0], "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, selecteditem[0].photoTickVisible));
-                    }
-                    else
-                    {
-                        await Navigation.PushAsync(new QnAlistPage(selecteditem[0].POID, selecteditem[0].POTagID, Settings.QAType));
-                    }
-                }
-                else
-                {
-                    await DisplayAlert("Select tag", "", "Cancel");
-                }
-            }
-            catch (Exception ex)
-            {
-                Vm.loadindicator = false;
-            }
-            Vm.loadindicator = false;
-        }
-
-        private void CheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var val = sender as Plugin.InputKit.Shared.Controls.CheckBox;
-                var item = (AllPoData)val.BindingContext;
-
-                if (val.IsChecked == true)
-                {
-                    item.IsChecked = true;
-                    item.SelectedTagBorderColor = Settings.Bar_Background;
-                }
-                else
-                {
-                    item.IsChecked = false;
-                    item.SelectedTagBorderColor = Color.Transparent;
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
     }
 }

@@ -147,7 +147,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 IndicatorVisibility = true;
-                await Task.Delay(1);
+                //await Task.Delay(1);
 
                 if (tabname == "home")
                 {

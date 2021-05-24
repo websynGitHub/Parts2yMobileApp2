@@ -27,7 +27,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         YPSService trackService;
         InspVerificationScanPage pagename;
         bool isAllDone;
-        //QuestiionsPageHeaderData questiionsPageHeaderData;
         public ICommand reScanCmd { set; get; }
         public ICommand MoveToInspCmd { set; get; }
         public AllPoData selectedTagData { get; set; }
@@ -61,7 +60,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 IsScanPage = false;
-
                 await OpenScanner();
             }
             catch (Exception ex)
@@ -114,7 +112,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             await Navigation.PopAsync();
 
-                            ScannedResult = scanresult.Text;
+                            ScannedResult = "TL3UWB22WLL672193";
 
                             if (!string.IsNullOrEmpty(ScannedResult))
                             {
@@ -125,7 +123,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
 
                     if (Navigation.ModalStack.Count == 0 ||
-                                                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
                         ScannerPage.AutoFocus();
 
@@ -136,13 +134,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ScannerPage.ToggleTorch();
                         };
                     }
-
                 }
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
                 }
-                //CanOpenScan = true;
             }
             catch (Exception ex)
             {
@@ -169,8 +165,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
 
-                    //var result = await trackService.LoadPoDataService(sendPodata);
-
                     if (selectedTagData != null)
                     {
                         if (!string.IsNullOrEmpty(selectedTagData.TagNumber))
@@ -190,11 +184,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             StatusTextBgColor = Color.DarkGreen;
                             ScannedValue = ScannedResult;
 
-                            //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                            //{
                             IsInspEnable = true;
                             InspOpacity = 1.0;
-                            //}
                         }
                         else
                         {
@@ -220,97 +211,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             finally
             {
                 IndicatorVisibility = false;
-            }
-        }
-
-        public async void SearchResultGet(SendPodata sendPodata)
-        {
-            try
-            {
-                var Serchdata = await trackService.GetSearchValuesService(Settings.userLoginID);
-
-                if (Serchdata != null)
-                {
-                    if (Serchdata.status == 1)
-                    {
-                        if (!string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
-                        {
-                            var searchC = JsonConvert.DeserializeObject<SendPodata>(Serchdata.data.SearchCriteria);
-
-                            if (searchC != null)
-                            {
-                                //Key
-                                sendPodata.PONumber = Settings.PONumber = searchC.PONumber;
-                                sendPodata.REQNo = Settings.REQNo = searchC.REQNo;
-                                sendPodata.ShippingNo = Settings.ShippingNo = searchC.ShippingNo;
-                                sendPodata.DisciplineID = Settings.DisciplineID = searchC.DisciplineID;
-                                sendPodata.ELevelID = Settings.ELevelID = searchC.ELevelID;
-                                sendPodata.ConditionID = Settings.ConditionID = searchC.ConditionID;
-                                sendPodata.ExpeditorID = Settings.ExpeditorID = searchC.ExpeditorID;
-                                sendPodata.PriorityID = Settings.PriorityID = searchC.PriorityID;
-                                sendPodata.TagNo = Settings.TAGNo = searchC.TagNo;
-                                sendPodata.IdentCode = Settings.IdentCodeNo = searchC.IdentCode;
-                                sendPodata.BagNo = Settings.BagNo = searchC.BagNo;
-                                sendPodata.yBkgNumber = Settings.Ybkgnumber = searchC.yBkgNumber;
-                                sendPodata.TaskName = Settings.TaskName = searchC.TaskName;
-
-                                Settings.SearchWentWrong = false;
-                            }
-
-                        }
-                        else
-                        {
-                            await SaveAndClearSearch(true);
-                        }
-                    }
-                    else
-                    {
-                        Settings.SearchWentWrong = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in InspVerificationScanViewModel.cs" + Settings.userLoginID);
-                var trackResult = await trackService.Handleexception(ex);
-            }
-        }
-
-        private async Task SaveAndClearSearch(bool val)
-        {
-            SendPodata SaveUserDS = new SendPodata();
-            SearchPassData defaultData = new SearchPassData();
-
-            try
-            {
-                //Key
-                SaveUserDS.PONumber = Settings.PONumber = string.Empty;
-                SaveUserDS.REQNo = Settings.REQNo = string.Empty;
-                SaveUserDS.ShippingNo = Settings.ShippingNo = string.Empty;
-                SaveUserDS.DisciplineID = Settings.DisciplineID = 0;
-                SaveUserDS.ELevelID = Settings.ELevelID = 0;
-                SaveUserDS.ConditionID = Settings.ConditionID = 0;
-                SaveUserDS.ExpeditorID = Settings.ExpeditorID = 0;
-                SaveUserDS.PriorityID = Settings.PriorityID = 0;
-                SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
-                SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
-                SaveUserDS.BagNo = Settings.BagNo = string.Empty;
-                SaveUserDS.yBkgNumber = Settings.Ybkgnumber = string.Empty;
-                SaveUserDS.TaskName = Settings.TaskName = string.Empty;
-                defaultData.CompanyID = Settings.CompanyID;
-                defaultData.UserID = Settings.userLoginID;
-                defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
-                var responseData = await trackService.SaveSerchvaluesSetting(defaultData);
-
-                if (val == true)
-                {
-                    SearchResultGet(SaveUserDS);
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in InspVerificationScanViewModel.cs" + Settings.userLoginID);
-                await trackService.Handleexception(ex);
             }
         }
 

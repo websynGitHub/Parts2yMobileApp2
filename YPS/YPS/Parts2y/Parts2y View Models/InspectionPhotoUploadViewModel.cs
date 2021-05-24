@@ -16,23 +16,18 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
-using YPS.Parts2y.Parts2y_Services;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
-using static YPS.Parts2y.Parts2y_Models.PhotoModel;
 using YPS.Views;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    public class InspectionPhotoUploadViewModel : YPS.Parts2y.Parts2y_Services.IBase
+    public class InspectionPhotoUploadViewModel : IBase
     {
         #region IComman and data members declaration
-
         public ICommand select_pic { set; get; }
         public ICommand upload_pic { set; get; }
-
         public INavigation Navigation { get; set; }
-
         public ICommand tap_OnImge { set; get; }
         public ICommand deleteImage { set; get; }
 
@@ -44,7 +39,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         int tagId, taskid;
         bool multiple_Taps, IsCarrierInsp;
         InspectionConfiguration inspectionConfiguration;
-
         #endregion
 
         public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata, bool iscarrierinsp)
@@ -84,6 +78,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
                 bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+
                 if (conform)
                 {
                     Device.BeginInvokeOnMainThread(async () =>
@@ -94,9 +89,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (checkInternet)
                         {
                             var result = await trackService.DeleteInspectionPhoto(inspectionPhotosResponseListData.ID);
+
                             if (result != null && result.status == 1)
                             {
-                                //finalPhotoListA.Remove(inspectionPhotosResponseListData);
                                 await GetInspectionPhotos();
                             }
                         }
@@ -132,24 +127,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (!multiple_Taps)
                 {
                     multiple_Taps = true;
-                    //var data = obj as CustomPhotoModel;
                     int photoid = data.ID;
-                    //var des = (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP) ? finalPhotoListA.Where(x => x.PhotoID == photoid).FirstOrDefault() : finalPhotoListB.Where(x => x.PhotoID == photoid).FirstOrDefault();
                     var imageLists = finalPhotoListA;
 
-                    //foreach (var items in imageLists)
-                    //{
-                    //    if (items.PhotoDescription.Length > 150)
-                    //    {
-                    //        items.ShowAndHideDescr = true;
-                    //        items.ShowAndHideBtn = true;
-                    //        items.ShowAndHideBtnEnable = true;
-                    //    }
-                    //    else if (items.PhotoDescription.Length > 0)
-                    //    {
-                    //        items.ShowAndHideDescr = true;
-                    //    }
-                    //}
                     await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers, Question));
                 }
             }
@@ -380,9 +360,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         ListOfImage.Add(new GalleryImage() { ID = id, Extension = ".jpg", ImgPath = item, Fullfilename = filename, uploadplatform = "ios" });
                                         id++;
                                     }
-
-                                    //ImgCarouselView.ItemsSource = images;
-                                    //InfoText.IsVisible = true; //InfoText is optional
                                 }
                             });
                         }

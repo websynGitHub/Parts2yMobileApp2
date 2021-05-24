@@ -65,7 +65,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
 
-
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => GetQuestionsLIst()).Wait();
             }
@@ -81,7 +80,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Task.Delay(1);
 
                 if (tabname == "home")
                 {
@@ -226,7 +224,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Task.Delay(1);
 
                 await GetConfigurationResults(Settings.VersionID == 4 ? 9 : 6);
 
@@ -313,21 +310,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                //if (Navigation.NavigationStack.Count == 6)
-                //{
-                //    Navigation.RemovePage(Navigation.NavigationStack[4]);
-                //    Navigation.RemovePage(Navigation.NavigationStack[4]);
-                //    await Navigation.PopAsync();
-                //}
-                //else
-                //{
                 if (Navigation.NavigationStack.Count() == 6)
                 {
                     Navigation.RemovePage(Navigation.NavigationStack[3]);
                     Navigation.RemovePage(Navigation.NavigationStack[3]);
                 }
                 await Navigation.PopAsync();
-                //}
             }
             catch (Exception ex)
             {
@@ -378,22 +366,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-                        var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-
-
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
-                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
-                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
-                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
-                        labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
-
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
@@ -439,9 +412,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
             public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
             public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
-            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
-            public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
-            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
 
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
             {
@@ -457,11 +427,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Status = true,
                 Name = "ShippingNumber"
-            };
-            public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
-            {
-                Status = true,
-                Name = "TagNumber"
             };
             public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
             {

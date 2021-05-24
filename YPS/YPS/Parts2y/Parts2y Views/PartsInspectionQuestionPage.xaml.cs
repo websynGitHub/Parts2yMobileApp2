@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,15 +33,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 selectedTagData = selectedtagdata;
-
-                //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 30;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 BindingContext = Vm = new PartsInspectionQuestionViewModel(Navigation, this, selectedTagData, isalldone);
             }
             catch (Exception ex)
@@ -62,7 +54,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else if (Vm.FullTabVisibility == true)
                 {
-                    //await Vm.GetConfigurationResults(2);
                     Vm.FullTabClicked();
                 }
                 else if (Vm.SignTabVisibility == true)
@@ -98,9 +89,10 @@ namespace YPS.Parts2y.Parts2y_Views
 
                         if (selectedTagData.TaskStatus == 0)
                         {
+                            ObservableCollection<AllPoData> podate = await Vm.GetUpdatedAllPOData();
                             TagTaskStatus taskstatus = new TagTaskStatus();
                             taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                            taskstatus.TaskStatus = 1;
+                            taskstatus.TaskStatus = (podate?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault() != null) ? 1 : 2;
                             taskstatus.CreatedBy = Settings.userLoginID;
 
                             var taskval = await service.UpdateTaskStatus(taskstatus);
@@ -108,6 +100,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             selectedTagData.TaskStatus = 1;
                         }
 
+                        await Vm.TabChange("job");
                         DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                     }
                 }

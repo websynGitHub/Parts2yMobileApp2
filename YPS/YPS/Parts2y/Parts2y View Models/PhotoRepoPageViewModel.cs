@@ -35,7 +35,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         string extension = "", Mediafile, fileName, fullFilename;
         public ICommand DeleteAllCmd { set; get; }
         public ICommand MoveLinkCmd { set; get; }
-        //public ICommand LinkPhotoCmd { set; get; }
         public ICommand ViewPhotoDetailsCmd { set; get; }
         public ICommand DeleteImageCmd { set; get; }
         public ICommand CheckedChangedCmd { set; get; }
@@ -59,7 +58,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 upload_pic = new Command(async () => await UploadPhoto());
                 MoveLinkCmd = new Command(async () => await ShowContentsToLink());
                 ViewPhotoDetailsCmd = new Command(ViewPhotoDetails);
-                //LinkPhotoCmd = new Command(LinkPhotoToTag);
 
                 Task.Run(() => DynamicTextChange().Wait());
                 Task.Run(() => GetPhotosData().Wait());
@@ -84,168 +82,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 var val = sender as Plugin.InputKit.Shared.Controls.CheckBox;
                 var item = (PhotoRepoDBModel)val.BindingContext;
-
                 item.IsSelected = val.IsChecked == true ? true : false;
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "CheckedChanged method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-            finally
-            {
-                IndicatorVisibility = false;
-            }
-        }
-
-        /// <summary>
-        /// Gets called when clicked on any, already uploaded image to view it
-        /// </summary>
-        /// <param name="obj"></param>
-        private async void LinkPhotoToTag(object sender)
-        {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in LinkPhotoToTag method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-            IndicatorVisibility = true;
-
-            try
-            {
-                var value = sender as AllPoData;
-
-                if (value != null)
-                {
-                    var firstphotovalue = RepoPhotosList.FirstOrDefault();
-
-                    PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
-                    taskID = value.TaskID;
-                    Settings.POID = value.POID;
-                    Settings.TaskID = value.TaskID;
-                    selectedTagsData.POID = value.POID;
-                    selectedTagsData.isCompleted = value.photoTickVisible;
-
-                    List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                    if (value.TagAPhotoCount == 0 && value.TagBPhotoCount == 0 && value.PUID == 0)
-                    {
-                        PhotoTag tg = new PhotoTag();
-
-                        if (value.POTagID != 0)
-                        {
-                            tg.POTagID = value.POTagID;
-                            Settings.Tagnumbers = value.TagNumber;
-                            lstdat.Add(tg);
-
-                            selectedTagsData.photoTags = lstdat;
-                            Settings.currentPoTagId_Inti = lstdat;
-
-
-                            if (selectedTagsData.photoTags.Count != 0 && value.IsPhotoRequired != 0)
-                            {
-                                //List<PhotoUploadModel> DataForFileUploadList = new List<PhotoUploadModel>();
-
-                                PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
-                                DataForFileUpload = selectedTagsData;
-                                DataForFileUpload.CreatedBy = Settings.userLoginID;
-                                Photo phUpload = new Photo();
-                                phUpload.PUID = value.PUID;
-                                phUpload.PhotoID = 0;
-                                phUpload.PhotoURL = firstphotovalue.FileUrl;
-                                phUpload.PhotoDescription = firstphotovalue.FileDescription;
-                                phUpload.FileName = firstphotovalue.FileName;
-                                phUpload.CreatedBy = Settings.userLoginID;
-                                phUpload.UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                phUpload.GivenName = Settings.Username;
-                                DataForFileUpload.photos.Add(phUpload);
-
-                                //DataForFileUploadList.Add(DataForFileUpload);
-
-                                var data = await service.InitialUpload(DataForFileUpload);
-
-                                var result = data as InitialResponse;
-
-                                if (result != null && result.status == 1)
-                                {
-                                    if (value.TagTaskStatus == 0)
-                                    {
-                                        TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                                        tagtaskstatus.TaskID = Helperclass.Encrypt(value.TaskID.ToString());
-                                        tagtaskstatus.POTagID = Helperclass.Encrypt(value.POTagID.ToString());
-                                        tagtaskstatus.Status = 1;
-                                        tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                                        var val = await service.UpdateTagTaskStatus(tagtaskstatus);
-
-                                        if (result.status == 1)
-                                        {
-                                            if (value.TaskID == 0)
-                                            {
-                                                TagTaskStatus taskstatus = new TagTaskStatus();
-                                                taskstatus.TaskID = Helperclass.Encrypt(value.TaskID.ToString());
-                                                taskstatus.TaskStatus = 1;
-                                                taskstatus.CreatedBy = Settings.userLoginID;
-
-                                                var taskval = await service.UpdateTaskStatus(taskstatus);
-                                            }
-                                            DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
-                                        }
-                                    }
-                                    //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        selectedTagsData.alreadyExit = "alreadyExit";
-
-                        if (value.imgCamOpacityB != 0.5 && value.IsPhotoRequired != 0)
-                        {
-                            if (value.PUID != 0)
-                            {
-                                List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
-
-
-                                CustomPhotoModel phUpload = new CustomPhotoModel();
-                                phUpload.PUID = value.PUID;
-                                phUpload.PhotoID = 0;
-                                phUpload.PhotoURL = firstphotovalue.FileUrl;
-                                phUpload.PhotoDescription = firstphotovalue.FileDescription;
-                                phUpload.FileName = firstphotovalue.FileName;
-                                phUpload.CreatedBy = Settings.userLoginID;
-                                phUpload.UploadType = (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                phUpload.FullName = Settings.Username;
-                                phUploadList.Add(phUpload);
-
-                                var data = await service.PhotosUpload(phUploadList);
-
-                                var initialresult = data as SecondTimeResponse;
-
-                                if (initialresult != null && initialresult.status == 1)
-                                {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
-                                }
-
-                            }
-                            //try
-                            //{
-                            //    Settings.currentPuId = value.PUID;
-                            //    Settings.BphotoCount = value.TagBPhotoCount;
-                            //    await Navigation.PushAsync(new PhotoUpload(null, value, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, value.photoTickVisible));
-                            //}
-                            //catch (Exception ex)
-                            //{
-                            //    YPSLogger.ReportException(ex, "LinkPhotoToTag method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
-                            //    var trackResult = await service.Handleexception(ex);
-                            //}
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "LinkPhotoToTag method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -311,135 +152,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             finally
             {
                 IndicatorVisibility = false;
-            }
-        }
-
-        public async Task<GetPoData> GetAllPOData()
-        {
-            GetPoData result = new GetPoData();
-            try
-            {
-                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-                sendPodata = new SendPodata();
-                sendPodata.UserID = Settings.userLoginID;
-                sendPodata.PageSize = Settings.pageSizeYPS;
-                sendPodata.StartPage = Settings.startPageYPS;
-                //SearchResultGet(sendPodata);
-
-                result = await service.LoadPoDataService(sendPodata);
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "GetAllPOData method -> in PhotoRepoPageViewModel.cs" + Settings.userLoginID);
-                var trackResult = await service.Handleexception(ex);
-            }
-            return result;
-        }
-
-
-        /// <summary>
-        /// This method gets the search result based on search values.
-        /// </summary>
-        /// <param name="sendPodata"></param>
-        public async void SearchResultGet(SendPodata sendPodata)
-        {
-            try
-            {
-                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in SearchResultGet method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-                IndicatorVisibility = true;
-
-                var Serchdata = await service.GetSearchValuesService(Settings.userLoginID);
-
-                if (Serchdata != null)
-                {
-                    if (Serchdata.status == 1)
-                    {
-                        if (!string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
-                        {
-                            var searchC = JsonConvert.DeserializeObject<SendPodata>(Serchdata.data.SearchCriteria);
-
-                            if (searchC != null)
-                            {
-                                //Key
-                                sendPodata.PONumber = Settings.PONumber = searchC.PONumber;
-                                sendPodata.REQNo = Settings.REQNo = searchC.REQNo;
-                                sendPodata.ShippingNo = Settings.ShippingNo = searchC.ShippingNo;
-                                sendPodata.DisciplineID = Settings.DisciplineID = searchC.DisciplineID;
-                                sendPodata.ELevelID = Settings.ELevelID = searchC.ELevelID;
-                                sendPodata.ConditionID = Settings.ConditionID = searchC.ConditionID;
-                                sendPodata.ExpeditorID = Settings.ExpeditorID = searchC.ExpeditorID;
-                                sendPodata.PriorityID = Settings.PriorityID = searchC.PriorityID;
-                                sendPodata.TagNo = Settings.TAGNo = searchC.TagNo;
-                                sendPodata.IdentCode = Settings.IdentCodeNo = searchC.IdentCode;
-                                sendPodata.BagNo = Settings.BagNo = searchC.BagNo;
-                                sendPodata.yBkgNumber = Settings.Ybkgnumber = searchC.yBkgNumber;
-                                sendPodata.TaskName = Settings.TaskName = searchC.TaskName;
-
-                                Settings.SearchWentWrong = false;
-                            }
-
-                        }
-                        else
-                        {
-                            await SaveAndClearSearch(true);
-                        }
-                    }
-                    else
-                    {
-                        Settings.SearchWentWrong = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in PhotoRepoPageViewModel.cs" + Settings.userLoginID);
-                var trackResult = await service.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// This method is to clear the search criteria values and save to DB.
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        private async Task SaveAndClearSearch(bool val)
-        {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in SaveAndClearSearch method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-            IndicatorVisibility = true;
-            try
-            {
-                SendPodata SaveUserDS = new SendPodata();
-                SearchPassData defaultData = new SearchPassData();
-
-                //Key
-                SaveUserDS.PONumber = Settings.PONumber = string.Empty;
-                SaveUserDS.REQNo = Settings.REQNo = string.Empty;
-                SaveUserDS.ShippingNo = Settings.ShippingNo = string.Empty;
-                SaveUserDS.DisciplineID = Settings.DisciplineID = 0;
-                SaveUserDS.ELevelID = Settings.ELevelID = 0;
-                SaveUserDS.ConditionID = Settings.ConditionID = 0;
-                SaveUserDS.ExpeditorID = Settings.ExpeditorID = 0;
-                SaveUserDS.PriorityID = Settings.PriorityID = 0;
-                SaveUserDS.TagNo = Settings.TAGNo = string.Empty;
-                SaveUserDS.IdentCode = Settings.IdentCodeNo = string.Empty;
-                SaveUserDS.BagNo = Settings.BagNo = string.Empty;
-                SaveUserDS.yBkgNumber = Settings.Ybkgnumber = string.Empty;
-                SaveUserDS.TaskName = Settings.TaskName = string.Empty;
-                defaultData.CompanyID = Settings.CompanyID;
-                defaultData.UserID = Settings.userLoginID;
-                defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
-                var responseData = await service.SaveSerchvaluesSetting(defaultData);
-
-                if (val == true)
-                {
-                    SearchResultGet(SaveUserDS);
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
-                await service.Handleexception(ex);
             }
         }
 
@@ -515,7 +227,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 var data = obj as PhotoRepoDBModel;
                                 bool update = false;
 
-
                                 if (data != null)
                                 {
                                     var response = await service.DeleteSingleRepoPhoto(data.FileID);
@@ -559,7 +270,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         IndicatorVisibility = false;
                     });
                 }
-                //}
             }
             catch (Exception ex)
             {
@@ -572,79 +282,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IndicatorVisibility = false;
             }
         }
-        //private async void DeleteImage(object obj)
-        //{
-        //    YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-        //    IndicatorVisibility = true;
-        //    try
-        //    {
-        //        bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
-
-        //        if (conform)
-        //        {
-        //            Device.BeginInvokeOnMainThread(async () =>
-        //            {
-        //                IndicatorVisibility = true;
-        //                try
-        //                {
-        //                    /// Verifying internet connection.
-        //                    var checkInternet = await App.CheckInterNetConnection();
-
-        //                    if (checkInternet)
-        //                    {
-        //                        var data = obj as PhotoRepoModel;
-
-        //                        PhotoRepoSQlLite phoroRepoDB = new PhotoRepoSQlLite();
-
-        //                        if (data != null)
-        //                        {
-        //                            phoroRepoDB.DeleteOfUser(data.PhotoID);
-
-        //                            var item = RepoPhotosList.Where(x => x.FileID == data.PhotoID).FirstOrDefault();
-        //                            RepoPhotosList.Remove(item);
-        //                        }
-        //                        else
-        //                        {
-        //                            phoroRepoDB.DeleteOfUser(0);
-        //                            RepoPhotosList = new ObservableCollection<PhotoRepoDBModel>();
-        //                        }
-
-
-        //                        NoRecHeight = (IsNoPhotoTxt = RepoPhotosList.Count == 0 ? true : false) == true ? 30 : 0;
-
-        //                        await GetPhotosData();
-
-        //                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
-
-        //                    }
-        //                    else
-        //                    {
-        //                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //                    }
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    YPSLogger.ReportException(ex, "delete_image method from if(conform) -> in LoadPageViewModel " + Settings.userLoginID);
-        //                    await service.Handleexception(ex);
-        //                }
-
-        //                IndicatorVisibility = false;
-        //            });
-        //        }
-        //        //}
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "DeleteImage method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
-        //        await service.Handleexception(ex);
-        //        IndicatorVisibility = false;
-        //    }
-        //    finally
-        //    {
-        //        IndicatorVisibility = false;
-        //    }
-        //}
 
         /// <summary>
         /// Get the existing uploaded photo(s).
@@ -667,7 +304,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (checkInternet)
                     {
                         var data = await service.GetRepoPhotos();
-                        //var data = result as GetRepoPhotoResponse;
 
                         if (data != null && data.status == 1 && data.data.Count > 0)
                         {
@@ -716,71 +352,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             });
         }
 
-        ///// <summary>
-        ///// Get the existing uploaded photo(s).
-        ///// </summary>
-        ///// <param name="potagid"></param>
-        ///// <returns></returns>
-        //public async Task GetPhotosDataLocal()
-        //{
-
-        //    YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in GetPhotosData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-        //    Device.BeginInvokeOnMainThread(async () =>
-        //    {
-        //        try
-        //        {
-        //            IndicatorVisibility = true;
-        //            /// Verifying internet connection.
-        //            var checkInternet = await App.CheckInterNetConnection();
-
-        //            if (checkInternet)
-        //            {
-        //                PhotoRepoSQlLite photorepoDB = new PhotoRepoSQlLite();
-        //                var photos = photorepoDB.GetPhotosOfUser();
-
-        //                if (photos != null && photos.Count > 0)
-        //                {
-        //                    IsPhotosListVisible = true;
-        //                    IsPhotosListStackVisible = true;
-        //                    IsNoPhotoTxt = false;
-        //                    NoRecHeight = 0;
-        //                    IsBottomButtonsVisible = true;
-        //                    IsLinkEnable = true;
-        //                    LinkOpacity = 1.0;
-        //                    IsPhotoUploadIconVisible = true;
-        //                    IsDeleteAllEnable = photos.Count > 2 ? true : false;
-        //                    DeleteAllOpacity = photos.Count > 2 ? 1.0 : 0.5;
-
-        //                    RepoPhotosList = new ObservableCollection<PhotoRepoModel>(photos);
-        //                }
-        //                else
-        //                {
-        //                    IsPhotosListVisible = false;
-        //                    IsPhotosListStackVisible = false;
-        //                    IsNoPhotoTxt = true;
-        //                    NoRecHeight = 30;
-        //                    IsBottomButtonsVisible = false;
-        //                    IsDeleteAllEnable = IsLinkEnable = false;
-        //                    DeleteAllOpacity = LinkOpacity = 0.5;
-        //                    IsPhotoUploadIconVisible = true;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            YPSLogger.ReportException(ex, "GetPhotosData method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
-        //            await service.Handleexception(ex);
-        //            IndicatorVisibility = false;
-        //        }
-        //        IndicatorVisibility = false;
-        //    });
-        //}
-
         /// <summary>
         /// Gets called when clicked on Upload Button.
         /// </summary>
@@ -811,21 +382,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cnttagfiles), FullFilename, picStream);
                             selectiontype_index = 1;
 
-                            //PhotoRepoModel photoRepoModel = new PhotoRepoModel();
-                            ////https://ypsuploadsdev.blob.core.windows.net/tag-photos/
-                            ////photoRepoModel.PhotoURL = "https://azrbsa026dv00a.blob.core.windows.net/" + "tag-photos/" + FullFilename;
-                            //photoRepoModel.PhotoURL = HostingURL.blob + "tag-files/" + FullFilename;
-                            //photoRepoModel.FullFileName = FullFilename;
-                            //photoRepoModel.FileName = fileName;
-                            //photoRepoModel.Description = DescriptionText;
-                            //photoRepoModel.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                            //photoRepoModel.UserID = Settings.userLoginID;
-
-                            //PhotoRepoSQlLite photorepoDB = new PhotoRepoSQlLite();
-                            //photorepoDB.SavePhoto(photoRepoModel);
                             PhotoRepoDBModel photoobj = new PhotoRepoDBModel();
                             List<PhotoRepoDBModel> photolistobj = new List<PhotoRepoDBModel>();
-                            //photoRepoModel.PhotoURL = "https://azrbsa026dv00a.blob.core.windows.net/" + "tag-photos/" + FullFilename;
                             photoobj.FullName = FullFilename;
                             photoobj.FileName = fileName;
                             photoobj.FileUrl = FullFilename;
@@ -966,7 +524,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (file != null)
                             {
                                 IndicatorVisibility = false;
-                                //btnenable = true;
 
                                 if (photoCounts == 0)
                                 {
@@ -997,9 +554,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 RowHeightOpenCam = 100;
                                 IsImageViewForUploadVisible = true;
                             }
-                        }
-                        else
-                        {
                         }
                     }
                     else
@@ -1078,7 +632,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-
         /// <summary>
         /// Dynamic text changed
         /// </summary>
@@ -1095,53 +648,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (labelval.Count > 0)
                     {
-                        var done = labelval.Where(wr => wr.FieldID == labelobj.Done.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var upload = labelval.Where(wr => wr.FieldID == labelobj.Upload.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var upload = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Upload.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == DescriptipnPlaceholder.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
-                        var afterpacking = labelval.Where(wr => wr.FieldID == labelobj.AfterPacking.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var beforepacking = labelval.Where(wr => wr.FieldID == labelobj.BeforePacking.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-
-                        //Getting Label values & Status based on FieldID
-                        var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var tagdesc = labelval.Where(wr => wr.FieldID == labelobj.TagDesc.Name.Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-
-                        var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
-                        labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
-                        labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
-                        labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
-                        labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
-                        labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
-                        labelobj.TagDesc.Status = tagdesc == null ? true : (tagdesc.Status == 1 ? true : false);
-
-                        labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
-                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
-                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
-                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
-                        labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
-
-
-                        labelobj.AfterPacking.Name = "Link to " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
-                        labelobj.AfterPacking.Status = afterpacking == null ? true : (afterpacking.Status == 1 ? true : false);
-                        labelobj.BeforePacking.Name = "Link to " + (beforepacking != null ? (!string.IsNullOrEmpty(beforepacking.LblText) ? beforepacking.LblText : labelobj.BeforePacking.Name) : labelobj.BeforePacking.Name);
-                        labelobj.BeforePacking.Status = beforepacking == null ? true : (beforepacking.Status == 1 ? true : false);
-
-                        labelobj.Done.Name = (done != null ? (!string.IsNullOrEmpty(done.LblText) ? done.LblText : labelobj.Done.Name) : labelobj.Done.Name);
-                        labelobj.Done.Status = done == null ? true : (done.Status == 1 ? true : false);
                         labelobj.Upload.Name = (upload != null ? (!string.IsNullOrEmpty(upload.LblText) ? upload.LblText : labelobj.Upload.Name) : labelobj.Upload.Name);
                         labelobj.Upload.Status = upload == null ? true : (upload.Status == 1 ? true : false);
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
@@ -1150,11 +660,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                     {
                         DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
-
-                        //if (isAllTasksDone == true)
-                        //{
-                        //    IsPhotoUploadIconVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
-                        //}
                     }
                 }
             }
@@ -1169,64 +674,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #region Properties for dynamic label change
         public class LabelAndActionsChangeClass
         {
-            public LabelAndActionFields Done { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Done"
-            };
-
             public LabelAndActionFields Upload { get; set; } = new LabelAndActionFields
             {
                 Status = true,
                 Name = "Upload"
             };
-
-            public LabelAndActionFields Load { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Load"
-            };
-
-            public LabelAndActionFields Parts { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Parts"
-            };
-
-            public LabelAndActionFields POID { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "PONumber"
-            };
-            public LabelAndActionFields REQNo { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "REQNo"
-            };
-            public LabelAndActionFields ShippingNumber { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "ShippingNumber"
-            };
-            public LabelAndActionFields TagNumber { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "TagNumber"
-            };
-            public LabelAndActionFields TaskName { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "TaskName"
-            };
-            public LabelAndActionFields TagDesc { get; set; } = new LabelAndActionFields { Status = true, Name = "Tag Description" };
-
-
-            public LabelAndActionFields IdentCode { get; set; } = new LabelAndActionFields { Status = true, Name = "IdentCode" };
-            public LabelAndActionFields BagNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "BagNumber" };
-            public LabelAndActionFields ConditionName { get; set; } = new LabelAndActionFields { Status = true, Name = "ConditionName" };
-            public LabelAndActionFields BeforePacking { get; set; } = new LabelAndActionFields { Status = true, Name = "Before Packing" };
-            public LabelAndActionFields AfterPacking { get; set; } = new LabelAndActionFields { Status = true, Name = "After Packing" };
-
         }
         public class LabelAndActionFields : IBase
         {

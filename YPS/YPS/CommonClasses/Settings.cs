@@ -262,6 +262,10 @@ namespace YPS.CommonClasses
         public static int ScanConfigID { set; get; }
         public static int ScanCount { set; get; }
 
+        public static string VersionName { get; set; }
+
+        public static string scanQRValueA { get; set; } = "";
+        public static string scanQRValueB { get; set; } = "";
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }

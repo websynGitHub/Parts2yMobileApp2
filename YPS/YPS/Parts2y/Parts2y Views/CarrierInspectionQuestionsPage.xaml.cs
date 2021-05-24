@@ -1,13 +1,9 @@
 ﻿using SignaturePad.Forms;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
@@ -33,15 +29,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 SelectedPodataList = selectedpodatalist;
-
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 30;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 BindingContext = Vm = new CarrierInspectionQuestionsViewModel(Navigation, this, SelectedPodataList, isalltagsdone);
             }
             catch (Exception ex)
@@ -65,7 +52,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     Vm.SignTabClicked();
                 }
-                //await Vm.GetConfigurationResults(3);
             }
             catch (Exception ex)
             {
@@ -93,10 +79,10 @@ namespace YPS.Parts2y.Parts2y_Views
                         if (taskval.status == 1)
                         {
                             SelectedPodataList[0].TaskID = 2;
+                            await Vm.TabChange("job");
                             DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                         }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -121,6 +107,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         image.CopyTo(ms);
                         result = ms.ToArray();
                         string base64 = Convert.ToBase64String(result);
+                        
                         if (result != null)
                         {
                             InspectionResultsList inspobj = new InspectionResultsList
@@ -157,44 +144,12 @@ namespace YPS.Parts2y.Parts2y_Views
 
                                 var sign = await service.InsertUpdateSignature(inspobj);
                             }
-
-
-
+                            
                             await Vm.GetInspSignature();
 
                             Vm.SignaturePadPopup = false;
                             Vm.SignTabVisibility = true;
                             PadView.Clear();
-
-                            //else
-                            //{
-                            //    //if (Vm.AuditorImageSign != null)
-                            //    //{
-                            //    //    byte[] Base64Stream = Convert.FromBase64String(base64);
-                            //    //    Vm.result[0].signatureSupervisorBase64 = Base64Stream;
-                            //    //    Vm.result[0].Vindata.PDICompleted = DateTime.Now.ToString("h:mm");
-                            //    //    Vm.result[0].Vindata.Load = DateTime.Now.ToString("h:mm");
-                            //    //    Vm.SupervisorImageSign = ImageSource.FromStream(() => new MemoryStream(Base64Stream));
-
-                            //    //    if (Vm.SupervisorImageSign != null)
-                            //    //    {
-                            //    //        Vm.OkToLoadColor = Settings.Bar_Background;
-                            //    //        Vm.OkayToGoEnable = true;
-                            //    //    }
-                            //    //    Vm.SignaturePadPopup = false;
-                            //    //    PadView.Clear();
-                            //    //}
-                            //    //else
-                            //    //{
-                            //    //    PadView.Clear();
-                            //    //    App.Current.MainPage.DisplayAlert("Alert", "Please complete Auditor's signature", "Ok");
-                            //    //}
-                            //}
-
-                        }
-                        else
-                        {
-
                         }
                     }
                 }

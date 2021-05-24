@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YPS.Parts2y.Parts2y_Views.PartsInspectionQuestionPage"
              xmlns:local="clr-namespace:YPS.CustomRenders"
-             xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours" xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView" xmlns:forms="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms"
+             xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView" xmlns:forms="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms" xmlns:behaviors1="clr-namespace:YPS.Behaviours"
              x:Name="PartsInspQuestionPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
     <ContentPage.Resources>
@@ -82,14 +83,7 @@
                                                                    IsVisible="{Binding IsConditionNameLabelVisible}"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                 </StackLayout>
-                                <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 
-                                      IsVisible="{Binding  labelobj.ConditionName.Status}"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="1"  Grid.Column="0" Text="{Binding ConditionName}" TextColor="#FFFFFF" 
-                                       Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>-->
+
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.TaskName.Status}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.TaskName.Name}" TextColor="#FFFFFF" 
@@ -97,13 +91,7 @@
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
-                                <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding IsResourcecVisible}" 
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Resource.Name}" TextColor="#FFFFFF" 
-                                          Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Resource}" TextColor="#FFFFFF" 
-                                          Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>-->
+
                                 <Frame VerticalOptions="Center" HorizontalOptions="Start" BackgroundColor="#FFBB00" 
                                        CornerRadius="5" Padding="4,1,4,1">
                                     <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.EventName.Status}" 
@@ -114,7 +102,7 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                     </Grid>
                                 </Frame>
-                               
+
                             </StackLayout>
                         </Grid>
 
@@ -220,9 +208,6 @@
                                                     <RowDefinition Height="80"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <!--<ColumnDefinition Width="10"/>
-                                                    <ColumnDefinition Width="30"/>
-                                                    <ColumnDefinition Width="*"/>-->
                                                     <ColumnDefinition Width="0.04*"/>
                                                     <ColumnDefinition Width="0.10*"/>
                                                     <ColumnDefinition Width="*"/>
@@ -300,41 +285,25 @@
                                 </StackLayout>
                             </ScrollView>
 
-                                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
+                            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                                              BackgroundColor="Transparent" Margin="0,0,0,2"
                                              Grid.Row="1" IsVisible="{Binding SignTabVisibility}">
-                                    <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
+                                <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
                                                 Style="{StaticResource SfBtnBlue}"
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}" IsEnabled="{Binding IsDoneEnable}"
                                         Opacity="{Binding DoneOpacity}">
-                                        <sfbuttons:SfButton.Behaviors>
-                                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                        </sfbuttons:SfButton.Behaviors>
-                                    </sfbuttons:SfButton>
-                                </StackLayout>
+                                    <sfbuttons:SfButton.Behaviors>
+                                        <behaviors1:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    </sfbuttons:SfButton.Behaviors>
+                                </sfbuttons:SfButton>
+                            </StackLayout>
                         </Grid>
-                        
+
                     </Grid>
                 </StackLayout>
             </RelativeLayout>
-
-            <!--<ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
-                         Margin="6,0,6,2" IsVisible="{Binding SignTabVisibility}">
-                <StackLayout Orientation="Vertical">
-                    <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
-                                                Style="{StaticResource SfBtnBlue}"
-                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
-                                        BackgroundColor="{Binding BgColor}" IsEnabled="{Binding IsDoneEnable}"
-                                        Opacity="{Binding DoneOpacity}">
-                        <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>
-                </StackLayout>
-            </ContentView>-->
-
+            
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">

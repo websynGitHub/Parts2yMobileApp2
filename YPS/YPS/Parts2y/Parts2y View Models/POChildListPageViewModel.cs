@@ -30,7 +30,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand viewExistingFiles { get; set; }
         public ICommand HomeCommand { get; set; }
         public ICommand MoveToNextPageCmd { get; set; }
-        public ICommand CheckBoxTapCmd { get; set; }
         public ICommand InProgressCmd { get; set; }
         public ICommand CompletedCmd { get; set; }
         public ICommand PendingCmd { get; set; }
@@ -59,13 +58,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
 
                 Task.Run(() => PreparePoTagList(potag, -1)).Wait();
-                moveToPage = new Command(RedirectToPage);
                 viewExistingFiles = new Command(ViewUploadedFiles);
                 viewExistingBUPhotos = new Command(tap_eachCamB);
                 viewExistingAUPhotos = new Command(tap_eachCamA);
                 viewExistingChats = new Command(ViewExistingChats);
                 HomeCommand = new Command(HomeCommand_btn);
-                CheckBoxTapCmd = new Command(CheckBoxTap);
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 InProgressCmd = new Command(async () => await InProgress_Tap());
                 CompletedCmd = new Command(async () => await Complete_Tap());
@@ -77,15 +74,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
-
-                //if (Settings.VersionID == 4 || Settings.VersionID == 3)
-                //{
-                //    LoadTextColor = Color.Black;
-                //}
-                //else
-                //{
-                //    LoadTextColor = Color.Gray;
-                //}
             }
             catch (Exception ex)
             {
@@ -127,13 +115,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (tabname == "home")
                 {
                     loadindicator = true;
-                    await Task.Delay(1);
                     App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
                 else if (tabname == "job")
                 {
                     loadindicator = true;
-                    await Task.Delay(1);
                     await Navigation.PopAsync();
                 }
                 else if (tabname == "load")
@@ -141,25 +127,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (Settings.VersionID == 2)
                     {
                         loadindicator = true;
-                        await Task.Delay(1);
                         await Navigation.PushAsync(new CarrierInspectionQuestionsPage(allPOTagData, isalldone));
                     }
                     else if (Settings.VersionID == 4 || Settings.VersionID == 3)
                     {
-                        //if (isalldone == true)
-                        //{
                         loadindicator = true;
-                        await Task.Delay(1);
                         await Navigation.PushAsync(new LoadInspectionQuestionPage(allPOTagData, isalldone));
-                        //await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
-                        //}
                     }
                     else
                     {
                         if (isalldone == true)
                         {
                             loadindicator = true;
-                            await Task.Delay(1);
                             await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
                         }
                     }
@@ -315,23 +294,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             return result;
         }
 
-        public async void CheckBoxTap(object sender)
-        {
-            try
-            {
-                var val = sender as AllPoData;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "CheckBoxTap method -> in POChildListPageViewModel " + Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-        }
-
         public async void MoveToNextPage(object sender)
         {
             try
             {
+                loadindicator = true;
+
                 var versionname = Settings.encryVersionID;
                 var versionID = Settings.VersionID;
                 var isquicktabvisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
@@ -349,18 +317,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        //if ((Settings.VersionID == 4 ||
-                        //    Settings.VersionID == 3) && isalldone == true)
                         if (Settings.VersionID == 4 || Settings.VersionID == 3)
                         {
                             await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
-                            //await Navigation.PushAsync(new LoadInspectionQuestionPage(allPOTagData, isalldone));
-                            //await Navigation.PushAsync(new LoadPage(POTagDetail, sendPodata, isalldone));
                         }
                         else if (Settings.VersionID == 2)
                         {
                             await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
-                            //await Navigation.PushAsync(new VinInspectQuestionsPage(POTagDetail, isalldone));
                         }
                     }
                 }
@@ -386,7 +349,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                //await Navigation.PopAsync(true);
                 App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
@@ -446,11 +408,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         potaglist = new ObservableCollection<AllPoData>(potaglist.Where(wr => wr.TagTaskStatus == 2));
                     }
-
-                    //else
-                    //{
-                    //    potaglist = new ObservableCollection<AllPoData>(potaglist.Where(wr => wr.POID == allPOTagData[0].POID));
-                    //}
 
                     if (potaglist != null && potaglist.Count() > 0)
                     {
@@ -586,8 +543,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 data.POS = null;
                                 data.SUB = null;
                                 IsStatusTabVisible = false;
-                                //data.IS_POS = null;
-                                //data.IS_SUB = null;
                                 data.emptyCellValue = "No records to display";
                             }
                         }
@@ -628,9 +583,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-
                 await Navigation.PopAsync();
-
             }
             catch (Exception ex)
             {
@@ -653,11 +606,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        //{
                         var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                         var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                        //var data = taglist.SelectedItems.Cast<AllPoData>().ToList();
                         var uniq = data.GroupBy(x => x.POShippingNumber);
                         AllPoData potagdata = new AllPoData();
 
@@ -731,14 +681,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     if (selectedTagsData.photoTags.Count != 0)
                                     {
-                                        //if (selectedTagsData.photoTags.Count > 1)
-                                        //{
                                         await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
-                                        //}
-                                        //else
-                                        //{
-                                        //    await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, selectedTagsData, true, null));
-                                        //}
                                     }
                                     else
                                     {
@@ -747,7 +690,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 }
                             }
                         }
-                        //}
                     }
                     else
                     {
@@ -783,8 +725,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        //{
                         var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                         var data = taglist.Where(wr => wr.IsChecked == true).ToList();
                         var uniq = data.GroupBy(x => x.POShippingNumber);
@@ -833,7 +773,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 DependencyService.Get<IToastMessage>().ShortAlert("No tags available");
                             }
                         }
-                        //}
                     }
                     else
                     {
@@ -855,7 +794,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public async void tap_InitialFileUpload(object sender)
         {
-
             try
             {
                 if (!loadindicator)
@@ -868,13 +806,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        //{
                         try
                         {
                             var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                             var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                            //var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
 
                             if (uniq.Count() >= 2)
@@ -943,7 +878,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in POChildListPageViewModel! " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                         }
-                        //}
                     }
                     else
                     {
@@ -964,11 +898,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public async void MarkAsDone(object sender)
         {
-
             try
             {
-                //if (!loadindicator)
-                //{
                 YPSLogger.TrackEvent("POChildListPageViewModel.cs", "in MarkAsDone method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 loadindicator = true;
@@ -977,8 +908,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    //{
                     var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                     var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
 
@@ -1019,35 +948,34 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (result.status == 1)
                             {
-                                if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TaskStatus != 1).Count()) != 0)
+                                if (AllTabVisibility == true)
+                                {
+                                    await All_Tap();
+                                }
+                                else if (CompleteTabVisibility == true)
+                                {
+                                    await Complete_Tap();
+                                }
+                                else if (InProgressTabVisibility == true)
+                                {
+                                    await InProgress_Tap();
+                                }
+                                else
+                                {
+                                    await Pending_Tap();
+                                }
+
+                                //if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TaskStatus != 1).Count()) != 0)
+                                if ((selectedTagData.Where(wr => wr.TaskID != 0).Count()) != 0)
                                 {
                                     TagTaskStatus taskstatus = new TagTaskStatus();
                                     taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
-                                    taskstatus.TaskStatus = 1;
+                                    taskstatus.TaskStatus = (PoDataChildCollections?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault()) == null ? 2 : 1;
                                     taskstatus.CreatedBy = Settings.userLoginID;
 
                                     var taskval = await trackService.UpdateTaskStatus(taskstatus);
                                 }
                                 DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-
-
-                            }
-
-                            if (AllTabVisibility == true)
-                            {
-                                await All_Tap();
-                            }
-                            else if (CompleteTabVisibility == true)
-                            {
-                                await Complete_Tap();
-                            }
-                            else if (InProgressTabVisibility == true)
-                            {
-                                await InProgress_Tap();
-                            }
-                            else
-                            {
-                                await Pending_Tap();
                             }
 
                             if ((Settings.VersionID == 4 || Settings.VersionID == 3))
@@ -1069,13 +997,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             SelectedTagCountVisible = false;
                         }
                     }
-                    //}
                 }
                 else
                 {
                     DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection");
                 }
-                //}
             }
             catch (Exception ex)
             {
@@ -1098,30 +1024,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_Printer method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                    //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                    //{
-                    //    if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-                    //    {
-                    //    }
-                    //    else
-                    //    {
                     var taglist = (obj as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                     var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                    //var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
                     var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                    //if (uniq.Count() >= 2)
-                    //{
-                    //    //Please select any one group.
-                    //    DependencyService.Get<IToastMessage>().ShortAlert("please select tag(s) under same po.");
-                    //}
-                    //else if (uniq.Count() == 0)
                     if (uniq?.Count() == 0)
                     {
                         //Please select tag(s) to download the report
                         DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s).");
                     }
-                    //else if (uniq.Count() == 1)
                     else
                     {
                         var checkInternet = await App.CheckInterNetConnection();
@@ -1169,10 +1080,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             break;
                                     }
                                 }
-                                else
-                                {
-                                    //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong!");
-                                }
                             }
                             else
                             {
@@ -1184,8 +1091,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
                     }
-                    //}
-                    //}
                 }
             }
             catch (Exception ex)
@@ -1198,37 +1103,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = false;
             }
 
-        }
-
-        public async void RedirectToPage(object movetopage)
-        {
-            loadindicator = true;
-            try
-            {
-                var page = movetopage as ListView;
-
-                //if (page.StyleId == "file")
-                //{
-                //    await App.Current.MainPage.Navigation.PushAsync(new FileUpload());
-                //}
-                //else if (page.StyleId == "photo")
-                //{
-                //    await Navigation.PushAsync(new Compare());
-                //}
-                //else
-                //{
-
-                //}
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "RedirectToPage method -> in POChildListPageViewModel! " + Settings.userLoginID);
-                var trackResult = await trackService.Handleexception(ex);
-            }
-            finally
-            {
-                loadindicator = false;
-            }
         }
 
         private async void tap_eachCamB(object obj)
@@ -1253,7 +1127,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 Settings.CanOpenScanner = false;
                                 Settings.currentPuId = potag.PUID;
                                 Settings.BphotoCount = potag.TagBPhotoCount;
-                                //await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_BP, null, false, potag));
                                 await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
                             }
                             else
@@ -1318,7 +1191,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 Settings.CanOpenScanner = false;
                                 Settings.AphotoCount = allPo.TagAPhotoCount;
                                 Settings.currentPuId = allPo.PUID;
-                                //await Navigation.PushAsync(new ScanPage((int)UploadTypeEnums.GoodsPhotos_AP, null, false, allPo));
                                 await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
                             }
                             else
@@ -1374,7 +1246,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     catch (Exception ex)
                     {
-                        YPSLogger.ReportException(ex, "ViewExistingChats method -> in POChildListPageViewModel " + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "ViewExistingChats method inner catch block-> in POChildListPageViewModel " + Settings.userLoginID);
                         var trackResult = await trackService.Handleexception(ex);
                     }
                 }
@@ -1386,6 +1258,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "ViewExistingChats method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
             }
             loadindicator = false;
         }
@@ -1417,7 +1291,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     catch (Exception ex)
                     {
-                        YPSLogger.ReportException(ex, "ViewUploadedFiles method -> in POChildListPageViewModel" + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "ViewUploadedFiles method inner catch block-> in POChildListPageViewModel" + Settings.userLoginID);
                         var trackResult = await trackService.Handleexception(ex);
                     }
                 }
@@ -1430,9 +1304,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ViewUploadedFiles method -> in POChildListPageViewModel" + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
             }
-
         }
 
         /// <summary>
@@ -1452,8 +1326,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         //Getting Label values & Status based on FieldID
                         var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.POID.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var starttime = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.StartTime.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1462,7 +1334,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var invoicenumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InvoiceNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var tagdesc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TagDesc.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1480,10 +1351,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
-                        labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
-                        labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
-                        labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
@@ -1499,8 +1366,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
                         labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
-                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
-                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
@@ -1519,14 +1384,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
                         labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
-                        //labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
-                        //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
-                        //labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
-                        //labelobj.Load.Name = Settings.CompanySelected.Contains("(C)") == true ? "Insp" : "Load";
                         labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
-
-                        //labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
@@ -1786,16 +1645,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "PONumber"
             };
-            public DashboardLabelFields REQNo { get; set; } = new DashboardLabelFields
-            {
-                Status = true,
-                Name = "REQNo"
-            };
-            public DashboardLabelFields ShippingNumber { get; set; } = new DashboardLabelFields
-            {
-                Status = true,
-                Name = "ShippingNumber"
-            };
             public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
             {
                 Status = true,
@@ -1823,7 +1672,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = true, Name = "End Time" };
 
             public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
-            public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
             public DashboardLabelFields InvoiceNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "InvoiceNumber" };
             public DashboardLabelFields TagDesc { get; set; } = new DashboardLabelFields { Status = true, Name = "Tag Description" };
@@ -1840,9 +1688,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         public class DashboardLabelFields : IBase
         {
-            //public bool Status { get; set; }
-            //public string Name { get; set; }
-
             public bool _Status;
             public bool Status
             {

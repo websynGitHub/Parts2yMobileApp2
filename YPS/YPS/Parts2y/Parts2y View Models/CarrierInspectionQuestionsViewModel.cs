@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-//using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -49,7 +48,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService = new YPSService();
                 pageName = pagename;
                 SelectedPodataList = selectedpodatalist;
-                //this.tagId = SelectedPodataList[0].POTagID;
                 taskid = SelectedPodataList[0].TaskID;
                 IsAllTagsDone = isalltagdone;
                 PONumber = SelectedPodataList[0].PONumber;
@@ -73,7 +71,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => GetQuestionsLIst()).Wait();
-                //Task.Run(() => GetInspSignature()).Wait();
             }
             catch (Exception ex)
             {
@@ -118,7 +115,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     AuditorImageSignCarrier = auditorimagesignCarrier != null ?
                     ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCarrier))) : null;
 
-                    if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null
+                    if (IsAllTagsDone == true && QuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null
                         && SelectedPodataList[0].TaskID != 2 && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
                         supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
                     {
@@ -169,7 +166,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Task.Delay(1);
 
                 if (tabname == "home")
                 {
@@ -250,7 +246,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-
                     sendPodata = new SendPodata();
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
@@ -314,14 +309,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await Task.Delay(1);
-
                 await GetConfigurationResults(3);
 
                 QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
-
                 await GetInspSignature();
-
 
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
@@ -398,21 +389,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                //if (Navigation.NavigationStack.Count == 6)
-                //{
-                //    Navigation.RemovePage(Navigation.NavigationStack[4]);
-                //    Navigation.RemovePage(Navigation.NavigationStack[4]);
-                //    await Navigation.PopAsync();
-                //}
-                //else
-                //{
                 if (Navigation.NavigationStack.Count() == 6)
                 {
                     Navigation.RemovePage(Navigation.NavigationStack[3]);
                     Navigation.RemovePage(Navigation.NavigationStack[3]);
                 }
                 await Navigation.PopAsync();
-                //}
             }
             catch (Exception ex)
             {
@@ -455,29 +437,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (labelval.Count > 0)
                     {
-                        var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var eventname = labelval.Where(wr => wr.FieldID == labelobj.EventName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-
-                        var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var bagnumber = labelval.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-
+                        var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.POID.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
-                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
-                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
-                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
-                        labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
-
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
@@ -493,15 +460,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         labelobj.Home.Name = "Home";
                         labelobj.Jobs.Name = "Job";
-                        //labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
-                }
-
-                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
-                {
-                    //IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                    //IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
                 }
             }
             catch (Exception ex)
@@ -523,9 +483,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
             public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
             public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
-            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
-            public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "BagNumber" };
-            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
 
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
             {
@@ -541,11 +498,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Status = true,
                 Name = "ShippingNumber"
-            };
-            public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
-            {
-                Status = true,
-                Name = "TagNumber"
             };
             public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
             {

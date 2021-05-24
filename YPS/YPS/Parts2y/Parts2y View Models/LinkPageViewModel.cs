@@ -29,8 +29,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand viewExistingAUPhotos { get; set; }
         public Command SelectTagItemCmd { set; get; }
 
-
-        //public ObservableCollection<PhotoRepoModel> RepoPhotosList { get; set; }
         YPSService service;
         LinkPage pagename;
         SendPodata sendPodata;
@@ -103,18 +101,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         try
                         {
-                            //if (potag.BPhotoCount > 0)
-                            //{
                             updateList = true;
                             Settings.CanOpenScanner = true;
                             Settings.currentPuId = potag.PUID;
                             Settings.BphotoCount = potag.TagBPhotoCount;
+
                             if (potag.PUID == 0)
                             {
                                 PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
-
-                                //var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
                                 selectedTagsData.POID = potag.POID;
                                 selectedTagsData.isCompleted = potag.photoTickVisible;
 
@@ -150,12 +144,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
                             }
-
-                            //}
-                            //else
-                            //{
-                            //    DependencyService.Get<IToastMessage>().ShortAlert("No photos available.");
-                            //}
                         }
                         catch (Exception ex)
                         {
@@ -208,8 +196,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         try
                         {
-                            //if (allPo.APhotoCount > 0)
-                            //{
                             updateList = true;
                             Settings.CanOpenScanner = true;
                             Settings.AphotoCount = potag.TagAPhotoCount;
@@ -218,9 +204,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (potag.PUID == 0)
                             {
                                 PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
-
-                                //var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
                                 selectedTagsData.POID = potag.POID;
                                 selectedTagsData.isCompleted = potag.photoTickVisible;
 
@@ -257,11 +240,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, potag.photoTickVisible));
                             }
-                            //}
-                            //else
-                            //{
-                            //    DependencyService.Get<IToastMessage>().ShortAlert("No photos available.");
-                            //}
                         }
                         catch (Exception ex)
                         {
@@ -311,16 +289,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (valuewithPUID.Count > 0 || valuewithnoPUID.Count > 0)
                     {
-                        //bool move = await App.Current.MainPage.DisplayAlert("Photo(s) linking", "Are you sure you want to link the photo(s) to " + linkfor + "?", "Yes", "No");
                         bool move = await App.Current.MainPage.DisplayAlert("Photo(s) linking", "Are you sure you want to link the photo(s) to the selected"
                             + (Settings.VersionID == 2 ? " VIN(s)" : "Part(s)"), "Yes", "No");
 
                         if (move)
                         {
                             updateList = true;
-                            //Settings.CanOpenScanner = true;
 
-                            //var firstphotovalue = RepoPhotosList.FirstOrDefault();
                             var firstphotovalue = RepoPhotosList;
 
                             if (valuewithPUID.Count > 0)
@@ -330,7 +305,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     PhotoUploadModel selectedTagsData = new PhotoUploadModel();
 
                                     taskID = eachpuid.FirstOrDefault().TaskID;
-                                    //Settings.POID = value.POID;
                                     selectedTagsData.POID = eachpuid.FirstOrDefault().POID;
                                     selectedTagsData.isCompleted = eachpuid.FirstOrDefault().photoTickVisible;
 
@@ -358,9 +332,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
                                                 phUpload.FullName = Settings.Username;
                                                 phUploadList.Add(phUpload);
-
                                             }
-
 
                                             var data = await service.PhotosUpload(phUploadList);
 
@@ -372,9 +344,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 {
                                                     eachpuid.FirstOrDefault().PUID = val.PUID;
                                                 }
-
-                                                //DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
-                                                //await ShowContentsToLink();
                                             }
                                         }
                                     }
@@ -385,11 +354,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 foreach (var parts in valuewithnoPUID)
                                 {
-
                                     PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
                                     taskID = parts.TaskID;
-                                    //Settings.POID = value.POID;
                                     selectedTagsData.POID = parts.POID;
                                     selectedTagsData.isCompleted = parts.photoTickVisible;
 
@@ -408,17 +374,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             selectedTagsData.photoTags = lstdat;
                                             Settings.currentPoTagId_Inti = lstdat;
 
-
                                             if (selectedTagsData.photoTags.Count != 0 && parts.IsPhotoRequired != 0)
                                             {
-                                                //List<PhotoUploadModel> DataForFileUploadList = new List<PhotoUploadModel>();
-
                                                 #region single photo sending
-
                                                 PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
                                                 DataForFileUpload = selectedTagsData;
                                                 DataForFileUpload.CreatedBy = Settings.userLoginID;
-                                                //DataForFileUpload.photo.FileName = firstphotovalue[0].FileName;
                                                 DataForFileUpload.photos = new List<Photo>();
 
                                                 foreach (var iniphoto in firstphotovalue)
@@ -435,20 +396,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                     phUpload.GivenName = Settings.Username;
                                                     DataForFileUpload.photos.Add(phUpload);
                                                 }
-
-
-                                                //DataForFileUploadList.Add(DataForFileUpload);
-
                                                 var data = await service.InitialUpload(DataForFileUpload);
                                                 #endregion single photo sending
-
 
                                                 var result = data as InitialResponse;
 
                                                 if (result != null && result.status == 1)
                                                 {
                                                     #region Update task status
-
                                                     if (parts.TaskID != 0 && parts.TagTaskStatus == 0)
                                                     {
                                                         TagTaskStatus tagtaskstatus = new TagTaskStatus();
@@ -472,50 +427,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                             }
                                                         }
                                                     }
-
                                                     parts.PUID = result.data.PUID;
-
                                                     #endregion Update task status
-
-
-                                                    #region upload photo from second item
-                                                    //List<PhotoRepoModel> newphotolist = new List<PhotoRepoModel>(firstphotovalue);
-                                                    //newphotolist.RemoveAt(0);
-
-                                                    //if (newphotolist.Count > 0)
-                                                    //{
-                                                    //    List<CustomPhotoModel> phUploadList = new List<CustomPhotoModel>();
-
-                                                    //    foreach (var photo in newphotolist)
-                                                    //    {
-                                                    //        CustomPhotoModel photomodel = new CustomPhotoModel();
-                                                    //        photomodel.PUID = parts.PUID;
-                                                    //        photomodel.PhotoID = 0;
-                                                    //        photomodel.PhotoURL = photo.FullFileName;
-                                                    //        photomodel.PhotoDescription = photo.Description;
-                                                    //        photomodel.FileName = photo.FileName;
-                                                    //        photomodel.CreatedBy = Settings.userLoginID;
-                                                    //        photomodel.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                                    //        photomodel.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
-                                                    //        photomodel.FullName = Settings.Username;
-                                                    //        phUploadList.Add(photomodel);
-                                                    //    }
-
-                                                    //    var dataresult = await service.PhotosUpload(phUploadList);
-
-                                                    //    var initialresult = dataresult as SecondTimeResponse;
-
-                                                    //    if (initialresult != null && initialresult.status == 1)
-                                                    //    {
-                                                    //        foreach (var val in initialresult.data)
-                                                    //        {
-                                                    //            parts.PUID = val.PUID;
-                                                    //        }
-
-                                                    //    }
-                                                    //}
-                                                    #endregion upload photo from second item
-
                                                 }
                                             }
                                         }
@@ -533,7 +446,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             + " to start linking photo(s).");
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -547,8 +459,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-
-
         /// <summary>
         /// Gets called when clicked on any, already uploaded image to view it
         /// </summary>
@@ -560,7 +470,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             try
             {
-
                 var result = await GetAllPOData();
 
                 if (result != null && result.data != null && result.data.allPoData != null)
@@ -627,22 +536,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (labelval.Count > 0)
                     {
-                        var done = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Done.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var upload = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Upload.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == DescriptipnPlaceholder.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var afterpacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.AfterPacking.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var beforepacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.BeforePacking.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Getting Label values & Status based on FieldID
                         var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.POID.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var tagdesc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TagDesc.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var invoicenumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InvoiceNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -650,10 +554,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                         labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
-                        labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
-                        labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
-                        labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
                         labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
@@ -666,26 +566,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
                         labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
-                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
-                        labelobj.BagNumber.Status = bagnumber == null ? true : (bagnumber.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
                         labelobj.InvoiceNumber.Status = invoicenumber == null ? true : (invoicenumber.Status == 1 ? true : false);
 
-
                         labelobj.AfterPacking.Name = "To " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
                         labelobj.AfterPacking.Status = afterpacking == null ? true : (afterpacking.Status == 1 ? true : false);
                         labelobj.BeforePacking.Name = "To " + (beforepacking != null ? (!string.IsNullOrEmpty(beforepacking.LblText) ? beforepacking.LblText : labelobj.BeforePacking.Name) : labelobj.BeforePacking.Name);
                         labelobj.BeforePacking.Status = beforepacking == null ? true : (beforepacking.Status == 1 ? true : false);
-
-                        labelobj.Done.Name = (done != null ? (!string.IsNullOrEmpty(done.LblText) ? done.LblText : labelobj.Done.Name) : labelobj.Done.Name);
-                        labelobj.Done.Status = done == null ? true : (done.Status == 1 ? true : false);
-                        labelobj.Upload.Name = (upload != null ? (!string.IsNullOrEmpty(upload.LblText) ? upload.LblText : labelobj.Upload.Name) : labelobj.Upload.Name);
-                        labelobj.Upload.Status = upload == null ? true : (upload.Status == 1 ? true : false);
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
                     }
-
                 }
             }
             catch (Exception ex)
@@ -694,7 +585,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 await service.Handleexception(ex);
             }
         }
-
 
         public async Task<GetPoData> GetAllPOData()
         {
@@ -705,7 +595,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 sendPodata.UserID = Settings.userLoginID;
                 sendPodata.PageSize = Settings.pageSizeYPS;
                 sendPodata.StartPage = Settings.startPageYPS;
-                //SearchResultGet(sendPodata);
 
                 result = await service.LoadPoDataService(sendPodata);
             }
@@ -721,44 +610,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #region Properties for dynamic label change
         public class LabelAndActionsChangeClass
         {
-            public LabelAndActionFields Done { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Done"
-            };
-
-            public LabelAndActionFields Upload { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Upload"
-            };
-
-            public LabelAndActionFields Load { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Load"
-            };
-
-            public LabelAndActionFields Parts { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "Parts"
-            };
-
             public LabelAndActionFields POID { get; set; } = new LabelAndActionFields
             {
                 Status = true,
                 Name = "PONumber"
-            };
-            public LabelAndActionFields REQNo { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "REQNo"
-            };
-            public LabelAndActionFields ShippingNumber { get; set; } = new LabelAndActionFields
-            {
-                Status = true,
-                Name = "ShippingNumber"
             };
             public LabelAndActionFields TagNumber { get; set; } = new LabelAndActionFields
             {
@@ -785,12 +640,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
 
             public LabelAndActionFields IdentCode { get; set; } = new LabelAndActionFields { Status = true, Name = "IdentCode" };
-            public LabelAndActionFields BagNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "BagNumber" };
             public LabelAndActionFields ConditionName { get; set; } = new LabelAndActionFields { Status = true, Name = "ConditionName" };
             public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "InvoiceNumber" };
             public LabelAndActionFields BeforePacking { get; set; } = new LabelAndActionFields { Status = true, Name = "Before Packing" };
             public LabelAndActionFields AfterPacking { get; set; } = new LabelAndActionFields { Status = true, Name = "After Packing" };
-
         }
         public class LabelAndActionFields : IBase
         {

@@ -61,22 +61,10 @@
                              HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"  IsVisible="{Binding IsTabsVisible}">
                         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Margin="0,0,0,0" Orientation="Horizontal">
-                            <!--<Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>-->
                             <StackLayout BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand">
                                 <Label Text="Home" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding HomeCmd}"/>
-                                    </Label.GestureRecognizers>-->
                                 </Label>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding HomeCmd}"/>
@@ -87,9 +75,6 @@
                                 <Label  Text="Job" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding JobCmd}"/>
-                                    </Label.GestureRecognizers>-->
                                 </Label>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding JobCmd}"/>
@@ -100,9 +85,6 @@
                                 <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding PartsCmd}"/>
-                                        </Label.GestureRecognizers>-->
                                 </Label>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding PartsCmd}"/>
@@ -113,14 +95,8 @@
                                 <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                    </Label.GestureRecognizers>-->
                                 </Label>
                                 <BoxView Style="{StaticResource StyleBoxView}" IsVisible="True" BackgroundColor="White"/>
-                                <!--<StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                </StackLayout.GestureRecognizers>-->
                             </StackLayout>
                         </StackLayout>
                     </StackLayout>

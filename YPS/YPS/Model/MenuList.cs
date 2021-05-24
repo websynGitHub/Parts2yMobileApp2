@@ -11,5 +11,6 @@ namespace YPS.Model
         public bool IconType { get; set; }
         public bool Image { get; set; }
         public bool Label { get; set; }
+        public bool ISVisible { get; set; }
     }
 }

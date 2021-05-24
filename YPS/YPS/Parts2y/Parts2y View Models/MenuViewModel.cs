@@ -6,16 +6,17 @@ using System.Text;
 using Xamarin.Forms;
 using YPS.CommonClasses;
 using YPS.Helpers;
-using YPS.Parts2y.Parts2y_Models;
-using YPS.Parts2y.Parts2y_Services;
-using YPS.Parts2y.Parts2y_SQLITE;
+using YPS.Model;
+//using YPS.Parts2y.Parts2y_Models;
+//using YPS.Parts2y.Parts2y_Services;
+//using YPS.Parts2y.Parts2y_SQLITE;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    public class MenuViewModel : BaseViewModel
+    public class MenuViewModel : IBase
     {
         private YPSService trackService;
         public MenuViewModel()
@@ -51,7 +52,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _MenuItems = value;
-                OnPropertyChanged("MenuItems");
+                NotifyPropertyChanged("MenuItems");
             }
         }
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
@@ -61,7 +62,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _BgColor = value;
-                OnPropertyChanged("BgColor");
+                NotifyPropertyChanged("BgColor");
             }
         }
 
@@ -72,7 +73,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _UserName = value;
-                OnPropertyChanged("UserName");
+                NotifyPropertyChanged("UserName");
             }
         }
 
@@ -83,7 +84,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _usermail = value;
-                OnPropertyChanged("usermail");
+                NotifyPropertyChanged("usermail");
             }
         }
         private string _EntityName = Settings.EntityName;
@@ -93,7 +94,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _EntityName = value;
-                OnPropertyChanged("EntityName");
+                NotifyPropertyChanged("EntityName");
             }
         }
         #endregion

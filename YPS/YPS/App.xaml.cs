@@ -107,7 +107,7 @@ namespace YPS
                                     Settings.AndroidVersion = userData.AndroidVersion;
                                     Settings.iOSversion = userData.iOSversion;
                                     Settings.IsIIJEnabled = userData.IIJEnable;
-                                    App.Current.MainPage = new MenuPage(typeof(MainPage));
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
                                     App.Current.MainPage.DisplayAlert("Message", "You removed from " + " '" + navPages[7] + "' " + ", Can not see previous conversation", "OK");
 
                                 }

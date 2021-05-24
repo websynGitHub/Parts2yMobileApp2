@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 //using YPS.Parts2y.Parts2y_Common_Classes;
-using YPS.Parts2y.Parts2y_Models;
+//using YPS.Parts2y.Parts2y_Models;
 using YPS.CustomToastMsg;
 using YPS.Service;
 using YPS.Views;
 using YPS.CommonClasses;
 using YPS.Helpers;
+using YPS.Model;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -128,7 +129,7 @@ namespace YPS.Parts2y.Parts2y_Views
                     }
                     else
                     {
-                        App.Current.MainPage = new MenuPage(typeof(MainPage));
+                        App.Current.MainPage = new MenuPage(typeof(HomePage));
                     }
                 }
                 else
