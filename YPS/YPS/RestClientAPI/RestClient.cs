@@ -936,26 +936,6 @@ namespace YPS.RestClientAPI
         }
 
         /// <summary>
-        /// IsRequiredOrNotReuiredRClient
-        /// </summary>
-        /// <param name="potagIDs"></param>
-        /// <param name="IsRequiredID"></param>
-        /// <returns></returns>
-        public async Task<ModelForIsPhotoRequired> IsRequiredOrNotReuiredRClient(string potagIDs, int IsRequiredID)
-        {
-            try
-            {
-                return await requestProvider.PostAsync<ModelForIsPhotoRequired>(WebServiceUrl + "Upload/Photo/ManageTagPhotos?UserID=" + Settings.userLoginID + "&potagIDs=" + potagIDs + "&IsPhotoRequired=" + IsRequiredID);
-            }
-            catch (Exception ex)
-            {
-                await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "IsRequiredOrNotReuiredRClient method -> in RestClient.cs" + Settings.userLoginID);
-                return null;
-            }
-        }
-
-        /// <summary>
         /// RClientSearchLoacation
         /// </summary>
         /// <param name="text"></param>
