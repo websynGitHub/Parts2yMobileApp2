@@ -1,5 +1,4 @@
 ﻿using Acr.UserDialogs;
-using Syncfusion.SfDataGrid.XForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,6 @@ using YPS.Parts2y.Parts2y_View_Models;
 using Xamarin.Essentials;
 using YPS.Views;
 using System.Collections.ObjectModel;
-using Syncfusion.SfDataGrid.XForms.DataPager;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace YPS.Parts2y.Parts2y_Views
@@ -30,7 +28,6 @@ namespace YPS.Parts2y.Parts2y_Views
         ParentListViewModel Vm;
         YPSService trackService = new YPSService();
         Xamarin.Forms.ListView listView;
-        public List<GridColumn> columns, finalcoumns;
         bool fromConstructor;
         bool reloadGrid;
         bool isloading;
@@ -100,40 +97,40 @@ namespace YPS.Parts2y.Parts2y_Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        public async void pageIndexChanged(object sender, PageIndexChangedEventArgs args)
-        {
-            //try
-            //{
-            //    if (!Settings.mutipleTimeClick)
-            //    {
-            //        dataPager.PageIndexChanged -= pageIndexChanged;
-            //        Settings.mutipleTimeClick = true;
+        //public async void pageIndexChanged(object sender, PageIndexChangedEventArgs args)
+        //{
+        //    //try
+        //    //{
+        //    //    if (!Settings.mutipleTimeClick)
+        //    //    {
+        //    //        dataPager.PageIndexChanged -= pageIndexChanged;
+        //    //        Settings.mutipleTimeClick = true;
 
-            //        //if (args.NewPageIndex != args.OldPageIndex && reloadGrid == true)
-            //        //{
-            //        Settings.startPageYPS = args.NewPageIndex * Settings.pageSizeYPS;
-            //        Settings.toGoPageIndex = args.NewPageIndex;
-            //        await Vm.BindGridData(false, false);
-            //        //}
-            //        //else
-            //        //{
-            //        //    reloadGrid = true;
-            //        //    Settings.isSkip = false;
-            //        //}
+        //    //        //if (args.NewPageIndex != args.OldPageIndex && reloadGrid == true)
+        //    //        //{
+        //    //        Settings.startPageYPS = args.NewPageIndex * Settings.pageSizeYPS;
+        //    //        Settings.toGoPageIndex = args.NewPageIndex;
+        //    //        await Vm.BindGridData(false, false);
+        //    //        //}
+        //    //        //else
+        //    //        //{
+        //    //        //    reloadGrid = true;
+        //    //        //    Settings.isSkip = false;
+        //    //        //}
 
-            //        Vm.loadingindicator = false;
-            //        Settings.mutipleTimeClick = false;
-            //        dataPager.PageIndexChanged += pageIndexChanged;
-            //        UserDialogs.Instance.HideLoading();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    trackService.Handleexception(ex);
-            //    YPSLogger.ReportException(ex, "pageIndexChanged method -> in Main Page.cs " + Settings.userLoginID);
-            //    UserDialogs.Instance.HideLoading();
-            //}
-        }
+        //    //        Vm.loadingindicator = false;
+        //    //        Settings.mutipleTimeClick = false;
+        //    //        dataPager.PageIndexChanged += pageIndexChanged;
+        //    //        UserDialogs.Instance.HideLoading();
+        //    //    }
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    trackService.Handleexception(ex);
+        //    //    YPSLogger.ReportException(ex, "pageIndexChanged method -> in Main Page.cs " + Settings.userLoginID);
+        //    //    UserDialogs.Instance.HideLoading();
+        //    //}
+        //}
 
         /// <summary>
         /// This method is to set the values to pagesize DDL, set start page & select the button when page is loaded.
