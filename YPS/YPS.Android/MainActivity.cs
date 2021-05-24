@@ -20,6 +20,7 @@ using PanCardView.Droid;
 using Plugin.Media;
 using Plugin.Permissions;
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using YPS.CommonClasses;
@@ -87,6 +88,11 @@ namespace YPS.Droid
                 initFontScale();
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+
+                //Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
+                //Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+                //Window.SetStatusBarColor(Color.FromName(Color.Gray));
 
                 #region SafteyNet
                 mainActivity = this;
@@ -158,7 +164,7 @@ namespace YPS.Droid
         public void GetVersionNumber()
         {
             PackageInfo pInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(PackageName, 0);
-            YPS.Parts2y.Parts2y_Common_Classes.Settings.VersionName = pInfo.VersionName;
+            CommonClasses.Settings.VersionName = pInfo.VersionName;
         }
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
@@ -324,7 +330,7 @@ namespace YPS.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            
+
             for (int i = 0; i < permissions.Length; i++)
             {
                 if (permissions[i].Equals("android.permission.CAMERA") && grantResults[i] == Permission.Granted)
