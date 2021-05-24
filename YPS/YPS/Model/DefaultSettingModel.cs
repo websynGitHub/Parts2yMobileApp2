@@ -228,6 +228,7 @@ namespace YPS.Model
         public bool IsEmailEnabled { get; set; }
         public bool IsPNEnabled { get; set; }
         public SSLkeyData sSLPinningKeys { get; set; }
+        public AppSettings appSettings { get; set; }
 
     }
     public class ApplicationSettings
@@ -250,5 +251,13 @@ namespace YPS.Model
         public string ActualUrl { get; set; }
         public string Url { get; set; }
         public string CertificateKey { get; set; }
+    }
+
+    public class AppSettings
+    {
+        public string BGImage { get; set; }
+        public string Message1 { get; set; }
+        public string Message2 { get; set; }
+        public bool Status { get; set; }
     }
 }

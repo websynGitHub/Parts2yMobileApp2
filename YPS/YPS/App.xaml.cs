@@ -70,45 +70,53 @@ namespace YPS
 
                 if (globalResult != null && globalResult.status == 1 && (globalResult.data.sSLPinningKeys != null && EncryptManager.Decrypt(globalResult.data.sSLPinningKeys.SecCode) == Settings.CertificateSecCode))
                 {
-                    if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
+                    if (globalResult.data.appSettings.Status == true)
                     {
-                        Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
-                        SetupCertificatePinningCheck();
+                        MyNavigationPage.PushAsync(new UnderWorkPage(globalResult.data.appSettings.Message1, globalResult.data.appSettings.Message2, globalResult.data.appSettings.BGImage, globalResult.data.appSettings.Status), true);
+
                     }
-
-                    var navPages = is_param_val.Split(';');
-
-                    if (!String.IsNullOrEmpty(navPages[0]))
+                    else
                     {
-                        if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+                        if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
                         {
-                            Settings.GetParamVal = is_param_val;
-                            App.Current.MainPage = new MenuPage(typeof(ChatPage));
+                            Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
+                            SetupCertificatePinningCheck();
                         }
-                        else if (navPages[0] == "RemoveUser")
+
+                        var navPages = is_param_val.Split(';');
+
+                        if (!String.IsNullOrEmpty(navPages[0]))
                         {
-                            DependencyService.Get<ISQLite>().deleteReadCountNmsg(Convert.ToInt32(navPages[4]));
-                            RememberPwdDB Db = new RememberPwdDB();
-                            var user = Db.GetUserDetails();
-
-                            if (user.Count == 1)
+                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
                             {
-                                var userData = user.FirstOrDefault();
-                                Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-                                Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-                                Settings.Sessiontoken = userData.encSessiontoken;
-                                Settings.AndroidVersion = userData.AndroidVersion;
-                                Settings.iOSversion = userData.iOSversion;
-                                Settings.IsIIJEnabled = userData.IIJEnable;
-                                App.Current.MainPage = new MenuPage(typeof(MainPage));
-                                App.Current.MainPage.DisplayAlert("Message", "You removed from " + " '" + navPages[7] + "' " + ", Can not see previous conversation", "OK");
+                                Settings.GetParamVal = is_param_val;
+                                App.Current.MainPage = new MenuPage(typeof(ChatPage));
+                            }
+                            else if (navPages[0] == "RemoveUser")
+                            {
+                                DependencyService.Get<ISQLite>().deleteReadCountNmsg(Convert.ToInt32(navPages[4]));
+                                RememberPwdDB Db = new RememberPwdDB();
+                                var user = Db.GetUserDetails();
+
+                                if (user.Count == 1)
+                                {
+                                    var userData = user.FirstOrDefault();
+                                    Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                                    Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                                    Settings.Sessiontoken = userData.encSessiontoken;
+                                    Settings.AndroidVersion = userData.AndroidVersion;
+                                    Settings.iOSversion = userData.iOSversion;
+                                    Settings.IsIIJEnabled = userData.IIJEnable;
+                                    App.Current.MainPage = new MenuPage(typeof(MainPage));
+                                    App.Current.MainPage.DisplayAlert("Message", "You removed from " + " '" + navPages[7] + "' " + ", Can not see previous conversation", "OK");
+
+                                }
+                                else
+                                {
+                                    MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
+                                }
 
                             }
-                            else
-                            {
-                                MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
-                            }
-
                         }
                     }
                 }
@@ -174,70 +182,78 @@ namespace YPS
 
                 if (globalResult != null && globalResult.status == 1 && (globalResult.data.sSLPinningKeys != null && EncryptManager.Decrypt(globalResult.data.sSLPinningKeys.SecCode) == Settings.CertificateSecCode))
                 {
-                    if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
+                    if (globalResult.data.appSettings.Status == true)
                     {
-                        Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
-                        SetupCertificatePinningCheck();
-                    }
+                        MyNavigationPage.PushAsync(new UnderWorkPage(globalResult.data.appSettings.Message1, globalResult.data.appSettings.Message2, globalResult.data.appSettings.BGImage, globalResult.data.appSettings.Status), true);
 
-                    FlowListView.Init();
-
-                    RememberPwdDB Db = new RememberPwdDB();
-                    var user = Db.GetUserDetails();
-
-                    if (user.Count == 1)
-                    {
-                        var userData = user.FirstOrDefault();
-
-                        Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-                        Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-                        Settings.LoginID = userData.encLoginID;
-                        Settings.Sessiontoken = userData.encSessiontoken;
-                        Settings.AndroidVersion = userData.AndroidVersion;
-                        Settings.iOSversion = userData.iOSversion;
-                        Settings.IsIIJEnabled = userData.IIJEnable;
-                        Settings.IsPNEnabled = userData.IsPNEnabled;
-                        Settings.IsEmailEnabled = userData.IsEmailEnabled;
-                        Settings.Bar_Background = System.Drawing.Color.FromArgb(userData.BgColor);
-
-                        var current = Connectivity.NetworkAccess;
-
-                        if (current == NetworkAccess.Internet)
-                        {
-                            Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
-
-                            if (Settings.userRoleID != 0)
-                            {
-                                App.Current.MainPage = new MenuPage(typeof(HomePage));
-                            }
-                        }
-                        else
-                        {
-                            MyNavigationPage.PushAsync(new CheckInterNetConn());
-                        }
                     }
                     else
                     {
-                        Task.Run(async () => await GlobelSettings(globalResult)).Wait();
-
-                        if (Settings.IsIIJEnabled)
+                        if (globalResult.data.sSLPinningKeys.IsPinnigEnabled == true)
                         {
-                            if (OAuthConfig.User == null)
-                            {
-                                MyNavigationPage.PushAsync(new ProviderLoginPage());
-                            }
+                            Task.Run(async () => await PinPublickey(globalResult.data.sSLPinningKeys.Keys)).Wait();
+                            SetupCertificatePinningCheck();
                         }
-                        else
+
+                        FlowListView.Init();
+
+                        RememberPwdDB Db = new RememberPwdDB();
+                        var user = Db.GetUserDetails();
+
+                        if (user.Count == 1)
                         {
+                            var userData = user.FirstOrDefault();
+
+                            Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                            Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                            Settings.LoginID = userData.encLoginID;
+                            Settings.Sessiontoken = userData.encSessiontoken;
+                            Settings.AndroidVersion = userData.AndroidVersion;
+                            Settings.iOSversion = userData.iOSversion;
+                            Settings.IsIIJEnabled = userData.IIJEnable;
+                            Settings.IsPNEnabled = userData.IsPNEnabled;
+                            Settings.IsEmailEnabled = userData.IsEmailEnabled;
+                            Settings.Bar_Background = System.Drawing.Color.FromArgb(userData.BgColor);
+
                             var current = Connectivity.NetworkAccess;
 
                             if (current == NetworkAccess.Internet)
                             {
-                                MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
+                                Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+
+                                if (Settings.userRoleID != 0)
+                                {
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                }
                             }
                             else
                             {
                                 MyNavigationPage.PushAsync(new CheckInterNetConn());
+                            }
+                        }
+                        else
+                        {
+                            Task.Run(async () => await GlobelSettings(globalResult)).Wait();
+
+                            if (Settings.IsIIJEnabled)
+                            {
+                                if (OAuthConfig.User == null)
+                                {
+                                    MyNavigationPage.PushAsync(new ProviderLoginPage());
+                                }
+                            }
+                            else
+                            {
+                                var current = Connectivity.NetworkAccess;
+
+                                if (current == NetworkAccess.Internet)
+                                {
+                                    MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
+                                }
+                                else
+                                {
+                                    MyNavigationPage.PushAsync(new CheckInterNetConn());
+                                }
                             }
                         }
                     }
