@@ -7,7 +7,6 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using PanCardView.iOS;
 using Plugin.Media;
-using Syncfusion.SfDataGrid.XForms.iOS;
 using Syncfusion.XForms.iOS.Buttons;
 using System;
 using System.Collections.Generic;
@@ -50,13 +49,13 @@ namespace YPS.iOS
         /// <summary>
         /// Alpha
         /// </summary>
-        string Appcenter_iOS = "98470379-fccd-4f9d-8d22-8856a5af15c9";
+        //string Appcenter_iOS = "98470379-fccd-4f9d-8d22-8856a5af15c9";
         /// <summary>
         /// Beta
         /// </summary>
         /// <param name="Appcenter_iOS"></param>
         //string Appcenter_iOS = "37be6471-dc83-405d-b62f-e796ae44267d";///old Beta Key
-        //string Appcenter_iOS = "3cb00169-1fb5-41b5-a1c6-0e3fdb108114";
+        string Appcenter_iOS = "3cb00169-1fb5-41b5-a1c6-0e3fdb108114";
 
         /// <summary>
         /// Production
@@ -137,7 +136,6 @@ namespace YPS.iOS
 
             Syncfusion.XForms.iOS.BadgeView.SfBadgeViewRenderer.Init();
             SfCheckBoxRenderer.Init();
-            SfDataGridRenderer.Init();
             Syncfusion.XForms.iOS.Border.SfBorderRenderer.Init();
             Syncfusion.ListView.XForms.iOS.SfListViewRenderer.Init();
             Syncfusion.XForms.iOS.Cards.SfCardViewRenderer.Init();
