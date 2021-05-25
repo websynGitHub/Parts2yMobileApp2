@@ -508,6 +508,8 @@ namespace YPS.Model
         public int Status { get; set; }
         public string yBkgNumber { get; set; }
         public string TaskName { get; set; }
+        public string SortByID { get; set; }
+        public string OrderByID { get; set; }
     }
 
     public class POData

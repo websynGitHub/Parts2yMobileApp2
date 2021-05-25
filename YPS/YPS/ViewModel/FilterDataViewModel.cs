@@ -250,7 +250,8 @@ namespace YPS.ViewModel
                         SaveUserDS.BagNo = Settings.BagNo = BagNumber;
                         SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber;
                         SaveUserDS.TaskName = Settings.TaskName = JobName;
-
+                        SaveUserDS.SortByID = "";
+                        SaveUserDS.OrderByID = "asc";
                         //Save the filter field values to DB
                         SearchPassData defaultData = new SearchPassData();
                         defaultData.UserID = Settings.userLoginID;
