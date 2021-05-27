@@ -24,11 +24,29 @@ namespace YPS.Droid
     public class MyFirebaseMessagingService : FirebaseMessagingService
     {
 
-        public override async void OnNewToken(string Token)
+
+        const string TAG = "MyFirebaseIIDService";
+        string refreshedToken;
+        public async override void OnNewToken(string p0)
         {
-            base.OnNewToken(Token);
-            await SecureStorage.SetAsync("Token", Token);
+            base.OnNewToken(p0);
+            try
+            {
+                // refreshedToken = p0;// FirebaseInstanceId.Instance.Token;
+                var hh = refreshedToken = p0;
+                await SecureStorage.SetAsync("Token", p0);
+                // Log.Debug(TAG, "Refreshed token: " + refreshedToken);
+            }
+            catch (System.Exception ex)
+            {
+                ex.ToString();
+            }
         }
+        //public override async void OnNewToken(string Token)
+        //{
+        //    base.OnNewToken(Token);
+        //    await SecureStorage.SetAsync("Token", Token);
+        //}
 
         /// <summary>
         /// Gets called when msg received.
@@ -36,28 +54,33 @@ namespace YPS.Droid
         /// <param name="message"></param>
         public async override void OnMessageReceived(RemoteMessage message)
         {
-
-            ICollection<string> msg = message.Data.Values;
-            List<string> val = new List<string>();
-
-            if (msg != null)
+            try
             {
-                foreach (string s in msg)
+                ICollection<string> msg = message.Data.Values;
+                List<string> val = new List<string>();
+
+                if (msg != null)
                 {
-                    val.Add(s);
+                    foreach (string s in msg)
+                    {
+                        val.Add(s);
+                    }
+                    try
+                    {
+                        var showNotify = val[1].Split(';');
+                        if (Settings.currentChatPage != Convert.ToInt32(showNotify[4]))
+                            SendNotification(val[0], val[1]);
+                    }
+                    catch (Exception ex)
+                    {
+                        YPSService trackService = new YPSService();
+                        await trackService.Handleexception(ex);
+                        YPSLogger.ReportException(ex, "MyFirebaseMessagingService-> in OnMessageReceived " + Settings.userLoginID);
+                    }
                 }
-                try
-                {
-                    var showNotify = val[1].Split(';');
-                    if (Settings.currentChatPage != Convert.ToInt32(showNotify[4]))
-                        SendNotification(val[0], val[1]);
-                }
-                catch (Exception ex)
-                {
-                    YPSService trackService = new YPSService();
-                    await trackService.Handleexception(ex);
-                    YPSLogger.ReportException(ex, "MyFirebaseMessagingService-> in OnMessageReceived " + Settings.userLoginID);
-                }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
