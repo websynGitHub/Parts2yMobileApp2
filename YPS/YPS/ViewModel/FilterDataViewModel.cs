@@ -328,10 +328,6 @@ namespace YPS.ViewModel
                     defaultData.CompanyID = Settings.CompanyID;
                     defaultData.ProjectID = Settings.ProjectID;
                     defaultData.JobID = Settings.JobID;
-                    //defaultData.SearchName = FilterName;
-                    ////defaultData.IsCurrentSearch = true;
-                    //defaultData.ID = defaultData.SearchName.Trim().ToLower() == "new" ? 0 : SelectedFilterName.ID;
-                    // Setting the default values for fields in Key tab
                     SaveUserDS.PONumber = Settings.PONumber = poNumber = string.Empty;
                     SaveUserDS.REQNo = Settings.REQNo = reqNumber = string.Empty;
                     SaveUserDS.ShippingNo = Settings.ShippingNo = shipNumber = string.Empty;
@@ -794,8 +790,6 @@ namespace YPS.ViewModel
                         labelobj.JobName.Name = jobname != null ? jobname.LblText : "Job Name";
                         labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
-                        //labelobj.ResourceName.Status = (resourcename == null ? true : false) || (resourcename != null && resourcename.Status == 1) ? true : false;
-
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
                         labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SearchBtn.LblText : "Save & Search";
