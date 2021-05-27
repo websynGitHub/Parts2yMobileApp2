@@ -231,8 +231,13 @@ namespace YPS.ViewModel
 
                     if (checkInternet)
                     {
-
                         SendPodata SaveUserDS = new SendPodata();
+
+                        if (!string.IsNullOrEmpty(SelectedFilterName?.DisplayText1))
+                        {
+                            SaveUserDS = JsonConvert.DeserializeObject<SendPodata>(SelectedFilterName?.DisplayText1);
+                        }
+
                         Settings.UserID = Settings.userLoginID;
 
                         //Getting the entered feild values from Key tab
@@ -250,8 +255,8 @@ namespace YPS.ViewModel
                         SaveUserDS.BagNo = Settings.BagNo = BagNumber;
                         SaveUserDS.yBkgNumber = Settings.Ybkgnumber = YbkgNumber;
                         SaveUserDS.TaskName = Settings.TaskName = JobName;
-                        SaveUserDS.SortByID = "";
-                        SaveUserDS.OrderByID = "asc";
+                        SaveUserDS.SortByID = string.IsNullOrEmpty(SaveUserDS.SortByID) ? "" : SaveUserDS.SortByID;
+                        SaveUserDS.OrderByID = string.IsNullOrEmpty(SaveUserDS.OrderByID) ? "asc" : SaveUserDS.OrderByID;
                         //Save the filter field values to DB
                         SearchPassData defaultData = new SearchPassData();
                         defaultData.UserID = Settings.userLoginID;
