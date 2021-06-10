@@ -60,8 +60,6 @@
 
                             <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="Rule : "
                                Style="{DynamicResource LableWithQuestionFont}"/>
-                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text=":"
-                               Style="{DynamicResource LableWithQuestionFont}"/>-->
                             <Label TextColor="White" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedScanRuleHeader}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
@@ -70,8 +68,6 @@
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                             <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="Total : "
                              Style="{DynamicResource LableWithQuestionFont}"/>
-                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="1" Text=":"
-                              Style="{DynamicResource LableWithQuestionFont}"/>-->
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding TotalCountHeader}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
@@ -81,8 +77,6 @@
 
                             <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="OK Count : "
                                Style="{DynamicResource LableWithQuestionFont}"/>
-                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="2" Text=":"
-                              Style="{DynamicResource LableWithQuestionFont}"/>-->
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding OKCount}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
@@ -91,8 +85,6 @@
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                             <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="NG Count : "
                               Style="{DynamicResource LableWithQuestionFont}"/>
-                            <!--<Label TextColor="White"  Grid.Column="1" Grid.Row="3" Text=":"
-                               Style="{DynamicResource LableWithQuestionFont}"/>-->
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding NGCount}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
@@ -142,9 +134,6 @@
                         <Label Text="Configure" TextColor="{Binding CompareTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
-                            <!--<Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ScanConfigCmd}"/>
-                            </Label.GestureRecognizers>-->
                         </Label>
                         <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding ConfigTabVisibility}" />
                         <StackLayout.GestureRecognizers>
@@ -227,8 +216,6 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <!--<RowDefinition Height="125"/>-->
-                                            <!--<RowDefinition Height="*"/>-->
                                             <RowDefinition Height="225"/>
                                         </Grid.RowDefinitions>
 
@@ -262,33 +249,6 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
-
-
-
-                                        <!--<Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
-                                 Margin="4,0,4,4">
-                                                <Button x:Name="clearhistory"
-                                                    Text="Reset" Grid.Column="0"
-                                                    Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen"
-                                                HorizontalOptions="StartAndExpand" VerticalOptions="End">
-
-                                                    <Button.GestureRecognizers>
-                                                        <TapGestureRecognizer Tapped="ClearHistory"/>
-                                                    </Button.GestureRecognizers>
-                                                </Button>
-
-                                            <Button 
-                                                    Text="View" Grid.Column="1"
-                                                    Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="DarkGreen"
-                                                HorizontalOptions="StartAndExpand" VerticalOptions="End">
-
-                                                <Button.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="ViewHistory"/>
-                                                </Button.GestureRecognizers>
-                                            </Button>
-                                        </Grid>-->
                                     </Grid>
                                 </Frame>
                             </StackLayout>

@@ -8,8 +8,8 @@ using Xamarin.Forms.Xaml;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
-using YPS.Parts2y.Parts2y_Common_Classes;
-using YPS.Parts2y.Parts2y_Models;
+//using YPS.Parts2y.Parts2y_Common_Classes;
+//using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
 
@@ -28,27 +28,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 trackService = new YPSService();
                 InitializeComponent();
                 BindingContext = Vm = new CompareViewModel(Navigation, this, false);
-
-                //Vm.compareHistoryList = new List<CompareHistoryList>() {
-                //new CompareHistoryList() { HistorySerialNo=1, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" } ,
-                //    new CompareHistoryList() { HistorySerialNo=12, AValue ="scan", BValue= "lajckjadcbadchbdcbdhkcbwjcbwjcbhkbchbckqbcbcabcabcabcbacbacc",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=300, AValue ="amcnajnckdncwncwjncjncwkncwkncnckncncwncwncjnc", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=4, AValue ="scan", BValue= "scan" ,IsMatchedImg="ookblack.png"},
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    //new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //};
             }
             catch (Exception ex)
             {
@@ -92,26 +71,6 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                //Vm.compareHistoryList = new List<CompareHistoryList>() {
-                //new CompareHistoryList() { HistorySerialNo=1, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" } ,
-                //    new CompareHistoryList() { HistorySerialNo=12, AValue ="scan", BValue= "lajckjadcbadchbdcbdhkcbwjcbwjcbhkbchbckqbcbcabcabcabcbacbacc",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=300, AValue ="amcnajnckdncwncwjncjncwkncwkncnckncncwncwncjnc", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=4, AValue ="scan", BValue= "scan" ,IsMatchedImg="ookblack.png"},
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ookblack.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //    new CompareHistoryList() { HistorySerialNo=5, AValue ="scan", BValue= "scan",IsMatchedImg="ng.png" },
-                //};
                 Vm.showScanHistory = true;
             }
             catch (Exception ex)
