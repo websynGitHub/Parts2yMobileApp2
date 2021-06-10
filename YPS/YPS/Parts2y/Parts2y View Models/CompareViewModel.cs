@@ -1,6 +1,8 @@
 ﻿using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Plugin.SimpleAudioPlayer;
+using Scandit.BarcodePicker.Unified;
+using Scandit.BarcodePicker.Unified.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,11 +12,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
-using YPS.Parts2y.Parts2y_Common_Classes;
-using YPS.Parts2y.Parts2y_Models;
+//using YPS.Parts2y.Parts2y_Common_Classes;
+//using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
@@ -22,22 +25,24 @@ using ZXing.Net.Mobile.Forms;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    class CompareViewModel : BaseViewModel
+    class CompareViewModel : IBase
     {
         YPSService trackService;
+        IBarcodePicker _picker;
+        string scanFor;
+        public int historySerialNo = 1;
+        List<CompareHistoryList> lstcomparehistory = new List<CompareHistoryList>();
+        private Compare comparepage;
+        private int? scancountpermit;
 
+        //UAT
+        public static string appKey = "AfHgJGWPRZcJD5nCrSuWn3I14pFUOfSbJ14y67JNCkXAeC0d8XF7BqotirkNTX/pQVC82/RLUARkds5Va0Y725AhXzxHU4CB2T5FFGE10G1IfA/gJW69uvUoNe8+M85xs0ATJkIfMj3Out0akHyB4sioSLxmsspl514MA4neokCFZp+XOU+70frw4/J3+hGrx78vGjhf/xns3Js8vLhGO9HKh/k8OQnode7yK+163bdSB2eB2kFQuv1PO/unuBm5Hju1+ZrwUYgOcz6OnYJiec22VAnd4K3y7rHTylU9sZ1ypZyf39iJz78LYDACDTgx4N1FXb/rwGMtYaQnMyi9SaOkJXQGTiNFhjUQ7j72pR3xlaWPDzXGjujcKmD2nZcAjJLSYehdhu7eUqHtbB5E2PrHPT0mVZ5yvWkbaEAr1+QxDyZtRsd/5WWA7ipyB3QPlFPGrA3jC01FNv+Ka3+L44fCwSSZKiT/SDHsgWqSGorvjN3b+ksXzq0tTBaYTCyairR7FouUQ3MbZVhGTZ83AKzRg4uvulczHJMJCjVMfezWpGBYad3rvznTgMuLKGAyan0Cb5TB8LRZrYHGjNXANNJiRvB7dFP62xy9u0CxY2U8hLrMbWA5kR12yxHej/oIDi9s2VywbHsegQ+yAQNcWvchc/A5IMuvtA3ztpT2NVRVi2PLViyOcOIwDFqjRznp3mOnN0NJH64xhXgXwcgOZJTlKDyYrvXDN0FwAuMXTOyH2eIKw689hVCKfTsyfAD7HzjrXyOXYmjaGelfiDeqFVI6LTUlvgyW0ebhbY8qygCiyNbbwFT8";
         public INavigation Navigation { get; set; }
         public ICommand CompareQRCodeACmd { get; set; }
         public ICommand CompareQRCodeBCmd { get; set; }
         public ICommand ScanTabCmd { get; set; }
         public ICommand ScanConfigCmd { get; set; }
         public ICommand SaveClickCmd { get; set; }
-
-
-        public int historySerialNo = 1;
-        List<CompareHistoryList> lstcomparehistory = new List<CompareHistoryList>();
-        private Compare comparepage;
-        private int? scancountpermit;
 
         public CompareViewModel(INavigation _Navigation, Compare ComparePage, bool reset)
         {
@@ -56,13 +61,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Settings.scanQRValueA = "";
                 Settings.scanQRValueB = "";
 
-
-                //if (reset == false)
-                //{
-                //Task.Run(() => RememberUserDetails()).Wait();
                 Task.Run(() => GetSavedConfigDataFromDB()).Wait();
-                //Task.Run(() => GetUsersScanConfig()).Wait();
-                //}
+                ScanditService.ScanditLicense.AppKey = appKey;
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "RememberUserDetails method -> in CompareViewModel " + YPS.CommonClasses.Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex); 
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -168,19 +168,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-
-                var assembly = typeof(App).GetTypeInfo().Assembly;
-                Stream sr = assembly.GetManifestResourceStream("YPS." + "beep.mp3");
-                ISimpleAudioPlayer playbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-                playbeep.Load(sr);
-
-                Stream oksr = assembly.GetManifestResourceStream("YPS." + "okbeep.mp3");
-                ISimpleAudioPlayer okplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-                okplaybeep.Load(oksr);
-
-                Stream ngsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
-                ISimpleAudioPlayer ngplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-                ngplaybeep.Load(ngsr);
+                scanFor = scanfor;
 
                 var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
                 var requestedPermissionStatus = requestedPermissions[Permission.Camera];
@@ -200,192 +188,195 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (pass1 == PermissionStatus.Granted)
                 {
-                    var overlay = new ZXingDefaultOverlay
-                    {
-                        ShowFlashButton = true,
-                        TopText = string.Empty,
-                        BottomText = string.Empty,
-                    };
+                    await PrepareScannerSettings();
+                    await _picker.StartScanningAsync(false);
+                    #region Zxing related commented code
+                    //var overlay = new ZXingDefaultOverlay
+                    //{
+                    //    ShowFlashButton = true,
+                    //    TopText = string.Empty,
+                    //    BottomText = string.Empty,
+                    //};
 
-                    overlay.BindingContext = overlay;
+                    //overlay.BindingContext = overlay;
 
-                    var ScannerPage = new ZXingScannerPage(null, overlay);
-                    ScannerPage = new ZXingScannerPage(null, overlay);
+                    //var ScannerPage = new ZXingScannerPage(null, overlay);
+                    //ScannerPage = new ZXingScannerPage(null, overlay);
 
-                    ScannerPage.OnScanResult += (scanresult) =>
-                    {
-                        // Parar de escanear
-                        ScannerPage.IsScanning = false;
+                    //ScannerPage.OnScanResult += (scanresult) =>
+                    //{
+                    //    // Parar de escanear
+                    //    //ScannerPage.IsScanning = false;
 
-                        // Alert com o código escaneado
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await Navigation.PopAsync();
-                            CompareHistoryList comparemodel = new CompareHistoryList();
+                    //    // Alert com o código escaneado
+                    //    Device.BeginInvokeOnMainThread(async () =>
+                    //    {
+                    //        //await Navigation.PopAsync();
+                    //        CompareHistoryList comparemodel = new CompareHistoryList();
 
-                            if (scanfor == "a")
-                            {
-                                Settings.scanQRValueA = ScannedValueA = scanresult != null ? scanresult.Text : "scanned";
+                    //        if (scanfor == "a")
+                    //        {
+                    //            Settings.scanQRValueA = ScannedValueA = scanresult != null ? scanresult.NewlyRecognizedCodes.FirstOrDefault().Data : "scanned";
 
-                                if (Settings.scanQRValueA.Length < SelectedRule.Length)
-                                {
-                                    await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
+                    //            if (Settings.scanQRValueA.Length < SelectedRule.Length)
+                    //            {
+                    //                await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
 
-                                    isScannedA = "ok.png";
-                                    resultA = Settings.scanQRValueA;
-                                    isEnableAFrame = true;
-                                    opacityA = 1;
-                                    isEnableBFrame = false;
-                                    opacityB = 0.50;
-                                }
-                                else
-                                {
-                                    isScannedA = "cross.png";
-                                    resultA = Settings.scanQRValueA;
-                                    isEnableAFrame = false;
-                                    opacityA = 0.50;
-                                    isEnableBFrame = true;
-                                    opacityB = 1;
-                                }
-                            }
-                            else
-                            {
-                                int Astartindex;
-                                int Bstartindex;
+                    //                isScannedA = "ok.png";
+                    //                resultA = Settings.scanQRValueA;
+                    //                isEnableAFrame = true;
+                    //                opacityA = 1;
+                    //                isEnableBFrame = false;
+                    //                opacityB = 0.50;
+                    //            }
+                    //            else
+                    //            {
+                    //                isScannedA = "cross.png";
+                    //                resultA = Settings.scanQRValueA;
+                    //                isEnableAFrame = false;
+                    //                opacityA = 0.50;
+                    //                isEnableBFrame = true;
+                    //                opacityB = 1;
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            int Astartindex;
+                    //            int Bstartindex;
 
-                                Settings.scanQRValueB = ScannedValueB = scanresult != null ? scanresult.Text : "scanned";
+                    //            Settings.scanQRValueB = ScannedValueB = scanresult != null ? scanresult.NewlyRecognizedCodes.FirstOrDefault().Data : "scanned";
 
-                                switch (SelectedRule.Position)
-                                {
-                                    case "First":
+                    //            switch (SelectedRule.Position)
+                    //            {
+                    //                case "First":
 
-                                        if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(0, SelectedRule.Length) == Settings.scanQRValueB.Substring(0, SelectedRule.Length)))
-                                        {
-                                            isMatch = "MATCHED";
-                                            isMatchImage = "ook.png";
-                                            isScannedB = "ok.png";
-                                            resultB = Settings.scanQRValueB;
-                                            scancountpermit--;
-                                            okplaybeep.Play();
-                                        }
-                                        else
-                                        {
-                                            isMatch = "UNMATCHED";
-                                            isMatchImage = "ng.png";
-                                            isScannedB = "ok.png";
-                                            resultB = Settings.scanQRValueB;
-                                            ngplaybeep.Play();
-                                        }
-                                        break;
+                    //                    if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(0, SelectedRule.Length) == Settings.scanQRValueB.Substring(0, SelectedRule.Length)))
+                    //                    {
+                    //                        isMatch = "MATCHED";
+                    //                        isMatchImage = "ook.png";
+                    //                        isScannedB = "ok.png";
+                    //                        resultB = Settings.scanQRValueB;
+                    //                        scancountpermit--;
+                    //                        okplaybeep.Play();
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        isMatch = "UNMATCHED";
+                    //                        isMatchImage = "ng.png";
+                    //                        isScannedB = "ok.png";
+                    //                        resultB = Settings.scanQRValueB;
+                    //                        ngplaybeep.Play();
+                    //                    }
+                    //                    break;
 
-                                    case "Last":
+                    //                case "Last":
 
-                                        Astartindex = Settings.scanQRValueA.Length - SelectedRule.Length;
-                                        Bstartindex = Settings.scanQRValueB.Length - SelectedRule.Length;
+                    //                    Astartindex = Settings.scanQRValueA.Length - SelectedRule.Length;
+                    //                    Bstartindex = Settings.scanQRValueB.Length - SelectedRule.Length;
 
-                                        if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(Astartindex, SelectedRule.Length) == Settings.scanQRValueB.Substring(Bstartindex, SelectedRule.Length)))
-                                        {
-                                            isMatch = "MATCHED";
-                                            isMatchImage = "ook.png";
-                                            isScannedB = "ok.png";
-                                            resultB = Settings.scanQRValueB;
-                                            scancountpermit--;
-                                            okplaybeep.Play();
+                    //                    if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(Astartindex, SelectedRule.Length) == Settings.scanQRValueB.Substring(Bstartindex, SelectedRule.Length)))
+                    //                    {
+                    //                        isMatch = "MATCHED";
+                    //                        isMatchImage = "ook.png";
+                    //                        isScannedB = "ok.png";
+                    //                        resultB = Settings.scanQRValueB;
+                    //                        scancountpermit--;
+                    //                        okplaybeep.Play();
 
-                                        }
-                                        else
-                                        {
-                                            isMatch = "UNMATCHED";
-                                            isMatchImage = "ng.png";
-                                            isScannedB = "ok.png";
-                                            resultB = Settings.scanQRValueB;
-                                            ngplaybeep.Play();
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        isMatch = "UNMATCHED";
+                    //                        isMatchImage = "ng.png";
+                    //                        isScannedB = "ok.png";
+                    //                        resultB = Settings.scanQRValueB;
+                    //                        ngplaybeep.Play();
 
-                                        }
-                                        break;
+                    //                    }
+                    //                    break;
 
-                                    case "Full":
+                    //                case "Full":
 
-                                        if (Settings.scanQRValueA == Settings.scanQRValueB)
-                                        {
-                                            isMatch = "MATCHED";
-                                            isMatchImage = "ook.png";
-                                            isScannedB = "ok.png";
-                                            resultB = Settings.scanQRValueB;
-                                            scancountpermit--;
-                                            okplaybeep.Play();
+                    //                    if (Settings.scanQRValueA == Settings.scanQRValueB)
+                    //                    {
+                    //                        isMatch = "MATCHED";
+                    //                        isMatchImage = "ook.png";
+                    //                        isScannedB = "ok.png";
+                    //                        resultB = Settings.scanQRValueB;
+                    //                        scancountpermit--;
+                    //                        okplaybeep.Play();
 
-                                        }
-                                        else
-                                        {
-                                            isMatch = "UNMATCHED";
-                                            isMatchImage = "ng.png";
-                                            isScannedB = "ok.png";
-                                            resultB = Settings.scanQRValueB;
-                                            ngplaybeep.Play();
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        isMatch = "UNMATCHED";
+                    //                        isMatchImage = "ng.png";
+                    //                        isScannedB = "ok.png";
+                    //                        resultB = Settings.scanQRValueB;
+                    //                        ngplaybeep.Play();
 
-                                        }
-                                        break;
+                    //                    }
+                    //                    break;
 
-                                    default:
-                                        isMatch = "UNMATCHED";
-                                        isMatchImage = "ng.png";
-                                        isScannedB = "ok.png";
-                                        resultB = Settings.scanQRValueB;
-                                        ngplaybeep.Play();
+                    //                default:
+                    //                    isMatch = "UNMATCHED";
+                    //                    isMatchImage = "ng.png";
+                    //                    isScannedB = "ok.png";
+                    //                    resultB = Settings.scanQRValueB;
+                    //                    ngplaybeep.Play();
 
-                                        break;
-                                }
-                            }
+                    //                    break;
+                    //            }
+                    //        }
 
-                            isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
+                    //        isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
 
-                            if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
-                            {
-                                comparemodel.HistorySerialNo = historySerialNo++;
-                                comparemodel.AValue = Settings.scanQRValueA;
-                                comparemodel.BValue = Settings.scanQRValueB;
-                                comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
-                                compareList.Insert(0, comparemodel);
+                    //        if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
+                    //        {
+                    //            comparemodel.HistorySerialNo = historySerialNo++;
+                    //            comparemodel.AValue = Settings.scanQRValueA;
+                    //            comparemodel.BValue = Settings.scanQRValueB;
+                    //            comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
+                    //            compareList.Insert(0, comparemodel);
 
-                                compareHistoryList = new List<CompareHistoryList>(compareList);
+                    //            compareHistoryList = new List<CompareHistoryList>(compareList);
 
-                                var val = compareList.OrderByDescending(w => w.HistorySerialNo).Take(5);
+                    //            var val = compareList.OrderByDescending(w => w.HistorySerialNo).Take(5);
 
-                                latestCompareHistoryList = new List<CompareHistoryList>(val);
+                    //            latestCompareHistoryList = new List<CompareHistoryList>(val);
 
-                                showLatestViewFrame = true;
-                                showCurrentStatus = true;
+                    //            showLatestViewFrame = true;
+                    //            showCurrentStatus = true;
 
 
-                                OKCount = "0";
-                                NGCount = "0";
-                                OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCount;
-                                NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
+                    //            OKCount = "0";
+                    //            NGCount = "0";
+                    //            OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCount;
+                    //            NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
 
-                                if (scancountpermit == 0)
-                                {
-                                    playbeep.Play();
-                                    isEnableBFrame = false;
-                                    opacityB = 0.50;
-                                }
-                            }
+                    //            if (scancountpermit == 0)
+                    //            {
+                    //                playbeep.Play();
+                    //                isEnableBFrame = false;
+                    //                opacityB = 0.50;
+                    //            }
+                    //        }
 
-                        });
-                    };
+                    //    });
 
-                    if (Navigation.ModalStack.Count == 0 ||
-                                        Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
-                    {
-                        ScannerPage.AutoFocus();
-                        await Navigation.PushAsync(ScannerPage);
+                    //};
 
-                        overlay.FlashButtonClicked += (s, ed) =>
-                        {
-                            ScannerPage.ToggleTorch();
-                        };
+                    //if (Navigation.ModalStack.Count == 0 ||
+                    //                   Navigation.ModalStack.Last().GetType() != typeof(ScanditScannerPage))
+                    //{
+                    //    //ScannerPage.AutoFocus();
 
-                    }
+                    //    //overlay.FlashButtonClicked += (s, ed) =>
+                    //    //{
+                    //    //    ScannerPage.ToggleTorch();
+                    //    //};
+                    //}
+                    #endregion Zxing related commented code
                 }
                 else
                 {
@@ -402,495 +393,242 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = false;
             }
         }
-        //private async Task CompareQRCode(string scanfor)
-        //{
-        //    try
-        //    {
-        //        loadindicator = true;
-
-        //        var assembly = typeof(App).GetTypeInfo().Assembly;
-        //        Stream sr = assembly.GetManifestResourceStream("YPS." + "beep.mp3");
-        //        ISimpleAudioPlayer playbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-        //        playbeep.Load(sr);
-
-        //        Stream oksr = assembly.GetManifestResourceStream("YPS." + "okbeep.mp3");
-        //        ISimpleAudioPlayer okplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-        //        okplaybeep.Load(oksr);
-
-        //        Stream ngsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
-        //        ISimpleAudioPlayer ngplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-        //        ngplaybeep.Load(ngsr);
-
-        //        var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-        //        var requestedPermissionStatus = requestedPermissions[Permission.Camera];
-        //        var pass1 = requestedPermissions[Permission.Camera];
-
-        //        if (pass1 == PermissionStatus.Denied)
-        //        {
-        //            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
-        //            switch (checkSelect)
-        //            {
-        //                case "Maybe Later":
-        //                    break;
-        //                case "Settings":
-        //                    CrossPermissions.Current.OpenAppSettings();
-        //                    break;
-        //            }
-        //        }
-        //        else if (pass1 == PermissionStatus.Granted)
-        //        {
-        //            var overlay = new ZXingDefaultOverlay
-        //            {
-        //                ShowFlashButton = true,
-        //                TopText = string.Empty,
-        //                BottomText = string.Empty,
-        //            };
-
-        //            overlay.BindingContext = overlay;
-
-        //            var ScannerPage = new ZXingScannerPage(null, overlay);
-        //            ScannerPage = new ZXingScannerPage(null, overlay);
-
-        //            ScannerPage.OnScanResult += (scanresult) =>
-        //            {
-        //                // Parar de escanear
-        //                ScannerPage.IsScanning = false;
-
-        //                // Alert com o código escaneado
-        //                Device.BeginInvokeOnMainThread(async () =>
-        //            {
-        //                await Navigation.PopAsync();
-        //                CompareHistoryList comparemodel = new CompareHistoryList();
-
-        //                if (scanfor == "a")
-        //                {
-        //                    Settings.scanQRValueA = ScannedValueA = scanresult != null ? scanresult.Text : "scanned";
-
-        //                    switch (SelectedScanRule)
-        //                    {
-        //                        case "First 3":
-
-        //                            if (Settings.scanQRValueA.Length < 3)
-        //                            {
-        //                                await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
-
-        //                                isScannedA = "ok.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = true;
-        //                                opacityA = 1;
-        //                                isEnableBFrame = false;
-        //                                opacityB = 0.50;
-        //                            }
-        //                            else
-        //                            {
-        //                                isScannedA = "cross.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = false;
-        //                                opacityA = 0.50;
-        //                                isEnableBFrame = true;
-        //                                opacityB = 1;
-        //                            }
-        //                            break;
-
-        //                        case "First 5":
-
-        //                            if (Settings.scanQRValueA.Length < 5)
-        //                            {
-        //                                await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
-
-        //                                isScannedA = "ok.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = true;
-        //                                opacityA = 1;
-        //                                isEnableBFrame = false;
-        //                                opacityB = 0.50;
-        //                            }
-        //                            else
-        //                            {
-        //                                isScannedA = "cross.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = false;
-        //                                opacityA = 0.50;
-        //                                isEnableBFrame = true;
-        //                                opacityB = 1;
-        //                            }
-        //                            break;
-
-        //                        case "Last 4":
-
-        //                            if (Settings.scanQRValueA.Length < 4)
-        //                            {
-        //                                await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
-
-        //                                isScannedA = "ok.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = true;
-        //                                opacityA = 1;
-        //                                isEnableBFrame = false;
-        //                                opacityB = 0.50;
-        //                            }
-        //                            else
-        //                            {
-        //                                isScannedA = "cross.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = false;
-        //                                opacityA = 0.50;
-        //                                isEnableBFrame = true;
-        //                                opacityB = 1;
-        //                            }
-        //                            break;
-
-        //                        case "Last 9":
-
-        //                            if (Settings.scanQRValueA.Length < 9)
-        //                            {
-        //                                await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
-
-        //                                isScannedA = "ok.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = true;
-        //                                opacityA = 1;
-        //                                isEnableBFrame = false;
-        //                                opacityB = 0.50;
-        //                            }
-        //                            else
-        //                            {
-        //                                isScannedA = "cross.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = false;
-        //                                opacityA = 0.50;
-        //                                isEnableBFrame = true;
-        //                                opacityB = 1;
-        //                            }
-        //                            break;
-
-        //                        case "Last 10":
-
-        //                            if (Settings.scanQRValueA.Length < 10)
-        //                            {
-        //                                await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
-
-        //                                isScannedA = "ok.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = true;
-        //                                opacityA = 1;
-        //                                isEnableBFrame = false;
-        //                                opacityB = 0.50;
-        //                            }
-        //                            else
-        //                            {
-        //                                isScannedA = "cross.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = false;
-        //                                opacityA = 0.50;
-        //                                isEnableBFrame = true;
-        //                                opacityB = 1;
-        //                            }
-        //                            break;
-
-        //                        case "Last 11":
-
-        //                            if (Settings.scanQRValueA.Length < 11)
-        //                            {
-        //                                await App.Current.MainPage.DisplayActionSheet("minimum value length is less than the scan rule, please scan new Bar code/QR code.", null, null, "", "Ok");
-
-        //                                isScannedA = "ok.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = true;
-        //                                opacityA = 1;
-        //                                isEnableBFrame = false;
-        //                                opacityB = 0.50;
-        //                            }
-        //                            else
-        //                            {
-        //                                isScannedA = "cross.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = false;
-        //                                opacityA = 0.50;
-        //                                isEnableBFrame = true;
-        //                                opacityB = 1;
-        //                            }
-        //                            break;
-
-        //                        default:
-        //                            if (SelectedScanRule == "Complete Match")
-        //                            {
-        //                                isScannedA = "ok.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = false;
-        //                                opacityA = 0.50;
-        //                                isEnableBFrame = true;
-        //                                opacityB = 1;
-        //                            }
-        //                            else
-        //                            {
-        //                                isScannedA = "cross.png";
-        //                                resultA = Settings.scanQRValueA;
-        //                                isEnableAFrame = true;
-        //                                opacityA = 1;
-        //                                isEnableBFrame = false;
-        //                                opacityB = 0.50;
-        //                            }
-        //                            break;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    int Astartindex;
-        //                    int Bstartindex;
-
-        //                    Settings.scanQRValueB = ScannedValueB = scanresult != null ? scanresult.Text : "scanned";
-
-        //                    switch (SelectedScanRule)
-        //                    {
-        //                        case "First 3":
-
-        //                            if ((Settings.scanQRValueA.Length >= 3 && Settings.scanQRValueB.Length >= 3) && (Settings.scanQRValueA.Substring(0, 3) == Settings.scanQRValueB.Substring(0, 3)))
-        //                            {
-        //                                isMatch = "MATCHED";
-        //                                isMatchImage = "ook.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                scancountpermit--;
-        //                                okplaybeep.Play();
-        //                            }
-        //                            else
-        //                            {
-        //                                isMatch = "UNMATCHED";
-        //                                isMatchImage = "ng.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                ngplaybeep.Play();
-        //                            }
-        //                            break;
-
-        //                        case "First 5":
-
-        //                            if ((Settings.scanQRValueA.Length >= 5 && Settings.scanQRValueB.Length >= 5) && (Settings.scanQRValueA.Substring(0, 5) == Settings.scanQRValueB.Substring(0, 5)))
-        //                            {
-        //                                isMatch = "MATCHED";
-        //                                isMatchImage = "ook.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                scancountpermit--;
-        //                                okplaybeep.Play();
-
-        //                            }
-        //                            else
-        //                            {
-        //                                isMatch = "UNMATCHED";
-        //                                isMatchImage = "ng.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                ngplaybeep.Play();
-        //                            }
-        //                            break;
-
-        //                        case "Last 4":
-        //                            Astartindex = Settings.scanQRValueA.Length - 4;
-        //                            Bstartindex = Settings.scanQRValueB.Length - 4;
-
-        //                            if ((Settings.scanQRValueA.Length >= 4 && Settings.scanQRValueB.Length >= 4) && (Settings.scanQRValueA.Substring(Astartindex, 4) == Settings.scanQRValueB.Substring(Bstartindex, 4)))
-        //                            {
-        //                                isMatch = "MATCHED";
-        //                                isMatchImage = "ook.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                scancountpermit--;
-        //                                okplaybeep.Play();
-
-        //                            }
-        //                            else
-        //                            {
-        //                                isMatch = "UNMATCHED";
-        //                                isMatchImage = "ng.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                ngplaybeep.Play();
-
-        //                            }
-        //                            break;
-
-        //                        case "Last 9":
-        //                            Astartindex = Settings.scanQRValueA.Length - 9;
-        //                            Bstartindex = Settings.scanQRValueB.Length - 9;
-
-        //                            if ((Settings.scanQRValueA.Length >= 9 && Settings.scanQRValueB.Length >= 9) && (Settings.scanQRValueA.Substring(Astartindex, 9) == Settings.scanQRValueB.Substring(Bstartindex, 9)))
-        //                            {
-        //                                isMatch = "MATCHED";
-        //                                isMatchImage = "ook.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                scancountpermit--;
-        //                                okplaybeep.Play();
-
-        //                            }
-        //                            else
-        //                            {
-        //                                isMatch = "UNMATCHED";
-        //                                isMatchImage = "ng.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                ngplaybeep.Play();
-
-        //                            }
-        //                            break;
-
-        //                        case "Last 10":
-        //                            Astartindex = Settings.scanQRValueA.Length - 10;
-        //                            Bstartindex = Settings.scanQRValueB.Length - 10;
-
-        //                            if ((Settings.scanQRValueA.Length >= 10 && Settings.scanQRValueB.Length >= 10) && (Settings.scanQRValueA.Substring(Astartindex, 10) == Settings.scanQRValueB.Substring(Bstartindex, 10)))
-        //                            {
-        //                                isMatch = "MATCHED";
-        //                                isMatchImage = "ook.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                scancountpermit--;
-        //                                okplaybeep.Play();
-
-        //                            }
-        //                            else
-        //                            {
-        //                                isMatch = "UNMATCHED";
-        //                                isMatchImage = "ng.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                ngplaybeep.Play();
-
-        //                            }
-        //                            break;
-
-        //                        case "Last 11":
-        //                            Astartindex = Settings.scanQRValueA.Length - 11;
-        //                            Bstartindex = Settings.scanQRValueB.Length - 11;
-
-        //                            if ((Settings.scanQRValueA.Length >= 11 && Settings.scanQRValueB.Length >= 11) && (Settings.scanQRValueA.Substring(Astartindex, 11) == Settings.scanQRValueB.Substring(Bstartindex, 11)))
-        //                            {
-        //                                isMatch = "MATCHED";
-        //                                isMatchImage = "ook.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                scancountpermit--;
-        //                                okplaybeep.Play();
-
-        //                            }
-        //                            else
-        //                            {
-        //                                isMatch = "UNMATCHED";
-        //                                isMatchImage = "ng.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                ngplaybeep.Play();
-        //                            }
-        //                            break;
-
-        //                        case "Complete Match":
-
-        //                            if (Settings.scanQRValueA == Settings.scanQRValueB)
-        //                            {
-        //                                isMatch = "MATCHED";
-        //                                isMatchImage = "ook.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                scancountpermit--;
-        //                                okplaybeep.Play();
-
-        //                            }
-        //                            else
-        //                            {
-        //                                isMatch = "UNMATCHED";
-        //                                isMatchImage = "ng.png";
-        //                                isScannedB = "ok.png";
-        //                                resultB = Settings.scanQRValueB;
-        //                                ngplaybeep.Play();
-
-        //                            }
-        //                            break;
-
-        //                        default:
-        //                            isMatch = "UNMATCHED";
-        //                            isMatchImage = "ng.png";
-        //                            isScannedB = "ok.png";
-        //                            resultB = Settings.scanQRValueB;
-        //                            ngplaybeep.Play();
-
-        //                            break;
-        //                    }
-        //                }
-
-        //                isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
-
-        //                if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
-        //                {
-        //                    comparemodel.HistorySerialNo = historySerialNo++;
-        //                    comparemodel.AValue = Settings.scanQRValueA;
-        //                    comparemodel.BValue = Settings.scanQRValueB;
-        //                    comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
-        //                    compareList.Insert(0, comparemodel);
-
-        //                    compareHistoryList = new List<CompareHistoryList>(compareList);
-
-        //                    var val = compareList.OrderByDescending(w => w.HistorySerialNo).Take(5);
-
-        //                    latestCompareHistoryList = new List<CompareHistoryList>(val);
-
-        //                    showLatestViewFrame = true;
-        //                    showCurrentStatus = true;
-
-
-        //                    OKCount = "0";
-        //                    NGCount = "0";
-        //                    OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCount;
-        //                    NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
-
-        //                    if (scancountpermit == 0)
-        //                    {
-        //                        playbeep.Play();
-        //                        isEnableBFrame = false;
-        //                        opacityB = 0.50;
-        //                    }
-        //                }
-
-        //            });
-        //            };
-        //            if (Navigation.ModalStack.Count == 0 ||
-        //                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
-        //            {
-        //                ScannerPage.AutoFocus();
-        //                //ScannerPage.DefaultOverlayShowFlashButton = true;
-        //                //ScannerPage.Overlay.IsVisible = true;
-        //                //ScannerPage.HasTorch = true;
-        //                //ScannerPage.IsTorchOn = true;
-        //                //ScannerPage.ToggleTorch();
-        //                await Navigation.PushAsync(ScannerPage);
-
-        //                overlay.FlashButtonClicked += (s, ed) =>
-        //                {
-        //                    ScannerPage.ToggleTorch();
-        //                };
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
-        //        }
-        //        //}
-        //        //else
-        //        //{
-        //        //    playbeep.Play();
-        //        //}
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //    finally
-        //    {
-        //        loadindicator = false;
-        //    }
-        //}
+
+        public async Task PrepareScannerSettings()
+        {
+            try
+            {
+                var settings = ScanditService.BarcodePicker.GetDefaultScanSettings();
+                settings.EnableSymbology(Symbology.Ean13, true);
+                settings.EnableSymbology(Symbology.Upca, true);
+                settings.EnableSymbology(Symbology.Qr, true);
+                settings.EnableSymbology(Symbology.Code11, true);
+                settings.EnableSymbology(Symbology.Code128, true);
+                settings.EnableSymbology(Symbology.Code25, true);
+                settings.EnableSymbology(Symbology.Code32, true);
+                settings.EnableSymbology(Symbology.Code39, true);
+                settings.EnableSymbology(Symbology.Code93, true);
+                settings.EnableSymbology(Symbology.DotCode, true);
+                settings.EnableSymbology(Symbology.MaxiCode, true);
+                settings.EnableSymbology(Symbology.Upce, true);
+                settings.EnableSymbology(Symbology.Codabar, true);
+                settings.EnableSymbology(Symbology.Aztec, true);
+                settings.EnableSymbology(Symbology.DataMatrix, true);
+                settings.EnableSymbology(Symbology.Ean8, true);
+                settings.EnableSymbology(Symbology.FiveDigitAddOn, true);
+                settings.EnableSymbology(Symbology.Gs1Databar, true);
+                settings.EnableSymbology(Symbology.Gs1DatabarExpanded, true);
+                settings.EnableSymbology(Symbology.Gs1DatabarLimited, true);
+                settings.EnableSymbology(Symbology.Interleaved2Of5, true);
+                settings.EnableSymbology(Symbology.Kix, true);
+                settings.EnableSymbology(Symbology.LAPA4SC, true);
+                settings.EnableSymbology(Symbology.MicroPdf417, true);
+                settings.EnableSymbology(Symbology.MicroQr, true);
+                settings.EnableSymbology(Symbology.MsiPlessey, true);
+                settings.EnableSymbology(Symbology.Pdf417, true);
+                settings.EnableSymbology(Symbology.Rm4scc, true);
+                settings.EnableSymbology(Symbology.TwoDigitAddOn, true);
+
+                _picker = ScanditService.BarcodePicker;
+                await _picker.ApplySettingsAsync(settings);
+
+                _picker.DidScan += ValueScanned;
+
+                _picker.AutoFocusOnTapEnabled = true;
+                _picker.ScanOverlay.BeepEnabled = false;
+                _picker.ScanOverlay.TorchButtonVisible = true;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "CompareQRCode method -> in PrepareScannerSettings " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+        public void ValueScanned(ScanSession scanresult)
+        {
+            try
+            {
+                var assembly = typeof(App).GetTypeInfo().Assembly;
+                Stream sr = assembly.GetManifestResourceStream("YPS." + "beep.mp3");
+                ISimpleAudioPlayer playbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                playbeep.Load(sr);
+
+                Stream oksr = assembly.GetManifestResourceStream("YPS." + "okbeep.mp3");
+                ISimpleAudioPlayer okplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                okplaybeep.Load(oksr);
+
+                Stream ngsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
+                ISimpleAudioPlayer ngplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                ngplaybeep.Load(ngsr);
+
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    CompareHistoryList comparemodel = new CompareHistoryList();
+
+                    if (scanFor == "a")
+                    {
+                        Settings.scanQRValueA = ScannedValueA = scanresult != null ? scanresult.NewlyRecognizedCodes.FirstOrDefault().Data : "scanned";
+
+                        if (Settings.scanQRValueA.Length < SelectedRule.Length)
+                        {
+                            await App.Current.MainPage.DisplayAlert("Alert", "Length is less than the scan rule, please scan new Barcode/QR code.", "Ok");
+
+                            isScannedA = "ok.png";
+                            resultA = Settings.scanQRValueA;
+                            isEnableAFrame = true;
+                            opacityA = 1;
+                            isEnableBFrame = false;
+                            opacityB = 0.50;
+                        }
+                        else
+                        {
+                            isScannedA = "cross.png";
+                            resultA = Settings.scanQRValueA;
+                            isEnableAFrame = false;
+                            opacityA = 0.50;
+                            isEnableBFrame = true;
+                            opacityB = 1;
+                        }
+                    }
+                    else
+                    {
+                        int Astartindex;
+                        int Bstartindex;
+
+                        Settings.scanQRValueB = ScannedValueB = scanresult != null ? scanresult.NewlyRecognizedCodes.FirstOrDefault().Data : "scanned";
+
+                        switch (SelectedRule.Position)
+                        {
+                            case "First":
+
+                                if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(0, SelectedRule.Length) == Settings.scanQRValueB.Substring(0, SelectedRule.Length)))
+                                {
+                                    isMatch = "MATCHED";
+                                    isMatchImage = "ook.png";
+                                    isScannedB = "ok.png";
+                                    resultB = Settings.scanQRValueB;
+                                    scancountpermit--;
+                                    okplaybeep.Play();
+                                }
+                                else
+                                {
+                                    isMatch = "UNMATCHED";
+                                    isMatchImage = "ng.png";
+                                    isScannedB = "ok.png";
+                                    resultB = Settings.scanQRValueB;
+                                    ngplaybeep.Play();
+                                }
+                                break;
+
+                            case "Last":
+
+                                Astartindex = Settings.scanQRValueA.Length - SelectedRule.Length;
+                                Bstartindex = Settings.scanQRValueB.Length - SelectedRule.Length;
+
+                                if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(Astartindex, SelectedRule.Length) == Settings.scanQRValueB.Substring(Bstartindex, SelectedRule.Length)))
+                                {
+                                    isMatch = "MATCHED";
+                                    isMatchImage = "ook.png";
+                                    isScannedB = "ok.png";
+                                    resultB = Settings.scanQRValueB;
+                                    scancountpermit--;
+                                    okplaybeep.Play();
+
+                                }
+                                else
+                                {
+                                    isMatch = "UNMATCHED";
+                                    isMatchImage = "ng.png";
+                                    isScannedB = "ok.png";
+                                    resultB = Settings.scanQRValueB;
+                                    ngplaybeep.Play();
+
+                                }
+                                break;
+
+                            case "Full":
+
+                                if (Settings.scanQRValueA == Settings.scanQRValueB)
+                                {
+                                    isMatch = "MATCHED";
+                                    isMatchImage = "ook.png";
+                                    isScannedB = "ok.png";
+                                    resultB = Settings.scanQRValueB;
+                                    scancountpermit--;
+                                    okplaybeep.Play();
+
+                                }
+                                else
+                                {
+                                    isMatch = "UNMATCHED";
+                                    isMatchImage = "ng.png";
+                                    isScannedB = "ok.png";
+                                    resultB = Settings.scanQRValueB;
+                                    ngplaybeep.Play();
+
+                                }
+                                break;
+
+                            default:
+                                isMatch = "UNMATCHED";
+                                isMatchImage = "ng.png";
+                                isScannedB = "ok.png";
+                                resultB = Settings.scanQRValueB;
+                                ngplaybeep.Play();
+
+                                break;
+                        }
+                    }
+
+                    isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
+
+                    if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
+                    {
+                        comparemodel.HistorySerialNo = historySerialNo++;
+                        comparemodel.AValue = Settings.scanQRValueA;
+                        comparemodel.BValue = Settings.scanQRValueB;
+                        comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
+                        compareList.Insert(0, comparemodel);
+
+                        compareHistoryList = new List<CompareHistoryList>(compareList);
+
+                        var val = compareList.OrderByDescending(w => w.HistorySerialNo).Take(5);
+
+                        latestCompareHistoryList = new List<CompareHistoryList>(val);
+
+                        showLatestViewFrame = true;
+                        showCurrentStatus = true;
+
+
+                        OKCount = "0";
+                        NGCount = "0";
+                        OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCount;
+                        NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
+
+                        if (scancountpermit == 0)
+                        {
+                            playbeep.Play();
+                            isEnableBFrame = false;
+                            opacityB = 0.50;
+                        }
+                    }
+
+                    _picker.DidScan -= ValueScanned;
+                });
+
+                scanresult.StopScanning();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnDidScan method -> in CompareViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
 
         public async Task TabChange(string tab)
         {
@@ -977,7 +715,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _ScanTabTextColor = value;
-                OnPropertyChanged("ScanTabTextColor");
+                RaisePropertyChanged("ScanTabTextColor");
             }
         }
 
@@ -988,7 +726,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _CompareTabTextColor = value;
-                OnPropertyChanged("CompareTabTextColor");
+                RaisePropertyChanged("CompareTabTextColor");
             }
         }
 
@@ -999,7 +737,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _BgColor = value;
-                OnPropertyChanged("BgColor");
+                RaisePropertyChanged("BgColor");
             }
         }
 
@@ -1010,7 +748,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _ScannedValueA = value;
-                OnPropertyChanged("ScannedValueA");
+                RaisePropertyChanged("ScannedValueA");
             }
         }
 
@@ -1021,7 +759,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _ScannedValueB = value;
-                OnPropertyChanged("ScannedValueB");
+                RaisePropertyChanged("ScannedValueB");
             }
         }
 
