@@ -160,7 +160,7 @@ namespace YPS.Droid
                 if (!Uri.TryCreate(messageBody, UriKind.Absolute, out uriResult))
                 {
                     var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
-                                          .SetSmallIcon(Resource.Drawable.ypslogo)
+                                          .SetSmallIcon(Resource.Drawable.ypslogo22)
                                           .SetContentTitle(showNotify[7])
                                           .SetContentText(messageBody)
                                           .SetStyle(new NotificationCompat.BigPictureStyle()

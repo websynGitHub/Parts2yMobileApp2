@@ -38,6 +38,7 @@ namespace YPS.Droid
         #region Data members
         internal static readonly string CHANNEL_ID = "my_notification_channel";
         internal static readonly int NOTIFICATION_ID = 100;
+        const string NOTIFICATION_ACTION = "ReceiverValue";
         private bool _lieAboutCurrentFocus;
         GoogleApiClient googleApiClient;
         bool approoted = false;
@@ -126,7 +127,10 @@ namespace YPS.Droid
                 //Appcenter value need to change based on (Alpha,Beta,Production//reference appcenter region)
                 AppCenter.Start(Appcenter_droid, typeof(Analytics), typeof(Crashes));
 
-
+                string parameterValue = this.Intent.GetStringExtra("param");
+                string msgs2 = this.Intent.GetStringExtra("message");
+                var prefs = GetSharedPreferences(this.PackageName, FileCreationMode.Private);
+                string msgs = prefs.GetString("last_msg", "N/A");
                 CreateNotificationChannel();
 
                 var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
@@ -307,6 +311,14 @@ namespace YPS.Droid
             }
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            IntentFilter intentFilter = new
+               IntentFilter(NOTIFICATION_ACTION);
+            //RegisterReceiver(notificationBroadcastReceiver,
+            //   intentFilter);
+        }
         void CreateNotificationChannel()
         {
 
@@ -318,7 +330,7 @@ namespace YPS.Droid
                 return;
             }
 
-            var channel = new NotificationChannel(CHANNEL_ID, "FCM Notifications", NotificationImportance.Default)
+            var channel = new NotificationChannel(CHANNEL_ID, "FCM Notifications", NotificationImportance.High)
             {
                 Description = "Firebase Cloud Messages appear in this channel"
             };
