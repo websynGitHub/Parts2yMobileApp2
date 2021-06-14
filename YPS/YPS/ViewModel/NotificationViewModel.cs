@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,6 +33,7 @@ namespace YPS.ViewModel
             {
                 service = new YPSService();
                 clearall = new Command(clearall_clicked);
+                ChangeLabel();
             }
             catch (Exception ex)
             {
@@ -119,7 +122,9 @@ namespace YPS.ViewModel
                                     TagNumber = item.TagNumber,
                                     QAType = item.QAType,
                                     MessageType = item.MessageType,
-                                    NotificationType = item.NotificationType
+                                    NotificationType = item.NotificationType,
+                                    FullName = item.FullName,
+                                    RoleName = item.RoleName
                                 };
                                 NotifyHistoryData.Add(obj);
                             }
@@ -176,6 +181,91 @@ namespace YPS.ViewModel
                 var trackResult = await service.Handleexception(ex);
             }
         }
+
+
+        /// <summary>
+        /// This is for changing the labels dynamically
+        /// </summary>
+        public async Task ChangeLabel()
+        {
+            try
+            {
+                labelobj = new DashboardLabelChangeClass();
+
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                    if (labelval.Count > 0)
+                    {
+
+                        var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
+                        labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
+                        //labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
+            }
+        }
+        public class DashboardLabelChangeClass
+        {
+
+            public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "TagNumber"
+            };
+            public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "TaskName"
+            };
+        }
+        public class DashboardLabelFields : IBase
+        {
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
+        public DashboardLabelChangeClass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+
 
         #region INotifyPropertyChanged Implimentation
         public event PropertyChangedEventHandler PropertyChanged;

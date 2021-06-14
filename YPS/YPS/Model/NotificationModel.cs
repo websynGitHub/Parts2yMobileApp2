@@ -131,6 +131,8 @@ namespace YPS.Model
         public int QAType { get; set; }
         public string MessageType { get; set; }
 
+        public string RoleName { get; set; }
+        public string TaskName { get; set; }
 
     }
     public class Readnotification
