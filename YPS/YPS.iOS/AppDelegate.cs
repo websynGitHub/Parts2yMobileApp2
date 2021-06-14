@@ -73,7 +73,7 @@ namespace YPS.iOS
             System.Diagnostics.Debug.WriteLine($"FCM Token: {fcmToken}");
             Settings.FireBasedToken = fcmToken;
         }
-        
+
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
         // visible.
@@ -142,34 +142,67 @@ namespace YPS.iOS
             CrossMedia.Current.Initialize();
             #endregion
 
-            // Request Permissions  
-            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            #region PN new code Ajay
+            UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) =>
             {
-                // iOS 10
-                var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
-               
-                UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
-                {
-                    Console.WriteLine(granted);
-                });
+                // Handle approval
+            });
 
-                // Get current notification settings
-                UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
-                {
-                    var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
-                });
-                // For iOS 10 display notification (sent via APNS)
-                UNUserNotificationCenter.Current.Delegate = this;
+            // Get current notification settings
+            UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+            {
+                var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
+            });
+
+
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                                   UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                                   new NSSet());
+
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+                UIApplication.SharedApplication.RegisterForRemoteNotifications();
             }
             else
             {
-                // iOS 9 <=
-                var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
-                var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
-                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+                UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound;
+                UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
             }
+            #endregion
 
-            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+            #region old code
+
+
+            //UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+            //{
+            //    var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
+            //});
+            //// Request Permissions  
+            //if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            //{
+            //    // iOS 10
+            //    var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+
+            //    UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
+            //    {
+            //        Console.WriteLine(granted);
+            //    });
+
+            //    // Get current notification settings
+
+            //    // For iOS 10 display notification (sent via APNS)
+            //    UNUserNotificationCenter.Current.Delegate = this;
+            //}
+            //else
+            //{
+            //    // iOS 9 <=
+            //    var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
+            //    var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
+            //    UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            //}
+            #endregion
+            // UIApplication.SharedApplication.RegisterForRemoteNotifications();
 
             Settings.AppVersion = NSBundle.MainBundle.InfoDictionary[new NSString("CFBundleVersion")].ToString();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
@@ -248,123 +281,295 @@ namespace YPS.iOS
 
         #endregion
 
+        #region Old notifcations 
 
-        public override async void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+
+        //public override async void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        //{
+
+        //    // Get current device token
+        //    var DeviceToken = deviceToken.Description;
+
+        //    if (!string.IsNullOrWhiteSpace(DeviceToken))
+        //    {
+        //        DeviceToken = DeviceToken.Trim('<').Trim('>');
+        //    }
+
+        //    Settings.FireBasedToken = DeviceToken.Replace(" ", "");
+        //    // Get previous device token
+        //    var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
+        //    //  Settings.FireBasedToken = oldDeviceToken;
+        //    // Has the token changed?
+        //    if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
+        //    {
+        //        DeviceToken = DeviceToken.Replace(" ", "");
+        //        await SecureStorage.SetAsync("iOSFireBaseToken", DeviceToken);
+        //        //TODO: Put your own logic here to notify your server that the device token has changed/been created!
+        //    }
+
+        //    // Save new device token
+        //    NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
+        //}
+
+        //// iOS 9 <=, fire when recieve notification foreground
+        //[Foundation.Export("application:didReceiveRemoteNotification:fetchCompletionHandler:")]
+        //public async override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        //{
+
+        //    NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+        //    NSDictionary keyValues = aps.ObjectForKey(new NSString("alert")) as NSDictionary;
+
+        //    string paramValues = string.Empty;
+        //    if (keyValues.ContainsKey(new NSString("param")))
+        //        paramValues = (keyValues[new NSString("param")] as NSString).ToString();
+
+        //    var showNotify = paramValues.Split(';');
+        //    string val = await SecureStorage.GetAsync("mainPageisOn");
+
+        //    if (val == "1")
+        //    {
+        //        Settings.notifyCount = Settings.notifyCount + 1;
+        //        MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Settings.notifyCount.ToString());
+        //    }
+        //}
+
+        ////iOS 10, fire when recieve notification foreground
+        //[Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
+        //public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        //{
+        //    completionHandler(UNNotificationPresentationOptions.Alert);
+        //}
+
+        //private void connectFCM()
+        //{
+        //    Console.WriteLine("connectFCM\tEjecutandose la función.");
+
+        //    Messaging.SharedInstance.Connect((error) =>
+        //    {
+        //        if (error == null)
+        //        {
+        //            //TODO: Change Topic to what is required
+        //            Messaging.SharedInstance.Subscribe("/topics/all");
+        //        }
+
+        //        Console.WriteLine("connectFCM\t" + (error != null ? "error occured" + error.DebugDescription : "connect success"));
+
+        //    });
+        //}
+
+        //[Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
+        //public void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
+        //{
+        //    NSDictionary aps = response.Notification.Request.Content.UserInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+        //    NSDictionary keyValues = aps.ObjectForKey(new NSString("alert")) as NSDictionary;
+
+        //    string paramValues = string.Empty;
+        //    string mesagge = string.Empty;
+        //    string title = string.Empty;
+
+        //    if (keyValues.ContainsKey(new NSString("param")))
+        //        paramValues = (keyValues[new NSString("param")] as NSString).ToString();            
+
+
+        //    if (keyValues.ContainsKey(new NSString("body")))
+        //        mesagge = (keyValues[new NSString("body")] as NSString).ToString();
+        //    if (keyValues.ContainsKey(new NSString("title")))
+        //        title = (keyValues[new NSString("title")] as NSString).ToString();
+        //    new UIAlertView(title, mesagge, null, "OK", null).Show();
+
+        //    if (!string.IsNullOrEmpty(paramValues))
+        //    {
+
+        //        var navPages = paramValues.Split(';');
+
+        //        //if (!String.IsNullOrEmpty(navPages[0]))
+        //        //{
+        //        //    if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+        //        //    {
+        //        //        Settings.GetParamVal = paramValues;
+        //        //        App.Current.MainPage = new MenuPage(typeof(ChatPage));
+
+        //        //    }
+        //        //    else if (navPages[0] == "RemoveUser")
+        //        //    {
+        //        //        RememberPwdDB Db = new RememberPwdDB();
+        //        //        var user = Db.GetUserDetails();
+
+        //        //        if (user.Count == 1)
+        //        //        {
+        //        //            var userData = user.FirstOrDefault();
+        //        //            Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+        //        //            Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+        //        //            Settings.Sessiontoken = userData.encSessiontoken;
+        //        //            Settings.AndroidVersion = userData.AndroidVersion;
+        //        //            Settings.iOSversion = userData.iOSversion;
+        //        //            Settings.IsIIJEnabled = userData.IIJEnable;
+        //        //            App.Current.MainPage = new MenuPage(typeof(HomePage));
+        //        //        }
+        //        //    }
+        //        //}
+        //    }
+        //}
+
+
+        #endregion
+
+
+        public async override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-
             // Get current device token
             var DeviceToken = deviceToken.Description;
-            
+            // new UIAlertView("RegisteredForRemoteNotifications", "Hitted", null, "OK", null).Show();
+
             if (!string.IsNullOrWhiteSpace(DeviceToken))
             {
-                DeviceToken = DeviceToken.Trim('<').Trim('>');
+
+                if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+                {
+                    byte[] bytes = deviceToken.ToArray<byte>();
+                    string[] hexArray = bytes.Select(b => b.ToString("x2")).ToArray();
+                    DeviceToken = string.Join(string.Empty, hexArray);
+
+                }
+                else
+                {
+                    DeviceToken = DeviceToken.Trim('<').Trim('>');
+                }
+
             }
 
             Settings.FireBasedToken = DeviceToken.Replace(" ", "");
+
             // Get previous device token
             var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
-            //  Settings.FireBasedToken = oldDeviceToken;
+            Settings.FireBasedToken = oldDeviceToken;
             // Has the token changed?
             if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
             {
+                //TODO: Put your own logic here to notify your server that the device token has changed/been created!
                 DeviceToken = DeviceToken.Replace(" ", "");
                 await SecureStorage.SetAsync("iOSFireBaseToken", DeviceToken);
-                //TODO: Put your own logic here to notify your server that the device token has changed/been created!
             }
-
-            // Save new device token
+            // Save new device token 
             NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
+            // new UIAlertView("RegisteredForRemoteNotifications", DeviceToken, null, "OK", null).Show();
         }
 
-        // iOS 9 <=, fire when recieve notification foreground
-        [Foundation.Export("application:didReceiveRemoteNotification:fetchCompletionHandler:")]
-        public async override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
+#pragma warning disable CS0618 // 'UIAlertView.UIAlertView(string, string, UIAlertViewDelegate, string, params string[])' is obsolete: 'Use overload with a IUIAlertViewDelegate parameter'
+            new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
+#pragma warning restore CS0618 // 'UIAlertView.UIAlertView(string, string, UIAlertViewDelegate, string, params string[])' is obsolete: 'Use overload with a IUIAlertViewDelegate parameter'
+        }
 
-            NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
-            NSDictionary keyValues = aps.ObjectForKey(new NSString("alert")) as NSDictionary;
 
-            string paramValues = string.Empty;
-            if (keyValues.ContainsKey(new NSString("param")))
-                paramValues = (keyValues[new NSString("param")] as NSString).ToString();
-
-            var showNotify = paramValues.Split(';');
-            string val = await SecureStorage.GetAsync("mainPageisOn");
-
-            if (val == "1")
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            try
             {
-                Settings.notifyCount = Settings.notifyCount + 1;
-                MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Settings.notifyCount.ToString());
+                //   new UIAlertView("DidReceiveRemoteNotification", "Hitted", null, "OK", null).Show();
+                NSDictionary aps1 = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+
+                //  NSDictionary aps = response.Notification.Request.Content.UserInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+                NSDictionary keyValues = aps1.ObjectForKey(new NSString("alert")) as NSDictionary;
+                string paramValues = string.Empty;
+                string mesagge = string.Empty;
+                string title = string.Empty;
+
+                if (keyValues.ContainsKey(new NSString("param")))
+                    paramValues = (keyValues[new NSString("param")] as NSString).ToString();
+
+                if (keyValues.ContainsKey(new NSString("body")))
+                    mesagge = (keyValues[new NSString("body")] as NSString).ToString();
+
+                if (keyValues.ContainsKey(new NSString("title")))
+                    title = (keyValues[new NSString("title")] as NSString).ToString();
+
+                new UIAlertView(title, mesagge, null, "OK", null).Show();
+                //string alert = string.Empty;
+                //if (aps.ContainsKey(new NSString("alert")))
+                //    alert = (aps[new NSString("alert")] as NSString).ToString();
+
+                //string paramValues = alert;
+                //if (keyValues.ContainsKey(new NSString("param")))
+                //    paramValues = (keyValues[new NSString("param")] as NSString).ToString();
+
+
+                #region Image View Notifications 
+
+                //if (content.Attachements.Length > 1)
+                //{
+                //    var attachment = mesagge.ToString();
+                //    if (attachment.Url.StartAccessingSecurityScopedResource())
+                //    {
+                //        EventImage.Image = UIImage.FromFile(attachment.Url.Path);
+                //        attachment.Url.StopAccessingSecurityScopedResource();
+                //    }
+                //}
+
+
+                ////var url = new NSUrl(mesagge.ToString());
+
+                ////// Download the file
+                ////var localURL = new NSUrl("PathToLocalCopy");
+
+                ////// Create attachment
+                ////var attachmentID = "image";
+                ////var options = new UNNotificationAttachmentOptions();
+                ////NSError err;
+                ////var attachment = UNNotificationAttachment.FromIdentifier(attachmentID, localURL, options, out err);
+
+                ////// Modify contents
+                ////var content = userInfo.Content.MutableCopy() as UNMutableNotificationContent;
+                ////content.Attachments = new UNNotificationAttachment[] { attachment };
+
+                ////// Display notification
+                ////contentHandler(content);
+
+                #endregion
+
+                //if (!string.IsNullOrEmpty(paramValues))
+                //{
+
+                //    var navPages = paramValues.Split(';');
+
+                //    if (!String.IsNullOrEmpty(navPages[0]))
+                //    {
+                //        new UIAlertView("DidReceiveRemoteNotification", "InsideParmLogic", null, "OK", null).Show();
+                //        if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+                //        {
+                //            Settings.GetParamVal = paramValues;
+                //            App.Current.MainPage = new MenuPage(typeof(ChatPage));
+
+                //        }
+                //        else if (navPages[0] == "RemoveUser")
+                //        {
+                //            RememberPwdDB Db = new RememberPwdDB();
+                //            var user = Db.GetUserDetails();
+
+                //            if (user.Count == 1)
+                //            {
+                //                var userData = user.FirstOrDefault();
+                //                Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                //                Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                //                Settings.Sessiontoken = userData.encSessiontoken;
+                //                Settings.AndroidVersion = userData.AndroidVersion;
+                //                Settings.iOSversion = userData.iOSversion;
+                //                Settings.IsIIJEnabled = userData.IIJEnable;
+                //                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                //            }
+                //        }
+                //      //  new UIAlertView("Am receving your push notifications", paramValues, null, "OK", null).Show();
+                //    }
+                //}
+
             }
-        }
-
-        //iOS 10, fire when recieve notification foreground
-        [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
-        public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
-        {
-
-            completionHandler(UNNotificationPresentationOptions.Alert);
-        }
-
-        private void connectFCM()
-        {
-            Console.WriteLine("connectFCM\tEjecutandose la función.");
-            
-            Messaging.SharedInstance.Connect((error) =>
+            catch (Exception ex)
             {
-                if (error == null)
-                {
-                    //TODO: Change Topic to what is required
-                    Messaging.SharedInstance.Subscribe("/topics/all");
-                }
-
-                Console.WriteLine("connectFCM\t" + (error != null ? "error occured" + error.DebugDescription : "connect success"));
-
-            });
-        }
-
-        [Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
-        public void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
-        {
-            NSDictionary aps = response.Notification.Request.Content.UserInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
-            NSDictionary keyValues = aps.ObjectForKey(new NSString("alert")) as NSDictionary;
-            string paramValues = string.Empty;
-            
-            if (keyValues.ContainsKey(new NSString("param")))
-                paramValues = (keyValues[new NSString("param")] as NSString).ToString();
-
-            if (!string.IsNullOrEmpty(paramValues))
-            {
-
-                var navPages = paramValues.Split(';');
-               
-                if (!String.IsNullOrEmpty(navPages[0]))
-                {
-                    if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
-                    {
-                        Settings.GetParamVal = paramValues;
-                        App.Current.MainPage = new MenuPage(typeof(ChatPage));
-
-                    }
-                    else if (navPages[0] == "RemoveUser")
-                    {
-                        RememberPwdDB Db = new RememberPwdDB();
-                        var user = Db.GetUserDetails();
-                        
-                        if (user.Count == 1)
-                        {
-                            var userData = user.FirstOrDefault();
-                            Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-                            Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-                            Settings.Sessiontoken = userData.encSessiontoken;
-                            Settings.AndroidVersion = userData.AndroidVersion;
-                            Settings.iOSversion = userData.iOSversion;
-                            Settings.IsIIJEnabled = userData.IIJEnable;
-                            App.Current.MainPage = new MenuPage(typeof(HomePage));
-                        }
-                    }
-                }
+                new UIAlertView("DidReceiveRemoteNotification", ex.Message, null, "OK", null).Show();
+                YPSLogger.ReportException(ex, "DidReceiveRemoteNotification method -> Notification ddisplay  " + Settings.Username);
             }
+
         }
         #endregion
     }
