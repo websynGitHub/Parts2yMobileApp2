@@ -327,7 +327,7 @@ namespace YPS.ViewModel
                             phUpload.CreatedBy = Settings.userLoginID;
                             phUpload.FileDescription = FileDescription;// uploadType;
                             phUpload.UploadType = UploadTypevalue;
-                            phUpload.CreatedDate = String.Format("{0:dd MMMM yyyy hh:mm tt}", DateTime.Now);
+                            phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                             phUpload.PicStream = picStream;
                             //DataForFileUploadObj.file.FileName = Path.GetFileNameWithoutExtension(FilePath64);
                             DataForFileUploadObj.files.Add(phUpload);
@@ -423,7 +423,7 @@ namespace YPS.ViewModel
                             phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
                             phUpload.CreatedBy = Settings.userLoginID;
                             phUpload.FileDescription = FileDescription;// uploadType;
-                            phUpload.CreatedDate = String.Format("{0:dd MMMM yyyy hh:mm tt}", DateTime.Now);
+                            phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                             phUpload.PicStream = picStream;
 
                             phUploadlist.Add(phUpload);
@@ -488,7 +488,7 @@ namespace YPS.ViewModel
                             phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
                             phUpload.FileDescription = FileDescription;
                             phUpload.CreatedBy = Settings.userLoginID;
-                            phUpload.CreatedDate = String.Format("{0:dd MMMM yyyy hh:mm tt}", DateTime.Now);
+                            phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                             phUpload.PicStream = picStream;
 
                             pluploadList.Add(phUpload);

@@ -194,10 +194,11 @@ namespace YPS.ViewModels
 
                     foreach (var item in result.data)
                     {
+
                         Uri uriResult;
                         bgcount = item.UserCount;
                         item.IsMine = item.UserID == Settings.userLoginID ? true : false;
-                        time = !string.IsNullOrEmpty(item.CreatedDate.ToString()) ? item.CreatedDate.ToString("hh:mm tt") : string.Empty;
+                        time = !string.IsNullOrEmpty(item.CreatedDate.ToString()) ? String.Format(Settings.DateFormat, item.CreatedDate) : string.Empty;
 
 
                         var obj = new ChatMessageViewModel() // Creating object of ChatMessageViewModel with data
@@ -242,6 +243,7 @@ namespace YPS.ViewModels
                  .GroupBy(e => e.MessagUtcDateTime)
                  .Select(e => new ObservableGroupCollection<DateTime, ChatMessageViewModel>(e)).ToList()
                  ;
+
                 Chat1 = new ObservableCollection<ObservableGroupCollection<DateTime, ChatMessageViewModel>>(groupData);
             }
             catch (Exception ex)
@@ -276,7 +278,8 @@ namespace YPS.ViewModels
                     {
                         foreach (var item in chatPhotos.data)
                         {
-                            ChatMessageViewModel photoData = new ChatMessageViewModel() { Image = item.MessageBody, Name = item.FullName, MessagDateTime = item.CreatedDate.ToString(), FileNameWithoutExtention = item.FileName };
+                            //ChatMessageViewModel photoData = new ChatMessageViewModel() { Image = item.MessageBody, Name = item.FullName, MessagDateTime = item.CreatedDate.ToString(), FileNameWithoutExtention = item.FileName };
+                            ChatMessageViewModel photoData = new ChatMessageViewModel() { Image = item.MessageBody, Name = item.FullName, MessagDateTime = String.Format(Settings.DateFormat, item.CreatedDate), FileNameWithoutExtention = item.FileName };
                             photoList.Add(photoData);
                         }
                     }
@@ -330,7 +333,7 @@ namespace YPS.ViewModels
                             sendchatdata.UserID = Settings.userLoginID;
                             sendchatdata.MessageBase64 = "";
                             sendchatdata.QAType = Settings.QAType;
-                            sendchatdata.CreatedDate = DateTime.Now;
+                            sendchatdata.CreatedDate = Convert.ToDateTime(String.Format(Settings.DateFormat, DateTime.Now));
                             bool checkInternet = false;
 
                             checkInternet = await App.CheckInterNetConnection();

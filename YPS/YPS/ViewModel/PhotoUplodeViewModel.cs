@@ -104,60 +104,7 @@ namespace YPS.ViewModel
                     poid = allPo_Data.POID;
                     puid = allPo_Data.PUID;
                     GetPhotosData(puid);
-
-                    //if (accessPhoto == true)
-                    //{
-                    //    FirstMainStack = false;
-                    //    CompletedVal = true;
-                    //    notCompeleteDisable = NotCompletedVal = false;
-                    //    CompleteBtnOpacity = 0.5;
-                    //}
-                    //else
-                    //{
-                    //    FirstMainStack = true;
-                    //}
                 }
-
-                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                //{
-                //    FirstMainStack = closeLabelText = false;
-                //    RowHeightcomplete = 0;
-                //}
-                //else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser ||
-                //    Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                //{
-                //    closeLabelText = false;
-                //    RowHeightcomplete = 0;
-
-
-                //    //if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                //    //       Settings.userRoleID == (int)UserRoles.SupplierUser)
-                //    //{
-                //    //    if (isuploadcompleted == true)
-                //    //    {
-                //    //        DeleteIconStack = false;
-                //    //        closeLabelText = true;
-                //    //        RowHeightcomplete = 0;
-                //    //    }
-                //    //}
-                //}
-                //else
-                //{
-                //    if (accessPhoto == true)
-                //    {
-                //        FirstMainStack = false;
-                //        CompletedVal = true;
-                //        DeleteIconStack = false;
-                //        notCompeleteDisable = NotCompletedVal = false;
-                //        CompleteBtnOpacity = 0.5;
-                //    }
-                //    else
-                //    {
-                //        FirstMainStack = true;
-                //    }
-                //}
 
                 #region Method binding to the ICommands
                 select_pic = new Command(async () => await MoveToscan());
@@ -525,7 +472,7 @@ namespace YPS.ViewModel
                                 singlePhoto.FileName = fileName;
                                 singlePhoto.CreatedBy = Settings.userLoginID;
                                 singlePhoto.UploadType = UploadType;// uploadType;
-                                singlePhoto.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                singlePhoto.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                                 singlePhoto.FullName = Settings.Username;
                                 singlePhoto.PicStream = picStream;
 
@@ -629,7 +576,7 @@ namespace YPS.ViewModel
                                 phUpload.FileName = fileName;
                                 phUpload.CreatedBy = Settings.userLoginID;
                                 phUpload.UploadType = UploadType;// uploadType;
-                                phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                                 phUpload.FullName = Settings.Username;
                                 phUpload.PicStream = picStream;
 

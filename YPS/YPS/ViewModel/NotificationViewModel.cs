@@ -13,25 +13,32 @@ using YPS.Helpers;
 using YPS.Model;
 using YPS.Service;
 using YPS.ViewModels;
+using YPS.Views;
 
 namespace YPS.ViewModel
 {
     public class NotificationViewModel : BaseViewModel
     {
         YPSService service;
+        NotificationListPage pageName;
+        public INavigation Navigation { get; set; }
+        public ICommand Backevnttapped { set; get; }
         public ICommand clearall { get; set; }
         ObservableCollection<NotifyHistory> NotifyHistoryData = new ObservableCollection<NotifyHistory>();
 
         /// <summary>
         /// Parameter less constructor.
         /// </summary>
-        public NotificationViewModel()
+        public NotificationViewModel(INavigation _Navigation, NotificationListPage pagename)
         {
             YPSLogger.TrackEvent("NotificationViewModel", "Page Load method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
                 service = new YPSService();
+                pageName = pagename;
+                Navigation = _Navigation;
+                Backevnttapped = new Command(async () => await Backevnttapped_click());
                 clearall = new Command(clearall_clicked);
                 ChangeLabel();
             }
@@ -39,6 +46,26 @@ namespace YPS.ViewModel
             {
                 YPSLogger.ReportException(ex, "NotificationViewModel constructor -> in NotificationViewModel " + Settings.userLoginID);
                 service.Handleexception(ex);
+            }
+        }
+
+        public async Task Backevnttapped_click()
+        {
+            try
+            {
+                if (Navigation.NavigationStack.Count == 1)
+                {
+                    App.Current.MainPage = new YPS.Parts2y.Parts2y_Views.MenuPage(typeof(YPS.Parts2y.Parts2y_Views.HomePage));
+                }
+                else
+                {
+                    await Navigation.PopAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in NotificationViewModel.cs" + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
@@ -55,18 +82,22 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
-                    var result = await service.clearNotifyHistory();
+                    var canclear = await App.Current.MainPage.DisplayAlert("Notification", "Clear all notifications.", "Ok", "Cancel");
 
-                    if (result.status != 0 || result != null)
+                    if (canclear == true)
                     {
+                        var result = await service.clearNotifyHistory();
 
-                        PLHideListAndShow = false;
-                        HideLabelAndShow = true;
-                        await App.Current.MainPage.DisplayAlert("Notification", "Clear all notifications.", "OK");
-                    }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                        if (result.status != 0 || result != null)
+                        {
+                            PLHideListAndShow = false;
+                            HideLabelAndShow = true;
+                            pageName.clearAllLbl.IsVisible = false;
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                        }
                     }
                 }
                 else
@@ -88,17 +119,17 @@ namespace YPS.ViewModel
         public async Task<ObservableCollection<NotifyHistory>> GetNotificationHistory()
         {
             YPSLogger.TrackEvent("NotificationViewModel", "in GetNotificationHistory method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-            
+
             try
             {
                 Uri uriResult;
                 var checkInternet = await App.CheckInterNetConnection();
-               
+
                 if (checkInternet)
                 {
                     var result = await service.GetNotifyHistory(Settings.userLoginID);
                     NotifyHistoryData.Clear();
-                    
+
                     if (result.data.Count != 0)
                     {
                         if (result.status != 0)
@@ -157,11 +188,11 @@ namespace YPS.ViewModel
         public async void ReadNotificationHistory(int qaid)
         {
             YPSLogger.TrackEvent("NotificationViewModel", "in ReadNotificationHistory method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-            
+
             try
             {
                 var checkInternet = await App.CheckInterNetConnection();
-                
+
                 if (checkInternet)
                 {
                     var result = await service.ReadNotifyHistory(qaid, Settings.userLoginID);
@@ -282,6 +313,36 @@ namespace YPS.ViewModel
         #endregion
 
         #region Properties        
+        private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
+        public Color BgColor
+        {
+            get => _BgColor;
+            set
+            {
+                _BgColor = value;
+                RaisePropertyChanged("BgColor");
+            }
+        }
+
+        private bool _IsClearAllVisible = false;
+        public bool IsClearAllVisible
+        {
+            get => _IsClearAllVisible; set
+            {
+                _IsClearAllVisible = value;
+                RaisePropertyChanged("IsClearAllVisible");
+            }
+        }
+
+        private bool _loadingindicator = false;
+        public bool loadingindicator
+        {
+            get => _loadingindicator; set
+            {
+                _loadingindicator = value;
+                RaisePropertyChanged("loadingindicator");
+            }
+        }
 
         private bool _isTextVisible = false;
 
