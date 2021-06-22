@@ -18,14 +18,14 @@ using YPS.Service;
 namespace YPS.Parts2y.Parts2y_Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PartsInspectionQuestionPage : ContentPage
+    public partial class KPPartsInspectionQuestionPage : ContentPage
     {
-        PartsInspectionQuestionViewModel Vm;
+        KPPartsInspectionQuestionViewModel Vm;
         AllPoData selectedTagData;
         YPSService service;
         bool isAllDone;
 
-        public PartsInspectionQuestionPage(AllPoData selectedtagdata, bool isalldone)
+        public KPPartsInspectionQuestionPage(AllPoData selectedtagdata, bool isalldone)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 selectedTagData = selectedtagdata;
-                BindingContext = Vm = new PartsInspectionQuestionViewModel(Navigation, this, selectedTagData, isalldone);
+                BindingContext = Vm = new KPPartsInspectionQuestionViewModel(Navigation, this, selectedTagData, isalldone);
             }
             catch (Exception ex)
             {

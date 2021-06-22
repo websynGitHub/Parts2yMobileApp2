@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS.CustomRenders"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YPS.Parts2y.Parts2y_Views.KPInspectionAnswersPage"
+             xmlns:local="clr-namespace:YPS.CustomRenders"
              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
-             x:Class="YPS.Parts2y.Parts2y_Views.VinInspectionAnswersPage" xmlns:local1="clr-namespace:YPS.CommonClasses" 
+             xmlns:local1="clr-namespace:YPS.CommonClasses" 
              xmlns:behaviours="clr-namespace:YPS.Behaviours"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit" 
-             x:Name="VinInspAnswerPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
+             x:Name="LoadInspAnswerPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -16,7 +18,7 @@
                 <Setter Property="Margin" Value="0,2,0,0"/>
             </Style>
         </ResourceDictionary>
-        
+
         <syncfusion:SfRadioGroupKey x:Key="frontLeft" />
         <syncfusion:SfRadioGroupKey x:Key="frontRight" />
         <syncfusion:SfRadioGroupKey x:Key="rearLeft" />
@@ -36,7 +38,8 @@
                               Style="{StaticResource HeaderMainGrid}">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
-                                         Spacing="15" Margin="10,10,10,10" VerticalOptions="StartAndExpand">
+                                         Margin="10,10,10,10" VerticalOptions="StartAndExpand"
+                                         Spacing="15">
                                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
                                                   VerticalOptions="Start">
@@ -69,13 +72,13 @@
                                 <StackLayout HorizontalOptions="Start"
                                                               IsVisible="{Binding  labelobj.ConditionName.Status}"
                                                       VerticalOptions="Center">
-                                    <Label Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Text="{Binding ConditionName}" TextColor="#FFFFFF"
-                                                                   IsVisible="{Binding IsConditionNameLabelVisible}"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}" HorizontalTextAlignment="Start"/>
+                                    <Label Text="{Binding ConditionName}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding IsConditionNameLabelVisible}"
+                                                           HorizontalTextAlignment="Start"/>
                                 </StackLayout>
-
+                                
                                 <Grid RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.POID.Status}"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                RowDefinitions="Auto" ColumnDefinitions="Auto,*">
@@ -105,7 +108,6 @@
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
-
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding IsResourcecVisible}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Resource.Name}" TextColor="#FFFFFF" 
@@ -131,13 +133,13 @@
                         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Grid.Row="1"
                               BackgroundColor="Transparent" Padding="0" Margin="6,0,6,0" Orientation="Horizontal">
                             <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsInspTabVisible}">
-                                <Label  Text="Carrier Insp" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label  Text="Load Insp" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding InspTabTextColor}"  Padding="0,8,0,0" HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                                 </Label>
                                 <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InspTabVisibility}" />
                                 <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding InspTabCmd}"/>
+                                    <TapGestureRecognizer Command="{Binding LoadInspTabCmd}"/>
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
 
@@ -162,7 +164,7 @@
                                     <TapGestureRecognizer Command="{Binding FullTabCmd}"/>
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
-
+                            
                             <StackLayout HorizontalOptions="FillAndExpand">
                                 <Label Text="{Binding SignTabText}" TextColor="{Binding SignTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
@@ -318,7 +320,7 @@
                     </syncfusion:SfButton>
                 </StackLayout>
             </ContentView>
-            
+
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">

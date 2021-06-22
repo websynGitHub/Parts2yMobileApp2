@@ -15,13 +15,13 @@ using YPS.Service;
 namespace YPS.Parts2y.Parts2y_Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CarrierInspectionQuestionsPage : ContentPage
+    public partial class CLoadInspectionQuestionsPage : ContentPage
     {
-        CarrierInspectionQuestionsViewModel Vm;
+        CLoadInspectionQuestionsViewModel Vm;
         ObservableCollection<AllPoData> SelectedPodataList;
         YPSService service;
 
-        public CarrierInspectionQuestionsPage(ObservableCollection<AllPoData> selectedpodatalist, bool isalltagsdone)
+        public CLoadInspectionQuestionsPage(ObservableCollection<AllPoData> selectedpodatalist, bool isalltagsdone)
         {
             try
             {
@@ -29,11 +29,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 SelectedPodataList = selectedpodatalist;
-                BindingContext = Vm = new CarrierInspectionQuestionsViewModel(Navigation, this, SelectedPodataList, isalltagsdone);
+                BindingContext = Vm = new CLoadInspectionQuestionsViewModel(Navigation, this, SelectedPodataList, isalltagsdone);
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CarrierInspectionQuestionsPage Constructor -> in CarrierInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CLoadInspectionQuestionsPage Constructor -> in CLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex));
             }
         }
@@ -55,7 +55,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in CarrierInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing Method -> in CLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -87,7 +87,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked constructor -> in CarrierInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked constructor -> in CLoadInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -161,7 +161,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ConfirmSignatureTapped Method -> in CarrierInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ConfirmSignatureTapped Method -> in CLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

@@ -18,13 +18,13 @@ using YPS.Service;
 namespace YPS.Parts2y.Parts2y_Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoadInspectionQuestionPage : ContentPage
+    public partial class KPLoadInspectionQuestionPage : ContentPage
     {
-        LoadInspectionQuestionViewModel Vm;
+        KPLoadInspectionQuestionViewModel Vm;
         ObservableCollection<AllPoData> SelectedPodataList;
         YPSService service;
 
-        public LoadInspectionQuestionPage(ObservableCollection<AllPoData> selectedpodatalist, bool isalltagsdone)
+        public KPLoadInspectionQuestionPage(ObservableCollection<AllPoData> selectedpodatalist, bool isalltagsdone)
         {
             try
             {
@@ -32,11 +32,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 SelectedPodataList = selectedpodatalist;
-                BindingContext = Vm = new LoadInspectionQuestionViewModel(Navigation, this, SelectedPodataList, isalltagsdone);
+                BindingContext = Vm = new KPLoadInspectionQuestionViewModel(Navigation, this, SelectedPodataList, isalltagsdone);
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CarrierInspectionQuestionsPage Constructor -> in LoadInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KPLoadInspectionQuestionPage Constructor -> in KPLoadInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex));
             }
         }
@@ -58,7 +58,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in LoadInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing Method -> in KPLoadInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -90,7 +90,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked constructor -> in LoadInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked constructor -> in KPLoadInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

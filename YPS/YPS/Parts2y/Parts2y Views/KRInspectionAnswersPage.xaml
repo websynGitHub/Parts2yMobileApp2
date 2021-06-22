@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YPS.Parts2y.Parts2y_Views.LoadInspectionAnswersPage"
-             xmlns:local="clr-namespace:YPS.CustomRenders"
+             x:Class="YPS.Parts2y.Parts2y_Views.KRInspectionAnswersPage"
+              xmlns:local="clr-namespace:YPS.CustomRenders"
              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:local1="clr-namespace:YPS.CommonClasses" 
              xmlns:behaviours="clr-namespace:YPS.Behaviours"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit" 
-             x:Name="LoadInspAnswerPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
+             x:Name="KRLoadInspAnswerPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -78,7 +78,7 @@
                                        Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding IsConditionNameLabelVisible}"
                                                            HorizontalTextAlignment="Start"/>
                                 </StackLayout>
-                                
+
                                 <Grid RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.POID.Status}"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                RowDefinitions="Auto" ColumnDefinitions="Auto,*">
@@ -126,7 +126,7 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                     </Grid>
                                 </Frame>
-                                
+
                             </StackLayout>
                         </Grid>
 
@@ -164,7 +164,7 @@
                                     <TapGestureRecognizer Command="{Binding FullTabCmd}"/>
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
-                            
+
                             <StackLayout HorizontalOptions="FillAndExpand">
                                 <Label Text="{Binding SignTabText}" TextColor="{Binding SignTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"

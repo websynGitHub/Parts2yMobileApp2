@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YPS.Parts2y.Parts2y_Views.LoadInspectionQuestionPage"
-              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
-             xmlns:behaviors="clr-namespace:YPS.Parts2y.Parts2y_Behaviours" xmlns:local="clr-namespace:YPS.CustomRenders"
+             x:Class="YPS.Parts2y.Parts2y_Views.ELoadInspectionQuestionsPage"
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:local="clr-namespace:YPS.CustomRenders"
              xmlns:local1="clr-namespace:YPS.CommonClasses" xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView" xmlns:forms="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms" xmlns:behaviors1="clr-namespace:YPS.Behaviours"
-             x:Name="LoadInspQuestionPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
-    
+             x:Name="ELoadInspQuestionPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Grid">
@@ -192,7 +192,7 @@
                                            CornerRadius="4"  HasShadow="False">
                                             <Grid>
                                                 <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=LoadInspQuestionPage}}"
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=ELoadInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
                                                 </Grid.GestureRecognizers>
                                                 <Grid.RowDefinitions>
@@ -222,7 +222,7 @@
                         <Grid Grid.Row="3" Margin="6,6,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
                                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                               RowDefinitions="*,Auto" BackgroundColor="#E9E9E9">
-                            
+
                             <ScrollView Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#E9E9E9">
                                 <StackLayout Spacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
@@ -236,7 +236,7 @@
                                                     <Label Text="{Binding SerialNo}" TextColor="White" HorizontalTextAlignment="Center"
                                                        VerticalTextAlignment="Center" WidthRequest="35" HeightRequest="35"/>
                                                     <Frame.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=LoadInspQuestionPage}}"
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=ELoadInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
                                                     </Frame.GestureRecognizers>
                                                 </Frame>
@@ -246,23 +246,23 @@
                                 </StackLayout>
                             </ScrollView>
 
-                                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="End"
                                              BackgroundColor="Transparent" Margin="0,0,0,2"
                                              Grid.Row="1" IsVisible="{Binding SignTabVisibility}">
-                                    <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
+                                <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
                                                 Style="{StaticResource SfBtnBlue}" IsEnabled="{Binding IsDoneEnable}"
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
-                                        <sfbuttons:SfButton.Behaviors>
-                                            <behaviors1:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                        </sfbuttons:SfButton.Behaviors>
-                                    </sfbuttons:SfButton>
-                                </StackLayout>
+                                    <sfbuttons:SfButton.Behaviors>
+                                        <behaviors1:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    </sfbuttons:SfButton.Behaviors>
+                                </sfbuttons:SfButton>
+                            </StackLayout>
                         </Grid>
                     </Grid>
                 </StackLayout>
             </RelativeLayout>
-            
+
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">

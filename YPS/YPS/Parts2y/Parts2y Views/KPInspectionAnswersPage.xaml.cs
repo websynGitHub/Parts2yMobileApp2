@@ -4,31 +4,29 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RadioButton = Plugin.InputKit.Shared.Controls.RadioButton;
+using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using YPS.Model;
-using YPS.Parts2y.Parts2y_View_Models;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
+using YPS.Model;
+using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
-using YPS.CommonClasses;
-using RadioButton = Plugin.InputKit.Shared.Controls.RadioButton;
-
 
 namespace YPS.Parts2y.Parts2y_Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class VinInspectionAnswersPage : ContentPage
+    public partial class KPInspectionAnswersPage : ContentPage
     {
-        VinInspectionAnswersPageViewModel Vm;
+        KPInspectionAnswersViewModel Vm;
         YPSService service;
         AllPoData selectedTagData;
 
-        public VinInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp,
-            CarrierInspectionQuestionsViewModel CarQueVm, VinInspectQuestionsPageViewModel VINQueVm, bool isalldone = false
+        public KPInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
+            List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp,
+            KPPartsInspectionQuestionViewModel PartsQueVm, KPLoadInspectionQuestionViewModel LoadQueVm, bool isalldone = false
             )
         {
             try
@@ -36,11 +34,12 @@ namespace YPS.Parts2y.Parts2y_Views
                 service = new YPSService();
                 InitializeComponent();
                 selectedTagData = selectedtagdata;
-                BindingContext = Vm = new VinInspectionAnswersPageViewModel(Navigation, this, inspectionConfiguration, inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, CarQueVm, VINQueVm, isalldone);
+                BindingContext = Vm = new KPInspectionAnswersViewModel(Navigation, this, inspectionConfiguration,
+                    inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, PartsQueVm, LoadQueVm, isalldone);
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "VinInspectionAnswersPage Constructor -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KPInspectionAnswersPage Constructor -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -54,7 +53,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Constructor -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing Constructor -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -115,7 +114,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked Method -> in VinInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked Method -> in KPInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -138,7 +137,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PlaneradioClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PlaneradioClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -161,7 +160,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearRightClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearRightClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -184,7 +183,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearLeftClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearLeftClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -208,7 +207,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontRightClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontRightClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -232,7 +231,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontLeftClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontLeftClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

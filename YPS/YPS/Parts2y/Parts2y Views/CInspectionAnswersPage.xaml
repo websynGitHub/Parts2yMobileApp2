@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS.CustomRenders"
+             xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
+             xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             x:Class="YPS.Parts2y.Parts2y_Views.CInspectionAnswersPage" xmlns:local1="clr-namespace:YPS.CommonClasses" 
+             xmlns:behaviours="clr-namespace:YPS.Behaviours"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit" 
+             x:Name="VinInspAnswerPage" NavigationPage.HasNavigationBar="False" BackgroundColor="#E9E9E9">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="BoxView" x:Key="StyleBoxView">
+                <Setter Property="HeightRequest" Value="3"/>
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+            </Style>
+        </ResourceDictionary>
+        
+        <syncfusion:SfRadioGroupKey x:Key="frontLeft" />
+        <syncfusion:SfRadioGroupKey x:Key="frontRight" />
+        <syncfusion:SfRadioGroupKey x:Key="rearLeft" />
+        <syncfusion:SfRadioGroupKey x:Key="rearRight" />
+        <syncfusion:SfRadioGroupKey x:Key="plane" />
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+
+                    <Grid RowDefinitions="Auto,Auto,*,50" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                          RowSpacing="0">
+                        <Grid x:Name="headerpart" Grid.Row="0" ColumnDefinitions="60,*"
+                              Style="{StaticResource HeaderMainGrid}">
+
+                            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical"
+                                         Spacing="15" Margin="10,10,10,10" VerticalOptions="StartAndExpand">
+                                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Start">
+                                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Backevnttapped}"/>
+                                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                                </local:FontAwesomeIconLabel>
+                            </StackLayout>
+
+                            <StackLayout  Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
+                                         Orientation="Vertical" HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="StartAndExpand" Margin="8,10,0,15">
+                                <Grid  RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.TagNumber.Status}"
+                      HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding  labelobj.TagNumber.Name}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding  TagNumber}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.IdentCode.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding  labelobj.IdentCode.Name}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding IndentCode}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+
+                                <StackLayout HorizontalOptions="Start"
+                                                              IsVisible="{Binding  labelobj.ConditionName.Status}"
+                                                      VerticalOptions="Center">
+                                    <Label Text="{Binding labelobj.ConditionName.Name}" TextColor="#FFFFFF"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Text="{Binding ConditionName}" TextColor="#FFFFFF"
+                                                                   IsVisible="{Binding IsConditionNameLabelVisible}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                </StackLayout>
+
+                                <Grid RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.POID.Status}"
+                      HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.POID.Name}" TextColor="#FFFFFF"
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding PONumber}" TextColor="#FFFFFF" Style="{DynamicResource LableWithQuestionFont}"
+                                          />
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.ShippingNumber.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.ShippingNumber.Name}" TextColor="#FFFFFF"
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0"  Grid.Column="1" Text="{Binding ShippingNumber}" TextColor="#FFFFFF"
+                                            Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.REQNo.Status}"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.REQNo.Name}" TextColor="#FFFFFF"
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding REQNo}" TextColor="#FFFFFF"
+                                           Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.TaskName.Status}" 
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.TaskName.Name}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding IsResourcecVisible}" 
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Resource.Name}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Resource}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+
+                                <Frame VerticalOptions="Center" HorizontalOptions="Start" BackgroundColor="#FFBB00" 
+                                       CornerRadius="5" Padding="4,1,4,1">
+                                    <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.EventName.Status}" 
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,Auto">
+                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.EventName.Name}" TextColor="Black" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding EventName}" TextColor="Black" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                    </Grid>
+                                </Frame>
+                                
+                            </StackLayout>
+                        </Grid>
+
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Grid.Row="1"
+                              BackgroundColor="Transparent" Padding="0" Margin="6,0,6,0" Orientation="Horizontal">
+                            <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsInspTabVisible}">
+                                <Label  Text="Carrier Insp" Style="{DynamicResource LableWithQuestionFont}" 
+                                TextColor="{Binding InspTabTextColor}"  Padding="0,8,0,0" HorizontalOptions="Center" 
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
+                                </Label>
+                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InspTabVisibility}" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding InspTabCmd}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+
+                            <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsQuickTabVisible}">
+                                <Label  Text="Quick" Style="{DynamicResource LableWithQuestionFont}" 
+                                TextColor="{Binding QuickTabTextColor}"  Padding="0,8,0,0" HorizontalOptions="Center" 
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
+                                </Label>
+                                <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding QuickTabVisibility}" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding QuickTabCmd}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+
+                            <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsFullTabVisible}">
+                                <Label Text="Full" TextColor="{Binding FullTabTextColor}"
+                               Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
+                               Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding FullTabVisibility}" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding FullTabCmd}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+
+                            <StackLayout HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding SignTabText}" TextColor="{Binding SignTabTextColor}"
+                               Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
+                               Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                                </Label>
+                                <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding SignTabVisibility}" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SignalTabCmd}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </StackLayout>
+
+                        <ScrollView Grid.Row="2" Orientation="Vertical" Padding="10,12,10,12"  VerticalOptions="FillAndExpand" 
+                                    IsVisible="{Binding IsAnswersVisible}">
+                            <StackLayout >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" VerticalOptions="StartAndExpand" Text="{Binding InspectionConfiguration.SerialNo}" TextColor="Black"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Column="1" VerticalOptions="CenterAndExpand" Text="{Binding InspectionConfiguration.Question}" TextColor="Black" Margin="5,0,0,0"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+                                <Label Text="{Binding InspectionConfiguration.Area}" TextColor="Black" Margin="0,10,0,0"
+                                                           HorizontalTextAlignment="Center" Style="{DynamicResource LableWithQuestionFont}"/>
+                                <Grid IsVisible="{Binding AnswersGridVisibility}" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label IsVisible="{Binding LeftLabel}" Grid.Column="1" Grid.Row="0" Text="Left" TextColor="Black"
+                                                           HorizontalTextAlignment="Center" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label IsVisible="{Binding RightLabel}" Grid.Column="2" Grid.Row="0" Text="Right" TextColor="Black"
+                                                           HorizontalTextAlignment="Center" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label  Text="Front" IsVisible="{Binding FrontLabel}" TextColor="Black" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"
+                                                           HorizontalTextAlignment="Center" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding FrontLeft}" Grid.Column="1" Grid.Row="1"
+                                                 Orientation="Horizontal" Margin="0,0,0,15">
+                                        <input:RadioButton IsChecked="{Binding FrontLeftTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="FrontLeftClicked"/>
+                                        <input:RadioButton IsChecked="{Binding FrontLeftFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18" 
+                                                          Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="FrontLeftClicked"/>
+
+                                    </StackLayout>
+                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding FrontRight}" Grid.Column="2" Grid.Row="1"
+                                                 Margin="0,0,0,15" Orientation="Horizontal">
+                                        <input:RadioButton IsChecked="{Binding FrontRightTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="FrontRightClicked"/>
+                                        <input:RadioButton IsChecked="{Binding FrontRightFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="FrontRightClicked"/>
+
+                                    </StackLayout>
+                                    <Label IsVisible="{Binding RearLabel}" Text="Rear" Grid.Column="0" Grid.Row="2" TextColor="Black" VerticalOptions="Center"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding RearLeft}" Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                        <input:RadioButton IsChecked="{Binding RearLeftTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0"  Clicked="RearLeftClicked"/>
+                                        <input:RadioButton IsChecked="{Binding RearLeftFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="RearLeftClicked"/>
+
+                                    </StackLayout>
+                                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding RearRight}" Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+                                        <input:RadioButton IsChecked="{Binding RearRightTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="RearRightClicked"/>
+                                        <input:RadioButton IsChecked="{Binding RearRightFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1"  Clicked="RearRightClicked"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout IsVisible="{Binding PlaneOptions}" Grid.Column="0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" HeightRequest="40"  Orientation="Horizontal">
+                                        <input:RadioButton IsChecked="{Binding PlaneTrue,Mode=TwoWay}" Text="OK"  TextFontSize="18" TextColor="Black" ClassId="0" Clicked="PlaneradioClicked"/>
+                                        <input:RadioButton IsChecked="{Binding PlaneFalse,Mode=TwoWay}" Text="NG"  TextFontSize="18"
+                                                           Margin="10,0,0,0" TextColor="Black" ClassId="1" Clicked="PlaneradioClicked"/>
+
+                                    </StackLayout>
+                                </Grid>
+                                <Grid VerticalOptions="EndAndExpand" HeightRequest="100">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <sfinput:SfTextInputLayout Hint="Remarks" Grid.Column="0"
+                                                       Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
+
+                                        <local:MyEditor HeightRequest="{OnPlatform Android=80,iOS=65}"  Placeholder="Remarks"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
+                                    </sfinput:SfTextInputLayout>
+                                    <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand"  BackgroundColor="Transparent">
+                                        <local:FontAwesomeIconLabel  BackgroundColor="Transparent"  Text="{x:Static local1:Icons.CameraIc}" TextColor="Black" 
+                                                                 FontSize="50" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Opacity="{Binding imgCamOpacityB}"
+                                                 >
+                                            <local:FontAwesomeIconLabel.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding PhotoClickCommand}"/>
+                                            </local:FontAwesomeIconLabel.GestureRecognizers>
+                                        </local:FontAwesomeIconLabel>
+
+                                        <Label  Text="{Binding ImagesCount}" VerticalOptions="CenterAndExpand" Margin="0,-30,0,0"
+                                                            HorizontalOptions="Start" Style="{StaticResource LableWithQuestionFont}" TextColor="Black"/>
+                                    </StackLayout>
+                                </Grid>
+
+
+                            </StackLayout>
+                        </ScrollView>
+
+                        <Grid VerticalOptions="End" HorizontalOptions="FillAndExpand" Grid.Row="3"
+                               Margin="6,0,6,6" HeightRequest="45" IsVisible="{Binding IsAnswersVisible}">
+
+                            <syncfusion:SfButton Text="VIEW ALL"
+                                    Command="{Binding ViewallClick}"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="End" Style="{StaticResource SfBtnBlue}"
+                                    Grid.Row="0" Grid.Column="0" TextColor="White"
+                                    BackgroundColor="{Binding BgColor}"  FontSize="Medium">
+
+                                <syncfusion:SfButton.Behaviors>
+                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </syncfusion:SfButton.Behaviors>
+                            </syncfusion:SfButton>
+
+                            <syncfusion:SfButton Text="{Binding NextButtonText,Mode=TwoWay}"  
+                                    Command="{Binding NextClick}"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="End" Style="{StaticResource SfBtnBlue}"
+                                    Grid.Row="0" Grid.Column="1" TextColor="White"
+                                    BackgroundColor="{Binding BgColor}"  FontSize="Medium">
+
+                                <syncfusion:SfButton.Behaviors>
+                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </syncfusion:SfButton.Behaviors>
+                            </syncfusion:SfButton>
+                        </Grid>
+                    </Grid>
+                </StackLayout>
+            </RelativeLayout>
+
+            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
+                         Margin="6,0,6,2" IsVisible="false">
+                <StackLayout Orientation="Vertical">
+                    <syncfusion:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
+                                                Style="{StaticResource SfBtnBlue}" IsEnabled="{Binding IsDoneEnable}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
+                        <syncfusion:SfButton.Behaviors>
+                            <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        </syncfusion:SfButton.Behaviors>
+                    </syncfusion:SfButton>
+                </StackLayout>
+            </ContentView>
+            
+            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
+                         VerticalOptions="FillAndExpand" IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
+                        <StackLayout Padding="15">
+                            <ActivityIndicator IsRunning="True" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                            <Label x:Name="lblLoadingText" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..."></Label>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ContentView>
+
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+</ContentPage>

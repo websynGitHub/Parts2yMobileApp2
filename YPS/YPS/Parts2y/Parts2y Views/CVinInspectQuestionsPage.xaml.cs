@@ -16,14 +16,14 @@ using YPS.Service;
 namespace YPS.Parts2y.Parts2y_Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class VinInspectQuestionsPage : ContentPage
+    public partial class CVinInspectQuestionsPage : ContentPage
     {
-        VinInspectQuestionsPageViewModel Vm;
+        CVinInspectQuestionsPageViewModel Vm;
         AllPoData selectedTagData;
         YPSService service;
         bool isAllDone;
 
-        public VinInspectQuestionsPage(AllPoData selectedtagdata, bool isalldone)
+        public CVinInspectQuestionsPage(AllPoData selectedtagdata, bool isalldone)
         {
             try
             {
@@ -31,11 +31,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 Settings.IsRefreshPartsPage = true;
                 selectedTagData = selectedtagdata;
-                BindingContext = Vm = new VinInspectQuestionsPageViewModel(Navigation, this, selectedTagData, isalldone);
+                BindingContext = Vm = new CVinInspectQuestionsPageViewModel(Navigation, this, selectedTagData, isalldone);
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "VinInspectQuestionsPage Constructor -> in VinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CVinInspectQuestionsPage Constructor -> in CVinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -61,7 +61,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing OnAppearing -> in VinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing OnAppearing -> in CVinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -104,7 +104,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked Method -> in VinInspectQuestionsPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked Method -> in CVinInspectQuestionsPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -173,7 +173,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ConfirmSignatureTapped OnAppearing -> in VinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ConfirmSignatureTapped OnAppearing -> in CVinInspectQuestionsPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

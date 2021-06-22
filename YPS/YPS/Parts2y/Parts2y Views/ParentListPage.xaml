@@ -232,14 +232,16 @@
                         </Grid>
 
                         <CollectionView x:Name="ParentDataList" Grid.Row="3" BackgroundColor="Transparent"
-                               ItemsSource="{Binding PoDataCollections}" SelectedItem="{Binding PODetails}" VerticalOptions="Fill"
-                              Margin="0,6,0,0"   IsVisible="{Binding ISPoDataListVisible}" SelectionMode="Single">
+                               ItemsSource="{Binding PoDataCollections}" VerticalOptions="Fill"
+                              Margin="0,6,0,0" IsVisible="{Binding ISPoDataListVisible}" SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <!--<ViewCell>-->
                                     <Grid Padding="6,0,6,6">
                                         <Frame Margin="0,0,0,0" Padding="15,12,15,12" BorderColor="{Binding SelectedTagBorderColor}" 
-                                       BackgroundColor="White" CornerRadius="4"  HasShadow="False">
+                                       BackgroundColor="{Binding JobTileColor}" CornerRadius="4"  HasShadow="False"
+                                                local:LongPressedEffect.SlCommand="{Binding BindingContext.SelectedPOCmd,Source={x:Reference Name=POPage}}"
+                                               local:LongPressedEffect.SlCommandParameter="{Binding .}">
                                             <StackLayout Orientation="Vertical">
                                                 <Grid RowDefinitions="*" ColumnDefinitions="*">
                                                     <StackLayout Orientation="Vertical">
@@ -362,9 +364,10 @@
                                                              >
 
                                                     <Frame Padding="3,3,10,3" Margin="0,0,10,3" CornerRadius="2" 
-                                                       HasShadow="False">
+                                                       HasShadow="False" BackgroundColor="Transparent"
+                                                           IsVisible="{Binding IsIconVisible}">
                                                         <Image Source="plicon.png" HorizontalOptions="End" 
-                                                           HeightRequest="25" Margin="0,0,3,0">
+                                                           HeightRequest="25" Margin="0,0,3,0" BackgroundColor="Transparent">
                                                         </Image>
                                                         <Frame.GestureRecognizers>
                                                             <TapGestureRecognizer 
@@ -373,10 +376,10 @@
                                                         </Frame.GestureRecognizers>
                                                     </Frame>
 
-                                                    <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" HasShadow="False"
-                                                       IsVisible="{Binding BindingContext.IsShippingMarkVisible,Source={x:Reference Name=POPage}}">
+                                                    <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" HasShadow="False" BackgroundColor="Transparent"
+                                                       IsVisible="{Binding IsShippingMarkVisible}">
                                                         <Image Source="shipicon.png" x:Name="ShipPrinter" 
-                                                    HeightRequest="25" Margin="3,0,0,0"
+                                                    HeightRequest="25" Margin="3,0,0,0" BackgroundColor="Transparent"
                                                    HorizontalOptions="End">
                                                         </Image>
                                                         <Frame.GestureRecognizers>
@@ -386,18 +389,21 @@
                                                         </Frame.GestureRecognizers>
                                                     </Frame>
 
-                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" BackgroundColor="Transparent">
 
                                                         <local:FontAwesomeIconLabel Text="{Binding POTaskStatusIcon}" FontSize="23" TextColor="#000000" 
                                                                                  Margin="0,0,10,0" HorizontalOptions="End" VerticalOptions="Center" />
 
                                                         <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
                                                  FontSize="37" TextColor="#000000" HorizontalOptions="End" 
-                                                 VerticalOptions="Start" Margin="0,0,0,3">
+                                                 VerticalOptions="Start" Margin="0,0,0,3" IsVisible="{Binding IsIconVisible}">
                                                         </local:FontAwesomeIconLabel>
                                                     </StackLayout>
                                                 </StackLayout>
                                             </StackLayout>
+                                            <Frame.Effects>
+                                                <local:LongPressedEffect/>
+                                            </Frame.Effects>
                                         </Frame>
                                     </Grid>
 
@@ -429,37 +435,37 @@
                                 </local:FontAwesomeIconLabel.GestureRecognizers>
                             </local:FontAwesomeIconLabel>
                         </Grid>
-                        
-                            <!--<CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" 
+
+                        <!--<CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" 
                                      Margin="2,8,2,0" SelectionMode="Single"
                                         SelectedItem="{Binding SelectedFilterName}">-->
                         <StackLayout BindableLayout.ItemsSource="{Binding SearchFilterList}"  BackgroundColor="Transparent" Margin="2,8,2,0" >
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                               Padding="6,0,6,6" BackgroundColor="Transparent">
-                                            <Frame Margin="0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
+                                        <Frame Margin="0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        BackgroundColor="White" CornerRadius="4"  HasShadow="False">
-                                                <Grid ColumnDefinitions="*,*">
-                                                    <Label Text="{Binding Name}" TextColor="Black" Grid.Column="0"
+                                            <Grid ColumnDefinitions="*,*">
+                                                <Label Text="{Binding Name}" TextColor="Black" Grid.Column="0"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
 
-                                                    <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.MyDeleteIc}" 
+                                                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.MyDeleteIc}" 
                                                  FontSize="23" TextColor="#000000" HorizontalOptions="End" 
                                                  VerticalOptions="Center" Grid.Column="1">
-                                                        <local:FontAwesomeIconLabel.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding BindingContext.DeleteFilterSearchCmd,Source={x:Reference Name=POPage}}"
+                                                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.DeleteFilterSearchCmd,Source={x:Reference Name=POPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                                        </local:FontAwesomeIconLabel.GestureRecognizers>
-                                                    </local:FontAwesomeIconLabel>
-                                                </Grid>
+                                                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                                                </local:FontAwesomeIconLabel>
+                                            </Grid>
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding BindingContext.SelectedFilterbyName,Source={x:Reference Name=POPage}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
                                             </Frame.GestureRecognizers>
                                         </Frame>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>                           
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
                         </StackLayout>
                         <!--</CollectionView>-->
                     </StackLayout>
@@ -467,7 +473,7 @@
             </ContentView>
 
 
-                <ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
+            <ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
                          VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Label HorizontalTextAlignment="Center"
                          Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"

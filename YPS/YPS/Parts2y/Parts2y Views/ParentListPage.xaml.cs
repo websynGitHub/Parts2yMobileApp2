@@ -50,10 +50,10 @@ namespace YPS.Parts2y.Parts2y_Views
                 BindingContext = Vm = new ParentListViewModel(Navigation, this);
 
 
-                if (Settings.VersionID == 5 || Settings.VersionID == 1)
-                {
-                    Vm.IsLoadTabVisible = false;
-                }
+                //if (Settings.VersionID == 5 || Settings.VersionID == 1)
+                //{
+                //    Vm.IsLoadTabVisible = false;
+                //}
 
                 //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
                 //{
