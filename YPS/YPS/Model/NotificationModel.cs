@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace YPS.Model
 {
@@ -28,7 +29,7 @@ namespace YPS.Model
         public string RegistrationId { get; set; }
     }
     public class DeviceRegistration
-    {    
+    {
 
         public int UserId { get; set; }
         public string Platform { get; set; }
@@ -54,7 +55,7 @@ namespace YPS.Model
         public string Appversion { get; set; }
         public DateTime CreatedUTCDateTime { get; set; }
         public DateTime ModifiedUTCDateTime { get; set; }
-        public bool is_login_active { get; set; }        
+        public bool is_login_active { get; set; }
     }
 
     public class NotifyDataModel
@@ -94,9 +95,7 @@ namespace YPS.Model
         public int RoleId { get; set; }
         public int NotificationType { get; set; }
 
-
         private bool _isTextVisible = false;
-
         public bool isTextVisible
         {
             get { return _isTextVisible; }
@@ -108,7 +107,6 @@ namespace YPS.Model
         }
 
         private bool _isImageVisible = false;
-
         public bool isImageVisible
         {
             get { return _isImageVisible; }
@@ -118,6 +116,7 @@ namespace YPS.Model
                 OnPropertyChanged("isImageVisible");
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string propertyName)
         {
@@ -126,8 +125,8 @@ namespace YPS.Model
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-        
-        public string FullName { get; set; }        
+
+        public string FullName { get; set; }
         public int QAType { get; set; }
         public string MessageType { get; set; }
 

@@ -294,10 +294,6 @@ namespace YPS.ViewModel
             }
         }
 
-
-
-
-
         #region INotifyPropertyChanged Implimentation
         public event PropertyChangedEventHandler PropertyChanged;
         public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)

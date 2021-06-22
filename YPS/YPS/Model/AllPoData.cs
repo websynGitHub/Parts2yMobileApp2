@@ -97,6 +97,60 @@ namespace YPS.Model
             }
         }
 
+
+        private Color _JobTileColor { set; get; } = Color.White;
+        public Color JobTileColor
+        {
+            get
+            {
+                return _JobTileColor;
+            }
+            set
+            {
+                this._JobTileColor = value;
+                RaisePropertyChanged("JobTileColor");
+            }
+        }
+
+        private bool _IsIconVisible { set; get; } = true;
+        public bool IsIconVisible
+        {
+            get
+            {
+                return _IsIconVisible;
+            }
+            set
+            {
+                this._IsIconVisible = value;
+                RaisePropertyChanged("IsIconVisible");
+            }
+        }
+
+        public bool _IsShippingMarkVisible = true;
+        public bool IsShippingMarkVisible
+        {
+            get => _IsShippingMarkVisible;
+            set
+            {
+                _IsShippingMarkVisible = value;
+                RaisePropertyChanged("IsShippingMarkVisible");
+            }
+        }
+
+        private string _PhotoInspText { set; get; } //For verified tag list after scanning
+        public string PhotoInspText
+        {
+            get
+            {
+                return _PhotoInspText;
+            }
+            set
+            {
+                this._PhotoInspText = value;
+                RaisePropertyChanged("PhotoInspText");
+            }
+        }
+
         private bool _IsChecked;
         public bool IsChecked
         {
@@ -180,6 +234,7 @@ namespace YPS.Model
         public string TagTaskStatusIcon { get; set; }
 
         public int TaskResourceID { get; set; }
+        public int EventID { get; set; }
         public string TaskResourceName { get; set; }
         public string TaskResourceRole { get; set; }
 
