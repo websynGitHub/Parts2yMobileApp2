@@ -122,8 +122,6 @@ namespace YPS.Views
 
                 if (type != 4)
                 {
-                    (e.Item as NotifyHistory).SelectedPNBorderColor = vm.BgColor;
-
                     if (string.IsNullOrEmpty((e.Item as NotifyHistory).TagNumber))
                     {
                         tgs = "--";
