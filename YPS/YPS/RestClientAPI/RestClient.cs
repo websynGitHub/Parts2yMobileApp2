@@ -632,7 +632,9 @@ namespace YPS.RestClientAPI
                 string url;
                 if (string.IsNullOrEmpty(PhotoType))
                 {
-                    url = WebServiceUrl + "/QA/Messages?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) + "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) + "&UserID=" + Settings.userLoginID + "&QAType=" + qatype + "";
+                    url = WebServiceUrl + "/QA/Messages?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) +
+                        "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) + "&UserID=" +
+                        Settings.userLoginID + "&QAType=" + qatype + "";
                 }
                 else
                 {
@@ -1607,6 +1609,21 @@ namespace YPS.RestClientAPI
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "DeleteUserSearchFilter method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        public async Task<TagTaskStatusUpdateResponse> AssignUnassignedTask(int taskid)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<TagTaskStatusUpdateResponse>(WebServiceUrl + "Task/AssignJob?TaskID=" + Helperclass.Encrypt(taskid.ToString()) +
+                    "&UserID=" + Settings.userLoginID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "UpdateTaskStatus method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

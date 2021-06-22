@@ -9,7 +9,6 @@ using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
-//using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
 using YPS.Views;
@@ -33,21 +32,11 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Vm.IsPNenable = Settings.IsPNEnabled;
 
-                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                //{
-                //    Vm.IsPNenable = false;
-                //}
-
                 MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseCount", (sender, args) =>
                 {
                     Vm.NotifyCountTxt = args;
                 });
 
-
-                if (Settings.VersionID == 5 || Settings.VersionID == 1)
-                {
-                    Vm.IsLoadTabVisible = false;
-                }
             }
             catch (Exception ex)
             {
@@ -84,7 +73,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 YPSLogger.ReportException(ex, "Notification_Tap method -> in HomePage.xaml.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
                 Vm.loadindicator = false;
-                //UserDialogs.Instance.HideLoading();
             }
             Vm.loadindicator = false;
         }
@@ -98,11 +86,9 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 base.OnAppearing();
                 YPSLogger.TrackEvent("MainPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
-                //await SecureStorage.SetAsync("mainPageisOn", "1");
 
                 Settings.countmenu = 1;
 
-                /// Get PN count
                 Vm.GetPNCount();
             }
             catch (Exception ex)

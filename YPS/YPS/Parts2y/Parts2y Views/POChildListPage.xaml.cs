@@ -35,11 +35,6 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
-                if (Settings.VersionID == 5 || Settings.VersionID == 1)
-                {
-                    loadStack.IsVisible = false;
-                }
-
                 if (Settings.VersionID != 2 && Settings.VersionID != 4 &&
                     Settings.VersionID != 5 && Settings.VersionID != 3 && Settings.VersionID != 1)
                 {
@@ -157,17 +152,34 @@ namespace YPS.Parts2y.Parts2y_Views
                     imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PrintTagReportDownload".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
                     imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "TaskComplete".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
 
-                    if (Settings.VersionID == 2)
+                    if (Settings.VersionID == 1)
                     {
-                        Vm.LoadTextColor = Color.Black;
-                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower())
-                          .FirstOrDefault()) != null ? true : false;
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ELoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
                     }
-                    else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    else if (Settings.VersionID == 2)
                     {
-                        Vm.LoadTextColor = Color.Black;
-                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "LoadInspection".Trim().ToLower())
-                          .FirstOrDefault()) != null ? true : false;
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                    }
+                    else if (Settings.VersionID == 3)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                    }
+                    else if (Settings.VersionID == 4)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpLoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                    }
+                    else if (Settings.VersionID == 5)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PLoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
                     }
                 }
 
@@ -221,12 +233,6 @@ namespace YPS.Parts2y.Parts2y_Views
                     Settings.IsRefreshPartsPage = false;
                     Vm.SelectedTagCount = 0;
                     Vm.SelectedTagCountVisible = false;
-                }
-
-                if (Settings.VersionID == 4 || Settings.VersionID == 3)
-                {
-                    Vm.LoadTextColor = Color.Black;
-                    Vm.MoveToNextPageCmd = new Command(Vm.MoveToNextPage);
                 }
 
                 Vm.loadindicator = false;
@@ -302,13 +308,13 @@ namespace YPS.Parts2y.Parts2y_Views
                         });
                     }
 
-                    if ((Settings.VersionID == 4 || Settings.VersionID == 3) || Settings.VersionID == 2)
-                    {
+                    //if ((Settings.VersionID == 4 || Settings.VersionID == 3) || Settings.VersionID == 2)
+                    //{
                         loadStack.GestureRecognizers.Add(new TapGestureRecognizer
                         {
                             Command = new Command(async () => await Vm.TabChange("load")),
                         });
-                    }
+                    //}
                 });
             }
             catch (Exception ex)

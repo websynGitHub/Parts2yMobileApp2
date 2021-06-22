@@ -408,7 +408,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 loadphoto.FileName = fileName;
                                 loadphoto.PhotoDescription = DescriptionText;
                                 loadphoto.CreatedBy = Settings.userLoginID;
-                                loadphoto.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                loadphoto.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                                 loadphoto.FullName = Settings.Username;
                                 loadphoto.PicStream = picStream;
 

@@ -160,7 +160,7 @@ namespace YPS.CustomToastMsg
                 service.Handleexception(ex);
             }
         }
-        public async static void Appredirectlogin(string message, bool showalert = true)
+        public async static Task Appredirectlogin(string message, bool showalert = true)
         {
             try
             {
@@ -288,23 +288,23 @@ namespace YPS.CustomToastMsg
         /// We have to change appcenter key before publish.
 
         #region Local devpit
-        //public static string WebServiceUrl { get; set; } = "https://ypsdev.devtpit.com/api/";
-        //public static string HubConnectionUrl { get; set; } = "https://ypsdev.devtpit.com/";
-        //public static string Appcenter_droid { get; set; } = "android=3068e436-13c0-4cac-873f-687d8c0830c3;";
-        //public static string Appcenter_iOS { get; set; } = "ios=98470379-fccd-4f9d-8d22-8856a5af15c9;";
-        //public static string Bdchk { get; set; } = "BjFAg4x7vCGTpW3dALvutCVBSpuI7d6rb+GuOgl/574=";
-        //public static string blob { get; set; } = "https://ypsuploadsdev.blob.core.windows.net/";
+        public static string WebServiceUrl { get; set; } = "https://ypsdev.devtpit.com/api/";
+        public static string HubConnectionUrl { get; set; } = "https://ypsdev.devtpit.com/";
+        public static string Appcenter_droid { get; set; } = "android=3068e436-13c0-4cac-873f-687d8c0830c3;";
+        public static string Appcenter_iOS { get; set; } = "ios=98470379-fccd-4f9d-8d22-8856a5af15c9;";
+        public static string Bdchk { get; set; } = "BjFAg4x7vCGTpW3dALvutCVBSpuI7d6rb+GuOgl/574=";
+        public static string blob { get; set; } = "https://ypsuploadsdev.blob.core.windows.net/";
         #endregion
 
 
         #region DEV:
-        public static string HubConnectionUrl { get; set; } = "https://dev.parts2y.com/";
-        public static string WebServiceUrl { get; set; } = "https://dev.parts2y.com/api/";
-        public static string Appcenter_droid { get; set; } = "android=ebfaf0cf-af6f-4f28-a6c9-642352279430;";
-        public static string Appcenter_iOS { get; set; } = "ios=37be6471-dc83-405d-b62f-e796ae44267d;";
-        ///public static string Bdchk { get; set; } = "DprjHRPut1l2lsH4K5tRcw==";///old key 
-        public static string Bdchk { get; set; } = "BzrCZM9KiA31bPvjUJJNmA==";
-        public static string blob { get; set; } = "https://azrbsa026dv00a.blob.core.windows.net/";
+        //public static string HubConnectionUrl { get; set; } = "https://dev.parts2y.com/";
+        //public static string WebServiceUrl { get; set; } = "https://dev.parts2y.com/api/";
+        //public static string Appcenter_droid { get; set; } = "android=ebfaf0cf-af6f-4f28-a6c9-642352279430;";
+        //public static string Appcenter_iOS { get; set; } = "ios=37be6471-dc83-405d-b62f-e796ae44267d;";
+        ////public static string Bdchk { get; set; } = "DprjHRPut1l2lsH4K5tRcw==";///old key 
+        //public static string Bdchk { get; set; } = "BzrCZM9KiA31bPvjUJJNmA==";
+        //public static string blob { get; set; } = "https://azrbsa026dv00a.blob.core.windows.net/";
 
         #endregion
 

@@ -69,11 +69,11 @@
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
                     </Grid>
-                   
-                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45">
 
-                        <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Grid.Column="0" Command="{Binding reScanCmd}" 
+                    <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" Orientation="Horizontal">
+
+                        <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Command="{Binding reScanCmd}" 
                                      Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
                             <sfbuttons:SfButton.Content>
                                 <Grid HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
@@ -89,7 +89,7 @@
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
 
-                        <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="1"
+                        <sfbuttons:SfButton HorizontalOptions="FillAndExpand" IsVisible="{Binding IsPhotoBtnVisible}"
                                     Command="{Binding MoveNextCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                             IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding PhotoOpacity}"> 
                             <sfbuttons:SfButton.Content>
@@ -104,7 +104,7 @@
                                 <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
-                    </Grid>
+                    </StackLayout>
                 </Grid>
             </Grid>
 

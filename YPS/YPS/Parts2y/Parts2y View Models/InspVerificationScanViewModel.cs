@@ -167,6 +167,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (selectedTagData != null)
                     {
+                        var taskresourceid = selectedTagData.TaskResourceID;
+
                         if (!string.IsNullOrEmpty(selectedTagData.TagNumber))
                         {
                             ScannedCompareData = (selectedTagData.TagNumber == ScannedResult) ? ScannedResult : null;
@@ -179,13 +181,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (!string.IsNullOrEmpty(ScannedCompareData))
                         {
+
                             ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
                             StatusText = selectedTagData.TagTaskStatus == 2 ? "Done" : "Verified";
                             StatusTextBgColor = Color.DarkGreen;
                             ScannedValue = ScannedResult;
 
-                            IsInspEnable = true;
-                            InspOpacity = 1.0;
+                            if (taskresourceid == 0 || taskresourceid == null)
+                            {
+                                var result = await trackService.AssignUnassignedTask(selectedTagData.TaskID);
+
+                                if (result?.status == 1)
+                                {
+                                    IsInspEnable = true;
+                                    InspOpacity = 1.0;
+                                }
+                            }
+                            else
+                            {
+                                IsInspEnable = true;
+                                InspOpacity = 1.0;
+                            }
+
                         }
                         else
                         {
@@ -228,14 +245,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     Settings.POID = podata.POID;
                     Settings.TaskID = podata.TaskID;
 
-                    if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    if (Settings.VersionID == 1)
                     {
-                        await Navigation.PushAsync(new PartsInspectionQuestionPage(podata, isAllDone));
+                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(podata, isAllDone));
                     }
-
-                    if (Settings.VersionID == 2)
+                    else if (Settings.VersionID == 2)
                     {
-                        await Navigation.PushAsync(new VinInspectQuestionsPage(podata, isAllDone));
+                        await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isAllDone));
+                    }
+                    else if (Settings.VersionID == 3)
+                    {
+                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(podata, isAllDone));
+                    }
+                    else if (Settings.VersionID == 4)
+                    {
+                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(podata, isAllDone));
+                    }
+                    else if (Settings.VersionID == 5)
+                    {
+                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(podata, isAllDone));
                     }
                 }
                 else

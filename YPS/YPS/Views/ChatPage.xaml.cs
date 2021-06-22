@@ -43,7 +43,7 @@ namespace YPS.Views
             {
                 InitializeComponent();
                 Settings.currentPage = "chatPage";// Setting the current page as "chatPage"
-                Backchathide.IsVisible = false;
+                Backchathide.IsVisible = Settings.IsChatBackButtonVisible;
 
                 if (!string.IsNullOrEmpty(Settings.GetParamVal))
                 {
@@ -54,6 +54,7 @@ namespace YPS.Views
                     Settings.PoId = Convert.ToInt32(navPages[1]); Settings.QaId = Settings.currentChatPage = Convert.ToInt32(navPages[4]);
                     Settings.tagnumbers = navPages[2]; Settings.ChatTitle = navPages[7];
                     Settings.QAType = Convert.ToInt32(navPages[8]);
+                    Settings.chatstatus = Convert.ToInt32(chatstatus);
 
                     if (chatstatus == "0" || chatstatus == "-1")
                     {
@@ -492,7 +493,7 @@ namespace YPS.Views
                 else
                 {
                     Settings.RedirectPagefirsttime = "NewAdded";
-                    Navigation.PopToRootAsync();
+                    Navigation.PopAsync();
                 }
             }
             catch (Exception ex)

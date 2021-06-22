@@ -40,6 +40,7 @@ namespace YPS.Model
         /// <summary>
         /// Encrypted
         /// </summary>
+        public string encVersionId { get; set; }
         public string encUserId { get; set; }
         public string encEmail { get; set; }
         public string encLoginID { get; set; }

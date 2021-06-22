@@ -127,22 +127,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             await Navigation.PushAsync(new LinkPage(RepoPhotosList));
                         }
                     }
-
                 }
-
-
-                //var result = await GetAllPOData();
-
-                //if (result != null && result.data != null && result.data.allPoData != null)
-                //{
-                //    IsRepoaPage = false;
-                //    UploadViewContentVisible = false;
-                //    IsPhotoUploadIconVisible = false;
-                //    POTagLinkContentVisible = true;
-                //    Title = Settings.VersionID == 2 ? "VIN" : "Parts";
-                //    var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0).OrderBy(o => o.PONumber).ToList();
-                //    AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
-                //}
             }
             catch (Exception ex)
             {
@@ -388,7 +373,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             photoobj.FileName = fileName;
                             photoobj.FileUrl = FullFilename;
                             photoobj.FileDescription = DescriptionText;
-                            photoobj.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                            photoobj.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                             photoobj.CreatedBy = Settings.userLoginID;
                             photolistobj.Add(photoobj);
 

@@ -329,7 +329,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 phUpload.FileName = photo.FileName;
                                                 phUpload.CreatedBy = Settings.userLoginID;
                                                 phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                                phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                                phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                                                 phUpload.FullName = Settings.Username;
                                                 phUploadList.Add(phUpload);
                                             }
@@ -392,7 +392,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                     phUpload.FileName = iniphoto.FileName;
                                                     phUpload.CreatedBy = Settings.userLoginID;
                                                     phUpload.UploadType = styleid.Trim() == "a".Trim() ? (int)UploadTypeEnums.GoodsPhotos_AP : (int)UploadTypeEnums.GoodsPhotos_BP;// uploadType;
-                                                    phUpload.CreatedDate = String.Format("{0:dd MMM yyyy hh:mm tt}", DateTime.Now);
+                                                    phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                                                     phUpload.GivenName = Settings.Username;
                                                     DataForFileUpload.photos.Add(phUpload);
                                                 }
@@ -479,7 +479,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     UploadViewContentVisible = false;
                     IsPhotoUploadIconVisible = false;
                     POTagLinkContentVisible = true;
-                    var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0).OrderBy(o => o.TagTaskStatus).ThenBy(tob => tob.TagNumber).ThenBy(tob => tob.IdentCode).ToList();
+                    var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0
+                    && wr.TaskResourceID != 0)
+                        .OrderBy(o => o.EventID).ThenBy(tob => tob.TagTaskStatus).ThenBy(tob => tob.TagNumber)
+                        .ThenBy(tob => tob.IdentCode).ToList();
 
                     foreach (var values in potagcolections)
                     {
@@ -550,6 +553,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var invoicenumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InvoiceNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ShippingNumber.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -570,6 +574,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
                         labelobj.InvoiceNumber.Status = invoicenumber == null ? true : (invoicenumber.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
+                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
 
                         labelobj.AfterPacking.Name = "To " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
                         labelobj.AfterPacking.Status = afterpacking == null ? true : (afterpacking.Status == 1 ? true : false);
@@ -644,6 +650,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "InvoiceNumber" };
             public LabelAndActionFields BeforePacking { get; set; } = new LabelAndActionFields { Status = true, Name = "Before Packing" };
             public LabelAndActionFields AfterPacking { get; set; } = new LabelAndActionFields { Status = true, Name = "After Packing" };
+            public LabelAndActionFields ShippingNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "Shipping Number" };
         }
         public class LabelAndActionFields : IBase
         {

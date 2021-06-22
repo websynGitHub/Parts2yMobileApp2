@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-//using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -124,15 +123,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (tabname == "load")
                 {
-                    if (Settings.VersionID == 2)
+                    if (Settings.VersionID == 1)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new CarrierInspectionQuestionsPage(allPOTagData, isalldone));
+                        await Navigation.PushAsync(new ELoadInspectionQuestionsPage(allPOTagData, isalldone));
                     }
-                    else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    else if (Settings.VersionID == 2)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new LoadInspectionQuestionPage(allPOTagData, isalldone));
+                        await Navigation.PushAsync(new CLoadInspectionQuestionsPage(allPOTagData, isalldone));
+                    }
+                    else if (Settings.VersionID == 3)
+                    {
+                        loadindicator = true;
+                        await Navigation.PushAsync(new KRLoadInspectionQuestionsPage(allPOTagData, isalldone));
+                    }
+                    else if (Settings.VersionID == 4)
+                    {
+                        loadindicator = true;
+                        await Navigation.PushAsync(new KPLoadInspectionQuestionPage(allPOTagData, isalldone));
+                    }
+                    else if (Settings.VersionID == 5)
+                    {
+                        loadindicator = true;
+                        await Navigation.PushAsync(new PLoadInspectionQuestionsPage(allPOTagData, isalldone));
                     }
                     else
                     {
@@ -302,11 +316,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 var versionname = Settings.encryVersionID;
                 var versionID = Settings.VersionID;
-                var isquicktabvisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                var isfulltabvisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
-                if (Settings.VersionID == 4 || Settings.VersionID == 3
-                    || (Settings.VersionID == 2 && (isquicktabvisible == true || isfulltabvisible == true)))
+                if (Settings.VersionID == 4 || Settings.VersionID == 3 || Settings.VersionID == 1 || Settings.VersionID == 5
+                    || Settings.VersionID == 2)
                 {
                     loadindicator = true;
                     POTagDetail = sender as AllPoData;
@@ -317,7 +329,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                        if (Settings.VersionID == 4 || Settings.VersionID == 3
+                            || Settings.VersionID == 1 || Settings.VersionID == 5)
                         {
                             await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
                         }
@@ -616,16 +629,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             potagdata = data[0];
                         }
 
-                        if (uniq.Count() >= 2)
-                        {
-                            //Please select any one group.
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tags under same po.");
-                        }
-                        else if (uniq.Count() == 0)
+                        if (uniq.Count() == 0)
                         {
                             DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
                         }
-                        else if (uniq.Count() == 1)
+                        else
                         {
                             var restricData = data.Where(r => r.cameImage == "cross.png").ToList();
 
@@ -636,6 +644,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             else
                             {
                                 PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+                                List<PhotoTag> lstdat = new List<PhotoTag>();
 
                                 foreach (var podata in uniq)
                                 {
@@ -643,7 +652,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     selectedTagsData.POID = d.POID;
                                     selectedTagsData.isCompleted = d.photoTickVisible;
 
-                                    List<PhotoTag> lstdat = new List<PhotoTag>();
 
                                     foreach (var item in podata)
                                     {
@@ -729,24 +737,19 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var data = taglist.Where(wr => wr.IsChecked == true).ToList();
                         var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                        if (uniq.Count() >= 2)
-                        {
-                            //Please select any one group.
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tags from same po.");
-                        }
-                        else if (uniq.Count() == 0)
+                        if (uniq.Count() == 0)
                         {
                             DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start conversation.");
                         }
-                        else if (uniq.Count() == 1)
+                        else
                         {
                             ChatData selectedTagsData = new ChatData();
+                            List<Tag> lstdat = new List<Tag>();
 
                             foreach (var podata in uniq)
                             {
                                 var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
                                 selectedTagsData.POID = d.POID;
-                                List<Tag> lstdat = new List<Tag>();
 
                                 foreach (var item in podata)
                                 {
@@ -812,24 +815,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var data = taglist.Where(wr => wr.IsChecked == true).ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                            if (uniq.Count() >= 2)
-                            {
-                                //Please select any one group.
-                                DependencyService.Get<IToastMessage>().ShortAlert("File upload is already marked as completed for the selected tag(s).");
-                            }
-                            else if (uniq.Count() == 0)
+                            if (uniq.Count() == 0)
                             {
                                 DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload file(s).");
                             }
-                            else if (uniq.Count() == 1)
+                            else
                             {
                                 StartUploadFileModel selectedTagsData = new StartUploadFileModel();
+                                List<FileTag> lstdat = new List<FileTag>();
+
                                 foreach (var podata in uniq)
                                 {
                                     var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
                                     selectedTagsData.POID = d.POID;
 
-                                    List<FileTag> lstdat = new List<FileTag>();
                                     foreach (var item in podata)
                                     {
                                         FileTag tg = new FileTag();
@@ -921,12 +920,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        bool makeitdone = true;
-
-                        if (Settings.VersionID == 2)
-                        {
-                            makeitdone = await App.Current.MainPage.DisplayAlert("Mark as done", "Make sure you have finished the inspection for selected tag(s)", "Ok", "Cancel");
-                        }
+                        bool makeitdone = await App.Current.MainPage.DisplayAlert("Confirm", "Make sure you have finished the inspection for the selected. \nAre you sure, you want to mark the selected as Done ? ", "Ok", "Cancel");
 
                         if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0 && makeitdone == true)
                         {
@@ -965,7 +959,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     await Pending_Tap();
                                 }
 
-                                //if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TaskStatus != 1).Count()) != 0)
                                 if ((selectedTagData.Where(wr => wr.TaskID != 0).Count()) != 0)
                                 {
                                     TagTaskStatus taskstatus = new TagTaskStatus();
@@ -976,20 +969,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     var taskval = await trackService.UpdateTaskStatus(taskstatus);
                                 }
                                 DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                            }
-
-                            if ((Settings.VersionID == 4 || Settings.VersionID == 3))
-                            {
-                                if (isalldone == true)
-                                {
-                                    LoadTextColor = Color.Black;
-                                    MoveToNextPageCmd = new Command(MoveToNextPage);
-                                }
-                                else
-                                {
-                                    LoadTextColor = Color.Gray;
-                                    MoveToNextPageCmd = null;
-                                }
                             }
 
                             Settings.IsRefreshPartsPage = false;
@@ -1337,6 +1316,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var invoicenumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InvoiceNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var tagdesc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TagDesc.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ShippingNumber.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var pending = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Pending.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var inprogress = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.Inprogress.Name.Trim().ToLower().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1361,7 +1341,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                         labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
 
-
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
@@ -1372,6 +1351,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.InvoiceNumber.Status = invoicenumber == null ? true : (invoicenumber.Status == 1 ? true : false);
                         labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
                         labelobj.TagDesc.Status = tagdesc == null ? true : (tagdesc.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
+                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
 
                         labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) + "\n";
                         labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
@@ -1452,7 +1433,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public Color _LoadTextColor = ((Settings.VersionID == 4 || Settings.VersionID == 3) && isalldone == true) == true ? Color.Black : Color.Gray;
+        //public Color _LoadTextColor = ((Settings.VersionID != 2) && isalldone == true) == true ? Color.Black : Color.Gray;
+        public Color _LoadTextColor = Color.Black;
         public Color LoadTextColor
         {
             get => _LoadTextColor;
@@ -1675,6 +1657,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
             public DashboardLabelFields InvoiceNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "InvoiceNumber" };
             public DashboardLabelFields TagDesc { get; set; } = new DashboardLabelFields { Status = true, Name = "Tag Description" };
+            public DashboardLabelFields ShippingNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "Shipping Number" };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };

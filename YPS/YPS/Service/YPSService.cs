@@ -965,5 +965,16 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.DeleteUserSearchFilter(obj);
         }
+
+        /// <summary>
+        /// Assign, Unassigned Task
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<TagTaskStatusUpdateResponse> AssignUnassignedTask(int taskid)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.AssignUnassignedTask(taskid);
+        }
     }
 }

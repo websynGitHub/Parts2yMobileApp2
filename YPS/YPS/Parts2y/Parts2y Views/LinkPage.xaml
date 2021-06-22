@@ -137,6 +137,15 @@
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
 
+                                                        <Grid HorizontalOptions="Start"
+                                                              IsVisible="{Binding  BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=Link}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, Source={x:Reference Name=Link}}" TextColor="#4c4c4c"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding ShippingNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+
                                                         <StackLayout HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.TagDesc.Status, Source={x:Reference Name=Link}}"
                                                       VerticalOptions="Center">

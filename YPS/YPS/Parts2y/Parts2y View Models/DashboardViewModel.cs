@@ -4,8 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using YPS.Helpers;
-//using YPS.Parts2y.Parts2y_Common_Classes;
-//using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
@@ -73,7 +71,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                //await Task.Delay(1);
 
                 if (tabname == "job")
                 {
@@ -118,6 +115,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IsPNEnabled = Settings.IsPNEnabled;
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
                     saveData.BgColor = Settings.Bar_Background.ToArgb();
+                    saveData.encVersionId = EncryptManager.Encrypt(Convert.ToString(Settings.VersionID));
                     Db.SaveUserPWd(saveData);
 
                     #region selected profile
@@ -181,11 +179,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public async Task RedirectToPage(string page)
         {
-            //UserDialogs.Instance.ShowLoading("Loading...");
             try
             {
                 loadindicator = true;
-                //await Task.Delay(2);
 
                 if (page == "task")
                 {
@@ -215,7 +211,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = false;
             }
             loadindicator = false;
-            //UserDialogs.Instance.HideLoading();
         }
 
         /// <summary>
@@ -256,7 +251,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    // DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection");
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection");
                 }
             }
             catch (Exception ex)
@@ -288,10 +283,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
                         Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
 
-                    }
-                    else
-                    {
-                        //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
                     }
                 }
                 else
@@ -327,17 +318,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                //if (Settings.alllabeslvalues == null || Settings.alllabeslvalues.Count == 0)
-                //{
                 var lblResult = await trackService.GetallActionStatusService();
 
                 if (lblResult != null && lblResult.data != null)
                 {
                     Settings.AllActionStatus = lblResult.data.ToList();
-                }
-                else
-                {
-                    //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
                 }
             }
             catch (Exception ex)
@@ -388,44 +373,43 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
                         labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
-                        //labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
-                        //labelobj.Jobs.Status = jobs == null ? true : (jobs.Status == 1 ? true : false);
-                        //labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
                         labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
-                        //labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
-                        //labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
-                        //labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    if (Settings.VersionID == 2)
+                    if (Settings.VersionID == 1)
                     {
-                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower())
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ELoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
 
                     }
-                    else if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    else if (Settings.VersionID == 2)
                     {
-                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "LoadInspection".Trim().ToLower())
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                    }
+                    else if (Settings.VersionID == 3)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                    }
+                    else if (Settings.VersionID == 4)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpLoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                    }
+                    else if (Settings.VersionID == 5)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PLoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
                     }
                 }
-
-                //if (Settings.VersionID == 2)
-                //{
-                //    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
-                //    {
-                //        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower())
-                //            .FirstOrDefault()) != null ? true : false;
-                //    }
-                //}
-                //else if (Settings.VersionID == 4 || Settings.VersionID == 3)
-                //{
-                //    IsLoadTabVisible = Settings.userRoleID == 1 ? true : false;
-                //}
             }
             catch (Exception ex)
             {
