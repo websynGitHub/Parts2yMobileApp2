@@ -89,8 +89,11 @@ namespace YPS
                         {
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
                             {
+                                Settings.IsChatBackButtonVisible = true;
                                 Settings.GetParamVal = is_param_val;
-                                App.Current.MainPage = new MenuPage(typeof(ChatPage));
+                                //App.Current.MainPage = new MenuPage(typeof(ChatPage));
+                                App.Current.MainPage.Navigation.PushAsync(new ChatPage());
+                                App.Current.MainPage.Navigation.InsertPageBefore(new NotificationListPage(), Current.MainPage.Navigation.NavigationStack[0]);
                             }
                             else if (navPages[0] == "RemoveUser")
                             {
@@ -133,6 +136,10 @@ namespace YPS
             {
                 YPSLogger.ReportException(ex, "App Constructor with params  -> in App.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
+            }
+            finally
+            {
+                Settings.IsChatBackButtonVisible = false;
             }
         }
         #endregion

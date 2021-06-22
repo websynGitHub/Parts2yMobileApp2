@@ -96,5 +96,7 @@
         public static readonly string Progress = "\uf252";
         public static readonly string Done = "\uf254";
 
+        public static readonly string CheckedFlag = "\uf11e";
+        public static readonly string Horn = "\uf0a1";
     }
 }

@@ -11,6 +11,7 @@ namespace YPS.CommonClasses
         public static string ScanValue { get; set; }
         //public static string ImpTxtCode { get; set; } = "TDdmwPkI+5H5TLnqUfTTow==";
         public static Color Bar_Background { get; set; } = Xamarin.Forms.Color.FromHex("#269DC9");
+        public static string DateFormat { get; set; } = "{0:dd MMM yyyy HH:mm}";
         public static Color HighlightedTabTxtColor { get; set; } = Color.Green;
         public static bool EndRefresh2 { get; set; }
         public static string IIJToken { get; set; }
@@ -119,6 +120,7 @@ namespace YPS.CommonClasses
         public static bool IsFilterreset { get; set; } = false;
         public static bool IsRefreshPartsPage { get; set; } = false;
         public static bool IsSearchClicked { get; set; }
+        public static bool IsChatBackButtonVisible { get; set; }
 
         #region for filter properties
         public static int UserID { get; set; } = 0;

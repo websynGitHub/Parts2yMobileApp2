@@ -72,7 +72,7 @@ namespace YPS.ChatServices
                             Name = name,
                             Message = message,
                             UserID = userid,
-                            MessagDateTime = messagetime.ToLocalTime().ToString("hh:mm tt"),
+                            MessagDateTime = messagetime.ToLocalTime().ToString(Settings.DateFormat),
                             MessageType = messagetype,
                             MessagUtcDateTime = messagetime
                         });
