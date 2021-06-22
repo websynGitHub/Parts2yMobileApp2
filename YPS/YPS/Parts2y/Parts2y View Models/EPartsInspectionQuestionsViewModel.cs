@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -15,7 +15,7 @@ using YPS.Service;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    public class VinInspectQuestionsPageViewModel : IBase
+    public class EPartsInspectionQuestionsViewModel : IBase
     {
         #region IComman and data members declaration
         SendPodata sendPodata = new SendPodata();
@@ -29,7 +29,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand DriverSignatureCmd { get; set; }
         public ICommand HideSignaturePadCmd { get; set; }
         public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
-        VinInspectQuestionsPage pageName;
+        EPartsInspectionQuestionsPage pageName;
         YPSService trackService;
         int tagId, taskid;
         bool isAllDone;
@@ -40,7 +40,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command LoadCmd { set; get; }
         #endregion
 
-        public VinInspectQuestionsPageViewModel(INavigation _Navigation, VinInspectQuestionsPage pagename, AllPoData selectedtagdata, bool isalldone)
+        public EPartsInspectionQuestionsViewModel(INavigation _Navigation, EPartsInspectionQuestionsPage pagename,
+            AllPoData selectedtagdata, bool isalldone)
         {
             try
             {
@@ -69,124 +70,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
-                DriverSignatureCmd = new Command(SignaturePadShowHide);
-                HideSignaturePadCmd = new Command(SignaturePadShowHide);
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "VinInspectQuestionsPageViewModel constructor -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-        }
-
-        public async Task GetInspSignature()
-        {
-            try
-            {
-                var result = await trackService.GetInspSignatureByTag(taskid, tagId);
-
-                if (Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower())
-                {
-                    IsDealerSignVisible = true;
-                    IsOwnerSignVisible = false;
-                    IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
-
-                    var carrierdriverimagesign = result?.data?.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver).Select(c => c.Signature).FirstOrDefault();
-
-                    var vindealerimagesigncarrier = result?.data?.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDealer).Select(c => c.Signature).FirstOrDefault();
-
-                    CarrierDriverImageSign = carrierdriverimagesign != null ?
-                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(carrierdriverimagesign))) : null;
-
-                    VINDealerImageSignCarrier = vindealerimagesigncarrier != null ?
-                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(vindealerimagesigncarrier))) : null;
-
-                    if (selectedTagData.TagTaskStatus != 2 && ((IsLoadTabVisible == false && carrierdriverimagesign != null && vindealerimagesigncarrier != null) || (IsLoadTabVisible == true)) &&
-                   ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                   FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
-                   )
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
-                    }
-                }
-                else if (Settings.EntityTypeName.Trim().ToLower() == "Owner".Trim().ToLower())
-                {
-                    IsDealerSignVisible = false;
-                    IsOwnerSignVisible = true;
-                    IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
-
-                    var driverimagesign = result?.data?.listData?.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver).
-                        Select(c => c.Signature).FirstOrDefault();
-
-
-                    DriverImageSign = driverimagesign != null ?
-                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(driverimagesign))) : null;
-
-                    if (selectedTagData.TagTaskStatus != 2 && ((IsLoadTabVisible == false && driverimagesign != null) || (IsLoadTabVisible == true)) &&
-                   ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                   FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
-                   )
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
-                    }
-                }
-                else
-                {
-                    IsSignatureCarrierVisible = false;
-
-                    if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                      FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                      (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                      (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
-                      selectedTagData.TagTaskStatus != 2)
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "GetInspSignature method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-        }
-
-        public async void SignaturePadShowHide(object sender)
-        {
-            try
-            {
-                var sign = sender as Label;
-                var back = sender as YPS.CustomRenders.FontAwesomeIconLabel;
-
-                if (back != null)
-                {
-                    SignaturePadPopup = false;
-                    SignTabVisibility = true;
-                }
-                else
-                {
-                    SignaturePadPopup = true;
-                    SignTabVisibility = false;
-                }
-
-                if (sign != null)
-                {
-                    Signature = sign.StyleId;
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "SignaturePadShowHide method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "EPartsInspectionQuestionsViewModel constructor -> in EPartsInspectionQuestionsViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -195,12 +82,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if (tabname.Trim().ToLower() == "home".Trim().ToLower())
+                if (tabname == "home")
                 {
                     loadindicator = true;
                     App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
-                else if (tabname.Trim().ToLower() == "job".Trim().ToLower())
+                else if (tabname == "job")
                 {
                     loadindicator = true;
 
@@ -226,7 +113,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     await Navigation.PopAsync();
                 }
-                else if (tabname.Trim().ToLower() == "parts".Trim().ToLower())
+                else if (tabname == "parts")
                 {
                     loadindicator = true;
 
@@ -251,17 +138,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     await Navigation.PopAsync();
                 }
-                else if (tabname.Trim().ToLower() == "load".Trim().ToLower())
+                else if (tabname == "load")
                 {
                     ObservableCollection<AllPoData> preparelist = new ObservableCollection<AllPoData>();
                     preparelist.Add(selectedTagData);
-                    await Navigation.PushAsync(new CarrierInspectionQuestionsPage(preparelist, isAllDone));
+                    await Navigation.PushAsync(new KPLoadInspectionQuestionPage(preparelist, isAllDone));
                 }
             }
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "TabChange method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in EPartsInspectionQuestionsViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -277,13 +164,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("EPartsInspectionQuestionsViewModel.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
                 if (checkInternet)
                 {
-
                     sendPodata = new SendPodata();
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
@@ -306,7 +192,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -322,7 +208,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(1);
+                await GetConfigurationResults(10);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -335,7 +221,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuickTabClicked method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuickTabClicked method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -350,7 +236,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(2);
+                await GetConfigurationResults(11);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -363,7 +249,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FullTabClicked method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FullTabClicked method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -380,19 +266,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (IsQuickTabVisible == true)
                 {
-                    await GetConfigurationResults(1);
-                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 1).ToList());
+                    await GetConfigurationResults(10);
+                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 10).ToList());
                     QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
                 if (IsFullTabVisible == true)
                 {
-                    await GetConfigurationResults(2);
-                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 2).ToList());
+                    await GetConfigurationResults(11);
+                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 11).ToList());
                     FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
-
-                await GetInspSignature();
 
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
@@ -402,10 +286,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 FullTabVisibility = false;
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
+
+                if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                {
+                    IsDoneEnable = true;
+                    DoneOpacity = 1.0;
+                }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SignTabClicked method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -445,13 +335,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
             {
                 loadindicator = false;
             }
+
         }
 
         public void GetQuestionsLIst()
@@ -462,7 +353,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -475,7 +366,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -488,13 +379,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
                 await GetConfigurationResults(inspectionConfiguration.CategoryID);
-                await Navigation.PushAsync(new VinInspectionAnswersPage(inspectionConfiguration,
-                    new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID).ToList())
-                    , inspectionResultsLists, selectedTagData, true, null, this));
+                await Navigation.PushAsync(new EInspectionAnswersPage(inspectionConfiguration,
+                    new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID
+                    && wr.VersionID == Settings.VersionID).ToList())
+                    , inspectionResultsLists, selectedTagData, true, this, null));
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuestionClick method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuestionClick method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -523,7 +415,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
@@ -542,15 +433,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "QuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-                    IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "FullInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "EQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "EFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
-                    if (Settings.VersionID == 2)
-                    {
-                        LoadTextColor = Color.Black;
-                        IsSignatureCarrierVisible = (IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false) == true ? false : true;
-                        SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Checklist";
-                    }
+                    //if (Settings.VersionID == 4 || Settings.VersionID == 3)
+                    //{
+                    LoadTextColor = Color.Black;
+                    IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ELoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    //}
 
                     if (IsQuickTabVisible == false && IsFullTabVisible == false)
                     {
@@ -574,7 +464,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in VinInspectQuestionsPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -592,22 +482,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "TagNumber"
             };
+            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
+            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
             public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
             {
                 Status = false,
                 Name = "TaskName"
             };
-
             public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
             {
                 Status = false,
                 Name = "Event"
             };
-            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
-            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
-            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
-            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
-
         }
         public class DashboardLabelFields : IBase
         {
@@ -781,7 +669,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _SignTabText = "Sign";
+        private string _SignTabText = "Checklist";
         public string SignTabText
         {
             get { return _SignTabText; }

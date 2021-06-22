@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using YPS.CommonClasses;
-using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
 using YPS.Parts2y.Parts2y_Views;
@@ -16,21 +15,19 @@ using YPS.Service;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
-    public class VinInspectionAnswersPageViewModel : IBase
+    public class KRInspectionAnswersViewModel : IBase
     {
         #region IComman and data members declaration
-
         public INavigation Navigation { get; set; }
         public ICommand ViewallClick { get; set; }
         public ICommand NextClick { get; set; }
         public ICommand PhotoClickCommand { get; set; }
         public ICommand Backevnttapped { set; get; }
-        public ICommand InspTabCmd { set; get; }
+        public ICommand LoadInspTabCmd { set; get; }
+        public ICommand SignalTabCmd { set; get; }
         public ICommand QuickTabCmd { set; get; }
         public ICommand FullTabCmd { set; get; }
-        public ICommand SignalTabCmd { set; get; }
-        //public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
-        VinInspectionAnswersPage pagename;
+        KRInspectionAnswersPage pagename;
         AllPoData selectedTagData;
         YPSService trackService;
         int tagId, taskid, photoCounts;
@@ -41,20 +38,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
         ObservableCollection<InspectionConfiguration> inspectionConfigurationList;
         ObservableCollection<InspectionPhotosResponseListData> finalPhotoListA;
         List<InspectionResultsList> inspectionResultsList;
-        CarrierInspectionQuestionsViewModel CarQueVm;
-        VinInspectQuestionsPageViewModel VINQueVm;
-
+        KRLoadInspectionQuestionsViewModel LoadQueVm;
+        KRPartsInspectionQuestionsViewModel PartsQueVm;
         #endregion
 
-        public VinInspectionAnswersPageViewModel(INavigation _Navigation, VinInspectionAnswersPage page, InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
+        public KRInspectionAnswersViewModel(INavigation _Navigation, KRInspectionAnswersPage page,
+            InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
             List<InspectionResultsList> inspectionResultsList, AllPoData selectedtagdata, bool isVINInsp,
-             CarrierInspectionQuestionsViewModel carcueVm, VinInspectQuestionsPageViewModel vinqueVm, bool isalldone = false)
+            KRPartsInspectionQuestionsViewModel partsqueVm, KRLoadInspectionQuestionsViewModel loadqueVm, bool isalldone = false)
         {
             try
             {
                 Navigation = _Navigation;
-                CarQueVm = carcueVm;
-                VINQueVm = vinqueVm;
+                LoadQueVm = loadqueVm;
+                PartsQueVm = partsqueVm;
                 trackService = new YPSService();
                 finalPhotoListA = new ObservableCollection<InspectionPhotosResponseListData>();
                 pagename = page;
@@ -68,14 +65,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 REQNo = selectedtagdata.REQNo;
                 TaskName = selectedtagdata.TaskName;
                 Resource = selectedtagdata.TaskResourceName;
-                EventName = selectedtagdata.EventName;
+                EventName = selectedTagData.EventName;
                 IsResourcecVisible = selectedtagdata.TaskResourceID == Settings.userLoginID ? false : true;
                 TagNumber = selectedtagdata.TagNumber;
                 IndentCode = selectedtagdata.IdentCode;
-                IsConditionNameLabelVisible = string.IsNullOrEmpty(selectedTagData.ConditionName) ? false : true;
                 ConditionName = selectedtagdata.ConditionName;
                 TagNumber = selectedtagdata.TagNumber;
                 IndentCode = selectedtagdata.IdentCode;
+                IsConditionNameLabelVisible = string.IsNullOrEmpty(selectedTagData.ConditionName) ? false : true;
                 ConditionName = selectedtagdata.ConditionName;
                 InspectionConfiguration = inspectionConfiguration;
                 this.inspectionConfigurationList = inspectionConfigurationList;
@@ -84,9 +81,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 ViewallClick = new Command(ViewallClickMethod);
                 NextClick = new Command(NextClickMethod);
-                InspTabCmd = new Command(InspTabClicked);
                 QuickTabCmd = new Command(QuickTabClicked);
                 FullTabCmd = new Command(FullTabClicked);
+                LoadInspTabCmd = new Command(LoadInspTabClicked);
                 SignalTabCmd = new Command(SignTabClicked);
                 PhotoClickCommand = new Command(async () => await SelectPic());
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
@@ -95,7 +92,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "VinInspectionAnswersPageViewModel constructor -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KRInspectionAnswersViewModel constructor -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -112,20 +109,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 FullTabVisibility = false;
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
-                VINQueVm.QuickTabVisibility = true;
-                VINQueVm.FullTabVisibility = false;
-                VINQueVm.SignTabVisibility = false;
+                PartsQueVm.QuickTabVisibility = true;
+                PartsQueVm.FullTabVisibility = false;
+                PartsQueVm.SignTabVisibility = false;
+
                 await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuickTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuickTabClicked method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
             {
                 loadindicator = false;
             }
+
         }
 
         public async void FullTabClicked()
@@ -133,6 +132,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
+
                 IsAnswersVisible = true;
                 QuickTabTextColor = Color.Black;
                 QuickTabVisibility = false;
@@ -140,14 +140,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 FullTabVisibility = true;
                 SignTabTextColor = Color.Black;
                 SignTabVisibility = false;
-                VINQueVm.QuickTabVisibility = false;
-                VINQueVm.FullTabVisibility = true;
-                VINQueVm.SignTabVisibility = false;
+                PartsQueVm.QuickTabVisibility = false;
+                PartsQueVm.FullTabVisibility = true;
+                PartsQueVm.SignTabVisibility = false;
                 await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FullTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FullTabClicked method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -156,18 +156,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async void InspTabClicked()
+        public async void LoadInspTabClicked()
         {
             try
             {
                 loadindicator = true;
-                CarQueVm.InspTabVisibility = true;
-                CarQueVm.SignTabVisibility = false;
+                LoadQueVm.LoadInspTabVisibility = true;
+                LoadQueVm.SignTabVisibility = false;
                 await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "InspTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoadInspTabClicked method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -190,24 +190,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if (CarQueVm != null)
+                if (LoadQueVm != null)
                 {
-                    CarQueVm.InspTabVisibility = false;
-                    CarQueVm.SignTabVisibility = true;
+                    LoadQueVm.LoadInspTabVisibility = false;
+                    LoadQueVm.SignTabVisibility = true;
                 }
 
-                if (VINQueVm != null)
+                if (PartsQueVm != null)
                 {
-                    VINQueVm.QuickTabVisibility = false;
-                    VINQueVm.FullTabVisibility = false;
-                    VINQueVm.SignTabVisibility = true;
+                    PartsQueVm.QuickTabVisibility = false;
+                    PartsQueVm.FullTabVisibility = false;
+                    PartsQueVm.SignTabVisibility = true;
                 }
 
                 await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SignTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -251,11 +251,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ImagesCount = 0;
                         }
                     }
+
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -264,7 +265,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public async void ChangeLabel()
+        public async Task ChangeLabel()
         {
             try
             {
@@ -279,9 +280,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //Assigning the Labels & Show/Hide the controls based on the data
                         if (isInspVIN == true)
                         {
-                            var tagnumber = labelval.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
@@ -295,18 +296,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
                             labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                             labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
-                            IsResourcecVisible = false;
 
                             if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                             {
-                                IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "QuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                                IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FullInspection".Trim()).FirstOrDefault()) != null ? true : false;
-
-                                if (Settings.VersionID == 2)
-                                {
-                                    var isloadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
-                                    SignTabText = isloadTabVisible == false ? "Checklist & Sign" : "Checklist";
-                                }
+                                IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "KrQuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                                IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "KrFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
                             }
 
                             if (IsQuickTabVisible == false && IsFullTabVisible == false)
@@ -315,16 +309,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else if (IsQuickTabVisible == true && IsFullTabVisible == true)
                             {
-                                if (InspectionConfiguration.CategoryID == 1)
+                                if (InspectionConfiguration.CategoryID == 4)
                                 {
                                     QuickTabClicked();
                                 }
-                                else if (InspectionConfiguration.CategoryID == 2)
+                                else if (InspectionConfiguration.CategoryID == 5)
                                 {
                                     FullTabClicked();
                                 }
                             }
-                            else if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
+                            else if (IsQuickTabVisible == true &&
+                                InspectionConfiguration.CategoryID == 4)
                             {
                                 IsFullTabVisible = false;
                                 QuickTabClicked();
@@ -337,11 +332,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            var poid = labelval.Where(wr => wr.FieldID == labelobj.POID.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var shippingnumber = labelval.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var reqnumber = labelval.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var taskanme = labelval.Where(wr => wr.FieldID == labelobj.TaskName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                            var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.POID.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -356,12 +351,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
                             labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
-                            if (Settings.VersionID == 2)
-                            {
-                                SignTabText = "Checklist & Sign";
-                            }
-
-                            InspTabClicked();
+                            LoadInspTabClicked();
                             IsInspTabVisible = true;
 
                             if (isAllDone == false)
@@ -376,7 +366,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -395,7 +385,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "SelectPic method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectPic method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -418,6 +408,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse)
                 {
                     var checkInternet = await App.CheckInterNetConnection();
+
                     if (checkInternet)
                     {
                         await DoneClicked();
@@ -506,12 +497,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         SignTabClicked();
                     }
                 }
+
                 await GetInspectionPhotos();
             }
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "NextClickMethod method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "NextClickMethod method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -528,7 +520,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ViewallClickMethod method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewallClickMethod method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -541,7 +533,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -577,7 +569,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked method -> in VinInspectionAnswersPageViewModel.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in KRInspectionAnswersViewModel.cs  " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -673,7 +665,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = false;
                 trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ShowConfigurationOptions method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ShowConfigurationOptions method -> in KRInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -756,7 +748,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _SignTabText = "Sign";
+        private string _SignTabText = "Checklist";
         public string SignTabText
         {
             get { return _SignTabText; }
