@@ -4,7 +4,6 @@ using System.Text;
 using YPS.Views;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
-
 using Xamarin.Forms;
 using YPS.Service;
 using System.Windows.Input;
@@ -143,6 +142,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 }
                                 else
                                 {
+                                    IsPhotoBtnVisible = true;
                                     await SingleTagDataVerification();
                                 }
                             }
@@ -298,35 +298,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             var groubbyval = result.data.allPoData.GroupBy(gb => gb.POShippingNumber);
                             ObservableCollection<AllPoData> PoDataCollections = new ObservableCollection<AllPoData>();
-                            PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoData);
+                            PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoData
+                                .Where(wr => wr.TagNumber == ScannedResult)?
+                                .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
+                                ThenBy(tob => tob.TaskName));
 
-                            ScannedAllPOData = PoDataCollections.Where(wr => wr.TagNumber == ScannedResult).FirstOrDefault();
-
-                            if (ScannedAllPOData == null)
+                            if (PoDataCollections?.Count == 0)
                             {
-                                ScannedAllPOData = PoDataCollections.Where(wr => wr.IdentCode == ScannedResult).FirstOrDefault();
+                                PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoData
+                                   .Where(wr => wr.IdentCode == ScannedResult)?
+                                   .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
+                                   ThenBy(tob => tob.TaskName));
                             }
 
-                            if (ScannedAllPOData != null)
+                            if (PoDataCollections?.Count > 0)
                             {
                                 ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
-                                StatusText = ScannedAllPOData.TagTaskStatus == 2 ? "Done" : "Verified";
+                                StatusText = "Verified";
                                 StatusTextBgColor = Settings.Bar_Background;
                                 ScannedValue = ScannedResult;
 
-                                if (Settings.VersionID == 2)
-                                {
-                                    IsPhotoEnable = true;
-                                    PhotoOpacity = 1.0;
-                                }
-                                else
-                                {
-                                    if (isbuttonenable == true)
-                                    {
-                                        IsPhotoEnable = true;
-                                        PhotoOpacity = 1.0;
-                                    }
-                                }
+                                await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, uploadType));
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
                             }
                             else
                             {
@@ -373,7 +366,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             Settings.POID = podata.POID;
                             Settings.TaskID = podata.TaskID;
-                            await Navigation.PushAsync(new VinInspectQuestionsPage(podata, false));
+                            await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, false));
                         }
                         else if (uploadType != 0)
                         {
@@ -488,6 +481,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        public bool _IsAssignMsgVisible;
+        public bool IsAssignMsgVisible
+        {
+            get { return _IsAssignMsgVisible; }
+            set
+            {
+                _IsAssignMsgVisible = value;
+                RaisePropertyChanged("IsAssignMsgVisible");
+            }
+        }
+
+        public string _AssignInstructionMsg;
+        public string AssignInstructionMsg
+        {
+            get { return _AssignInstructionMsg; }
+            set
+            {
+                _AssignInstructionMsg = value;
+                RaisePropertyChanged("AssignInstructionMsg");
+            }
+        }
+
         public bool _IsScanDataVisible;
         public bool IsScanDataVisible
         {
@@ -607,6 +622,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _PhotoOpacity = value;
                 RaisePropertyChanged("PhotoOpacity");
+            }
+        }
+
+        public bool _IsPhotoBtnVisible;
+        public bool IsPhotoBtnVisible
+        {
+            get { return _IsPhotoBtnVisible; }
+            set
+            {
+                _IsPhotoBtnVisible = value;
+                RaisePropertyChanged("IsPhotoBtnVisible");
             }
         }
 
