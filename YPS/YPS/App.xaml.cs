@@ -55,7 +55,7 @@ namespace YPS
         /// <param name="val"></param>
         public App(bool val)
         {
-            YPSLogger.TrackEvent("App.cs", "Page Loading push notification " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            //YPSLogger.TrackEvent("App.cs", "Page Loading push notification " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
 
@@ -63,7 +63,6 @@ namespace YPS
                 SetupCertificatePinningCheck();
                 FlowListView.Init();
                 MyNavigationPage = new NavigationPage();
-                //MyNavigationPage.BarBackgroundColor = Color.Red;
                 Current.MainPage = MyNavigationPage;
 
                 var globalResult = Task.Run(async () => await YPSService.GetglobelSettings()).Result; ///Fetching global settings
@@ -87,38 +86,58 @@ namespace YPS
 
                         if (!String.IsNullOrEmpty(navPages[0]))
                         {
-                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
-                            {
-                                Settings.IsChatBackButtonVisible = true;
-                                Settings.GetParamVal = is_param_val;
-                                //App.Current.MainPage = new MenuPage(typeof(ChatPage));
-                                App.Current.MainPage.Navigation.PushAsync(new ChatPage());
-                                App.Current.MainPage.Navigation.InsertPageBefore(new NotificationListPage(), Current.MainPage.Navigation.NavigationStack[0]);
-                            }
-                            else if (navPages[0] == "RemoveUser")
-                            {
-                                DependencyService.Get<ISQLite>().deleteReadCountNmsg(Convert.ToInt32(navPages[4]));
-                                RememberPwdDB Db = new RememberPwdDB();
-                                var user = Db.GetUserDetails();
+                            RememberPwdDB DbParts2y = new RememberPwdDB();
+                            var userParts2y = DbParts2y.GetUserDetails();
 
-                                if (user.Count == 1)
+                            if (userParts2y?.Count > 0)
+                            {
+                                Settings.LoginID = userParts2y[0].encLoginID;
+                                Settings.Sessiontoken = userParts2y[0].encSessiontoken;
+                                Settings.IsIIJEnabled = userParts2y[0].IIJEnable;
+                                Settings.IsPNEnabled = userParts2y[0].IsPNEnabled;
+                                Settings.IsEmailEnabled = userParts2y[0].IsEmailEnabled;
+
+                                Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+
+                                if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
                                 {
-                                    var userData = user.FirstOrDefault();
-                                    Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-                                    Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-                                    Settings.Sessiontoken = userData.encSessiontoken;
-                                    Settings.AndroidVersion = userData.AndroidVersion;
-                                    Settings.iOSversion = userData.iOSversion;
-                                    Settings.IsIIJEnabled = userData.IIJEnable;
+                                    Task.Run(async () => await GetActionStatus()).Wait();
+                                    Task.Run(async () => await GetallApplabels()).Wait();
+
+                                    Settings.IsChatBackButtonVisible = true;
+                                    Settings.GetParamVal = is_param_val;
+                                    App.Current.MainPage.Navigation.PushAsync(new ChatPage());
+                                    App.Current.MainPage.Navigation.InsertPageBefore(new NotificationListPage(), Current.MainPage.Navigation.NavigationStack[0]);
+                                }
+                                else if (navPages[0] == "RemoveUser")
+                                {
+                                    DependencyService.Get<ISQLite>().deleteReadCountNmsg(Convert.ToInt32(navPages[4]));
+                                    //RememberPwdDB Db = new RememberPwdDB();
+                                    //var user = Db.GetUserDetails();
+
+                                    //if (user.Count == 1)
+                                    //{
+                                    //var userData = user.FirstOrDefault();
+                                    //Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                                    //Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                                    //Settings.Sessiontoken = userData.encSessiontoken;
+                                    //Settings.AndroidVersion = userData.AndroidVersion;
+                                    //Settings.iOSversion = userData.iOSversion;
+                                    //Settings.IsIIJEnabled = userData.IIJEnable;
                                     App.Current.MainPage = new MenuPage(typeof(HomePage));
-                                    App.Current.MainPage.DisplayAlert("Message", "You removed from " + " '" + navPages[7] + "' " + ", Can not see previous conversation", "OK");
+                                    App.Current.MainPage.DisplayAlert("Message", "You have been removed from " + " '" + navPages[7] + "' " + ", Can not view the conversation", "OK");
+
+                                    //}
+                                    //else
+                                    //{
+                                    //    MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
+                                    //}
 
                                 }
-                                else
-                                {
-                                    MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
-                                }
-
+                            }
+                            else
+                            {
+                                MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
                             }
                         }
                     }
@@ -175,6 +194,54 @@ namespace YPS
                 YPSLogger.ReportException(ex, "App Constructor without params  -> in App.cs " + Settings.userLoginID);
             }
         }
+
+        /// <summary>
+        /// This method get all label texts, used in the app.
+        /// </summary>
+        public async Task GetallApplabels()
+        {
+            try
+            {
+                var lblResult = await service.GetallApplabelsService();
+
+                if (lblResult != null && lblResult.data != null)
+                {
+                    Settings.alllabeslvalues = lblResult.data.ToList();
+                    var datavalues = Settings.alllabeslvalues.Where(x => x.VersionID == Settings.VersionID && x.LanguageID == Settings.LanguageID).ToList();
+                    Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
+                    Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
+                    Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
+                    Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetallApplabels method -> in App.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        /// <summary>
+        /// This method is to get the status of actions present in application.
+        /// </summary>
+        public async Task GetActionStatus()
+        {
+            try
+            {
+                var lblResult = await service.GetallActionStatusService();
+
+                if (lblResult != null && lblResult.data != null)
+                {
+                    Settings.AllActionStatus = lblResult.data.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetActionStatus method -> in App.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
 
         /// <summary>
         /// 

@@ -12,6 +12,7 @@ using YPS.Service;
 using System.Linq;
 using Acr.UserDialogs;
 using ZXing.Net.Mobile.Forms;
+using System.Collections.ObjectModel;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
@@ -48,7 +49,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 TaskCmd = new Command(async () => await TabChange("task"));
                 LoadCmd = new Command(async () => await TabChange("load"));
 
-
+                Task.Run(() => GetTaskData()).Wait();
                 Task.Run(() => RememberUserDetails()).Wait();
                 Task.Run(() => GetActionStatus()).Wait();
                 Task.Run(() => GetallApplabels()).Wait();
@@ -59,6 +60,71 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "DashboardViewModel constructor -> in DashboardViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+        /// <summary>
+        /// This method is for binding the records/date to the data grid.
+        /// </summary>
+        /// </summary>
+        /// <param name="iSPagingNoAuto"></param>
+        /// <returns></returns>
+        public async Task GetTaskData()
+        {
+            try
+            {
+                loadindicator = true;
+
+                YPSLogger.TrackEvent("DashboardViewModel.cs", "in GetTaskData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+                    GetPoData result = new GetPoData();
+                    SendPodata sendPodata = new SendPodata();
+                    sendPodata.UserID = Settings.userLoginID;
+                    sendPodata.PageSize = Settings.pageSizeYPS;
+                    sendPodata.StartPage = Settings.startPageYPS;
+
+                    result = await trackService.LoadPoDataService(sendPodata);
+
+                    if (result?.status != 0 && result?.data?.allPoData != null)
+                    {
+                        Settings.AllPOData = new ObservableCollection<AllPoData>();
+                        Settings.AllPOData = result.data.allPoData;
+
+                        var groubbyval = result.data.allPoData.GroupBy(gb => new { gb.TaskID });
+
+                        ObservableCollection<AllPoData> groupedlist = new ObservableCollection<AllPoData>();
+
+                        foreach (var val in groubbyval)
+                        {
+                            AllPoData groupdata = new AllPoData();
+                            groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
+                            groupedlist.Add(groupdata);
+                        }
+
+                        groupedlist = new ObservableCollection<AllPoData>(groupedlist?.Where(wr => wr.TaskStatus == 0));
+
+                        JobCountText = groupedlist?.Count > 0 ? groupedlist.Count().ToString() : "0";
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetTaskData method -> in DashboardViewModel.cs " + Settings.userLoginID);
+                loadindicator = false;
             }
             finally
             {
@@ -115,56 +181,55 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IsPNEnabled = Settings.IsPNEnabled;
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
                     saveData.BgColor = Settings.Bar_Background.ToArgb();
-                    saveData.encVersionId = EncryptManager.Encrypt(Convert.ToString(Settings.VersionID));
                     Db.SaveUserPWd(saveData);
-
                     #region selected profile
-                    if (!String.IsNullOrEmpty(Settings.CompanySelected))
-                    {
-                        Company = Settings.CompanySelected;
-                    }
+                    //if (!String.IsNullOrEmpty(Settings.CompanySelected))
+                    //{
+                    //    Company = Settings.CompanySelected;
+                    //}
 
-                    if (!String.IsNullOrEmpty(Settings.ProjectSelected) || !String.IsNullOrEmpty(Settings.JobSelected))
-                    {
-                        //if (Settings.SupplierSelected == "ALL")
-                        //{
-                        //ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
-                        ProjectName = Settings.ProjectSelected;
-                        JobName = Settings.JobSelected;
-                        //}
-                        //else
-                        //{
-                        //    var pNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
-                        //    string trimpNjobName = pNjobName.TrimEnd('/');
-                        //    ProNjobName = trimpNjobName;
-                        //    ProjectName = Settings.ProjectSelected;
-                        //    JobName = Settings.JobSelected;
-                        //    SupplierName = Settings.SupplierSelected;
-                        //}
-                    }
+                    //if (!String.IsNullOrEmpty(Settings.ProjectSelected) || !String.IsNullOrEmpty(Settings.JobSelected))
+                    //{
+                    //    //if (Settings.SupplierSelected == "ALL")
+                    //    //{
+                    //    //ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
+                    //    ProjectName = Settings.ProjectSelected;
+                    //    JobName = Settings.JobSelected;
+                    //    //}
+                    //    //else
+                    //    //{
+                    //    //    var pNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
+                    //    //    string trimpNjobName = pNjobName.TrimEnd('/');
+                    //    //    ProNjobName = trimpNjobName;
+                    //    //    ProjectName = Settings.ProjectSelected;
+                    //    //    JobName = Settings.JobSelected;
+                    //    //    SupplierName = Settings.SupplierSelected;
+                    //    //}
+                    //}
                     #endregion
                 }
-                else
+
+                //else
+                //{
+                var DBresponse = await trackService.GetSaveUserDefaultSettings(Settings.userLoginID);
+
+                if (DBresponse != null)
                 {
-                    var DBresponse = await trackService.GetSaveUserDefaultSettings(Settings.userLoginID);
-
-                    if (DBresponse != null)
+                    if (DBresponse.status == 1)
                     {
-                        if (DBresponse.status == 1)
-                        {
-                            Settings.VersionID = DBresponse.data.VersionID;
-                            Company = Settings.CompanySelected = DBresponse.data.CompanyName;
+                        Settings.VersionID = DBresponse.data.VersionID;
+                        Company = Settings.CompanySelected = DBresponse.data.CompanyName;
 
 
-                            ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
-                            ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
-                            JobName = Settings.JobSelected = DBresponse.data.JobNumber;
-                            Settings.CompanyID = DBresponse.data.CompanyID;
-                            Settings.ProjectID = DBresponse.data.ProjectID;
-                            Settings.JobID = DBresponse.data.JobID;
-                        }
+                        ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
+                        ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
+                        JobName = Settings.JobSelected = DBresponse.data.JobNumber;
+                        Settings.CompanyID = DBresponse.data.CompanyID;
+                        Settings.ProjectID = DBresponse.data.ProjectID;
+                        Settings.JobID = DBresponse.data.JobID;
                     }
                 }
+                //}
             }
             catch (Exception ex)
             {
@@ -504,6 +569,34 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private string _JobCountText { set; get; }
+        public string JobCountText
+        {
+            get
+            {
+                return _JobCountText;
+            }
+            set
+            {
+                this._JobCountText = value;
+                NotifyPropertyChanged("JobCountText");
+            }
+        }
+
+        private bool _IsJobCountVisible { set; get; } = true;
+        public bool IsJobCountVisible
+        {
+            get
+            {
+                return _IsJobCountVisible;
+            }
+            set
+            {
+                this._IsJobCountVisible = value;
+                NotifyPropertyChanged("IsJobCountVisible");
+            }
+        }
 
         private bool _IsLoadTabVisible { set; get; } = true;
         public bool IsLoadTabVisible

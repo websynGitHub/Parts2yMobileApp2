@@ -58,6 +58,7 @@ namespace YPS.Model
         public bool IIJEnable { get; set; }
         public bool IsPNEnabled { get; set; }
         public bool IsEmailEnabled { get; set; }
+        public string encLanguageID { get; set; }
     }
 
     public class notifyMsgList

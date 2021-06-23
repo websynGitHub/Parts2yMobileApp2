@@ -196,6 +196,8 @@ namespace YPS.Droid
                     var notificationManager = NotificationManagerCompat.From(this);
                     notificationManager.Notify(PushId, notificationBuilder.Build());
                 }
+                Settings.notifyCount = Settings.notifyCount + 1;
+                MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Convert.ToString(Settings.notifyCount));
             }
             catch (Exception ex)
             {

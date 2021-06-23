@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Syncfusion.XForms.Buttons;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -25,6 +26,8 @@ namespace YPS.ViewModel
         public ICommand Updatetitle { get; set; }
         public ICommand QnACloseICmd { get; set; }
         public ICommand adduserICmd { get; set; }
+        public ICommand CheckedChangedCmd { set; get; }
+
         #endregion
 
         #region Declaring Data Members
@@ -50,7 +53,7 @@ namespace YPS.ViewModel
                 Updatetitle = new Command(async () => await UpdateTitleClicked());
                 QnACloseICmd = new Command(async () => await QnACloseClick());
                 adduserICmd = new Command(async () => await AddUserClick());
-
+                CheckedChangedCmd = new Command(CheckedChanged);
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call API
                 UserList = new List<User>();
                 GetChatUser(poId, qaId, Settings.QAType);// Get the users in the chat
@@ -80,6 +83,66 @@ namespace YPS.ViewModel
             {
                 service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ChatUsersViewModel constructor -> in ChatUsersViewModel " + Settings.userLoginID);
+            }
+        }
+
+        private async void CheckedChanged(object sender)
+        {
+            YPSLogger.TrackEvent("ChatUsersViewModel.cs", "in CheckedChanged method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            IndicatorVisibility = true;
+
+            try
+            {
+                var userData = sender as Plugin.InputKit.Shared.Controls.CheckBox;
+                int a = Convert.ToInt32(userData.ClassId);
+                string b = userData.Text;
+                var userObj = (NameIfo)userData.BindingContext;
+
+                if (UserList.Count > 0)
+                {
+                    bool has = UserList.Any(cus => cus.UserID == a);
+
+                    if (has)
+                    {
+                        userObj.UserChecked = false;
+                        UserList.Remove(UserList.Single(x => x.UserID == a));
+                    }
+                    else
+                    {
+                        userObj.UserChecked = true;
+                        UserList.Add(new User() { Status = 1, UserID = a });
+                    }
+                }
+                else
+                {
+                    if (a != 0)
+                    {
+                        if (userData.IsChecked == false)
+                        {
+                            bool has = UserList.Any(cus => cus.UserID == a);
+
+                            if (has)
+                            {
+                                userObj.UserChecked = false;
+                                UserList.Remove(UserList.Single(x => x.UserID == a));
+                            }
+                        }
+                        else
+                        {
+                            userObj.UserChecked = true;
+                            UserList.Add(new User() { Status = 1, UserID = a });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "CheckedChanged method -> in ChatUsersViewModel.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
             }
         }
 

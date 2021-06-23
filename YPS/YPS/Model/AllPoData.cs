@@ -599,7 +599,7 @@ namespace YPS.Model
         }
     }
 
-    public class NameIfo
+    public class NameIfo : IBase
     {
         public int POID { get; set; }
         public int QAID { get; set; }
@@ -611,12 +611,13 @@ namespace YPS.Model
         public int RoleID { get; set; }
         public int ISCurrentUser { get; set; }
         public int CreatedBy { get; set; }
-        public bool check { get; set; }
+        //public bool check { get; set; }
         public string Title { get; set; }
         public bool Iscurentuser { get; set; } = true;
         public string img { get; set; }
         public bool checkType { get; set; }
         public Xamarin.Forms.Color IconColor { get; set; }
+        public bool UserChecked { get; set; }
 
     }
     public class users

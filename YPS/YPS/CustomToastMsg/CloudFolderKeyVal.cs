@@ -44,7 +44,7 @@ namespace YPS.CustomToastMsg
                     {
                         if (result.status == 1)
                         {
-                            Assignvaluestosettings(result);
+                            await Assignvaluestosettings(result);
                             // await SecureStorage.SetAsync("userID", result.data.UserID.ToString());
                             // await SecureStorage.SetAsync("userName", result.data.Email);
                             // await SecureStorage.SetAsync("LoginID", result.data.LoginID);
@@ -116,7 +116,7 @@ namespace YPS.CustomToastMsg
             }
         }
 
-        public static void Assignvaluestosettings(LoginUserData result)
+        public async static Task Assignvaluestosettings(LoginUserData result)
         {
             try
             {

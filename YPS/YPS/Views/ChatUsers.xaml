@@ -13,7 +13,7 @@
              NavigationPage.HasNavigationBar="False"
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
-             >
+             x:Name="ChatUser">
 
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -125,17 +125,18 @@
                                                    IsScrollBarVisible="True" AutoFitMode="Height">
                                 <sflistView:SfListView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackLayout Padding="4,5,0,5">
-                                            <sfchecks:SfCheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
+                                        <StackLayout Padding="4,5,0,5" Spacing="0">
+                                            <!--<sfchecks:SfCheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
                                                                  Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
-                                                                 IsChecked="{Binding check}" ClassId="{Binding UserID,Mode=TwoWay}" 
+                                                                 IsChecked="{Binding UserChecked}" ClassId="{Binding UserID,Mode=TwoWay}" 
                                                                  StateChanged="CheckBoxCheckChanged" 
-                                                                 Style="{StaticResource SfCheckBoxTextStyle}"/>
-                                            <!--<input:CheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
-                                                                 Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
-                                                                 IsChecked="{Binding check}" ClassId="{Binding UserID,Mode=TwoWay}" 
-                                                                 CheckChanged="CheckBoxCheckChanged" 
                                                                  Style="{StaticResource SfCheckBoxTextStyle}"/>-->
+                                            <input:CheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
+                                                                 Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
+                                                                 IsChecked="{Binding UserChecked}" ClassId="{Binding UserID,Mode=TwoWay}" 
+                                                                 CheckChangedCommand="{Binding BindingContext.CheckedChangedCmd,Source={x:Reference Name=ChatUser}}" 
+                                                                 />
+                                            
                                         </StackLayout>
                                     </DataTemplate>
                                 </sflistView:SfListView.ItemTemplate>

@@ -292,6 +292,7 @@ namespace YPS.Views
                     var userData = (SfCheckBox)sender;
                     int a = Convert.ToInt32(userData.ClassId);
                     string b = userData.Text;
+                    var userObj = (NameIfo)userData.BindingContext;
 
                     if (vm.UserList.Count > 0)
                     {
@@ -299,10 +300,12 @@ namespace YPS.Views
 
                         if (has)
                         {
+                            userObj.UserChecked = false;
                             vm.UserList.Remove(vm.UserList.Single(x => x.UserID == a));
                         }
                         else
                         {
+                            userObj.UserChecked = true;
                             vm.UserList.Add(new User() { Status = 1, UserID = a });
                         }
                     }
@@ -316,11 +319,13 @@ namespace YPS.Views
 
                                 if (has)
                                 {
+                                    userObj.UserChecked = false;
                                     vm.UserList.Remove(vm.UserList.Single(x => x.UserID == a));
                                 }
                             }
                             else
                             {
+                                userObj.UserChecked = true;
                                 vm.UserList.Add(new User() { Status = 1, UserID = a });
                             }
                         }
