@@ -65,12 +65,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 QuickTabCmd = new Command(QuickTabClicked);
                 FullTabCmd = new Command(FullTabClicked);
                 SignalTabCmd = new Command(SignTabClicked);
+                DriverSignatureCmd = new Command(SignaturePadShowHide);
+                HideSignaturePadCmd = new Command(SignaturePadShowHide);
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
-                LoadCmd = new Command(async () => await TabChange("load"));
-                DriverSignatureCmd = new Command(SignaturePadShowHide);
-                HideSignaturePadCmd = new Command(SignaturePadShowHide);
+
+                if (selectedTagData?.TaskResourceID == Settings.userLoginID)
+                {
+                    LoadCmd = new Command(async () => await TabChange("load"));
+                }
+                else
+                {
+                    LoadTextColor = Color.Gray;
+                }
             }
             catch (Exception ex)
             {
@@ -561,7 +569,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     //if (Settings.VersionID == 2)
                     //{
-                    LoadTextColor = Color.Black;
                     IsSignatureCarrierVisible = (IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false) == true ? false : true;
                     SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Checklist";
                     //}
