@@ -24,6 +24,7 @@ namespace YPS.Parts2y.Parts2y_Views
         POChildListPageViewModel Vm;
         public static Timer loadertimer;
         YPSService trackService;
+        int? taskResourceID;
 
         public POChildListPage(ObservableCollection<AllPoData> potag, SendPodata sendpodata)
         {
@@ -32,6 +33,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 trackService = new YPSService();
                 InitializeComponent();
                 Settings.refreshPage = 1;
+                taskResourceID = potag[0]?.TaskResourceID;
 
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
@@ -308,13 +310,17 @@ namespace YPS.Parts2y.Parts2y_Views
                         });
                     }
 
-                    //if ((Settings.VersionID == 4 || Settings.VersionID == 3) || Settings.VersionID == 2)
-                    //{
+                    if (taskResourceID == Settings.userLoginID)
+                    {
                         loadStack.GestureRecognizers.Add(new TapGestureRecognizer
                         {
                             Command = new Command(async () => await Vm.TabChange("load")),
                         });
-                    //}
+                    }
+                    else
+                    {
+                        Vm.LoadTextColor = Color.Gray;
+                    }
                 });
             }
             catch (Exception ex)

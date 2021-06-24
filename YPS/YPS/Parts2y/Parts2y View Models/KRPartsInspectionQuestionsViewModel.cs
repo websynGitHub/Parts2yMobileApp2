@@ -69,7 +69,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
-                LoadCmd = new Command(async () => await TabChange("load"));
+
+                if (selectedTagData?.TaskResourceID == Settings.userLoginID)
+                {
+                    LoadCmd = new Command(async () => await TabChange("load"));
+                }
+                else
+                {
+                    LoadTextColor = Color.Gray;
+                }
             }
             catch (Exception ex)
             {
@@ -438,7 +446,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     //if (Settings.VersionID == 3)
                     //{
-                    LoadTextColor = Color.Black;
                     IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     //}
 

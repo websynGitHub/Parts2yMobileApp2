@@ -268,6 +268,7 @@ namespace YPS.CommonClasses
 
         public static string scanQRValueA { get; set; } = "";
         public static string scanQRValueB { get; set; } = "";
+        public static int? notifyJobCount { set; get; } = 0;
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }
