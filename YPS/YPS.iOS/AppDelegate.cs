@@ -311,7 +311,7 @@ namespace YPS.iOS
         //    NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
         //}
 
-        //// iOS 9 <=, fire when recieve notification foreground
+        // iOS 9 <=, fire when recieve notification foreground
         //[Foundation.Export("application:didReceiveRemoteNotification:fetchCompletionHandler:")]
         //public async override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         //{
@@ -333,12 +333,12 @@ namespace YPS.iOS
         //    }
         //}
 
-        ////iOS 10, fire when recieve notification foreground
-        //[Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
-        //public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
-        //{
-        //    completionHandler(UNNotificationPresentationOptions.Alert);
-        //}
+        //iOS 10, fire when recieve notification foreground
+        [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
+        public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        {
+            completionHandler(UNNotificationPresentationOptions.Alert);
+        }
 
         //private void connectFCM()
         //{
@@ -357,59 +357,7 @@ namespace YPS.iOS
         //    });
         //}
 
-        //[Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
-        //public void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
-        //{
-        //    NSDictionary aps = response.Notification.Request.Content.UserInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
-        //    NSDictionary keyValues = aps.ObjectForKey(new NSString("alert")) as NSDictionary;
 
-        //    string paramValues = string.Empty;
-        //    string mesagge = string.Empty;
-        //    string title = string.Empty;
-
-        //    if (keyValues.ContainsKey(new NSString("param")))
-        //        paramValues = (keyValues[new NSString("param")] as NSString).ToString();            
-
-
-        //    if (keyValues.ContainsKey(new NSString("body")))
-        //        mesagge = (keyValues[new NSString("body")] as NSString).ToString();
-        //    if (keyValues.ContainsKey(new NSString("title")))
-        //        title = (keyValues[new NSString("title")] as NSString).ToString();
-        //    new UIAlertView(title, mesagge, null, "OK", null).Show();
-
-        //    if (!string.IsNullOrEmpty(paramValues))
-        //    {
-
-        //        var navPages = paramValues.Split(';');
-
-        //        //if (!String.IsNullOrEmpty(navPages[0]))
-        //        //{
-        //        //    if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
-        //        //    {
-        //        //        Settings.GetParamVal = paramValues;
-        //        //        App.Current.MainPage = new MenuPage(typeof(ChatPage));
-
-        //        //    }
-        //        //    else if (navPages[0] == "RemoveUser")
-        //        //    {
-        //        //        RememberPwdDB Db = new RememberPwdDB();
-        //        //        var user = Db.GetUserDetails();
-
-        //        //        if (user.Count == 1)
-        //        //        {
-        //        //            var userData = user.FirstOrDefault();
-        //        //            Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-        //        //            Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-        //        //            Settings.Sessiontoken = userData.encSessiontoken;
-        //        //            Settings.AndroidVersion = userData.AndroidVersion;
-        //        //            Settings.iOSversion = userData.iOSversion;
-        //        //            Settings.IsIIJEnabled = userData.IIJEnable;
-        //        //            App.Current.MainPage = new MenuPage(typeof(HomePage));
-        //        //        }
-        //        //    }
-        //        //}
-        //    }
-        //}
 
 
         #endregion
@@ -463,7 +411,7 @@ namespace YPS.iOS
         }
 
 
-        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        public async override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
             try
             {
@@ -485,7 +433,7 @@ namespace YPS.iOS
                 if (keyValues.ContainsKey(new NSString("title")))
                     title = (keyValues[new NSString("title")] as NSString).ToString();
 
-                new UIAlertView(title, mesagge, null, "OK", null).Show();
+                //new UIAlertView(title, mesagge, null, "OK", null).Show();
                 //string alert = string.Empty;
                 //if (aps.ContainsKey(new NSString("alert")))
                 //    alert = (aps[new NSString("alert")] as NSString).ToString();
@@ -527,7 +475,128 @@ namespace YPS.iOS
                 ////contentHandler(content);
 
                 #endregion
+                var showNotify = paramValues.Split(';');
+                string val = await SecureStorage.GetAsync("mainPageisOn");
 
+                if (val == "1")
+                {
+                    Settings.notifyCount = Settings.notifyCount + 1;
+                    MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Settings.notifyCount.ToString());
+                }
+                #region googl logic
+                if (!string.IsNullOrEmpty(paramValues))
+                {
+                    var navPages = paramValues.Split(';');
+                    if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
+                    {
+                        Settings.notifyJobCount = Settings.notifyJobCount + 1;
+                        MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));                       
+                    }
+                    if (application.ApplicationState == UIApplicationState.Active)
+                    {
+                        //show alert
+                        if (!string.IsNullOrEmpty(paramValues))
+                        {
+                            UIAlertView avAlert = new UIAlertView(title, mesagge, null, "OK", null);
+                            avAlert.Show();
+                        }
+                    }
+                    else if (application.ApplicationState == UIApplicationState.Background)
+                    {
+                        if (!String.IsNullOrEmpty(navPages[0]))
+                        {
+                           // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+                            {
+                                Settings.GetParamVal = paramValues;
+                                App.Current.MainPage = new MenuPage(typeof(ChatPage));
+
+                            }
+                            else if (navPages[0] == "RemoveUser")
+                            {
+                                RememberPwdDB Db = new RememberPwdDB();
+                                var user = Db.GetUserDetails();
+
+                                if (user.Count == 1)
+                                {
+                                    var userData = user.FirstOrDefault();
+                                    Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                                    Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                                    Settings.Sessiontoken = userData.encSessiontoken;
+                                    Settings.AndroidVersion = userData.AndroidVersion;
+                                    Settings.iOSversion = userData.iOSversion;
+                                    Settings.IsIIJEnabled = userData.IIJEnable;
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                }
+                            }
+                            else if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
+                            {
+                                RememberPwdDB Db = new RememberPwdDB();
+                                var user = Db.GetUserDetails();
+
+                                if (user.Count == 1)
+                                {
+                                    var userData = user.FirstOrDefault();
+                                    Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                                    Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                                    Settings.Sessiontoken = userData.encSessiontoken;
+                                    Settings.AndroidVersion = userData.AndroidVersion;
+                                    Settings.iOSversion = userData.iOSversion;
+                                    Settings.IsIIJEnabled = userData.IIJEnable;
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                }
+                            }
+                        }
+                    }
+                    else if (application.ApplicationState == UIApplicationState.Inactive)
+                    {
+                        if (!String.IsNullOrEmpty(navPages[0]))
+                        {
+                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+                            {
+                                Settings.GetParamVal = paramValues;
+                                App.Current.MainPage = new MenuPage(typeof(ChatPage));
+
+                            }
+                            else if (navPages[0] == "RemoveUser")
+                            {
+                                RememberPwdDB Db = new RememberPwdDB();
+                                var user = Db.GetUserDetails();
+
+                                if (user.Count == 1)
+                                {
+                                    var userData = user.FirstOrDefault();
+                                    Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                                    Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                                    Settings.Sessiontoken = userData.encSessiontoken;
+                                    Settings.AndroidVersion = userData.AndroidVersion;
+                                    Settings.iOSversion = userData.iOSversion;
+                                    Settings.IsIIJEnabled = userData.IIJEnable;
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                }
+                            }
+                            else if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
+                            {
+                                RememberPwdDB Db = new RememberPwdDB();
+                                var user = Db.GetUserDetails();
+
+                                if (user.Count == 1)
+                                {
+                                    var userData = user.FirstOrDefault();
+                                    Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                                    Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                                    Settings.Sessiontoken = userData.encSessiontoken;
+                                    Settings.AndroidVersion = userData.AndroidVersion;
+                                    Settings.iOSversion = userData.iOSversion;
+                                    Settings.IsIIJEnabled = userData.IIJEnable;
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #endregion
                 //if (!string.IsNullOrEmpty(paramValues))
                 //{
 
@@ -566,7 +635,7 @@ namespace YPS.iOS
             }
             catch (Exception ex)
             {
-                new UIAlertView("DidReceiveRemoteNotification", ex.Message, null, "OK", null).Show();
+               // new UIAlertView("DidReceiveRemoteNotification", ex.Message, null, "OK", null).Show();
                 YPSLogger.ReportException(ex, "DidReceiveRemoteNotification method -> Notification ddisplay  " + Settings.Username);
             }
 
