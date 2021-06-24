@@ -94,66 +94,72 @@ namespace YPS.Droid
                 intent.AddFlags(ActivityFlags.ClearTop);
                 var showNotify = param.Split(';');
                 int PushId = Convert.ToInt32(showNotify[4]);
+                string showMessages = "";
+                Uri uriResult;
 
-                #region count
-                NotifyCountDB countDB = new NotifyCountDB();
-                NotifyMessagesCountDB messages = new NotifyMessagesCountDB();
-
-                var SpecificId = countDB.SpecificNotification(PushId);
-                NotifyMessagesCount msg = new NotifyMessagesCount();
-
-                if (SpecificId.Count() == 0)
+                if (showNotify[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
                 {
-                    NotifyCount saveData = new NotifyCount();
-                    saveData.QaId = PushId;
-                    saveData.AllPramText = param;
-                    countDB.SaveNotifyCount(saveData);
-                    msg.QaId = PushId;
-                    msg.Msg = messageBody;
-                    msg.TypeChat = showNotify[0];
-                    msg.AllParams = param;
-                    messages.SaveNotifyMsg(msg);
+                    showMessages = messageBody;
+                    Settings.notifyJobCount = Settings.notifyJobCount + 1;
+                    MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
                 }
                 else
                 {
-                    msg.QaId = PushId;
-                    msg.Msg = messageBody;
-                    msg.TypeChat = showNotify[0];
-                    msg.AllParams = param;
-                    messages.SaveNotifyMsg(msg);
-                }
-                Uri uriResult;
+                    #region count
+                    NotifyCountDB countDB = new NotifyCountDB();
+                    NotifyMessagesCountDB messages = new NotifyMessagesCountDB();
 
-                string IsMianPage = await SecureStorage.GetAsync("mainPageisOn");
+                    var SpecificId = countDB.SpecificNotification(PushId);
+                    NotifyMessagesCount msg = new NotifyMessagesCount();
 
-                if (IsMianPage == "1")
-                {
-                    Settings.notifyCount = Settings.notifyCount + 1;
-                    MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Settings.notifyCount.ToString());
-                }
-
-                var showData = messages.SpecificNotification(PushId);
-
-                string showMessages = "";
-
-                foreach (var m in showData)
-                {
-                    if (showData.Count == 1)
-                        showMessages = m.Msg;
+                    if (SpecificId.Count() == 0)
+                    {
+                        NotifyCount saveData = new NotifyCount();
+                        saveData.QaId = PushId;
+                        saveData.AllPramText = param;
+                        countDB.SaveNotifyCount(saveData);
+                        msg.QaId = PushId;
+                        msg.Msg = messageBody;
+                        msg.TypeChat = showNotify[0];
+                        msg.AllParams = param;
+                        messages.SaveNotifyMsg(msg);
+                    }
                     else
                     {
-                        if (String.IsNullOrEmpty(showMessages))
+                        msg.QaId = PushId;
+                        msg.Msg = messageBody;
+                        msg.TypeChat = showNotify[0];
+                        msg.AllParams = param;
+                        messages.SaveNotifyMsg(msg);
+                    }
+
+                    var showData = messages.SpecificNotification(PushId);
+
+
+                    foreach (var m in showData)
+                    {
+                        if (showData.Count == 1)
                         {
                             showMessages = m.Msg;
                         }
                         else
                         {
-                            showMessages = showMessages + "\n" + m.Msg;
+                            if (String.IsNullOrEmpty(showMessages))
+                            {
+                                showMessages = m.Msg;
+                            }
+                            else
+                            {
+                                showMessages = showMessages + "\n" + m.Msg;
+                            }
                         }
                     }
-                }
 
-                #endregion
+                    #endregion
+
+                    Settings.notifyCount = Settings.notifyCount + 1;
+                    MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Convert.ToString(Settings.notifyCount));
+                }
 
                 var pendingIntent = PendingIntent.GetActivity(this, PushId, intent, PendingIntentFlags.OneShot);
 
@@ -196,8 +202,6 @@ namespace YPS.Droid
                     var notificationManager = NotificationManagerCompat.From(this);
                     notificationManager.Notify(PushId, notificationBuilder.Build());
                 }
-                Settings.notifyCount = Settings.notifyCount + 1;
-                MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Convert.ToString(Settings.notifyCount));
             }
             catch (Exception ex)
             {

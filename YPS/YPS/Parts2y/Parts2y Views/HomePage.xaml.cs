@@ -37,6 +37,10 @@ namespace YPS.Parts2y.Parts2y_Views
                     Vm.NotifyCountTxt = args;
                 });
 
+                MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseJobCount", (sender, args) =>
+                {
+                    Vm.JobCountText = args;
+                });
             }
             catch (Exception ex)
             {

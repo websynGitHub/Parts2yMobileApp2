@@ -99,7 +99,9 @@ namespace YPS
 
                                 Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
 
-                                if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+                                if (navPages[0].Trim().ToLower() == "AddUser".Trim().ToLower() ||
+                                    navPages[0].Trim().ToLower() == "Close".Trim().ToLower()
+                                    || navPages[0].Trim().ToLower() == "receiveMessage".Trim().ToLower())
                                 {
                                     Task.Run(async () => await GetActionStatus()).Wait();
                                     Task.Run(async () => await GetallApplabels()).Wait();
@@ -109,7 +111,7 @@ namespace YPS
                                     App.Current.MainPage.Navigation.PushAsync(new ChatPage());
                                     App.Current.MainPage.Navigation.InsertPageBefore(new NotificationListPage(), Current.MainPage.Navigation.NavigationStack[0]);
                                 }
-                                else if (navPages[0] == "RemoveUser")
+                                else if (navPages[0].Trim().ToLower() == "RemoveUser".Trim().ToLower())
                                 {
                                     DependencyService.Get<ISQLite>().deleteReadCountNmsg(Convert.ToInt32(navPages[4]));
                                     //RememberPwdDB Db = new RememberPwdDB();
@@ -133,6 +135,10 @@ namespace YPS
                                     //    MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
                                     //}
 
+                                }
+                                else if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
+                                {
+                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
                                 }
                             }
                             else

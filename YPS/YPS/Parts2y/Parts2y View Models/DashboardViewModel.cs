@@ -111,7 +111,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         groupedlist = new ObservableCollection<AllPoData>(groupedlist?.Where(wr => wr.TaskStatus == 0));
 
-                        JobCountText = groupedlist?.Count > 0 ? groupedlist.Count().ToString() : "0";
+                        Settings.notifyJobCount = groupedlist?.Count > 0 ? groupedlist?.Count() : 0;
+                        JobCountText = Settings.notifyJobCount.ToString();
                     }
                     else
                     {

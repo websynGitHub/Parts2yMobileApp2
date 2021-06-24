@@ -149,7 +149,7 @@ namespace YPS.Droid
                     int PushId = Convert.ToInt32(showNotify[4]);
                     NotifyMessagesCountDB msg = new NotifyMessagesCountDB();
                     var data = msg.SpecificNotification(PushId).LastOrDefault();
-                    App.is_param_val = data.AllParams;
+                    App.is_param_val = data == null ? params_Val : data?.AllParams;
                     LoadApplication(new App(true));
                 }
 
