@@ -92,7 +92,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 YPSLogger.TrackEvent("MainPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 Settings.countmenu = 1;
-
+                await SecureStorage.SetAsync("mainPageisOn", "1");
                 Vm.GetPNCount();
             }
             catch (Exception ex)
@@ -105,6 +105,11 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 Vm.loadindicator = false;
             }
+        }
+        protected async override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            await SecureStorage.SetAsync("mainPageisOn", "0");
         }
     }
 }
