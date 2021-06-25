@@ -106,10 +106,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             AllPoData groupdata = new AllPoData();
                             groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
+                            groupdata.TaskResourceID = val.Select(s => s.TaskResourceID).FirstOrDefault();
                             groupedlist.Add(groupdata);
                         }
 
-                        groupedlist = new ObservableCollection<AllPoData>(groupedlist?.Where(wr => wr.TaskStatus == 0));
+                        groupedlist = new ObservableCollection<AllPoData>(groupedlist?.Where(wr => wr.TaskResourceID == Settings.userLoginID && wr.TaskStatus == 0));
 
                         Settings.notifyJobCount = groupedlist?.Count > 0 ? groupedlist?.Count() : 0;
                         JobCountText = Settings.notifyJobCount.ToString();

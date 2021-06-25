@@ -54,16 +54,18 @@
                         </Grid>
 
 
-                        <StackLayout Grid.Row="1">
-                            <ListView x:Name="list" BackgroundColor="#E9E9E9" HasUnevenRows="True" IsPullToRefreshEnabled="True"
-                      Margin="0,6,0,0" IsVisible="{Binding PLHideListAndShow}" SeparatorColor="Transparent" RowHeight="100" ItemTapped="NotifyCountlist_ItemTapped">
+                            <ListView x:Name="list" BackgroundColor="#E9E9E9" HasUnevenRows="False" IsPullToRefreshEnabled="True"
+                      IsVisible="{Binding PLHideListAndShow}" RowHeight="215" CachingStrategy="RecycleElementAndDataTemplate"
+                                      ItemTapped="NotifyCountlist_ItemTapped" SeparatorVisibility="None" Grid.Row="1"
+                                      Margin="0,2,0,0">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
-                                            <StackLayout Padding="6,0,6,6">
-                                                <Frame Margin="0,0,0,0" Padding="15,12,15,12" BorderColor="{Binding SelectedTagBorderColor}" 
+                                           <ViewCell.View>
+                                                <Frame Margin="6,6,6,0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        BackgroundColor="White" CornerRadius="4"  HasShadow="False">
-                                                    <Grid BackgroundColor="White" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                                                    <Grid BackgroundColor="White"
+                                                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*"/>
                                                         </Grid.ColumnDefinitions>
@@ -112,15 +114,15 @@
                                                         </Grid>
                                                     </Grid>
                                                 </Frame>
-                                            </StackLayout>
+                                                   
+                                           </ViewCell.View>
                                         </ViewCell>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
                             <Label IsVisible="{Binding HideLabelAndShow}" Text="No Notifications found." 
-                                   TextColor="Black" VerticalOptions="CenterAndExpand"
+                                   TextColor="Black" VerticalOptions="CenterAndExpand" Grid.Row="1"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
-                        </StackLayout>
 
                     </Grid>
                 </StackLayout>

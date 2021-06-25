@@ -173,7 +173,7 @@
                                                 </local:FontAwesomeIconLabel>
                                             </badge:SfBadgeView.Content>
                                             <badge:SfBadgeView.BadgeSettings>
-                                                <badge:BadgeSetting BadgeType="Error" Offset="-2,2"
+                                                <badge:BadgeSetting BadgeType="Error" Offset="-4,2"
                                                                     BadgePosition="TopRight" TextPadding="7"/>
                                             </badge:SfBadgeView.BadgeSettings>
                                         </badge:SfBadgeView>

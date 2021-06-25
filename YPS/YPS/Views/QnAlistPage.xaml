@@ -48,15 +48,15 @@
             <Label Grid.Row="1" Text="You are not added to these Conversations." TextColor="Black" VerticalTextAlignment="Center" 
                    HorizontalTextAlignment="Center" Margin="10,10,10,10" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"
                    x:Name="lblalert" IsVisible="{Binding lblalert,Mode=TwoWay}" Style="{StaticResource LableWithQuestionFont}"/>
+
             <ListView Grid.Row="1" CachingStrategy="RecycleElementAndDataTemplate" x:Name="chatUserList" 
-                      SeparatorVisibility="None" HasUnevenRows="True" RowHeight="100" IsVisible="{Binding chatUserList,Mode=TwoWay}"
-                      Margin="0,6,0,0">
+                      SeparatorVisibility="None" HasUnevenRows="False" RowHeight="100" IsVisible="{Binding chatUserList,Mode=TwoWay}"
+                      BackgroundColor="Transparent" Margin="0,2,0,0" VerticalOptions="Fill">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Margin="6,0,6,6">
-                                <Frame CornerRadius="4" BackgroundColor="White" HasShadow="False" Padding="10"
-                                       Margin="0,0,0,0">
+                                <Frame CornerRadius="4" BackgroundColor="White" HasShadow="False" Padding="10,12,10,12"
+                                       Margin="6,6,6,0">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
@@ -95,7 +95,7 @@
                                         
                                     </Grid>
                                 </Frame>
-                            </StackLayout>
+                           
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
