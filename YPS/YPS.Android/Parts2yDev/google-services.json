@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "481354857608",
-    "firebase_url": "https://parts2y-devpn.firebaseio.com",
-    "project_id": "parts2y-devpn",
-    "storage_bucket": "parts2y-devpn.appspot.com"
+    "project_number": "383284469911",
+    "project_id": "parts2y-uat",
+    "storage_bucket": "parts2y-uat.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:481354857608:android:a68fbd1da663139d1a733d",
+        "mobilesdk_app_id": "1:383284469911:android:3bd90c11358589345989d2",
         "android_client_info": {
-          "package_name": "com.parts2y.dev"
+          "package_name": "com.parts2y.uat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "481354857608-ic02ioet4qffalekp35d369ckiu3k3rr.apps.googleusercontent.com",
+          "client_id": "383284469911-kp5pho42obblm6ptdcn9aes2f0btgj03.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBG_f0PLQZ9cVw1gCyqBrL_ZzV14b8DSs8"
+          "current_key": "AIzaSyAzaN3zNGX7EViNw7cinsLOu6XU67707E0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "481354857608-ic02ioet4qffalekp35d369ckiu3k3rr.apps.googleusercontent.com",
+              "client_id": "383284469911-kp5pho42obblm6ptdcn9aes2f0btgj03.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
