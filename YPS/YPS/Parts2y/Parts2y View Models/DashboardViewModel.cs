@@ -117,8 +117,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        JobCountText = "0";
                     }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
 
             }

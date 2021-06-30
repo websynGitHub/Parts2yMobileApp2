@@ -187,6 +187,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         {
                                             tg.POTagID = podata.POTagID;
                                             tg.TagNumber = podata.TagNumber;
+                                            tg.TaskID = podata.TaskID;
+                                            tg.TaskStatus = podata.TaskStatus;
+                                            tg.TagTaskStatus = podata.TagTaskStatus;
                                             Settings.Tagnumbers = podata.TagNumber;
                                             lstdat.Add(tg);
 

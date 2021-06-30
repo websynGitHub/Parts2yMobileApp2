@@ -613,6 +613,27 @@ namespace YPS.ViewModel
                                             BStack = NoPhotos_Visibility ? false : true;
                                         }
 
+                                        if (SelectedTagData?.TaskID != 0 && SelectedTagData?.TagTaskStatus == 0)
+                                        {
+                                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                            tagtaskstatus.TaskID = Helperclass.Encrypt(SelectedTagData?.TaskID.ToString());
+                                            tagtaskstatus.POTagID = Helperclass.Encrypt(SelectedTagData?.POTagID.ToString());
+                                            tagtaskstatus.Status = 1;
+                                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                            var resultUpdateTagStatus = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                            if (SelectedTagData?.TaskID != 0 && SelectedTagData?.TaskStatus == 0)
+                                            {
+                                                TagTaskStatus taskstatus = new TagTaskStatus();
+                                                taskstatus.TaskID = Helperclass.Encrypt(SelectedTagData?.TaskID.ToString());
+                                                taskstatus.TaskStatus = 1;
+                                                taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                var resultUpdateTaskStatus = await service.UpdateTaskStatus(taskstatus);
+                                            }
+                                        }
+
                                         Settings.IsRefreshPartsPage = true;
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
@@ -971,108 +992,24 @@ namespace YPS.ViewModel
                 }
 
 
-                string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
+                //string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
 
-                if (action == "Camera")
+                //if (action == "Camera")
+                //{
+                IndicatorVisibility = true;
+
+                /// Checking camera is available or not in in mobile.
+                if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
                 {
-                    IndicatorVisibility = true;
-
-                    /// Checking camera is available or not in in mobile.
-                    if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
-                    {
-                        btnenable = false;
-                        /// Request permission a user to allowed take photos from the camera.
-                        var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-                        var statusiOS = resultIOS[Permission.Camera];
-
-                        /// Checking permission is allowed or denied by the user to access the photo from mobile.
-                        if (statusiOS == PermissionStatus.Denied)
-                        {
-                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to take photos.", null, null, "Maybe Later", "Settings");
-                            switch (checkSelect)
-                            {
-                                case "Maybe Later":
-                                    break;
-                                case "Settings":
-                                    CrossPermissions.Current.OpenAppSettings();
-                                    break;
-                            }
-                        }
-                        else if (statusiOS == PermissionStatus.Granted)
-                        {
-                            var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                            {
-                                PhotoSize = PhotoSize.Custom,
-                                CustomPhotoSize = Settings.PhotoSize,
-                                CompressionQuality = Settings.CompressionQuality
-                            });
-
-                            if (file != null)
-                            {
-                                IndicatorVisibility = false;
-                                btnenable = true;
-
-                                if (photoCounts == 0)
-                                {
-                                    CaptchaImage1 = ImageSource.FromStream(() =>
-                                    {
-                                        return file.GetStreamWithImageRotatedForExternalStorage();
-                                    });
-
-                                    firstStack = true;
-                                    closeLabelText = false;
-                                    RowHeightcomplete = 0;
-                                    listStack = false;
-                                    secondStack = false;
-                                    NoPhotos_Visibility = false;
-
-                                }
-                                else
-                                {
-                                    CaptchaImage2 = ImageSource.FromStream(() =>
-                                    {
-                                        return file.GetStreamWithImageRotatedForExternalStorage();
-                                    });
-
-                                    firstStack = false;
-                                    secondStack = true;
-                                    closeLabelText = false;
-                                    listStack = false;
-                                    RowHeightcomplete = 0;
-                                    NoPhotos_Visibility = false;
-
-                                }
-
-                                extension = Path.GetExtension(file.Path);
-                                Mediafile = file.Path;
-                                picStream = file.GetStreamWithImageRotatedForExternalStorage();
-                                fileName = Path.GetFileNameWithoutExtension(file.Path);
-                                FirstMainStack = false;
-                                RowHeightOpenCam = 100;
-                                SecondMainStack = true;
-                            }
-                        }
-                        else
-                        {
-                            btnenable = true;
-                        }
-                    }
-                    else
-                    {
-                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
-                    }
-                    btnenable = true;
-                }
-                else if (action == "Gallery")
-                {
-                    /// Request permission a user to allowed take photos from the gallery.
-                    var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
-                    var statusiOS = resultIOS[Permission.Photos];
+                    btnenable = false;
+                    /// Request permission a user to allowed take photos from the camera.
+                    var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+                    var statusiOS = resultIOS[Permission.Camera];
 
                     /// Checking permission is allowed or denied by the user to access the photo from mobile.
                     if (statusiOS == PermissionStatus.Denied)
                     {
-                        var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the gallery to take photos.", null, null, "Maybe Later", "Settings");
+                        var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to take photos.", null, null, "Maybe Later", "Settings");
                         switch (checkSelect)
                         {
                             case "Maybe Later":
@@ -1084,44 +1021,56 @@ namespace YPS.ViewModel
                     }
                     else if (statusiOS == PermissionStatus.Granted)
                     {
-                        IndicatorVisibility = true;
-
-                        var fileOS = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                        var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
                         {
                             PhotoSize = PhotoSize.Custom,
                             CustomPhotoSize = Settings.PhotoSize,
                             CompressionQuality = Settings.CompressionQuality
                         });
 
-                        if (fileOS != null)
+                        if (file != null)
                         {
-                            Device.BeginInvokeOnMainThread(() =>
-                            {
-                                if (photoCounts == 0)
-                                {
-                                    CaptchaImage1 = ImageSource.FromFile(fileOS.Path);
-                                    firstStack = true;
-                                    listStack = false;
-                                    secondStack = false;
-                                }
-                                else
-                                {
-                                    CaptchaImage2 = ImageSource.FromFile(fileOS.Path);
-                                    firstStack = false;
-                                    secondStack = true;
-                                }
+                            IndicatorVisibility = false;
+                            btnenable = true;
 
+                            if (photoCounts == 0)
+                            {
+                                CaptchaImage1 = ImageSource.FromStream(() =>
+                                {
+                                    return file.GetStreamWithImageRotatedForExternalStorage();
+                                });
+
+                                firstStack = true;
                                 closeLabelText = false;
                                 RowHeightcomplete = 0;
-                                FirstMainStack = false;
-                                RowHeightOpenCam = 100;
-                                SecondMainStack = true;
+                                listStack = false;
+                                secondStack = false;
                                 NoPhotos_Visibility = false;
-                                btnenable = true;
-                                extension = Path.GetExtension(fileOS.Path);
-                                picStream = fileOS.GetStreamWithImageRotatedForExternalStorage();
-                                fileName = Path.GetFileNameWithoutExtension(fileOS.Path);
-                            });
+
+                            }
+                            else
+                            {
+                                CaptchaImage2 = ImageSource.FromStream(() =>
+                                {
+                                    return file.GetStreamWithImageRotatedForExternalStorage();
+                                });
+
+                                firstStack = false;
+                                secondStack = true;
+                                closeLabelText = false;
+                                listStack = false;
+                                RowHeightcomplete = 0;
+                                NoPhotos_Visibility = false;
+
+                            }
+
+                            extension = Path.GetExtension(file.Path);
+                            Mediafile = file.Path;
+                            picStream = file.GetStreamWithImageRotatedForExternalStorage();
+                            fileName = Path.GetFileNameWithoutExtension(file.Path);
+                            FirstMainStack = false;
+                            RowHeightOpenCam = 100;
+                            SecondMainStack = true;
                         }
                     }
                     else
@@ -1129,6 +1078,12 @@ namespace YPS.ViewModel
                         btnenable = true;
                     }
                 }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                }
+                btnenable = true;
+
                 IndicatorVisibility = false;
             }
             catch (Exception ex)
