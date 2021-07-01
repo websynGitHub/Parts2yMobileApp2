@@ -294,8 +294,8 @@ namespace YPS.CustomToastMsg
         public static string Appcenter_iOS { get; set; } = "ios=98470379-fccd-4f9d-8d22-8856a5af15c9;";
         public static string Bdchk { get; set; } = "BjFAg4x7vCGTpW3dALvutCVBSpuI7d6rb+GuOgl/574=";
         public static string blob { get; set; } = "https://ypsuploadsdev.blob.core.windows.net/";
+        public static string scandItLicencekey = "AeUg02GPQW+LQNsakx9oKmAH8IrQG9AmH1BKUM5tVhLuWMM/FFj+/pMlwybUfcHkzkChSuwZ8jDcLGs2ISqD3bxZIoL2XeE2jw1A7Ut8ZzzdTTcBKmA0pfxprY/ZOunN1C2kPI44zwOoEAiVqgiwSkC4HggoWmuGwSUegKWJcmguvtisIqXeJiv1h9wlALpydmJPLc8Wq2j+u16ugMaQJforuRWjPOknSyk5oRExHQDT2MBc33lR7Hmzql2p15EEb1fLFVbhEStQhwZwxQgGbk7sl8kxmleqmFUeKvJOGf/GG8nJ8blFlTRH7akAQUSu77YCccEBPO19eo4WQTATViFlih0GwvmFIJrWL6/L3vWerQ/8OD/YC1G+ngq2pGVAukbWaSdRhhc5bNRq0w0CwACTmSuqxCPlKJexkpoVECd+Z2TcKsS3rZS4MtUkfCVniWdbQJwsJJXWeppxB8mOk8aUfEYqFYg8QlW7kTIM5XUQyF6+FweSc616B9UYSzBp1WzXuMa5q4nCClUKKUlJfyzqKQzu5Ckg/3EzB+ch6qy6QrrbuU6xjtLJNzz6AXG9ix+tAiQPg4bBdt5YHo8TN6oMuNhncGkjQpMukzJiwdFJLeL8pNu/xiY4rU0wdmuZok7QUZZtMcsX/qi59UFmibOB/sGvf1MReyWdcx+EQmDd2/1JdplFqKEKMjigKAAb1I+OGI9g3Al0WlmmifJxjyvdHW8aFeM/EnSerghQ5CBK3EwiuruueBcdPkNs7ajXkLsRIF+5rqMHOmQQW9w5YCqwEl2s9jPUsWZ0z+s1Utle7OtDhP8bcYuqfEA=";
         #endregion
-
 
         #region DEV:
         //public static string HubConnectionUrl { get; set; } = "https://dev.parts2y.com/";
@@ -305,7 +305,7 @@ namespace YPS.CustomToastMsg
         ////public static string Bdchk { get; set; } = "DprjHRPut1l2lsH4K5tRcw==";///old key 
         //public static string Bdchk { get; set; } = "BzrCZM9KiA31bPvjUJJNmA==";
         //public static string blob { get; set; } = "https://azrbsa026dv00a.blob.core.windows.net/";
-
+        //public static string scandItLicencekey = "AfHgJGWPRZcJD5nCrSuWn3I14pFUOfSbJ14y67JNCkXAeC0d8XF7BqotirkNTX/pQVC82/RLUARkds5Va0Y725AhXzxHU4CB2T5FFGE10G1IfA/gJW69uvUoNe8+M85xs0ATJkIfMj3Out0akHyB4sioSLxmsspl514MA4neokCFZp+XOU+70frw4/J3+hGrx78vGjhf/xns3Js8vLhGO9HKh/k8OQnode7yK+163bdSB2eB2kFQuv1PO/unuBm5Hju1+ZrwUYgOcz6OnYJiec22VAnd4K3y7rHTylU9sZ1ypZyf39iJz78LYDACDTgx4N1FXb/rwGMtYaQnMyi9SaOkJXQGTiNFhjUQ7j72pR3xlaWPDzXGjujcKmD2nZcAjJLSYehdhu7eUqHtbB5E2PrHPT0mVZ5yvWkbaEAr1+QxDyZtRsd/5WWA7ipyB3QPlFPGrA3jC01FNv+Ka3+L44fCwSSZKiT/SDHsgWqSGorvjN3b+ksXzq0tTBaYTCyairR7FouUQ3MbZVhGTZ83AKzRg4uvulczHJMJCjVMfezWpGBYad3rvznTgMuLKGAyan0Cb5TB8LRZrYHGjNXANNJiRvB7dFP62xy9u0CxY2U8hLrMbWA5kR12yxHej/oIDi9s2VywbHsegQ+yAQNcWvchc/A5IMuvtA3ztpT2NVRVi2PLViyOcOIwDFqjRznp3mOnN0NJH64xhXgXwcgOZJTlKDyYrvXDN0FwAuMXTOyH2eIKw689hVCKfTsyfAD7HzjrXyOXYmjaGelfiDeqFVI6LTUlvgyW0ebhbY8qygCiyNbbwFT8";
         #endregion
 
         #region LIVE:
@@ -316,6 +316,7 @@ namespace YPS.CustomToastMsg
         //public static string Bdchk { get; set; } = "TXXv/K4nwyXFxNfZDiFY4pTAH4PhtGwuuMq5br5uqJw=";
         /////public static string Bdchk { get; set; } = "jjWxg36jzbNTyL3cTAx+fBKuerSOTbzE8vK9hcyzKbA=";//old key
         //public static string blob { get; set; } = "https://azrbea026pr00.blob.core.windows.net/";
+        //public static string scandItLicencekey = "";//Key to be added for LIVE.
         #endregion
     }
 }
