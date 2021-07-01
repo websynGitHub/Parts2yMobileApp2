@@ -703,14 +703,23 @@ namespace YPS.Service
         /// <returns></returns>
         public static async Task<ApplicationSettings> GetglobelSettings()
         {
-            HttpClient httpClient = new HttpClient();
-            string WebServiceUrl = HostingURL.WebServiceUrl;
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                string WebServiceUrl = HostingURL.WebServiceUrl;
 
-            var response = httpClient.PostAsync(WebServiceUrl + "Login/GlobalSettings?SecurityCode=" + Settings.SecurityCode, null).Result;
+                var response = httpClient.PostAsync(WebServiceUrl + "Login/GlobalSettings?SecurityCode=" + Settings.SecurityCode, null).Result;
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var val = JsonConvert.DeserializeObject<ApplicationSettings>(jsonResponse);
-            return val;
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var val = JsonConvert.DeserializeObject<ApplicationSettings>(jsonResponse);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetglobelSettings method  -> in YPSService.cs-Exception=" + ex.Message + Settings.userLoginID);
+                return null;
+            }
+           
         }
 
         /// <summary>
