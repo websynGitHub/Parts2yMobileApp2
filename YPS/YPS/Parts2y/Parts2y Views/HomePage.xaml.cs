@@ -63,7 +63,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadindicator = true;
-                if (Vm.NotifyCountTxt == "0")
+                if (string.IsNullOrEmpty(Vm.NotifyCountTxt) || Vm.NotifyCountTxt == "0")
                 {
                     DependencyService.Get<IToastMessage>().ShortAlert("There is no new notification.");
                 }

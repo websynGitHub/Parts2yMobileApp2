@@ -112,12 +112,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         groupedlist = new ObservableCollection<AllPoData>(groupedlist?.Where(wr => wr.TaskResourceID == Settings.userLoginID && wr.TaskStatus == 0));
 
-                        Settings.notifyJobCount = groupedlist?.Count > 0 ? groupedlist?.Count() : 0;
-                        JobCountText = Settings.notifyJobCount.ToString();
+                        Settings.notifyJobCount = groupedlist?.Count() > 0 ? groupedlist?.Count() : 0;
+                        JobCountText = Settings.notifyJobCount > 0 ? Settings.notifyJobCount.ToString() : null;
                     }
                     else
                     {
-                        JobCountText = "0";
+                        JobCountText = null;
+                        Settings.notifyJobCount = 0;
                     }
                 }
                 else
@@ -309,13 +310,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                NotifyCountTxt = "0";
+                                NotifyCountTxt = null;
                                 Settings.notifyCount = 0;
                             }
                         }
                         else if (result.message == "No Data Found")
                         {
-                            NotifyCountTxt = "0";
+                            NotifyCountTxt = null;
                             Settings.notifyCount = 0;
                         }
                     }
@@ -590,7 +591,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsJobCountVisible { set; get; } = true;
+        private bool _IsJobCountVisible { set; get; }
         public bool IsJobCountVisible
         {
             get
