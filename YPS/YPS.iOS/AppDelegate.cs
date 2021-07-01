@@ -24,6 +24,7 @@ using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 using YPS.Views;
 using ZXing.Net.Mobile.Forms;
+using Syncfusion.SfDataGrid.XForms.iOS;
 
 namespace YPS.iOS
 {
@@ -83,137 +84,147 @@ namespace YPS.iOS
         string userAgent = "Mozilla / 5.0(Windows NT 6.1) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 41.0.2228.0 Safari / 537.36";
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            #region Jailbreak
-
-            var env = Cryoprison.Factory.CreateEnvironment();
-
-            env.Reporter.OnJailbreakReported = (id) =>
+            try
             {
-                Console.WriteLine($"Jailbreak: {id ?? "<null>"}");
-            };
 
-            env.Reporter.OnExceptionReported = (message, exception) =>
-            {
-                Console.WriteLine($"Jailbreak Error: {message}");
-                Console.WriteLine(exception.ToString());
-            };
+                #region Jailbreak
 
-            jailbreakDetector = Cryoprison.Factory.CreateJailbreakDetector(env, simulatorFriendly: true);
+                var env = Cryoprison.Factory.CreateEnvironment();
 
-            App.isJailBroken = (jailbreakDetector.Violations.Count() == 0 || (jailbreakDetector.Violations.Count() == 1 && jailbreakDetector.Violations.Contains("EMBEDDED_MOBILEPROVISION_SHOULD_BE_PRESENT"))) ? false : true;
+                env.Reporter.OnJailbreakReported = (id) =>
+                {
+                    Console.WriteLine($"Jailbreak: {id ?? "<null>"}");
+                };
 
-            #endregion
+                env.Reporter.OnExceptionReported = (message, exception) =>
+                {
+                    Console.WriteLine($"Jailbreak Error: {message}");
+                    Console.WriteLine(exception.ToString());
+                };
 
-            NSDictionary dictionary = NSDictionary.FromObjectAndKey(NSObject.FromObject(userAgent), NSObject.FromObject("UserAgent"));
-            NSUserDefaults.StandardUserDefaults.RegisterDefaults(dictionary);
-            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
+                jailbreakDetector = Cryoprison.Factory.CreateJailbreakDetector(env, simulatorFriendly: true);
 
-            #region IPAPATCH
-            string bundleIdentifier = NSBundle.MainBundle.BundleIdentifier;
-            //if (bundleIdentifier != EncryptManager.Decrypt(HostingURL.Bdchk))
-            //{
-            //    App.IsIpapatch = true;
-            //    System.Diagnostics.Process.GetCurrentProcess().Kill();
-            //}
-            #endregion
+                App.isJailBroken = (jailbreakDetector.Violations.Count() == 0 || (jailbreakDetector.Violations.Count() == 1 && jailbreakDetector.Violations.Contains("EMBEDDED_MOBILEPROVISION_SHOULD_BE_PRESENT"))) ? false : true;
 
-            App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
-            App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjY3MTkzQDMxMzgyZTMxMmUzMFhUak9IY0JaYUsrNTlsOXZqTExUeEt3SlNvNEZ6NHcyV3ZnWm1SQlIrM0U9");///18.1.0.42
-            global::Xamarin.Forms.Forms.Init();
-            CachedImageRenderer.Init();
-            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
-            Syncfusion.XForms.iOS.Buttons.SfRadioButtonRenderer.Init();
-            //Appcenter value need to change based on (Alpha,Beta,Production//reference appcenter region)
-            AppCenter.Start(Appcenter_iOS, typeof(Analytics), typeof(Crashes));
+                #endregion
 
-            LoadApplication(new App());
+                NSDictionary dictionary = NSDictionary.FromObjectAndKey(NSObject.FromObject(userAgent), NSObject.FromObject("UserAgent"));
+                NSUserDefaults.StandardUserDefaults.RegisterDefaults(dictionary);
+                UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
 
-            #region authorizations for app
-            // Firebase component initialize
-            Firebase.Core.App.Configure();
-            CardsViewRenderer.Preserve();
+                #region IPAPATCH
+                string bundleIdentifier = NSBundle.MainBundle.BundleIdentifier;
+                //if (bundleIdentifier != EncryptManager.Decrypt(HostingURL.Bdchk))
+                //{
+                //    App.IsIpapatch = true;
+                //    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                //}
+                #endregion
 
-            Syncfusion.XForms.iOS.BadgeView.SfBadgeViewRenderer.Init();
-            SfCheckBoxRenderer.Init();
-            Syncfusion.XForms.iOS.Border.SfBorderRenderer.Init();
-            Syncfusion.ListView.XForms.iOS.SfListViewRenderer.Init();
-            Syncfusion.XForms.iOS.Cards.SfCardViewRenderer.Init();
-            CrossMedia.Current.Initialize();
-            #endregion
+                App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
+                App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
+                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjY3MTkzQDMxMzgyZTMxMmUzMFhUak9IY0JaYUsrNTlsOXZqTExUeEt3SlNvNEZ6NHcyV3ZnWm1SQlIrM0U9");///18.1.0.42
+                global::Xamarin.Forms.Forms.Init();
+                CachedImageRenderer.Init();
+                ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+                Syncfusion.XForms.iOS.Buttons.SfRadioButtonRenderer.Init();
+                //Appcenter value need to change based on (Alpha,Beta,Production//reference appcenter region)
+                AppCenter.Start(Appcenter_iOS, typeof(Analytics), typeof(Crashes));
+                SfDataGridRenderer.Init();
+                
 
-            #region PN new code Ajay
-            UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) =>
-            {
+                #region authorizations for app
+                // Firebase component initialize
+                Firebase.Core.App.Configure();
+                CardsViewRenderer.Preserve();
+
+                Syncfusion.XForms.iOS.BadgeView.SfBadgeViewRenderer.Init();
+                SfCheckBoxRenderer.Init();
+                Syncfusion.XForms.iOS.Border.SfBorderRenderer.Init();
+                Syncfusion.ListView.XForms.iOS.SfListViewRenderer.Init();
+                Syncfusion.XForms.iOS.Cards.SfCardViewRenderer.Init();
+                CrossMedia.Current.Initialize();
+                #endregion
+
+                #region PN new code Ajay
+                UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) =>
+                {
                 // Handle approval
             });
 
-            // Get current notification settings
-            UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
-            {
-                var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
-            });
+                // Get current notification settings
+                UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+                {
+                    var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
+                });
 
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
-            {
-                var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
-                                   UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
-                                   new NSSet());
+                if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+                {
+                    var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                                       UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                                       new NSSet());
 
-                UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
-                UIApplication.SharedApplication.RegisterForRemoteNotifications();
+                    UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+                    UIApplication.SharedApplication.RegisterForRemoteNotifications();
+                }
+                else
+                {
+                    UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound;
+                    UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
+                }
+                #endregion
+
+                #region old code
+
+
+                //UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+                //{
+                //    var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
+                //});
+                //// Request Permissions  
+                //if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+                //{
+                //    // iOS 10
+                //    var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+
+                //    UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
+                //    {
+                //        Console.WriteLine(granted);
+                //    });
+
+                //    // Get current notification settings
+
+                //    // For iOS 10 display notification (sent via APNS)
+                //    UNUserNotificationCenter.Current.Delegate = this;
+                //}
+                //else
+                //{
+                //    // iOS 9 <=
+                //    var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
+                //    var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
+                //    UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+                //}
+                #endregion
+                // UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
+                Settings.AppVersion = NSBundle.MainBundle.InfoDictionary[new NSString("CFBundleVersion")].ToString();
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+                TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+
+                timer = new Timer((int)TimeSpan.FromMinutes(Settings.Timerminutes).TotalMilliseconds);
+                timer.Elapsed += new ElapsedEventHandler(IPatchCheck);
+                timer.AutoReset = true;
+                timer.Enabled = true;
+                LoadApplication(new App());
+                return base.FinishedLaunching(app, options);
+
             }
-            else
+            catch (Exception ex)
             {
-                UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound;
-                UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
+                return base.FinishedLaunching(app, options);
+                YPSLogger.ReportException(ex, "FinishedLaunching method  -> in AppDelegate.cs-Exception=" + ex.Message + Settings.userLoginID);
             }
-            #endregion
-
-            #region old code
-
-
-            //UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
-            //{
-            //    var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
-            //});
-            //// Request Permissions  
-            //if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
-            //{
-            //    // iOS 10
-            //    var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
-
-            //    UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
-            //    {
-            //        Console.WriteLine(granted);
-            //    });
-
-            //    // Get current notification settings
-
-            //    // For iOS 10 display notification (sent via APNS)
-            //    UNUserNotificationCenter.Current.Delegate = this;
-            //}
-            //else
-            //{
-            //    // iOS 9 <=
-            //    var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
-            //    var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
-            //    UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-            //}
-            #endregion
-            // UIApplication.SharedApplication.RegisterForRemoteNotifications();
-
-            Settings.AppVersion = NSBundle.MainBundle.InfoDictionary[new NSString("CFBundleVersion")].ToString();
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
-
-            timer = new Timer((int)TimeSpan.FromMinutes(Settings.Timerminutes).TotalMilliseconds);
-            timer.Elapsed += new ElapsedEventHandler(IPatchCheck);
-            timer.AutoReset = true;
-            timer.Enabled = true;
-
-            return base.FinishedLaunching(app, options);
         }
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
@@ -490,7 +501,7 @@ namespace YPS.iOS
                     if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
                     {
                         Settings.notifyJobCount = Settings.notifyJobCount + 1;
-                        MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));                       
+                        MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
                     }
                     if (application.ApplicationState == UIApplicationState.Active)
                     {
@@ -505,7 +516,7 @@ namespace YPS.iOS
                     {
                         if (!String.IsNullOrEmpty(navPages[0]))
                         {
-                           // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+                            // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
                             {
                                 Settings.GetParamVal = paramValues;
@@ -635,7 +646,7 @@ namespace YPS.iOS
             }
             catch (Exception ex)
             {
-               // new UIAlertView("DidReceiveRemoteNotification", ex.Message, null, "OK", null).Show();
+                // new UIAlertView("DidReceiveRemoteNotification", ex.Message, null, "OK", null).Show();
                 YPSLogger.ReportException(ex, "DidReceiveRemoteNotification method -> Notification ddisplay  " + Settings.Username);
             }
 
