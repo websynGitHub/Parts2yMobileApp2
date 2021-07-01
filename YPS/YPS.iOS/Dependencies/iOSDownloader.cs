@@ -62,7 +62,7 @@ namespace YPS.iOS.Dependencies
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DownloadFile method-> in iOSDownloader.cs" + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Completed method-> in iOSDownloader.cs" + Settings.userLoginID);
             }
 
         }

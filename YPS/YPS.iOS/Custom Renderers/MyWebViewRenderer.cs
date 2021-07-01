@@ -8,8 +8,11 @@ using UIKit;
 using WebKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using YPS.CommonClasses;
 using YPS.CustomRenders;
+using YPS.Helpers;
 using YPS.iOS.Custom_Renderers;
+using YPS.Service;
 
 [assembly: ExportRenderer(typeof(MyWebView), typeof(MyWebViewRenderer))]
 namespace YPS.iOS.Custom_Renderers
@@ -19,25 +22,34 @@ namespace YPS.iOS.Custom_Renderers
         WKWebView _wkWebView;
         protected override void OnElementChanged(ElementChangedEventArgs<MyWebView> e)
         {
-            base.OnElementChanged(e);
-           // var vc = GetVisibleViewController();
-            if (Control == null)
+            try
             {
-                var config = new WKWebViewConfiguration();
-                _wkWebView = new WKWebView(Frame, config);
-                SetNativeControl(_wkWebView);
-                AddSubview(_wkWebView);
+                base.OnElementChanged(e);
+                // var vc = GetVisibleViewController();
+                if (Control == null)
+                {
+                    var config = new WKWebViewConfiguration();
+                    _wkWebView = new WKWebView(Frame, config);
+                    SetNativeControl(_wkWebView);
+                    AddSubview(_wkWebView);
+                }
+                if (e.NewElement != null)
+                {
+                    if (Element.Html != null)
+                        Control.LoadHtmlString(Element.Url, baseUrl: null);
+                    else
+                        //{
+                        //    var sfViewController = new SFSafariViewController(new NSUrl(Element.Url));
+                        //    vc.PresentViewController(sfViewController, true, null);
+                        //}
+                        Control.LoadRequest(new NSUrlRequest(new NSUrl(Element.Url)));
+                }
             }
-            if (e.NewElement != null)
+            catch (Exception ex)
             {
-                if (Element.Html != null)
-                    Control.LoadHtmlString(Element.Url, baseUrl: null);
-                else
-                //{
-                //    var sfViewController = new SFSafariViewController(new NSUrl(Element.Url));
-                //    vc.PresentViewController(sfViewController, true, null);
-                //}
-                Control.LoadRequest(new NSUrlRequest(new NSUrl(Element.Url)));
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "OnElementChanged method -> in MyWebViewRenderer.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
             }
         }
         //UIViewController GetVisibleViewController()
@@ -83,15 +95,27 @@ namespace YPS.iOS.Custom_Renderers
                     }
                     decisionHandler?.Invoke(policy);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    YPSService trackService = new YPSService();
+                    YPSLogger.ReportException(ex, "DecidePolicy method -> in MyWebViewRenderer.cs " + Settings.userLoginID);
+                    trackService.Handleexception(ex);
                     base.DecidePolicy(webView, navigationAction, decisionHandler);
                 }
             }
 
             public override void DidReceiveAuthenticationChallenge(WKWebView webView, NSUrlAuthenticationChallenge challenge, Action<NSUrlSessionAuthChallengeDisposition, NSUrlCredential> completionHandler)
             {
-                completionHandler?.Invoke(NSUrlSessionAuthChallengeDisposition.PerformDefaultHandling, null);
+                try
+                {
+                    completionHandler?.Invoke(NSUrlSessionAuthChallengeDisposition.PerformDefaultHandling, null);
+                }
+                catch (Exception ex)
+                {
+                    YPSService trackService = new YPSService();
+                    YPSLogger.ReportException(ex, "DidReceiveAuthenticationChallenge method -> in MyWebViewRenderer.cs " + Settings.userLoginID);
+                    trackService.Handleexception(ex);
+                }
             }
         }
     }

@@ -59,7 +59,7 @@ namespace YPS.iOS.Custom_Renderers
                     this.Control.InputAccessoryView = toolbar;
                 }
             }
-               catch (Exception ex)
+            catch (Exception ex)
             {
                 YPSService trackService = new YPSService();
                 YPSLogger.ReportException(ex, "OnElementChanged method -> in MyEntryRenderer.cs " + Settings.userLoginID);
@@ -104,7 +104,16 @@ namespace YPS.iOS.Custom_Renderers
         /// <param name="e"></param>
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            base.OnElementPropertyChanged(sender, e);
+            try
+            {
+                base.OnElementPropertyChanged(sender, e);
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "OnElementPropertyChanged method -> in MyEntryRenderer.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>

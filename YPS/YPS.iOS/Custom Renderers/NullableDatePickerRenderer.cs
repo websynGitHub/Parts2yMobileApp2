@@ -39,7 +39,7 @@ namespace YPS.iOS.Custom_Renderers
             catch (Exception ex)
             {
                 YPSService trackService = new YPSService();
-                YPSLogger.ReportException(ex, "CanPerform -> in MyEntryRenderer.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnElementChanged method -> in NullableDatePickerRenderer.cs " + Settings.userLoginID);
                 trackService.Handleexception(ex);
             }
         }
@@ -63,7 +63,7 @@ namespace YPS.iOS.Custom_Renderers
             catch (Exception ex)
             {
                 YPSService trackService = new YPSService();
-                YPSLogger.ReportException(ex, "CanPerform -> in MyEntryRenderer.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Element_DateSelected method -> in NullableDatePickerRenderer.cs " + Settings.userLoginID);
                 trackService.Handleexception(ex);
             }
         }
@@ -91,7 +91,7 @@ namespace YPS.iOS.Custom_Renderers
             catch (Exception ex)
             {
                 YPSService trackService = new YPSService();
-                YPSLogger.ReportException(ex, "CanPerform -> in MyEntryRenderer.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "AddClearButton method -> in NullableDatePickerRenderer.cs " + Settings.userLoginID);
                 trackService.Handleexception(ex);
             }
         }

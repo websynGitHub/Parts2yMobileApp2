@@ -1,8 +1,11 @@
 ﻿using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
+using System;
 using Xamarin.Forms;
+using YPS.CommonClasses;
 using YPS.Helpers;
 using YPS.iOS.Dependencies;
+using YPS.Service;
 
 [assembly: Dependency(typeof(OpenSdcardiOS))]
 namespace YPS.iOS.Dependencies
@@ -11,10 +14,19 @@ namespace YPS.iOS.Dependencies
     {
         public async void openSdCard()
         {
-            FileData fileData1 = await CrossFilePicker.Current.PickFile();
+            try
+            {
+                FileData fileData1 = await CrossFilePicker.Current.PickFile();
 
-            if (fileData1 == null)
-                return; // user canceled file picking
+                if (fileData1 == null)
+                    return; // user canceled file picking
+            }
+            catch(Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "openSdCard method -> in OpenSdcardiOS.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
     }
 }

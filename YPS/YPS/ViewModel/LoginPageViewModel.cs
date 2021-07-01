@@ -38,7 +38,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "LoginPageViewModel constructor -> in LoginPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoginPageViewModel constructor -> in LoginPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -219,7 +219,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "LoginMethod method -> in LoginPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoginMethod method -> in LoginPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 IndicatorVisibility = false;
             }
@@ -234,14 +234,22 @@ namespace YPS.ViewModel
         /// </summary>
         private async void registerToken(object obj)
         {
-            if (Settings.FireBasedToken != null)
+            try
             {
-                LoginModel model = new LoginModel();
+                if (Settings.FireBasedToken != null)
+                {
+                    LoginModel model = new LoginModel();
 
-                model.UserId = Settings.userLoginID;
-                model.FireBasedToken = Settings.FireBasedToken;
+                    model.UserId = Settings.userLoginID;
+                    model.FireBasedToken = Settings.FireBasedToken;
 
-                var Checkdevicedata = await service.CheckDevice(model); //check device
+                    var Checkdevicedata = await service.CheckDevice(model); //check device
+                }
+            }
+            catch(Exception ex)
+            {
+                YPSLogger.ReportException(ex, "registerToken method -> in LoginPageViewModel.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 

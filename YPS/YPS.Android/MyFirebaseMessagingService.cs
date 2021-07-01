@@ -23,8 +23,6 @@ namespace YPS.Droid
 
     public class MyFirebaseMessagingService : FirebaseMessagingService
     {
-
-
         const string TAG = "MyFirebaseIIDService";
         string refreshedToken;
         public async override void OnNewToken(string p0)
@@ -75,12 +73,15 @@ namespace YPS.Droid
                     {
                         YPSService trackService = new YPSService();
                         await trackService.Handleexception(ex);
-                        YPSLogger.ReportException(ex, "MyFirebaseMessagingService-> in OnMessageReceived " + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "OnMessageReceived method inner catch -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
                     }
                 }
             }
             catch (Exception ex)
             {
+                YPSService trackService = new YPSService();
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "OnMessageReceived method outer cathc -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
             }
         }
 
@@ -207,7 +208,7 @@ namespace YPS.Droid
             {
                 YPSService trackService = new YPSService();
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "MyFirebaseMessagingService-> in SendNotification " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SendNotification method -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
             }
         }
     }

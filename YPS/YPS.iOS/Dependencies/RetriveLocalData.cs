@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using YPS.CommonClasses;
 using YPS.CustomToastMsg;
+using YPS.Helpers;
 using YPS.iOS.Dependencies;
+using YPS.Service;
 
 [assembly: Xamarin.Forms.Dependency(typeof(RetriveLocalData))]
 namespace YPS.iOS.Dependencies
@@ -13,10 +17,19 @@ namespace YPS.iOS.Dependencies
         /// <param name="notifyId"></param>
         public void deleteReadCountNmsg(int notifyId)
         {
-            NotifyCountDB countDB = new NotifyCountDB();
-            countDB.ClearSpecificNotifications(notifyId);
-            NotifyMessagesCountDB msg = new NotifyMessagesCountDB();
-            msg.ClearSpecificNotifyMsg(notifyId);
+            try
+            {
+                NotifyCountDB countDB = new NotifyCountDB();
+                countDB.ClearSpecificNotifications(notifyId);
+                NotifyMessagesCountDB msg = new NotifyMessagesCountDB();
+                msg.ClearSpecificNotifyMsg(notifyId);
+            }
+            catch(Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "deleteReadCountNmsg method -> in RetriveLocalData.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -46,10 +59,19 @@ namespace YPS.iOS.Dependencies
         /// </summary>
         public void deleteAllPNdata()
         {
-            NotifyCountDB Count = new NotifyCountDB();
-            Count.DeletePNCounts();
-            NotifyMessagesCountDB msg = new NotifyMessagesCountDB();
-            msg.DeletePNMessages();
+            try
+            {
+                NotifyCountDB Count = new NotifyCountDB();
+                Count.DeletePNCounts();
+                NotifyMessagesCountDB msg = new NotifyMessagesCountDB();
+                msg.DeletePNMessages();
+            }
+            catch(Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "deleteAllPNdata method -> in RetriveLocalData.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>

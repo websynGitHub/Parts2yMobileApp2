@@ -447,6 +447,7 @@ namespace YPS
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "GlobelSettings method  -> in App.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
@@ -542,8 +543,8 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                //YPSLogger.ReportException(ex, "Connect method -> in ChatServices.cs " + Settings.userLoginID);
-                //await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ReconnectConnectSignalR method -> in App.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
             }
         }
 
@@ -705,6 +706,7 @@ namespace YPS
                 {
                     YPSLogger.ReportException(ex, "CheckInterNetConnection method  -> in App.cs " + Settings.userLoginID);
                 }
+                await service.Handleexception(ex);
                 return IsNetworkAccessing = false;
             }
         }
@@ -714,9 +716,17 @@ namespace YPS
         /// </summary>
         protected async override void OnStart()
         {
-            /// Handle when your app starts            
-            AppCenter.Start(HostingURL.Appcenter_iOS + HostingURL.Appcenter_droid, typeof(Analytics), typeof(Crashes));
-            YPSLogger.TrackEvent("Appcenter:", "Logger Activated" + DateTime.Now + " UserId: " + Settings.userLoginID);
+            try
+            {
+                /// Handle when your app starts            
+                AppCenter.Start(HostingURL.Appcenter_iOS + HostingURL.Appcenter_droid, typeof(Analytics), typeof(Crashes));
+                YPSLogger.TrackEvent("Appcenter:", "Logger Activated" + DateTime.Now + " UserId: " + Settings.userLoginID);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnStart method  -> in App.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -732,8 +742,16 @@ namespace YPS
         /// </summary>
         protected async override void OnResume()
         {
-            // Handle when your app resumes            
-            bool tt = App.CheckSignalRConnection();
+            try
+            {
+                // Handle when your app resumes            
+                bool tt = App.CheckSignalRConnection();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnResume method  -> in App.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
         }
 
         #region Public Key related methods
@@ -756,6 +774,7 @@ namespace YPS
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "PinPublickey method  -> in App.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
         }
 
@@ -773,6 +792,7 @@ namespace YPS
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "SetupCertificatePinningCheck method  -> in App.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
             }
         }
 
@@ -806,6 +826,7 @@ namespace YPS
             {
                 Settings.isExpectedPublicKey = false;
                 YPSLogger.ReportException(ex, "ValidateServerCertificate method  -> in App.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
             }
             return Settings.isExpectedPublicKey;
         }

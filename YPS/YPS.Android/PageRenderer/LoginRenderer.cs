@@ -1,11 +1,14 @@
 ﻿using Android.App;
 using Android.Content;
+using System;
 using Xamarin.Auth;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using YPS.CommonClasses;
 using YPS.Droid.PageRender;
+using YPS.Helpers;
 using YPS.Parts2y.Parts2y_Views;
+using YPS.Service;
 using YPS.Views;
 
 [assembly: ExportRenderer(typeof(ProviderLoginPage), typeof(LoginRenderer))]
@@ -25,49 +28,59 @@ namespace YPS.Droid.PageRender
         /// <param name="e"></param>
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
-            base.OnElementChanged(e);
-
-            /// Get and Assign ProviderName from ProviderLoginPage
-            var loginPage = Element as ProviderLoginPage;
-            string providername = loginPage.ProviderName;
-
-            var activity = this.Context as Activity;
-            if (showLogin && OAuthConfig.User == null)
+            try
             {
-                showLogin = false;
+                base.OnElementChanged(e);
 
-                /// Create OauthProviderSetting class with Oauth Implementation .Refer Step 6
-                OAuthProviderSetting oauth = new OAuthProviderSetting();
+                /// Get and Assign ProviderName from ProviderLoginPage
+                var loginPage = Element as ProviderLoginPage;
+                string providername = loginPage.ProviderName;
 
-                var auth = oauth.LoginWithProvider(providername);
-
-                /// After facebook,google and all identity provider login completed 
-                auth.Completed += async (sender, eventArgs) =>
+                var activity = this.Context as Activity;
+                if (showLogin && OAuthConfig.User == null)
                 {
-                    if (eventArgs.IsAuthenticated)
+                    showLogin = false;
+
+                    /// Create OauthProviderSetting class with Oauth Implementation .Refer Step 6
+                    OAuthProviderSetting oauth = new OAuthProviderSetting();
+
+                    var auth = oauth.LoginWithProvider(providername);
+
+                    /// After facebook,google and all identity provider login completed 
+                    auth.Completed += async (sender, eventArgs) =>
                     {
-                        OAuthConfig.User = new UserDetails();
-                        OAuthConfig.User.Token = eventArgs.Account.Properties["access_token"];
-                        OAuthConfig.User.Expires = eventArgs.Account.Properties["expires_in"];
-                        OAuthConfig.User.id_token = eventArgs.Account.Properties["id_token"];
-                        OAuthConfig.User.Token_type = eventArgs.Account.Properties["token_type"];
+                        if (eventArgs.IsAuthenticated)
+                        {
+                            OAuthConfig.User = new UserDetails();
+                            OAuthConfig.User.Token = eventArgs.Account.Properties["access_token"];
+                            OAuthConfig.User.Expires = eventArgs.Account.Properties["expires_in"];
+                            OAuthConfig.User.id_token = eventArgs.Account.Properties["id_token"];
+                            OAuthConfig.User.Token_type = eventArgs.Account.Properties["token_type"];
 
-                        Settings.IIJToken = OAuthConfig.User.Token;
-                        Settings.expires_in = OAuthConfig.User.Expires;
-                        Settings.id_token = OAuthConfig.User.id_token;
-                        Settings.token_type = OAuthConfig.User.Token_type;
+                            Settings.IIJToken = OAuthConfig.User.Token;
+                            Settings.expires_in = OAuthConfig.User.Expires;
+                            Settings.id_token = OAuthConfig.User.id_token;
+                            Settings.token_type = OAuthConfig.User.Token_type;
 
 
-                        OAuthConfig.SuccessfulLoginAction.Invoke();
-                    }
-                    else
-                    {
-                        App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
-                    }
-                };
-                auth.Error += Auth_Error;
-                activity.StartActivity(auth.GetUI(activity));
+                            OAuthConfig.SuccessfulLoginAction.Invoke();
+                        }
+                        else
+                        {
+                            App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
+                        }
+                    };
+                    auth.Error += Auth_Error;
+                    activity.StartActivity(auth.GetUI(activity));
+                }
             }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "OnElementChanged method -> in LoginRenderer.cs " + Settings.userLoginID);
+            }
+
         }
 
         /// <summary>
@@ -77,9 +90,18 @@ namespace YPS.Droid.PageRender
         /// <param name="e"></param>
         private void Auth_Error(object sender, AuthenticatorErrorEventArgs e)
         {
-            var authenticator = sender as OAuth2Authenticator;
+            try
+            {
+                var authenticator = sender as OAuth2Authenticator;
 
-            authenticator.ShowErrors = false;
+                authenticator.ShowErrors = false;
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Auth_Error method -> in LoginRenderer.cs " + Settings.userLoginID);
+            }
         }
     }
 }

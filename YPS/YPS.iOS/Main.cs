@@ -1,6 +1,9 @@
 ﻿using Acr.UserDialogs;
 using System;
 using UIKit;
+using YPS.CommonClasses;
+using YPS.Helpers;
+using YPS.Service;
 
 namespace YPS.iOS
 {
@@ -17,6 +20,9 @@ namespace YPS.iOS
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "Main method -> in Application.cs " + Settings.userLoginID);
+                YPSService trackService = new YPSService();
+                trackService.Handleexception(ex);
                 UserDialogs.Instance.HideLoading();
             }
         }

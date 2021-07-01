@@ -167,31 +167,52 @@ namespace YPS.Droid
 
         public void GetVersionNumber()
         {
-            PackageInfo pInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(PackageName, 0);
-            CommonClasses.Settings.VersionName = pInfo.VersionName;
+            try
+            {
+                PackageInfo pInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(PackageName, 0);
+                CommonClasses.Settings.VersionName = pInfo.VersionName;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetVersionNumber method-> in MainActivity.cs " + Settings.userLoginID);
+            }
         }
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
-            var context = Application.Context;
-            Toast.MakeText(context, "Application exception occurred. Please try again!", ToastLength.Short).Show();
-            YPSService trackService = new YPSService();
-            System.Exception newExc = (System.Exception)unhandledExceptionEventArgs.ExceptionObject;
+            try
+            {
+                var context = Application.Context;
+                Toast.MakeText(context, "Application exception occurred. Please try again!", ToastLength.Short).Show();
+                YPSService trackService = new YPSService();
+                System.Exception newExc = (System.Exception)unhandledExceptionEventArgs.ExceptionObject;
 
-            YPSLogger.ReportException(newExc, "Unhandle exception-> CurrentDomainOnUnhandledException" + Settings.userLoginID);
+                YPSLogger.ReportException(newExc, "Unhandle exception-> CurrentDomainOnUnhandledException" + Settings.userLoginID);
 
-            UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.HideLoading();
 
-            trackService.Handleexception(newExc).Wait();
+                trackService.Handleexception(newExc).Wait();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "CurrentDomainOnUnhandledException method-> in MainActivity.cs " + Settings.userLoginID);
+            }
         }
 
         private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
         {
-            YPSService trackService = new YPSService();
-            System.Exception newExc = (System.Exception)unobservedTaskExceptionEventArgs.Exception;
-            YPSLogger.ReportException(newExc, "Unhandle exception->TaskSchedulerOnUnobservedTaskException " + Settings.userLoginID);
-            trackService.Handleexception(newExc).Wait();
-            UserDialogs.Instance.HideLoading();
+            try
+            {
+                YPSService trackService = new YPSService();
+                System.Exception newExc = (System.Exception)unobservedTaskExceptionEventArgs.Exception;
+                YPSLogger.ReportException(newExc, "Unhandle exception->TaskSchedulerOnUnobservedTaskException " + Settings.userLoginID);
+                trackService.Handleexception(newExc).Wait();
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "TaskSchedulerOnUnobservedTaskException method-> in MainActivity.cs " + Settings.userLoginID);
+            }
         }
 
         #region Exit application on hardware button press
@@ -201,21 +222,28 @@ namespace YPS.Droid
         /// 
         public override void OnBackPressed()
         {
-            if (doubleBackToExit)
+            try
             {
-                base.OnBackPressed();
-                return;
-            }
-            if (DoBack)
-            {
-                this.doubleBackToExit = true;
-
-                Toast.MakeText(this, "Please click back again to exit?.", ToastLength.Short).Show();
-
-                new Handler().PostDelayed(() =>
+                if (doubleBackToExit)
                 {
-                    doubleBackToExit = false;
-                }, 2000);
+                    base.OnBackPressed();
+                    return;
+                }
+                if (DoBack)
+                {
+                    this.doubleBackToExit = true;
+
+                    Toast.MakeText(this, "Please click back again to exit?.", ToastLength.Short).Show();
+
+                    new Handler().PostDelayed(() =>
+                    {
+                        doubleBackToExit = false;
+                    }, 2000);
+                }
+            }
+            catch(Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnBackPressed method-> in MainActivity.cs " + Settings.userLoginID);
             }
         }
 
@@ -292,7 +320,7 @@ namespace YPS.Droid
             catch (Exception ex)
             {
                 YPSService service = new YPSService();
-                YPSLogger.ReportException(ex, "FileUpload method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DispatchTouchEvent method-> in MainActivity.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
             return result;
@@ -313,55 +341,84 @@ namespace YPS.Droid
 
         protected override void OnStart()
         {
-            base.OnStart();
-            IntentFilter intentFilter = new
-               IntentFilter(NOTIFICATION_ACTION);
-            //RegisterReceiver(notificationBroadcastReceiver,
-            //   intentFilter);
+            try
+            {
+                base.OnStart();
+                IntentFilter intentFilter = new
+                   IntentFilter(NOTIFICATION_ACTION);
+                //RegisterReceiver(notificationBroadcastReceiver,
+                //   intentFilter);
+            }
+            catch (Exception ex)
+            {
+                YPSService service = new YPSService();
+                YPSLogger.ReportException(ex, "OnStart method-> in MainActivity.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+            }
         }
+
         void CreateNotificationChannel()
         {
-
-            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            try
             {
-                // Notification channels are new in API 26 (and not a part of the
-                // support library). There is no need to create a notification 
-                // channel on older versions of Android.
-                return;
+                if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+                {
+                    // Notification channels are new in API 26 (and not a part of the
+                    // support library). There is no need to create a notification 
+                    // channel on older versions of Android.
+                    return;
+                }
+
+                var channel = new NotificationChannel(CHANNEL_ID, "FCM Notifications", NotificationImportance.High)
+                {
+                    Description = "Firebase Cloud Messages appear in this channel"
+                };
+
+                var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+                notificationManager.CreateNotificationChannel(channel);
             }
-
-            var channel = new NotificationChannel(CHANNEL_ID, "FCM Notifications", NotificationImportance.High)
+            catch (Exception ex)
             {
-                Description = "Firebase Cloud Messages appear in this channel"
-            };
-
-            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
-            notificationManager.CreateNotificationChannel(channel);
+                YPSLogger.ReportException(ex, "CreateNotificationChannel method-> in MainActivity.cs " + Settings.userLoginID);
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            for (int i = 0; i < permissions.Length; i++)
+            try
             {
-                if (permissions[i].Equals("android.permission.CAMERA") && grantResults[i] == Permission.Granted)
-                    global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
+                PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+                for (int i = 0; i < permissions.Length; i++)
+                {
+                    if (permissions[i].Equals("android.permission.CAMERA") && grantResults[i] == Permission.Granted)
+                        global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+
+                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnRequestPermissionsResult method-> in MainActivity.cs " + Settings.userLoginID);
+            }
         }
 
         private void initFontScale()
         {
-            Configuration configuration = Resources.Configuration;
-            configuration.FontScale = (float)1;
-            //0.85 small, 1 standard, 1.15 big，1.3 more bigger ，1.45 supper big 
-            DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager.DefaultDisplay.GetMetrics(metrics);
-            metrics.ScaledDensity = configuration.FontScale * metrics.Density;
-            BaseContext.Resources.UpdateConfiguration(configuration, metrics);
+            try
+            {
+                Configuration configuration = Resources.Configuration;
+                configuration.FontScale = (float)1;
+                //0.85 small, 1 standard, 1.15 big，1.3 more bigger ，1.45 supper big 
+                DisplayMetrics metrics = new DisplayMetrics();
+                WindowManager.DefaultDisplay.GetMetrics(metrics);
+                metrics.ScaledDensity = configuration.FontScale * metrics.Density;
+                BaseContext.Resources.UpdateConfiguration(configuration, metrics);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "initFontScale method-> in MainActivity.cs " + Settings.userLoginID);
+            }
         }
-
     }
 }

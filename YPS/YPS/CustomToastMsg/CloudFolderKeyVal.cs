@@ -14,19 +14,30 @@ namespace YPS.CustomToastMsg
     {
         public static string GetBlobFolderName(int key)
         {
-            switch (key)
+            try
             {
-                case (int)BlobContainer.cnttagfiles:
-                    return "tag-files";
-                case (int)BlobContainer.cntchatfiles:
-                    return "chat-files";
-                case (int)BlobContainer.cntplfiles:
-                    return "pl-files";
-                case (int)BlobContainer.cntyshipuploads:
-                    return "yship-uploads";
-                default:
-                    return "";
+                switch (key)
+                {
+                    case (int)BlobContainer.cnttagfiles:
+                        return "tag-files";
+                    case (int)BlobContainer.cntchatfiles:
+                        return "chat-files";
+                    case (int)BlobContainer.cntplfiles:
+                        return "pl-files";
+                    case (int)BlobContainer.cntyshipuploads:
+                        return "yship-uploads";
+                    default:
+                        return "";
+                }
             }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetBlobFolderName method -> in CloudFolderKeyVal.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+                return "";
+            }
+
         }
 
         public async static Task<string> GetToken()
@@ -108,7 +119,7 @@ namespace YPS.CustomToastMsg
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CloudFolderKeyVal-> in GetToken " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetToken method -> in CloudFolderKeyVal.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
                 return "";
@@ -155,11 +166,12 @@ namespace YPS.CustomToastMsg
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CloudFolderKeyVal-> in Assignvaluestosettings " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Assignvaluestosettings method -> in CloudFolderKeyVal.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 service.Handleexception(ex);
             }
         }
+
         public async static Task Appredirectlogin(string message, bool showalert = true)
         {
             try
@@ -223,7 +235,7 @@ namespace YPS.CustomToastMsg
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CloudFolderKeyVal-> in Appredirectlogin " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Appredirectlogin method -> in CloudFolderKeyVal.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
             }
@@ -276,7 +288,7 @@ namespace YPS.CustomToastMsg
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CloudFolderKeyVal-> in Appredirectloginwithoutlogout " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Appredirectloginwithoutlogout method -> in CloudFolderKeyVal.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
             }

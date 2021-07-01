@@ -6,8 +6,11 @@ using System.Text;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using YPS.CommonClasses;
 using YPS.CustomRenders;
+using YPS.Helpers;
 using YPS.iOS.Custom_Renderers;
+using YPS.Service;
 
 [assembly: ResolutionGroupName("YPS")]
 [assembly: ExportEffect(typeof(iOSLongPressedEffect), "LongPressedEffect")]
@@ -24,14 +27,32 @@ namespace YPS.iOS.Custom_Renderers
         /// </summary>
         public iOSLongPressedEffect()
         {
-            _longPressRecognizer = new UILongPressGestureRecognizer(HandleLongClick);
-            _tapGestureRecognizer = new UITapGestureRecognizer(SingleClick);
+            try
+            {
+                _longPressRecognizer = new UILongPressGestureRecognizer(HandleLongClick);
+                _tapGestureRecognizer = new UITapGestureRecognizer(SingleClick);
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "iOSLongPressedEffect method -> in iOSLongPressedEffect.cs" + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         private void SingleClick()
         {
-            var command = LongPressedEffect.GetSlCommand(Element);
-            command?.Execute(LongPressedEffect.GetSlCommandParameter(Element));
+            try
+            {
+                var command = LongPressedEffect.GetSlCommand(Element);
+                command?.Execute(LongPressedEffect.GetSlCommandParameter(Element));
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "SingleClick method -> in iOSLongPressedEffect.cs" + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -39,12 +60,21 @@ namespace YPS.iOS.Custom_Renderers
         /// </summary>
         protected override void OnAttached()
         {
-            //because an effect can be detached immediately after attached (happens in listview), only attach the handler one time
-            if (!_attached)
+            try
             {
-                Container.AddGestureRecognizer(_longPressRecognizer);
-                Container.AddGestureRecognizer(_tapGestureRecognizer);
-                _attached = true;
+                //because an effect can be detached immediately after attached (happens in listview), only attach the handler one time
+                if (!_attached)
+                {
+                    Container.AddGestureRecognizer(_longPressRecognizer);
+                    Container.AddGestureRecognizer(_tapGestureRecognizer);
+                    _attached = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "OnAttached method -> in iOSLongPressedEffect.cs" + Settings.userLoginID);
+                trackService.Handleexception(ex);
             }
         }
 
@@ -61,9 +91,11 @@ namespace YPS.iOS.Custom_Renderers
                     command?.Execute(LongPressedEffect.GetCommandParameter(Element));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "HandleLongClick method -> in iOSLongPressedEffect.cs" + Settings.userLoginID);
+                trackService.Handleexception(ex);
             }
         }
 
@@ -72,11 +104,20 @@ namespace YPS.iOS.Custom_Renderers
         /// </summary>
         protected override void OnDetached()
         {
-            if (_attached)
+            try
             {
-                Container.RemoveGestureRecognizer(_longPressRecognizer);
-                Container.RemoveGestureRecognizer(_tapGestureRecognizer);
-                _attached = false;
+                if (_attached)
+                {
+                    Container.RemoveGestureRecognizer(_longPressRecognizer);
+                    Container.RemoveGestureRecognizer(_tapGestureRecognizer);
+                    _attached = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "OnDetached method -> in iOSLongPressedEffect.cs" + Settings.userLoginID);
+                trackService.Handleexception(ex);
             }
         }
     }

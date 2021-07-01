@@ -1,6 +1,10 @@
 ﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using YPS.CommonClasses;
+using YPS.Helpers;
+using YPS.Service;
 
 namespace YPS.iOS.Dependencies
 {
@@ -13,8 +17,17 @@ namespace YPS.iOS.Dependencies
         /// </summary>
         public NotifyCountDB()
         {
-            _sqlconnection = new SQLiteConnection(IOSSQLite.DbFilePath);
-            _sqlconnection.CreateTable<NotifyCount>();
+            try
+            {
+                _sqlconnection = new SQLiteConnection(IOSSQLite.DbFilePath);
+                _sqlconnection.CreateTable<NotifyCount>();
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "NotifyCountDB constructor -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -23,7 +36,16 @@ namespace YPS.iOS.Dependencies
         /// <param name="count"></param>
         public void SaveNotifyCount(NotifyCount count)
         {
-            _sqlconnection.Insert(count);
+            try
+            {
+                _sqlconnection.Insert(count);
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "SaveNotifyCount method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -32,7 +54,17 @@ namespace YPS.iOS.Dependencies
         /// <returns></returns>
         public List<NotifyCount> GetAllNotifications()
         {
-            return (from t in _sqlconnection.Table<NotifyCount>() select t).ToList();
+            try
+            {
+                return (from t in _sqlconnection.Table<NotifyCount>() select t).ToList();
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "GetAllNotifications method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+                return new List<NotifyCount>();
+            }
         }
 
         /// <summary>
@@ -41,7 +73,17 @@ namespace YPS.iOS.Dependencies
         /// <returns></returns>
         public List<string> GetAllNotificationTitle()
         {
-            return (from t in _sqlconnection.Table<NotifyCount>() select t.AllPramText).ToList();
+            try
+            {
+                return (from t in _sqlconnection.Table<NotifyCount>() select t.AllPramText).ToList();
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "GetAllNotificationTitle method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+                return new List<string>();
+            }
         }
 
         /// <summary>
@@ -51,7 +93,17 @@ namespace YPS.iOS.Dependencies
         /// <returns></returns>
         public List<NotifyCount> SpecificNotification(int id)
         {
-            return _sqlconnection.Query<NotifyCount>("Select * From [NotifyCount] Where QaId=?", id);
+            try
+            {
+                return _sqlconnection.Query<NotifyCount>("Select * From [NotifyCount] Where QaId=?", id);
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "SpecificNotification method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+                return new List<NotifyCount>();
+            }
         }
 
         /// <summary>
@@ -60,7 +112,16 @@ namespace YPS.iOS.Dependencies
         /// <param name="id"></param>
         public void ClearSpecificNotifications(int id)
         {
-            _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount] Where QaId=?", id);
+            try
+            {
+                _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount] Where QaId=?", id);
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "ClearSpecificNotifications method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -68,7 +129,16 @@ namespace YPS.iOS.Dependencies
         /// </summary>
         public void DeletePNCounts()
         {
-            _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount]");
+            try
+            {
+                _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount]");
+            }
+            catch (Exception ex)
+            {
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "DeletePNCounts method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
     }
 }
