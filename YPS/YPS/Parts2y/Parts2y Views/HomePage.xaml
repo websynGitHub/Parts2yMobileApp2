@@ -22,7 +22,7 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0">
-            <Label Text="Home-UAT" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+            <Label Text="Home-WS" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
@@ -173,7 +173,7 @@
                                                 </local:FontAwesomeIconLabel>
                                             </badge:SfBadgeView.Content>
                                             <badge:SfBadgeView.BadgeSettings>
-                                                <badge:BadgeSetting BadgeType="Error" Offset="-4,2"
+                                                <badge:BadgeSetting BadgeType="Error" Offset="-7,2"
                                                                     BadgePosition="TopRight" TextPadding="7"/>
                                             </badge:SfBadgeView.BadgeSettings>
                                         </badge:SfBadgeView>
