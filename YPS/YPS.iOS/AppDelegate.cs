@@ -173,6 +173,15 @@ namespace YPS.iOS
                     UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound;
                     UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
                 }
+
+                if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+                {
+                    var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+                    UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) => {
+                        Console.WriteLine(granted);
+                    });
+                    UNUserNotificationCenter.Current.Delegate = new MyNotificationCenterDelegate();
+                }
                 #endregion
 
                 #region old code
@@ -257,6 +266,31 @@ namespace YPS.iOS
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
+
+
+        public class MyNotificationCenterDelegate : UNUserNotificationCenterDelegate
+        {
+            
+            public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+            {
+                RememberPwdDB Db = new RememberPwdDB();
+                var user = Db.GetUserDetails();
+
+                if (user.Count == 1)
+                {
+                    var userData = user.FirstOrDefault();
+                    Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
+                    Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
+                    Settings.Sessiontoken = userData.encSessiontoken;
+                    Settings.AndroidVersion = userData.AndroidVersion;
+                    Settings.iOSversion = userData.iOSversion;
+                    Settings.IsIIJEnabled = userData.IIJEnable;
+                }
+                completionHandler(UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Alert);
+
+            }
+        }
+
 
         #region Notifications Code
         public override void DidEnterBackground(UIApplication uiApplication)
@@ -506,18 +540,18 @@ namespace YPS.iOS
                     if (application.ApplicationState == UIApplicationState.Active)
                     {
                         //show alert
-                        if (!string.IsNullOrEmpty(paramValues))
-                        {
-                            UIAlertView avAlert = new UIAlertView(title, mesagge, null, "OK", null);
-                            avAlert.Show();
-                        }
+                        //if (!string.IsNullOrEmpty(paramValues))
+                        //{
+                        //    UIAlertView avAlert = new UIAlertView(title, mesagge, null, "OK", null);
+                        //    avAlert.Show();
+                        //}
                     }
                     else if (application.ApplicationState == UIApplicationState.Background)
                     {
                         if (!String.IsNullOrEmpty(navPages[0]))
                         {
                             // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
-                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                             {
                                 Settings.GetParamVal = paramValues;
                                 App.Current.MainPage = new MenuPage(typeof(ChatPage));
@@ -563,7 +597,7 @@ namespace YPS.iOS
                     {
                         if (!String.IsNullOrEmpty(navPages[0]))
                         {
-                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage")
+                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                             {
                                 Settings.GetParamVal = paramValues;
                                 App.Current.MainPage = new MenuPage(typeof(ChatPage));
