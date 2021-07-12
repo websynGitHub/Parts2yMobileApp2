@@ -111,6 +111,8 @@ namespace YPS
                                 Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
                                 var DBresponse = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
 
+                                await CloudFolderKeyVal.CheckAndRegisterDeviceForPN();
+
                                 if (DBresponse.status != 0)
                                 {
                                     Settings.CompanyID = DBresponse.data.CompanyID;

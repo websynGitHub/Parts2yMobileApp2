@@ -102,81 +102,85 @@ namespace YPS.ViewModel
                                 }
                                 else
                                 {
-                                    Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+                                    #region PN OLD
+                                    //Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
 
-                                    if (Device.RuntimePlatform == Device.Android)
-                                    {
-                                        Settings.FireBasedToken = await SecureStorage.GetAsync("Token");
-                                    }
-                                    else
-                                    {
-                                        Settings.FireBasedToken = await SecureStorage.GetAsync("iOSFireBaseToken");
-                                    }
+                                    //if (Device.RuntimePlatform == Device.Android)
+                                    //{
+                                    //    Settings.FireBasedToken = await SecureStorage.GetAsync("Token");
+                                    //}
+                                    //else
+                                    //{
+                                    //    Settings.FireBasedToken = await SecureStorage.GetAsync("iOSFireBaseToken");
+                                    //}
 
-                                    if (Settings.FireBasedToken != null)
-                                    {
-                                        LoginModel model = new LoginModel();
+                                    //if (Settings.FireBasedToken != null)
+                                    //{
+                                    //    LoginModel model = new LoginModel();
 
-                                        model.UserId = Settings.userLoginID;
-                                        model.FireBasedToken = Settings.FireBasedToken;
-                                        model.DeviceModel = DeviceInfo.Model;
-                                        model.DeviceUUID = DeviceInfo.Idiom.ToString();
-                                        model.DevicePlatform = DeviceInfo.Platform.ToString();
-                                        model.DeviceVersion = DeviceInfo.Version.ToString();
+                                    //    model.UserId = Settings.userLoginID;
+                                    //    model.FireBasedToken = Settings.FireBasedToken;
+                                    //    model.DeviceModel = DeviceInfo.Model;
+                                    //    model.DeviceUUID = DeviceInfo.Idiom.ToString();
+                                    //    model.DevicePlatform = DeviceInfo.Platform.ToString();
+                                    //    model.DeviceVersion = DeviceInfo.Version.ToString();
 
-                                        var Checkdevicedata = await service.CheckDevice(model); //check device
-                                        var checkDevice = JsonConvert.DeserializeObject<PushNotifyModel>(Checkdevicedata.ToString());
+                                    //    var Checkdevicedata = await service.CheckDevice(model); //check device
+                                    //    var checkDevice = JsonConvert.DeserializeObject<PushNotifyModel>(Checkdevicedata.ToString());
 
-                                        if (checkDevice.status == 0)
-                                        {
-                                            DeviceRegistration dr = new DeviceRegistration();
+                                    //    if (checkDevice.status == 0)
+                                    //    {
+                                    //        DeviceRegistration dr = new DeviceRegistration();
 
-                                            dr.UserId = Settings.userLoginID;
-                                            dr.FireBasedToken = Settings.FireBasedToken;
-                                            dr.Platform = (DeviceInfo.Platform.ToString() == "Android") ? "gcm" : "apns";
-                                            dr.HubRegistrationId = "";
+                                    //        dr.UserId = Settings.userLoginID;
+                                    //        dr.FireBasedToken = Settings.FireBasedToken;
+                                    //        dr.Platform = (DeviceInfo.Platform.ToString() == "Android") ? "gcm" : "apns";
+                                    //        dr.HubRegistrationId = "";
 
-                                            //Id we are geeting by using Xamarin.Forms.DeviceInfo so that ID taken line of code commented.
-                                            string[] arr = new string[] { "Hai" };
-                                            dr.Tags = arr;
+                                    //        //Id we are geeting by using Xamarin.Forms.DeviceInfo so that ID taken line of code commented.
+                                    //        string[] arr = new string[] { "Hai" };
+                                    //        dr.Tags = arr;
 
-                                            bool NetConnectionState = await App.CheckInterNetConnection();
+                                    //        bool NetConnectionState = await App.CheckInterNetConnection();
 
-                                            if (NetConnectionState)
-                                            {
-                                                var aa = await service.RegisterNotification(dr); //put register
-                                                var registered = JsonConvert.DeserializeObject<PushNotifyModel>(aa);
+                                    //        if (NetConnectionState)
+                                    //        {
+                                    //            var aa = await service.RegisterNotification(dr); //put register
+                                    //            var registered = JsonConvert.DeserializeObject<PushNotifyModel>(aa);
 
-                                                if (registered.status == 1)
-                                                {
-                                                    Settings.HubRegisterid = registered.message; //getting registration id 
+                                    //            if (registered.status == 1)
+                                    //            {
+                                    //                Settings.HubRegisterid = registered.message; //getting registration id 
 
-                                                    NotificationSettings notificationsetting1 = new NotificationSettings();
+                                    //                NotificationSettings notificationsetting1 = new NotificationSettings();
 
-                                                    notificationsetting1.FireBasedToken = Settings.FireBasedToken.Trim();
-                                                    notificationsetting1.is_login_active = true;
-                                                    notificationsetting1.CreatedUTCDateTime = DateTime.Now;
-                                                    notificationsetting1.ModifiedUTCDateTime = DateTime.Now;
-                                                    //GeneratedAppId we are geeting by using Xamarin.Forms.DeviceInfo so that GenerateAppId take line of code commented.
-                                                    notificationsetting1.ModelName = DeviceInfo.Model;
-                                                    notificationsetting1.Platform = (DeviceInfo.Platform.ToString() == "Android") ? "gcm" : "apns";
-                                                    notificationsetting1.Version = DeviceInfo.VersionString;
-                                                    notificationsetting1.HubRegistrationId = Settings.HubRegisterid;
-                                                    notificationsetting1.IsNotificationRequired = true;
-                                                    notificationsetting1.UserID = Settings.userLoginID;
-                                                    notificationsetting1.Appversion = Settings.AppVersion;
-                                                    notificationsetting1.LoginKey = 1;
-                                                    notificationsetting1.ModelID = "";
+                                    //                notificationsetting1.FireBasedToken = Settings.FireBasedToken.Trim();
+                                    //                notificationsetting1.is_login_active = true;
+                                    //                notificationsetting1.CreatedUTCDateTime = DateTime.Now;
+                                    //                notificationsetting1.ModifiedUTCDateTime = DateTime.Now;
+                                    //                //GeneratedAppId we are geeting by using Xamarin.Forms.DeviceInfo so that GenerateAppId take line of code commented.
+                                    //                notificationsetting1.ModelName = DeviceInfo.Model;
+                                    //                notificationsetting1.Platform = (DeviceInfo.Platform.ToString() == "Android") ? "gcm" : "apns";
+                                    //                notificationsetting1.Version = DeviceInfo.VersionString;
+                                    //                notificationsetting1.HubRegistrationId = Settings.HubRegisterid;
+                                    //                notificationsetting1.IsNotificationRequired = true;
+                                    //                notificationsetting1.UserID = Settings.userLoginID;
+                                    //                notificationsetting1.Appversion = Settings.AppVersion;
+                                    //                notificationsetting1.LoginKey = 1;
+                                    //                notificationsetting1.ModelID = "";
 
-                                                    var datasaveDeviceIds = await service.SaveNotification(notificationsetting1);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                await App.Current.MainPage.DisplayAlert("Alert", "Please check your internet connection", "Ok");
-                                            }
-                                        }
-                                    }
+                                    //                var datasaveDeviceIds = await service.SaveNotification(notificationsetting1);
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            await App.Current.MainPage.DisplayAlert("Alert", "Please check your internet connection", "Ok");
+                                    //        }
+                                    //    }
+                                    //}
+                                    #endregion PN OLD
+
+                                    await CloudFolderKeyVal.CheckAndRegisterDeviceForPN();
 
                                     /// Calling API to get user saved default data.
                                     var DBresponse = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
@@ -246,7 +250,7 @@ namespace YPS.ViewModel
                     var Checkdevicedata = await service.CheckDevice(model); //check device
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "registerToken method -> in LoginPageViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);

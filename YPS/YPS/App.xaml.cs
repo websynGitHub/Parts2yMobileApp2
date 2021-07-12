@@ -101,7 +101,8 @@ namespace YPS
 
                                 if (navPages[0].Trim().ToLower() == "AddUser".Trim().ToLower() ||
                                     navPages[0].Trim().ToLower() == "Close".Trim().ToLower()
-                                    || navPages[0].Trim().ToLower() == "receiveMessage".Trim().ToLower())
+                                    || navPages[0].Trim().ToLower() == "receiveMessage".Trim().ToLower()||
+                                    navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                                 {
                                     Task.Run(async () => await GetActionStatus()).Wait();
                                     Task.Run(async () => await GetallApplabels()).Wait();
