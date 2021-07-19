@@ -216,7 +216,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(Settings.VersionID == 4 ? 7 : 4);
+                await GetConfigurationResults(7);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -244,7 +244,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(Settings.VersionID == 4 ? 8 : 5);
+                await GetConfigurationResults(8);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -274,15 +274,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (IsQuickTabVisible == true)
                 {
-                    await GetConfigurationResults(Settings.VersionID == 4 ? 7 : 4);
-                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == (Settings.VersionID == 4 ? 7 : 4)).ToList());
+                    await GetConfigurationResults(7);
+                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 7).ToList());
                     QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
                 if (IsFullTabVisible == true)
                 {
-                    await GetConfigurationResults(Settings.VersionID == 4 ? 8 : 5);
-                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == (Settings.VersionID == 4 ? 8 : 5)).ToList());
+                    await GetConfigurationResults(8);
+                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 8).ToList());
                     FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
@@ -446,7 +446,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     //if (Settings.VersionID == 4 || Settings.VersionID == 3)
                     //{
-                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                    IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     //}
 
                     if (IsQuickTabVisible == false && IsFullTabVisible == false)

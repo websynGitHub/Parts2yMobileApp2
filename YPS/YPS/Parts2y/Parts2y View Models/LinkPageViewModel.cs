@@ -290,7 +290,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (valuewithPUID.Count > 0 || valuewithnoPUID.Count > 0)
                     {
                         bool move = await App.Current.MainPage.DisplayAlert("Photo(s) linking", "Are you sure you want to link the photo(s) to the selected"
-                            + (Settings.VersionID == 2 ? " VIN(s)" : "Part(s)"), "Yes", "No");
+                            + (Settings.VersionID == 2 ? " VIN(s)" : " Part(s)"), "Yes", "No");
 
                         if (move)
                         {
@@ -717,7 +717,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : "Part(s) selected";
+        public string _SelectedPartsNo = "Record(s) selected";
         public string SelectedPartsNo
         {
             get => _SelectedPartsNo;

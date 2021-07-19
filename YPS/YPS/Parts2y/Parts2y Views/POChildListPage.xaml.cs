@@ -37,12 +37,12 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
-                if (Settings.VersionID != 2 && Settings.VersionID != 4 &&
-                    Settings.VersionID != 5 && Settings.VersionID != 3 && Settings.VersionID != 1)
-                {
-                    Vm.IsRightArrowVisible = false;
-                    ChildDataList.SelectionMode = SelectionMode.None;
-                }
+                //if (Settings.VersionID != 2 && Settings.VersionID != 4 &&
+                //    Settings.VersionID != 5 && Settings.VersionID != 3 && Settings.VersionID != 1)
+                //{
+                //    Vm.IsRightArrowVisible = false;
+                //    ChildDataList.SelectionMode = SelectionMode.None;
+                //}
 
                 Settings.refreshPage = 1;
 

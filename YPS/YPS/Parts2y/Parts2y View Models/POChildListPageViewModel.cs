@@ -329,15 +329,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                         Settings.TagNumber = POTagDetail.TagNumber;
 
-                        if (Settings.VersionID == 4 || Settings.VersionID == 3
-                            || Settings.VersionID == 1 || Settings.VersionID == 5)
-                        {
-                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
-                        }
-                        else if (Settings.VersionID == 2)
-                        {
-                            await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
-                        }
+                        await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
                     }
                 }
             }
@@ -1380,7 +1372,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #region Properties
 
-        public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : "Part(s) selected";
+        //public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : "Part(s) selected";
+        public string _SelectedPartsNo = "Record(s) selected";
         public string SelectedPartsNo
         {
             get => _SelectedPartsNo;
@@ -1433,7 +1426,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        //public Color _LoadTextColor = ((Settings.VersionID != 2) && isalldone == true) == true ? Color.Black : Color.Gray;
         public Color _LoadTextColor = Color.Black;
         public Color LoadTextColor
         {

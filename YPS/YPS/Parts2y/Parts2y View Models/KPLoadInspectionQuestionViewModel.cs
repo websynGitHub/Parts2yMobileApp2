@@ -199,7 +199,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(Settings.VersionID == 4 ? 9 : 6);
+                await GetConfigurationResults(9);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -225,7 +225,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(Settings.VersionID == 4 ? 9 : 6);
+                await GetConfigurationResults(9);
 
                 QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
 
@@ -382,7 +382,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         labelobj.Home.Name = "Home";
                         labelobj.Jobs.Name = "Job";
-                        //labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
