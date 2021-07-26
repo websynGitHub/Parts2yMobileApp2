@@ -1853,6 +1853,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var parts = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Parts.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var load = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Load.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
+                        var savedsearchfilters = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.SavedSearchFilters.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name) + " :";
                         labelobj.Company.Status = company == null ? true : (company.Status == 1 ? true : false);
@@ -1884,6 +1886,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
 
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+
+                        labelobj.SavedSearchFilters.Name = (savedsearchfilters != null ? (!string.IsNullOrEmpty(savedsearchfilters.LblText) ? savedsearchfilters.LblText : labelobj.SavedSearchFilters.Name) : labelobj.SavedSearchFilters.Name);
                     }
                 }
 
@@ -2258,6 +2262,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
             public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = true, Name = "Start Time" };
             public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = true, Name = "End Time" };
+            public DashboardLabelFields SavedSearchFilters { get; set; } = new DashboardLabelFields { Status = true, Name = "Saved Search Filters" };
         }
         public class DashboardLabelFields : IBase
         {

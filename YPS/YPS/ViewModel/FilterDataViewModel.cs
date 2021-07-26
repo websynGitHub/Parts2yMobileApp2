@@ -55,12 +55,13 @@ namespace YPS.ViewModel
             public filtterlabelFields IdentCode { get; set; } = new filtterlabelFields();
             public filtterlabelFields BagNumber { get; set; } = new filtterlabelFields();
             public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields();
-            public filtterlabelFields JobName { get; set; } = new filtterlabelFields();
+            public filtterlabelFields TaskName { get; set; } = new filtterlabelFields() { Name = "Task Name" };
             public filtterlabelFields ResourceName { get; set; } = new filtterlabelFields() { Name = "Resource", Status = true };
-            public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
-            public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
-            public filtterlabelFields SaveSearchBtn { get; set; } = new filtterlabelFields() { Name = "Save & Search", Status = true };
-
+            //public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
+            //public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
+            public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields() { Name = "Reset", Status = true };
+            public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields() { Name = "Search", Status = true };
+            public filtterlabelFields SaveSearchBtn { get; set; } = new filtterlabelFields() { Name = "SaveSearch", Status = true };
         }
         public class filtterlabelFields : IBase
         {
@@ -755,12 +756,12 @@ namespace YPS.ViewModel
                         var IdentCode = filteredlabel.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var BagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var ybkgnumber = filteredlabel.Where(wr => wr.FieldID == labelobj.yBkgNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var jobname = filteredlabel.Where(wr => wr.FieldID == labelobj.JobName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var taskname = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TaskName.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var resourcename = filteredlabel.Where(wr => wr.FieldID == labelobj.ResourceName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var ResetBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.ResetBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var SearchBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.SearchBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var SaveSearchBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.SaveSearchBtn.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var SaveSearchBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.SaveSearchBtn.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Changing label & Show/Hide fields
                         labelobj.PO.Name = poval != null ? poval.LblText : "Purchase#";
@@ -787,12 +788,12 @@ namespace YPS.ViewModel
                         labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false;
                         labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
                         labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false;
-                        labelobj.JobName.Name = jobname != null ? jobname.LblText : "Job Name";
-                        labelobj.JobName.Status = (jobname == null ? true : false) || (jobname != null && jobname.Status == 1) ? true : false;
+                        labelobj.TaskName.Name = taskname != null ? taskname.LblText : "Task Name";
+                        labelobj.TaskName.Status = (taskname == null ? true : false) || (taskname != null && taskname.Status == 1) ? true : false;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
-                        labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SearchBtn.LblText : "Save & Search";
+                        labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SaveSearchBtn.LblText : "Save & Search";
                     }
                 }
 
@@ -819,7 +820,7 @@ namespace YPS.ViewModel
                 labelobj.PO.Name = "PONumber"; labelobj.REQNo.Name = "REQNo"; labelobj.ShippingNumber.Name = "ShippingNumber"; labelobj.DisciplineName.Name = "DisciplineName";
                 labelobj.ELevelName.Name = "ELevelName"; labelobj.Condition.Name = "ConditionName"; labelobj.Expeditor.Name = "ExpeditorName"; labelobj.PriorityName.Name = "PriorityName";
                 labelobj.TagNumber.Name = "TagNumber"; labelobj.IdentCode.Name = "IdentCode"; labelobj.BagNumber.Name = "BagNumber";
-                labelobj.yBkgNumber.Name = "yBkgNumber"; labelobj.JobName.Name = "JobName";
+                labelobj.yBkgNumber.Name = "yBkgNumber";
             }
             catch (Exception ex)
             {

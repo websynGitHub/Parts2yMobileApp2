@@ -293,8 +293,8 @@
                                 </sfinput:SfTextInputLayout.HintLabelStyle>
                             </sfinput:SfTextInputLayout>
 
-                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.JobName.Name}" ContainerBackgroundColor="White"
-                                                   HorizontalOptions="Start" IsVisible="{Binding labelobj.JobName.Status}"
+                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.TaskName.Name}" ContainerBackgroundColor="White"
+                                                   HorizontalOptions="Start" IsVisible="{Binding labelobj.TaskName.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False">
                             <Entry Text="{Binding JobName}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">

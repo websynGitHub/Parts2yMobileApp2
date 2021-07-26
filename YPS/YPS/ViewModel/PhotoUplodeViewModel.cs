@@ -1206,7 +1206,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DynamicTextChange constructor " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DynamicTextChange method -> in PhotoUplodeViewModel " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

@@ -425,7 +425,7 @@
                     <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent" Spacing="0">
                         <Grid ColumnDefinitions="*,Auto" HorizontalOptions="Fill" Margin="10,15,0,0">
-                            <Label Grid.Column="0" Text="Saved Filters" Style="{DynamicResource LableWithQuestionFont}"
+                            <Label Grid.Column="0" Text="{Binding labelobj.SavedSearchFilters.Name}" Style="{DynamicResource LableWithQuestionFont}"
                                TextColor="Black"/>
                             <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.CloseIc}" Style="{StaticResource LblIconStyle}" 
                                                         TextColor="Red" Grid.Column="1"

@@ -58,6 +58,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 this.inspectionConfiguration = inspectionConfiguration;
                 trackService = new YPSService();
                 ListOfImage = new ObservableCollection<GalleryImage>();
+                Task.Run(() => DynamicTextChange()).Wait();
                 Task.Run(() => GetInspectionPhotos()).Wait();
                 select_pic = new Command(async () => await SelectPic());
                 upload_pic = new Command(async () => await Photo_Upload());
@@ -561,6 +562,41 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+
+        /// <summary>
+        /// Dynamic text changed
+        /// </summary>
+        public void DynamicTextChange()
+        {
+            try
+            {
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                    if (labelval.Count > 0)
+                    {
+                        var uploadBtn = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjUploadBtn.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
+                        var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjDesc.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
+
+                        labelobjUploadBtn = uploadBtn != null ? (!string.IsNullOrEmpty(uploadBtn) ? uploadBtn : labelobjUploadBtn) : labelobjUploadBtn;
+                        labelobjDesc = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : labelobjDesc) : labelobjDesc;
+                    }
+                }
+
+                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                {
+                    DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
+                    FirstMainStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DynamicTextChange method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
+        }
+
         #region Properties
 
         public bool _IndicatorVisibility = false;
@@ -734,6 +770,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _btnenable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _DeleteIconStack = true;
+        public bool DeleteIconStack
+        {
+            get => _DeleteIconStack;
+            set
+            {
+                _DeleteIconStack = value;
                 NotifyPropertyChanged();
             }
         }
