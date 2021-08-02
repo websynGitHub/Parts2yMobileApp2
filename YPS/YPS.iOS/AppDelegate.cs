@@ -38,7 +38,9 @@ namespace YPS.iOS
         public static string is_param_val;
         string parameterValue = string.Empty;
         public static System.Timers.Timer timer;
-
+        #region Added for Scandit
+        public bool ShouldAutoRotate { get; set; } = true;
+        #endregion
         #region Jailbreak
         private Cryoprison.IJailbreakDetector jailbreakDetector;
         public static bool IsJailBroken = false;
@@ -236,6 +238,14 @@ namespace YPS.iOS
             }
         }
 
+        #region Added for Scandit
+        
+        [Export("application:supportedInterfaceOrientationsForWindow:")]
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
+        {
+            return ShouldAutoRotate ? UIInterfaceOrientationMask.All : UIInterfaceOrientationMask.Portrait;
+        }
+        #endregion
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             YPSService trackService = new YPSService();
@@ -441,7 +451,14 @@ namespace YPS.iOS
             {
                 //TODO: Put your own logic here to notify your server that the device token has changed/been created!
                 DeviceToken = DeviceToken.Replace(" ", "");
-                await SecureStorage.SetAsync("iOSFireBaseToken", DeviceToken);
+                try
+                {
+                    await SecureStorage.SetAsync("iOSFireBaseToken", DeviceToken);
+
+                }catch(Exception ex)
+                {
+
+                }
             }
             // Save new device token 
             NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
