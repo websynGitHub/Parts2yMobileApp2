@@ -46,7 +46,7 @@
 
     <ContentPage.Content>
         <AbsoluteLayout>
-            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+            <Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                   RowSpacing="0">
                 <StackLayout Grid.Row="0" BackgroundColor="{Binding BgColor}" Padding="74,5,10,25" Margin="0" Orientation="Vertical">
                     <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
@@ -152,15 +152,15 @@
                     </StackLayout>
                 </StackLayout>
 
-                <ScrollView  Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
-                             Margin="0,6,0,0">
-                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-
-
-                        <Grid HorizontalOptions="FillAndExpand" Margin="6,0,6,0">
-                            <Grid Grid.Row="0" Grid.Column="0" 
-                                 Margin="0" >
-                                <Frame CornerRadius="4" HasShadow="False">
+                <ScrollView  Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                             BackgroundColor="Transparent" Margin="0,6,0,6">
+                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                                 BackgroundColor="Transparent">
+                        <Grid HorizontalOptions="FillAndExpand" Margin="6,0,6,3">
+                            <!--<Grid  
+                                 Margin="0" >-->
+                                <Frame Grid.Row="0" Grid.Column="0"
+                                       CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                         <badge:SfBadgeView x:Name="jobBadge" IsVisible="True"
                                                            BadgeText="{Binding JobCountText}" Margin="0,0,0,0" 
@@ -187,11 +187,12 @@
                                         <TapGestureRecognizer Command="{Binding TaskClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
                                 </Frame>
-                            </Grid>
+                            <!--</Grid>-->
 
-                            <Grid Grid.Row="0" Grid.Column="1" 
-                                 Margin="0" >
-                                <Frame CornerRadius="4" HasShadow="False">
+                            <!--<Grid Grid.Row="0" Grid.Column="1" 
+                                 Margin="0">-->
+                                <Frame Grid.Row="0" Grid.Column="1"
+                                       CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                         <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Scan}" 
                                                  TextColor="Gray" FontSize="70"
@@ -207,12 +208,12 @@
                                     </Frame.GestureRecognizers>
                                     <!--<ImageButton Source="ScanPhoto.png"></ImageButton>-->
                                 </Frame>
-                            </Grid>
+                            <!--</Grid>-->
 
 
-                            <Grid Grid.Row="1" Grid.Column="0" Margin="0"
-                                   IsVisible="{Binding isCompareVisible}">
-                                <Frame CornerRadius="4" HasShadow="False">
+                            <!--<Grid >-->
+                                <Frame Grid.Row="1" Grid.Column="0"
+                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                         <Image Source="Compare.png"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
@@ -227,11 +228,11 @@
                                         <TapGestureRecognizer Command="{Binding CompareClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
                                 </Frame>
-                            </Grid>
+                            <!--</Grid>-->
 
-                            <Grid Grid.Row="1" Grid.Column="1" Margin="0"
-                                   IsVisible="{Binding isCompareVisible}">
-                                <Frame CornerRadius="4" HasShadow="False">
+                            <!--<Grid>-->
+                                <Frame  Grid.Row="1" Grid.Column="1" Margin="0"
+                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                         <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.CameraIc}" 
                                                  TextColor="Gray" FontSize="70"
@@ -247,7 +248,26 @@
                                         <TapGestureRecognizer Command="{Binding PhotoClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
                                 </Frame>
-                            </Grid>
+                            <!--</Grid>-->
+
+                            <!--<Grid>-->
+                                <Frame Grid.Row="2" Grid.Column="0" Margin="0"
+                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                        <Image Source="Compare.png"
+                                                 HorizontalOptions="Start" VerticalOptions="Center"
+                                                 >
+                                        </Image>
+
+                                        <Label Text="Compare Cont." Style="{DynamicResource LableWithQuestionFont}"
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                                    </StackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CompareContinuousClickCmd}"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            <!--</Grid>-->
+                            
                         </Grid>
                     </StackLayout>
                 </ScrollView>

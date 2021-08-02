@@ -20,12 +20,13 @@ namespace YPS.Parts2y.Parts2y_Views
     {
         DashboardViewModel Vm;
         YPSService trackService;
+        
         public HomePage()
         {
             try
             {
                 BindingContext = Vm = new DashboardViewModel(Navigation);
-
+                
                 Vm.loadindicator = true;
                 trackService = new YPSService();
                 InitializeComponent();
