@@ -1422,7 +1422,7 @@ namespace YPS.ViewModel
                             HideUploadButton = false;
                             ICommandPickFile = null;
                         }
-                        else if (hidepluploadButton == false && UploadType == "fileUpload")
+                        else if (hideploadButton == false && UploadType == "fileUpload")
                         {
                             HideUploadButton = false;
                             ICommandPickFile = null;

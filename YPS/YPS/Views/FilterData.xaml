@@ -403,8 +403,8 @@
                 </Grid>
             </Grid>
         </Grid>
-        
-        <ContentView IsVisible="{Binding IsSaveSearchContentVisible}" BackgroundColor="{Binding FiltercontainerColor}"
+
+        <ContentView IsVisible="{Binding IsSaveSearchContentVisible}" BackgroundColor="#99000000"
                      AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                      VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                      >

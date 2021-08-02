@@ -122,7 +122,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         DoneOpacity = 1.0;
                     }
                 }
-                else if (Settings.EntityTypeName.Trim().ToLower() == "Owner".Trim().ToLower())
+                else if (Settings.EntityTypeName.Trim().ToLower() == "Owner".Trim().ToLower() ||
+                    Settings.EntityTypeName.Trim().ToLower() == "LSP".Trim().ToLower() ||
+                    Settings.EntityTypeName.Trim().ToLower() == "Supplier".Trim().ToLower())
                 {
                     IsDealerSignVisible = false;
                     IsOwnerSignVisible = true;
