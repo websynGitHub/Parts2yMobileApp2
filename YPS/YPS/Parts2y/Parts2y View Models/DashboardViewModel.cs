@@ -23,6 +23,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command ScanClickCmd { get; set; }
         public Command CompareClickCmd { get; set; }
         public Command PhotoClickCmd { get; set; }
+        public Command CompareContinuousClickCmd { get; set; }
         public Command HomeCmd { get; set; }
         public Command JobCmd { get; set; }
         public Command TaskCmd { get; set; }
@@ -43,6 +44,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 CompareClickCmd = new Command(async () => await RedirectToPage("compare"));
                 ScanClickCmd = new Command(async () => await RedirectToPage("scan"));
                 PhotoClickCmd = new Command(async () => await RedirectToPage("photo"));
+                CompareContinuousClickCmd = new Command(async () => await RedirectToPage("comparecontinuous"));
 
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
@@ -255,21 +257,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                if (page == "task")
+                if (page.Trim().ToLower() == "task".Trim().ToLower())
                 {
                     await Navigation.PushAsync(new ParentListPage());
                 }
-                else if (page == "compare")
+                else if (page.Trim().ToLower() == "compare".Trim().ToLower())
                 {
                     await Navigation.PushAsync(new Compare());
                 }
-                else if (page == "scan")
+                else if (page.Trim().ToLower() == "scan".Trim().ToLower())
                 {
                     await Navigation.PushAsync(new ScanPage(0, null, false, null));
                 }
-                else
+                else if (page.Trim().ToLower() == "photo".Trim().ToLower())
                 {
                     await Navigation.PushAsync(new PhotoRepoPage());
+                }
+                else
+                {
+                    await Navigation.PushAsync(new CompareContinuous());
                 }
 
             }
