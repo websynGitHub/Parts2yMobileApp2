@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
@@ -27,6 +28,7 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 trackService = new YPSService();
                 InitializeComponent();
+                Settings.scanredirectpage = string.Empty;
                 BindingContext = Vm = new CompareViewModel(Navigation, this, false);
             }
             catch (Exception ex)
@@ -134,5 +136,30 @@ namespace YPS.Parts2y.Parts2y_Views
                 await trackService.Handleexception(ex);
             }
         }
+
+        protected override void OnAppearing()
+        {
+            try
+            {
+                base.OnAppearing();
+                if (Settings.scanredirectpage.Trim().ToLower() == "ScanditScan".Trim().ToLower())
+                {
+
+                    Vm.Scanditscan(Settings.scanQRValuecode);
+                    Settings.scanredirectpage = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
+
     }
 }

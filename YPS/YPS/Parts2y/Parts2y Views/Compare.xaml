@@ -11,7 +11,7 @@
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
               xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
               xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
-             xmlns:parts2yVM="clr-namespace:YPS.Parts2y.Parts2y_View_Models">
+             xmlns:parts2yVM="clr-namespace:YPS.Parts2y.Parts2y_View_Models" xmlns:local="clr-namespace:YPS">
 
     <ContentPage.BindingContext>
         <parts2yVM:MenuViewModel/>
@@ -109,7 +109,9 @@
                     </Grid>
 
                 </Grid>
-
+                <!--<Frame CornerRadius="5" IsVisible="{Binding Scanditview,Mode=TwoWay}">
+                    <ContentView Content="{Binding _picker1, Mode=TwoWay}" HeightRequest="550"/>
+                </Frame>-->
                 <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                        Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
                     <Grid.ColumnDefinitions>
