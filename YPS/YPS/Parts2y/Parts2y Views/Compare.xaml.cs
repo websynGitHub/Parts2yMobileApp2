@@ -137,7 +137,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             try
             {
@@ -145,15 +145,15 @@ namespace YPS.Parts2y.Parts2y_Views
                 if (Settings.scanredirectpage.Trim().ToLower() == "ScanditScan".Trim().ToLower())
                 {
 
-                    Vm.Scanditscan(Settings.scanQRValuecode);
+                    await Vm.Scanditscan(Settings.scanQRValuecode);
                     Settings.scanredirectpage = string.Empty;
                 }
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "OnAppearing Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
-
         }
 
         protected override void OnDisappearing()

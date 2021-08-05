@@ -9,6 +9,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.Parts2y.Parts2y_View_Models;
+using YPS.Service;
+using YPS.Helpers;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -22,19 +24,24 @@ namespace YPS.Parts2y.Parts2y_Views
         public static NavigationPage MyNavigationPage;
         public ScanerSettings Settings { get; set; }
         public CompareContinuousViewModel comparecontinuousVM;
-        public CompareViewModel compareVM;
+        public YPSService trackService;
+        public Color BgColor { get; } = CommonClasses.Settings.Bar_Background;
 
         public ScannerPage()
         {
             try
             {
+                trackService = new YPSService();
                 Settings = new ScanerSettings();
                 InitializeComponent();
                 MyNavigationPage = new NavigationPage();
+                //StartBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+                BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ScannerPage Constructor -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 
@@ -47,33 +54,56 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings = settings;
                 comparecontinuousVM = compareContinuousVM;
                 InitializeComponent();
+
+                //StartBtn.IsVisible = Settings.ContinuousAfterScan == false ? false : true;
+                //StartBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+                BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+
                 PickerView.Delegate = new ScannerDelegate(this);
                 PickerView.Settings = Settings;
+
+                #region Cam Not Always On
+                //if (Settings.ContinuousAfterScan == false)
+                //{
+                //    StartBtn.IsVisible = false;
+                //    PickerView.Delegate = new ScannerDelegate(this);
+                //    PickerView.Settings = Settings;
+                //}
+                //else
+                //{
+                //    StartBtn.IsVisible = true;
+                //}
+                #endregion Cam Not Always On
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ScannerPage Constructor with two parameters -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
 
         }
 
-        public ScannerPage(ScanerSettings settings, CompareViewModel compareViewModel)
+        public ScannerPage(ScanerSettings settings)
         {
             try
             {
                 Settings = new ScanerSettings();
                 MyNavigationPage = new NavigationPage();
                 Settings = settings;
-                compareVM = compareViewModel;
+                YPS.CommonClasses.Settings.scanredirectpage = "ScanditScan";
                 InitializeComponent();
+
+                //StartBtn.IsVisible = false;
+                BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+
                 PickerView.Delegate = new ScannerDelegate(this);
                 PickerView.Settings = Settings;
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ScannerPage Constructor with one parameter -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
-
         }
 
         //public void Handle_Clicked(object sender, EventArgs e)
@@ -141,7 +171,7 @@ namespace YPS.Parts2y.Parts2y_Views
             PickerView.StopScanning();
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private void Close_Scanner(object sender, EventArgs e)
         {
             try
             {
@@ -149,9 +179,27 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "Close_Scanner Method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
+        }
 
+        private void Start_Scanning(object sender, EventArgs e)
+        {
+            try
+            {
+                Settings.CanScan = true;
+                #region Cam Not Always On
+                //PickerView.Delegate = new ScannerDelegate(this);
+                //PickerView.Settings = Settings;
+                //PickerView.StartScanning();
+                #endregion Cam Not Always On
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Start_Scanning Method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
         }
     }
 
@@ -178,7 +226,7 @@ namespace YPS.Parts2y.Parts2y_Views
                     if (scannerPage.Settings.ContinuousAfterScan == false)
                     {
                         await scannerPage.comparecontinuousVM.Scanditscan(Settings.scanQRValuecode);
-                        
+
                         if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
                         {
                             await App.Current.MainPage.Navigation.PopModalAsync();
@@ -188,7 +236,11 @@ namespace YPS.Parts2y.Parts2y_Views
                     {
                         if (scannerPage.comparecontinuousVM.scancountpermit > 0)
                         {
-                            scannerPage.comparecontinuousVM.Scanditscan(Settings.scanQRValuecode);
+                            //if (scannerPage.Settings.CanScan == true)
+                            //{
+                            //    scannerPage.Settings.CanScan = false;
+                            await scannerPage.comparecontinuousVM.Scanditscan(Settings.scanQRValuecode);
+                            //}
                         }
                         else
                         {
@@ -197,17 +249,32 @@ namespace YPS.Parts2y.Parts2y_Views
                                 await App.Current.MainPage.Navigation.PopModalAsync();
                             }
                         }
+
+                        #region Cam Not Always On
+                        //if (scannerPage.comparecontinuousVM.scancountpermit > 0)
+                        //{
+                        //    scannerPage.PickerView.StopScanning();
+                        //    await scannerPage.comparecontinuousVM.Scanditscan(Settings.scanQRValuecode);
+                        //}
+                        //else
+                        //{
+                        //    if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
+                        //    {
+                        //        await App.Current.MainPage.Navigation.PopModalAsync();
+                        //    }
+                        //}
+                        #endregion Cam Not Always On
                     }
                 }
                 else
                 {
-                    Settings.scanredirectpage = "ScanditScan";
                     await App.Current.MainPage.Navigation.PopModalAsync();
                 }
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "DidScan Method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = scannerPage.trackService.Handleexception(ex);
             }
         }
     }

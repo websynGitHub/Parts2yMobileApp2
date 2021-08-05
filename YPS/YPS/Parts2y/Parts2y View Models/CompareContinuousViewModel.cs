@@ -28,7 +28,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         YPSService trackService;
         IBarcodePicker _picker;
-        string scanFor;
+        public string scanFor;
         public int historySerialNo = 1;
         List<CompareHistoryList> lstcomparehistory = new List<CompareHistoryList>();
         private CompareContinuous comparepage;
@@ -71,18 +71,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "CompareContinuousViewModel constructor -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-        }
-
-        public CompareContinuousViewModel()
-        {
-            try
-            {
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "CompareContinuousViewModel constructor with no parameters -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -449,6 +437,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     string sp = "\n\n";
                     var scanvalue = scanresult.Split(sp.ToCharArray());
+
                     if (scancountpermit > 0)
                     {
                         foreach (var result in scanvalue)
@@ -472,6 +461,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         opacityA = 1;
                                         isEnableBFrame = false;
                                         opacityB = 0.50;
+                                        ngplaybeep.Play();
                                     }
                                     else
                                     {
@@ -481,6 +471,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         opacityA = 0.50;
                                         isEnableBFrame = true;
                                         opacityB = 1;
+                                        okplaybeep.Play();
                                     }
                                 }
                                 else

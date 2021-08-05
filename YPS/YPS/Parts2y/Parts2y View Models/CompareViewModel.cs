@@ -202,7 +202,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         ScanerSettings scanset = new ScanerSettings();
                         SettingsArchiver.ArchiveSettings(scanset);
 
-                        Navigation.PushModalAsync(new ScannerPage(scanset, this));
+                        await Navigation.PushModalAsync(new ScannerPage(scanset));
 
                     }
                     catch (Exception ex1)
@@ -414,7 +414,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public void Scanditscan(string scanresult)
+        public async Task Scanditscan(string scanresult)
         {
             try
             {
@@ -456,6 +456,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     opacityA = 1;
                                     isEnableBFrame = false;
                                     opacityB = 0.50;
+                                    ngplaybeep.Play();
                                 }
                                 else
                                 {
@@ -465,6 +466,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     opacityA = 0.50;
                                     isEnableBFrame = true;
                                     opacityB = 1;
+                                    okplaybeep.Play();
                                 }
                             }
                             else

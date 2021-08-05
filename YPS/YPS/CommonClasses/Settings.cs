@@ -719,6 +719,7 @@ namespace YPS.CommonClasses
     {
         public bool RotationWithDevice { get; set; }
         public bool ContinuousAfterScan { get; set; }
+        public bool CanScan { get; set; }
 
         // Symbologies
         public bool Ean13Upc12 { get; set; }
@@ -828,8 +829,8 @@ namespace YPS.CommonClasses
             ViewFinderPortraitHeight = 0.5F;
             ViewFinderLandscapeWidth = 0.4F;
             ViewFinderLandscapeHeight = 0.4F;
-            Beep = true;
-            Vibrate = true;
+            Beep = false;
+            Vibrate = false;
             TorchButtonVisible = true;
             TorchLeftMargin = 15;
             TorchTopMargin = 15;
