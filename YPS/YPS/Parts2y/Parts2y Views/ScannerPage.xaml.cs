@@ -61,19 +61,6 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 PickerView.Delegate = new ScannerDelegate(this);
                 PickerView.Settings = Settings;
-
-                #region Cam Not Always On
-                //if (Settings.ContinuousAfterScan == false)
-                //{
-                //    StartBtn.IsVisible = false;
-                //    PickerView.Delegate = new ScannerDelegate(this);
-                //    PickerView.Settings = Settings;
-                //}
-                //else
-                //{
-                //    StartBtn.IsVisible = true;
-                //}
-                #endregion Cam Not Always On
             }
             catch (Exception ex)
             {
@@ -106,19 +93,6 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-        //public void Handle_Clicked(object sender, EventArgs e)
-        //{
-        //    HideResult();
-        //    res.IsVisible = false;
-        //    PickerView.StartScanning();
-        //}
-
-        //public void HideResult()
-        //{
-        //    ResultView.IsVisible = false;
-        //}
-
-        //ObservableCollection<ResultListdata> scanresult = new ObservableCollection<ResultListdata>();
         int i;
         public void ShowResult(String symbology, String code)
         {
@@ -131,31 +105,7 @@ namespace YPS.Parts2y.Parts2y_Views
             //valueadding(scanvalue);
 
         }
-        //public async Task valueadding(string[] splitvalue)
-        //{
-        //    try
-        //    {
-        //        if (LocalSettings.scanresult != null)
-        //            i = LocalSettings.scanresult.Count;
-        //        foreach (var item in splitvalue)
-        //        {
-        //            if (!string.IsNullOrEmpty(item))
-        //            {
-        //                ResultListdata data = new ResultListdata();
-        //                data.message = item;
-        //                data.ID = scanresult.Count + 1;
-        //                scanresult.Add(data);
-        //            }
-        //        }
-        //        LocalSettings.scanresult = scanresult;
-        //        list.ItemsSource = LocalSettings.scanresult;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-
+       
         public void ResumeScanning()
         {
             PickerView.StartScanning();
@@ -189,11 +139,6 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Settings.CanScan = true;
-                #region Cam Not Always On
-                //PickerView.Delegate = new ScannerDelegate(this);
-                //PickerView.Settings = Settings;
-                //PickerView.StartScanning();
-                #endregion Cam Not Always On
             }
             catch (Exception ex)
             {
@@ -217,9 +162,6 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Settings.scanQRValuecode = code;
-                //Settings.scanredirectpage = "ScanditScan";
-
-                //int numExpectedCodes = 5;
 
                 if (Settings.scanredirectpage.Trim().ToLower() == "CompareContinuous".Trim().ToLower())
                 {
@@ -249,21 +191,6 @@ namespace YPS.Parts2y.Parts2y_Views
                                 await App.Current.MainPage.Navigation.PopModalAsync();
                             }
                         }
-
-                        #region Cam Not Always On
-                        //if (scannerPage.comparecontinuousVM.scancountpermit > 0)
-                        //{
-                        //    scannerPage.PickerView.StopScanning();
-                        //    await scannerPage.comparecontinuousVM.Scanditscan(Settings.scanQRValuecode);
-                        //}
-                        //else
-                        //{
-                        //    if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
-                        //    {
-                        //        await App.Current.MainPage.Navigation.PopModalAsync();
-                        //    }
-                        //}
-                        #endregion Cam Not Always On
                     }
                 }
                 else

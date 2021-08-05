@@ -1,11 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS"
-             x:Class="YPS.Parts2y.Parts2y_Views.ScannerPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviours="clr-namespace:YPS.Behaviours" xmlns:local1="clr-namespace:YPS.CustomRenders"
+             x:Class="YPS.Parts2y.Parts2y_Views.ScannerPage"
+              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand" Padding="10" >
-            <local:PickerView x:Name="PickerView" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <Button Text="Back" HorizontalOptions="Center" VerticalOptions="End" Clicked="Button_Clicked"/>
-        </StackLayout>
+        <Grid RowDefinitions="Auto" VerticalOptions="FillAndExpand">
+            <local:PickerView Grid.Row="0" x:Name="PickerView" BackgroundColor="White" HorizontalOptions="FillAndExpand" 
+                              VerticalOptions="FillAndExpand" x:FieldModifier="Public"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand"
+                         Padding="0,12,0,0" Grid.Row="0" Spacing="17">
+                   
+                <!--<local1:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.Start}"
+                                                 TextColor="DimGray" FontSize="46"
+                                                 HorizontalOptions="Center" VerticalOptions="Start"
+                                                 >
+                    <local1:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Start_Scanning"/>
+                    </local1:FontAwesomeIconLabel.GestureRecognizers>
+                    </local1:FontAwesomeIconLabel>-->
+                
+                    <!--<sfbuttons:SfButton x:Name="StartBtn" HorizontalOptions="FillAndExpand" Clicked="Start_Scanning" 
+                                     Style="{StaticResource SfBtnRed}"
+                                     Text="Start" Padding="10,0,10,0">
+                    <sfbuttons:SfButton.Behaviors>
+                        <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                    </sfbuttons:SfButton.Behaviors>
+                </sfbuttons:SfButton>-->
+
+                <!--<local1:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
+                                                 TextColor="DimGray" FontSize="46"
+                                                 HorizontalOptions="Center" VerticalOptions="Start"
+                                                 >
+                    <local1:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Close_Scanner"/>
+                    </local1:FontAwesomeIconLabel.GestureRecognizers>
+                </local1:FontAwesomeIconLabel>-->
+                
+                <sfbuttons:SfButton x:Name="BackBtn" HorizontalOptions="FillAndExpand" Clicked="Close_Scanner" 
+                                     Style="{StaticResource SfBtnRed}"
+                                     Text="Back" Padding="10,0,10,0">
+                    <sfbuttons:SfButton.Behaviors>
+                        <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                    </sfbuttons:SfButton.Behaviors>
+                </sfbuttons:SfButton>
+                
+                <!--<Button x:Name="StartBtn" Text="Start" HorizontalOptions="Center" VerticalOptions="End" Clicked="Start_Scanning"/>
+                <Button Text="Back" HorizontalOptions="Center" VerticalOptions="End" Clicked="Close_Scanner"/>-->
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
