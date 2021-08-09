@@ -4,7 +4,7 @@
              x:Class="YPS.Parts2y.Parts2y_Views.ScannerPage"
               xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto" VerticalOptions="FillAndExpand">
+        <Grid RowDefinitions="Auto" VerticalOptions="FillAndExpand" Padding="0,25,0,0" BackgroundColor="Black">
             <local:PickerView Grid.Row="0" x:Name="PickerView" BackgroundColor="White" HorizontalOptions="FillAndExpand" 
                               VerticalOptions="FillAndExpand" x:FieldModifier="Public"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand"

@@ -78,7 +78,7 @@
                         <!--<ColumnDefinition Width="0.18*"/>-->
                     </Grid.ColumnDefinitions>
                     <StackLayout Grid.Column="0">
-                        <Label Text="Default Setting" Style="{DynamicResource LableWithMediumFont}"
+                        <Label Text="{Binding DefaultSettinglabel}" Style="{DynamicResource LableWithMediumFont}"
                                  Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding settingsTextColor}"
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                             <!--<Label.GestureRecognizers>
@@ -91,7 +91,7 @@
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                     <StackLayout Grid.Column="1">
-                        <Label x:Name="UpdatePBtn" Text="Update Profile" Style="{DynamicResource LableWithMediumFont}" 
+                        <Label x:Name="UpdatePBtn" Text="{Binding UpdateProfilelabel}" Style="{DynamicResource LableWithMediumFont}" 
                                 Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
                                HorizontalTextAlignment="Center" TextColor="{Binding profileTextColor}" Margin="0,2,0,2">
                             <!--<Label.GestureRecognizers>

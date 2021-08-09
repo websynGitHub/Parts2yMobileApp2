@@ -32,11 +32,11 @@
                         </local:FontAwesomeIconLabel.GestureRecognizers>
                     </local:FontAwesomeIconLabel>
                 </StackLayout>
-
+               
                 <StackLayout Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
                                          Orientation="Vertical" HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="StartAndExpand" Margin="8,10,0,15">
-                    <Label Text="Search Data" Style="{StaticResource LableWithMediumFont}"
+                    <Label Text="{Binding labelobj.SearchPageTitle.Name}" Style="{StaticResource LableWithMediumFont}"
                    TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
                 </StackLayout>
                     

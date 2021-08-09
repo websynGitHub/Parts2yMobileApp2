@@ -249,18 +249,20 @@ namespace YPS.Views
                 var data = Settings.alllabeslvalues.Where(x => x.VersionID == parentid && x.LanguageID == Settings.LanguageID).ToList();
 
                 //Setting all the Labels dynamically for "Default Settings" and "Update Profile" Tabs.
-                Vm.Companylabel = data.Where(x => x.FieldID == Settings.Companylabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
-                Vm.projectlabel = data.Where(x => x.FieldID == Settings.projectlabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Project" + " *").FirstOrDefault();
-                Vm.joblabel = data.Where(x => x.FieldID == Settings.joblabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Job" + " *").FirstOrDefault();
-                Vm.SetAsDefaultBtn = data.Where(x => x.FieldID == Settings.SetAsDefaultBtn1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Set As Default").FirstOrDefault();
-                Vm.EmailLbl = data.Where(X => X.FieldID == Settings.Emaillabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Email" + " *").FirstOrDefault();
-                Vm.GivenNameLbl = data.Where(X => X.FieldID == Settings.GivenNamelabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Given Name" + " *").FirstOrDefault();
-                Vm.FamilyNameLbl = data.Where(X => X.FieldID == Settings.FamilyNamelabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Family Name").FirstOrDefault();
-                Vm.TimeZoneLbl = data.Where(X => X.FieldID == Settings.TimeZonelabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Time Zone" + " *").FirstOrDefault();
-                Vm.LangaugeLbl = data.Where(X => X.FieldID == Settings.Languagelabel1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Language" + " *").FirstOrDefault();
-                Vm.UpdateBtn = data.Where(X => X.FieldID == Settings.UpdateBtn1).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Update").FirstOrDefault();
-                Vm.LoginLbl = data.Where(x => x.FieldID == Vm.LoginLbl).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Login ID *").FirstOrDefault();
-                var supplierstatus = data.Where(wr => wr.FieldID == Settings.supplierlabel1).FirstOrDefault();
+                Vm.DefaultSettinglabel = data.Where(x => x.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.DefaultSettinglabel.Trim().ToLower().Replace(" ", string.Empty)).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
+                Vm.UpdateProfilelabel = data.Where(x => x.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.UpdateProfilelabel.Trim().ToLower().Replace(" ",string.Empty)).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
+                Vm.Companylabel = data.Where(x => x.FieldID.Trim().ToLower() == Settings.Companylabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
+                Vm.projectlabel = data.Where(x => x.FieldID.Trim().ToLower() == Settings.projectlabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Project" + " *").FirstOrDefault();
+                Vm.joblabel = data.Where(x => x.FieldID.Trim().ToLower() == Settings.joblabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Job" + " *").FirstOrDefault();
+                Vm.SetAsDefaultBtn = data.Where(x => x.FieldID.Trim().ToLower() == Settings.SetAsDefaultBtn1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Set As Default").FirstOrDefault();
+                Vm.EmailLbl = data.Where(X => X.FieldID.Trim().ToLower() == Settings.Emaillabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Email" + " *").FirstOrDefault();
+                Vm.GivenNameLbl = data.Where(X => X.FieldID.Trim().ToLower() == Settings.GivenNamelabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Given Name" + " *").FirstOrDefault();
+                Vm.FamilyNameLbl = data.Where(X => X.FieldID.Trim().ToLower() == Settings.FamilyNamelabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Family Name").FirstOrDefault();
+                Vm.TimeZoneLbl = data.Where(X => X.FieldID.Trim().ToLower() == Settings.TimeZonelabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Time Zone" + " *").FirstOrDefault();
+                Vm.LangaugeLbl = data.Where(X => X.FieldID.Trim().ToLower() == Settings.Languagelabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Language" + " *").FirstOrDefault();
+                Vm.UpdateBtn = data.Where(X => X.FieldID.Trim().ToLower() == Settings.UpdateBtn1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Update").FirstOrDefault();
+                Vm.LoginLbl = data.Where(x => x.FieldID.Trim().ToLower() == Vm.LoginLbl.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Login ID *").FirstOrDefault();
+                var supplierstatus = data.Where(wr => wr.FieldID.Trim().ToLower() == Settings.supplierlabel1.Trim().ToLower()).FirstOrDefault();
 
                 //if (DefaultSettingSupplier == false)
                 //{

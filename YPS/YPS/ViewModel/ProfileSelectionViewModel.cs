@@ -120,6 +120,8 @@ namespace YPS.ViewModel
 
                                 if (verfieldsforID != null && verfieldsforID.Count > 0)
                                 {
+                                    string defaultsettings = verfieldsforID.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ",string.Empty) == Settings.DefaultSettinglabel.Trim().ToLower().Replace(" ", string.Empty)).Select(s => s.LblText).FirstOrDefault();
+                                    string updateprofile = verfieldsforID.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.UpdateProfilelabel.Trim().ToLower().Replace(" ", string.Empty)).Select(s => s.LblText).FirstOrDefault();
                                     string company = verfieldsforID.Where(wr => wr.FieldID == Settings.Companylabel1).Select(s => s.LblText).FirstOrDefault();
                                     string job = verfieldsforID.Where(wr => wr.FieldID == Settings.joblabel1).Select(s => s.LblText).FirstOrDefault();
                                     string proj = verfieldsforID.Where(wr => wr.FieldID == Settings.projectlabel1).Select(s => s.LblText).FirstOrDefault();
@@ -135,6 +137,8 @@ namespace YPS.ViewModel
                                     var loginid = verfieldsforID.Where(wr => wr.FieldID == LoginLbl).Select(s => s.LblText).FirstOrDefault();
                                     suppliestatus = supplierstatus.Status;
 
+                                    DefaultSettinglabel = !string.IsNullOrEmpty(defaultsettings) ? defaultsettings  : "Default Setting";
+                                    UpdateProfilelabel = !string.IsNullOrEmpty(updateprofile) ? updateprofile: "Update Profile";
                                     Companylabel = !string.IsNullOrEmpty(company) ? company + " *" : "Company" + " *";
                                     joblabel = !string.IsNullOrEmpty(job) ? job + " *" : "Job" + " *";
                                     projectlabel = !string.IsNullOrEmpty(proj) ? proj + " *" : "Project" + " *";
@@ -191,6 +195,8 @@ namespace YPS.ViewModel
                             CompanyList = PDefaultSettingModel.data.Company;
                         }
 
+                        DefaultSettinglabel = "Default Setting";
+                        UpdateProfilelabel = "Update Profile";
                         Companylabel = "Company" + " *";
                         joblabel = "Job" + " *";
                         projectlabel = "Project" + " *";
@@ -842,6 +848,28 @@ namespace YPS.ViewModel
             set
             {
                 _UpdateprofiletitleRowHt = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        string _DefaultSettinglabel;
+        public string DefaultSettinglabel
+        {
+            get { return _DefaultSettinglabel; }
+            set
+            {
+                _DefaultSettinglabel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        string _UpdateProfilelabel;
+        public string UpdateProfilelabel
+        {
+            get { return _UpdateProfilelabel; }
+            set
+            {
+                _UpdateProfilelabel = value;
                 NotifyPropertyChanged();
             }
         }

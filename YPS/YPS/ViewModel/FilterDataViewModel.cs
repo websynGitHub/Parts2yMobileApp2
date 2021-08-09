@@ -59,6 +59,7 @@ namespace YPS.ViewModel
             public filtterlabelFields ResourceName { get; set; } = new filtterlabelFields() { Name = "Resource", Status = true };
             //public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
             //public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
+            public filtterlabelFields SearchPageTitle { get; set; } = new filtterlabelFields() { Name = "Search Data", Status = true };
             public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields() { Name = "Reset", Status = true };
             public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields() { Name = "Search", Status = true };
             public filtterlabelFields SaveSearchBtn { get; set; } = new filtterlabelFields() { Name = "SaveSearch", Status = true };
@@ -744,23 +745,24 @@ namespace YPS.ViewModel
                         await AssignValueForComparision();
 
                         // Selecting Label Text and Status 
-                        var poval = filteredlabel.Where(wr => wr.FieldID == labelobj.PO.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var REQNo = filteredlabel.Where(wr => wr.FieldID == labelobj.REQNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var ShippingNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.ShippingNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var DisciplineName = filteredlabel.Where(wr => wr.FieldID == labelobj.DisciplineName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var ELevelName = filteredlabel.Where(wr => wr.FieldID == labelobj.ELevelName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var Condition = filteredlabel.Where(wr => wr.FieldID == labelobj.Condition.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var Expeditor = filteredlabel.Where(wr => wr.FieldID == labelobj.Expeditor.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var PriorityName = filteredlabel.Where(wr => wr.FieldID == labelobj.PriorityName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var TagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.TagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var IdentCode = filteredlabel.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var BagNumber = filteredlabel.Where(wr => wr.FieldID == labelobj.BagNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var ybkgnumber = filteredlabel.Where(wr => wr.FieldID == labelobj.yBkgNumber.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var poval = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.PO.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var REQNo = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ShippingNumber = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var DisciplineName = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.DisciplineName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ELevelName = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ELevelName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var Condition = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Condition.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var Expeditor = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Expeditor.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var PriorityName = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.PriorityName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var TagNumber = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var IdentCode = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var BagNumber = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ybkgnumber = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.yBkgNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskname = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TaskName.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var resourcename = filteredlabel.Where(wr => wr.FieldID == labelobj.ResourceName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var resourcename = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ResourceName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-                        var ResetBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.ResetBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var SearchBtn = filteredlabel.Where(wr => wr.FieldID == labelobj.SearchBtn.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var searchpagetitle = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.SearchPageTitle.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ResetBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ResetBtn.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var SearchBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.SearchBtn.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var SaveSearchBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.SaveSearchBtn.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Changing label & Show/Hide fields
@@ -791,6 +793,7 @@ namespace YPS.ViewModel
                         labelobj.TaskName.Name = taskname != null ? taskname.LblText : "Task Name";
                         labelobj.TaskName.Status = (taskname == null ? true : false) || (taskname != null && taskname.Status == 1) ? true : false;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
+                        labelobj.SearchPageTitle.Name= searchpagetitle != null ? searchpagetitle.LblText : labelobj.SearchPageTitle.Name;
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
                         labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SaveSearchBtn.LblText : "Save & Search";

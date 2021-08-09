@@ -287,6 +287,8 @@ namespace YPS.CommonClasses
         public static string joblabel { set; get; }
         public static string supplierlabel { set; get; }
 
+        public static string DefaultSettinglabel { set; get; } = "Default Setting";
+        public static string UpdateProfilelabel { set; get; } = "Update Profile ";
         public static string Companylabel1 { set; get; } = "Company";
         public static string projectlabel1 { set; get; } = "Project";
         public static string joblabel1 { set; get; } = "Job";
