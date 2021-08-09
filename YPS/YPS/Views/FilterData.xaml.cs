@@ -244,7 +244,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CloseSearchFilterPopUp Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CloseSearchFilterPopUp Method -> in FilterData.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
         }

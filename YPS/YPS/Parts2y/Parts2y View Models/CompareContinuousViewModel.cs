@@ -1,8 +1,6 @@
 ﻿using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Plugin.SimpleAudioPlayer;
-using Scandit.BarcodePicker.Unified;
-using Scandit.BarcodePicker.Unified.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,7 +25,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
     public class CompareContinuousViewModel : IBase
     {
         YPSService trackService;
-        IBarcodePicker _picker;
         public string scanFor;
         public int historySerialNo = 1;
         List<CompareHistoryList> lstcomparehistory = new List<CompareHistoryList>();
@@ -65,7 +62,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Settings.scanQRValueB = "";
 
                 Task.Run(() => GetSavedConfigDataFromDB()).Wait();
-                ScanditService.ScanditLicense.AppKey = HostingURL.scandItLicencekey;
                 scansetting = SettingsArchiver.UnarchiveSettings();
             }
             catch (Exception ex)
@@ -611,242 +607,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "OnDidScan method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
-        }
-
-        public async Task PrepareScannerSettings()
-        {
-            try
-            {
-                var settings = ScanditService.BarcodePicker.GetDefaultScanSettings();
-                settings.EnableSymbology(Symbology.Ean13, true);
-                settings.EnableSymbology(Symbology.Upca, true);
-                settings.EnableSymbology(Symbology.Qr, true);
-                settings.EnableSymbology(Symbology.Code11, true);
-                settings.EnableSymbology(Symbology.Code128, true);
-                settings.EnableSymbology(Symbology.Code25, true);
-                settings.EnableSymbology(Symbology.Code32, true);
-                settings.EnableSymbology(Symbology.Code39, true);
-                settings.EnableSymbology(Symbology.Code93, true);
-                settings.EnableSymbology(Symbology.DotCode, true);
-                settings.EnableSymbology(Symbology.MaxiCode, true);
-                settings.EnableSymbology(Symbology.Upce, true);
-                settings.EnableSymbology(Symbology.Codabar, true);
-                settings.EnableSymbology(Symbology.Aztec, true);
-                settings.EnableSymbology(Symbology.DataMatrix, true);
-                settings.EnableSymbology(Symbology.Ean8, true);
-                settings.EnableSymbology(Symbology.FiveDigitAddOn, true);
-                settings.EnableSymbology(Symbology.Gs1Databar, true);
-                settings.EnableSymbology(Symbology.Gs1DatabarExpanded, true);
-                settings.EnableSymbology(Symbology.Gs1DatabarLimited, true);
-                settings.EnableSymbology(Symbology.Interleaved2Of5, true);
-                settings.EnableSymbology(Symbology.Kix, true);
-                settings.EnableSymbology(Symbology.LAPA4SC, true);
-                settings.EnableSymbology(Symbology.MicroPdf417, true);
-                settings.EnableSymbology(Symbology.MicroQr, true);
-                settings.EnableSymbology(Symbology.MsiPlessey, true);
-                settings.EnableSymbology(Symbology.Pdf417, true);
-                settings.EnableSymbology(Symbology.Rm4scc, true);
-                settings.EnableSymbology(Symbology.TwoDigitAddOn, true);
-
-                _picker = ScanditService.BarcodePicker;
-                await _picker.ApplySettingsAsync(settings);
-
-                _picker.DidScan += ValueScanned;
-
-                _picker.AutoFocusOnTapEnabled = true;
-                _picker.ScanOverlay.BeepEnabled = false;
-                _picker.ScanOverlay.TorchButtonVisible = true;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "CompareQRCode method -> in PrepareScannerSettings " + YPS.CommonClasses.Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-            finally
-            {
-                loadindicator = false;
-            }
-        }
-
-        public void ValueScanned(ScanSession scanresult)
-        {
-            //try
-            //{
-            //    var assembly = typeof(App).GetTypeInfo().Assembly;
-            //    Stream sr = assembly.GetManifestResourceStream("YPS." + "beep.mp3");
-            //    ISimpleAudioPlayer playbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-            //    playbeep.Load(sr);
-
-            //    Stream oksr = assembly.GetManifestResourceStream("YPS." + "okbeep.mp3");
-            //    ISimpleAudioPlayer okplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-            //    okplaybeep.Load(oksr);
-
-            //    Stream ngsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
-            //    ISimpleAudioPlayer ngplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-            //    ngplaybeep.Load(ngsr);
-
-            //    Device.BeginInvokeOnMainThread(async () =>
-            //    {
-            //        CompareHistoryList comparemodel = new CompareHistoryList();
-
-            //        if (scanFor == "a")
-            //        {
-            //            Settings.scanQRValueA = ScannedValueA = scanresult != null ? scanresult.NewlyRecognizedCodes.FirstOrDefault().Data : "scanned";
-
-            //            if (Settings.scanQRValueA.Length < SelectedRule.Length)
-            //            {
-            //                await App.Current.MainPage.DisplayAlert("Alert", "Length is less than the scan rule, please scan new Barcode/QR code.", "Ok");
-
-            //                isScannedA = "ok.png";
-            //                resultA = Settings.scanQRValueA;
-            //                isEnableAFrame = true;
-            //                opacityA = 1;
-            //                isEnableBFrame = false;
-            //                opacityB = 0.50;
-            //            }
-            //            else
-            //            {
-            //                isScannedA = "cross.png";
-            //                resultA = Settings.scanQRValueA;
-            //                isEnableAFrame = false;
-            //                opacityA = 0.50;
-            //                isEnableBFrame = true;
-            //                opacityB = 1;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            int Astartindex;
-            //            int Bstartindex;
-
-            //            Settings.scanQRValueB = ScannedValueB = scanresult != null ? scanresult.NewlyRecognizedCodes.FirstOrDefault().Data : "scanned";
-
-            //            switch (SelectedRule.Position)
-            //            {
-            //                case "First":
-
-            //                    if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(0, SelectedRule.Length) == Settings.scanQRValueB.Substring(0, SelectedRule.Length)))
-            //                    {
-            //                        isMatch = "MATCHED";
-            //                        isMatchImage = "ook.png";
-            //                        isScannedB = "ok.png";
-            //                        resultB = Settings.scanQRValueB;
-            //                        scancountpermit--;
-            //                        okplaybeep.Play();
-            //                    }
-            //                    else
-            //                    {
-            //                        isMatch = "UNMATCHED";
-            //                        isMatchImage = "ng.png";
-            //                        isScannedB = "ok.png";
-            //                        resultB = Settings.scanQRValueB;
-            //                        ngplaybeep.Play();
-            //                    }
-            //                    break;
-
-            //                case "Last":
-
-            //                    Astartindex = Settings.scanQRValueA.Length - SelectedRule.Length;
-            //                    Bstartindex = Settings.scanQRValueB.Length - SelectedRule.Length;
-
-            //                    if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(Astartindex, SelectedRule.Length) == Settings.scanQRValueB.Substring(Bstartindex, SelectedRule.Length)))
-            //                    {
-            //                        isMatch = "MATCHED";
-            //                        isMatchImage = "ook.png";
-            //                        isScannedB = "ok.png";
-            //                        resultB = Settings.scanQRValueB;
-            //                        scancountpermit--;
-            //                        okplaybeep.Play();
-
-            //                    }
-            //                    else
-            //                    {
-            //                        isMatch = "UNMATCHED";
-            //                        isMatchImage = "ng.png";
-            //                        isScannedB = "ok.png";
-            //                        resultB = Settings.scanQRValueB;
-            //                        ngplaybeep.Play();
-
-            //                    }
-            //                    break;
-
-            //                case "Full":
-
-            //                    if (Settings.scanQRValueA == Settings.scanQRValueB)
-            //                    {
-            //                        isMatch = "MATCHED";
-            //                        isMatchImage = "ook.png";
-            //                        isScannedB = "ok.png";
-            //                        resultB = Settings.scanQRValueB;
-            //                        scancountpermit--;
-            //                        okplaybeep.Play();
-
-            //                    }
-            //                    else
-            //                    {
-            //                        isMatch = "UNMATCHED";
-            //                        isMatchImage = "ng.png";
-            //                        isScannedB = "ok.png";
-            //                        resultB = Settings.scanQRValueB;
-            //                        ngplaybeep.Play();
-
-            //                    }
-            //                    break;
-
-            //                default:
-            //                    isMatch = "UNMATCHED";
-            //                    isMatchImage = "ng.png";
-            //                    isScannedB = "ok.png";
-            //                    resultB = Settings.scanQRValueB;
-            //                    ngplaybeep.Play();
-
-            //                    break;
-            //            }
-            //        }
-
-            //        isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
-
-            //        if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
-            //        {
-            //            comparemodel.HistorySerialNo = historySerialNo++;
-            //            comparemodel.AValue = Settings.scanQRValueA;
-            //            comparemodel.BValue = Settings.scanQRValueB;
-            //            comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
-            //            compareList.Insert(0, comparemodel);
-
-            //            compareHistoryList = new List<CompareHistoryList>(compareList);
-
-            //            var val = compareList.OrderByDescending(w => w.HistorySerialNo).Take(5);
-
-            //            latestCompareHistoryList = new List<CompareHistoryList>(val);
-
-            //            showLatestViewFrame = true;
-            //            showCurrentStatus = true;
-
-
-            //            OKCount = "0";
-            //            NGCount = "0";
-            //            OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCount;
-            //            NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
-
-            //            if (scancountpermit == 0)
-            //            {
-            //                playbeep.Play();
-            //                isEnableBFrame = false;
-            //                opacityB = 0.50;
-            //            }
-            //        }
-
-            //        _picker.DidScan -= ValueScanned;
-            //    });
-
-            //    scanresult.StopScanning();
-            //}
-            //catch (Exception ex)
-            //{
-            //    YPSLogger.ReportException(ex, "OnDidScan method -> in CompareViewModel " + YPS.CommonClasses.Settings.userLoginID);
-            //    var trackResult = trackService.Handleexception(ex);
-            //}
         }
 
         public async Task TabChange(string tab)

@@ -24,6 +24,7 @@ namespace YPS.Parts2y.Parts2y_Views
         public static NavigationPage MyNavigationPage;
         public ScanerSettings Settings { get; set; }
         public CompareContinuousViewModel comparecontinuousVM;
+        public CompareViewModel compareVM;
         public YPSService trackService;
         public Color BgColor { get; } = CommonClasses.Settings.Bar_Background;
 
@@ -70,15 +71,17 @@ namespace YPS.Parts2y.Parts2y_Views
 
         }
 
-        public ScannerPage(ScanerSettings settings)
+        public ScannerPage(ScanerSettings settings, CompareViewModel compareViewModel)
         {
             try
             {
+                InitializeComponent();
+
                 Settings = new ScanerSettings();
                 MyNavigationPage = new NavigationPage();
                 Settings = settings;
+                compareVM = compareViewModel;
                 YPS.CommonClasses.Settings.scanredirectpage = "ScanditScan";
-                InitializeComponent();
 
                 //StartBtn.IsVisible = false;
                 BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
@@ -105,7 +108,7 @@ namespace YPS.Parts2y.Parts2y_Views
             //valueadding(scanvalue);
 
         }
-       
+
         public void ResumeScanning()
         {
             PickerView.StartScanning();
@@ -180,7 +183,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             //if (scannerPage.Settings.CanScan == true)
                             //{
-                            //    scannerPage.Settings.CanScan = false;
+                            //scannerPage.Settings.CanScan = false;
                             await scannerPage.comparecontinuousVM.Scanditscan(Settings.scanQRValuecode);
                             //}
                         }
@@ -195,7 +198,13 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else
                 {
-                    await App.Current.MainPage.Navigation.PopModalAsync();
+                    await scannerPage.compareVM.Scanditscan(Settings.scanQRValuecode);
+                    Settings.scanredirectpage = string.Empty;
+
+                    if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
+                    {
+                        await App.Current.MainPage.Navigation.PopModalAsync();
+                    }
                 }
             }
             catch (Exception ex)

@@ -142,12 +142,6 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 base.OnAppearing();
-                if (Settings.scanredirectpage.Trim().ToLower() == "ScanditScan".Trim().ToLower())
-                {
-
-                    await Vm.Scanditscan(Settings.scanQRValuecode);
-                    Settings.scanredirectpage = string.Empty;
-                }
             }
             catch (Exception ex)
             {
