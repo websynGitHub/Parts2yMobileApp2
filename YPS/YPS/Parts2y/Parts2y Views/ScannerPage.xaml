@@ -7,8 +7,8 @@
         <Grid RowDefinitions="Auto" VerticalOptions="FillAndExpand" Padding="0,25,0,0" BackgroundColor="Black">
             <local:PickerView Grid.Row="0" x:Name="PickerView" BackgroundColor="White" HorizontalOptions="FillAndExpand" 
                               VerticalOptions="FillAndExpand" x:FieldModifier="Public"/>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand"
-                         Padding="0,12,0,0" Grid.Row="0" Spacing="17">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"
+                         Margin="0,0,0,6" Grid.Row="0" Spacing="17">
                    
                 <!--<local1:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.Start}"
                                                  TextColor="DimGray" FontSize="46"

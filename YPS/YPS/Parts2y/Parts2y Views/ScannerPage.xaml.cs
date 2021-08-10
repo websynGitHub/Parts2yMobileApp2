@@ -183,7 +183,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             //if (scannerPage.Settings.CanScan == true)
                             //{
-                            //scannerPage.Settings.CanScan = false;
+                            //    scannerPage.Settings.CanScan = false;
                             await scannerPage.comparecontinuousVM.Scanditscan(Settings.scanQRValuecode);
                             //}
                         }
