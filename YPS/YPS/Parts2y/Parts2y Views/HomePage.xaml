@@ -22,7 +22,7 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0">
-            <Label Text="Home-WS" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+            <Label Text="Home" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
@@ -251,7 +251,7 @@
                             <!--</Grid>-->
 
                             <!--<Grid>-->
-                                <Frame Grid.Row="2" Grid.Column="0" Margin="0"
+                                <!--<Frame Grid.Row="2" Grid.Column="0" Margin="0"
                                    IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                         <Image Source="Compare.png"
@@ -265,7 +265,7 @@
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding CompareContinuousClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
-                                </Frame>
+                                </Frame>-->
                             <!--</Grid>-->
                             
                         </Grid>

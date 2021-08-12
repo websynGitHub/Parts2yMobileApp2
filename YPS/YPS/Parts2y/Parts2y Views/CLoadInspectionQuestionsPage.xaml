@@ -257,12 +257,12 @@
                                                  VerticalOptions="FillAndExpand" Margin="2,2,2,0" RowSpacing="0">
                                                 <StackLayout BackgroundColor="Black" Padding="0,6,0,6" Grid.Row="0"
                                                      HorizontalOptions="FillAndExpand">
-                                                    <Label x:Name="CBUSupervisor" Text="Supervisor" TextColor="White"  HorizontalTextAlignment="Center" 
+                                                    <Label x:Name="CBUSupervisor" Text="{Binding SupervisorOrDriver}" TextColor="White"  HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                 </StackLayout>
                                                 <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
                                                CornerRadius="0" Grid.Row="1">
-                                                    <Image  Source="{Binding SupervisorImageSignCBU}"/>
+                                                    <Image Source="{Binding SupervisorImageSignCBU}"/>
                                                     <Frame.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding SignatureCmd}"
                                                                        CommandParameter="{x:Reference Name=CBUSupervisor}"/>
@@ -274,12 +274,12 @@
                                                  VerticalOptions="FillAndExpand" Grid.Column="1" RowDefinitions="38,90">
                                                 <StackLayout BackgroundColor="Black" Padding="0,6,0,6" Grid.Row="0"
                                                      HorizontalOptions="FillAndExpand">
-                                                    <Label x:Name="CBUAuditor" Text="Auditor" TextColor="White" HorizontalTextAlignment="Center" 
+                                                    <Label x:Name="CBUAuditor" Text="{Binding AuditorOrDealer}" TextColor="White" HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                 </StackLayout>
                                                 <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
                                                 CornerRadius="0" HeightRequest="70" Grid.Row="1">
-                                                    <Image  Source="{Binding AuditorImageSignCBU}"/>
+                                                    <Image Source="{Binding AuditorImageSignCBU}"/>
                                                     <Frame.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding SignatureCmd}"
                                                                       CommandParameter="{x:Reference Name=CBUAuditor}"/>
@@ -303,7 +303,7 @@
                                                  VerticalOptions="FillAndExpand" Margin="2,2,2,0" RowDefinitions="38,90">
                                                 <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
                                                      HorizontalOptions="FillAndExpand" Grid.Row="0">
-                                                    <Label x:Name="CarrierSupervisor" Text="Supervisor" TextColor="White"  HorizontalTextAlignment="Center" 
+                                                    <Label x:Name="CarrierSupervisor" Text="{Binding SupervisorOrDriver}" TextColor="White"  HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                 </StackLayout>
                                                 <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
@@ -320,7 +320,7 @@
                                                  VerticalOptions="FillAndExpand" Grid.Column="1" RowDefinitions="38,90">
                                                 <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
                                                      HorizontalOptions="FillAndExpand" Grid.Row="0">
-                                                    <Label x:Name="CarrierAuditor" Text="Auditor" TextColor="White" HorizontalTextAlignment="Center" 
+                                                    <Label x:Name="CarrierAuditor" Text="{Binding AuditorOrDealer}" TextColor="White" HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                 </StackLayout>
                                                 <Frame  BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5"
