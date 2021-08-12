@@ -124,7 +124,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (Settings.EntityTypeName.Trim().ToLower() == "Owner".Trim().ToLower() ||
                     Settings.EntityTypeName.Trim().ToLower() == "LSP".Trim().ToLower() ||
-                    Settings.EntityTypeName.Trim().ToLower() == "Supplier".Trim().ToLower())
+                    Settings.EntityTypeName.Trim().ToLower() == "Supplier".Trim().ToLower() ||
+                    Settings.EntityTypeName.Trim().ToLower() == "LLP".Trim().ToLower())
                 {
                     IsDealerSignVisible = false;
                     IsOwnerSignVisible = true;

@@ -535,6 +535,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private string _SupervisorOrDriver = Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower() ? "Driver" : "Supervisor";
+        public string SupervisorOrDriver
+        {
+            get => _SupervisorOrDriver;
+            set
+            {
+                _SupervisorOrDriver = value;
+                RaisePropertyChanged("SupervisorOrDriver");
+            }
+        }
+
+        private string _AuditorOrDealer = Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower() ? "Dealer" : "Auditor";
+        public string AuditorOrDealer
+        {
+            get => _AuditorOrDealer;
+            set
+            {
+                _AuditorOrDealer = value;
+                RaisePropertyChanged("AuditorOrDealer");
+            }
+        }
+
         private bool _IsSignatureCarrierVisible = true;
         public bool IsSignatureCarrierVisible
         {
