@@ -15,6 +15,7 @@ using YPS.CommonClasses;
 using YPS.Droid.Dependencies;
 using YPS.Helpers;
 using YPS.Service;
+using Color = Android.Graphics.Color;
 
 namespace YPS.Droid
 {
@@ -167,9 +168,10 @@ namespace YPS.Droid
                 if (!Uri.TryCreate(messageBody, UriKind.Absolute, out uriResult))
                 {
                     var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
-                                          .SetSmallIcon(Resource.Drawable.ypslogo22)
+                                          .SetSmallIcon(Resource.Drawable.part2ylogoT)
                                           .SetContentTitle(showNotify[7])
                                           .SetContentText(messageBody)
+                                          .SetColor(Color.Rgb(255, 8, 0))
                                           .SetStyle(new NotificationCompat.BigPictureStyle()
                                           .BigPicture(bitmap))
                                           .SetAutoCancel(true)
@@ -182,9 +184,10 @@ namespace YPS.Droid
                 else
                 {
                     var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
-                                             .SetSmallIcon(Resource.Drawable.ypslogo)
+                                             .SetSmallIcon(Resource.Drawable.part2ylogoT)
                                               .SetContentTitle(showNotify[7])
                                               .SetAutoCancel(true)
+                                              .SetColor(Color.Rgb(0, 88, 155))
                                               .SetStyle(new NotificationCompat.BigTextStyle().BigText(showMessages))
                                               .SetContentIntent(pendingIntent);
 
