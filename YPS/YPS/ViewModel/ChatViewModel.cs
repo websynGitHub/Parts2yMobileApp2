@@ -655,7 +655,7 @@ namespace YPS.ViewModels
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings");
+                                DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
                             }
                         }
                     }

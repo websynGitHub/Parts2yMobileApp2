@@ -241,7 +241,7 @@ namespace YPS.Droid
                     }, 2000);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "OnBackPressed method-> in MainActivity.cs " + Settings.userLoginID);
             }
@@ -257,11 +257,11 @@ namespace YPS.Droid
                     bool canDoBack = mainPage.Detail.Navigation.NavigationStack.Count > 1 || mainPage.IsPresented;
                     if (canDoBack)
                     {
-                        if (mainPage.Detail.Navigation.ModalStack.Count > 1)
+                        if (mainPage.Detail.Navigation.ModalStack.Count > 0)
                         {
                             mainPage.Detail.Navigation.PopModalAsync();
                         }
-                        else
+                        else if (mainPage.Detail.Navigation.NavigationStack.Count > 0)
                         {
                             mainPage.Detail.Navigation.PopAsync();
                         }

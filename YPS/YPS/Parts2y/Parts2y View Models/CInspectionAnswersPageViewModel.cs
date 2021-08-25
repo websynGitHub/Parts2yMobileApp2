@@ -302,37 +302,44 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CQuickInspection".Trim()).FirstOrDefault()) != null ? true : false;
                                 IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
-                                //if (Settings.VersionID == 2)
-                                //{
                                 var isloadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "CCarrierInspection".Trim()).FirstOrDefault()) != null ? true : false;
                                 SignTabText = isloadTabVisible == false ? "Checklist & Sign" : "Checklist";
-                                //}
                             }
 
-                            if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                            if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                             {
-                                SignTabClicked();
-                            }
-                            else if (IsQuickTabVisible == true && IsFullTabVisible == true)
-                            {
-                                if (InspectionConfiguration.CategoryID == 1)
+                                if (IsQuickTabVisible == false && IsFullTabVisible == false)
                                 {
+                                    SignTabClicked();
+                                }
+                                else if (IsQuickTabVisible == true && IsFullTabVisible == true)
+                                {
+                                    if (InspectionConfiguration.CategoryID == 1)
+                                    {
+                                        QuickTabClicked();
+                                    }
+                                    else if (InspectionConfiguration.CategoryID == 2)
+                                    {
+                                        FullTabClicked();
+                                    }
+                                }
+                                else if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
+                                {
+                                    IsFullTabVisible = false;
                                     QuickTabClicked();
                                 }
-                                else if (InspectionConfiguration.CategoryID == 2)
+                                else
                                 {
+                                    IsQuickTabVisible = false;
                                     FullTabClicked();
                                 }
                             }
-                            else if (IsQuickTabVisible == true && inspectionConfigurationList[0].CategoryID == 1)
-                            {
-                                IsFullTabVisible = false;
-                                QuickTabClicked();
-                            }
                             else
                             {
-                                IsQuickTabVisible = false;
-                                FullTabClicked();
+                                IsQuickTabVisible = true;
+                                IsFullTabVisible = false;
+                                SignTabText = "Checklist & Sign";
+                                QuickTabClicked();
                             }
                         }
                         else

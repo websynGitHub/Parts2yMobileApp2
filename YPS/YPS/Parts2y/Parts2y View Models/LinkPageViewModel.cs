@@ -442,7 +442,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : "Part(s)")
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)." : "Part(s).")
                             + " to start linking photo(s).");
                     }
                 }

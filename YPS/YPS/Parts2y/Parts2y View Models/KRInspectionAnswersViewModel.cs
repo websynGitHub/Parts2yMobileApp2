@@ -303,31 +303,40 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "KrFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
                             }
 
-                            if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                            if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                             {
-                                SignTabClicked();
-                            }
-                            else if (IsQuickTabVisible == true && IsFullTabVisible == true)
-                            {
-                                if (InspectionConfiguration.CategoryID == 4)
+                                if (IsQuickTabVisible == false && IsFullTabVisible == false)
                                 {
+                                    SignTabClicked();
+                                }
+                                else if (IsQuickTabVisible == true && IsFullTabVisible == true)
+                                {
+                                    if (InspectionConfiguration.CategoryID == 4)
+                                    {
+                                        QuickTabClicked();
+                                    }
+                                    else if (InspectionConfiguration.CategoryID == 5)
+                                    {
+                                        FullTabClicked();
+                                    }
+                                }
+                                else if (IsQuickTabVisible == true &&
+                                    InspectionConfiguration.CategoryID == 4)
+                                {
+                                    IsFullTabVisible = false;
                                     QuickTabClicked();
                                 }
-                                else if (InspectionConfiguration.CategoryID == 5)
+                                else
                                 {
+                                    IsQuickTabVisible = false;
                                     FullTabClicked();
                                 }
                             }
-                            else if (IsQuickTabVisible == true &&
-                                InspectionConfiguration.CategoryID == 4)
-                            {
-                                IsFullTabVisible = false;
-                                QuickTabClicked();
-                            }
                             else
                             {
-                                IsQuickTabVisible = false;
-                                FullTabClicked();
+                                IsQuickTabVisible = true;
+                                IsFullTabVisible = false;
+                                QuickTabClicked();
                             }
                         }
                         else

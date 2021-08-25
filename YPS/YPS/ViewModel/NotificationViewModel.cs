@@ -82,7 +82,8 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
-                    var canclear = await App.Current.MainPage.DisplayAlert("Notification", "Clear all notifications.", "Ok", "Cancel");
+                    //var canclear = await App.Current.MainPage.DisplayAlert("Notification", "Clear all notifications.", "Ok", "Cancel");
+                    var canclear = await App.Current.MainPage.DisplayAlert("Notification", "Mark all notifications as read.", "Ok", "Cancel");
 
                     if (canclear == true)
                     {
@@ -90,9 +91,10 @@ namespace YPS.ViewModel
 
                         if (result.status != 0 || result != null)
                         {
-                            PLHideListAndShow = false;
-                            HideLabelAndShow = true;
-                            pageName.clearAllLbl.IsVisible = false;
+                            await pageName.getPNdata();
+                            //PLHideListAndShow = false;
+                            //HideLabelAndShow = true;
+                            //pageName.clearAllLbl.IsVisible = false;
                         }
                         else
                         {
@@ -155,7 +157,9 @@ namespace YPS.ViewModel
                                     MessageType = item.MessageType,
                                     NotificationType = item.NotificationType,
                                     FullName = item.FullName,
-                                    RoleName = item.RoleName
+                                    RoleName = item.RoleName,
+                                    IsRead = item.IsRead,
+                                    ReadStatusIcon = item.IsRead == true ? Icons.WhiteEnvOpen : Icons.WhiteEnvClose
                                 };
                                 NotifyHistoryData.Add(obj);
                             }
@@ -309,6 +313,7 @@ namespace YPS.ViewModel
         #endregion
 
         #region Properties        
+
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {

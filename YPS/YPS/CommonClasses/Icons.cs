@@ -72,6 +72,7 @@
         public static readonly string User = "\uf007";
         public static readonly string Menubar = "\uf0c9";
         public static readonly string Backnav = "\uf190";
+        public static readonly string Start = "\uf144";
 
         public static readonly string Grrentick = "\uf00c";
 
@@ -98,5 +99,10 @@
 
         public static readonly string CheckedFlag = "\uf11e";
         public static readonly string Horn = "\uf0a1";
+
+        public static readonly string WhiteEnvOpen = "\uf2b7";
+        public static readonly string WhiteEnvClose = "\uf003";
+        public static readonly string BlEnvOpen = "\uf2b6";
+        public static readonly string BlEnvClose = "\uf0e0";
     }
 }

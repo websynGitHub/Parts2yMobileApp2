@@ -19,7 +19,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         #region IComman and data members declaration
         SendPodata sendPodata = new SendPodata();
-        AllPoData selectedTagData;
+        public AllPoData selectedTagData;
         public INavigation Navigation { get; set; }
         public ICommand Backevnttapped { set; get; }
         public ICommand QuickTabCmd { set; get; }
@@ -97,7 +97,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsDealerSignVisible = true;
                     IsOwnerSignVisible = false;
-                    IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
+                    IsSignatureCarrierVisible = (selectedTagData?.TaskResourceID == Settings.userLoginID && IsLoadTabVisible == true) ? false : true;
 
                     var carrierdriverimagesign = result?.data?.listData.
                         Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver).Select(c => c.Signature).FirstOrDefault();
@@ -129,7 +129,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     IsDealerSignVisible = false;
                     IsOwnerSignVisible = true;
-                    IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
+                    IsSignatureCarrierVisible = (selectedTagData?.TaskResourceID == Settings.userLoginID && IsLoadTabVisible == true) ? false : true;
 
                     var driverimagesign = result?.data?.listData?.
                         Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver).
@@ -570,28 +570,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CFullInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
 
-                    //if (Settings.VersionID == 2)
-                    //{
                     IsSignatureCarrierVisible = (IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false) == true ? false : true;
                     SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Checklist";
-                    //}
 
-                    if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                    if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                     {
-                        SignTabClicked();
-                    }
+                        if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                        {
+                            SignTabClicked();
+                        }
 
-                    if (IsQuickTabVisible == true)
-                    {
-                        QuickTabVisibility = true;
-                        FullTabVisibility = false;
-                        SignTabVisibility = false;
+                        if (IsQuickTabVisible == true)
+                        {
+                            QuickTabVisibility = true;
+                            FullTabVisibility = false;
+                            SignTabVisibility = false;
+                        }
+                        else if (IsFullTabVisible == true)
+                        {
+                            FullTabVisibility = true;
+                            QuickTabVisibility = false;
+                            SignTabVisibility = false;
+                        }
                     }
                     else
                     {
-                        FullTabVisibility = true;
-                        QuickTabVisibility = false;
+                        IsQuickTabVisible = true;
+                        IsFullTabVisible = false;
                         SignTabVisibility = false;
+                        SignTabText = "Checklist & Sign";
+                        IsSignatureCarrierVisible = true;
                     }
                 }
             }

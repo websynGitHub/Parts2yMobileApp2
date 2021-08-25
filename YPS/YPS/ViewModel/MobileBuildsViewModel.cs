@@ -229,10 +229,10 @@ namespace YPS.ViewModel
                         switch (Device.RuntimePlatform)
                         {
                             case Device.iOS:
-                                await App.Current.MainPage.DisplayAlert("Download", "Successful file saved to Parts2y/Downloads", "Close");
+                                await App.Current.MainPage.DisplayAlert("Download", "Successfully file saved to Parts2y/Downloads", "Close");
                                 break;
                             case Device.Android:
-                                DependencyService.Get<IToastMessage>().ShortAlert("Successful file saved to Parts2y/Downloads");
+                                DependencyService.Get<IToastMessage>().ShortAlert("Successfully file saved to Parts2y/Downloads.");
                                 break;
                         }
                         downloader.OnFileDownloaded -= OnFileDownloaded;

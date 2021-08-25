@@ -10,6 +10,7 @@
             <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+
                     <Grid  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0"
                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       Padding="0">
@@ -43,7 +44,7 @@
                                        Grid.Row="0" Grid.Column="0"/>
 
 
-                                <Label x:Name="clearAllLbl" Text="Clear All" TextColor="#FFFFFF" IsVisible="{Binding IsClearAllVisible}" Style="{DynamicResource LableWithQuestionFont}" x:FieldModifier="Public" 
+                                <Label x:Name="clearAllLbl" Text="Mark all as read" TextColor="#FFFFFF" IsVisible="{Binding IsClearAllVisible}" Style="{DynamicResource LableWithQuestionFont}" x:FieldModifier="Public" 
                                        HorizontalOptions="End"
                                        Grid.Row="0" Grid.Column="1">
                                     <Label.GestureRecognizers>
@@ -54,73 +55,79 @@
                         </Grid>
 
 
-                            <ListView x:Name="list" BackgroundColor="#E9E9E9" HasUnevenRows="False" IsPullToRefreshEnabled="True"
-                      IsVisible="{Binding PLHideListAndShow}" RowHeight="215" CachingStrategy="RecycleElementAndDataTemplate"
+                        <ListView x:Name="list" BackgroundColor="#E9E9E9" HasUnevenRows="True" IsPullToRefreshEnabled="True"
+                      IsVisible="{Binding PLHideListAndShow}" CachingStrategy="RecycleElementAndDataTemplate"
                                       ItemTapped="NotifyCountlist_ItemTapped" SeparatorVisibility="None" Grid.Row="1"
                                       Margin="0,2,0,0">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <ViewCell>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
                                            <ViewCell.View>
-                                                <Frame Margin="6,6,6,0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
-                                       BackgroundColor="White" CornerRadius="4"  HasShadow="False">
-                                                    <Grid BackgroundColor="White"
+                                        <Frame Margin="6,6,6,0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
+                                       CornerRadius="4" HasShadow="False">
+                                                <Grid BackgroundColor="Transparent"
                                                           RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                                        <StackLayout Orientation="Horizontal" Grid.Column="0" 
+                                                    <StackLayout Orientation="Horizontal" Grid.Column="0" 
                                                                      Grid.Row="0" >
-                                                            <Label  Text="{Binding QATitle}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
-                                                        </StackLayout>
+                                                        <Label  Text="{Binding QATitle}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
+                                                    </StackLayout>
 
-                                                        <Label  Text="{Binding Message}" IsVisible="{Binding isTextVisible}" TextColor="Black" 
+                                                    <Label  Text="{Binding Message}" IsVisible="{Binding isTextVisible}" TextColor="Black" 
                                                Style="{StaticResource LableWithQuestionFont}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                                                                 Grid.Column="0" Grid.Row="1" FontSize="17" />
 
-                                                        <StackLayout Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Start">
-                                                            <StackLayout Orientation="Horizontal" Spacing="0">
-                                                                <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
-                                                                <Label Text=" (" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
-                                                                <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
-                                                                <Label Text=")" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
-                                                            </StackLayout>
+                                                    <StackLayout Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Start">
+                                                        <StackLayout Orientation="Horizontal" Spacing="0">
+                                                            <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
+                                                            <Label Text=" (" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
+                                                            <Label Text=")" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
                                                         </StackLayout>
+                                                    </StackLayout>
 
-                                                        <Label  Text="{Binding NotifiedOn}" Style="{StaticResource LblSubTitle}"
+                                                    <Label  Text="{Binding NotifiedOn}" Style="{StaticResource LblSubTitle}"
                                                                 Grid.Column="0" Grid.Row="3" TextColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" HorizontalTextAlignment="Start" />
 
-                                                        <Grid Grid.Column="0" Grid.Row="4" HorizontalOptions="Start"
+                                                    <Grid Grid.Column="0" Grid.Row="4" HorizontalOptions="Start"
                                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                                            <Label x:Name="tagnameD" Text="{Binding  BindingContext.labelobj.TagNumber.Name, Source={x:Reference Name=Notificationpage}}" 
+                                                        <Label x:Name="tagnameD" Text="{Binding  BindingContext.labelobj.TagNumber.Name, Source={x:Reference Name=Notificationpage}}" 
                                                   Grid.Column="0" TextColor="#4c4c4c" Style="{StaticResource LblSubTitle}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
-                                                            <Label  Text="{Binding TagNumber}" TextColor="Black" 
+                                                        <Label  Text="{Binding TagNumber}" TextColor="Black" 
                                                     Grid.Column="1" Style="{StaticResource LblSubTitle}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
-                                                        </Grid>
+                                                    </Grid>
 
-                                                        <Grid Grid.Column="0" Grid.Row="5" HorizontalOptions="FillAndExpand"
-                                              RowDefinitions="Auto" ColumnDefinitions="Auto,*,Auto">
-                                                            <Label Text="{Binding  BindingContext.labelobj.TaskName.Name, Source={x:Reference Name=Notificationpage}}" 
+                                                    <Grid Grid.Column="0" Grid.Row="5" HorizontalOptions="FillAndExpand"
+                                              RowDefinitions="Auto" ColumnDefinitions="Auto,*,Auto,Auto">
+                                                        <Label Text="{Binding  BindingContext.labelobj.TaskName.Name, Source={x:Reference Name=Notificationpage}}" 
                                                    Grid.Column="0" TextColor="#4c4c4c" Style="{StaticResource LblSubTitle}" VerticalOptions="Start" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
-                                                            <Label  Text="{Binding TaskName}" TextColor="Black" 
+                                                        <Label  Text="{Binding TaskName}" TextColor="Black" 
                                                     Grid.Column="1" Style="{StaticResource LblSubTitle}" VerticalOptions="CenterAndExpand"
                                                                     LineBreakMode="WordWrap" HorizontalOptions="Start" />
 
-                                                            <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
-                                                 FontSize="37" TextColor="#000000" HorizontalOptions="End" 
-                                                 VerticalOptions="Start" Margin="0,0,0,3" Grid.Row="0" Grid.Column="2">
-                                                            </local:FontAwesomeIconLabel>
-                                                        </Grid>
+                                                        <local:FontAwesomeIconLabel x:Name="file" Grid.Row="0" Grid.Column="2"
+                                                           Text="{Binding ReadStatusIcon}"
+                                                  TextColor="Black" FontSize="25" Margin="0,0,3,3"
+                                                 HorizontalOptions="End" VerticalOptions="Center"/>
+
+                                                        <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
+                                                 FontSize="37" TextColor="#000000" HorizontalOptions="End"
+                                                 VerticalOptions="Start" Margin="0,0,0,3" Grid.Row="0" Grid.Column="3">
+                                                        </local:FontAwesomeIconLabel>
+
                                                     </Grid>
-                                                </Frame>
-                                                   
-                                           </ViewCell.View>
+
+                                                </Grid>
+                                        </Frame>
+                                    </ViewCell.View>
                                         </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <Label IsVisible="{Binding HideLabelAndShow}" Text="No Notifications found." 
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Label IsVisible="{Binding HideLabelAndShow}" Text="No Notifications found." 
                                    TextColor="Black" VerticalOptions="CenterAndExpand" Grid.Row="1"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
 

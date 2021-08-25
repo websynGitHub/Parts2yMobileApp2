@@ -20,13 +20,13 @@ namespace YPS.Parts2y.Parts2y_Views
     {
         DashboardViewModel Vm;
         YPSService trackService;
-        
+
         public HomePage()
         {
             try
             {
                 BindingContext = Vm = new DashboardViewModel(Navigation);
-                
+
                 Vm.loadindicator = true;
                 trackService = new YPSService();
                 InitializeComponent();
@@ -64,13 +64,15 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadindicator = true;
-                if (string.IsNullOrEmpty(Vm.NotifyCountTxt) || Vm.NotifyCountTxt == "0")
+                //if (string.IsNullOrEmpty(Vm.NotifyCountTxt) || Vm.NotifyCountTxt == "0")
+                if (Vm.NotificationListCount > 0)
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("There is no new notification.");
+                    await Navigation.PushAsync(new NotificationListPage());
                 }
                 else
                 {
-                    await Navigation.PushAsync(new NotificationListPage());
+                    //DependencyService.Get<IToastMessage>().ShortAlert("There is no new notification.");
+                    DependencyService.Get<IToastMessage>().ShortAlert("No new notification(s) available.");
                 }
             }
             catch (Exception ex)

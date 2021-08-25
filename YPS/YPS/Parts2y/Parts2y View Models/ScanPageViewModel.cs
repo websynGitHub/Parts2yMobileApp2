@@ -315,7 +315,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
                                 StatusText = "Verified";
-                                StatusTextBgColor = Settings.Bar_Background;
+                                StatusTextBgColor = Color.DarkGreen;
                                 ScannedValue = ScannedResult;
 
                                 await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, uploadType));

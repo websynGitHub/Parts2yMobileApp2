@@ -95,6 +95,16 @@ namespace YPS.Model
         public int RoleId { get; set; }
         public int NotificationType { get; set; }
 
+        private string _ReadStatusIcon = YPS.CommonClasses.Icons.WhiteEnvClose;
+        public string ReadStatusIcon
+        {
+            get => _ReadStatusIcon;
+            set
+            {
+                _ReadStatusIcon = value;
+            }
+        }
+
         private bool _isTextVisible = false;
         public bool isTextVisible
         {

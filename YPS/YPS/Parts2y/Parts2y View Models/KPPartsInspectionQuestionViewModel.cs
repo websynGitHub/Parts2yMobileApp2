@@ -19,7 +19,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         #region IComman and data members declaration
         SendPodata sendPodata = new SendPodata();
-        AllPoData selectedTagData;
+        public AllPoData selectedTagData;
         public INavigation Navigation { get; set; }
         public ICommand Backevnttapped { set; get; }
         public ICommand QuickTabCmd { set; get; }
@@ -295,7 +295,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                //if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                if (selectedTagData.TagTaskStatus != 2 && ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                   FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                   )
                 {
                     IsDoneEnable = true;
                     DoneOpacity = 1.0;
@@ -449,21 +454,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     //}
 
-                    if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                    if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                     {
-                        SignTabClicked();
-                    }
+                        if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                        {
+                            SignTabClicked();
+                        }
 
-                    if (IsQuickTabVisible == true)
-                    {
-                        QuickTabVisibility = true;
-                        FullTabVisibility = false;
-                        SignTabVisibility = false;
+                        if (IsQuickTabVisible == true)
+                        {
+                            QuickTabVisibility = true;
+                            FullTabVisibility = false;
+                            SignTabVisibility = false;
+                        }
+                        else if (IsFullTabVisible == true)
+                        {
+                            FullTabVisibility = true;
+                            QuickTabVisibility = false;
+                            SignTabVisibility = false;
+                        }
                     }
                     else
                     {
-                        FullTabVisibility = true;
-                        QuickTabVisibility = false;
+                        IsQuickTabVisible = true;
+                        IsFullTabVisible = false;
                         SignTabVisibility = false;
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -90,8 +91,11 @@ namespace YPS.Views
             {
                 vm.loadingindicator = true;
                 var data = await vm.GetNotificationHistory();
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    clearAllLbl.IsVisible = (data.Where(wr => wr.IsRead == false).FirstOrDefault()) != null ? true : false;
+                });
                 list.ItemsSource = data;
-                clearAllLbl.IsVisible = data?.Count > 0 ? true : false;
             }
             catch (Exception ex)
             {

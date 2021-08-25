@@ -95,7 +95,7 @@ namespace YPS.Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings");
+                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
                 }
             }
             catch (Exception ex)
@@ -128,7 +128,7 @@ namespace YPS.Views
                             await App.Current.MainPage.DisplayAlert("Download", "Successful file saved to Parts2y/Downloads", "Close");
                             break;
                         case Device.Android:
-                            DependencyService.Get<IToastMessage>().ShortAlert("Successful file saved to Parts2y/Downloads");
+                            DependencyService.Get<IToastMessage>().ShortAlert("Successful file saved to Parts2y/Downloads.");
                             break;
                     }
                     downloader.OnFileDownloaded -= OnFileDownloaded;

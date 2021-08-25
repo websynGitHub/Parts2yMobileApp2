@@ -305,31 +305,27 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     var result = await trackService.GetNotifyHistory(Settings.userLoginID);
 
-                    if (result != null)
+                    //if (result != null)
+                    //{
+                    //if (result.status != 0)
+                    if (result?.status != 0 && result?.data?.Count() > 0)
                     {
-                        if (result.status != 0)
-                        {
-                            if (result.data.Count() > 0)
-                            {
-                                NotifyCountTxt = result.data[0].listCount.ToString();
-                                Settings.notifyCount = result.data[0].listCount;
-                            }
-                            else
-                            {
-                                NotifyCountTxt = null;
-                                Settings.notifyCount = 0;
-                            }
-                        }
-                        else if (result.message == "No Data Found")
-                        {
-                            NotifyCountTxt = null;
-                            Settings.notifyCount = 0;
-                        }
+                        NotificationListCount = result.data.Count();
+                        NotifyCountTxt = result.data[0].listCount > 0 ? result.data[0].listCount.ToString() : null;
+                        Settings.notifyCount = result.data[0].listCount;
                     }
+                    //else if (result.message.Trim().ToLower() == "No Data Found".Trim().ToLower())
+                    else
+                    {
+                        NotificationListCount = 0;
+                        NotifyCountTxt = null;
+                        Settings.notifyCount = 0;
+                    }
+                    //}
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection");
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -632,6 +628,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _IsPNenable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _NotificationListCount;
+        public int NotificationListCount
+        {
+            get { return _NotificationListCount; }
+            set
+            {
+                _NotificationListCount = value;
                 NotifyPropertyChanged();
             }
         }

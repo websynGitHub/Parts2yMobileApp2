@@ -48,17 +48,36 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnAppearing();
 
-                if (Vm.QuickTabVisibility == true)
+                if (Vm.selectedTagData?.TaskResourceID == Settings.userLoginID)
                 {
-                    Vm.QuickTabClicked();
+                    if (Vm.QuickTabVisibility == true)
+                    {
+                        Vm.QuickTabClicked();
+                    }
+                    else if (Vm.FullTabVisibility == true)
+                    {
+                        Vm.FullTabClicked();
+                    }
+                    else if (Vm.SignTabVisibility == true)
+                    {
+                        Vm.SignTabClicked();
+                    }
                 }
-                else if (Vm.FullTabVisibility == true)
+                else
                 {
-                    Vm.FullTabClicked();
-                }
-                else if (Vm.SignTabVisibility == true)
-                {
-                    Vm.SignTabClicked();
+                    if (Vm.SignTabVisibility == true)
+                    {
+                        Vm.SignTabClicked();
+                    }
+                    else
+                    {
+                        //Vm.LoadTextColor = Color.Gray;
+                        //Vm.IsQuickTabVisible = true;
+                        //Vm.IsFullTabVisible = false;
+                        //Vm.SignTabVisibility = false;
+                        //Vm.IsSignatureCarrierVisible = true;
+                        Task.Run(() => Vm.QuickTabClicked()).Wait();
+                    }
                 }
             }
             catch (Exception ex)
