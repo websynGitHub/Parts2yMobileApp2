@@ -1162,7 +1162,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         //                    }
         //                    else
         //                    {
-        //                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available");
+        //                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
         //                    }
         //                }
         //                //}
@@ -1275,7 +1275,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         //            }
         //            else
         //            {
-        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection");
+        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
         //            }
         //        }
         //        catch (Exception ex)

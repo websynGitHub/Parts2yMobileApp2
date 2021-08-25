@@ -18,7 +18,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         #region IComman and data members declaration
         SendPodata sendPodata = new SendPodata();
-        AllPoData selectedTagData;
+        public AllPoData selectedTagData;
         public INavigation Navigation { get; set; }
         public ICommand Backevnttapped { set; get; }
         public ICommand QuickTabCmd { set; get; }
