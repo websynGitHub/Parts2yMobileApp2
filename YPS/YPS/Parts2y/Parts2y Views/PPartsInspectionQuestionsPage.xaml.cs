@@ -46,7 +46,7 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnAppearing();
 
-                if (selectedTagData?.TaskResourceID == Settings.userLoginID)
+                if (Vm.selectedTagData?.TaskResourceID == Settings.userLoginID)
                 {
                     if (Vm.QuickTabVisibility == true)
                     {
