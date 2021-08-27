@@ -158,6 +158,10 @@ namespace YPS.Droid
                 //Window.SetFlags(WindowManagerFlags.Secure, WindowManagerFlags.Secure);
 
                 #endregion
+
+                Badge badge = new Badge(this);
+
+                badge.count(0);
             }
             catch (Exception ex)
             {
