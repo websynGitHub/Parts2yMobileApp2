@@ -30,7 +30,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
         PPartsInspectionQuestionsPage pageName;
         YPSService trackService;
-        int tagId, taskid;
+        int tagId, taskid,pagecount;
         bool isAllDone;
         List<InspectionResultsList> inspectionResultsLists;
         public Command HomeCmd { get; set; }
@@ -98,40 +98,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
 
-                    if (Settings.POID != 0)
+                    pagecount = Navigation.NavigationStack.Count() - 1;
+
+                    if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "ParentListPage".Trim().ToLower())
                     {
-                        if (Navigation.NavigationStack.Count() == 5)
+                        while (pagecount > 2)
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[2]);
-                            Navigation.RemovePage(Navigation.NavigationStack[2]);
-
-                            if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "PhotoRepoPage".Trim().ToLower())
-                            {
-                                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                                Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                            }
+                            pagecount--;
+                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
                         }
-                        else
-                        {
-                            if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "PhotoUpload".Trim().ToLower())
-                            {
-                                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            }
-
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                        }
-                        Settings.POID = 0;
-                        Settings.TaskID = 0;
                     }
                     else
                     {
-                        Navigation.RemovePage(Navigation.NavigationStack[2]);
+                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
 
-                        if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() != "PPartsInspectionQuestionsPage".Trim().ToLower())
+                        pagecount = Navigation.NavigationStack.Count() - 1;
+
+                        while (pagecount > 2)
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[2]);
+                            pagecount--;
+                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
                         }
+
                     }
                     await Navigation.PopAsync();
                 }
@@ -139,40 +127,29 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
 
-                    if (Settings.POID != 0)
+                    pagecount = Navigation.NavigationStack.Count() - 1;
+
+                    if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
                     {
-                        if (Navigation.NavigationStack.Count() == 5)
+                        while (pagecount > 3)
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[3]);
-
-                            if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "PhotoRepoPage".Trim().ToLower())
-                            {
-                                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                                Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                                Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                            }
+                            pagecount--;
+                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
                         }
-                        else
-                        {
-                            if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "PhotoUpload".Trim().ToLower())
-                            {
-                                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            }
-
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                        }
-                        Settings.POID = 0;
-                        Settings.TaskID = 0;
                     }
                     else
                     {
-                        if (Navigation.NavigationStack[3].GetType().Name.Trim().ToLower() != "PPartsInspectionQuestionsPage".Trim().ToLower())
+                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+
+                        pagecount = Navigation.NavigationStack.Count() - 1;
+
+                        while (pagecount > 3)
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[3]);
+                            pagecount--;
+                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
                         }
+
                     }
                     await Navigation.PopAsync();
                 }
@@ -406,52 +383,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
 
+                pagecount = Navigation.NavigationStack.Count() - 1;
+
                 if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
                 {
-                    if (Navigation.NavigationStack.Count > 3
-                        && Navigation.NavigationStack[3].GetType().Name.Trim().ToLower() != "PPartsInspectionQuestionsPage".Trim().ToLower())
+                    while (pagecount > 3)
                     {
-                        Navigation.RemovePage(Navigation.NavigationStack[3]);
+                        pagecount--;
+                        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
                     }
                 }
                 else
                 {
-                    if (Settings.POID > 0)
+                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+
+                    pagecount = Navigation.NavigationStack.Count() - 1;
+
+                    while (pagecount > 3)
                     {
-                        if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
-                        {
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        }
-                        else
-                        {
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                        }
-
-                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                        Settings.POID = 0;
+                        pagecount--;
+                        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
                     }
-                }
 
-                #region old
-                //if (Navigation.NavigationStack.Count > 3)
-                //{
-                //    Navigation.RemovePage(Navigation.NavigationStack[3]);
-                //}
-                //else
-                //{
-                //    if (Settings.POID > 0)
-                //    {
-                //        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                //        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                //        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                //        Settings.POID = 0;
-                //    }
-                //}
-                #endregion old
+                }
 
                 await Navigation.PopAsync();
             }
