@@ -25,7 +25,9 @@ namespace YPS.ViewModel
     {
         #region IComman and data members declaration
         public INavigation Navigation { get; set; }
-        public ICommand select_pic { set; get; }
+        public ICommand SelectPhotoCmd { set; get; }
+        public ICommand ScanCmd { set; get; }
+        public ICommand InspCmd { set; get; }
         public ICommand upload_pic { set; get; }
         public ICommand beforeCommand { set; get; }
         public ICommand afterCommand { set; get; }
@@ -41,7 +43,7 @@ namespace YPS.ViewModel
         AllPoData SelectedTagData;
         int puid, poid, selectiontype_index, photoCounts = 0;
         string extension = "", fileName, Mediafile, types = string.Empty;
-        bool Access_Photo, multiple_Taps, checkInternet, isuploadcompleted;
+        bool Access_Photo, multiple_Taps, checkInternet, isuploadcompleted, isAllDone, isSacanIconVisible;
         #endregion
 
         /// <summary>
@@ -54,7 +56,8 @@ namespace YPS.ViewModel
         /// <param name="SelectionType"></param>
         /// <param name="uploadtype"></param>
         /// <param name="accessPhoto"></param>
-        public PhotoUplodeViewModel(INavigation _Navigation, Page page, PhotoUploadModel select_items, AllPoData allPo_Data, string SelectionType, int uploadtype, bool accessPhoto)
+        public PhotoUplodeViewModel(INavigation _Navigation, Page page, PhotoUploadModel select_items, AllPoData allPo_Data, string SelectionType, int uploadtype, bool accessPhoto,
+            bool isalldone, bool issacaniconvisible)
         {
             YPSLogger.TrackEvent("PhotoUplodeViewModel", "Page Load " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
@@ -66,8 +69,11 @@ namespace YPS.ViewModel
                 Access_Photo = accessPhoto;
                 types = SelectionType;
                 SelectedTagData = allPo_Data;
+                IsScanIconVisible = isSacanIconVisible = issacaniconvisible;
 
                 isuploadcompleted = select_items != null ? select_items.isCompleted : allPo_Data.photoTickVisible;
+
+                bool val = App.Current.MainPage.Navigation.NavigationStack.Contains(new ScanVerifiedTagListPage(null, 0)) == true ? false : true;
 
                 if (SelectionType.Trim().ToLower() == "initialphoto")
                 {
@@ -81,11 +87,11 @@ namespace YPS.ViewModel
                     RowHeightcomplete = 0;
                     NoPhotos_Visibility = true;
                     //var value = select_items.photoTags.ForEach.Select(c => c.TagNumber).ToList();
-                    Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.TagNumber));
+                    Tagnumbers = string.Join(" | ", select_items.photoTags.Select(c => c.TagNumber));
 
                     if (string.IsNullOrEmpty(Tagnumbers))
                     {
-                        Tagnumbers = string.Join(",", select_items.photoTags.Select(c => c.IdentCode));
+                        Tagnumbers = string.Join(" | ", select_items.photoTags.Select(c => c.IdentCode));
                     }
 
                     if (select_items.photoTags.Count > 1)
@@ -100,6 +106,7 @@ namespace YPS.ViewModel
                 }
                 else
                 {
+                    isAllDone = isalldone;
                     selectiontype_index = 1;
                     poid = allPo_Data.POID;
                     puid = allPo_Data.PUID;
@@ -107,7 +114,9 @@ namespace YPS.ViewModel
                 }
 
                 #region Method binding to the ICommands
-                select_pic = new Command(async () => await MoveToscan());
+                SelectPhotoCmd = new Command(async () => await SelectPhotoOrScan("select"));
+                ScanCmd = new Command(async () => await SelectPhotoOrScan("scan"));
+                InspCmd = new Command(async () => await MoveForInsp("scan"));
                 upload_pic = new Command(async () => await Photo_Upload());
                 beforeCommand = new Command(async () => await beforePic());
                 afterCommand = new Command(async () => await afterPic());
@@ -452,6 +461,8 @@ namespace YPS.ViewModel
                     if (checkInternet)
                     {
                         FirstMainStack = true;
+                        IsScanIconVisible = isSacanIconVisible == true ? true : false;
+                        IsInspBtnVisible = true;
                         RowHeightOpenCam = 0;
                         SecondMainStack = firstStack = secondStack = false;
                         listStack = true;
@@ -482,86 +493,79 @@ namespace YPS.ViewModel
                                 //DataForFileUpload.photo.FileName = fileName;
                                 DataForFileUpload.photos.Add(singlePhoto);
 
+
                                 /// Calling the blob API to upload photo. 
                                 var initialdata = await BlobUpload.YPSFileUpload(UploadType, (int)BlobContainer.cnttagfiles, DataForFileUpload);
-
                                 var initialresult = initialdata as InitialResponse;
-                                if (initialresult != null)
+
+                                if (initialresult?.status != 0)
                                 {
-                                    if (initialresult.status != 0)
+                                    InspBtnOpacity = Select_Items?.photoTags?.Count > 1 ? 0.5 : 1.0;
+                                    selectiontype_index = 1;
+                                    puid = initialresult.data.PUID;
+
+                                    if (initialresult.data.photoTags.Count != 0)
                                     {
-                                        selectiontype_index = 1;
-                                        puid = initialresult.data.PUID;
+                                        var result = initialresult.data.photoTags.Select(x => x.TagNumber).ToList();
+                                        Settings.Tagnumbers = String.Join(" | ", result);
+                                    }
 
-                                        if (initialresult.data.photoTags.Count != 0)
+                                    if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
+                                    {
+                                        foreach (var photo in initialresult.data.photos)
                                         {
-                                            var result = initialresult.data.photoTags.Select(x => x.TagNumber).ToList();
-                                            Settings.Tagnumbers = String.Join(" , ", result);
+                                            AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel>() { Aphotos = { new CustomPhotoModel() { PhotoURL = photo.PhotoURL, PhotoDescription = photo.PhotoDescription, PhotoID = photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = photo.FullName, CreatedDate = photo.CreatedDate } } };
                                         }
-
-                                        if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
-                                        {
-                                            foreach (var photo in initialresult.data.photos)
-                                            {
-                                                AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel>() { Aphotos = { new CustomPhotoModel() { PhotoURL = photo.PhotoURL, PhotoDescription = photo.PhotoDescription, PhotoID = photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = photo.FullName, CreatedDate = photo.CreatedDate } } };
-                                            }
-                                            finalPhotoListA = AllPhotosData.data.Aphotos;
-                                            AStack = true;
-                                            BStack = false;
-                                            AfterPackingTextColor = Settings.Bar_Background;
-                                            BeforePackingTextColor = Color.Black;
-                                        }
-                                        else
-                                        {
-                                            foreach (var photo in initialresult.data.photos)
-                                            {
-                                                AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel> { BPhotos = { new CustomPhotoModel() { PhotoURL = photo.PhotoURL, PhotoDescription = photo.PhotoDescription, PhotoID = photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = photo.FullName, CreatedDate = photo.CreatedDate } } };
-                                            }
-
-                                            finalPhotoListB = AllPhotosData.data.BPhotos;
-                                            AStack = false;
-                                            BStack = true;
-                                            AfterPackingTextColor = Color.Black;
-                                            BeforePackingTextColor = Settings.Bar_Background;
-                                        }
-
-                                        foreach (var items in Select_Items.photoTags)
-                                        {
-                                            if (items.TaskID != 0 && items.TagTaskStatus == 0)
-                                            {
-                                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                                                tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
-                                                tagtaskstatus.Status = 1;
-                                                tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                                                var result = await service.UpdateTagTaskStatus(tagtaskstatus);
-
-                                                //if (result.status == 1)
-                                                //{
-                                                if (items.TaskID != 0 && items.TaskStatus == 0)
-                                                {
-                                                    TagTaskStatus taskstatus = new TagTaskStatus();
-                                                    taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                    taskstatus.TaskStatus = 1;
-                                                    taskstatus.CreatedBy = Settings.userLoginID;
-
-                                                    var taskval = await service.UpdateTaskStatus(taskstatus);
-                                                }
-                                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                                                //}
-                                            }
-                                        }
-
-                                        Settings.IsRefreshPartsPage = true;
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                        finalPhotoListA = AllPhotosData.data.Aphotos;
+                                        AStack = true;
+                                        BStack = false;
+                                        AfterPackingTextColor = Settings.Bar_Background;
+                                        BeforePackingTextColor = Color.Black;
                                     }
                                     else
                                     {
+                                        foreach (var photo in initialresult.data.photos)
+                                        {
+                                            AllPhotosData.data = new UploadedPhotosList<CustomPhotoModel> { BPhotos = { new CustomPhotoModel() { PhotoURL = photo.PhotoURL, PhotoDescription = photo.PhotoDescription, PhotoID = photo.PhotoID, UploadType = UploadType/* uploadType*/, FullName = photo.FullName, CreatedDate = photo.CreatedDate } } };
+                                        }
+
+                                        finalPhotoListB = AllPhotosData.data.BPhotos;
+                                        AStack = false;
+                                        BStack = true;
+                                        AfterPackingTextColor = Color.Black;
+                                        BeforePackingTextColor = Settings.Bar_Background;
                                     }
-                                }
-                                else
-                                {
+
+                                    foreach (var items in Select_Items.photoTags)
+                                    {
+                                        if (items.TaskID != 0 && items.TagTaskStatus == 0)
+                                        {
+                                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                            tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                            tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
+                                            tagtaskstatus.Status = 1;
+                                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                            //if (result.status == 1)
+                                            //{
+                                            if (items.TaskID != 0 && items.TaskStatus == 0)
+                                            {
+                                                TagTaskStatus taskstatus = new TagTaskStatus();
+                                                taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                taskstatus.TaskStatus = 1;
+                                                taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                var taskval = await service.UpdateTaskStatus(taskstatus);
+                                            }
+                                            //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                            //}
+                                        }
+                                    }
+
+                                    Settings.IsRefreshPartsPage = true;
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                 }
                             }
                             else if (selectiontype_index == 1 && puid > 0)
@@ -590,6 +594,8 @@ namespace YPS.ViewModel
                                 {
                                     if (result.status != 0)
                                     {
+                                        InspBtnOpacity = 1.0;
+
                                         if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP) //(uploadType == "A")
                                         {
                                             foreach (var val in result.data)
@@ -782,75 +788,67 @@ namespace YPS.ViewModel
                         /// Calling photo API to get photos.
                         var uploadresult = await service.FinalPhotosList(puid_value);
 
-                        if (uploadresult != null)
+                        if (uploadresult?.status != 0)
                         {
-                            if (uploadresult.status != 0)
+                            AllPhotosData = uploadresult;
+
+                            if (AllPhotosData?.data?.photoTags?.Count != 0)
                             {
-                                AllPhotosData = uploadresult;
+                                InspBtnOpacity = 1.0;
+                                var result = AllPhotosData.data.photoTags.Select(x => x.TagNumber).ToList();
+                                string result1 = String.Join(" | ", result);
+                                Tagnumbers = result1;
+                            }
 
-                                if (AllPhotosData.data.photoTags.Count != 0)
-                                {
-                                    var result = AllPhotosData.data.photoTags.Select(x => x.TagNumber).ToList();
-                                    string result1 = String.Join(" , ", result);
-                                    Tagnumbers = result1;
-                                }
+                            finalPhotoListA = AllPhotosData.data.Aphotos;
+                            finalPhotoListB = AllPhotosData.data.BPhotos;
 
-                                finalPhotoListA = AllPhotosData.data.Aphotos;
-                                finalPhotoListB = AllPhotosData.data.BPhotos;
-
-                                if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
-                                {
-                                    AStack = true;
-                                    NoPhotos_Visibility = finalPhotoListA.Count != 0 ? false : true;
-                                    AfterPackingTextColor = Settings.Bar_Background;
-                                    BeforePackingTextColor = Color.Black;
-                                }
-                                else
-                                {
-                                    BStack = true;
-                                    NoPhotos_Visibility = finalPhotoListB.Count != 0 ? false : true;
-                                    AfterPackingTextColor = Color.Black;
-                                    BeforePackingTextColor = Settings.Bar_Background;
-                                }
-
-                                //if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
-                                //{
-                                //    closeLabelText = false;
-                                //    RowHeightcomplete = 0;
-                                //}
-                                //else
-                                //{
-                                //    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                                //    Settings.userRoleID == (int)UserRoles.SupplierUser)
-                                //    {
-                                //        if (isuploadcompleted == true)
-                                //        {
-                                //            DeleteIconStack = false;
-                                //            closeLabelText = false;
-                                //            RowHeightcomplete = 0;
-                                //        }
-                                //    }
-                                //    else
-                                //    {
-                                //        closeLabelText = true;
-                                //        RowHeightcomplete = 50;
-                                //    }
-
-                                //    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                                //    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                                //    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                //    {
-                                //        RowHeightcomplete = 0;
-                                //        DeleteIconStack = false;
-                                //    }
-                                //}
+                            if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
+                            {
+                                AStack = true;
+                                NoPhotos_Visibility = finalPhotoListA.Count != 0 ? false : true;
+                                AfterPackingTextColor = Settings.Bar_Background;
+                                BeforePackingTextColor = Color.Black;
                             }
                             else
                             {
+                                BStack = true;
+                                NoPhotos_Visibility = finalPhotoListB.Count != 0 ? false : true;
+                                AfterPackingTextColor = Color.Black;
+                                BeforePackingTextColor = Settings.Bar_Background;
                             }
-                        }
-                        else
-                        {
+
+                            //if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
+                            //{
+                            //    closeLabelText = false;
+                            //    RowHeightcomplete = 0;
+                            //}
+                            //else
+                            //{
+                            //    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
+                            //    Settings.userRoleID == (int)UserRoles.SupplierUser)
+                            //    {
+                            //        if (isuploadcompleted == true)
+                            //        {
+                            //            DeleteIconStack = false;
+                            //            closeLabelText = false;
+                            //            RowHeightcomplete = 0;
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        closeLabelText = true;
+                            //        RowHeightcomplete = 50;
+                            //    }
+
+                            //    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
+                            //    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
+                            //    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
+                            //    {
+                            //        RowHeightcomplete = 0;
+                            //        DeleteIconStack = false;
+                            //    }
+                            //}
                         }
                     }
                     else
@@ -938,38 +936,63 @@ namespace YPS.ViewModel
         /// <summary>
         /// 
         /// </summary>
-        private async Task MoveToscan()
+        private async Task SelectPhotoOrScan(string requestfor)
         {
             try
             {
-                if ((AllPhotosData != null && AllPhotosData.data != null && AllPhotosData.data.photoTags != null && AllPhotosData.data.photoTags.Count > 1) || (Select_Items != null && Select_Items.photoTags != null && Select_Items.photoTags.Count > 1))
+                IndicatorVisibility = true;
+
+                if (requestfor.Trim().ToLower() == "select".Trim().ToLower())
                 {
                     await SelectPic();
                 }
                 else
                 {
-                    if (Settings.CanOpenScanner == true)
+                    if (selectiontype_index == 0 && puid == 0)
                     {
-                        //Settings.CanOpenScanner = false;
-                        await SelectPic();
+                        await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null));
                     }
                     else
                     {
-                        //if (types.Trim().ToLower() == "initialphoto")
-                        if (selectiontype_index == 0 && puid == 0)
-                        {
-                            await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null));
-                        }
-                        else
-                        {
-                            await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
-                        }
+                        await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
                     }
                 }
+
+                #region Old Scan & Select Photo Code
+                //if ((AllPhotosData != null && AllPhotosData.data != null && AllPhotosData.data.photoTags != null && AllPhotosData.data.photoTags.Count > 1) || (Select_Items != null && Select_Items.photoTags != null && Select_Items.photoTags.Count > 1))
+                //{
+                //    await SelectPic();
+                //}
+                //else
+                //{
+                //    if (Settings.CanOpenScanner == true)
+                //    {
+                //        //Settings.CanOpenScanner = false;
+                //        await SelectPic();
+                //    }
+                //    else
+                //    {
+                //        //if (types.Trim().ToLower() == "initialphoto")
+                //        if (selectiontype_index == 0 && puid == 0)
+                //        {
+                //            await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null));
+                //        }
+                //        else
+                //        {
+                //            await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                //        }
+                //    }
+                //}
+                #endregion Old Scan & Select Photo Code
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "SelectPhotoOrScan method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
             }
         }
 
@@ -1069,6 +1092,8 @@ namespace YPS.ViewModel
                                 picStream = file.GetStreamWithImageRotatedForExternalStorage();
                                 fileName = Path.GetFileNameWithoutExtension(file.Path);
                                 FirstMainStack = false;
+                                IsScanIconVisible = false;
+                                IsInspBtnVisible = false;
                                 RowHeightOpenCam = 100;
                                 SecondMainStack = true;
                             }
@@ -1135,6 +1160,8 @@ namespace YPS.ViewModel
                                 closeLabelText = false;
                                 RowHeightcomplete = 0;
                                 FirstMainStack = false;
+                                IsScanIconVisible = false;
+                                IsInspBtnVisible = false;
                                 RowHeightOpenCam = 100;
                                 SecondMainStack = true;
                                 NoPhotos_Visibility = false;
@@ -1155,6 +1182,54 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "SelectPic method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                IndicatorVisibility = false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private async Task MoveForInsp(string requestfor)
+        {
+            try
+            {
+                IndicatorVisibility = true;
+
+                if (InspBtnOpacity == 1.0)
+                {
+                    if (Settings.VersionID == 1)
+                    {
+                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(SelectedTagData, isAllDone));
+                    }
+                    else if (Settings.VersionID == 2)
+                    {
+                        await Navigation.PushAsync(new CVinInspectQuestionsPage(SelectedTagData, isAllDone));
+                    }
+                    else if (Settings.VersionID == 3)
+                    {
+                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(SelectedTagData, isAllDone));
+                    }
+                    else if (Settings.VersionID == 4)
+                    {
+                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(SelectedTagData, isAllDone));
+                    }
+                    else if (Settings.VersionID == 5)
+                    {
+                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(SelectedTagData, isAllDone));
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Upload atleast one photo to start inspection.");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "MoveForInsp method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -1196,8 +1271,9 @@ namespace YPS.ViewModel
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
                     DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
-                    FirstMainStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
+                    IsInspBtnVisible = FirstMainStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
 
+                    IsScanIconVisible = isSacanIconVisible == false ? false : IsInspBtnVisible;
                     //if (isuploadcompleted == true)
                     //{
                     //    FirstMainStack = false;
@@ -1212,6 +1288,49 @@ namespace YPS.ViewModel
         }
 
         #region Properties
+
+        private bool _IsScanIconVisible { set; get; } = true;
+        public bool IsScanIconVisible
+        {
+            get
+            {
+                return _IsScanIconVisible;
+            }
+            set
+            {
+                _IsScanIconVisible = value;
+                RaisePropertyChanged("IsScanIconVisible");
+            }
+        }
+
+        private bool _IsInspBtnVisible { set; get; } = true;
+        public bool IsInspBtnVisible
+        {
+            get
+            {
+                return _IsInspBtnVisible;
+            }
+            set
+            {
+                _IsInspBtnVisible = value;
+                RaisePropertyChanged("IsInspBtnVisible");
+            }
+        }
+
+        private double _InspBtnOpacity { set; get; } = 0.5;
+        public double InspBtnOpacity
+        {
+            get
+            {
+                return _InspBtnOpacity;
+            }
+            set
+            {
+                _InspBtnOpacity = value;
+                RaisePropertyChanged("InspBtnOpacity");
+            }
+        }
+
         private double _CompleteBtnOpacity { set; get; } = 1.0;
         public double CompleteBtnOpacity
         {

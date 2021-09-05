@@ -24,6 +24,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using YPS.CommonClasses;
+using YPS.CustomToastMsg;
 using YPS.Droid.Dependencies;
 using YPS.Helpers;
 using YPS.Service;
@@ -159,9 +160,6 @@ namespace YPS.Droid
 
                 #endregion
 
-                Badge badge = new Badge(this);
-
-                badge.count(0);
             }
             catch (Exception ex)
             {
@@ -360,6 +358,37 @@ namespace YPS.Droid
                 service.Handleexception(ex);
             }
         }
+
+        //protected override void OnResume()
+        //{
+        //    try
+        //    {
+        //        base.OnResume();
+
+        //        Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        YPSService service = new YPSService();
+        //        YPSLogger.ReportException(ex, "OnResume method-> in MainActivity.cs " + Settings.userLoginID);
+        //        service.Handleexception(ex);
+        //    }
+        //}
+
+        //protected override void OnStop()
+        //{
+        //    try
+        //    {
+        //        base.OnStop();
+        //        Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        YPSService service = new YPSService();
+        //        YPSLogger.ReportException(ex, "OnStop method-> in MainActivity.cs " + Settings.userLoginID);
+        //        service.Handleexception(ex);
+        //    }
+        //}
 
         void CreateNotificationChannel()
         {

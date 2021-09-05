@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using YPS.Service;
 using YPS.ViewModels;
 
 namespace YPS.Models
@@ -60,7 +61,7 @@ namespace YPS.Models
             public int Status { get; set; }
         }
 
-        public class ChatData
+        public class ChatData : IBase
         {
             public int POID { get; set; }
             public int QAID { get; set; }
@@ -75,7 +76,17 @@ namespace YPS.Models
             public string UpdatedDate { get; set; }
             public string Chatstatus { get; set; }
             public string StatusColor { get; set; }
-            public Nullable<int> UnreadMessagesCount { get; set; }
+            //public Nullable<int> UnreadMessagesCount { get; set; }
+            private Nullable<int> _UnreadMessagesCount;
+            public Nullable<int> UnreadMessagesCount
+            {
+                get { return _UnreadMessagesCount; }
+                set
+                {
+                    _UnreadMessagesCount = value;
+                    NotifyPropertyChanged("UnreadMessagesCount");
+                }
+            }
         }
 
         public class GetChatData

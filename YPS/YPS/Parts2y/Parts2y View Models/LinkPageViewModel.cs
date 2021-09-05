@@ -32,6 +32,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         YPSService service;
         LinkPage pagename;
         SendPodata sendPodata;
+        ObservableCollection<AllPoData> AllPoDataList;
 
         public LinkPageViewModel(INavigation navigation, ObservableCollection<PhotoRepoDBModel> repophotosist, LinkPage page)
         {
@@ -102,9 +103,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         try
                         {
                             updateList = true;
+                            Settings.POID = potag.POID;
+                            Settings.TaskID = potag.TaskID;
                             Settings.CanOpenScanner = true;
                             Settings.currentPuId = potag.PUID;
                             Settings.BphotoCount = potag.TagBPhotoCount;
+                            bool isalldone = AllPoDataList?.Where(wr => wr.TaskID == potag?.TaskID && wr.TagTaskStatus != 2).FirstOrDefault() == null ? true : false;
 
                             if (potag.PUID == 0)
                             {
@@ -138,11 +142,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 selectedTagsData.photoTags = lstdat;
                                 Settings.currentPoTagId_Inti = lstdat;
 
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false));
                             }
                             else
                             {
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, false));
                             }
                         }
                         catch (Exception ex)
@@ -197,9 +201,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         try
                         {
                             updateList = true;
+                            Settings.POID = potag.POID;
+                            Settings.TaskID = potag.TaskID;
                             Settings.CanOpenScanner = true;
                             Settings.AphotoCount = potag.TagAPhotoCount;
                             Settings.currentPuId = potag.PUID;
+                            bool isalldone = AllPoDataList?.Where(wr => wr.TaskID == potag?.TaskID && wr.TagTaskStatus != 2).FirstOrDefault() == null ? true : false;
 
                             if (potag.PUID == 0)
                             {
@@ -233,12 +240,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 selectedTagsData.photoTags = lstdat;
                                 Settings.currentPoTagId_Inti = lstdat;
 
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, false));
-
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, false, isalldone, false));
                             }
                             else
                             {
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, potag.photoTickVisible));
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, potag.photoTickVisible, isalldone, false));
                             }
                         }
                         catch (Exception ex)
@@ -442,7 +448,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)." : "Part(s).")
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : " Part(s)")
                             + " to start linking photo(s).");
                     }
                 }
@@ -479,6 +485,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     UploadViewContentVisible = false;
                     IsPhotoUploadIconVisible = false;
                     POTagLinkContentVisible = true;
+                    AllPoDataList = result.data.allPoData;
                     var potagcolections = result.data.allPoData.Where(wr => wr.TaskID > 0 && wr.IsPhotoRequired != 0
                     && wr.TaskResourceID != 0)
                         .OrderBy(o => o.EventID).ThenBy(tob => tob.TagTaskStatus).ThenBy(tob => tob.TagNumber)
@@ -557,25 +564,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
+                        labelobj.POID.Status = poid == null ? false : (poid.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
                         labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
-                        labelobj.TagDesc.Status = tagdesc == null ? true : (tagdesc.Status == 1 ? true : false);
+                        labelobj.TagDesc.Status = tagdesc == null ? false : (tagdesc.Status == 1 ? true : false);
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                        labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
+                        labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                        labelobj.TagNumber.Status = tagnumber == null ? false : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
+                        labelobj.IdentCode.Status = identcode == null ? false : (identcode.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                        labelobj.ConditionName.Status = conditionname == null ? false : (conditionname.Status == 1 ? true : false);
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
-                        labelobj.InvoiceNumber.Status = invoicenumber == null ? true : (invoicenumber.Status == 1 ? true : false);
+                        labelobj.InvoiceNumber.Status = invoicenumber == null ? false : (invoicenumber.Status == 1 ? true : false);
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Status = shippingnumber == null ? false : (shippingnumber.Status == 1 ? true : false);
 
                         labelobj.AfterPacking.Name = "To " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
                         labelobj.AfterPacking.Status = afterpacking == null ? true : (afterpacking.Status == 1 ? true : false);
@@ -618,39 +625,44 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             public LabelAndActionFields POID { get; set; } = new LabelAndActionFields
             {
-                Status = true,
+                Status = false,
                 Name = "PONumber"
             };
             public LabelAndActionFields TagNumber { get; set; } = new LabelAndActionFields
             {
-                Status = true,
+                Status = false,
                 Name = "TagNumber"
             };
             public LabelAndActionFields TaskName { get; set; } = new LabelAndActionFields
             {
-                Status = true,
+                Status = false,
                 Name = "TaskName"
             };
             public LabelAndActionFields Resource { get; set; } = new LabelAndActionFields
             {
-                Status = true,
+                Status = false,
                 Name = "Resource"
             };
             public LabelAndActionFields EventName { get; set; } = new LabelAndActionFields
             {
-                Status = true,
+                Status = false,
                 Name = "Event"
             };
 
-            public LabelAndActionFields TagDesc { get; set; } = new LabelAndActionFields { Status = true, Name = "Tag Description" };
+            public LabelAndActionFields TagDesc { get; set; } = new LabelAndActionFields
+            {
+                Status = false,  //Name = "TagDescription"
+                Name = "IDENT_DEVIATED_TAG_DESC"
+            };
 
 
-            public LabelAndActionFields IdentCode { get; set; } = new LabelAndActionFields { Status = true, Name = "IdentCode" };
-            public LabelAndActionFields ConditionName { get; set; } = new LabelAndActionFields { Status = true, Name = "ConditionName" };
-            public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "InvoiceNumber" };
+            public LabelAndActionFields IdentCode { get; set; } = new LabelAndActionFields { Status = false, Name = "IdentCode" };
+            public LabelAndActionFields ConditionName { get; set; } = new LabelAndActionFields { Status = false, Name = "ConditionName" };
+            //public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "InvoiceNumber" };
+            public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "Invoice1No" };
             public LabelAndActionFields BeforePacking { get; set; } = new LabelAndActionFields { Status = true, Name = "Before Packing" };
             public LabelAndActionFields AfterPacking { get; set; } = new LabelAndActionFields { Status = true, Name = "After Packing" };
-            public LabelAndActionFields ShippingNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "Shipping Number" };
+            public LabelAndActionFields ShippingNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "Shipping Number" };
         }
         public class LabelAndActionFields : IBase
         {

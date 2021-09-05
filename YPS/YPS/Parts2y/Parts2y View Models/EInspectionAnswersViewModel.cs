@@ -288,15 +288,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                            labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                            labelobj.TagNumber.Status = tagnumber == null ? false : (tagnumber.Status == 1 ? true : false);
                             labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                            labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
+                            labelobj.IdentCode.Status = identcode == null ? false : (identcode.Status == 1 ? true : false);
                             labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                            labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                            labelobj.ConditionName.Status = conditionname == null ? false : (conditionname.Status == 1 ? true : false);
                             labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                            labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                            labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
                             labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                            labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
+                            labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
 
                             if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                             {

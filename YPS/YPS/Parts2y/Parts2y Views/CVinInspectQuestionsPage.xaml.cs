@@ -113,7 +113,6 @@ namespace YPS.Parts2y.Parts2y_Views
                             taskstatus.CreatedBy = Settings.userLoginID;
 
                             var taskval = await service.UpdateTaskStatus(taskstatus);
-
                             selectedTagData.TaskStatus = 1;
                         }
 

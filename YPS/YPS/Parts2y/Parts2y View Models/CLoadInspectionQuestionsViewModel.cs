@@ -48,6 +48,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService = new YPSService();
                 pageName = pagename;
                 SelectedPodataList = selectedpodatalist;
+                Settings.POID = SelectedPodataList[0].POID;
+                Settings.TaskID = SelectedPodataList[0].TaskID;
                 taskid = SelectedPodataList[0].TaskID;
                 IsAllTagsDone = isalltagdone;
                 PONumber = SelectedPodataList[0].PONumber;
@@ -180,21 +182,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Navigation.RemovePage(Navigation.NavigationStack[2]);
                             Navigation.RemovePage(Navigation.NavigationStack[2]);
                             Navigation.RemovePage(Navigation.NavigationStack[2]);
+
+                            if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "PhotoRepoPage".Trim().ToLower())
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            }
                         }
                         else
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            if (Navigation.NavigationStack[3].GetType().Name.Trim().ToLower() == "CVinInspectQuestionsPage".Trim().ToLower())
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[2]);
+                                Navigation.RemovePage(Navigation.NavigationStack[2]);
+                            }
+                            else if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() != "ParentListPage".Trim().ToLower())
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            }
+                            else
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[2]);
+                            }
                         }
 
                         Settings.POID = 0;
                         Settings.TaskID = 0;
                     }
-                    else
-                    {
-                        Navigation.RemovePage(Navigation.NavigationStack[2]);
-                    }
+                    //else
+                    //{
+                    //    Navigation.RemovePage(Navigation.NavigationStack[2]);
+                    //}
                     await Navigation.PopAsync();
                 }
                 else if (tabname == "parts")
@@ -205,14 +225,47 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             Navigation.RemovePage(Navigation.NavigationStack[3]);
                             Navigation.RemovePage(Navigation.NavigationStack[3]);
+
+                            if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            }
                         }
                         else
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                            if (Navigation.NavigationStack[3].GetType().Name.Trim().ToLower() == "CVinInspectQuestionsPage".Trim().ToLower())
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[3]);
+                            }
+                            else
+                            {
+                                if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() != "POChildListPage".Trim().ToLower())
+                                {
+                                    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                }
+                            }
+                        }
+
+                        if (Navigation?.NavigationStack.Count == 2 || Navigation?.NavigationStack[2]?.GetType()?.Name.Trim().ToLower() != "POChildListPage".Trim().ToLower())
+                        {
                             Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
                             Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                         }
+
+                        //if (Navigation.NavigationStack.Count() == 6)
+                        //{
+                        //    Navigation.RemovePage(Navigation.NavigationStack[3]);
+                        //    Navigation.RemovePage(Navigation.NavigationStack[3]);
+                        //}
+                        //else
+                        //{
+                        //    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        //    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        //    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                        //    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                        //}
 
                         Settings.POID = 0;
                         Settings.TaskID = 0;
@@ -393,7 +446,32 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     Navigation.RemovePage(Navigation.NavigationStack[3]);
                     Navigation.RemovePage(Navigation.NavigationStack[3]);
+
+                    if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        Navigation.RemovePage(Navigation.NavigationStack[1]);
+                    }
                 }
+                else
+                {
+                    if (Navigation.NavigationStack[3].GetType().Name.Trim().ToLower() == "CVinInspectQuestionsPage".Trim().ToLower())
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[3]);
+                    }
+                    else
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        Navigation.RemovePage(Navigation.NavigationStack[1]);
+                    }
+                }
+
+                if (Navigation?.NavigationStack.Count == 2 || Navigation?.NavigationStack[2]?.GetType()?.Name.Trim().ToLower() != "POChildListPage".Trim().ToLower())
+                {
+                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                }
+
                 await Navigation.PopAsync();
             }
             catch (Exception ex)
@@ -446,15 +524,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
+                        labelobj.POID.Status = poid == null ? false : (poid.Status == 1 ? true : false);
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Status = shippingnumber == null ? false : (shippingnumber.Status == 1 ? true : false);
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
-                        labelobj.REQNo.Status = reqnumber == null ? true : (reqnumber.Status == 1 ? true : false);
+                        labelobj.REQNo.Status = reqnumber == null ? false : (reqnumber.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                        labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
+                        labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
 
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
@@ -486,34 +564,34 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "PONumber"
             };
             public DashboardLabelFields REQNo { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "REQNo"
             };
             public DashboardLabelFields ShippingNumber { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "ShippingNumber"
             };
             public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "TaskName"
             };
 
             public DashboardLabelFields Resource { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "Resource"
             };
 
             public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "Event"
             };
         }

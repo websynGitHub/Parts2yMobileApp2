@@ -62,8 +62,8 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                           <ViewCell.View>
-                                        <Frame Margin="6,6,6,0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
+                                        <ViewCell.View>
+                                            <Frame Margin="6,6,6,0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        CornerRadius="4" HasShadow="False">
                                                 <Grid BackgroundColor="Transparent"
                                                           RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
@@ -93,7 +93,8 @@
                                                                 Grid.Column="0" Grid.Row="3" TextColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" HorizontalTextAlignment="Start" />
 
                                                     <Grid Grid.Column="0" Grid.Row="4" HorizontalOptions="Start"
-                                              RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                              RowDefinitions="Auto" ColumnDefinitions="Auto,*" 
+                                                               IsVisible="{Binding BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=Notificationpage}}">
                                                         <Label x:Name="tagnameD" Text="{Binding  BindingContext.labelobj.TagNumber.Name, Source={x:Reference Name=Notificationpage}}" 
                                                   Grid.Column="0" TextColor="#4c4c4c" Style="{StaticResource LblSubTitle}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
                                                         <Label  Text="{Binding TagNumber}" TextColor="Black" 
@@ -103,14 +104,19 @@
                                                     <Grid Grid.Column="0" Grid.Row="5" HorizontalOptions="FillAndExpand"
                                               RowDefinitions="Auto" ColumnDefinitions="Auto,*,Auto,Auto">
                                                         <Label Text="{Binding  BindingContext.labelobj.TaskName.Name, Source={x:Reference Name=Notificationpage}}" 
-                                                   Grid.Column="0" TextColor="#4c4c4c" Style="{StaticResource LblSubTitle}" VerticalOptions="Start" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
+                                                   Grid.Column="0" TextColor="#4c4c4c" Style="{StaticResource LblSubTitle}"
+                                                               VerticalOptions="Start" LineBreakMode="TailTruncation"
+                                                               HorizontalOptions="Start" Grid.Row="0" 
+                                                               IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=Notificationpage}}"/>
                                                         <Label  Text="{Binding TaskName}" TextColor="Black" 
-                                                    Grid.Column="1" Style="{StaticResource LblSubTitle}" VerticalOptions="CenterAndExpand"
-                                                                    LineBreakMode="WordWrap" HorizontalOptions="Start" />
+                                                                Grid.Column="1" Style="{StaticResource LblSubTitle}"
+                                                                VerticalOptions="CenterAndExpand" Grid.Row="0"
+                                                                LineBreakMode="WordWrap" HorizontalOptions="Start" 
+                                                                IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=Notificationpage}}"/>
 
                                                         <local:FontAwesomeIconLabel x:Name="file" Grid.Row="0" Grid.Column="2"
                                                            Text="{Binding ReadStatusIcon}"
-                                                  TextColor="Black" FontSize="25" Margin="0,0,3,3"
+                                                  TextColor="Black" FontSize="25" Margin="0,0,7,3"
                                                  HorizontalOptions="End" VerticalOptions="Center"/>
 
                                                         <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.righticon}" 
@@ -121,9 +127,9 @@
                                                     </Grid>
 
                                                 </Grid>
-                                        </Frame>
-                                    </ViewCell.View>
-                                        </ViewCell>
+                                            </Frame>
+                                        </ViewCell.View>
+                                    </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

@@ -431,7 +431,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                             if (selectedTagsData.photoTags.Count != 0)
                                             {
-                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, false, false));
                                             }
                                         }
                                     }
@@ -447,7 +447,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 Settings.TaskID = podata.TaskID;
                                                 Settings.currentPuId = podata.PUID;
                                                 Settings.BphotoCount = podata.TagBPhotoCount;
-                                                await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible));
+                                                await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible, false, false));
                                             }
                                             catch (Exception ex)
                                             {

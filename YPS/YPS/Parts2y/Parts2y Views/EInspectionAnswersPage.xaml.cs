@@ -83,6 +83,7 @@ namespace YPS.Parts2y.Parts2y_Views
                                 taskstatus.CreatedBy = Settings.userLoginID;
 
                                 var taskval = await service.UpdateTaskStatus(taskstatus);
+
                             }
                             DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                         }

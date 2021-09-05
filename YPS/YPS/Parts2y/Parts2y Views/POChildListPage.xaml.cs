@@ -332,5 +332,21 @@ namespace YPS.Parts2y.Parts2y_Views
             Vm.loadindicator = false;
         }
         #endregion
+
+        private void CloseScanOrInspPopUp(object sender, EventArgs e)
+        {
+            try
+            {
+                Vm.loadindicator = false;
+                
+                Vm.IsScanOrInspPopUpVisible = false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "CloseScanOrInspPopUp method -> in POChildListPage.xaml.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+                Vm.loadindicator = false;
+            }
+        }
     }
 }

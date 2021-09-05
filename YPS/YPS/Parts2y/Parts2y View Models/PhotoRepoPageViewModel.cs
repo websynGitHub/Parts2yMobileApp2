@@ -111,7 +111,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     if ((RepoPhotosList.Where(wr => wr.IsSelected == true).FirstOrDefault()) != null)
                     {
-                        bool move = await App.Current.MainPage.DisplayAlert("Move photo(s) for linking", "Are you sure to move the selected photo(s) for linking?", "Yes", "No");
+                        bool move = await App.Current.MainPage.DisplayAlert("Copy photo(s) for linking", "Are you sure to copy the selected photo(s) for linking?", "Yes", "No");
 
                         if (move)
                         {
@@ -120,7 +120,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        bool move = await App.Current.MainPage.DisplayAlert("Move photo(s) for linking", "Are you sure to move all photo(s) for linking?", "Yes", "No");
+                        bool move = await App.Current.MainPage.DisplayAlert("Copy photo(s) for linking", "Are you sure to copy all photo(s) for linking?", "Yes", "No");
 
                         if (move)
                         {

@@ -139,6 +139,8 @@ namespace YPS.Views
                     btnchatexit.IsVisible = false;
                 }
 
+                MessagingCenter.Send<string, int>("ChatPage", "ChatCount", qaid);
+
                 Task.Run(() => ShowHideActions()).Wait();
             }
             catch (Exception ex)
@@ -358,12 +360,14 @@ namespace YPS.Views
         /// <summary>
         /// Gets called when the user is about to exit the page.
         /// </summary>
-        protected override void OnDisappearing()
+        protected async override void OnDisappearing()
         {
             try
             {
                 base.OnDisappearing();
                 Settings.currentChatPage = 0;
+
+                var result = await service.ReadNotifyHistory(qaId, Settings.userLoginID);
             }
             catch (Exception ex)
             {

@@ -38,6 +38,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
         public Command SelectTagItemCmd { set; get; }
+        public Command ScanCmd { set; get; }
+        public Command InspCmd { set; get; }
         SendPodata sendPodata = new SendPodata();
         ObservableCollection<AllPoData> allPOTagData;
         int POID, TaskID;
@@ -73,6 +75,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
+                ScanCmd = new Command(async () => await ScanOrInsp("scan"));
+                InspCmd = new Command(async () => await ScanOrInsp("insp"));
             }
             catch (Exception ex)
             {
@@ -308,6 +312,60 @@ namespace YPS.Parts2y.Parts2y_View_Models
             return result;
         }
 
+
+        public async Task ScanOrInsp(string clicktype)
+        {
+            try
+            {
+                loadindicator = true;
+
+                if (POTagDetail != null)
+                {
+                    loadindicator = true;
+                    IsScanOrInspPopUpVisible = false;
+
+                    if (clicktype.Trim().ToLower() == "scan".Trim().ToLower())
+                    {
+                        await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
+
+                    }
+                    else
+                    {
+                        if (Settings.VersionID == 1)
+                        {
+                            await Navigation.PushAsync(new EPartsInspectionQuestionsPage(POTagDetail, isalldone));
+                        }
+                        else if (Settings.VersionID == 2)
+                        {
+                            await Navigation.PushAsync(new CVinInspectQuestionsPage(POTagDetail, isalldone));
+                        }
+                        else if (Settings.VersionID == 3)
+                        {
+                            await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(POTagDetail, isalldone));
+                        }
+                        else if (Settings.VersionID == 4)
+                        {
+                            await Navigation.PushAsync(new KPPartsInspectionQuestionPage(POTagDetail, isalldone));
+                        }
+                        else if (Settings.VersionID == 5)
+                        {
+                            await Navigation.PushAsync(new PPartsInspectionQuestionsPage(POTagDetail, isalldone));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                loadindicator = false;
+                YPSLogger.ReportException(ex, "ScanOrInsp method -> in POChildListPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
         public async void MoveToNextPage(object sender)
         {
             try
@@ -321,16 +379,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     || Settings.VersionID == 2)
                 {
                     loadindicator = true;
+                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l => { l.SelectedTagBorderColor = Color.Transparent; });
                     POTagDetail = sender as AllPoData;
+                    POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
+                    TagNumber = Settings.TagNumber = POTagDetail.TagNumber;
+                    IsScanOrInspPopUpVisible = true;
 
-                    if (POTagDetail != null)
-                    {
-                        loadindicator = true;
-                        POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
-                        Settings.TagNumber = POTagDetail.TagNumber;
+                    //if (POTagDetail != null)
+                    //{
+                    //    loadindicator = true;
+                    //    POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
+                    //    Settings.TagNumber = POTagDetail.TagNumber;
 
-                        await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
-                    }
+                    //    await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
+                    //}
                 }
             }
             catch (Exception ex)
@@ -635,58 +697,65 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-                                List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                                foreach (var podata in uniq)
+                                if (uniq?.Count() == 1)
                                 {
-                                    var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                    selectedTagsData.POID = d.POID;
-                                    selectedTagsData.isCompleted = d.photoTickVisible;
+                                    PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+                                    List<PhotoTag> lstdat = new List<PhotoTag>();
 
-
-                                    foreach (var item in podata)
+                                    foreach (var podata in uniq)
                                     {
-                                        if (item.TagAPhotoCount == 0 && item.TagBPhotoCount == 0 && item.PUID == 0)
-                                        {
-                                            PhotoTag tg = new PhotoTag();
+                                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                        selectedTagsData.POID = d.POID;
+                                        selectedTagsData.isCompleted = d.photoTickVisible;
 
-                                            if (item.POTagID != 0)
+
+                                        foreach (var item in podata)
+                                        {
+                                            if (item.TagAPhotoCount == 0 && item.TagBPhotoCount == 0 && item.PUID == 0)
                                             {
-                                                tg.POTagID = item.POTagID;
-                                                tg.TaskID = item.TaskID;
-                                                tg.TaskStatus = item.TaskStatus;
-                                                tg.TagTaskStatus = item.TagTaskStatus;
-                                                tg.TagNumber = item.TagNumber;
-                                                tg.IdentCode = item.IdentCode;
-                                                Settings.Tagnumbers = item.TagNumber;
-                                                lstdat.Add(tg);
+                                                PhotoTag tg = new PhotoTag();
+
+                                                if (item.POTagID != 0)
+                                                {
+                                                    tg.POTagID = item.POTagID;
+                                                    tg.TaskID = item.TaskID;
+                                                    tg.TaskStatus = item.TaskStatus;
+                                                    tg.TagTaskStatus = item.TagTaskStatus;
+                                                    tg.TagNumber = item.TagNumber;
+                                                    tg.IdentCode = item.IdentCode;
+                                                    Settings.Tagnumbers = item.TagNumber;
+                                                    lstdat.Add(tg);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                selectedTagsData.alreadyExit = "alreadyExit";
+                                                break;
                                             }
                                         }
-                                        else
-                                        {
-                                            selectedTagsData.alreadyExit = "alreadyExit";
-                                            break;
-                                        }
+                                        selectedTagsData.photoTags = lstdat;
+                                        Settings.currentPoTagId_Inti = lstdat;
                                     }
-                                    selectedTagsData.photoTags = lstdat;
-                                    Settings.currentPoTagId_Inti = lstdat;
-                                }
 
-                                if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
-                                {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected tag(s).");
-                                }
-                                else
-                                {
-                                    if (selectedTagsData.photoTags.Count != 0)
+                                    if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
                                     {
-                                        await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected tag(s).");
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                        if (selectedTagsData.photoTags.Count != 0)
+                                        {
+                                            await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, true));
+                                        }
+                                        else
+                                        {
+                                            DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                        }
                                     }
+                                }
+                                else
+                                {
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Please select only one record to upload photo(s).");
                                 }
                             }
                         }
@@ -1098,7 +1167,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 Settings.CanOpenScanner = false;
                                 Settings.currentPuId = potag.PUID;
                                 Settings.BphotoCount = potag.TagBPhotoCount;
-                                await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible));
+                                await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, true));
                             }
                             else
                             {
@@ -1162,7 +1231,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 Settings.CanOpenScanner = false;
                                 Settings.AphotoCount = allPo.TagAPhotoCount;
                                 Settings.currentPuId = allPo.PUID;
-                                await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
+                                await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible, isalldone, true));
                             }
                             else
                             {
@@ -1322,29 +1391,29 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid == null ? true : (poid.Status == 1 ? true : false);
+                        labelobj.POID.Status = poid == null ? false : (poid.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
                         labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name) + " :";
-                        labelobj.StartTime.Status = starttime == null ? true : (starttime.Status == 1 ? true : false);
+                        labelobj.StartTime.Status = starttime == null ? false : (starttime.Status == 1 ? true : false);
                         labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
-                        labelobj.EndTime.Status = endtime == null ? true : (endtime.Status == 1 ? true : false);
+                        labelobj.EndTime.Status = endtime == null ? false : (endtime.Status == 1 ? true : false);
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                        labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
+                        labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
 
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                        labelobj.TagNumber.Status = tagnumber == null ? false : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
+                        labelobj.IdentCode.Status = identcode == null ? false : (identcode.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                        labelobj.ConditionName.Status = conditionname == null ? false : (conditionname.Status == 1 ? true : false);
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
-                        labelobj.InvoiceNumber.Status = invoicenumber == null ? true : (invoicenumber.Status == 1 ? true : false);
+                        labelobj.InvoiceNumber.Status = invoicenumber == null ? false : (invoicenumber.Status == 1 ? true : false);
                         labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
-                        labelobj.TagDesc.Status = tagdesc == null ? true : (tagdesc.Status == 1 ? true : false);
+                        labelobj.TagDesc.Status = tagdesc == null ? false : (tagdesc.Status == 1 ? true : false);
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? true : (shippingnumber.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Status = shippingnumber == null ? false : (shippingnumber.Status == 1 ? true : false);
 
                         labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) + "\n";
                         labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
@@ -1616,40 +1685,45 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "PONumber"
             };
             public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "TagNumber"
             };
             public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "TaskName"
             };
 
             public DashboardLabelFields Resource { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "Resource"
             };
 
             public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "Event"
             };
 
-            public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = true, Name = "Start Time" };
-            public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = true, Name = "End Time" };
+            public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = false, Name = "Start Time" };
+            public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = false, Name = "End Time" };
 
-            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
-            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
-            public DashboardLabelFields InvoiceNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "InvoiceNumber" };
-            public DashboardLabelFields TagDesc { get; set; } = new DashboardLabelFields { Status = true, Name = "Tag Description" };
-            public DashboardLabelFields ShippingNumber { get; set; } = new DashboardLabelFields { Status = true, Name = "Shipping Number" };
+            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = false, Name = "IdentCode" };
+            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = false, Name = "ConditionName" };
+            //public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "InvoiceNumber" };
+            public DashboardLabelFields InvoiceNumber { get; set; } = new DashboardLabelFields { Status = false, Name = "Invoice1No" };
+            public DashboardLabelFields TagDesc { get; set; } = new DashboardLabelFields
+            {
+                Status = false,  //Name = "TagDescription"
+                Name = "IDENT_DEVIATED_TAG_DESC"
+            };
+            public DashboardLabelFields ShippingNumber { get; set; } = new DashboardLabelFields { Status = false, Name = "Shipping Number" };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };
@@ -1697,6 +1771,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private bool _IsScanOrInspPopUpVisible;
+        public bool IsScanOrInspPopUpVisible
+        {
+            get => _IsScanOrInspPopUpVisible;
+            set
+            {
+                _IsScanOrInspPopUpVisible = value;
+                RaisePropertyChanged("IsScanOrInspPopUpVisible");
+            }
+        }
+
+        private string _TagNumber;
+        public string TagNumber
+        {
+            get => _TagNumber;
+            set
+            {
+                _TagNumber = value;
+                RaisePropertyChanged("TagNumber");
+            }
+        }
 
         private AllPoData _POTagDetail;
         public AllPoData POTagDetail

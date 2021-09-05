@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -33,7 +34,7 @@ namespace YPS.ViewModel
 
             try
             {
-                GetChatConversations(poId, potadID, qaType);
+                //GetChatConversations(poId, potadID, qaType);
             }
             catch (Exception ex)
             {
@@ -76,7 +77,7 @@ namespace YPS.ViewModel
 
                         foreach (var item in result.data)
                         {
-                            int? showUnreadMsgCount = pnDataList.data.Where(p => p.QAID == item.QAID).Count();
+                            int? showUnreadMsgCount = pnDataList.data.Where(p => p.QAID == item.QAID && p.IsRead == false).Count();
 
                             item.UnreadMessagesCount = showUnreadMsgCount > 0 ? showUnreadMsgCount : null;
 
@@ -97,7 +98,7 @@ namespace YPS.ViewModel
                             }
                         }
 
-                        UserConversations = result.data;
+                        UserConversations = new List<ChatData>(result.data);
                         //}
                     }
                     else
@@ -143,7 +144,7 @@ namespace YPS.ViewModel
             set
             {
                 _UserConversations = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged("UserConversations");
             }
         }
         public bool _IndicatorVisibility;

@@ -24,7 +24,7 @@ namespace YPS.ViewModel
         public INavigation Navigation { get; set; }
         public ICommand Backevnttapped { set; get; }
         public ICommand clearall { get; set; }
-        ObservableCollection<NotifyHistory> NotifyHistoryData = new ObservableCollection<NotifyHistory>();
+        public ObservableCollection<NotifyHistory> NotifyHistoryData = new ObservableCollection<NotifyHistory>();
 
         /// <summary>
         /// Parameter less constructor.
@@ -159,7 +159,8 @@ namespace YPS.ViewModel
                                     FullName = item.FullName,
                                     RoleName = item.RoleName,
                                     IsRead = item.IsRead,
-                                    ReadStatusIcon = item.IsRead == true ? Icons.WhiteEnvOpen : Icons.WhiteEnvClose
+                                    ReadStatusIcon = item.IsRead == true ? Icons.WhiteEnvOpen : Icons.WhiteEnvClose,
+                                    listCount = item.listCount,
                                 };
                                 NotifyHistoryData.Add(obj);
                             }
@@ -238,8 +239,9 @@ namespace YPS.ViewModel
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
+                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        //labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                        labelobj.TagNumber.Status = tagnumber == null ? false : (tagnumber.Status == 1 ? true : false);
                     }
                 }
             }
@@ -254,12 +256,12 @@ namespace YPS.ViewModel
 
             public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "TagNumber"
             };
             public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "TaskName"
             };
         }

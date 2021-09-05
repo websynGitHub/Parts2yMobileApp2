@@ -35,7 +35,8 @@ namespace YPS.Views
         /// <param name="selectionType"></param>
         /// <param name="uploadType"></param>
         /// <param name="photoAccess"></param>
-        public PhotoUpload(PhotoUploadModel sItems, AllPoData allPoData, string selectionType, int uploadType, bool photoAccess)
+        public PhotoUpload(PhotoUploadModel sItems, AllPoData allPoData, string selectionType, int uploadType, bool photoAccess,
+            bool isalldone, bool issacaniconvisible)
         {
             YPSLogger.TrackEvent("PhotoUpload", "Page constructer " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
@@ -54,7 +55,8 @@ namespace YPS.Views
                 Settings.currentPage = "PhotoUploadPage";// Setting the current page as "PhotoUploadPage" to settings
                 accessPhoto = photoAccess;
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call AIP
-                BindingContext = vm = new PhotoUplodeViewModel(Navigation, this, sItems, allPoData, selectionType, uploadType, photoAccess);
+                BindingContext = vm = new PhotoUplodeViewModel(Navigation, this, sItems, allPoData, selectionType, uploadType, photoAccess,
+                    isalldone, issacaniconvisible);
 
                 //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
                 //{
@@ -126,15 +128,19 @@ namespace YPS.Views
             {
                 if (Settings.POID > 0)
                 {
-                    if (Navigation.NavigationStack.Count == 4)
+                    if (Navigation?.NavigationStack[2]?.GetType()?.Name.Trim().ToLower() != "LinkPage".Trim().ToLower())
                     {
+                        if (Navigation.NavigationStack.Count == 4)
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        }
                         Navigation.RemovePage(Navigation.NavigationStack[1]);
+
+                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+
+                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                     }
-                    Navigation.RemovePage(Navigation.NavigationStack[1]);
 
-                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-
-                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                     Settings.POID = 0;
                     Settings.TaskID = 0;
                 }

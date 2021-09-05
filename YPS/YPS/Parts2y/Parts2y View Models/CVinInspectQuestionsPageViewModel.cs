@@ -221,6 +221,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             Navigation.RemovePage(Navigation.NavigationStack[2]);
                             Navigation.RemovePage(Navigation.NavigationStack[2]);
+
+                            if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "PhotoRepoPage".Trim().ToLower())
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            }
                         }
                         else
                         {
@@ -233,7 +239,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         Navigation.RemovePage(Navigation.NavigationStack[2]);
-                        Navigation.RemovePage(Navigation.NavigationStack[2]);
+
+                        if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() != "CVinInspectQuestionsPage".Trim().ToLower())
+                        {
+                            Navigation.RemovePage(Navigation.NavigationStack[2]);
+                        }
                     }
                     await Navigation.PopAsync();
                 }
@@ -241,24 +251,38 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
 
-                    if (Settings.POID != 0)
+
+                    if ((Navigation.NavigationStack.Count() == 3
+                        && Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "ScanVerifiedTagListPage".Trim().ToLower())
+                        || Navigation?.NavigationStack[3]?.GetType()?.Name.Trim().ToLower() != "CVinInspectQuestionsPage".Trim().ToLower())
                     {
-                        if (Navigation.NavigationStack.Count() == 5)
+                        if (Settings.POID != 0)
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[3]);
+                            if (Navigation.NavigationStack.Count() == 5)
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[3]);
+
+                                if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
+                                {
+                                    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                    Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                                }
+                            }
+                            else
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[1]);
+                                Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                                Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            }
+                            Settings.POID = 0;
+                            Settings.TaskID = 0;
                         }
                         else
                         {
-                            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                            Navigation.RemovePage(Navigation.NavigationStack[3]);
                         }
-                        Settings.POID = 0;
-                        Settings.TaskID = 0;
-                    }
-                    else
-                    {
-                        Navigation.RemovePage(Navigation.NavigationStack[3]);
                     }
                     await Navigation.PopAsync();
                 }
@@ -482,9 +506,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if (Navigation.NavigationStack.Count > 3)
+                if (Navigation.NavigationStack.Count > 3 && Navigation.NavigationStack[3].GetType().Name.Trim().ToLower() != "CVinInspectQuestionsPage".Trim().ToLower())
                 {
                     Navigation.RemovePage(Navigation.NavigationStack[3]);
+
+                    if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                    }
                 }
                 else
                 {
@@ -551,15 +583,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        labelobj.TagNumber.Status = tagnumber == null ? true : (tagnumber.Status == 1 ? true : false);
+                        labelobj.TagNumber.Status = tagnumber == null ? false : (tagnumber.Status == 1 ? true : false);
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode == null ? true : (identcode.Status == 1 ? true : false);
+                        labelobj.IdentCode.Status = identcode == null ? false : (identcode.Status == 1 ? true : false);
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                        labelobj.ConditionName.Status = conditionname == null ? true : (conditionname.Status == 1 ? true : false);
+                        labelobj.ConditionName.Status = conditionname == null ? false : (conditionname.Status == 1 ? true : false);
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 ? true : false);
+                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                        labelobj.EventName.Status = eventname == null ? true : (eventname.Status == 1 ? true : false);
+                        labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
 
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
@@ -621,7 +653,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
             {
-                Status = true,
+                Status = false,
                 Name = "TagNumber"
             };
             public DashboardLabelFields TaskName { get; set; } = new DashboardLabelFields
@@ -635,10 +667,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = false,
                 Name = "Event"
             };
-            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = true, Name = "IdentCode" };
-            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = true, Name = "ConditionName" };
-            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
-            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+            public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = false, Name = "IdentCode" };
+            public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = false, Name = "ConditionName" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = false, Name = "Parts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = false, Name = "Load" };
 
         }
         public class DashboardLabelFields : IBase

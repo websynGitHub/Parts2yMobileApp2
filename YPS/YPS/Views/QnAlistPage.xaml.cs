@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -16,7 +17,7 @@ namespace YPS.Views
     public partial class QnAlistPage : ContentPage
     {
         #region Data members declaration
-        int count, pId, pTagId;
+        int count, pId, pTagId, qaType;
         YPSService service;
         private QnAlistPageViewModel vm;
         #endregion
@@ -42,13 +43,13 @@ namespace YPS.Views
                 //    safeAreaInset.Top = 20;
                 //    headerpart.Padding = safeAreaInset;
                 //}
-
                 Settings.currentPage = "QnAlistPage";// Giving Current page name
                 Settings.RedirectPageQA = "QnAlistPage";// Giving Redirect to page name
                 service = new YPSService();// careating new instance of the YPSService, which is used to call AIP 
                 count = 1;
                 pId = poid;
                 pTagId = poTagId;
+                qaType = qatype;
                 BindingContext = vm = new QnAlistPageViewModel(poid, poTagId, qatype);// Creating new instance of view model & binding events through BindingContext
                 MessageCenterSubscribe();
             }
@@ -75,6 +76,9 @@ namespace YPS.Views
                 Settings.RedirectPageQA = "QnAlistPage";
                 Title = "Q&A List";
                 var navPages = Settings.GetParamVal.Split(',');
+                pId = Convert.ToInt32(navPages[1]);
+                pTagId = Convert.ToInt32(navPages[2]);
+                qaType = Settings.QAType;
                 BindingContext = vm = new QnAlistPageViewModel(Convert.ToInt32(navPages[1]), Convert.ToInt32(navPages[2]), Settings.QAType);// Creating new instance of view model & binding events through BindingContext
 
                 MessageCenterSubscribe();// Method from message center subscription
@@ -95,9 +99,10 @@ namespace YPS.Views
             {
                 MessagingCenter.Subscribe<string>("ChatconverPage", "Bindchatconvers", (sender) =>
                 {
-                    chatUserList.ItemsSource = vm.UserConversations;
+                    //chatUserList.ItemsSource = vm.UserConversations;
 
-                    if (chatUserList.ItemsSource == null || vm.UserConversations.Count == 0)
+                    //if (chatUserList.ItemsSource == null || vm.UserConversations.Count == 0)
+                    if (vm.UserConversations.Count == 0)
                     {
                         vm.chatUserList = false;
                         vm.lblalert = true;
@@ -179,11 +184,35 @@ namespace YPS.Views
                 base.OnAppearing();
                 Settings.qaListPageCount = 0;
                 count = 0;
+                vm.GetChatConversations(pId, pTagId, qaType);
+
+                MessagingCenter.Subscribe<string, int>("UpdateUnReadCount", "ChatCount", (sender, qaid) =>
+                {
+                    if (qaid > 0)
+                    {
+                        var QA = vm.UserConversations.Where(wr => wr.QAID == qaid).FirstOrDefault();
+                        QA.UnreadMessagesCount = sender.Trim().ToLower() == "firebaseservice".Trim().ToLower() ? (QA.UnreadMessagesCount == null ? 1 : QA.UnreadMessagesCount + 1) : null;
+                    }
+                });
+
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "OnAppearing method -> in QnAlistPage.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            try
+            {
+                base.OnDisappearing();
+
+                MessagingCenter.Unsubscribe<string, int>("UpdateUnReadCount", "ChatCount");
+            }
+            catch (Exception ex)
+            {
             }
         }
 

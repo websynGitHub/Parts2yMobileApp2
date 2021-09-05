@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:local1="clr-namespace:YPS.CommonClasses"
              x:Name="POTagPage" BackgroundColor="#E9E9E9"
              NavigationPage.HasNavigationBar="False"
-             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviors="clr-namespace:YPS.Behaviours" xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -474,6 +474,72 @@
                 </StackLayout>
             </RelativeLayout>
 
+            <ContentView IsVisible="{Binding IsScanOrInspPopUpVisible}" BackgroundColor="#99000000"
+                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                     >
+                <Frame VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" 
+                   BorderColor="{Binding BgColor}" Margin="10,5,10,5" CornerRadius="5"
+                   >
+                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                        <Grid ColumnDefinitions="*,Auto" HorizontalOptions="FillAndExpand" Margin="0,7,0,0"
+                              RowDefinitions="Auto,Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Inspection with/without scan ?" Style="{DynamicResource LableWithQuestionFont}"
+                               TextColor="Black"/>
+                            <local:FontAwesomeIconLabel Text="{Static local1:Icons.CloseIc}" Style="{StaticResource LblIconStyle}"
+                                                       TextColor="Red" Grid.Row="0" Grid.Column="1" Margin="0,0,0,7"
+                                                           HorizontalOptions="EndAndExpand" VerticalOptions="Start">
+                                <local:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="CloseScanOrInspPopUp"/>
+                                </local:FontAwesomeIconLabel.GestureRecognizers>
+                            </local:FontAwesomeIconLabel>
+
+                            <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.TagNumber.Status}" 
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*"
+                                  Grid.Row="1" Grid.Column="0">
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.TagNumber.Name}" 
+                                       Style="{DynamicResource LableWithQuestionFont}" TextColor="Black"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding TagNumber}" 
+                                       Style="{DynamicResource LableWithQuestionFont}" TextColor="Black"/>
+                            </Grid>
+                            <!--<Label Grid.Row="1" Grid.Column="0" Text="{Binding TagNumber}" Style="{DynamicResource LableWithQuestionFont}"
+                               TextColor="Black"/>-->
+                           
+                        </Grid>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                    Margin="0,20,0,0">
+                                <local:FontAwesomeIconLabel Text="{Static local1:Icons.Scan}" Style="{StaticResource LblIconStyle}"
+                                                       TextColor="Black" FontSize="60"
+                                                           HorizontalOptions="Start" Margin="0,0,15,20" HeightRequest="60" WidthRequest="50">
+                                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ScanCmd}"/>
+                                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                                </local:FontAwesomeIconLabel>
+
+                                <sfbuttons:SfButton HorizontalOptions="End"
+                                    Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                        HeightRequest="53" Margin="15,0,0,20">
+                                    <sfbuttons:SfButton.Content>
+                                        <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                        </Grid>
+                                    </sfbuttons:SfButton.Content>
+                                    <sfbuttons:SfButton.Behaviors>
+                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    </sfbuttons:SfButton.Behaviors>
+                                </sfbuttons:SfButton>
+                            </StackLayout>
+
+
+                        
+                    </StackLayout>
+                </Frame>
+            </ContentView>
+            
             <ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
                          VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Label FontSize="Large" HorizontalTextAlignment="Center"

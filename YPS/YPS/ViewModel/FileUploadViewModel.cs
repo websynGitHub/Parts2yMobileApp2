@@ -93,11 +93,11 @@ namespace YPS.ViewModel
                     closeLabelText = false;
                     RowHeightcomplete = 0;
 
-                    tagNumbers = string.Join(",", selectedTagsData.FileTags.Select(c => c.TagNumber));
+                    tagNumbers = string.Join(" | ", selectedTagsData.FileTags.Select(c => c.TagNumber));
 
                     if (string.IsNullOrEmpty(tagNumbers))
                     {
-                        tagNumbers = string.Join(",", selectedTagsData.FileTags.Select(c => c.IdentCode));
+                        tagNumbers = string.Join(" | ", selectedTagsData.FileTags.Select(c => c.IdentCode));
                     }
 
                     if (selectedTagsData.FileTags.Count > 0)
@@ -339,7 +339,8 @@ namespace YPS.ViewModel
                             if (returnData != null)
                             {
                                 var FinalReturnData = returnData as RootObject;
-                                myFuid = FinalReturnData.data.FUID;
+                                //myFuid = FinalReturnData.data.FUID;
+                                myFuid = FinalReturnData.data.files[0].FUID;
 
                                 if (FinalReturnData.status != 0)
                                 {
@@ -599,7 +600,7 @@ namespace YPS.ViewModel
                                     if (finalResult.data.fileTags.Count() != 0)
                                     {
                                         var result = finalResult.data.fileTags.Select(x => x.TagNumber).ToList();
-                                        string result1 = String.Join(" , ", result);
+                                        string result1 = String.Join(" | ", result);
                                         tagNumbers = result1;
                                     }
                                     string icon;
