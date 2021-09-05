@@ -133,8 +133,10 @@ namespace YPS.iOS
                 //Appcenter value need to change based on (Alpha,Beta,Production//reference appcenter region)
                 AppCenter.Start(Appcenter_iOS, typeof(Analytics), typeof(Crashes));
                 SfDataGridRenderer.Init();
-                
 
+                #region Badge Hiding when app opens 
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber = -1;
+                #endregion
                 #region authorizations for app
                 // Firebase component initialize
                 Firebase.Core.App.Configure();
@@ -236,14 +238,16 @@ namespace YPS.iOS
                 return base.FinishedLaunching(app, options);
                 YPSLogger.ReportException(ex, "FinishedLaunching method  -> in AppDelegate.cs-Exception=" + ex.Message + Settings.userLoginID);
             }
-        }
+        }     
+
 
         #region Added for Scandit
-        
+
         [Export("application:supportedInterfaceOrientationsForWindow:")]
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
         {
-            return ShouldAutoRotate ? UIInterfaceOrientationMask.All : UIInterfaceOrientationMask.Portrait;
+            //return ShouldAutoRotate ? UIInterfaceOrientationMask.All : UIInterfaceOrientationMask.Portrait;
+            return UIInterfaceOrientationMask.Portrait;
         }
         #endregion
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
@@ -570,8 +574,16 @@ namespace YPS.iOS
                             // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                             {
-                                Settings.GetParamVal = paramValues;
-                                App.Current.MainPage = new MenuPage(typeof(ChatPage));
+                                try
+                                {
+                                     Settings.GetParamVal = paramValues;
+                                     App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                }
+                                catch (Exception ex)
+                                {
+                                    UIAlertView avAlert = new UIAlertView(title, ex.Message, null, "OK", null);
+                                }
+                               
 
                             }
                             else if (navPages[0] == "RemoveUser")
@@ -617,8 +629,7 @@ namespace YPS.iOS
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                             {
                                 Settings.GetParamVal = paramValues;
-                                App.Current.MainPage = new MenuPage(typeof(ChatPage));
-
+                                App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
                             }
                             else if (navPages[0] == "RemoveUser")
                             {

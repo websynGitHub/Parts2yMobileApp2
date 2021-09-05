@@ -94,7 +94,7 @@ namespace YPS.iOS
             scanSettings.SetSymbologyEnabled(Symbology.FiveDigitAddOn, settings.FiveDigitAddOn);
             scanSettings.SetSymbologyEnabled(Symbology.Code11, settings.Code11);
             scanSettings.SetSymbologyEnabled(Symbology.Code25, settings.Code25);
-            scanSettings.SetSymbologyEnabled(Symbology.Code32, settings.Code32);
+           // scanSettings.SetSymbologyEnabled(Symbology.Code32, settings.Code32);
             scanSettings.SetSymbologyEnabled(Symbology.Code39, settings.Code39);
             scanSettings.SetSymbologyEnabled(Symbology.Code93, settings.Code93);
             scanSettings.SetSymbologyEnabled(Symbology.Code128, settings.Code128);
@@ -110,8 +110,8 @@ namespace YPS.iOS
             scanSettings.SetSymbologyEnabled(Symbology.MicroPDF417, settings.MicroPdf417);
             scanSettings.SetSymbologyEnabled(Symbology.Aztec, settings.Aztec);
             scanSettings.SetSymbologyEnabled(Symbology.MaxiCode, settings.MaxiCode);
-            scanSettings.SetSymbologyEnabled(Symbology.RM4SCC, settings.Rm4scc);
-            scanSettings.SetSymbologyEnabled(Symbology.KIX, settings.Kix);
+            //scanSettings.SetSymbologyEnabled(Symbology.RM4SCC, settings.Rm4scc);
+            //scanSettings.SetSymbologyEnabled(Symbology.KIX, settings.Kix);
             scanSettings.SetSymbologyEnabled(Symbology.DotCode, settings.Kix);
             scanSettings.SetSymbologyEnabled(Symbology.MicroQr, settings.MicroQR);
             scanSettings.SetSymbologyEnabled(Symbology.LAPA4SC, settings.Lapa4sc);
