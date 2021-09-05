@@ -485,7 +485,7 @@
 
                         <Grid ColumnDefinitions="*,Auto" HorizontalOptions="FillAndExpand" Margin="0,7,0,0"
                               RowDefinitions="Auto,Auto">
-                            <Label Grid.Row="0" Grid.Column="0" Text="Inspection with/without scan ?" Style="{DynamicResource LableWithQuestionFont}"
+                            <Label Grid.Row="0" Grid.Column="0" Text="Inspection with/without scan?" Style="{DynamicResource LableWithQuestionFont}"
                                TextColor="Black"/>
                             <local:FontAwesomeIconLabel Text="{Static local1:Icons.CloseIc}" Style="{StaticResource LblIconStyle}"
                                                        TextColor="Red" Grid.Row="0" Grid.Column="1" Margin="0,0,0,7"
