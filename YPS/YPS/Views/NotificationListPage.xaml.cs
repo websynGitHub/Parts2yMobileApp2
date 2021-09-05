@@ -32,7 +32,22 @@ namespace YPS.Views
                 YPSLogger.TrackEvent("NotificationListPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 service = new YPSService();
-                BindingContext = vm = new NotificationViewModel(Navigation, this);
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    if (!string.IsNullOrEmpty(Settings.GetParamVal))
+                    {
+                        var navPages = Settings.GetParamVal.Split(';');
+                        PNredirectionwhenTapPN();
+                    }
+                    else
+                    {
+                        BindingContext = vm = new NotificationViewModel(Navigation, this);
+                    }
+                }
+                else
+                {
+                    BindingContext = vm = new NotificationViewModel(Navigation, this);
+                }
 
                 list.RefreshCommand = new Command(() =>
                 {
@@ -151,6 +166,30 @@ namespace YPS.Views
             {
                 YPSLogger.ReportException(ex, "NotifyCountlist_ItemTapped method -> in NotificationListPage.cs " + Settings.userLoginID);
                 var xx = service.Handleexception(ex);
+            }
+            finally
+            {
+                Settings.IsChatBackButtonVisible = false;
+                vm.loadingindicator = false;
+            }
+        }
+
+        public async Task PNredirectionwhenTapPN()
+        {
+            try
+            {
+                Settings.IsChatBackButtonVisible = true;
+                BindingContext = vm = new NotificationViewModel(Navigation, this);
+                vm.loadingindicator = true;
+                Navigation.PushAsync(new ChatPage());
+                Settings.GetParamVal = string.Empty;
+
+            }
+            catch (Exception ex)
+            {
+                vm.loadingindicator = false;
+                YPSLogger.ReportException(ex, "PNredirectionwhenTapPN method -> in NotificationListPage.cs " + Settings.userLoginID);
+                var ex1 = service.Handleexception(ex);
             }
             finally
             {
