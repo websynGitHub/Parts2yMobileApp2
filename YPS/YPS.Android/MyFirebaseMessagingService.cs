@@ -1,10 +1,12 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Support.V4.App;
 using Firebase.Messaging;
 using Java.Net;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,12 +18,12 @@ using YPS.Droid.Dependencies;
 using YPS.Helpers;
 using YPS.Service;
 using Color = Android.Graphics.Color;
+using System.Linq;
 
 namespace YPS.Droid
 {
     [Service(Name = "com.synergies.ypsapp.firebase.MyFirebaseMessagingService")]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
-
     public class MyFirebaseMessagingService : FirebaseMessagingService
     {
         const string TAG = "MyFirebaseIIDService";
@@ -161,22 +163,29 @@ namespace YPS.Droid
 
                     Settings.notifyCount = Settings.notifyCount + 1;
                     MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Convert.ToString(Settings.notifyCount));
+                    MessagingCenter.Send<string, int>("firebaseservice", "ChatCount", PushId);
                 }
 
+                //Badge badge = new Badge(this);
+                //badge.count((int)Settings.notifyJobCount + Settings.notifyCount);
+
                 var pendingIntent = PendingIntent.GetActivity(this, PushId, intent, PendingIntentFlags.OneShot);
+
+                Bitmap icon = BitmapFactory.DecodeResource(Resources, Resource.Drawable.Parts2y9696);
 
                 if (!Uri.TryCreate(messageBody, UriKind.Absolute, out uriResult))
                 {
                     var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
-                                          .SetSmallIcon(Resource.Drawable.part2ylogoT)
+                                          .SetSmallIcon(Resource.Drawable.Parts2y3636)
                                           .SetContentTitle(showNotify[7])
                                           .SetContentText(messageBody)
-                                          .SetColor(Color.Rgb(255, 8, 0))
+                                          .SetColor(Color.Rgb(37, 74, 126))
                                           .SetStyle(new NotificationCompat.BigPictureStyle()
                                           .BigPicture(bitmap))
                                           .SetAutoCancel(true)
                                           .SetStyle(new NotificationCompat.BigTextStyle().BigText(showMessages))
-                                          .SetContentIntent(pendingIntent);
+                                          .SetContentIntent(pendingIntent)
+                                          .SetLargeIcon(icon);
 
                     var notificationManager = NotificationManagerCompat.From(this);
                     notificationManager.Notify(PushId, notificationBuilder.Build());
@@ -184,12 +193,13 @@ namespace YPS.Droid
                 else
                 {
                     var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
-                                             .SetSmallIcon(Resource.Drawable.part2ylogoT)
+                                             .SetSmallIcon(Resource.Drawable.Parts2y3636)
                                               .SetContentTitle(showNotify[7])
                                               .SetAutoCancel(true)
-                                              .SetColor(Color.Rgb(0, 88, 155))
+                                              .SetColor(Color.Rgb(37, 74, 126))
                                               .SetStyle(new NotificationCompat.BigTextStyle().BigText(showMessages))
-                                              .SetContentIntent(pendingIntent);
+                                              .SetContentIntent(pendingIntent)
+                                              .SetLargeIcon(icon);
 
                     var urlString = messageBody;
                     var url = new URL(urlString);
@@ -206,6 +216,12 @@ namespace YPS.Droid
                     var notificationManager = NotificationManagerCompat.From(this);
                     notificationManager.Notify(PushId, notificationBuilder.Build());
                 }
+
+
+                if (!MyFirebaseMessagingPNService.pnIDs.Contains(PushId))
+                {
+                    MyFirebaseMessagingPNService.pnIDs.Add(PushId);
+                }
             }
             catch (Exception ex)
             {
@@ -214,5 +230,10 @@ namespace YPS.Droid
                 YPSLogger.ReportException(ex, "SendNotification method -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
             }
         }
+    }
+
+    public static class MyFirebaseMessagingPNService
+    {
+        public static ArrayList pnIDs = new ArrayList();
     }
 }
