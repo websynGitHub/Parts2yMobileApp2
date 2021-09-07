@@ -89,6 +89,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                if (SelectedTagCount == 0)
+                {
+                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l => { l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false; });
+                }
+
                 var item = sender as AllPoData;
 
                 if (item.IsChecked == true)
@@ -189,6 +194,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
                 PendingTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
+                SelectedTagCountVisible = false;
+                SelectedTagCount = 0;
             }
             catch (Exception ex)
             {
@@ -208,7 +215,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-
                 GetPoData result = await trackService.LoadPoDataService(sendPodata);
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
@@ -219,6 +225,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
                 InProgressTabTextColor = Settings.Bar_Background;
                 CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+                SelectedTagCountVisible = false;
+                SelectedTagCount = 0;
             }
             catch (Exception ex)
             {
@@ -238,7 +246,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-
                 GetPoData result = await trackService.LoadPoDataService(sendPodata);
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
@@ -249,6 +256,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
                 CompleteTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+                SelectedTagCountVisible = false;
+                SelectedTagCount = 0;
             }
             catch (Exception ex)
             {
@@ -268,7 +277,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-
                 GetPoData result = await trackService.LoadPoDataService(sendPodata);
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
@@ -279,6 +287,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
                 AllTabTextColor = Settings.Bar_Background;
                 InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
+                SelectedTagCountVisible = false;
+                SelectedTagCount = 0;
             }
             catch (Exception ex)
             {
@@ -379,7 +389,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     || Settings.VersionID == 2)
                 {
                     loadindicator = true;
-                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l => { l.SelectedTagBorderColor = Color.Transparent; });
+                    SelectedTagCountVisible = false;
+                    SelectedTagCount = 0;
+                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l => { l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false; });
                     POTagDetail = sender as AllPoData;
                     POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                     TagNumber = Settings.TagNumber = POTagDetail.TagNumber;
