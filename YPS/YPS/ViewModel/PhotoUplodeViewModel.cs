@@ -502,7 +502,8 @@ namespace YPS.ViewModel
                                 {
                                     InspBtnOpacity = Select_Items?.photoTags?.Count > 1 ? 0.5 : 1.0;
                                     selectiontype_index = 1;
-                                    puid = initialresult.data.PUID;
+                                    //puid = initialresult.data.PUID;
+                                    puid = initialresult.data.photos[0].PUID;
 
                                     if (initialresult.data.photoTags.Count != 0)
                                     {
