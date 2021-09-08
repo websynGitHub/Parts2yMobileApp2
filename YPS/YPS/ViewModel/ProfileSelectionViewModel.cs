@@ -539,7 +539,7 @@ namespace YPS.ViewModel
                         givennameHaserror = false;
                         emailHaserror = false;
                         loginIDHaserror = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select Timezone.");
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select timezone.");
                     }
                     else if (LangaugeTextDisplay == "Please Select" || string.IsNullOrEmpty(LangaugeTextDisplay))
                     {
