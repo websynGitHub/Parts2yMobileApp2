@@ -28,7 +28,7 @@ namespace YPS.CustomToastMsg
             catch (Exception ex)
             {
                 YPSService trackService = new YPSService();
-                YPSLogger.ReportException(ex, "RememberPwdDB Constructor -> in rememberPwsDB.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RememberPwdDB constructor -> in rememberPwsDB.cs " + Settings.userLoginID);
                 trackService.Handleexception(ex);
             }
         }

@@ -268,39 +268,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
 
                     }
-
-                    //if ((Navigation.NavigationStack.Count() == 3
-                    //    && Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "ScanVerifiedTagListPage".Trim().ToLower())
-                    //    || Navigation?.NavigationStack[3]?.GetType()?.Name.Trim().ToLower() != "CVinInspectQuestionsPage".Trim().ToLower())
-                    //{
-                    //    if (Settings.POID != 0)
-                    //    {
-                    //        if (Navigation.NavigationStack.Count() == 5)
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[3]);
-
-                    //            if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
-                    //            {
-                    //                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //                Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                    //                Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                    //            }
-                    //        }
-                    //        else
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                    //            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                    //        }
-                    //        Settings.POID = 0;
-                    //        Settings.TaskID = 0;
-                    //    }
-                    //    else
-                    //    {
-                    //        Navigation.RemovePage(Navigation.NavigationStack[3]);
-                    //    }
-                    //}
                     await Navigation.PopAsync();
                 }
                 else if (tabname.Trim().ToLower() == "load".Trim().ToLower())
@@ -475,7 +442,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsService(taskid, tagId);

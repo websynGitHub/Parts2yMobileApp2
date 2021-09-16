@@ -55,7 +55,7 @@ namespace YPS
         /// <param name="val"></param>
         public App(bool val)
         {
-            //YPSLogger.TrackEvent("App.cs", "Page Loading push notification " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("App.xaml.cs", "Page Loading push notification " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
 
@@ -101,7 +101,7 @@ namespace YPS
 
                                 if (navPages[0].Trim().ToLower() == "AddUser".Trim().ToLower() ||
                                     navPages[0].Trim().ToLower() == "Close".Trim().ToLower()
-                                    || navPages[0].Trim().ToLower() == "receiveMessage".Trim().ToLower()||
+                                    || navPages[0].Trim().ToLower() == "receiveMessage".Trim().ToLower() ||
                                     navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                                 {
                                     Task.Run(async () => await GetActionStatus()).Wait();
@@ -115,27 +115,8 @@ namespace YPS
                                 else if (navPages[0].Trim().ToLower() == "RemoveUser".Trim().ToLower())
                                 {
                                     DependencyService.Get<ISQLite>().deleteReadCountNmsg(Convert.ToInt32(navPages[4]));
-                                    //RememberPwdDB Db = new RememberPwdDB();
-                                    //var user = Db.GetUserDetails();
-
-                                    //if (user.Count == 1)
-                                    //{
-                                    //var userData = user.FirstOrDefault();
-                                    //Settings.userLoginID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserId));
-                                    //Settings.userRoleID = Convert.ToInt32(EncryptManager.Decrypt(userData.encUserRollID));
-                                    //Settings.Sessiontoken = userData.encSessiontoken;
-                                    //Settings.AndroidVersion = userData.AndroidVersion;
-                                    //Settings.iOSversion = userData.iOSversion;
-                                    //Settings.IsIIJEnabled = userData.IIJEnable;
                                     App.Current.MainPage = new MenuPage(typeof(HomePage));
                                     App.Current.MainPage.DisplayAlert("Message", "You have been removed from " + " '" + navPages[7] + "' " + ", Can not view the conversation", "OK");
-
-                                    //}
-                                    //else
-                                    //{
-                                    //    MyNavigationPage.PushAsync(new YPS.Views.LoginPage(), true);
-                                    //}
-
                                 }
                                 else if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
                                 {
@@ -160,7 +141,7 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "App Constructor with params  -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "App constructor with params  -> in App.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
             finally
@@ -175,7 +156,7 @@ namespace YPS
         /// </summary>
         public App()
         {
-            YPSLogger.TrackEvent("App.cs", "Page Loading " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("App.xaml.cs", "Page Loading " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -198,7 +179,7 @@ namespace YPS
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "App Constructor without params  -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "App constructor without params  -> in App.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -223,7 +204,7 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetallApplabels method -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetallApplabels method -> in App.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -244,14 +225,14 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetActionStatus method -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetActionStatus method -> in App.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
 
 
         /// <summary>
-        /// 
+        /// This method is to get SSL keys and other user details.
         /// </summary>
         /// <returns></returns>
         public static async Task GetSSLKeysAndUserDetails()
@@ -353,7 +334,7 @@ namespace YPS
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "App GetSSLKeysAndUserDetails method -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "App GetSSLKeysAndUserDetails method -> in App.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -698,14 +679,14 @@ namespace YPS
                 if (Settings.isExpectedPublicKey == false || ex.Message.ToLower().Replace(" ", null) == EndpointConfiguration.message)
                 {
                     Settings.isExpectedPublicKey = true;
-                    YPSLogger.ReportException(ex, "CheckInterNetConnection method because of SSL public key mismatch -> in App.cs " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "CheckInterNetConnection method because of SSL public key mismatch -> in App.xaml.cs " + Settings.userLoginID);
                     //await App.Current.MainPage.DisplayAlert("Man in the middle detected", "potential security risk ahead", "Close");
                     CloudFolderKeyVal.Appredirectloginwithoutlogout(true);
                 }
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "CheckInterNetConnection method  -> in App.cs " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "CheckInterNetConnection method  -> in App.xaml.cs " + Settings.userLoginID);
                 }
                 await service.Handleexception(ex);
                 return IsNetworkAccessing = false;
@@ -725,7 +706,7 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnStart method  -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnStart method  -> in App.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -750,7 +731,7 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnResume method  -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnResume method  -> in App.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -774,7 +755,7 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PinPublickey method  -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PinPublickey method  -> in App.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -792,7 +773,7 @@ namespace YPS
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SetupCertificatePinningCheck method  -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SetupCertificatePinningCheck method  -> in App.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -826,7 +807,7 @@ namespace YPS
             catch (Exception ex)
             {
                 Settings.isExpectedPublicKey = false;
-                YPSLogger.ReportException(ex, "ValidateServerCertificate method  -> in App.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ValidateServerCertificate method  -> in App.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
             return Settings.isExpectedPublicKey;

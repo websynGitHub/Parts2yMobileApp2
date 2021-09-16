@@ -82,7 +82,6 @@
             <!--Style for file upload listView controls (Frame,Image,StackLayout start)-->
             <Style TargetType="Frame" x:Key="ListVFrame">
                 <Setter Property="Padding" Value="4"/>
-                <!--<Setter Property="Margin" Value="4"/>-->
                 <Setter Property="HasShadow" Value="False"/>
                 <Setter Property="CornerRadius" Value="2"/>
             </Style>
@@ -90,7 +89,6 @@
                 <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                 <Setter Property="Aspect" Value="AspectFill"/>
-                <!--<Setter Property="Margin" Value="0"/>-->
             </Style>
             <Style TargetType="StackLayout" x:Key="ListVStackFooter">
                 <Setter Property="Padding" Value="6,0,6,2"/>
@@ -99,12 +97,6 @@
             </Style>
             <!--Style for File upload ListView controls end-->
 
-            <!--<Style x:Key="buttonStyle" TargetType="Button">
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="CornerRadius" Value="8" />
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="BackgroundColor" Value="Black" />
-            </Style>-->
             <!--For date display style-->
             <Style x:Key="dateLabelStyle" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
@@ -122,7 +114,6 @@
             </Style>
             <!--Button NavigationBar Label Style-->
             <Style x:Key="ButtonNavigationBarLabelStyle" TargetType="Label">
-                <!--<Setter Property="Margin" Value="0,-10,0,0" />-->
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="10"/>
@@ -434,19 +425,11 @@
                 <Setter Property="TextFontSize" Value="19"/>
             </Style>
 
-            <!--<Style TargetType="input:CheckBox" x:Key="CheckBoxWithOptions">
-                <Setter Property="FontName" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-            </Style>-->
-
-
             <Style TargetType="Button" x:Key="ButtonWithFont">
                 <Setter Property="FontFamily" Value="{DynamicResource RobotoRegular}" />
                 <Setter Property="BorderRadius" Value="5" />
                 <Setter Property="FontSize" Value="17" />
             </Style>
-
-
 
             <OnPlatform x:Key="LatoLight"
       x:TypeArguments="x:String"
