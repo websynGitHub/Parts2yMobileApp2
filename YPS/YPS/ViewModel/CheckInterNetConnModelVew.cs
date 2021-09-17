@@ -40,7 +40,7 @@ namespace YPS.ViewModel
         /// <returns></returns>
         private async Task CheckConnection()
         {
-            YPSLogger.TrackEvent("CheckInterNetConnModelVew", "in CheckConnection method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("CheckInterNetConnModelVew", " in CheckConnection method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -49,30 +49,7 @@ namespace YPS.ViewModel
 
                 if (conn)
                 {
-                    //RememberPwdDB Db = new RememberPwdDB();
-                    //var user = Db.GetUserDetails();
-
-                    //if (user.Count == 1)
-                    //{
-                    //    var userData = user.FirstOrDefault();
-                    //    Settings.userLoginID = userData.UserId;
-                    //    Settings.userRoleID = userData.UserRollID;
-                    //    Settings.UserMail = userData.Email;
-                    //    Settings.Username = userData.UserName;
-                    //    Settings.SGivenName = userData.GivenName;
-                    //    Settings.EntityName = userData.EntityName;
-                    //    Settings.RoleName = userData.RoleName;
-                    //    Settings.BlobStorageConnectionString = userData.BlobConnection;
-                    //    Settings.PhotoSize = userData.PhotoSize;
-                    //    Settings.CompressionQuality = userData.CompressionQuality;
-                    //    App.Current.MainPage = new MenuPage(typeof(HomePage));
-                    //}
-                    //else
-                    //{
-                    //    await Application.Current.MainPage.Navigation.PushAsync(new YPS.Views.LoginPage(), true);
-                    //}
                     await App.GetSSLKeysAndUserDetails();
-                    //App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
                 else
                 {

@@ -19,14 +19,14 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                YPSLogger.TrackEvent("LoginPage", "Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("LoginPage.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "LoginPage";
                 BindingContext = new LoginPageViewModel();
             }
             catch (Exception ex)
             {
                 YPSService service = new YPSService();
-                YPSLogger.ReportException(ex, "LoginPage Constructor -> in LoginPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoginPage constructor -> in LoginPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
 		}

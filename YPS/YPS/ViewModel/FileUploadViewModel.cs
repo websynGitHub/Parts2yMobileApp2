@@ -1,5 +1,4 @@
-﻿//using Amazon.Runtime;
-using Plugin.FilePicker;
+﻿using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
@@ -57,7 +56,7 @@ namespace YPS.ViewModel
         /// <param name="fileAccess"></param>
         public FileUploadViewModel(INavigation navigation, StartUploadFileModel selectedTagsData, int poid, int fuid, string compareFileValue, bool fileAccess)
         {
-            YPSLogger.TrackEvent("FileUploadViewModel", "page load method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileUploadViewModel", " page load method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -150,22 +149,10 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser ||
-                        //    Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                        //    Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                        //{
-                        //    RowHeightChooseFile = 0;
-                        //    RowHeightUploadFile = 0;
-                        //    FrameForUploadFile = false;
-                        //    FrameForChooseFile = false;
-                        //}
-                        //else
-                        //{
                         RowHeightChooseFile = 50;
                         RowHeightUploadFile = 80;
                         FrameForUploadFile = true;
                         FrameForChooseFile = true;
-                        //}
                     }
 
                     GetPLMyFile(poid); /// To fetch PL files based on the POID. 
@@ -175,7 +162,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "FileUploadViewModel constructor-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FileUploadViewModel constructor-> in FileUploadViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -196,7 +183,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Home_btn method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Home_btn method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -254,12 +241,6 @@ namespace YPS.ViewModel
                                     }
                                     await Navigation.PopAsync(true);
                                 }
-                                else
-                                {
-                                }
-                            }
-                            else
-                            {
                             }
                         }
                         else
@@ -279,12 +260,11 @@ namespace YPS.ViewModel
                     CompletedVal = false;
                     NotCompletedVal = true;
                     CompleteBtnOpacity = 1.0;
-
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "close_btn method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "close_btn method-> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -299,7 +279,7 @@ namespace YPS.ViewModel
         /// <returns></returns>
         private async Task FileUpload()
         {
-            YPSLogger.TrackEvent("FileUploadViewModel", "in FileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileUploadViewModel.cs", " in FileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -313,7 +293,6 @@ namespace YPS.ViewModel
                     {
                         if (UploadType.ToLower().Trim() == "initialfile" && myFuid == 0)
                         {
-                            //List<StartUploadFileModel> DataForFileUploadList = new List<StartUploadFileModel>();
                             List<MyFile> phUploadList = new List<MyFile>();
 
                             StartUploadFileModel DataForFileUploadObj = new StartUploadFileModel();
@@ -329,7 +308,6 @@ namespace YPS.ViewModel
                             phUpload.UploadType = UploadTypevalue;
                             phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
                             phUpload.PicStream = picStream;
-                            //DataForFileUploadObj.file.FileName = Path.GetFileNameWithoutExtension(FilePath64);
                             DataForFileUploadObj.files.Add(phUpload);
 
                             /// Calling the blob API to initial upload file.
@@ -347,20 +325,10 @@ namespace YPS.ViewModel
                                     /// Checking image and file extention.
                                     string initialIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
 
-                                    /// Base on the roll id inserting image and file.
-                                    //if (Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                    //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                                    //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                    //{
-                                    //    ListOfFile.Insert(0, new MyFile() { FileName = DataForFileUpload.file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = FinalReturnData.data.file.FileID, FileDescription = DataForFileUpload.file.FileDescription, FileURL = FinalReturnData.data.file.FileURL, CreatedDate = DataForFileUpload.file.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
-                                    //}
-                                    //else
-                                    //{
                                     foreach (var file in DataForFileUpload.files)
                                     {
                                         ListOfFile.Insert(0, new MyFile() { FileName = file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = file.FileID, FileDescription = file.FileDescription, FileURL = file.FileURL, CreatedDate = file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = file.RoleName, EntityName = file.EntityName });
                                     }
-                                    //}
 
                                     HideListAndShow = true;
                                     HideLabelAndShow = false;
@@ -403,7 +371,6 @@ namespace YPS.ViewModel
 
                                                     var taskval = await service.UpdateTaskStatus(taskstatus);
                                                 }
-                                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                                             }
                                         }
                                     }
@@ -442,21 +409,10 @@ namespace YPS.ViewModel
                                     /// Checking image and file extention.
                                     string FileIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
 
-                                    ///// Base on the roll id inserting image and file.
-                                    //if (Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                    //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                                    //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                    //{
-
-                                    //    ListOfFile.Insert(0, new MyFile() { FileName = response.data.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = response.data.FileID, FileDescription = response.data.FileDescription, FileURL = response.data.FileURL, CreatedDate = response.data.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
-                                    //}
-                                    //else
-                                    //{
                                     foreach (var val in response.data)
                                     {
                                         ListOfFile.Insert(0, new MyFile() { FileName = val.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = val.FileID, FileDescription = val.FileDescription, FileURL = val.FileURL, CreatedDate = val.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = val.RoleName, EntityName = val.EntityName });
                                     }
-                                    //}
 
                                     HideListAndShow = true;
                                     HideLabelAndShow = false;
@@ -471,12 +427,6 @@ namespace YPS.ViewModel
                                     Settings.IsRefreshPartsPage = true;
                                     DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                 }
-                                else
-                                {
-                                }
-                            }
-                            else
-                            {
                             }
                         }
                         else
@@ -518,30 +468,13 @@ namespace YPS.ViewModel
                                     FileDescription = "";
                                     DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                 }
-                                else
-                                {
-                                }
-                            }
-                            else
-                            {
                             }
                         }
 
                         if (UploadType.ToLower().Trim() == "initialfile" || UploadType == "fileUpload")
                         {
-                            //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                            //Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                            //Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                            //Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                            //{
-                            //    closeLabelText = false;
-                            //    RowHeightcomplete = 0;
-                            //}
-                            //else
-                            //{
                             closeLabelText = true;
                             RowHeightcomplete = 50;
-                            //}
                         }
                         else
                         {
@@ -561,7 +494,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FileUpload method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FileUpload method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -576,7 +509,7 @@ namespace YPS.ViewModel
         /// <param name="fUID"></param>
         private void GetMyFile(int fUID)
         {
-            YPSLogger.TrackEvent("FileUploadViewModel", "in GetMyFile method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileUploadViewModel.cs ", " in GetMyFile method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             Device.BeginInvokeOnMainThread(async () =>
             {
                 IndicatorVisibility = true;
@@ -616,18 +549,7 @@ namespace YPS.ViewModel
                                         }
                                         else
                                         {
-                                            ///View the files based on roles
-                                            //if (Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                                            //    Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                            //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser ||
-                                            //    Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                            //{
-                                            //    addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = false, HideDownloadFileIc = true });
-                                            //}
-                                            //else
-                                            //{
                                             addItems.Add(new MyFile() { FileName = items.FileName, GivenName = items.GivenName, ImageURL = icon, FileID = items.FileID, FileDescription = items.FileDescription, FileURL = items.FileURL, CreatedDate = items.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = items.RoleName, EntityName = items.EntityName });
-                                            //}
                                         }
                                     }
                                     ListOfFile = addItems;
@@ -638,25 +560,11 @@ namespace YPS.ViewModel
                                     {
                                         closeLabelText = true;
                                         RowHeightcomplete = 50;
-
-                                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                                        //{
-                                        //    closeLabelText = false;
-                                        //    RowHeightcomplete = 0;
-                                        //}
                                     }
                                     else
                                     {
                                         closeLabelText = true;
                                         RowHeightcomplete = 50;
-                                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                                        //    Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                        //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                                        //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                        //{
-                                        //    closeLabelText = false;
-                                        //    RowHeightcomplete = 0;
-                                        //}
                                     }
 
                                     if (ListOfFile.Count() == 0)
@@ -676,13 +584,7 @@ namespace YPS.ViewModel
                                         }
                                     }
                                 }
-                                else
-                                {
-                                }
                             }
-                        }
-                        else
-                        {
                         }
                     }
                     else
@@ -692,7 +594,7 @@ namespace YPS.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "GetMyFile method-> in FileUploadViewModel " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "GetMyFile method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                     await service.Handleexception(ex);
                 }
                 finally
@@ -710,7 +612,7 @@ namespace YPS.ViewModel
         {
             await Task.Delay(100);
             IndicatorVisibility = true;
-            YPSLogger.TrackEvent("FileUploadViewModel", "in GetPLMyFile method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileUploadViewModel.cs ", "in GetPLMyFile method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 /// Verifying internet connection.
@@ -739,15 +641,7 @@ namespace YPS.ViewModel
                                     }
                                     else
                                     {
-                                        //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                                        //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                        //{
-                                        //    addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = false });
-                                        //}
-                                        //else
-                                        //{
                                         addItems.Add(new PLFileUpload() { FileName = items.FileName, GivenName = Settings.SGivenName, FileURL = items.FileURL, ImageURL = PLicon, ID = items.ID, FileDescription = items.FileDescription, CreatedDate = items.CreatedDate, HideDeleteIc = true, RoleName = items.RoleName, EntityName = items.EntityName });
-                                        //}
                                     }
                                 }
                                 PLListOfFile = addItems;
@@ -766,9 +660,6 @@ namespace YPS.ViewModel
                             HideLabelAndShow = true;
                         }
                     }
-                    else
-                    {
-                    }
                 }
                 else
                 {
@@ -777,7 +668,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetPLMyFile method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetPLMyFile method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -826,7 +717,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DescriptionClick method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DescriptionClick method-> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -842,7 +733,7 @@ namespace YPS.ViewModel
         private async void DownloadFileClick(object sender)
         {
             IndicatorVisibility = true;
-            YPSLogger.TrackEvent("FileUploadViewModel", "in DownloadFileClick method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileUploadViewModel.cs ", " in DownloadFileClick method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -895,7 +786,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DownloadFileClick method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DownloadFileClick method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -951,7 +842,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnFileDownloaded method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnFileDownloaded method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -966,7 +857,7 @@ namespace YPS.ViewModel
         /// <param name="sender"></param>
         private async void DeleteFileClick(object sender)
         {
-            YPSLogger.TrackEvent("FileUploadViewModel", "in DeleteFileClick method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileUploadViewModel.cs ", "in DeleteFileClick method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -1017,9 +908,6 @@ namespace YPS.ViewModel
                                         }
                                     }
                                 }
-                                else
-                                {
-                                }
                                 IndicatorVisibility = false;
                             }
                         }
@@ -1066,8 +954,6 @@ namespace YPS.ViewModel
                                         }
                                     }
                                 }
-                                else
-                                { }
                                 IndicatorVisibility = false;
                             }
                         }
@@ -1080,7 +966,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DeleteFileClick method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DeleteFileClick method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -1095,7 +981,7 @@ namespace YPS.ViewModel
         /// <returns></returns>
         private async Task PickFileFromDevice()
         {
-            YPSLogger.TrackEvent("FileUploadViewModel", "in MPickFileFromDevice method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileUploadViewModel.cs ", "in MPickFileFromDevice method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -1110,9 +996,6 @@ namespace YPS.ViewModel
                             case "Photos":
                                 /// Checking permission is allowed or denied by the user to access the photo from mobile for Android.
                                 var requestedPermissionsPhoto = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
-                                //var checkingPermission = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Photos);
-
-                                var requestedPermissionStatusPhoto = requestedPermissionsPhoto[Permission.Photos];
                                 var pass = requestedPermissionsPhoto[Permission.Photos];
 
                                 if (pass != PermissionStatus.Denied)
@@ -1185,6 +1068,7 @@ namespace YPS.ViewModel
 
                                     picStream = fileData.GetStream();
                                     IndicatorVisibility = true;
+
                                     if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
                                     {
                                         SetFileName = AndroidfileName;
@@ -1310,7 +1194,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "MPickFileFromDevice method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MPickFileFromDevice method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -1322,49 +1206,57 @@ namespace YPS.ViewModel
         /// <returns></returns>
         private string CheckExtensionOfImage(string ImageExtension)
         {
-            string imgExtension;
+            string imgExtension = "";
 
-            if (ImageExtension == ".png")
+            try
             {
-                imgExtension = "PNG.png";
+                if (ImageExtension == ".png")
+                {
+                    imgExtension = "PNG.png";
+                }
+                else if (ImageExtension == ".jpg")
+                {
+                    imgExtension = "JPG.png";
+                }
+                else if (ImageExtension == ".gif")
+                {
+                    imgExtension = "GIF.png";
+                }
+                else if (ImageExtension == ".bmp")
+                {
+                    imgExtension = "BMP.png";
+                }
+                else if (ImageExtension == ".jpeg")
+                {
+                    imgExtension = "JPEG.png";
+                }
+                else if (ImageExtension == ".pdf")
+                {
+                    imgExtension = "PDF.png";
+                }
+                else if (ImageExtension == ".txt")
+                {
+                    imgExtension = "TXT.png";
+                }
+                else if (ImageExtension == ".doc")
+                {
+                    imgExtension = "DOC.png";
+                }
+                else if (ImageExtension == ".docx")
+                {
+                    imgExtension = "DOCX.png";
+                }
+                else
+                {
+                    imgExtension = "ChooseFile.png";
+                }
             }
-            else if (ImageExtension == ".jpg")
+            catch (Exception ex)
             {
-                imgExtension = "JPG.png";
+                YPSLogger.ReportException(ex, "CheckExtensionOfImage method-> in FileUploadViewModel.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+                imgExtension = "";
             }
-            else if (ImageExtension == ".gif")
-            {
-                imgExtension = "GIF.png";
-            }
-            else if (ImageExtension == ".bmp")
-            {
-                imgExtension = "BMP.png";
-            }
-            else if (ImageExtension == ".jpeg")
-            {
-                imgExtension = "JPEG.png";
-            }
-            else if (ImageExtension == ".pdf")
-            {
-                imgExtension = "PDF.png";
-            }
-            else if (ImageExtension == ".txt")
-            {
-                imgExtension = "TXT.png";
-            }
-            else if (ImageExtension == ".doc")
-            {
-                imgExtension = "DOC.png";
-            }
-            else if (ImageExtension == ".docx")
-            {
-                imgExtension = "DOCX.png";
-            }
-            else
-            {
-                imgExtension = "ChooseFile.png";
-            }
-
             return imgExtension;
         }
 
@@ -1433,7 +1325,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DynamicTextChange method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DynamicTextChange method -> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

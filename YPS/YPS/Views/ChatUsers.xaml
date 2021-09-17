@@ -41,22 +41,17 @@
                             </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         </LblIcons:FontAwesomeIconLabel>
                     </StackLayout>
-                        
-                    <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,10,0,15"
-                              HorizontalOptions="StartAndExpand" IsVisible="{Binding IsGroupAndUserNameVisible}"
+                    <StackLayout  Grid.Column="1" Margin="8,10,0,15" IsVisible="{Binding IsGroupAndUserNameVisible}"
+                              HorizontalOptions="StartAndExpand" Orientation="Vertical"
                                         VerticalOptions="StartAndExpand">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="20"/>
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0" x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
-                        <Label Grid.Row="1" x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
-                    </Grid>
-                    <Label Grid.Row="0" Grid.Column="1" x:Name="singleheader"  Style="{StaticResource LblTitleName}"
+                        <Label x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
+                        <Label x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
+                    </StackLayout>
+
+                    <Label  Grid.Column="1" x:Name="singleheader"  Style="{StaticResource LblTitleName}"
                                 Margin="8,10,0,20"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="StartAndExpand"/>
-                    <!--</Grid>-->
                     <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" 
                                                    Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -73,7 +68,7 @@
                             </LblIcons:FontAwesomeIconLabel>
                         </badge:SfBadgeView.Content>
                         <badge:SfBadgeView.BadgeSettings>
-                            <badge:BadgeSetting BadgeType="Error" Offset="{OnPlatform iOS='-5,5',Android='5,10'}"/>
+                            <badge:BadgeSetting BadgeType="Error" Offset="{OnPlatform iOS='-5,5',Android='-4,1'}"/>
                         </badge:SfBadgeView.BadgeSettings>
                     </badge:SfBadgeView>
                     <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="4" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
@@ -126,11 +121,6 @@
                                 <sflistView:SfListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout Padding="4,5,0,5" Spacing="0">
-                                            <!--<sfchecks:SfCheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
-                                                                 Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
-                                                                 IsChecked="{Binding UserChecked}" ClassId="{Binding UserID,Mode=TwoWay}" 
-                                                                 StateChanged="CheckBoxCheckChanged" 
-                                                                 Style="{StaticResource SfCheckBoxTextStyle}"/>-->
                                             <input:CheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" 
                                                                  Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
                                                                  IsChecked="{Binding UserChecked}" ClassId="{Binding UserID,Mode=TwoWay}" 

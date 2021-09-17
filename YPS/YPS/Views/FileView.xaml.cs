@@ -37,7 +37,7 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                YPSLogger.TrackEvent("FileView", "Page with 4 param constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("FileView.xaml.cs", " Page with 4 param constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "chatPage";
                 Groupname.Text = TitleChat;
                 Usernames.Text = Chattags;
@@ -47,7 +47,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FileView constructor with 4 param-> in FileView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FileView constructor with 4 param-> in FileView.xaml.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -58,7 +58,7 @@ namespace YPS.Views
         /// <param name="url"></param>
         public FileView(string url)
         {
-            YPSLogger.TrackEvent("FileView", "Page with 1 param constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FileView.xaml.cs", " Page with 1 param constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -85,7 +85,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FileView constructor with 1 param-> in FileView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FileView constructor with 1 param-> in FileView.xaml.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -102,7 +102,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in FileView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in FileView.xaml.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -123,7 +123,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ImageViewList_VisibleCardIndexChanged method -> in FileView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ImageViewList_VisibleCardIndexChanged method -> in FileView.xaml.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }

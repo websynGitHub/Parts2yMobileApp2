@@ -40,10 +40,6 @@
                     <StackLayout Grid.Column="1" Grid.Row="0" Margin="8,10,0,15"
                               HorizontalOptions="StartAndExpand" Orientation="Vertical" 
                                         VerticalOptions="StartAndExpand">
-                        <!--<Grid.RowDefinitions>
-                            <RowDefinition Height="{Binding RowHeightUploadFileTitle}"/>
-                            <RowDefinition Height="{Binding RowHeightTagNumber}"/>
-                        </Grid.RowDefinitions>-->
                         <Label x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
                         <Label Text="{Binding tagNumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
                     </StackLayout>
@@ -94,10 +90,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <!--<CustomEntry:MyEntry x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
-                                             Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource LableWithMediumFont}"
-                                             TextColor="Gray" VerticalOptions="CenterAndExpand" MaxLength="500"/>-->
-
+                        
                         <LblIcons:MyEditor x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
                                              Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource EditorTextStyle}"
                                              TextColor="Black" VerticalOptions="CenterAndExpand" MaxLength="500"
@@ -270,9 +263,7 @@
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
                         <Label Grid.Row="4" Grid.Column="2" Text="{Binding FileName}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
-                        <!--<Label Grid.Row="4" Grid.ColumnSpan="2">
-                            <Label.FormattedText>
-                                <FormattedString>-->
+                       
                         <Label x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
                                           FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"
                                            Grid.Row="5" Grid.Column="0"/>
@@ -281,30 +272,10 @@
                         <Label Text="{Binding Description}" TextColor="Black"
                                            Style="{DynamicResource LableWithSmallFont}"
                                            Grid.Row="5" Grid.Column="2"/>
-                        <!--</FormattedString>
-                            </Label.FormattedText>-->
-                        <!--</Label>-->
+                       
                     </Grid>
                 </Frame>
             </ContentView>
-
-            <!--<ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                              HorizontalOptions="FillAndExpand" VerticalOptions="End" BackgroundColor="Transparent" 
-                         Margin="6,0,6,2" IsVisible="{Binding closeLabelText}">
-                <StackLayout Orientation="Vertical">
-
-
-                    <sfbuttons:SfButton IsEnabled="{Binding NotCompletedVal}" Opacity="{Binding CompleteBtnOpacity}"
-                                        Text="{Binding labelobjFile.complete,Mode=TwoWay}" Margin="0,0,0,4" Clicked="SfButton_Clicked"
-                                                Style="{StaticResource SfBtnBlue}"
-                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
-                                        BackgroundColor="{Binding BgColor}">
-                        <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>
-                </StackLayout>
-            </ContentView>-->
 
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame Style="{StaticResource FmForActivityIndicator}">

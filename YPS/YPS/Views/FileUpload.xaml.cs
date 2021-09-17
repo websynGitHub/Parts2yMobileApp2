@@ -32,7 +32,7 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                YPSLogger.TrackEvent("FileUpload", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("FileUpload.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 fileaccess = fileAccess;
                 service = new YPSService();
                 Settings.currentPage = "FileUploadPage";
@@ -49,7 +49,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "FileUpload constructor -> in FileUpload Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FileUpload constructor -> in FileUpload.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -83,20 +83,12 @@ namespace YPS.Views
                             Vm.closeLabelText = false;
                             Vm.RowHeightcomplete = 0;
                         }
-
-                        //if (Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin ||
-                        //    Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin ||
-                        //    Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                        //{
-                        //    Vm.closeLabelText = false;
-                        //    Vm.RowHeightcomplete = 0;
-                        //}
                     }
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ClearSelectFile_Tapped -> in FileUpload Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ClearSelectFile_Tapped method -> in FileUpload.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -113,7 +105,7 @@ namespace YPS.Views
             }
             catch(Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in FileUpload.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in FileUpload.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -131,7 +123,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped method -> in FileUpload.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in FileUpload.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -149,7 +141,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SfButton_Clicked method -> in FileUpload.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SfButton_Clicked method -> in FileUpload.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -172,7 +164,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Complete_StateChanged method -> in FileUpload.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Complete_StateChanged method -> in FileUpload.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -190,7 +182,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Close_DescriptionPopup method -> in FileUpload.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Close_DescriptionPopup method -> in FileUpload.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

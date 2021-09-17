@@ -1128,8 +1128,17 @@ namespace YPS.RestClientAPI
 
         public async Task<ApplicationSettings> GetAllSettings()
         {
-            string url = WebServiceUrl + "Login/GlobalSettings?SecurityCode=" + Settings.SecurityCode;
-            return await requestProvider.PostSettings<ApplicationSettings>(url);
+            try
+            {
+                string url = WebServiceUrl + "Login/GlobalSettings?SecurityCode=" + Settings.SecurityCode;
+                return await requestProvider.PostSettings<ApplicationSettings>(url);
+            }
+            catch(Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetAllSettings method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
         }
 
 
@@ -1665,8 +1674,8 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    await service.Handleexception(ex);
                     YPSLogger.ReportException(ex, "Handleexception method -> in RestClient.cs" + Settings.userLoginID);
+                    await service.Handleexception(ex);
                     return null;
                 }
             }

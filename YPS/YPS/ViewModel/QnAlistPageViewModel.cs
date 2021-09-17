@@ -39,7 +39,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 var trackResult = service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "QnAlistPageViewModel constructor -> in QnAlistPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QnAlistPageViewModel constructor -> in QnAlistPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -51,7 +51,7 @@ namespace YPS.ViewModel
         /// <param name="QAType"></param>
         public async void GetChatConversations(int poid, int potagID, int QAType)
         {
-            YPSLogger.TrackEvent("QnAlistPageViewModel", " in getchatConversations method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("QnAlistPageViewModel.cs ", " in getchatConversations method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -99,11 +99,6 @@ namespace YPS.ViewModel
                         }
 
                         UserConversations = new List<ChatData>(result.data);
-                        //}
-                    }
-                    else
-                    {
-                        // DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
                     }
                     MessagingCenter.Send<string>("ChatconverPage", "Bindchatconvers");
                 }
@@ -115,7 +110,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "getchatConversations method -> in QnAlistPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetChatConversations method -> in QnAlistPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await service.Handleexception(ex);
                 IndicatorVisibility = false;
             }

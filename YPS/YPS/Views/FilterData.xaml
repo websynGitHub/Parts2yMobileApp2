@@ -161,49 +161,17 @@
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.Condition.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False">
-                                <combobox:SfComboBox x:Name="Condition_Picker" Text="{Binding ConditionDefaultValue,Mode=TwoWay}" SelectedItem="{Binding SelectedConditionValue}"
+                            <combobox:SfComboBox x:Name="Condition_Picker" Text="{Binding ConditionDefaultValue,Mode=TwoWay}" SelectedItem="{Binding SelectedConditionValue}"
                                                  DataSource="{Binding ConditionNames}" HorizontalOptions="FillAndExpand"
                                                  VerticalOptions="CenterAndExpand" Style="{StaticResource SfComboBoxTextStyle}">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
-
-                        <!--<sfinput:SfTextInputLayout Hint="{Binding labelobj.Expeditor.Name}" ContainerBackgroundColor="White"
-                                                   HorizontalOptions="Start" IsVisible="{Binding labelobj.Expeditor.Status}"
-                                                   Style="{StaticResource SfInputLayout}" ReserveSpaceForAssistiveLabels="False">
-                                <combobox:SfComboBox x:Name="Expeditor_Picker" Text="{Binding ExpeditorDefaultValue,Mode=TwoWay}" 
-                                                 SelectedItem="{Binding SelectedExpeditorValue}" DataSource="{Binding ExpeditorNames}" 
-                                                 HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Style="{StaticResource SfComboBoxTextStyle}">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
-
-                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.PriorityName.Name}" ContainerBackgroundColor="White"
-                                                   HorizontalOptions="Start" IsVisible="{Binding labelobj.PriorityName.Status}"
-                                                   Style="{StaticResource SfInputLayout}" ReserveSpaceForAssistiveLabels="False">
-                                <combobox:SfComboBox x:Name="Priority_Picker" Text="{Binding PriorityDefaultValue,Mode=TwoWay}"
-                                                 SelectedItem="{Binding SelectedPrioritytValue}"
-                                                 DataSource="{Binding PriorityNames}" HorizontalOptions="FillAndExpand"
-                                                     VerticalOptions="CenterAndExpand" Style="{StaticResource SfComboBoxTextStyle}">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>-->
+                                <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.TagNumber.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.TagNumber.Status}"
@@ -384,22 +352,6 @@
                             <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
-
-                    <!--<sfbuttons:SfButton x:Name="saveandsearch" AutomationId="AutoSearchForFilterBtn" 
-                                        HorizontalOptions="FillAndExpand" Grid.Column="2"
-                                    Command="{Binding SaveAndSearchCmd}" CommandParameter="{x:Reference Name=saveandsearch}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
-                        <sfbuttons:SfButton.Content>
-                            <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Text="{Binding labelobj.SaveSearchBtn.Name}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                            </Grid>
-                        </sfbuttons:SfButton.Content>
-                        <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>-->
                 </Grid>
             </Grid>
         </Grid>
@@ -408,8 +360,7 @@
                      AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
                      VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                      >
-            <!--<StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                     Opacity="0.5">-->
+           
                 <Frame VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White" 
                    BorderColor="{Binding BgColor}" Margin="10,5,10,5" CornerRadius="5"
                    >

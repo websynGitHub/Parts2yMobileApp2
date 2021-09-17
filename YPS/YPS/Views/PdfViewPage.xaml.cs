@@ -26,15 +26,7 @@ namespace YPS.Views
         {
             InitializeComponent();
 
-            //if (Device.RuntimePlatform == Device.iOS)
-            //{
-            //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-            //    safeAreaInset.Bottom = 0;
-            //    safeAreaInset.Top = 20;
-            //    headerpart.Padding = safeAreaInset;
-            //}
-
-            YPSLogger.TrackEvent("PdfViewPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PdfViewPage.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -47,7 +39,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PdfViewPage Constructor -> in PdfViewPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PdfViewPage constructor -> in PdfViewPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -69,7 +61,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Constructor -> in PdfViewPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing constructor -> in PdfViewPage.xaml.cs " + Settings.userLoginID);
                 var trackResult = await service.Handleexception(ex);
             }
         }
@@ -81,7 +73,7 @@ namespace YPS.Views
         /// <param name="e"></param>
         private void BackTapped(object sender, EventArgs e)
         {
-            YPSLogger.TrackEvent("ChatUsers", " In AddToChatClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PdfViewPage.xaml.cs", " In AddToChatClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -90,7 +82,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "BackTapped method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "BackTapped method -> in PdfViewPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -102,7 +94,15 @@ namespace YPS.Views
         /// <param name="e"></param>
         private void GoToHome_Tapped(object sender, EventArgs e)
         {
-            Navigation.PopToRootAsync();
+            try
+            {
+                Navigation.PopToRootAsync();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GoToHome_Tapped method -> in PdfViewPage.xaml.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+            }
         }
     }
 }

@@ -31,15 +31,7 @@ namespace YPS.Views
             {
                 InitializeComponent();
 
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
-                YPSLogger.TrackEvent("ProfileSelectionPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ProfileSelectionPage.xaml.cs", " ProfileSelectionPage constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
                 BindingContext = Vm = new ProfileSelectionViewModel(Navigation, 3);
@@ -47,7 +39,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ProfileSelectionPage -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ProfileSelectionPage constructor -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -61,22 +53,14 @@ namespace YPS.Views
             {
                 InitializeComponent();
 
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
-                YPSLogger.TrackEvent("ProfileSelectionPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ProfileSelectionPage.xaml.cs", " ProfileSelectionPage constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
                 BindingContext = Vm = new ProfileSelectionViewModel(Navigation, pagetype);
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ProfileSelectionPage pagetype -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ProfileSelectionPage constructor -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -90,14 +74,6 @@ namespace YPS.Views
             {
                 InitializeComponent();
 
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
                 BindingContext = Vm = new ProfileSelectionViewModel(Navigation, 3);
@@ -105,7 +81,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ProfileSelectionPage hideUpdatePBtn -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ProfileSelectionPage hideUpdatePBtn -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -143,7 +119,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "PkrProject_Tapped method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PkrProject_Tapped method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -178,7 +154,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "PkrJob_Tapped method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PkrJob_Tapped method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -210,20 +186,13 @@ namespace YPS.Views
 
                         Vm.ProjectName = "Please select project";
                         Vm.JobName = "Please select job";
-
-                        //Settings.VersionID = selectedItem.ParentID;
-
-                        //if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
-                        //{
-                        //    GetAllLabelData(selectedItem.ParentID);
-                        //}
                     }
                 }
             }
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "ComapanyList_IndexChanged method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ComapanyList_IndexChanged method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -250,7 +219,7 @@ namespace YPS.Views
 
                 //Setting all the Labels dynamically for "Default Settings" and "Update Profile" Tabs.
                 Vm.DefaultSettinglabel = data.Where(x => x.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.DefaultSettinglabel.Trim().ToLower().Replace(" ", string.Empty)).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
-                Vm.UpdateProfilelabel = data.Where(x => x.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.UpdateProfilelabel.Trim().ToLower().Replace(" ",string.Empty)).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
+                Vm.UpdateProfilelabel = data.Where(x => x.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.UpdateProfilelabel.Trim().ToLower().Replace(" ", string.Empty)).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
                 Vm.Companylabel = data.Where(x => x.FieldID.Trim().ToLower() == Settings.Companylabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Company" + " *").FirstOrDefault();
                 Vm.projectlabel = data.Where(x => x.FieldID.Trim().ToLower() == Settings.projectlabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Project" + " *").FirstOrDefault();
                 Vm.joblabel = data.Where(x => x.FieldID.Trim().ToLower() == Settings.joblabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Job" + " *").FirstOrDefault();
@@ -263,29 +232,11 @@ namespace YPS.Views
                 Vm.UpdateBtn = data.Where(X => X.FieldID.Trim().ToLower() == Settings.UpdateBtn1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Update").FirstOrDefault();
                 Vm.LoginLbl = data.Where(x => x.FieldID.Trim().ToLower() == Vm.LoginLbl.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Login ID *").FirstOrDefault();
                 var supplierstatus = data.Where(wr => wr.FieldID.Trim().ToLower() == Settings.supplierlabel1.Trim().ToLower()).FirstOrDefault();
-
-                //if (DefaultSettingSupplier == false)
-                //{
-                //    Vm.SupplierLabelAndFrame = false;
-                //    Settings.SupplierID = 0;
-                //    Vm.SupplierGridRowHeight = 0;
-                //}
-                //else if (supplierstatus.Status == 0) // if supplier status is in-active
-                //{
-                //    Vm.SupplierLabelAndFrame = false;
-                //    Settings.SupplierID = 0;
-                //    Vm.SupplierGridRowHeight = 0;
-                //}
-                //else
-                //{
-                //    Vm.SupplierLabelAndFrame = true;
-                //}
-
             }
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "GetAllLabelData method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetAllLabelData method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -321,7 +272,7 @@ namespace YPS.Views
 
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "ProjectList_IndexChanged method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ProjectList_IndexChanged method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -354,7 +305,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "JobList_IndexChanged method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "JobList_IndexChanged method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -379,7 +330,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "SearchBar_TextChanged  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TimeZone_Tapped  method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -405,7 +356,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "SearchBar_TextChanged  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SearchBar_TextChanged  method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -426,7 +377,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "ListView_ItemTapped  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ListView_ItemTapped  method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -449,7 +400,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "TapOnLanguagePicker  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TapOnLanguagePicker  method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -482,7 +433,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "LanguagePicker_SelectedIndexChanged  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LanguagePicker_SelectedIndexChanged  method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -505,118 +456,9 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service = new YPSService();
-                YPSLogger.ReportException(ex, "TimeZoneClosePopUp method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TimeZoneClosePopUp method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
-
-        ///// <summary>
-        ///// This method is used to show a list of suppliers.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private async void Supplier_Tapped(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        SupplierSrch.Text = "";
-        //        SupplierCntntView.IsVisible = true;
-        //        ListViewSupplier.ItemsSource = Vm.SupplierList;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        service = new YPSService();
-        //        YPSLogger.ReportException(ex, "Supplier_Tapped method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-        //        await service.Handleexception(ex);
-        //    }
-        //    finally
-        //    {
-        //        service = null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// This method is used to search for the suppliers.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void SupplierSrch_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(e.NewTextValue))
-        //        {
-        //            ListViewSupplier.ItemsSource = Vm.SupplierList;
-        //        }
-        //        else
-        //        {
-        //            ListViewSupplier.ItemsSource = Vm.SupplierList.Where(item => item.ToLower().Contains(e.NewTextValue.ToLower())).ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        service = new YPSService();
-        //        YPSLogger.ReportException(ex, "SupplierSrch_TextChanged  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-        //        service.Handleexception(ex);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Gets called whenever user has clicked on close button in supplier Popup.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void SupplierClosePopUp(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        SupplierCntntView.IsVisible = false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        service = new YPSService();
-        //        YPSLogger.ReportException(ex, "SupplierClosePopUp  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-        //        service.Handleexception(ex);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Gets called whenever user has select supplier from the search supplier list.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private async void ListViewSupplier_ItemTapped(object sender, ItemTappedEventArgs e)
-        //{
-        //    SupplierCntntView.IsVisible = false;
-        //    try
-        //    {
-        //        ListViewSupplier.SelectedItem = null;
-        //        Settings.SupplierSelected = Vm.SupplierName = e.Item.ToString();
-
-        //        if (Vm.SupplierName == "ALL")
-        //        {
-        //            Settings.SupplierID = 0; // 0 means all suppliers
-        //        }
-        //        else
-        //        {
-        //            var filterJobtData = Vm.PDefaultSettingModel.data.Supplier.Where(x => x.Name == Vm.SupplierName).FirstOrDefault();
-
-        //            if (filterJobtData != null)
-        //            {
-        //                Settings.SupplierID = filterJobtData.ID;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        service = new YPSService();
-        //        YPSLogger.ReportException(ex, "ListViewSupplier_ItemTapped  method -> in ProfileSelectionPage.cs " + Settings.userLoginID);
-        //        await service.Handleexception(ex);
-        //    }
-        //    finally
-        //    {
-        //        service = null;
-        //    }
-        //}
     }
 }

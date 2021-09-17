@@ -30,19 +30,12 @@ namespace YPS.Views
         /// <param name="qatype"></param>
         public QnAlistPage(int poid, int poTagId, int qatype)
         {
-            YPSLogger.TrackEvent("QnAlistPage", "Page with param Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("QnAlistPage.xaml.cs", " QnAlistPage constructor with param " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
                 InitializeComponent();
 
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
                 Settings.currentPage = "QnAlistPage";// Giving Current page name
                 Settings.RedirectPageQA = "QnAlistPage";// Giving Redirect to page name
                 service = new YPSService();// careating new instance of the YPSService, which is used to call AIP 
@@ -55,7 +48,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QnAlistPage constructor having parameter -> in QnAlistPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QnAlistPage constructor with parameter -> in QnAlistPage.xaml.cs " + Settings.userLoginID);
                 var trackResult = service.Handleexception(ex);
             }
         }
@@ -65,7 +58,7 @@ namespace YPS.Views
         /// </summary>
         public QnAlistPage()
         {
-            YPSLogger.TrackEvent("QnAlistPage", "Page without param Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("QnAlistPage.xaml.cs", " QnAlistPage constructor without param " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -85,7 +78,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QnAlistPage without param constructor -> in QnAlistPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QnAlistPage constructor without param -> in QnAlistPage.xaml.cs " + Settings.userLoginID);
                 var trackResult = service.Handleexception(ex);
             }
         }
@@ -99,9 +92,6 @@ namespace YPS.Views
             {
                 MessagingCenter.Subscribe<string>("ChatconverPage", "Bindchatconvers", (sender) =>
                 {
-                    //chatUserList.ItemsSource = vm.UserConversations;
-
-                    //if (chatUserList.ItemsSource == null || vm.UserConversations.Count == 0)
                     if (vm.UserConversations.Count == 0)
                     {
                         vm.chatUserList = false;
@@ -118,7 +108,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "MessageCenterSubscribe method -> in QnAlistPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MessageCenterSubscribe method -> in QnAlistPage.xaml.cs " + Settings.userLoginID);
                 var trackResult = service.Handleexception(ex);
             }
         }
@@ -168,7 +158,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ChatUserListItemTapped method -> in QnAlistPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChatUserListItemTapped method -> in QnAlistPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
@@ -198,7 +188,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in QnAlistPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in QnAlistPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -217,25 +207,6 @@ namespace YPS.Views
         }
 
         /// <summary>
-        /// Gets called when clicked on Home icon
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void GoToHomeTapped(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        Navigation.PopAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "GoToHomeTapped method -> in QnAlistPage.cs " + Settings.userLoginID);
-        //        service.Handleexception(ex);
-        //    }
-
-        //}
-
-        /// <summary>
         /// gets called when clicked on Back icon.
         /// </summary>
         /// <param name="sender"></param>
@@ -248,8 +219,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                Navigation.PopModalAsync();
-                YPSLogger.ReportException(ex, "BackTapped method -> in QnAlistPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "BackTapped method -> in QnAlistPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

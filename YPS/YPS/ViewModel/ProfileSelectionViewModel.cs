@@ -36,7 +36,7 @@ namespace YPS.ViewModel
         /// </summary>
         public ProfileSelectionViewModel(INavigation _Navigation, int pagetype)
         {
-            YPSLogger.TrackEvent("ProfileSelectionViewModel", "page loading " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ProfileSelectionViewModel.cs ", "page loading " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 Navigation = _Navigation;
@@ -52,9 +52,7 @@ namespace YPS.ViewModel
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
 
                 profileBgColor = Color.LightBlue;
-                //settingsTextColor = Color.White;
                 settingsBgColor = Color.FromHex("#269DC9");
-                //profileTextColor = Color.White;
                 settingsVisibility = settingbox = true;
                 profileVisibility = profilebox = false;
 
@@ -67,7 +65,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ProfileSelectionViewModel constructor -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ProfileSelectionViewModel constructor -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -76,12 +74,19 @@ namespace YPS.ViewModel
         {
             try
             {
-                await Navigation.PopAsync();
-
+                if (Navigation.ModalStack.Count > 0)
+                {
+                    await Navigation.PopModalAsync();
+                }
+                else
+                {
+                    await Navigation.PopAsync();
+                }
             }
             catch (Exception ex)
             {
-                await Navigation.PopModalAsync();
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "Backevnttapped_click constructor -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -94,7 +99,7 @@ namespace YPS.ViewModel
         {
             int suppliestatus = 0;
             IndicatorVisibility = true;
-            YPSLogger.TrackEvent("ProfileSelectionViewModel", "in GDefaultSettingData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ProfileSelectionViewModel.cs ", "in GDefaultSettingData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 //Verifying internet connection.
@@ -120,7 +125,7 @@ namespace YPS.ViewModel
 
                                 if (verfieldsforID != null && verfieldsforID.Count > 0)
                                 {
-                                    string defaultsettings = verfieldsforID.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ",string.Empty) == Settings.DefaultSettinglabel.Trim().ToLower().Replace(" ", string.Empty)).Select(s => s.LblText).FirstOrDefault();
+                                    string defaultsettings = verfieldsforID.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.DefaultSettinglabel.Trim().ToLower().Replace(" ", string.Empty)).Select(s => s.LblText).FirstOrDefault();
                                     string updateprofile = verfieldsforID.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == Settings.UpdateProfilelabel.Trim().ToLower().Replace(" ", string.Empty)).Select(s => s.LblText).FirstOrDefault();
                                     string company = verfieldsforID.Where(wr => wr.FieldID == Settings.Companylabel1).Select(s => s.LblText).FirstOrDefault();
                                     string job = verfieldsforID.Where(wr => wr.FieldID == Settings.joblabel1).Select(s => s.LblText).FirstOrDefault();
@@ -137,8 +142,8 @@ namespace YPS.ViewModel
                                     var loginid = verfieldsforID.Where(wr => wr.FieldID == LoginLbl).Select(s => s.LblText).FirstOrDefault();
                                     suppliestatus = supplierstatus.Status;
 
-                                    DefaultSettinglabel = !string.IsNullOrEmpty(defaultsettings) ? defaultsettings  : "Default Setting";
-                                    UpdateProfilelabel = !string.IsNullOrEmpty(updateprofile) ? updateprofile: "Update Profile";
+                                    DefaultSettinglabel = !string.IsNullOrEmpty(defaultsettings) ? defaultsettings : "Default Setting";
+                                    UpdateProfilelabel = !string.IsNullOrEmpty(updateprofile) ? updateprofile : "Update Profile";
                                     Companylabel = !string.IsNullOrEmpty(company) ? company + " *" : "Company" + " *";
                                     joblabel = !string.IsNullOrEmpty(job) ? job + " *" : "Job" + " *";
                                     projectlabel = !string.IsNullOrEmpty(proj) ? proj + " *" : "Project" + " *";
@@ -182,10 +187,6 @@ namespace YPS.ViewModel
                                 JobList = PDefaultSettingModel.data.Job.Where(s => s.ParentID == projectData.ID).ToList();
                             }
                         }
-                        else
-                        {
-                            //  DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
-                        }
                     }
                     else //If the login user default setting data is not available.
                     {
@@ -217,7 +218,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GDefaultSettingData method -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GDefaultSettingData method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -232,7 +233,7 @@ namespace YPS.ViewModel
         /// <returns></returns>
         private async Task SetAsDefaultClick(int pagetypeNav)
         {
-            YPSLogger.TrackEvent("ProfileSelectionViewModel", "in SetAsDefault method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ProfileSelectionViewModel.cs ", "in SetAsDefault method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
             try
             {
@@ -281,15 +282,6 @@ namespace YPS.ViewModel
                             {
                                 if (DBresponse.status != 0) // if user default settings are saved successfully
                                 {
-                                    //if (pagetypeNav == (int)QAType.YS)
-                                    //{
-                                    //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
-                                    //}
-                                    //else
-                                    //{
-                                    //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-
-                                    //}
                                     var val = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
 
                                     if (val != null && val.data != null)
@@ -300,14 +292,6 @@ namespace YPS.ViewModel
 
                                     App.Current.MainPage = new MenuPage(typeof(HomePage));
                                 }
-                                else
-                                {
-                                    //  DependencyService.Get<IToastMessage>().ShortAlert(DBresponse.message);
-                                }
-                            }
-                            else
-                            {
-                                //   DependencyService.Get<IToastMessage>().ShortAlert("Something went wroung please try again.");
                             }
                         }
                     }
@@ -320,7 +304,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SetAsDefault method -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SetAsDefault method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 Settings.ShowSuccessAlert = false;
             }
@@ -340,16 +324,14 @@ namespace YPS.ViewModel
         {
             try
             {
-                //settingsBgColor = Color.FromHex("#269DC9");
                 settingsTextColor = Settings.Bar_Background;
-                //profileBgColor = Color.LightBlue;
                 profileTextColor = Color.Black;
                 settingsVisibility = settingbox = true;
                 profileVisibility = profilebox = false;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DefaultSettingsClick method -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DefaultSettingsClick method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -362,16 +344,14 @@ namespace YPS.ViewModel
         {
             try
             {
-                //settingsBgColor = Color.Black;
                 settingsTextColor = Color.Black;
-                //profileBgColor = Color.FromHex("#269DC9");
                 profileTextColor = Settings.Bar_Background;
                 settingsVisibility = settingbox = false;
                 profileVisibility = profilebox = true;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "UpdateProfileClick method -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "UpdateProfileClick method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -403,10 +383,6 @@ namespace YPS.ViewModel
                         FamilyName = getProfileData.data.FamilyName;
                         TimeZoneTextDisplay = getProfileData.data.UserCulture;
                     }
-                    else
-                    {
-                        //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
-                    }
                 }
                 else
                 {
@@ -415,7 +391,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "getProfileData method -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetProfileData method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -446,10 +422,6 @@ namespace YPS.ViewModel
                         //Setting a list of TimeZone to TimeZone PopUp
                         TimeZone = new ObservableCollection<string>(stimeZone.data.Select(X => X.DisplayText).ToList());
                     }
-                    else
-                    {
-                        // DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
-                    }
 
                     // Calling Languages API.
                     var language = await service.GetLanguages();
@@ -469,10 +441,6 @@ namespace YPS.ViewModel
                             LangaugeTextDisplay = items.Name;
                         }
                     }
-                    else
-                    {
-                        //   DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
-                    }
                 }
                 else
                 {
@@ -481,7 +449,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "getData method -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetDefaultSettingsData method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -585,15 +553,6 @@ namespace YPS.ViewModel
                                 //Upadating user login id in local database.
                                 rememberPwd.UpdatePWd(UpdateDb, Settings.userLoginID);
 
-                                //if (Settings.RedirectPage == "Yship")
-                                //{
-                                //    App.Current.MainPage = new YPSMasterPage(typeof(YshipPage));
-                                //}
-                                //else
-                                //{
-                                //    App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                                //}
-
                                 App.Current.MainPage = new MenuPage(typeof(HomePage));
                             }
                             else
@@ -610,7 +569,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "UpdateProfile method -> in ProfileSelectionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "UpdateProfile method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 Settings.ShowSuccessAlert = false;
             }
@@ -747,27 +706,6 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        //private bool _SupplierFrame = false;
-        //public bool SupplierLabelAndFrame
-        //{
-        //    get => _SupplierFrame;
-        //    set
-        //    {
-        //        _SupplierFrame = value;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
-
-        //private int _SupplierGridRowHeight = 55;
-        //public int SupplierGridRowHeight
-        //{
-        //    get => _SupplierGridRowHeight;
-        //    set
-        //    {
-        //        _SupplierGridRowHeight = value;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
 
         private Color _profileBgColor = Color.LightBlue;
         public Color profileBgColor
@@ -903,16 +841,7 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        //string _supplierlabel;
-        //public string supplierlabel
-        //{
-        //    get { return _supplierlabel; }
-        //    set
-        //    {
-        //        _supplierlabel = value;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
+
         private string _SetAsDefaultBtn;
         public string SetAsDefaultBtn
         {

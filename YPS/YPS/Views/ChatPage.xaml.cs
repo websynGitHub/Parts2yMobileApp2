@@ -90,7 +90,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChatPage without constructor -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChatPage without constructor -> in ChatPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -105,7 +105,7 @@ namespace YPS.Views
         /// <param name="chatstatus"></param>
         public ChatPage(int qaid, int poid, string tagnames, string title, List<Tag> tags, int chatstatus)
         {
-            YPSLogger.TrackEvent("ChatPage", " Page constructor with params " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatPage.xaml.cs ", " Page constructor with params " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -146,7 +146,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChatPage with constructor -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChatPage with constructor -> in ChatPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -167,7 +167,8 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ShowHideActions with method -> in ChatPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -178,17 +179,6 @@ namespace YPS.Views
         {
             try
             {
-                //if ((Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || 
-                //    Settings.userRoleID == (int)UserRoles.SuperViewer) && Settings.QAType == (int)QAType.PT)
-                //{
-                //    MessageEntry.IsVisible = false;
-                //}
-
-                //if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
-                //{
-                //    btnchatexit.IsVisible = true;
-                //}
-
                 switch (Device.RuntimePlatform)
                 {
                     case Device.Android:
@@ -202,7 +192,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "CheckUserAndOS method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CheckUserAndOS method -> in ChatPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -211,7 +201,7 @@ namespace YPS.Views
         /// </summary>
         private async void GetChatData()
         {
-            YPSLogger.TrackEvent("ChatPage", " In GetChatData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatPage.xaml.cs ", " In GetChatData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -241,7 +231,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetChatData method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetChatData method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 vm.IndicatorVisibility = false;
                 await service.Handleexception(ex);
             }
@@ -272,7 +262,7 @@ namespace YPS.Views
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "Scroll method -> in ChatPage.cs " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "Scroll method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                     await service.Handleexception(ex);
                 }
             });
@@ -290,24 +280,16 @@ namespace YPS.Views
 
                 if (Settings.ChatUserCount == 0)
                 {
-                    if (vm != null)
-                    {
-                        bg.BadgeText = vm.bgcount.ToString();
-                    }
-                    else
-                    {
-                        bg.BadgeText = "0";
-                    }
+                    bg.BadgeText = vm != null ? vm.bgcount.ToString() : "0";
                 }
                 else
                 {
                     bg.BadgeText = Settings.ChatUserCount.ToString();
-                    Settings.ChatUserCount = 0;
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -350,7 +332,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "MessageListItemSelected method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MessageListItemSelected method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
@@ -371,7 +353,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnDisappearing method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnDisappearing method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -392,7 +374,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "AddUserClicked method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "AddUserClicked method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
@@ -413,13 +395,13 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QnAClose method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QnAClose method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
 
         /// <summary>
-        /// Gets called when ckicked on Home icon, to redirect to Home page(YPS/yShip).
+        /// Gets called when ckicked on Home icon, to redirect to Home.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -427,26 +409,11 @@ namespace YPS.Views
         {
             try
             {
-                if (Settings.QAType == 2)
-                {
-                    Settings.PerviousPage = "yship";
-                }
-
-                if (Settings.PerviousPage.Trim().ToLower() == "yship")
-                {
-                    //App.Current.MainPage = new MenuPage(typeof(YshipPage));
-                    Settings.PerviousPage = "";
-                    Settings.RedirectPage = "";
-                }
-                else
-                {
-                    //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
-                    App.Current.MainPage = new MenuPage(typeof(HomePage));
-                }
+                App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GoToHomeTapped method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GoToHomeTapped method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -473,7 +440,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RefreshTap method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RefreshTap method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
@@ -502,7 +469,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "BackTapped method -> in ChatPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "BackTapped method -> in ChatPage.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

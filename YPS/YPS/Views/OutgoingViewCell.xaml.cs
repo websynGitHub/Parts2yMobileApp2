@@ -23,7 +23,7 @@ namespace YPS.Views.Menu
         /// </summary>
         public OutgoingViewCell()
         {
-            YPSLogger.TrackEvent("OutgoingViewCell", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("OutgoingViewCell.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {

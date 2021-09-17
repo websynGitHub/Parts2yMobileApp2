@@ -27,7 +27,6 @@ namespace YPS.ViewModel
         public ICommand QnACloseICmd { get; set; }
         public ICommand adduserICmd { get; set; }
         public ICommand CheckedChangedCmd { set; get; }
-
         #endregion
 
         #region Declaring Data Members
@@ -82,10 +81,14 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChatUsersViewModel constructor -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChatUsersViewModel constructor -> in ChatUsersViewModel.cs " + Settings.userLoginID);
             }
         }
 
+        /// <summary>
+        /// Gets called when checkbox is checked/unchecked, while creating new chat.
+        /// </summary>
+        /// <param name="sender"></param>
         private async void CheckedChanged(object sender)
         {
             YPSLogger.TrackEvent("ChatUsersViewModel.cs", "in CheckedChanged method " + DateTime.Now + " UserId: " + Settings.userLoginID);
@@ -165,7 +168,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "AddUserClick method -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "AddUserClick method -> in ChatUsersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -188,7 +191,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "QnACloseClick method -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QnACloseClick method -> in ChatUsersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -233,7 +236,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "UpdateTitleClicked method -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "UpdateTitleClicked method -> in ChatUsersViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             IndicatorVisibility = false;
@@ -257,12 +260,6 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
-                    //if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
-                    //{
-                    //    adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
-                    //    removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
-                    //}
-
                     ChatData cdata = new ChatData();
                     var result = await service.GetChatusers(poid, qaid, qatype);
 
@@ -274,19 +271,6 @@ namespace YPS.ViewModel
                             {
                                 Settings.ChatUserCount = item.UserCount;
 
-                                //Checking for the type of users to display the Plus(add), Minus(remove), Ok icons and button
-                                //if (item.Status == 1 || item.ISCurrentUser == (int)UserRoles.SuperAdmin)
-                                //{
-                                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer
-                                //    || Settings.userRoleID == (int)UserRoles.SupplierAdmin
-                                //    || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.MfrAdmin
-                                //    || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin
-                                //    || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                //{
-                                //    item.img = "";
-                                //}
-                                //else if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser)
-                                //{
                                 if (Settings.ChatClosedOrNot == "Closed")
                                 {
                                     item.img = Icons.tickCircle;
@@ -312,28 +296,6 @@ namespace YPS.ViewModel
                                         item.IconColor = Color.Green;
                                     }
                                 }
-
-                                //}
-
-                                //if (item.ISCurrentUser == (int)UserRoles.SuperAdmin)
-                                //{
-                                //    item.Iscurentuser = false;
-                                //    item.check = true;
-                                //    item.img = Icons.tickCircle;
-                                //    item.IconColor = Color.BlueViolet;
-                                //}
-                                //}
-                                //else
-                                //{
-                                //    if (Settings.userRoleID == (int)UserRoles.OwnerAdmin || Settings.userRoleID == (int)UserRoles.OwnerUser || Settings.userRoleID == (int)UserRoles.SupplierAdmin
-                                //        || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.MfrAdmin
-                                //        || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser || Settings.userRoleID == (int)UserRoles.LogisticsAdmin
-                                //        || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                                //    {
-
-
-                                //    }
-                                //}
                             }
 
                             UserListCollections = result.data;//Assigning the list of all users
@@ -353,7 +315,6 @@ namespace YPS.ViewModel
                         else
                         {
                             await App.Current.MainPage.DisplayAlert("Chat", "No users avaliable to start chat.", "OK");
-                            //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
                             App.Current.MainPage = new MenuPage(typeof(HomePage));
 
                         }
@@ -370,7 +331,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetChatUser method -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetChatUser method -> in ChatUsersViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             IndicatorVisibility = false;
@@ -431,10 +392,9 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "DynamicTextChange method -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DynamicTextChange method -> in ChatUsersViewModel.cs " + Settings.userLoginID);
             }
         }
-
         #region Properties
         private bool _IsUpdateBtnVisible;
         public bool IsUpdateBtnVisible
@@ -570,7 +530,6 @@ namespace YPS.ViewModel
             set
             {
                 _addchatUserStack = value;
-                //NotifyPropertyChanged("addchatUserStack");
                 OnPropertyChanged("addchatUserStack");
             }
         }

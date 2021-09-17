@@ -310,33 +310,42 @@ namespace YPS.RestClientAPI
         /// <returns></returns>
         private async Task HandleResponse(HttpResponseMessage response)
         {
-            stopresponceconversion = false;
-            string strConnection = response.Headers.Connection.ToString();
-            returnnulldata data = new returnnulldata();
-            
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                
-                if (Convert.ToString(content) == "User Session Expired." || Convert.ToString(content) == "Invalid JWT Token.")
-                {
-                    data.message = Convert.ToString(content);
-                    data.status = 0;
-                }
-                else
-                {
-                    data = JsonConvert.DeserializeObject<returnnulldata>(content);
-                }
+                stopresponceconversion = false;
+                string strConnection = response.Headers.Connection.ToString();
+                returnnulldata data = new returnnulldata();
 
-                if (data.message == "User Session Expired.")
+                if (!response.IsSuccessStatusCode)
                 {
-                    stopresponceconversion = true;
-                    CloudFolderKeyVal.Appredirectlogin("Your yID token expired, please login.");
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    if (Convert.ToString(content) == "User Session Expired." || Convert.ToString(content) == "Invalid JWT Token.")
+                    {
+                        data.message = Convert.ToString(content);
+                        data.status = 0;
+                    }
+                    else
+                    {
+                        data = JsonConvert.DeserializeObject<returnnulldata>(content);
+                    }
+
+                    if (data.message == "User Session Expired.")
+                    {
+                        stopresponceconversion = true;
+                        CloudFolderKeyVal.Appredirectlogin("Your yID token expired, please login.");
+                    }
+                    else if (data.message == "Invalid JWT Token.")
+                    {
+                        CloudFolderKeyVal.Appredirectlogin("Your yID token expired, please login.");
+                    }
                 }
-                else if (data.message == "Invalid JWT Token.")
-                {
-                    CloudFolderKeyVal.Appredirectlogin("Your yID token expired, please login.");
-                }
+            }
+            catch(Exception ex)
+            {
+                YPSLogger.ReportException(ex, "HandleResponse method -> in RequestProvider.cs UserID: " + Settings.userLoginID );
+                await service.Handleexception(ex);
+                throw new Exception("Poor internet connection.");
             }
         }
     }

@@ -38,19 +38,11 @@ namespace YPS.Views
         public PhotoUpload(PhotoUploadModel sItems, AllPoData allPoData, string selectionType, int uploadType, bool photoAccess,
             bool isalldone, bool issacaniconvisible)
         {
-            YPSLogger.TrackEvent("PhotoUpload", "Page constructer " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoUpload.xaml.cs", " PhotoUpload constructer " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
                 InitializeComponent();
-
-                //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
 
                 Settings.currentPage = "PhotoUploadPage";// Setting the current page as "PhotoUploadPage" to settings
                 accessPhoto = photoAccess;
@@ -58,17 +50,12 @@ namespace YPS.Views
                 BindingContext = vm = new PhotoUplodeViewModel(Navigation, this, sItems, allPoData, selectionType, uploadType, photoAccess,
                     isalldone, issacaniconvisible);
 
-                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                //{
-                //    PhotoUploadIcon.IsVisible = false;
-                //}
-
                 img.WidthRequest = App.ScreenWidth;
                 img.HeightRequest = App.ScreenHeight - 150;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PhotoUpload constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PhotoUpload constructor -> in PhotoUpload.xaml.cs  " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -78,13 +65,12 @@ namespace YPS.Views
         /// </summary>
         protected async override void OnAppearing()
         {
-            YPSLogger.TrackEvent("PhotoUpload", "Page constructer " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoUpload.xaml.cs", " OnAppearing method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
                 base.OnAppearing();
                 /// For Enable and Disble master detail page menu gesture
-                //(Application.Current.MainPage as YPSMasterPage).IsGestureEnabled = true;
                 Settings.photoUploadPageCount = 0;
 
 
@@ -96,7 +82,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in PhotoUpload.xaml.cs  " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -112,7 +98,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnDisappearing constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnDisappearing constructor -> in PhotoUpload.xaml.cs  " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -149,7 +135,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in PhotoUpload.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -161,7 +147,7 @@ namespace YPS.Views
             try
             {
                 vm.IndicatorVisibility = true;
-                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", " in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -190,6 +176,8 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in PhotoUpload.xaml.cs  " + Settings.userLoginID);
+                await service.Handleexception(ex);
             }
             finally
             {
@@ -215,7 +203,7 @@ namespace YPS.Views
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "CompleteStateChanged method -> in PhotoUpload.cs  " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "SfButton_Clicked method -> in PhotoUpload.xaml.cs  " + Settings.userLoginID);
                     await service.Handleexception(ex);
                 }
                 voidAlertMessage = false;
@@ -244,7 +232,7 @@ namespace YPS.Views
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "CompleteStateChanged method -> in PhotoUpload.cs  " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "CompleteStateChanged method -> in PhotoUpload.xaml.cs  " + Settings.userLoginID);
                     await service.Handleexception(ex);
                 }
                 voidAlertMessage = false;

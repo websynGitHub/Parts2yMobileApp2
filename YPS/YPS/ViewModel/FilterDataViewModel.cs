@@ -57,8 +57,6 @@ namespace YPS.ViewModel
             public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields();
             public filtterlabelFields TaskName { get; set; } = new filtterlabelFields() { Name = "Task Name" };
             public filtterlabelFields ResourceName { get; set; } = new filtterlabelFields() { Name = "Resource", Status = true };
-            //public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields();
-            //public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields();
             public filtterlabelFields SearchPageTitle { get; set; } = new filtterlabelFields() { Name = "Search Data", Status = true };
             public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields() { Name = "Reset", Status = true };
             public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields() { Name = "Search", Status = true };
@@ -83,6 +81,7 @@ namespace YPS.ViewModel
 
 
         #endregion
+
         /// <summary>
         /// Parameterized constructor.
         /// </summary>
@@ -90,7 +89,7 @@ namespace YPS.ViewModel
         /// <param name="page"></param>
         public FilterDataViewModel(INavigation _Navigation, Page page)
         {
-            YPSLogger.TrackEvent("FilterDataViewModel", "Page FilterDataViewModel method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("FilterDataViewModel.cs ", "Page FilterDataViewModel method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -141,7 +140,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "FilterDataViewModel constructor -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FilterDataViewModel constructor -> in FilterDataViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -168,7 +167,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetSavedUserSearchSettings method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetSavedUserSearchSettings method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -186,7 +185,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FilterSelected method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FilterSelected method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -205,7 +204,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "Page_Appearing method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Page_Appearing method -> in FilterDataViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -217,7 +216,7 @@ namespace YPS.ViewModel
         {
             try
             {
-                YPSLogger.TrackEvent("FilterDataViewModel", "in applyClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("FilterDataViewModel.cs ", "in applyClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 await Task.Delay(50);
                 UserDialogs.Instance.ShowLoading("Loading...");
 
@@ -266,7 +265,6 @@ namespace YPS.ViewModel
                         defaultData.ProjectID = Settings.ProjectID;
                         defaultData.JobID = Settings.JobID;
                         defaultData.SearchName = val.StyleId.Trim().ToLower() != "search".Trim().ToLower() ? FilterName : null;
-                        //defaultData.IsCurrentSearch = true;
                         defaultData.ID = defaultData.SearchName?.Trim().ToLower() == "new" || val.StyleId.Trim().ToLower() == "search".Trim().ToLower() ? 0 : SelectedFilterName.ID;
                         defaultData.SearchCriteria = JsonConvert.SerializeObject(SaveUserDS);
 
@@ -278,7 +276,6 @@ namespace YPS.ViewModel
                         Settings.IsFilterreset = true;
                         FilterName = string.Empty;
 
-                        //App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
                         await Navigation.PopAsync();
                     }
                     else
@@ -295,7 +292,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ApplyFilter method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ApplyFilter method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -312,7 +309,7 @@ namespace YPS.ViewModel
         {
             try
             {
-                YPSLogger.TrackEvent("FilterDataViewModel", "in applyClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("FilterDataViewModel.cs ", "in applyClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 await Task.Delay(50);
                 UserDialogs.Instance.ShowLoading("Loading...");
 
@@ -365,7 +362,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ResetFilter method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ResetFilter method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -391,7 +388,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "KeyTabClick method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KeyTabClick method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -430,7 +427,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Searchdatapicker method-> in datechanged event " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Searchdatapicker method-> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
 
@@ -494,14 +491,14 @@ namespace YPS.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        YPSLogger.ReportException(ex, "Inner catch block in HeaderFilterData method-> in datechanged event " + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "Inner catch block in HeaderFilterData method-> in FilterDataViewModel.cs " + Settings.userLoginID);
                         await service.Handleexception(ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HeaderFilterData method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HeaderFilterData method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -589,7 +586,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "BindingKeyValues method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "BindingKeyValues method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -611,7 +608,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectedDiscipline_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectedDiscipline_TapEvent method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -633,7 +630,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectedResource_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectedResource_TapEvent method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -655,7 +652,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectedELevel_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectedELevel_TapEvent method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -677,7 +674,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectedCondition_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectedCondition_TapEvent method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -699,7 +696,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectedExpeditor_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectedExpeditor_TapEvent method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -721,7 +718,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectedPriority_TapEvent method -> in FilterDataViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectedPriority_TapEvent method -> in FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -807,7 +804,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ChangeLabel method -> FilterDataViewModel" + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -827,7 +824,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "AssignValueForComparision method -> FilterDataViewModel" + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "AssignValueForComparision method -> FilterDataViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

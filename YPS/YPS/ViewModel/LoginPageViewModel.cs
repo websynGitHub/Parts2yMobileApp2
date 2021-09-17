@@ -29,7 +29,7 @@ namespace YPS.ViewModel
         /// </summary>
         public LoginPageViewModel()
         {
-            YPSLogger.TrackEvent("LoginPageViewModel", "Page LoginPageViewModel method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("LoginPageViewModel.cs ", "Page LoginPageViewModel method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 ILoginCommand = new Command(async () => await LoginMethod()); ///Assign LoginMethod ICommand properties
@@ -49,7 +49,7 @@ namespace YPS.ViewModel
         private async Task LoginMethod()
         {
             IndicatorVisibility = true;
-            YPSLogger.TrackEvent("LoginPageViewModel", "in LoginMethod method " + DateTime.Now + " UserId: " + userName);
+            YPSLogger.TrackEvent("LoginPageViewModel.cs ", "in LoginMethod method " + DateTime.Now + " UserId: " + userName);
             try
             {
                 /// Entry control checking is empty or not.
@@ -87,11 +87,6 @@ namespace YPS.ViewModel
                             if (result.data.UserID > 0)
                             {
                                 CloudFolderKeyVal.Assignvaluestosettings(result);
-
-                                //if (!string.IsNullOrEmpty(result.data.RoleColorCode) || !string.IsNullOrEmpty(result.data.VersionColorCode))
-                                //{
-                                //    Settings.Bar_Background = Color.FromHex(!string.IsNullOrEmpty(result.data.RoleColorCode) ? result.data.RoleColorCode : result.data.VersionColorCode);
-                                //}
 
                                 if (result.data.JwToken.IsIIJEnabled)
                                 {

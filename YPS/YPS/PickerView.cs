@@ -7,6 +7,8 @@ using YPS.Parts2y.Parts2y_View_Models;
 using YPS.CommonClasses;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.CustomToastMsg;
+using YPS.Service;
+using YPS.Helpers;
 
 namespace YPS
 {
@@ -21,29 +23,75 @@ namespace YPS
 
         public static string GetAppKey()
         {
-            return HostingURL.scandItLicencekey;
+            try
+            {
+                return HostingURL.scandItLicencekey;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetAppKey method -> in PickerView.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+                return "";
+            }
         }
 
         public void StartScanning()
         {
-            StartScanningRequested?.Invoke(this, EventArgs.Empty);
+            try
+            {
+                StartScanningRequested?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "StartScanning method -> in PickerView.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
 
         public void PauseScanning()
         {
-            PauseScanningRequested?.Invoke(this, EventArgs.Empty);
+            try
+            {
+                PauseScanningRequested?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "PauseScanning method -> in PickerView.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
 
         public void StopScanning()
         {
-            StopScanningRequested?.Invoke(this, EventArgs.Empty);
+            try
+            {
+                StopScanningRequested?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "StopScanning method -> in PickerView.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
 
         public void DidScan(string symbology, string code)
         {
-            if (Delegate != null)
+            try
             {
-                Delegate.DidScan(symbology, code);
+                if (Delegate != null)
+                {
+                    Delegate.DidScan(symbology, code);
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DidScan method -> in PickerView.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
             }
         }
     }

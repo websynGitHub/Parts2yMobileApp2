@@ -25,13 +25,13 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                YPSLogger.TrackEvent("ProviderLoginPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ProviderLoginPage.xaml.cs", " in ProviderLoginPage constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ProviderLoginPage";
                 ProviderName = "IIJ";
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ProviderLoginPage Constructor -> in ProviderLoginPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ProviderLoginPage constructor -> in ProviderLoginPage.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 service.Handleexception(ex);
             }
@@ -46,10 +46,6 @@ namespace YPS.Views
 
             try
             {
-                if (Settings.CompanyID == 0)
-                {
-                    // App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
-                }
                 if (pagaload == "1")
                     pagaload = "2";
                 else
@@ -57,7 +53,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in ProviderLoginPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in ProviderLoginPage.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
             }
@@ -74,7 +70,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnDisappearing method -> in ProviderLoginPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnDisappearing method -> in ProviderLoginPage.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
             }

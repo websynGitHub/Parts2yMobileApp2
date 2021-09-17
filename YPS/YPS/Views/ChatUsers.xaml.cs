@@ -39,7 +39,7 @@ namespace YPS.Views
         /// <param name="checkStack"></param>
         public ChatUsers(int? poid, int? qaid, List<Tag> tags, bool checkStack)
         {
-            YPSLogger.TrackEvent("ChatUsers", " Page constructor with 4 params " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " Page constructor with 4 params " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -59,14 +59,6 @@ namespace YPS.Views
                     singleheader.Text = vm.qasingleheadertitle;
                     singleheader.IsVisible = true;
                     Settings.HeaderTitle = string.Empty;
-
-                    //if (Device.RuntimePlatform == Device.iOS)// for adjusting the display as per the notch
-                    //{
-                    //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                    //    safeAreaInset.Bottom = 0;
-                    //    safeAreaInset.Top = 20;
-                    //    headerpart.Padding = safeAreaInset;
-                    //}
                 }
                 else
                 {
@@ -99,15 +91,6 @@ namespace YPS.Views
                     Settings.ChatClosedOrNot = chatClosedOrNot = "Open";
                 }
 
-                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                //    Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser
-                //    || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser
-                //    || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin
-                //    || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                //{
-                //    chatExitImg.IsVisible = false;
-                //}
-
                 MessagingCenter.Subscribe<string>("ChatUsers", "BindUsers", (sender) =>
                 {
                     Userlist.ItemsSource = vm.UserListCollections;
@@ -118,7 +101,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChatUsers constructor with 4 params -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChatUsers constructor with 4 params -> in ChatUsers.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -129,7 +112,7 @@ namespace YPS.Views
         /// <param name="checkStack"></param>
         public ChatUsers(ChatData data, bool checkStack)
         {
-            YPSLogger.TrackEvent("ChatUsers", " Page constructor with 2 params " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " Page constructor with 2 params " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 InitializeComponent();
@@ -147,16 +130,6 @@ namespace YPS.Views
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call API
                 BindingContext = vm = new ChatUsersViewModel(data.POID, data.QAID, visableState, null);
 
-
-                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer ||
-                //    Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrUser
-                //    || Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser
-                //    || Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin
-                //    || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                //{
-                //    chatExitImg.IsVisible = false;
-                //}
-
                 MessagingCenter.Subscribe<string>("ChatUsers", "BindUsers", (sender) =>
                 {
                     ChatUserlist.ItemsSource = vm.UserListCollections;
@@ -168,7 +141,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChatUsers constructor with 2 params -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChatUsers constructor with 2 params -> in ChatUsers.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -179,7 +152,7 @@ namespace YPS.Views
         /// <param name="e"></param>
         private async void ListItemTapped(object sender, ItemTappedEventArgs e)
         {
-            YPSLogger.TrackEvent("ChatUsers", " In ListItemTapped method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " In ListItemTapped method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             NameIfo d = (NameIfo)e.Item;
             Userlist.SelectedItem = null;
 
@@ -255,7 +228,7 @@ namespace YPS.Views
                     }
                     catch (Exception ex)
                     {
-                        YPSLogger.ReportException(ex, "ListItemTapped method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "ListItemTapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                         await service.Handleexception(ex);
                         vm.IndicatorVisibility = false;
                         DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
@@ -269,7 +242,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ListItemTapped method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ListItemTapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
@@ -282,7 +255,7 @@ namespace YPS.Views
         /// <param name="e"></param>
         private async void CheckBoxCheckChanged(object sender, Syncfusion.XForms.Buttons.StateChangedEventArgs e)
         {
-            YPSLogger.TrackEvent("ChatUsers", " In CheckBoxCheckChanged method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " In CheckBoxCheckChanged method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -335,7 +308,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CheckBoxCheckChanged method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CheckBoxCheckChanged method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -348,22 +321,19 @@ namespace YPS.Views
         private async void AddToChatClicked(object sender, EventArgs e)
         {
 
-            YPSLogger.TrackEvent("ChatUsers", " In AddToChatClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " In AddToChatClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             vm.IndicatorVisibility = true;
 
             try
             {
                 ChatData data = new ChatData();
 
-                //if (Settings.userRoleID != (int)UserRoles.OwnerAdmin)
-                //{
                 bool has = vm.UserList.Any(cus => cus.UserID == Settings.userLoginID);
 
                 if (!has)
                 {
                     vm.UserList.Add(new User() { Status = 1, UserID = Settings.userLoginID });
                 }
-                //}
 
                 if (vm.UserList.Count >= 1)
                 {
@@ -401,7 +371,6 @@ namespace YPS.Views
                                         Settings.PoId = result.data.POID;
                                         Settings.chatgroupname = result.data.Title;
                                         Settings.ChatuserCountImgHide = 0;
-                                        // App.Current.MainPage = new MenuPage(typeof(ChatPage));
 
                                         foreach (var items in data.tags)
                                         {
@@ -426,13 +395,9 @@ namespace YPS.Views
 
                                                         var taskval = await service.UpdateTaskStatus(taskstatus);
                                                     }
-                                                    //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                                                 }
                                             }
-
-
                                         }
-
                                         await Navigation.PushAsync(new ChatPage());
                                         Settings.mutipleTimeClick = false;
                                     }
@@ -461,7 +426,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "AddToChatClicked method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "AddToChatClicked method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             vm.IndicatorVisibility = false;
@@ -474,7 +439,7 @@ namespace YPS.Views
         /// <param name="e"></param>
         private void CancelClicked1(object sender, EventArgs e)
         {
-            YPSLogger.TrackEvent("ChatUsers", " In CancelClicked1 method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " In CancelClicked1 method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -483,7 +448,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CancelClicked1 method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CancelClicked1 method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -495,7 +460,7 @@ namespace YPS.Views
         /// <param name="e"></param>
         private void BackTapped(object sender, EventArgs e)
         {
-            YPSLogger.TrackEvent("ChatUsers", " In AddToChatClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " In AddToChatClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -504,7 +469,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "BackTapped method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "BackTapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -516,7 +481,7 @@ namespace YPS.Views
         /// <param name="e"></param>
         private async void QnAClose(object sender, EventArgs e)
         {
-            YPSLogger.TrackEvent("ChatUsers", " In QnAClose method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ChatUsers.xaml.cs ", " In QnAClose method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -534,12 +499,7 @@ namespace YPS.Views
                         if (result != null && result.status == 1)
                         {
                             await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");// Display message for success
-                            //App.Current.MainPage = Settings.CheckQnAClose == true ? new YPSMasterPage(typeof(YshipPage)) : App.Current.MainPage = new YPSMasterPage(typeof(MainPage));
                             App.Current.MainPage = App.Current.MainPage = new MenuPage(typeof(HomePage));
-                        }
-                        else
-                        {
-                            // DependencyService.Get<IToastMessage>().ShortAlert(result.message);
                         }
                     }
                     else
@@ -550,7 +510,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QnAClose method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QnAClose method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
@@ -570,7 +530,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GoToHomePageTapped method -> in ChatUsers Page.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GoToHomePageTapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -579,7 +539,7 @@ namespace YPS.Views
         {
             try
             {
-                YPSLogger.TrackEvent("ChatUsersViewModel", " AddUserClick " + DateTime.Now + " UserId: " + Settings.userLoginID); YPSLogger.TrackEvent("ChatUsersViewModel", " QnACloseClick " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ChatUsers.xaml.cs", " AddOrRemoveUsers_Tapped " + DateTime.Now + " UserId: " + Settings.userLoginID); YPSLogger.TrackEvent("ChatUsersViewModel", " QnACloseClick " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
@@ -595,7 +555,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "AddUserClick method -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "AddOrRemoveUsers_Tapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -603,7 +563,7 @@ namespace YPS.Views
         {
             try
             {
-                YPSLogger.TrackEvent("ChatUsersViewModel", " QnACloseClick " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ChatUsers.xaml.cs", " CloseQA_Tapped " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
@@ -620,7 +580,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "QnACloseClick method -> in ChatUsersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CloseQA_Tapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
             }
         }
     }

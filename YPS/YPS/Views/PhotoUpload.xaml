@@ -43,10 +43,6 @@
                         <StackLayout Grid.Row="0" Grid.Column="1" Margin="8,10,0,15"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="StartAndExpand">
-                            <!--<Grid.RowDefinitions>
-                                <RowDefinition Height="{Binding RowHeightTitle,Mode=TwoWay}"/>
-                                <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
-                            </Grid.RowDefinitions>-->
                             <Label Text="Product Photos" Style="{StaticResource LblTitleName}"/>
                             <Label Text="{Binding Tagnumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
                         </StackLayout>
@@ -271,90 +267,46 @@
                         </Frame>
                     </StackLayout>
 
-               
+
                 </Grid>
 
-                <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="110"
-                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
-                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">-->
-                   
-                    <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
+                <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
                     Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="End"
                                                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"   
                                                 Margin="10,0,0,0">
-                        <local:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SelectPhotoCmd}"/>
-                        </local:FontAwesomeIconLabel.GestureRecognizers>
-                    </local:FontAwesomeIconLabel>
+                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectPhotoCmd}"/>
+                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                </local:FontAwesomeIconLabel>
 
-                    <local:FontAwesomeIconLabel x:Name="Scan" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding IsScanIconVisible}"
+                <local:FontAwesomeIconLabel x:Name="Scan" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding IsScanIconVisible}"
                     Text="{x:Static StaticIcons:Icons.Scan}" TextColor="Black" FontSize="50" HorizontalOptions="Center" VerticalOptions="End"
                                                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"  >
-                        <local:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ScanCmd}"/>
-                        </local:FontAwesomeIconLabel.GestureRecognizers>
-                    </local:FontAwesomeIconLabel>
+                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ScanCmd}"/>
+                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                </local:FontAwesomeIconLabel>
 
-                    <sfbuttons:SfButton  HorizontalOptions="End" VerticalOptions="End" HeightRequest="50"
+                <sfbuttons:SfButton  HorizontalOptions="End" VerticalOptions="End" HeightRequest="50"
                                     Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                     Opacity="{Binding InspBtnOpacity}" IsVisible="{Binding IsInspBtnVisible}"
                                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
                                          Margin="0,0,10,4">
-                        <sfbuttons:SfButton.Content>
-                            <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                            </Grid>
-                        </sfbuttons:SfButton.Content>
-                        <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>
-                <!--</StackLayout>-->
-
-
-                <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="110"
-                              RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-55}"
-                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-390}">
-                    <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
-                    Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="End"
-                                                 >
-                        <local:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SelectPhotoCmd}"/>
-                        </local:FontAwesomeIconLabel.GestureRecognizers>
-                    </local:FontAwesomeIconLabel>
-
-                    <local:FontAwesomeIconLabel x:Name="Scan" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding IsScanIconVisible}"
-                    Text="{x:Static StaticIcons:Icons.Scan}" TextColor="Black" FontSize="50" HorizontalOptions="Center" VerticalOptions="End"
-                                                 >
-                        <local:FontAwesomeIconLabel.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ScanCmd}"/>
-                        </local:FontAwesomeIconLabel.GestureRecognizers>
-                    </local:FontAwesomeIconLabel>
-
-                    <sfbuttons:SfButton  HorizontalOptions="End" VerticalOptions="End" HeightRequest="50"
-                                    Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
-                                    Opacity="{Binding InspBtnOpacity}" IsVisible="{Binding IsInspBtnVisible}">
-                        <sfbuttons:SfButton.Content>
-                            <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                            </Grid>
-                        </sfbuttons:SfButton.Content>
-                        <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                        </sfbuttons:SfButton.Behaviors>
-                    </sfbuttons:SfButton>
-                </StackLayout>-->
-
-
+                    <sfbuttons:SfButton.Content>
+                        <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                        </Grid>
+                    </sfbuttons:SfButton.Content>
+                    <sfbuttons:SfButton.Behaviors>
+                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                    </sfbuttons:SfButton.Behaviors>
+                </sfbuttons:SfButton>
             </RelativeLayout>
 
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent"

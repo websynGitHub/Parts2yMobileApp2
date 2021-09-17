@@ -23,7 +23,7 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                YPSLogger.TrackEvent("IncomingViewCell", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("IncomingViewCell.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 if (Settings.Text != null)
                 {
@@ -152,9 +152,6 @@ namespace YPS.Views
                 YPSLogger.ReportException(ex, "OnFileDownloaded method-> in IncomingViewCell.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
-            }
-            finally
-            {
             }
         }
     }

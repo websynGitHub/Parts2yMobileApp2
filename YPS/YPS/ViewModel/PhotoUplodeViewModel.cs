@@ -59,7 +59,7 @@ namespace YPS.ViewModel
         public PhotoUplodeViewModel(INavigation _Navigation, Page page, PhotoUploadModel select_items, AllPoData allPo_Data, string SelectionType, int uploadtype, bool accessPhoto,
             bool isalldone, bool issacaniconvisible)
         {
-            YPSLogger.TrackEvent("PhotoUplodeViewModel", "Page Load " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoUplodeViewModel.cs ", "PhotoUplodeViewModel constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 UploadType = uploadtype;
@@ -86,7 +86,6 @@ namespace YPS.ViewModel
                     closeLabelText = false;
                     RowHeightcomplete = 0;
                     NoPhotos_Visibility = true;
-                    //var value = select_items.photoTags.ForEach.Select(c => c.TagNumber).ToList();
                     Tagnumbers = string.Join(" | ", select_items.photoTags.Select(c => c.TagNumber));
 
                     if (string.IsNullOrEmpty(Tagnumbers))
@@ -130,7 +129,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PhotoUplodeViewModel constructor " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PhotoUplodeViewModel constructor -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -141,7 +140,7 @@ namespace YPS.ViewModel
         /// <param name="obj"></param>
         private async void delete_image(object obj)
         {
-            YPSLogger.TrackEvent("PhotoUplodeViewModel", "in delete_image method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoUplodeViewModel.cs ", "in delete_image method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             IndicatorVisibility = true;
             try
@@ -156,9 +155,9 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+                        bool confirm = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
 
-                        if (conform)
+                        if (confirm)
                         {
                             Device.BeginInvokeOnMainThread(async () =>
                             {
@@ -208,12 +207,6 @@ namespace YPS.ViewModel
                                                 }
                                                 await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
                                             }
-                                            else
-                                            {
-                                            }
-                                        }
-                                        else
-                                        {
                                         }
                                     }
                                     else
@@ -223,7 +216,7 @@ namespace YPS.ViewModel
                                 }
                                 catch (Exception ex)
                                 {
-                                    YPSLogger.ReportException(ex, "delete_image method from if(conform) -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                                    YPSLogger.ReportException(ex, "delete_image method from if(confirm) block -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                                     await service.Handleexception(ex);
                                 }
 
@@ -235,7 +228,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "delete_image method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "delete_image method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -258,7 +251,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HomeCommand_btn method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HomeCommand_btn method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
 
@@ -270,7 +263,7 @@ namespace YPS.ViewModel
         /// <param name="obj"></param>
         private async void image_tap(object obj)
         {
-            YPSLogger.TrackEvent("PhotoUplodeViewModel", "in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoUplodeViewModel.cs ", "in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -301,7 +294,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "image_tap method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "image_tap method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -339,7 +332,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "UpdateDataBackEnd method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "UpdateDataBackEnd method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -380,25 +373,11 @@ namespace YPS.ViewModel
                             RowHeightcomplete = 50;
                         }
                     }
-
-                    //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                    //{
-                    //    closeLabelText = true;
-                    //    RowHeightcomplete = 0;
-                    //    DeleteIconStack = false;
-                    //}
-                    //else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                    //                Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                    //                Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                    //{
-                    //    closeLabelText = true;
-                    //    RowHeightcomplete = 0;
-                    //}
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "afterPic method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "afterPic method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -419,25 +398,11 @@ namespace YPS.ViewModel
                     AStack = false;
                     NoPhotos_Visibility = AllPhotosData.data.BPhotos.Count != 0 ? false : true;
                     BStack = (NoPhotos_Visibility) ? false : true;
-
-                    //if (Settings.userRoleID == (int)UserRoles.SuperAdmin)
-                    //{
-                    //    closeLabelText = true;
-                    //    RowHeightcomplete = 0;
-                    //    DeleteIconStack = false;
-                    //}
-                    //else if (Settings.userRoleID == (int)UserRoles.SupplierAdmin || Settings.userRoleID == (int)UserRoles.SupplierUser || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                    //                Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                    //                Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                    //{
-                    //    closeLabelText = true;
-                    //    RowHeightcomplete = 0;
-                    //}
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "beforePic method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "beforePic method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -448,7 +413,7 @@ namespace YPS.ViewModel
         /// <returns></returns>
         public async Task Photo_Upload()
         {
-            YPSLogger.TrackEvent("PhotoUplodeViewModel", "in Photo_Upload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoUplodeViewModel.cs ", "in Photo_Upload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -473,8 +438,6 @@ namespace YPS.ViewModel
 
                             if (selectiontype_index == 0 && puid == 0)
                             {
-                                //List<PhotoUploadModel> phUploadlist = new List<PhotoUploadModel>();
-
                                 Photo singlePhoto = new Photo();
                                 singlePhoto.PUID = Select_Items.PUID;
                                 singlePhoto.PhotoID = 0;
@@ -490,7 +453,6 @@ namespace YPS.ViewModel
                                 PhotoUploadModel DataForFileUpload = new PhotoUploadModel();
                                 DataForFileUpload = Select_Items;
                                 DataForFileUpload.CreatedBy = Settings.userLoginID;
-                                //DataForFileUpload.photo.FileName = fileName;
                                 DataForFileUpload.photos.Add(singlePhoto);
 
 
@@ -502,7 +464,6 @@ namespace YPS.ViewModel
                                 {
                                     InspBtnOpacity = Select_Items?.photoTags?.Count > 1 ? 0.5 : 1.0;
                                     selectiontype_index = 1;
-                                    //puid = initialresult.data.PUID;
                                     puid = initialresult.data.photos[0].PUID;
 
                                     if (initialresult.data.photoTags.Count != 0)
@@ -547,10 +508,8 @@ namespace YPS.ViewModel
                                             tagtaskstatus.Status = 1;
                                             tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+                                            var val = await service.UpdateTagTaskStatus(tagtaskstatus);
 
-                                            //if (result.status == 1)
-                                            //{
                                             if (items.TaskID != 0 && items.TaskStatus == 0)
                                             {
                                                 TagTaskStatus taskstatus = new TagTaskStatus();
@@ -560,8 +519,6 @@ namespace YPS.ViewModel
 
                                                 var taskval = await service.UpdateTaskStatus(taskstatus);
                                             }
-                                            //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                                            //}
                                         }
                                     }
 
@@ -640,16 +597,9 @@ namespace YPS.ViewModel
                                                 var resultUpdateTaskStatus = await service.UpdateTaskStatus(taskstatus);
                                             }
                                         }
-
                                         Settings.IsRefreshPartsPage = true;
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
-                                    else
-                                    {
-                                    }
-                                }
-                                else
-                                {
                                 }
                             }
                             description_txt = string.Empty;
@@ -661,37 +611,9 @@ namespace YPS.ViewModel
                                 closeLabelText = false;
                                 RowHeightcomplete = 0;
                             }
-                            else
-                            {
-                                //if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                                //    Settings.userRoleID == (int)UserRoles.SupplierUser)
-                                //{
-                                //    if (isuploadcompleted == true)
-                                //    {
-                                //        DeleteIconStack = false;
-                                //        closeLabelText = false;
-                                //        RowHeightcomplete = 0;
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    closeLabelText = true;
-                                //    RowHeightcomplete = 50;
-                                //}
-                            }
-
-                            //if (Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                            //        Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                            //        Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                            //{
-                            //    closeLabelText = true;
-                            //    RowHeightcomplete = 0;
-                            //    DeleteIconStack = false;
-                            //}
 
                             if (Device.RuntimePlatform == Device.Android)
                             {
-
                                 if (!string.IsNullOrEmpty(Mediafile))
                                 {
                                     try
@@ -740,7 +662,7 @@ namespace YPS.ViewModel
                                     catch (Exception ex)
                                     {
                                         await service.Handleexception(ex);
-                                        YPSLogger.ReportException(ex, "while deleting the each files in Parts2y folder -> Photo_Upload method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                                        YPSLogger.ReportException(ex, "while deleting the each files in Parts2y folder -> Photo_Upload method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                                     }
                                 }
                             }
@@ -756,7 +678,7 @@ namespace YPS.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "Photo_Upload method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "Photo_Upload method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                     await service.Handleexception(ex);
                 }
                 finally
@@ -818,38 +740,6 @@ namespace YPS.ViewModel
                                 AfterPackingTextColor = Color.Black;
                                 BeforePackingTextColor = Settings.Bar_Background;
                             }
-
-                            //if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
-                            //{
-                            //    closeLabelText = false;
-                            //    RowHeightcomplete = 0;
-                            //}
-                            //else
-                            //{
-                            //    if (Settings.userRoleID == (int)UserRoles.SupplierAdmin ||
-                            //    Settings.userRoleID == (int)UserRoles.SupplierUser)
-                            //    {
-                            //        if (isuploadcompleted == true)
-                            //        {
-                            //            DeleteIconStack = false;
-                            //            closeLabelText = false;
-                            //            RowHeightcomplete = 0;
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        closeLabelText = true;
-                            //        RowHeightcomplete = 50;
-                            //    }
-
-                            //    if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.MfrAdmin ||
-                            //    Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser ||
-                            //    Settings.userRoleID == (int)UserRoles.LogisticsAdmin || Settings.userRoleID == (int)UserRoles.LogisticsUser || Settings.userRoleID == (int)UserRoles.TruckingAdmin || Settings.userRoleID == (int)UserRoles.TruckingDriver)
-                            //    {
-                            //        RowHeightcomplete = 0;
-                            //        DeleteIconStack = false;
-                            //    }
-                            //}
                         }
                     }
                     else
@@ -859,7 +749,7 @@ namespace YPS.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "GetPhotosData method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "GetPhotosData method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                     await service.Handleexception(ex);
                 }
                 IndicatorVisibility = false;
@@ -907,9 +797,6 @@ namespace YPS.ViewModel
                             }
                             await Navigation.PopAsync(true);
                         }
-                        else
-                        {
-                        }
                     }
                     else
                     {
@@ -925,7 +812,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ClosePic method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ClosePic method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -935,7 +822,7 @@ namespace YPS.ViewModel
         }
 
         /// <summary>
-        /// 
+        /// This method is to decide if to show direct photo option/scanner & then photo option.
         /// </summary>
         private async Task SelectPhotoOrScan(string requestfor)
         {
@@ -958,33 +845,6 @@ namespace YPS.ViewModel
                         await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
                     }
                 }
-
-                #region Old Scan & Select Photo Code
-                //if ((AllPhotosData != null && AllPhotosData.data != null && AllPhotosData.data.photoTags != null && AllPhotosData.data.photoTags.Count > 1) || (Select_Items != null && Select_Items.photoTags != null && Select_Items.photoTags.Count > 1))
-                //{
-                //    await SelectPic();
-                //}
-                //else
-                //{
-                //    if (Settings.CanOpenScanner == true)
-                //    {
-                //        //Settings.CanOpenScanner = false;
-                //        await SelectPic();
-                //    }
-                //    else
-                //    {
-                //        //if (types.Trim().ToLower() == "initialphoto")
-                //        if (selectiontype_index == 0 && puid == 0)
-                //        {
-                //            await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null));
-                //        }
-                //        else
-                //        {
-                //            await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
-                //        }
-                //    }
-                //}
-                #endregion Old Scan & Select Photo Code
             }
             catch (Exception ex)
             {
@@ -1116,7 +976,7 @@ namespace YPS.ViewModel
                     var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
                     var statusiOS = resultIOS[Permission.Photos];
 
-                    /// Checking permission is allowed or denied by the user to access the photo from mobile.
+                    /// Checking permission is allowed or denied9 by the user to access the photo from mobile.
                     if (statusiOS == PermissionStatus.Denied)
                     {
                         var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the gallery to take photos.", null, null, "Maybe Later", "Settings");
@@ -1182,7 +1042,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectPic method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectPic method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -1192,7 +1052,7 @@ namespace YPS.ViewModel
         }
 
         /// <summary>
-        /// 
+        /// This method is to redirect to the inspection page of current version.
         /// </summary>
         private async Task MoveForInsp(string requestfor)
         {
@@ -1275,15 +1135,11 @@ namespace YPS.ViewModel
                     IsInspBtnVisible = FirstMainStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
 
                     IsScanIconVisible = isSacanIconVisible == false ? false : IsInspBtnVisible;
-                    //if (isuploadcompleted == true)
-                    //{
-                    //    FirstMainStack = false;
-                    //}
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DynamicTextChange method -> in PhotoUplodeViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DynamicTextChange method -> in PhotoUplodeViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

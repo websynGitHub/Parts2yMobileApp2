@@ -29,7 +29,7 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                YPSLogger.TrackEvent("NotificationListPage", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("NotificationListPage.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 service = new YPSService();
                 if (Device.RuntimePlatform == Device.iOS)
@@ -58,7 +58,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "NotificationListPage Constructor -> in NotificationListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "NotificationListPage constructor -> in NotificationListPage.xaml.cs " + Settings.userLoginID);
             }
         }
 
@@ -69,7 +69,7 @@ namespace YPS.Views
         {
             try
             {
-                YPSLogger.TrackEvent("NotificationListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("NotificationListPage.xaml.cs", " OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 base.OnAppearing();
 
@@ -116,7 +116,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "getPNdata method -> in NotificationListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "getPNdata method -> in NotificationListPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             finally
@@ -132,7 +132,7 @@ namespace YPS.Views
         /// <param name="e"></param>
         private void NotifyCountlist_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            YPSLogger.TrackEvent("ChatUsers", " In NotifyCountlist_ItemTapped method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("NotificationListPage.xaml.cs", " In NotifyCountlist_ItemTapped method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 vm.loadingindicator = true;
@@ -164,7 +164,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "NotifyCountlist_ItemTapped method -> in NotificationListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "NotifyCountlist_ItemTapped method -> in NotificationListPage.xaml.cs " + Settings.userLoginID);
                 var xx = service.Handleexception(ex);
             }
             finally
@@ -188,7 +188,7 @@ namespace YPS.Views
             catch (Exception ex)
             {
                 vm.loadingindicator = false;
-                YPSLogger.ReportException(ex, "PNredirectionwhenTapPN method -> in NotificationListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PNredirectionwhenTapPN method -> in NotificationListPage.xaml.cs " + Settings.userLoginID);
                 var ex1 = service.Handleexception(ex);
             }
             finally

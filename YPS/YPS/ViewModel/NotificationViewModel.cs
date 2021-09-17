@@ -44,7 +44,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "NotificationViewModel constructor -> in NotificationViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "NotificationViewModel constructor -> in NotificationViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -74,7 +74,7 @@ namespace YPS.ViewModel
         /// </summary>
         private async void clearall_clicked()
         {
-            YPSLogger.TrackEvent("NotificationViewModel", "in clearall_clicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("NotificationViewModel.cs ", "in clearall_clicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -82,7 +82,6 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
-                    //var canclear = await App.Current.MainPage.DisplayAlert("Notification", "Clear all notifications.", "Ok", "Cancel");
                     var canclear = await App.Current.MainPage.DisplayAlert("Notification", "Mark all notifications as read.", "Ok", "Cancel");
 
                     if (canclear == true)
@@ -92,9 +91,6 @@ namespace YPS.ViewModel
                         if (result.status != 0 || result != null)
                         {
                             await pageName.getPNdata();
-                            //PLHideListAndShow = false;
-                            //HideLabelAndShow = true;
-                            //pageName.clearAllLbl.IsVisible = false;
                         }
                         else
                         {
@@ -109,7 +105,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "clearall_clicked method -> in NotificationViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "clearall_clicked method -> in NotificationViewModel.cs " + Settings.userLoginID);
                 var trackResult = await service.Handleexception(ex);
             }
         }
@@ -120,7 +116,7 @@ namespace YPS.ViewModel
         /// <returns></returns>
         public async Task<ObservableCollection<NotifyHistory>> GetNotificationHistory()
         {
-            YPSLogger.TrackEvent("NotificationViewModel", "in GetNotificationHistory method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("NotificationViewModel.cs ", "in GetNotificationHistory method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -180,7 +176,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetNotificationHistory method -> in NotificationViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetNotificationHistory method -> in NotificationViewModel.cs " + Settings.userLoginID);
                 var trackResult = await service.Handleexception(ex);
                 return null;
             }
@@ -192,7 +188,7 @@ namespace YPS.ViewModel
         /// <param name="qaid"></param>
         public async void ReadNotificationHistory(int qaid)
         {
-            YPSLogger.TrackEvent("NotificationViewModel", "in ReadNotificationHistory method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("NotificationViewModel.cs ", "in ReadNotificationHistory method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -201,10 +197,6 @@ namespace YPS.ViewModel
                 if (checkInternet)
                 {
                     var result = await service.ReadNotifyHistory(qaid, Settings.userLoginID);
-
-                    if (result.status != 0)
-                    {
-                    }
                 }
                 else
                 {
@@ -213,7 +205,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ReadNotificationHistory method -> in NotificationViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ReadNotificationHistory method -> in NotificationViewModel.cs " + Settings.userLoginID);
                 var trackResult = await service.Handleexception(ex);
             }
         }
@@ -248,7 +240,7 @@ namespace YPS.ViewModel
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in NotificationViewModel.cs " + Settings.userLoginID);
             }
         }
         public class DashboardLabelChangeClass

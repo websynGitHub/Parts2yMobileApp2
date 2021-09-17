@@ -26,14 +26,6 @@ namespace YPS.Views
             {
                 InitializeComponent();
 
-                //if (Device.RuntimePlatform == Device.iOS)
-                //{
-                //    var safeAreaInset = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-                //    safeAreaInset.Bottom = 0;
-                //    safeAreaInset.Top = 20;
-                //    headerpart.Padding = safeAreaInset;
-                //}
-
                 headerpart.BackgroundColor = Settings.Bar_Background;
                 var currentVersion = VersionTracking.CurrentVersion;
 
@@ -62,7 +54,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped method -> in FileUpload.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in AboutPage.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

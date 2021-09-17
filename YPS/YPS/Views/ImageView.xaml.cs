@@ -19,10 +19,8 @@ namespace YPS.Views
     {
         #region Data member
         ImageViewModelView ImageVm;
-        //public ObservableCollection<UploadFiles> All_YshipphotosList = new ObservableCollection<UploadFiles>();
         YPSService service;
         #endregion
-
 
         /// <summary>
         /// Parameterized constructor.
@@ -40,14 +38,14 @@ namespace YPS.Views
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
                 synfRepoImageViewList.WidthRequest = App.ScreenWidth;
                 synfRepoImageViewList.HeightRequest = App.ScreenHeight;
-                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.IsVisible = false;
                 QuestionName.IsVisible = false;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ImageView constructor -> in ImageView.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 service.Handleexception(ex);
             }
@@ -69,7 +67,7 @@ namespace YPS.Views
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
                 synfLoadImageViewList.WidthRequest = App.ScreenWidth;
                 synfLoadImageViewList.HeightRequest = App.ScreenHeight;
-                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
                 Usernames.IsVisible = string.IsNullOrEmpty(Tags) ? false : true;
@@ -77,7 +75,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ImageView constructor -> in ImageView.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 service.Handleexception(ex);
             }
@@ -98,7 +96,7 @@ namespace YPS.Views
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
                 synfImageViewList.WidthRequest = App.ScreenWidth;
                 synfImageViewList.HeightRequest = App.ScreenHeight;
-                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
                 Usernames.IsVisible = string.IsNullOrEmpty(Tags) ? false : true;
@@ -106,7 +104,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ImageView constructor -> in ImageView.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 service.Handleexception(ex);
             }
@@ -127,7 +125,7 @@ namespace YPS.Views
                 BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
                 synfImageViewList.WidthRequest = App.ScreenWidth;
                 synfImageViewList.HeightRequest = App.ScreenHeight;
-                YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
                 Usernames.IsVisible = string.IsNullOrEmpty(Tags) ? false : true;
@@ -137,7 +135,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ImageView constructor -> in ImageView.xaml.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 service.Handleexception(ex);
             }
@@ -156,37 +154,10 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped constructor -> in PhotoUpload.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped constructor -> in ImageView.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
-
-        ///// <summary>
-        ///// Parameterized constructor.
-        ///// </summary>
-        ///// <param name="photosList"></param>
-        ///// <param name="photoId"></param>
-        ///// <param name="Tags"></param>
-        //public ImageView(ObservableCollection<UploadFiles> photosList, int photoId, string Tags)
-        //{
-        //    try
-        //    {
-        //        InitializeComponent();
-        //        service = new YPSService();
-        //        BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
-        //        //synfImageViewList1.WidthRequest = App.ScreenWidth;
-        //        //synfImageViewList1.HeightRequest = App.ScreenHeight;
-        //        YPSLogger.TrackEvent("ImageView", "Page Constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
-        //        Settings.currentPage = "ImageViewPage";
-        //        All_YshipphotosList = photosList;
-        //        Usernames.Text = Tags;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "ImageView Constructor -> in ImageView.cs " + Settings.userLoginID);
-        //        service.Handleexception(ex);
-        //    }
-        //}
 
         /// <summary>
         /// Gets called when page is appearing.
@@ -200,7 +171,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in ImageView.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -227,11 +198,6 @@ namespace YPS.Views
                 var newCard = e.NewCard;
                 var oldCard = e.OldCard;
 
-                //if (e.NewCard != null)
-                //{
-                //    var newmodelCV = (CustomPhotoModel)newCard.Content.BindingContext;
-                //    Settings.SPhotoDescription = newmodelCV.PhotoDescription;
-                //}
                 if (e.NewCard == null)
                 {
                     synfImageViewList.VisibleCardIndex = 0;
@@ -239,7 +205,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SynfImageViewList_VisibleCardIndexChanged method -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SynfImageViewList_VisibleCardIndexChanged method -> in ImageView.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -255,15 +221,10 @@ namespace YPS.Views
             {
                 var newCard = e.NewCard;
                 var oldCard = e.OldCard;
-
-                if (e.NewCard == null)
-                {
-                    //synfImageViewList1.VisibleCardIndex = 0;
-                }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SynfImageViewList1_VisibleCardIndexChanged method -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SynfImageViewList1_VisibleCardIndexChanged method -> in ImageView.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -282,7 +243,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ShowMoreTextBtn method -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ShowMoreTextBtn method -> in ImageView.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -300,7 +261,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ClosePop method -> in ImageView.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ClosePop method -> in ImageView.xaml.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

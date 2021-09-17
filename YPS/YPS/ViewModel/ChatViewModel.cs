@@ -220,7 +220,7 @@ namespace YPS.ViewModels
             catch (Exception ex)
             {
                 IndicatorVisibility = false;
-                YPSLogger.ReportException(ex, "GetChatHistory method -> in ChatViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetChatHistory method -> in ChatViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
             IndicatorVisibility = false;
@@ -250,7 +250,7 @@ namespace YPS.ViewModels
             {
                 IndicatorVisibility = false;
                 await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "GroupingAndAddingMessage method -> in ChatViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GroupingAndAddingMessage method -> in ChatViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -278,7 +278,6 @@ namespace YPS.ViewModels
                     {
                         foreach (var item in chatPhotos.data)
                         {
-                            //ChatMessageViewModel photoData = new ChatMessageViewModel() { Image = item.MessageBody, Name = item.FullName, MessagDateTime = item.CreatedDate.ToString(), FileNameWithoutExtention = item.FileName };
                             ChatMessageViewModel photoData = new ChatMessageViewModel() { Image = item.MessageBody, Name = item.FullName, MessagDateTime = String.Format(Settings.DateFormat, item.CreatedDate), FileNameWithoutExtention = item.FileName };
                             photoList.Add(photoData);
                         }
@@ -291,7 +290,7 @@ namespace YPS.ViewModels
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetPhotoData method -> in ChatViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetPhotoData method -> in ChatViewModel.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
                 IndicatorVisibility = false;
             }
@@ -391,19 +390,6 @@ namespace YPS.ViewModels
                     FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
                     BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatfiles), FullFilename, picStream);
                     sendchatdata.MessageType = (MediaType.Trim().ToLower()) == "photo" ? "P" : "F";
-
-                    //if (MediaType.Trim().ToLower() == "photo")
-                    //{
-                    //    FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
-                    //    BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatfiles), FullFilename, picStream);
-                    //    sendchatdata.MessageType = "P";
-                    //}
-                    //else
-                    //{
-                    //    FullFilename = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + extension;
-                    //    BlobUpload.UploadFile(CloudFolderKeyVal.GetBlobFolderName((int)BlobContainer.cntchatfiles), FullFilename, picStream);
-                    //    sendchatdata.MessageType = "F";
-                    //}
 
                     if (Chat.Count <= 0)
                     {

@@ -49,23 +49,22 @@
                 <StackLayout Grid.Column="1" Margin="8,10,0,15"
                               HorizontalOptions="StartAndExpand" Orientation="Vertical"
                                         VerticalOptions="StartAndExpand">
-                    <!--<Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>-->
                     <Label x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
                     <Label x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
                 </StackLayout>
-                <LblIcons:FontAwesomeIconLabel Grid.Column="3" Text="{Static StaticIcons:Icons.RefreshIc}" Style="{StaticResource LblIconStyle}">
-                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RefreshTap"/>
-                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
-                </LblIcons:FontAwesomeIconLabel>
+
                 <LblIcons:FontAwesomeIconLabel Grid.Column="2" x:Name="btnchatexit" IsVisible="False" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}">
                     <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="QnAClose"/>
                     </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                 </LblIcons:FontAwesomeIconLabel>
+                
+                <LblIcons:FontAwesomeIconLabel Grid.Column="3" Text="{Static StaticIcons:Icons.RefreshIc}" Style="{StaticResource LblIconStyle}">
+                    <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RefreshTap"/>
+                    </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                </LblIcons:FontAwesomeIconLabel>
+               
                 <badge:SfBadgeView Grid.Column="4" x:Name="bg" BadgeText="{Binding bgcount}" Padding="{OnPlatform iOS='12,0,0,20',Android='5,0,0,20'}">
                     <badge:SfBadgeView.Content>
                         <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.UserCountIc}" Style="{StaticResource LblIconStyle}">
@@ -78,6 +77,7 @@
                         <badge:BadgeSetting BadgeType="Error" Offset="{OnPlatform iOS='-5,5',Android='5,10'}"/>
                     </badge:SfBadgeView.BadgeSettings>
                 </badge:SfBadgeView>
+               
                 <LblIcons:FontAwesomeIconLabel Grid.Column="5" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
                     <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GoToHomeTapped"/>
@@ -142,6 +142,7 @@
                 </StackLayout>
             </StackLayout>
         </Grid>
+        
         <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <Frame Style="{StaticResource FmForActivityIndicator}">
                 <StackLayout Padding="15">
