@@ -46,7 +46,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in PhotoRepoPageViewModel constructor" + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in PhotoRepoPageViewModel constructor" + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 service = new YPSService();
                 Navigation = navigation;
@@ -64,7 +64,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PhotoRepoPageViewModel Constructor  -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PhotoRepoPageViewModel constructor  -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }
@@ -75,7 +75,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void CheckedChanged(object sender)
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in CheckedChanged method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in CheckedChanged method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -101,7 +101,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async Task ShowContentsToLink()
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -146,7 +146,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void ViewPhotoDetails(object obj)
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in ViewPhotoDetails method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in ViewPhotoDetails method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -190,7 +190,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void DeleteImage(object obj)
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             IndicatorVisibility = true;
             try
@@ -248,7 +248,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         catch (Exception ex)
                         {
-                            YPSLogger.ReportException(ex, "delete_image method from if(conform) -> in LoadPageViewModel " + Settings.userLoginID);
+                            YPSLogger.ReportException(ex, "delete_image method from if(conform) -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                             await service.Handleexception(ex);
                         }
 
@@ -276,7 +276,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public async Task GetPhotosData()
         {
 
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in GetPhotosData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in GetPhotosData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -343,7 +343,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <returns></returns>
         public async Task UploadPhoto()
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in UploadPhoto method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in UploadPhoto method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -397,7 +397,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     catch (Exception ex)
                                     {
                                         await service.Handleexception(ex);
-                                        YPSLogger.ReportException(ex, "UploadPhoto method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
+                                        YPSLogger.ReportException(ex, "UploadPhoto method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                                     }
                                 }
                             }
@@ -414,7 +414,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     catch (Exception ex)
                                     {
                                         await service.Handleexception(ex);
-                                        YPSLogger.ReportException(ex, "while deleting the folder in Photo_Upload method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
+                                        YPSLogger.ReportException(ex, "while deleting the folder in Photo_Upload method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                                     }
                                 }
                                 var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -435,7 +435,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     catch (Exception ex)
                                     {
                                         await service.Handleexception(ex);
-                                        YPSLogger.ReportException(ex, "while deleting the each files in Parts2y folder -> Photo_Upload method -> in PhotoRepoPageViewModel " + Settings.userLoginID);
+                                        YPSLogger.ReportException(ex, "while deleting the each files in Parts2y folder -> Photo_Upload method -> in PhotoRepoPageViewModel.cs " + Settings.userLoginID);
                                     }
                                 }
                             }
@@ -468,7 +468,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <returns></returns>
         public async Task SelectPic()
         {
-            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in SelectPic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in SelectPic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
@@ -624,7 +624,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", "in DynamicTextChange method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("PhotoRepoPageViewModel.cs", " in DynamicTextChange method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
 
                 if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)

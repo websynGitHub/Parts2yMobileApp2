@@ -81,7 +81,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PartsInspectionQuestionViewModel constructor -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KPPartsInspectionQuestionViewModel constructor -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -166,7 +166,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "TabChange method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -182,7 +182,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                YPSLogger.TrackEvent("PartsInspectionQuestionViewModel.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("KPPartsInspectionQuestionViewModel.cs", " in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -210,7 +210,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -239,7 +239,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuickTabClicked method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuickTabClicked method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -267,7 +267,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FullTabClicked method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FullTabClicked method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -305,7 +305,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                //if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null))
                 if (selectedTagData.TagTaskStatus != 2 && ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
                    FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
                    (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
@@ -318,7 +317,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SignTabClicked method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -336,8 +335,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
-                    QuestionsList?.All(x => { x.Status = 0; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
+                    QuestionsList?.All(a => { a.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsService(taskid, tagId);
 
@@ -358,7 +357,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -376,7 +375,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -414,7 +413,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -434,7 +433,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuestionClick method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuestionClick method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -484,10 +483,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "KpFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
-                    //if (Settings.VersionID == 4 || Settings.VersionID == 3)
-                    //{
                     IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-                    //}
 
                     if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                     {
@@ -520,7 +516,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in PartsInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in KPPartsInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally

@@ -9,8 +9,6 @@ using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
-//using YPS.Parts2y.Parts2y_Common_Classes;
-//using YPS.Parts2y.Parts2y_Models;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
 
@@ -33,7 +31,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Compare Constructor -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Compare constructor -> in compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
@@ -46,7 +44,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ClearHistory Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ClearHistory method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -64,7 +62,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -77,7 +75,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ViewHistory Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewHistory method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -90,7 +88,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HideHistory Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HideHistory method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -103,7 +101,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "TotalEntryTextChanged Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TotalEntryTextChanged method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -132,7 +130,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveClick Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveClick method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -145,14 +143,22 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
 
         protected override void OnDisappearing()
         {
-            base.OnDisappearing();
+            try
+            {
+                base.OnDisappearing();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnDisappearing method -> in Compare.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
     }

@@ -98,15 +98,12 @@
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
 
-                                <!--<StackLayout VerticalOptions="CenterAndExpand" BackgroundColor="Blue"
-                          HorizontalOptions="End">-->
                                 <local:FontAwesomeIconLabel x:Name="searchEngineName" VerticalOptions="Start"
                                                             AutomationId="AutoRefreshToolbarIcon" IsVisible="{Binding IsSearchFilterIconVisible}"
                                                             Text="{x:Static local1:Icons.Filter}"
                                                             Style="{StaticResource LblIconStyle}"
                                                              HorizontalOptions="End" Margin="0,0,0,2"/>
 
-                                <!--</StackLayout>-->
                             </StackLayout>
                         </Grid>
 
@@ -114,22 +111,11 @@
                                       HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
                             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Orientation="Horizontal">
-                                <!--<Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>-->
+                                
                                 <StackLayout BackgroundColor="DarkGray"  HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                        <!--<Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding HomeCmd}"/>
-                                        </Label.GestureRecognizers>-->
                                     </Label>
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding HomeCmd}"/>
@@ -178,9 +164,6 @@
                                 <Label Text="{Binding PendingText}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding PendingTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer  Command="{Binding PendingCmd}"/>
-                                    </Label.GestureRecognizers>-->
                                 </Label>
                                 <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding PendingTabVisibility}" />
                                 <StackLayout.GestureRecognizers>
@@ -192,9 +175,6 @@
                                 <Label  Text="{Binding InProgress}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="{Binding InProgressTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding InProgressCmd}"/>
-                                    </Label.GestureRecognizers>-->
                                 </Label>
                                 <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding InProgressTabVisibility}" />
                                 <StackLayout.GestureRecognizers>
@@ -206,9 +186,6 @@
                                 <Label Text="{Binding Completed}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding CompleteTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding CompletedCmd}"/>
-                                    </Label.GestureRecognizers>-->
                                 </Label>
                                 <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding CompleteTabVisibility}" />
                                 <StackLayout.GestureRecognizers>
@@ -220,9 +197,6 @@
                                 <Label Text="{Binding All}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding AllTabTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                    <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer  Command="{Binding AllCmd}"/>
-                                    </Label.GestureRecognizers>-->
                                 </Label>
                                 <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding AllTabVisibility}" />
                                 <StackLayout.GestureRecognizers>
@@ -236,7 +210,6 @@
                               Margin="0,6,0,0" IsVisible="{Binding ISPoDataListVisible}" SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <!--<ViewCell>-->
                                     <Grid Padding="6,0,6,6">
                                         <Frame Margin="0,0,0,0" Padding="15,12,15,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        BackgroundColor="{Binding JobTileColor}" CornerRadius="4"  HasShadow="False"
@@ -245,39 +218,6 @@
                                             <StackLayout Orientation="Vertical">
                                                 <Grid RowDefinitions="*" ColumnDefinitions="*">
                                                     <StackLayout Orientation="Vertical">
-                                                        <!--<Grid  HorizontalOptions="Start" RowSpacing="0"
-                                                           IsVisible="{Binding BindingContext.labelobj.POID.Status, Source={x:Reference Name=POPage}}"
-                                                              VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                                            <Label Text="{Binding BindingContext.labelobj.POID.Name, Source={x:Reference Name=POPage}}"
-                                                       TextColor="#4c4c4c" Grid.Row="0" Grid.Column="0"
-                                                       HorizontalTextAlignment="Start" 
-                                                       Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding PONumber}" Grid.Row="0" Grid.Column="1"
-                                                           TextColor="Black" HorizontalTextAlignment="Start" 
-                                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>-->
-
-                                                        <!--<Grid  HorizontalOptions="Start" RowSpacing="0" 
-                                                           IsVisible="{Binding BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=POPage}}"
-                                                              VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, 
-                                                    Source={x:Reference Name=POPage}}" Grid.Row="0" Grid.Column="0"
-                                                       TextColor="#4c4c4c" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding ShippingNumber}" TextColor="Black" Grid.Row="0" Grid.Column="1"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>
-                                                        
-                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
-                                                           IsVisible="{Binding BindingContext.labelobj.REQNo.Status, 
-                                                    Source={x:Reference Name=POPage}}"
-                                                             VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                                            <Label Text="{Binding BindingContext.labelobj.REQNo.Name, 
-                                                    Source={x:Reference Name=POPage}}" Grid.Row="0" Grid.Column="0"
-                                                       TextColor="#4c4c4c" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding REQNo}" Grid.Row="0" Grid.Column="1"
-                                                           TextColor="Black" HorizontalTextAlignment="Start" 
-                                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>-->
 
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=POPage}}"
@@ -288,28 +228,6 @@
                                                             <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
-
-                                                        <!--<StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand">
-                                                            <Grid HorizontalOptions="StartAndExpand" RowSpacing="0"
-                                                           IsVisible="{Binding BindingContext.labelobj.StartTime.Status, Source={x:Reference Name=POPage}}"
-                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                                <Label Text="{Binding BindingContext.labelobj.StartTime.Name, 
-                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                                <Label Text="{Binding StartTime}" Grid.Row="1" Grid.Column="0" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            </Grid>
-
-                                                            <Grid HorizontalOptions="EndAndExpand" RowSpacing="0"
-                                                           IsVisible="{Binding BindingContext.labelobj.EndTime.Status, Source={x:Reference Name=POPage}}"
-                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                                <Label Text="{Binding BindingContext.labelobj.EndTime.Name, 
-                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                                <Label Text="06 April 2021 06:33 PM" Grid.Row="1" Grid.Column="0" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            </Grid>
-                                                        </StackLayout>-->
 
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.StartTime.Status, Source={x:Reference Name=POPage}}"
@@ -406,11 +324,14 @@
                                             </Frame.Effects>
                                         </Frame>
                                     </Grid>
-
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
+                        <Label HorizontalTextAlignment="Center" Grid.Row="3" IsVisible="{Binding NoRecordsLbl}" 
+                               Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand" 
+                               HorizontalOptions="FillAndExpand" Style="{StaticResource LableWithLargeFont}" 
+                               BackgroundColor="Transparent"/>
                     </Grid>
                 </StackLayout>
             </RelativeLayout>
@@ -436,9 +357,6 @@
                             </local:FontAwesomeIconLabel>
                         </Grid>
 
-                        <!--<CollectionView BackgroundColor="Transparent" ItemsSource="{Binding SearchFilterList}" 
-                                     Margin="2,8,2,0" SelectionMode="Single"
-                                        SelectedItem="{Binding SelectedFilterName}">-->
                         <StackLayout BindableLayout.ItemsSource="{Binding SearchFilterList}"  BackgroundColor="Transparent" Margin="2,8,2,0" >
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
@@ -467,18 +385,17 @@
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
-                        <!--</CollectionView>-->
                     </StackLayout>
                 </Frame>
             </ContentView>
 
 
-            <ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
+            <!--<ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
                          VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Label HorizontalTextAlignment="Center"
                          Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
-            </ContentView>
+            </ContentView>-->
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadingindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

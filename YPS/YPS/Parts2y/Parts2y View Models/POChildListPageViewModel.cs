@@ -80,7 +80,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "POChildListPageViewModel constructor -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "POChildListPageViewModel constructor -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -111,7 +111,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "TagLongPessed method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TagLongPessed method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -170,7 +170,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "TabChange method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -200,7 +200,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "Pending_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Pending_Tap method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -231,7 +231,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "InProgress_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "InProgress_Tap method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -262,7 +262,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "Complete_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Complete_Tap method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -293,7 +293,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "Complete_Tap method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Complete_Tap method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -316,7 +316,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetRefreshedData method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetRefreshedData method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             return result;
@@ -367,7 +367,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "ScanOrInsp method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ScanOrInsp method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -396,21 +396,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                     TagNumber = Settings.TagNumber = POTagDetail.TagNumber;
                     IsScanOrInspPopUpVisible = true;
-
-                    //if (POTagDetail != null)
-                    //{
-                    //    loadindicator = true;
-                    //    POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
-                    //    Settings.TagNumber = POTagDetail.TagNumber;
-
-                    //    await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
-                    //}
                 }
             }
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "MoveToNextPage method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MoveToNextPage method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -432,7 +423,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HomeCommand_btn method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HomeCommand_btn method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -459,7 +450,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "UpdateTabCount method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "UpdateTabCount method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -495,35 +486,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (data.TagNumber != null)
                             {
                                 #region Chat
-                                //if (Settings.userRoleID == (int)UserRoles.SuperAdmin || Settings.userRoleID == (int)UserRoles.SuperUser || Settings.userRoleID == (int)UserRoles.SuperViewer)
-                                //{
-                                //    data.chatImage = "minus.png";
-
-                                //    data.IsChatsVisible = false;
-                                //}
-                                //else
-                                //{
                                 if (data.TagQACount == 0)
                                 {
                                     if (data.TagQAClosedCount > 0)
                                     {
-                                        data.chatImage = "chatIcon.png";
                                         data.chatTickVisible = true;
-                                    }
-                                    else
-                                    {
-                                        data.chatImage = "minus.png";
                                     }
 
                                     data.IsChatsVisible = false;
                                 }
                                 else
                                 {
-                                    data.chatImage = "chatIcon.png";
                                     data.countVisible = true;
                                     data.IsChatsVisible = true;
                                 }
-                                //}
                                 #endregion
 
                                 #region Before Photo & After Photo
@@ -531,7 +507,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     if (data.IsPhotoRequired == 0)
                                     {
-                                        data.cameImage = "cross.png";
                                         data.CameraIconColor = Color.Red;
                                         data.IsPhotosVisible = true;
                                         data.imgCamOpacityB = data.imgTickOpacityB = 0.5;
@@ -539,30 +514,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
                                     else
                                     {
-                                        data.cameImage = "minus.png";
                                         data.IsPhotosVisible = false;
                                     }
-
                                 }
                                 else
                                 {
                                     if (data.ISPhotoClosed == 1)
                                     {
-                                        data.cameImage = "Chatcamera.png";
                                         data.photoTickVisible = true;
                                         data.CameraIconColor = Color.Black;
-
                                         data.imgCamOpacityB = data.imgTickOpacityB = (data.TagBPhotoCount == 0) ? 0.5 : 1.0;
                                         data.imgCamOpacityA = data.imgtickOpacityA = (data.TagAPhotoCount == 0) ? 0.5 : 1.0;
                                     }
                                     else
                                     {
-                                        data.cameImage = "Chatcamera.png";
                                         data.BPhotoCountVisible = true;
                                         data.APhotoCountVisible = true;
                                         data.CameraIconColor = Color.Black;
                                     }
-
                                     data.IsPhotosVisible = true;
                                 }
                                 #endregion
@@ -570,23 +539,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 #region File upload 
                                 if (data.TagFilesCount == 0 && data.FUID == 0)
                                 {
-                                    data.fileImage = "minus.png";
-
                                     data.IsFilesVisible = false;
                                 }
                                 else
                                 {
                                     if (data.ISFileClosed > 0)
                                     {
-                                        data.fileImage = "attachb.png";
                                         data.fileTickVisible = true;
                                     }
                                     else
                                     {
-                                        data.fileImage = "attachb.png";
                                         data.filecountVisible = true;
                                     }
-
                                     data.IsFilesVisible = true;
                                 }
                                 #endregion
@@ -609,20 +573,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 data.IsTaskResourceVisible = data.TaskResourceID == Settings.userLoginID ? false : true;
                                 data.IsTagDescLabelVisible = string.IsNullOrEmpty(data.TagDescription) ? false : true;
                                 data.IsConditionNameLabelVisible = string.IsNullOrEmpty(data.ConditionName) ? false : true;
-                            }
-                            else if (data.TagNumber == null)
-                            {
-                                data.countVisible = false;
-                                data.filecountVisible = false;
-                                data.fileTickVisible = false;
-                                data.chatTickVisible = false;
-                                data.BPhotoCountVisible = false;
-                                data.APhotoCountVisible = false;
-                                data.photoTickVisible = false;
-                                data.POS = null;
-                                data.SUB = null;
-                                IsStatusTabVisible = false;
-                                data.emptyCellValue = "No records to display";
                             }
                         }
 
@@ -679,7 +629,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
 
-                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_InitialCamera method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in tap_InitialCamera method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     bool checkInternet = await App.CheckInterNetConnection();
 
@@ -780,7 +730,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_InitialCamera method -> in POChildListPageViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_InitialCamera method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
                 loadindicator = false;
             }
@@ -798,7 +748,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (!loadindicator)
                 {
-                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_OnMessage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in tap_OnMessage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     loadindicator = true;
 
@@ -858,7 +808,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_OnMessage method -> in POChildListPageViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_OnMessage method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -874,7 +824,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (!loadindicator)
                 {
-                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_InitialFileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in tap_InitialFileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     loadindicator = true;
 
@@ -947,7 +897,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         catch (Exception ex)
                         {
-                            YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in POChildListPageViewModel! " + Settings.userLoginID);
+                            YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                         }
                     }
@@ -959,7 +909,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in POChildListPageViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -972,7 +922,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("POChildListPageViewModel.cs", "in MarkAsDone method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in MarkAsDone method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 loadindicator = true;
 
@@ -1074,7 +1024,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
 
-                    YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_Printer method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in tap_Printer method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     var taglist = (obj as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                     var data = taglist.Where(wr => wr.IsChecked == true).ToList();
@@ -1147,7 +1097,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "tap_Printer method -> in POChildListPageViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_Printer method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -1161,7 +1111,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_eachCamB method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in tap_eachCamB method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var potag = obj as AllPoData;
                 bool checkInternet = await App.CheckInterNetConnection();
@@ -1174,21 +1124,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         try
                         {
-                            if (potag.cameImage == "Chatcamera.png")
-                            {
-                                Settings.CanOpenScanner = false;
-                                Settings.currentPuId = potag.PUID;
-                                Settings.BphotoCount = potag.TagBPhotoCount;
-                                await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, true));
-                            }
-                            else
-                            {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Photo upload has not yet been initiated, for this tag.");
-                            }
+                            Settings.CanOpenScanner = false;
+                            Settings.currentPuId = potag.PUID;
+                            Settings.BphotoCount = potag.TagBPhotoCount;
+                            await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, true));
                         }
                         catch (Exception ex)
                         {
-                            YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
+                            YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                         }
                         finally
@@ -1206,7 +1149,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             finally
@@ -1221,7 +1164,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void tap_eachCamA(object obj)
         {
-            YPSLogger.TrackEvent("POChildListPageViewModel", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             if (!loadindicator)
             {
@@ -1238,21 +1181,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         try
                         {
-                            if (allPo.cameImage == "Chatcamera.png")
-                            {
-                                Settings.CanOpenScanner = false;
-                                Settings.AphotoCount = allPo.TagAPhotoCount;
-                                Settings.currentPuId = allPo.PUID;
-                                await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible, isalldone, true));
-                            }
-                            else
-                            {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Photo upload has not yet been initiated, for this tag.");
-                            }
+                            Settings.CanOpenScanner = false;
+                            Settings.AphotoCount = allPo.TagAPhotoCount;
+                            Settings.currentPuId = allPo.PUID;
+                            await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible, isalldone, true));
                         }
                         catch (Exception ex)
                         {
-                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in POChildListPageViewModel! " + Settings.userLoginID);
+                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                             var trackResult = await trackService.Handleexception(ex);
                             loadindicator = false;
                         }
@@ -1276,7 +1212,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("POChildListPageViewModel", "in ViewExistingChats method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in ViewExistingChats method " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 loadindicator = true;
 
                 bool checkInternet = await App.CheckInterNetConnection();
@@ -1287,18 +1223,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         var allPo = obj as AllPoData;
 
-                        if (allPo.chatImage != "minus.png")
-                        {
-                            await Navigation.PushAsync(new QnAlistPage(allPo.POID, allPo.POTagID, Settings.QAType));
-                        }
-                        else
-                        {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Chat has not yet been initiated, for this tag.");
-                        }
+                        await Navigation.PushAsync(new QnAlistPage(allPo.POID, allPo.POTagID, Settings.QAType));
                     }
                     catch (Exception ex)
                     {
-                        YPSLogger.ReportException(ex, "ViewExistingChats method inner catch block-> in POChildListPageViewModel " + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "ViewExistingChats method inner catch block-> in POChildListPageViewModel.cs " + Settings.userLoginID);
                         var trackResult = await trackService.Handleexception(ex);
                     }
                 }
@@ -1310,7 +1239,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ViewExistingChats method -> in POChildListPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewExistingChats method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
             loadindicator = false;
@@ -1320,7 +1249,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("POChildListPageViewModel", "in ViewUploadedFiles method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in ViewUploadedFiles method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 bool checkInternet = await App.CheckInterNetConnection();
 
@@ -1330,20 +1259,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         var allPo = obj as AllPoData;
 
-                        if (allPo.fileImage != "minus.png")
-                        {
-                            Settings.currentFuId = allPo.FUID;
-                            Settings.FilesCount = allPo.TagFilesCount;
-                            await Navigation.PushAsync(new FileUpload(null, allPo.POID, allPo.FUID, "fileUpload", allPo.fileTickVisible));
-                        }
-                        else
-                        {
-                            DependencyService.Get<IToastMessage>().ShortAlert("File upload has not yet been initiated, for this tag.");
-                        }
+                        Settings.currentFuId = allPo.FUID;
+                        Settings.FilesCount = allPo.TagFilesCount;
+                        await Navigation.PushAsync(new FileUpload(null, allPo.POID, allPo.FUID, "fileUpload", allPo.fileTickVisible));
                     }
                     catch (Exception ex)
                     {
-                        YPSLogger.ReportException(ex, "ViewUploadedFiles method inner catch block-> in POChildListPageViewModel" + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "ViewUploadedFiles method inner catch block-> in POChildListPageViewModel.cs " + Settings.userLoginID);
                         var trackResult = await trackService.Handleexception(ex);
                     }
                 }
@@ -1356,7 +1278,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ViewUploadedFiles method -> in POChildListPageViewModel" + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewUploadedFiles method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
@@ -1453,7 +1375,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         #region Properties
 
-        //public string _SelectedPartsNo = Settings.VersionID == 2 ? "VIN(s) selected" : "Part(s) selected";
         public string _SelectedPartsNo = "Record(s) selected";
         public string SelectedPartsNo
         {

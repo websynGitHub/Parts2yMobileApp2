@@ -5,6 +5,8 @@ using System.Text;
 using System.Xml.Serialization;
 using Xamarin.Forms;
 using YPS.CommonClasses;
+using YPS.Helpers;
+using YPS.Service;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -31,7 +33,9 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "ArchiveSettings method -> in SettingsArchiver.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
             }
         }
 
@@ -54,6 +58,9 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "UnarchiveSettings method -> in SettingsArchiver.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
                 return null;
             }
         }

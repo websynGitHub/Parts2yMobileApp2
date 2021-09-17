@@ -34,7 +34,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand tap_OnCamA { get; set; }
         public ICommand tap_FileUpload { get; set; }
         public ICommand ChooseColumns_Tap { get; set; }
-        public ICommand btn_close { get; set; }
         public ICommand btn_done { get; set; }
         public ICommand profile_Change_Tap { get; set; }
         public ICommand IsRequired_Tap_IC { get; set; }
@@ -74,7 +73,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("ParentListViewModel", "page loading " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel.cs", " in ParentListViewModel constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Navigation = _Navigation;
                 pagename = page;
                 trackService = new YPSService();
@@ -90,12 +89,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Task.Run(() => BindGridData(-1)).Wait();
 
                 #region Assigning methods to the respective ICommands
-                tab_ClearSearch = new Command(async () => await ClearSearch());
-                tap_OnChat = new Command(tap_eachMessage);
-                tap_OnCamB = new Command(tap_eachCamB);
-                tap_OnCamA = new Command(tap_eachCamA);
-                tap_FileUpload = new Command(tap_eachFileUpload);
-                btn_close = new Command(closeBtn);
                 PrintShippingMarkReportCmd = new Command(PrintShippingMarkReport);
                 GroupeFileUploadCmd = new Command(GroupFileUpload);
                 SelectedPOCmd = new Command(SelectedParentDetails);
@@ -111,9 +104,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
-
                 #endregion
-
             }
             catch (Exception ex)
             {
@@ -122,6 +113,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called when an item is selected from Saved Search Filters popup.
+        /// </summary>
+        /// <param name="sender"></param>
         public async void SelectedFilterbyNameMethod(object sender)
         {
             try
@@ -142,11 +137,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called when clicked on delete icon, of any search from the saved search popup, to delete that respective search.
+        /// </summary>
+        /// <param name="sender"></param>
         public async void DeleteFilterSearch(object sender)
         {
             try
             {
-                YPSLogger.TrackEvent("ParentListViewModel", "in DeleteFilterSearch method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel.cs", " in DeleteFilterSearch method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 if (await App.Current.MainPage.DisplayAlert("Delete", "you sure you want to delete?", "OK", "Cancel") == true)
                 {
@@ -193,11 +192,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// This method is to show/hide filter icon & to show the popup when clicked on filter icon.
+        /// </summary>
+        /// <param name="popfilterlist"></param>
+        /// <returns></returns>
         public async Task ShowHideSearFilterList(bool popfilterlist)
         {
             try
             {
-                YPSLogger.TrackEvent("ParentListViewModel", "in ShowHideSearFilterList method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel.cs", " in ShowHideSearFilterList method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var result = await trackService.GetSavedUserSearchSettings();
 
@@ -243,7 +247,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         /// <summary>
-        /// Gets called when an item is selected from Filter DropDownList
+        /// Gets called when an item is selected from Saved Search Filters popup.
         /// </summary>
         public async void FilterSelected()
         {
@@ -266,7 +270,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FilterSelected method -> in ParentListViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FilterSelected method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -275,7 +279,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-
+        /// <summary>
+        /// Gets called when clicked on Home tab.
+        /// </summary>
+        /// <param name="tabname"></param>
+        /// <returns></returns>
         private async Task TabChange(string tabname)
         {
             try
@@ -299,6 +307,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called whne clicked on pending tab.
+        /// </summary>
+        /// <returns></returns>
         public async Task Pending_Tap()
         {
             try
@@ -318,6 +330,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called whne clicked on inprogress tab.
+        /// </summary>
+        /// <returns></returns>
         public async Task InProgress_Tap()
         {
             try
@@ -336,6 +352,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called whne clicked on done tab.
+        /// </summary>
+        /// <returns></returns>
         public async Task Complete_Tap()
         {
             try
@@ -354,6 +374,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called whne clicked on all tab.
+        /// </summary>
+        /// <returns></returns>
         public async Task All_Tap()
         {
             try
@@ -372,6 +396,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// This method is to get the fresh PoData.
+        /// </summary>
+        /// <param name="isfromsearchfilter"></param>
+        /// <returns></returns>
         public async Task<GetPoData> GetRefreshedData(bool isfromsearchfilter)
         {
             GetPoData result = new GetPoData();
@@ -405,7 +434,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadingindicator = true;
 
-                YPSLogger.TrackEvent("MainPage.xaml.cs", "in BindGridData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel.cs", " in BindGridData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 try
                 {
@@ -583,6 +612,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called when clicked on any Job.
+        /// </summary>
+        /// <param name="sender"></param>
         public async void SelectedParentDetails(object sender)
         {
             try
@@ -634,6 +667,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        /// <summary>
+        /// Gets called when clicked on ShippingMark icon, to view the ShippingMark report.
+        /// </summary>
+        /// <param name="sender"></param>
         public async void PrintShippingMarkReport(object sender)
         {
             try
@@ -722,6 +759,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             loadingindicator = false;
         }
 
+        /// <summary>
+        /// Gets called when clciked on back icon, to move back to the previous page i.e Home page.
+        /// </summary>
+        /// <returns></returns>
         public async Task Backevnttapped_click()
         {
             try
@@ -737,680 +778,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         /// <summary>
-        /// This method is called when clicked on the settings icon from bottom menu.
-        /// </summary>
-        /// <param name="obj"></param>
-        public async void profile_Tap(object obj)
-        {
-            if (!loadingindicator)
-            {
-                try
-                {
-                    loadingindicator = true;
-
-                    bool checkInternet = await App.CheckInterNetConnection();
-
-                    if (checkInternet)
-                    {
-                        //await Navigation.PushAsync(new ProfileSelectionPage((int)QAType.PT));
-                    }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    YPSLogger.ReportException(ex, "profile_Tap method -> in ParentListViewModel! " + Settings.userLoginID);
-                    await trackService.Handleexception(ex);
-                }
-                finally
-                {
-                    loadingindicator = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// This method is called when clicked on close button from choose column popup.
-        /// </summary>
-        /// <param name="obj"></param>
-        private void closeBtn(object obj)
-        {
-            try
-            {
-                popup = false;
-                SearchDisable = true;
-                RefreshDisable = true;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "closeBtn method -> in ParentListViewModel! " + Settings.userLoginID);
-                trackService.Handleexception(ex);
-            }
-        }
-
-        /// <summary>
-        /// This method is called when clicked on Choose Columns.
-        /// </summary>
-        public void ChooseColumns()
-        {
-            if (!loadingindicator)
-            {
-                try
-                {
-                    CheckToolBarPopUpHideOrShow();
-                    Settings.mutipleTimeClick = true;
-
-                    popup = true;
-                    SearchDisable = false;
-                    RefreshDisable = false;
-                }
-                catch (Exception ex)
-                {
-                    YPSLogger.ReportException(ex, "ChooseColumns method -> in ParentListViewModel! " + Settings.userLoginID);
-                    trackService.Handleexception(ex);
-                }
-                finally
-                {
-                    Settings.mutipleTimeClick = false;
-                }
-            }
-        }
-
-        #region for each time 
-        /// <summary>
-        /// This method is called when clicked on camera icon form data grid, to view After Packing photo(s).
-        /// </summary>
-        /// <param name="obj"></param>
-        private async void tap_eachCamA(object obj)
-        {
-            YPSLogger.TrackEvent("ParentListViewModel", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-            if (!loadingindicator)
-            {
-                bool checkInternet = await App.CheckInterNetConnection();
-
-                if (checkInternet)
-                {
-                    var allPo = obj as AllPoData;
-
-                    if (allPo.imgCamOpacityA != 0.5)
-                    {
-                        loadingindicator = true;
-                        try
-                        {
-                            if (allPo.cameImage == "Chatcamera.png")
-                            {
-                                Settings.AphotoCount = allPo.TagAPhotoCount;
-                                Settings.currentPuId = allPo.PUID;
-                                //await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible));
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            YPSLogger.ReportException(ex, "tap_eachCamA method -> in ParentListViewModel! " + Settings.userLoginID);
-                            var trackResult = await trackService.Handleexception(ex);
-                        }
-                        loadingindicator = false;
-                    }
-                }
-                else
-                {
-                    loadingindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                }
-                loadingindicator = false;
-            }
-        }
-
-        /// <summary>
-        /// This method is called when clicked on camera icon form data grid, to view Before Packing photo(s).
-        /// </summary>
-        /// <param name="obj"></param>
-        private async void tap_eachCamB(object obj)
-        {
-            YPSLogger.TrackEvent("PoDataViewModel", "in tap_eachCamB method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-            if (!loadingindicator)
-            {
-                avoidMutiplePageOpen = true;
-                var allPo = obj as AllPoData;
-                bool checkInternet = await App.CheckInterNetConnection();
-                if (checkInternet)
-                {
-                    if (allPo.imgCamOpacityB != 0.5)
-                    {
-                        loadingindicator = true;
-                        try
-                        {
-                            if (allPo.cameImage == "Chatcamera.png")
-                            {
-                                Settings.currentPuId = allPo.PUID;
-                                Settings.BphotoCount = allPo.TagBPhotoCount;
-                                //await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, allPo.photoTickVisible));
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            YPSLogger.ReportException(ex, "tap_eachCamB method -> in PoDataViewModel! " + Settings.userLoginID);
-                            var trackResult = await trackService.Handleexception(ex);
-                        }
-                    }
-                }
-                else
-                {
-                    loadingindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                }
-                loadingindicator = false;
-            }
-        }
-
-        /// <summary>
-        /// This method is called when clicked on chat icon form data grid, to view chat(s).
-        /// </summary>
-        /// <param name="obj"></param>
-        private async void tap_eachMessage(object obj)
-        {
-            YPSLogger.TrackEvent("PoDataViewModel", "in tap_eachMessage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-            if (!loadingindicator)
-            {
-                loadingindicator = true;
-
-                avoidMutiplePageOpen = true;
-                bool checkInternet = await App.CheckInterNetConnection();
-
-                if (checkInternet)
-                {
-                    try
-                    {
-                        var allPo = obj as AllPoData;
-
-                        if (allPo.chatImage != "minus.png")
-                        {
-                            //await Navigation.PushAsync(new QnAlistPage(allPo.POID, allPo.POTagID, Settings.QAType));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        YPSLogger.ReportException(ex, "tap_eachMessage method -> in PoDataViewModel! " + Settings.userLoginID);
-                        var trackResult = await trackService.Handleexception(ex);
-                    }
-                }
-                else
-                {
-                    loadingindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                }
-            }
-            loadingindicator = false;
-        }
-
-        /// <summary>
-        /// This method is called when clicked on attachment icon form data grid, to view uploaded file(s).
-        /// </summary>
-        /// <param name="obj"></param>
-        public async void tap_eachFileUpload(object obj)
-        {
-            YPSLogger.TrackEvent("PoDataViewModel", "in tap_eachFileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-            if (!loadingindicator)
-            {
-                loadingindicator = true;
-                bool checkInternet = await App.CheckInterNetConnection();
-
-                if (checkInternet)
-                {
-                    try
-                    {
-                        var allPo = obj as AllPoData;
-
-                        if (allPo.fileImage != "minus.png")
-                        {
-                            Settings.currentFuId = allPo.FUID;
-                            Settings.FilesCount = allPo.TagFilesCount;
-                            //await Navigation.PushAsync(new FileUpload(null, allPo.POID, allPo.FUID, "fileUpload", allPo.fileTickVisible));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        YPSLogger.ReportException(ex, "tap_eachFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
-                        var trackResult = await trackService.Handleexception(ex);
-                    }
-                }
-                else
-                {
-                    loadingindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                }
-            }
-            loadingindicator = false;
-        }
-        #endregion
-
-        #region for bottom bar 
-        /// <summary>
-        /// This method is called when clicked on camera icon from bottom menu, to start uploading photo(s).
-        /// </summary>
-        /// <param name="sender"></param>
-        //public async void tap_InitialCamera(object sender)
-        //{
-        //    if (!loadingindicator)
-        //    {
-        //        YPSLogger.TrackEvent("PoDataViewModel", "in tap_InitialCamera method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-        //        try
-        //        {
-        //            loadingindicator = true;
-
-        //            bool checkInternet = await App.CheckInterNetConnection();
-
-        //            if (checkInternet)
-        //            {
-        //                //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-        //                //{
-        //                var dataGrid = sender as SfDataGrid;
-        //                var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-        //                var uniq = data.GroupBy(x => x.POShippingNumber);
-
-        //                if (uniq.Count() >= 2)
-        //                {
-        //                    //Please select any one group.
-        //                    DependencyService.Get<IToastMessage>().ShortAlert("Please select tags under same po.");
-        //                }
-        //                else if (uniq.Count() == 0)
-        //                {
-        //                    DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
-        //                }
-        //                else if (uniq.Count() == 1)
-        //                {
-        //                    var restricData = data.Where(r => r.cameImage == "cross.png").ToList();
-
-        //                    if (restricData.Count > 0)
-        //                    {
-        //                        DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
-        //                    }
-        //                    else
-        //                    {
-        //                        PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-
-        //                        foreach (var podata in uniq)
-        //                        {
-        //                            var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-        //                            selectedTagsData.POID = d.POID;
-        //                            List<PhotoTag> lstdat = new List<PhotoTag>();
-
-        //                            foreach (var item in podata)
-        //                            {
-        //                                if (item.TagAPhotoCount == 0 && item.TagBPhotoCount == 0 && item.PUID == 0)
-        //                                {
-        //                                    PhotoTag tg = new PhotoTag();
-
-        //                                    if (item.POTagID != 0)
-        //                                    {
-        //                                        tg.POTagID = item.POTagID;
-        //                                        Settings.Tagnumbers = item.TagNumber;
-        //                                        lstdat.Add(tg);
-        //                                    }
-        //                                }
-        //                                else
-        //                                {
-        //                                    selectedTagsData.alreadyExit = "alreadyExit";
-        //                                    break;
-        //                                }
-        //                            }
-        //                            selectedTagsData.photoTags = lstdat;
-        //                            Settings.currentPoTagId_Inti = lstdat;
-        //                        }
-
-        //                        if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
-        //                        {
-        //                            DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected tag(s).");
-        //                        }
-        //                        else
-        //                        {
-        //                            if (selectedTagsData.photoTags.Count != 0)
-        //                            {
-        //                                //await Navigation.PushAsync(new PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false));
-        //                            }
-        //                            else
-        //                            {
-        //                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                //}
-        //            }
-        //            else
-        //            {
-        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            YPSLogger.ReportException(ex, "tap_InitialCamera method -> in PoDataViewModel! " + Settings.userLoginID);
-        //            var trackResult = await trackService.Handleexception(ex);
-        //        }
-        //        finally
-        //        {
-        //            loadingindicator = false;
-        //        }
-        //    }
-        //}
-
-        /// <summary>
-        /// This method is called when clicked on chat icon from bottom menu, to start chat.
-        /// </summary>
-        /// <param name="sender"></param>
-        //public async void tap_OnMessage(object sender)
-        //{
-        //    if (!loadingindicator)
-        //    {
-        //        YPSLogger.TrackEvent("PoDataViewModel", "in tap_OnMessage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-        //        try
-        //        {
-        //            loadingindicator = true;
-
-        //            bool checkInternet = await App.CheckInterNetConnection();
-
-        //            if (checkInternet)
-        //            {
-        //                //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-        //                //{
-        //                var dataGrid = sender as SfDataGrid;
-        //                var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-        //                var uniq = data.GroupBy(x => x.POShippingNumber);
-
-        //                if (uniq.Count() >= 2)
-        //                {
-        //                    //Please select any one group.
-        //                    DependencyService.Get<IToastMessage>().ShortAlert("Please select tags from same po.");
-        //                }
-        //                else if (uniq.Count() == 0)
-        //                {
-        //                    DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start conversation.");
-        //                }
-        //                else if (uniq.Count() == 1)
-        //                {
-        //                    ChatData selectedTagsData = new ChatData();
-
-        //                    foreach (var podata in uniq)
-        //                    {
-        //                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-        //                        selectedTagsData.POID = d.POID;
-        //                        List<Tag> lstdat = new List<Tag>();
-
-        //                        foreach (var item in podata)
-        //                        {
-        //                            Tag tg = new Tag();
-
-        //                            if (item.POTagID != 0)
-        //                            {
-        //                                tg.POTagID = item.POTagID;
-        //                                lstdat.Add(tg);
-        //                            }
-        //                        }
-        //                        selectedTagsData.tags = lstdat;
-        //                    }
-        //                    if (selectedTagsData.tags.Count != 0)
-        //                    {
-        //                        Settings.ChatuserCountImgHide = 1;
-        //                        //await Navigation.PushAsync(new ChatUsers(selectedTagsData, true));
-        //                    }
-        //                    else
-        //                    {
-        //                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
-        //                    }
-        //                }
-        //                //}
-        //            }
-        //            else
-        //            {
-        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            YPSLogger.ReportException(ex, "tap_OnMessage method -> in PoDataViewModel! " + Settings.userLoginID);
-        //            var trackResult = await trackService.Handleexception(ex);
-        //        }
-        //        finally
-        //        {
-        //            loadingindicator = false;
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// This method is called when clicked on file icon from bottom menu, to start uploading file(s).
-        ///// </summary>
-        ///// <param name="sender"></param>
-        //public async void tap_InitialFileUpload(object sender)
-        //{
-        //    if (!loadingindicator)
-        //    {
-        //        YPSLogger.TrackEvent("PoDataViewModel", "in tap_InitialFileUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-        //        try
-        //        {
-        //            loadingindicator = true;
-
-        //            bool checkInternet = await App.CheckInterNetConnection();
-
-        //            if (checkInternet)
-        //            {
-        //                //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-        //                //{
-        //                try
-        //                {
-        //                    var dataGrid = sender as SfDataGrid;
-        //                    var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-        //                    var uniq = data.GroupBy(x => x.POShippingNumber);
-
-        //                    if (uniq.Count() >= 2)
-        //                    {
-        //                        //Please select any one group.
-        //                        DependencyService.Get<IToastMessage>().ShortAlert("File upload is already marked as completed for the selected tag(s).");
-        //                    }
-        //                    else if (uniq.Count() == 0)
-        //                    {
-        //                        DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload file(s).");
-        //                    }
-        //                    else if (uniq.Count() == 1)
-        //                    {
-        //                        StartUploadFileModel selectedTagsData = new StartUploadFileModel();
-        //                        foreach (var podata in uniq)
-        //                        {
-        //                            var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-        //                            selectedTagsData.POID = d.POID;
-
-        //                            List<FileTag> lstdat = new List<FileTag>();
-        //                            foreach (var item in podata)
-        //                            {
-        //                                FileTag tg = new FileTag();
-        //                                if (item.TagFilesCount == 0 && item.FUID == 0)
-        //                                {
-        //                                    if (item.POTagID != 0)
-        //                                    {
-        //                                        tg.POTagID = item.POTagID;
-        //                                        lstdat.Add(tg);
-        //                                    }
-        //                                }
-        //                                else
-        //                                {
-        //                                    selectedTagsData.alreadyExit = "alreadyExit";
-        //                                    break;
-        //                                }
-
-        //                            }
-        //                            selectedTagsData.FileTags = Settings.currentPoTagId_Inti_F = lstdat;
-        //                        }
-
-        //                        if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
-        //                        {
-        //                            DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected tag(s).");
-        //                        }
-        //                        else
-        //                        {
-        //                            if (selectedTagsData.FileTags.Count != 0)
-        //                            {
-        //                                //await Navigation.PushAsync(new FileUpload(selectedTagsData, 0, 0, "initialFile", false));
-        //                            }
-        //                            else
-        //                            {
-        //                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
-        //                    var trackResult = await trackService.Handleexception(ex);
-        //                }
-        //                //}
-        //            }
-        //            else
-        //            {
-        //                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            YPSLogger.ReportException(ex, "tap_InitialFileUpload method -> in PoDataViewModel! " + Settings.userLoginID);
-        //            var trackResult = await trackService.Handleexception(ex);
-        //        }
-        //        finally
-        //        {
-        //            loadingindicator = false;
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// This method is called when clicked on PrintTag icon from bottom menu.
-        ///// </summary>
-        ///// <param name="obj"></param>
-        //public async void tap_Printer(object obj)
-        //{
-        //    if (!loadingindicator)
-        //    {
-        //        YPSLogger.TrackEvent("PoDataViewModel", "in tap_Printer method " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
-        //        try
-        //        {
-        //            loadingindicator = true;
-
-        //            //if (Settings.userRoleID != (int)UserRoles.SuperAdmin)
-        //            //{
-        //            //    if (Settings.userRoleID == (int)UserRoles.MfrAdmin || Settings.userRoleID == (int)UserRoles.MfrUser || Settings.userRoleID == (int)UserRoles.DealerAdmin || Settings.userRoleID == (int)UserRoles.DealerUser)
-        //            //    {
-        //            //    }
-        //            //    else
-        //            //    {
-        //            var dataGrid = obj as SfDataGrid;
-        //            var data = dataGrid.SelectedItems.Cast<AllPoData>().ToList();
-        //            var uniq = data.GroupBy(x => x.POShippingNumber);
-
-        //            if (uniq.Count() >= 2)
-        //            {
-        //                //Please select any one group.
-        //                DependencyService.Get<IToastMessage>().ShortAlert("please select tag(s) under same po.");
-        //            }
-        //            else if (uniq.Count() == 0)
-        //            {
-        //                //Please select tag(s) to download the report
-        //                DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s).");
-        //            }
-        //            else if (uniq.Count() == 1)
-        //            {
-        //                var checkInternet = await App.CheckInterNetConnection();
-        //                if (checkInternet)
-        //                {
-        //                    string poTagID = "";
-        //                    foreach (var podata in uniq)
-        //                    {
-        //                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-        //                        foreach (var item in podata)
-        //                        {
-        //                            poTagID += item.POTagID + ",";
-        //                        }
-        //                    }
-        //                    poTagID = poTagID.TrimEnd(',');
-
-        //                    if (poTagID != "0")
-        //                    {
-        //                        YPSService pSService = new YPSService();
-        //                        var printResult = await pSService.PrintPDF(poTagID);
-
-        //                        PrintPDFModel printPDFModel = new PrintPDFModel();
-
-        //                        if (printResult.status != 0 && printResult != null)
-        //                        {
-        //                            var bArray = printResult.data;
-        //                            byte[] bytes = Convert.FromBase64String(bArray);
-        //                            printPDFModel.bArray = bytes;
-        //                            printPDFModel.FileName = "PrintTag" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
-        //                            printPDFModel.PDFFileTitle = "Print Tag";
-
-        //                            switch (Device.RuntimePlatform)
-        //                            {
-        //                                case Device.iOS:
-        //                                    if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
-        //                                    {
-        //                                        await FileManager.GetByteArrayData(printPDFModel);
-        //                                    }
-
-        //                                    var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
-        //                                    DependencyService.Get<NewOpenPdfI>().passPath(url);
-        //                                    break;
-        //                                case Device.Android:
-        //                                    //await Navigation.PushAsync(new PdfViewPage(printPDFModel));
-        //                                    break;
-        //                            }
-        //                        }
-        //                        else
-        //                        {
-        //                            //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong!");
-        //                        }
-        //                    }
-        //                    else
-        //                    {
-        //                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-        //                }
-        //            }
-        //            //}
-        //            //}
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            YPSLogger.ReportException(ex, "tap_Printer method -> in PoDataViewModel! " + Settings.userLoginID);
-        //            var trackResult = await trackService.Handleexception(ex);
-        //        }
-        //        finally
-        //        {
-        //            loadingindicator = false;
-        //        }
-        //    }
-        //}
-        #endregion
-
-        /// <summary>
         /// This method is called when clicked on search icon, there on ToolBar.
         /// </summary>
         public async void FilterClicked()
         {
             if (!loadingindicator)
             {
-                YPSLogger.TrackEvent("PoDataViewModel", "in FilterClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel.cs", " in FilterClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 try
                 {
@@ -1436,7 +810,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "FilterClicked method-> in ParentListViewModel! " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "FilterClicked method-> in ParentListViewModel.cs " + Settings.userLoginID);
                     await trackService.Handleexception(ex);
                 }
                 finally
@@ -1458,11 +832,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (!loadingindicator)
                 {
-                    YPSLogger.TrackEvent("PoDataViewModel", "in FilterClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("ParentListViewModel.cs", " in FilterClicked method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                    CheckToolBarPopUpHideOrShow();
                     loadingindicator = true;
-
                     SearchDisable = false;
 
                     if (AllTabVisibility == true)
@@ -1495,23 +867,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        /// <summary>
-        /// This methid is called when clicked on Archived Chat, from more options.
-        /// </summary>
-        public async void ArchivedChats()
-        {
-            try
-            {
-                CheckToolBarPopUpHideOrShow();
-                await Navigation.PushAsync(new QnAlistPage(0, 0, (int)QAType.PT));
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "ArchivedChats method -> in ParentListViewModel.cs " + Settings.userLoginID);
-                var trackResult = await trackService.Handleexception(ex);
-            }
-        }
-
         bool isloading = false;
 
         /// <summary>
@@ -1522,7 +877,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             if (!loadingindicator)
             {
-                YPSLogger.TrackEvent("ParentListViewModel", "in clearData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListViewModel.cs", " in clearData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 try
                 {
@@ -1600,7 +955,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in ParentListViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveAndClearSearch method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -1638,66 +993,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CheckingSearchValues method -> in ParentListViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CheckingSearchValues method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
-
-        #region TagColumns Binding
-        /// <summary>
-        /// This method binds the tags columns to the grid. 
-        /// </summary>
-        /// <returns></returns>
-        public async Task TagColumnsBinding()
-        {
-            try
-            {
-                var getpoData = await trackService.GetUserPrioritySettings(Settings.userLoginID);
-
-                if (getpoData != null)
-                {
-                    if (getpoData.status != 0)
-                    {
-                        var searchTags = JsonConvert.DeserializeObject<List<ColumnInfo>>(getpoData.data.TagColumns);
-                        Settings.VersionID = getpoData.data.VersionID;
-
-                        if (searchTags != null)
-                        {
-                            ObservableCollection<ColumnInfo> columnsData = new ObservableCollection<ColumnInfo>();
-
-                            foreach (var name in searchTags)
-                            {
-                                columnsData.Add(new ColumnInfo() { mappingText = name.Column, headerText = name.Column, Value = name.Value });
-                                showColumns = columnsData;
-                            }
-                        }
-                        else
-                        {
-                            showColumns = null;
-                        }
-                    }
-                    else
-                    {
-                        showColumns = null;
-
-                        //if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0 && Settings.userRoleID != (int)UserRoles.SuperAdmin)
-                        //{
-                        //    //pagename.GetBottomMenVal();
-                        //}
-                    }
-                }
-                else
-                {
-                    showColumns = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "TagColumnsBinding method -> in PoDataViewModel! " + Settings.userLoginID);
-                var trackResult = await trackService.Handleexception(ex);
-            }
-        }
-        #endregion
 
         /// <summary>
         /// This method gets the search result based on search values.
@@ -1774,50 +1073,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SearchResultGet method -> in ParentListViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SearchResultGet method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 var trackResult = await trackService.Handleexception(ex);
             }
         }
-
-        /// <summary>
-        /// This method is to show/hide the toolbar.
-        /// </summary>
-        public void CheckToolBarPopUpHideOrShow()
-        {
-            try
-            {
-                if (ToolBarItemPopUp == false)
-                {
-                    MoreItemIconColor = Color.Gray;
-                    ToolBarItemPopUp = true;
-                }
-                else
-                {
-                    MoreItemIconColor = Color.White;
-                    ToolBarItemPopUp = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "CheckToolBarPopUpHideOrShow method -> in ParentListViewModel! " + Settings.userLoginID);
-                var trackResult = trackService.Handleexception(ex);
-            }
-        }
-
-        #region INotifyPropertyChanged Implimentation
-        public event PropertyChangedEventHandler PropertyChanged;
-        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public void RaisePropertyChanged(String name)
-        {
-            if (PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-
-        #endregion
 
         /// <summary>
         /// This is for changing the labels dynamically
@@ -1932,7 +1191,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
-
         private bool _IsSearchFilterIconVisible { set; get; }
         public bool IsSearchFilterIconVisible
         {
@@ -2009,17 +1267,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("IsLoadTabVisible");
             }
         }
-
-        //public bool _IsShippingMarkVisible = true;
-        //public bool IsShippingMarkVisible
-        //{
-        //    get => _IsShippingMarkVisible;
-        //    set
-        //    {
-        //        _IsShippingMarkVisible = value;
-        //        RaisePropertyChanged("IsShippingMarkVisible");
-        //    }
-        //}
 
         public bool _IsPluploadVisible = true;
         public bool IsPluploadVisible
@@ -2382,17 +1629,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        //private bool _activityIndicator;
-        //public bool activityIndicator
-        //{
-        //    get { return _activityIndicator; }
-        //    set
-        //    {
-        //        _activityIndicator = value;
-        //        RaisePropertyChanged("activityIndicator");
-        //    }
-        //}
-
         private bool _popup = false;
         public bool popup
         {
@@ -2536,17 +1772,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        //private NumericButtonsGenerateMode _NumericButtonsGenerateMode;
-        //public NumericButtonsGenerateMode NumericButtonsGenerateMode
-        //{
-        //    get { return _NumericButtonsGenerateMode; }
-        //    set
-        //    {
-        //        _NumericButtonsGenerateMode = value;
-        //        RaisePropertyChanged("NumericButtonsGenerateMode");
-        //    }
-        //}
-
         private bool _ISPoDataListVisible = false;
         public bool ISPoDataListVisible
         {
@@ -2613,28 +1838,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _ToolBarItemPopUp = false;
-        public bool ToolBarItemPopUp
-        {
-            get { return _ToolBarItemPopUp; }
-            set
-            {
-                _ToolBarItemPopUp = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private Color _MoreItemIconColor = Color.White;
-        public Color MoreItemIconColor
-        {
-            get => _MoreItemIconColor;
-            set
-            {
-                _MoreItemIconColor = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private Color _BgColor = YPS.CommonClasses.Settings.Bar_Background;
         public Color BgColor
         {
@@ -2679,29 +1882,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-
-        //private string _SupplierName = Settings.SupplierSelected;
-        //public string SupplierName
-        //{
-        //    get { return _SupplierName; }
-        //    set
-        //    {
-        //        _SupplierName = value;
-        //        RaisePropertyChanged("SupplierName");
-        //    }
-        //}
-
-        //private string _Id = Settings.CompanyID.ToString();
-        //public string Id
-        //{
-        //    get { return _Id; }
-        //    set
-        //    {
-        //        _UserName = value;
-        //        RaisePropertyChanged("Id");
-        //    }
-        //}
-
         private AllPoData _PODetails;
         public AllPoData PODetails
         {
@@ -2712,7 +1892,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 //SelectedParentDetails();
             }
         }
-
 
         private bool _loadingindicator = false;
         public bool loadingindicator
@@ -2743,13 +1922,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("IsChildStackListVisible");
             }
         }
-        #endregion
-    }
 
-    public class ModelForIsPhotoRequired
-    {
-        public string message { get; set; }
-        public int status { get; set; }
-        public int data { get; set; }
+        #region INotifyPropertyChanged Implimentation
+        public event PropertyChangedEventHandler PropertyChanged;
+        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public void RaisePropertyChanged(String name)
+        {
+            if (PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+        #endregion
+
+        #endregion
     }
 }

@@ -69,7 +69,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ScanPageViewModel constructor -> in ScanPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ScanPageViewModel constructor -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -83,7 +83,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ReScan method -> in ScanPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ReScan method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -150,7 +150,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
 
                     if (Navigation.ModalStack.Count == 0 ||
-                                        Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
                         ScannerPage.AutoFocus();
 
@@ -169,7 +169,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OpenScanner method -> in ScanPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OpenScanner method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -180,7 +180,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
 
-                YPSLogger.TrackEvent("InspVerificationScanViewModel.cs", "in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ScanPageViewModel.cs", " in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -262,7 +262,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SingleTagDataVerification method -> in ScanPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SingleTagDataVerification method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -277,7 +277,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
 
-                YPSLogger.TrackEvent("ScanPageViewModel.cs", "in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ScanPageViewModel.cs", " in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -340,7 +340,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetDataAndVerify method -> in ScanPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetDataAndVerify method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -356,7 +356,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (IsPhotoEnable == true)
                 {
                     IndicatorVisibility = true;
-                    YPSLogger.TrackEvent("ScanPageViewModel", "in PhotoUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                    YPSLogger.TrackEvent("ScanPageViewModel.cs", " in PhotoUpload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                     bool checkInternet = await App.CheckInterNetConnection();
 
@@ -470,7 +470,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 IndicatorVisibility = false;
-                YPSLogger.ReportException(ex, "MoveNext method -> in ScanPageViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MoveNext method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally

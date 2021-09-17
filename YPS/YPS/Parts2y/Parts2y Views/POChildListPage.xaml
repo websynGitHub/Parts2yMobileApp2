@@ -284,7 +284,7 @@
                                                             <Label Text="{Binding ShippingNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
-                                                        
+
                                                         <StackLayout HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.TagDesc.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center">
@@ -441,6 +441,11 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
+                        <Label HorizontalTextAlignment="Center" Grid.Row="3" IsVisible="{Binding NoRecordsLbl}" 
+                               Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand" 
+                               HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}" 
+                               BackgroundColor="Transparent"/>
+
                         <StackLayout Grid.Row="4" Padding="0,6,0,8" AbsoluteLayout.LayoutBounds="0,1,1,.15"
                              IsVisible="{Binding IsPOTagDataListVisible}" VerticalOptions="End"
                                  AbsoluteLayout.LayoutFlags="All" BackgroundColor="{Binding BgColor}" Orientation="Horizontal">
@@ -503,48 +508,35 @@
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding TagNumber}" 
                                        Style="{DynamicResource LableWithQuestionFont}" TextColor="Black"/>
                             </Grid>
-                            <!--<Label Grid.Row="1" Grid.Column="0" Text="{Binding TagNumber}" Style="{DynamicResource LableWithQuestionFont}"
-                               TextColor="Black"/>-->
-                           
                         </Grid>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                     Margin="0,20,0,0">
-                                <local:FontAwesomeIconLabel Text="{Static local1:Icons.Scan}" Style="{StaticResource LblIconStyle}"
+                            <local:FontAwesomeIconLabel Text="{Static local1:Icons.Scan}" Style="{StaticResource LblIconStyle}"
                                                        TextColor="Black" FontSize="60"
                                                            HorizontalOptions="Start" Margin="0,0,15,20" HeightRequest="60" WidthRequest="50">
-                                    <local:FontAwesomeIconLabel.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ScanCmd}"/>
-                                    </local:FontAwesomeIconLabel.GestureRecognizers>
-                                </local:FontAwesomeIconLabel>
+                                <local:FontAwesomeIconLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ScanCmd}"/>
+                                </local:FontAwesomeIconLabel.GestureRecognizers>
+                            </local:FontAwesomeIconLabel>
 
-                                <sfbuttons:SfButton HorizontalOptions="End"
+                            <sfbuttons:SfButton HorizontalOptions="End"
                                     Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                         HeightRequest="53" Margin="15,0,0,20">
-                                    <sfbuttons:SfButton.Content>
-                                        <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                        </Grid>
-                                    </sfbuttons:SfButton.Content>
-                                    <sfbuttons:SfButton.Behaviors>
-                                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                                    </sfbuttons:SfButton.Behaviors>
-                                </sfbuttons:SfButton>
-                            </StackLayout>
-
-
-                        
+                                <sfbuttons:SfButton.Content>
+                                    <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    </Grid>
+                                </sfbuttons:SfButton.Content>
+                                <sfbuttons:SfButton.Behaviors>
+                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                </sfbuttons:SfButton.Behaviors>
+                            </sfbuttons:SfButton>
+                        </StackLayout>
                     </StackLayout>
                 </Frame>
-            </ContentView>
-            
-            <ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
-                         VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Label FontSize="Large" HorizontalTextAlignment="Center"
-                          Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
             </ContentView>
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 

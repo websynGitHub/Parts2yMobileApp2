@@ -35,7 +35,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PPartsInspectionQuestionsPage Constructor -> in PPartsInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PPartsInspectionQuestionsPage constructor -> in PPartsInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -69,10 +69,6 @@ namespace YPS.Parts2y.Parts2y_Views
                     }
                     else
                     {
-                        //Vm.LoadTextColor = Color.Gray;
-                        //Vm.IsQuickTabVisible = true;
-                        //Vm.IsFullTabVisible = false;
-                        //Vm.SignTabVisibility = false;
                         Task.Run(() => Vm.QuickTabClicked()).Wait();
                     }
                 }
@@ -122,7 +118,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked Method -> in PPartsInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in PPartsInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

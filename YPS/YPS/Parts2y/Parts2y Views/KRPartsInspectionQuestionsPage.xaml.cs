@@ -36,7 +36,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "KRPartsInspectionQuestionsPage Constructor -> in KRPartsInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KRPartsInspectionQuestionsPage constructor -> in KRPartsInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -71,17 +71,13 @@ namespace YPS.Parts2y.Parts2y_Views
                     }
                     else
                     {
-                        //Vm.LoadTextColor = Color.Gray;
-                        //Vm.IsQuickTabVisible = true;
-                        //Vm.IsFullTabVisible = false;
-                        //Vm.SignTabVisibility = false;
                         Task.Run(() => Vm.QuickTabClicked()).Wait();
                     }
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing OnAppearing -> in KRPartsInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in KRPartsInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -124,7 +120,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked Method -> in KRPartsInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in KRPartsInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

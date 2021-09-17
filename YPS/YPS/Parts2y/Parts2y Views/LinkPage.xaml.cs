@@ -63,7 +63,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in LinkPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in LinkPage.xaml.cs  " + Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
         }

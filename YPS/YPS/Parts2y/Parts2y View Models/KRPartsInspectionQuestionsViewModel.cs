@@ -180,7 +180,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                YPSLogger.TrackEvent("KRPartsInspectionQuestionsViewModel.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("KRPartsInspectionQuestionsViewModel.cs", " in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -303,7 +303,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                //if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null))
                 if (selectedTagData.TagTaskStatus != 2 && ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
                    FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
                    (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
@@ -334,7 +333,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsService(taskid, tagId);
@@ -483,10 +482,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "KrFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
-                    //if (Settings.VersionID == 3)
-                    //{
                     IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-                    //}
 
                     if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                     {

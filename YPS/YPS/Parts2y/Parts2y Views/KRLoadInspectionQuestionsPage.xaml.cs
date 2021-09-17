@@ -34,7 +34,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "KRLoadInspectionQuestionsPage Constructor -> in KRLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KRLoadInspectionQuestionsPage constructor -> in KRLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex));
             }
         }
@@ -56,7 +56,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in KRLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in KRLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

@@ -24,8 +24,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
         public PInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
             List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp,
-            PPartsInspectionQuestionsViewModel PartsQueVm, PLoadInspectionQuestionsViewModel LoadQueVm, bool isalldone = false
-            )
+            PPartsInspectionQuestionsViewModel PartsQueVm, PLoadInspectionQuestionsViewModel LoadQueVm, bool isalldone = false)
         {
             try
             {
@@ -37,7 +36,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PInspectionAnswersPage Constructor -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PInspectionAnswersPage constructor -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -51,7 +50,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Constructor -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -112,7 +111,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked Method -> in PInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in PInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -135,7 +134,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PlaneradioClicked Method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PlaneradioClicked method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -158,7 +157,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearRightClicked Method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearRightClicked method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -181,7 +180,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearLeftClicked Method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearLeftClicked method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -205,7 +204,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontRightClicked Method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontRightClicked method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -229,7 +228,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontLeftClicked Method -> in EInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontLeftClicked method -> in PInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

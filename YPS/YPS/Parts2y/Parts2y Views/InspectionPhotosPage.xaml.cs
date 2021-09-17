@@ -29,7 +29,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "InspectionPhotosPage Constructor -> in InspectionPhotosPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "InspectionPhotosPage constructor -> in InspectionPhotosPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
@@ -42,7 +42,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped Method -> in InspectionPhotosPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in InspectionPhotosPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }

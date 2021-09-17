@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-//using YPS.Parts2y.Parts2y_Common_Classes;
-//using YPS.Parts2y.Parts2y_Models;
 using YPS.CustomToastMsg;
 using YPS.Service;
 using YPS.Views;
@@ -54,7 +51,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "MenuPage Constructor -> in MenuPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MenuPage constructor -> in MenuPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex));
             }
 
@@ -73,16 +70,6 @@ namespace YPS.Parts2y.Parts2y_Views
                     if (moveToPage == "Home")
                     {
                         App.Current.MainPage = new MenuPage(typeof(HomePage));
-                    }
-                    else if (moveToPage == "Archive")
-                    {
-                        if (Detail.Navigation.ModalStack.Count == 0 ||
-             Detail.Navigation.ModalStack.Last().GetType() != typeof(QnAlistPage))
-                        {
-                            await Detail.Navigation.PushModalAsync(new QnAlistPage(0, 0, (int)QAType.PT));
-                        }
-                        this.MasterBehavior = MasterBehavior.Popover;
-                        IsPresented = false;
                     }
                     else if (moveToPage == "Settings")
                     {
@@ -139,7 +126,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "MenuItems_ItemTapped Method -> in MenuPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MenuItems_ItemTapped method -> in MenuPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

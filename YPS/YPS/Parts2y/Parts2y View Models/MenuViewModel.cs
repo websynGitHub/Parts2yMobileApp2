@@ -7,9 +7,6 @@ using Xamarin.Forms;
 using YPS.CommonClasses;
 using YPS.Helpers;
 using YPS.Model;
-//using YPS.Parts2y.Parts2y_Models;
-//using YPS.Parts2y.Parts2y_Services;
-//using YPS.Parts2y.Parts2y_SQLITE;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
@@ -40,10 +37,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "MenuViewModel constructor -> in MenuViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MenuViewModel constructor -> in MenuViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
+
         #region Properties
         private List<MenuList> _MenuItems;
         public List<MenuList> MenuItems
@@ -98,6 +96,5 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
-
     }
 }

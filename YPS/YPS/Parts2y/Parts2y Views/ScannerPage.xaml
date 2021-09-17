@@ -2,41 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviours="clr-namespace:YPS.Behaviours" xmlns:local1="clr-namespace:YPS.CustomRenders"
              x:Class="YPS.Parts2y.Parts2y_Views.ScannerPage"
-              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
-             >
+              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
     <ContentPage.Content>
         <Grid RowDefinitions="*" VerticalOptions="FillAndExpand" Padding="0,25,0,0" BackgroundColor="Black">
             <local:PickerView Grid.Row="0" x:Name="PickerView" BackgroundColor="Black" HorizontalOptions="FillAndExpand" 
                               VerticalOptions="FillAndExpand" x:FieldModifier="Public"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"
                          Margin="0,0,0,6" Grid.Row="0" Spacing="17" BackgroundColor="Transparent">
-                   
-                <!--<local1:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.Start}"
-                                                 TextColor="DimGray" FontSize="46"
-                                                 HorizontalOptions="Center" VerticalOptions="Start"
-                                                 >
-                    <local1:FontAwesomeIconLabel.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="Start_Scanning"/>
-                    </local1:FontAwesomeIconLabel.GestureRecognizers>
-                    </local1:FontAwesomeIconLabel>-->
-                
-                    <!--<sfbuttons:SfButton x:Name="StartBtn" HorizontalOptions="FillAndExpand" Clicked="Start_Scanning" 
-                                     Style="{StaticResource SfBtnRed}"
-                                     Text="Start" Padding="10,0,10,0">
-                    <sfbuttons:SfButton.Behaviors>
-                        <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                    </sfbuttons:SfButton.Behaviors>
-                </sfbuttons:SfButton>-->
 
-                <!--<local1:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
-                                                 TextColor="DimGray" FontSize="46"
-                                                 HorizontalOptions="Center" VerticalOptions="Start"
-                                                 >
-                    <local1:FontAwesomeIconLabel.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="Close_Scanner"/>
-                    </local1:FontAwesomeIconLabel.GestureRecognizers>
-                </local1:FontAwesomeIconLabel>-->
-                
                 <sfbuttons:SfButton x:Name="BackBtn" HorizontalOptions="FillAndExpand" Clicked="Close_Scanner" 
                                      Style="{StaticResource SfBtnRed}"
                                      Text="Back" Padding="10,0,10,0">
@@ -44,7 +17,7 @@
                         <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
                     </sfbuttons:SfButton.Behaviors>
                 </sfbuttons:SfButton>
-                
+
                 <!--<Button x:Name="StartBtn" Text="Start" HorizontalOptions="Center" VerticalOptions="End" Clicked="Start_Scanning"/>
                 <Button Text="Back" HorizontalOptions="Center" VerticalOptions="End" Clicked="Close_Scanner"/>-->
             </StackLayout>

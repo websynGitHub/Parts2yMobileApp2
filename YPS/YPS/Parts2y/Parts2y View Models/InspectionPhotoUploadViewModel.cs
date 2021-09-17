@@ -67,14 +67,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "InspectionPhotoUploadViewModel constructor -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "InspectionPhotoUploadViewModel constructor -> in InspectionPhotoUploadViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
 
         private async void Delete_Photo(InspectionPhotosResponseListData inspectionPhotosResponseListData)
         {
-            YPSLogger.TrackEvent("InspectionPhotoUploadPageViewModel", "in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("InspectionPhotoUploadViewModel.cs", " in DeleteImage method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 IndicatorVisibility = true;
@@ -105,7 +105,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Delete_Photo method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Delete_Photo method -> in InspectionPhotoUploadViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -120,7 +120,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void image_tap(InspectionPhotosResponseListData data)
         {
-            YPSLogger.TrackEvent("PhotoUplodeViewModel", "in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("InspectionPhotoUploadViewModel.cs", " in image_tap method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -136,7 +136,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "image_tap method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "image_tap method -> in InspectionPhotoUploadViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -152,7 +152,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <returns></returns>
         public async Task SelectPic()
         {
-            YPSLogger.TrackEvent("InspectionPhotoUploadViewModel", "in SelectPic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("InspectionPhotoUploadViewModel.cs ", "in SelectPic method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
                 string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
@@ -375,7 +375,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SelectPic method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectPic method -> in InspectionPhotoUploadViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -390,7 +390,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <returns></returns>
         public async Task Photo_Upload()
         {
-            YPSLogger.TrackEvent("InspectionPhotoUploadViewModel", "in Photo_Upload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("InspectionPhotoUploadViewModel.cs", " in Photo_Upload method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
 
             Device.BeginInvokeOnMainThread(async () =>
@@ -447,7 +447,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 catch (Exception ex)
                 {
-                    YPSLogger.ReportException(ex, "Photo_Upload method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                    YPSLogger.ReportException(ex, "Photo_Upload method -> in InspectionPhotoUploadViewModel.cs " + Settings.userLoginID);
                     await trackService.Handleexception(ex);
                 }
                 finally
@@ -516,7 +516,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in InspectionPhotoUploadViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally
@@ -592,7 +592,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DynamicTextChange method -> in InspectionPhotoUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DynamicTextChange method -> in InspectionPhotoUploadViewModel.cs " + Settings.userLoginID);
                 trackService.Handleexception(ex);
             }
         }

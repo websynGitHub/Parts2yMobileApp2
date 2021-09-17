@@ -34,7 +34,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "InspVerificationScanPage Constructor -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "InspVerificationScanPage constructor -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 Task.Run(() => yPSService.Handleexception(ex)).Wait();
             }
         }
@@ -62,7 +62,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
         }
@@ -80,7 +80,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped Method -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in InspVerificationScanPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
         }

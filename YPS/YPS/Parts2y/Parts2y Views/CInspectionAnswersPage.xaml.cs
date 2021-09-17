@@ -40,7 +40,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "VinInspectionAnswersPage Constructor -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CInspectionAnswersPage constructor -> in CInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -54,7 +54,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Constructor -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing constructor -> in CInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -115,7 +115,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked Method -> in VinInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in CInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -138,7 +138,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PlaneradioClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PlaneradioClicked method -> in CInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -161,7 +161,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearRightClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearRightClicked method -> in CInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -184,7 +184,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearLeftClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearLeftClicked method -> in CInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -208,7 +208,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontRightClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontRightClicked method -> in CInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -232,7 +232,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontLeftClicked Method -> in VinInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontLeftClicked method -> in CInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

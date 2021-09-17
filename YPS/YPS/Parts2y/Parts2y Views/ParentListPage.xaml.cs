@@ -69,7 +69,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ParentListPage Constructor -> in ParentListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ParentListPage constructor -> in ParentListPage.cs " + Settings.userLoginID);
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
@@ -85,7 +85,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 Vm.loadingindicator = true;
 
                 base.OnAppearing();
-                YPSLogger.TrackEvent("ParentListPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ParentListPage.xaml.cs", " in OnAppearing method" + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 Settings.countmenu = 1;
 
@@ -135,7 +135,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in ParentListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in ParentListPage.xaml.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
                 Settings.ShowSuccessAlert = false;
                 Vm.loadingindicator = false;
@@ -179,7 +179,7 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
                 trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "OnTimedEvent -> in MainPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CreateGestureWithCommands -> in ParentListPage.xaml.cs " + Settings.userLoginID);
                 //UserDialogs.Instance.HideLoading();
                 Vm.loadingindicator = false;
             }
@@ -198,6 +198,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "OnDisappearing method -> in ParentListPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
             }
         }
 
@@ -226,7 +228,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HideSearchFilter Method -> in ParentListPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HideSearchFilter method -> in ParentListPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }

@@ -89,7 +89,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("LinkPageViewModel.cs", "in tap_eachCamB method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("LinkPageViewModel.cs", " in tap_eachCamB method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var potag = obj as AllPoData;
                 bool checkInternet = await App.CheckInterNetConnection();
@@ -185,7 +185,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
 
-                YPSLogger.TrackEvent("LinkPageViewModel.cs", "in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("LinkPageViewModel.cs", " in tap_eachCamA method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var potag = obj as AllPoData;
 
@@ -280,7 +280,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         private async void LinkPhotoToTag(object sender)
         {
-            YPSLogger.TrackEvent("LinkPageViewModel.cs", "in LinkPhotoToTag method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("LinkPageViewModel.cs", " in LinkPhotoToTag method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -471,7 +471,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <param name="obj"></param>
         public async Task ShowContentsToLink()
         {
-            YPSLogger.TrackEvent("LinkPageViewModel.cs", "in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("LinkPageViewModel.cs", " in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try

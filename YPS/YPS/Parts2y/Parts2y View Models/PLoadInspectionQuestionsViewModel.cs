@@ -138,7 +138,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
 
                     }
-
                     await Navigation.PopAsync();
                 }
             }
@@ -161,7 +160,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("PLoadInspectionQuestionsViewModel.cs", " in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -179,7 +178,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID && wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == Settings.TaskID));
                         }
                     }
                 }
@@ -269,7 +268,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsByTask(taskid);

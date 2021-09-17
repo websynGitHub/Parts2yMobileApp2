@@ -34,7 +34,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel constructor", "ScanVerifiedTagListPageViewModel.cs " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel constructor", " ScanVerifiedTagListPageViewModel.cs " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Navigation = _Navigation;
                 pagename = page;
                 uploadType = uploadtype;
@@ -55,7 +55,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public async Task ShowContentsToLink(ObservableCollection<AllPoData> matchedtaglist)
         {
-            YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", "in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", " in ShowContentsToLink method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -121,7 +121,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         public async void MoveOrAssignAndMove(object sender)
         {
-            YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", "in MoveOrAssignAndMove method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", " in MoveOrAssignAndMove method " + DateTime.Now + " UserId: " + Settings.userLoginID);
             IndicatorVisibility = true;
 
             try
@@ -167,7 +167,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
 
                                 #region PhotoUpload
-                                if (podata.cameImage == "cross.png")
+                                if (podata.IsPhotoRequired == 0)
                                 {
                                     DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
                                 }
@@ -261,7 +261,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
 
-                YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", "in AssignUnAssignedTask method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", " in AssignUnAssignedTask method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var val = await service.AssignUnassignedTask(podata.TaskID);
 
@@ -395,7 +395,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Name = "Event"
             };
 
-            public LabelAndActionFields TagDesc { get; set; } = new LabelAndActionFields { Status = false,  //Name = "TagDescription"
+            public LabelAndActionFields TagDesc { get; set; } = new LabelAndActionFields
+            {
+                Status = false,  //Name = "TagDescription"
                 Name = "IDENT_DEVIATED_TAG_DESC"
             };
 

@@ -25,8 +25,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
         public KRInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
             List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp,
-            KRPartsInspectionQuestionsViewModel PartsQueVm, KRLoadInspectionQuestionsViewModel LoadQueVm, bool isalldone = false
-            )
+            KRPartsInspectionQuestionsViewModel PartsQueVm, KRLoadInspectionQuestionsViewModel LoadQueVm, bool isalldone = false)
         {
             try
             {
@@ -38,7 +37,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "KPInspectionAnswersPage Constructor -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KRInspectionAnswersPage constructor -> in KRInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -52,7 +51,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Constructor -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing constructor -> in KRInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -113,7 +112,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked Method -> in KPInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in KRInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -136,7 +135,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PlaneradioClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PlaneradioClicked method -> in KRInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -159,7 +158,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearRightClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearRightClicked method -> in KRInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -182,7 +181,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RearLeftClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RearLeftClicked method -> in KRInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -206,7 +205,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontRightClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontRightClicked method -> in KRInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -230,7 +229,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FrontLeftClicked Method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FrontLeftClicked method -> in KRInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

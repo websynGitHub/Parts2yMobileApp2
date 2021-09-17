@@ -70,7 +70,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "KRLoadInspectionQuestionsViewModel constructor -> in KRLoadInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KRLoadInspectionQuestionsViewModel constructor -> in KRLoadInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -179,7 +179,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.POID == Settings.POID && wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == Settings.TaskID));
                         }
                     }
                 }
@@ -269,7 +269,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsByTask(taskid);
@@ -409,7 +409,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         labelobj.Home.Name = "Home";
                         labelobj.Jobs.Name = "Job";
-                        //labelobj.Load.Name = Settings.VersionID == 2 ? "Carrier" : "Load";
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }

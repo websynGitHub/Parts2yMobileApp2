@@ -31,7 +31,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CompareContinuous Constructor -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CompareContinuous constructor -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
@@ -44,7 +44,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ClearHistory Method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ClearHistory method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -62,7 +62,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped Method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -75,7 +75,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ViewHistory Method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewHistory method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -88,7 +88,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HideHistory Method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HideHistory method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -101,7 +101,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "TotalEntryTextChanged Method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TotalEntryTextChanged method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -130,7 +130,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveClick Method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveClick method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -140,22 +140,27 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 base.OnAppearing();
-                //if (Settings.scanredirectpage == "CompareContinuous")
-                //{
-                //Vm.Scanditscan(Settings.scanQRValuecode);
-                //Vm.scanset.ContinuousAfterScan = false;
-                //Settings.scanredirectpage = string.Empty;
-                //}
             }
             catch (Exception ex)
             {
 
+                YPSLogger.ReportException(ex, "OnAppearing method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                trackService.Handleexception(ex);
             }
         }
 
         protected override void OnDisappearing()
         {
-            base.OnDisappearing();
+            try
+            {
+                base.OnDisappearing();
+            }
+            catch (Exception ex)
+            {
+
+                YPSLogger.ReportException(ex, "OnDisappearing method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
     }
 }

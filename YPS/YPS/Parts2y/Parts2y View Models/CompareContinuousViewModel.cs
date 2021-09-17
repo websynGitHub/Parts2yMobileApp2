@@ -61,7 +61,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CompareContinuousViewModel constructor -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CompareContinuousViewModel constructor -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -103,7 +103,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetSavedConfigDataFromDB method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetSavedConfigDataFromDB method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -128,7 +128,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetUsersScanConfig method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetUsersScanConfig method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -153,7 +153,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "RememberUserDetails method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "RememberUserDetails method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -194,7 +194,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     catch (Exception ex1)
                     {
-                        YPSLogger.ReportException(ex1, "CompareQRCode method while navigate-> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                        YPSLogger.ReportException(ex1, "CompareQRCode method while navigate-> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                         var trackResult = trackService.Handleexception(ex1);
                     }
                 }
@@ -205,7 +205,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "CompareQRCode method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CompareQRCode method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -403,7 +403,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnDidScan method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnDidScan method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -431,7 +431,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "TabChange method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -479,7 +479,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SaveConfig method -> in CompareContinuousViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SaveConfig method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
                 return false;
             }

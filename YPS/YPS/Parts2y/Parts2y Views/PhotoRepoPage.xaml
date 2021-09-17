@@ -85,14 +85,11 @@
                                                             <TapGestureRecognizer Command="{Binding BindingContext.DeleteImageCmd,Source={x:Reference Name=PhotoRepo}}" CommandParameter="{Binding .}"/>
                                                         </StackLayout.GestureRecognizers>
                                                     </StackLayout>
-                                                    <!--<StackLayout Grid.Row="1" Padding="1"  HorizontalOptions="End" VerticalOptions="End"
-                                                              Spacing="0" HeightRequest="45" WidthRequest="30" BackgroundColor="#80000000">-->
                                                     <input:CheckBox HeightRequest="35"  WidthRequest="35" BorderColor="HotPink" BoxBackgroundColor="WhiteSmoke"
                                                                   Grid.Row="1" Padding="1" Margin="0"  HorizontalOptions="End" VerticalOptions="End"
                                                                  Spacing="0" IsChecked="{Binding IsSelected}" 
                                                                     CheckChangedCommand="{Binding BindingContext.CheckedChangedCmd,Source={x:Reference Name=PhotoRepo}}"
                                                                  />
-                                                    <!--</StackLayout>-->
                                                 </Grid>
 
                                                 <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"

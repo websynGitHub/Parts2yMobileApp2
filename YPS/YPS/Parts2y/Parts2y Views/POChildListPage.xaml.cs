@@ -37,13 +37,6 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
 
-                //if (Settings.VersionID != 2 && Settings.VersionID != 4 &&
-                //    Settings.VersionID != 5 && Settings.VersionID != 3 && Settings.VersionID != 1)
-                //{
-                //    Vm.IsRightArrowVisible = false;
-                //    ChildDataList.SelectionMode = SelectionMode.None;
-                //}
-
                 Settings.refreshPage = 1;
 
                 #region Subscribing MessageCenter
@@ -195,7 +188,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "POChildListPage Constructor -> in POChildListPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "POChildListPage constructor -> in POChildListPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
         }
@@ -208,7 +201,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                YPSLogger.TrackEvent("POChildListPage.xaml.cs", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("POChildListPage.xaml.cs", " in OnAppearing method" + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 Vm.loadindicator = true;
                 base.OnAppearing();
@@ -326,7 +319,7 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "CreateGestureWithCommands -> in POChildListPage.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CreateGestureWithCommands method -> in POChildListPage.xaml.cs " + Settings.userLoginID);
                 Vm.loadindicator = false;
             }
             Vm.loadindicator = false;

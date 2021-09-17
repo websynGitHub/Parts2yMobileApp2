@@ -36,12 +36,11 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings = new ScanerSettings();
                 InitializeComponent();
                 MyNavigationPage = new NavigationPage();
-                //StartBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
                 BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ScannerPage Constructor -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ScannerPage constructor -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -65,7 +64,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ScannerPage Constructor with two parameters -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ScannerPage constructor with two parameters -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
 
@@ -91,7 +90,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ScannerPage Constructor with one parameter -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ScannerPage constructor with one parameter -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -132,7 +131,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Close_Scanner Method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Close_Scanner method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -145,7 +144,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Start_Scanning Method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Start_Scanning method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -198,7 +197,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else
                 {
-                    await scannerPage.compareVM.Scanditscan(Settings.scanQRValuecode);
+                    //await scannerPage.compareVM.Scanditscan(Settings.scanQRValuecode);
                     Settings.scanredirectpage = string.Empty;
 
                     if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
@@ -209,7 +208,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DidScan Method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DidScan method -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = scannerPage.trackService.Handleexception(ex);
             }
         }

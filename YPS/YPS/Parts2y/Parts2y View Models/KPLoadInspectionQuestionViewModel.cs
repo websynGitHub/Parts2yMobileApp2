@@ -48,8 +48,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService = new YPSService();
                 pageName = pagename;
                 SelectedPodataList = selectedpodatalist;
-                //Settings.POID = SelectedPodataList[0].POID;
-                //Settings.TaskID = SelectedPodataList[0].TaskID;
                 taskid = SelectedPodataList[0].TaskID;
                 IsAllTagsDone = isalltagdone;
                 PONumber = SelectedPodataList[0].PONumber;
@@ -73,7 +71,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "LoadInspectionQuestionViewModel constructor -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KPLoadInspectionQuestionViewModel constructor -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -113,39 +111,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
 
                     }
-                    //if (Settings.POID != 0)
-                    //{
-                    //    if (Navigation.NavigationStack.Count() == 6)
-                    //    {
-                    //        Navigation.RemovePage(Navigation.NavigationStack[2]);
-                    //        Navigation.RemovePage(Navigation.NavigationStack[2]);
-                    //        Navigation.RemovePage(Navigation.NavigationStack[2]);
-
-                    //        if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "PhotoRepoPage".Trim().ToLower())
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                    //        if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "KPPartsInspectionQuestionPage".Trim().ToLower())
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[2]);
-                    //        }
-                    //    }
-
-                    //    Settings.POID = 0;
-                    //    Settings.TaskID = 0;
-                    //}
-                    //else
-                    //{
-                    //    Navigation.RemovePage(Navigation.NavigationStack[2]);
-                    //}
                     await Navigation.PopAsync();
                 }
                 else if (tabname == "parts")
@@ -174,52 +139,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
 
                     }
-
-                    //if (Settings.POID != 0)
-                    //{
-                    //    if (Navigation.NavigationStack.Count() == 6)
-                    //    {
-                    //        Navigation.RemovePage(Navigation.NavigationStack[3]);
-                    //        Navigation.RemovePage(Navigation.NavigationStack[3]);
-
-                    //        if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                    //            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "PhotoUpload".Trim().ToLower())
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //        }
-
-                    //        if (Navigation.NavigationStack[3].GetType().Name.Trim().ToLower() == "KPPartsInspectionQuestionPage".Trim().ToLower())
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[3]);
-                    //        }
-                    //        else
-                    //        {
-                    //            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //            Navigation.RemovePage(Navigation.NavigationStack[1]);
-                    //            Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                    //            Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                    //        }
-                    //    }
-
-                    //    Settings.POID = 0;
                     Settings.TaskID = 0;
-                    //}
-
                     await Navigation.PopAsync();
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "TabChange method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -236,7 +162,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                YPSLogger.TrackEvent("PhotoUpload.xaml.cs", "in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("KPLoadInspectionQuestionViewModel.cs", " in GetUpdatedAllPOData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -265,7 +191,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetUpdatedAllPOData method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -292,7 +218,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "LoadInspTabClicked method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoadInspTabClicked method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -326,7 +252,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SignTabClicked method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -344,7 +270,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsByTask(taskid);
@@ -366,7 +292,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetConfigurationResults method -> in LoadInspKPLoadInspectionQuestionViewModel.csectionQuestionViewModel " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -383,7 +309,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetQuestionsLIst method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -414,39 +340,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         pagecount--;
                         Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
                     }
-
                 }
 
-                //if (Navigation.NavigationStack.Count() == 6)
-                //{
-                //    Navigation.RemovePage(Navigation.NavigationStack[3]);
-                //    Navigation.RemovePage(Navigation.NavigationStack[3]);
-
-                //    if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "LinkPage".Trim().ToLower())
-                //    {
-                //        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                //        Navigation.RemovePage(Navigation.NavigationStack[1]);
-                //    }
-                //}
-                //else if (Navigation.NavigationStack.Count() == 5)
-                //{
-                //    Navigation.RemovePage(Navigation.NavigationStack[1]);
-                //    Navigation.RemovePage(Navigation.NavigationStack[1]);
-                //    Navigation.RemovePage(Navigation.NavigationStack[1]);
-
-                //}
-
-                //if (Navigation?.NavigationStack.Count == 2 || Navigation?.NavigationStack[2]?.GetType()?.Name.Trim().ToLower() != "POChildListPage".Trim().ToLower())
-                //{
-                //    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                //    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-                //}
-
-                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -463,7 +362,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuestionClick method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuestionClick method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -521,7 +420,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in LoadInspectionQuestionViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in KPLoadInspectionQuestionViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally

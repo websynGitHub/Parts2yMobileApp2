@@ -34,7 +34,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "PLoadInspectionQuestionsPage Constructor -> in PLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "PLoadInspectionQuestionsPage constructor -> in PLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex));
             }
         }
@@ -56,7 +56,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in PLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in PLoadInspectionQuestionsPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -87,7 +87,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked constructor -> in PLoadInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in PLoadInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

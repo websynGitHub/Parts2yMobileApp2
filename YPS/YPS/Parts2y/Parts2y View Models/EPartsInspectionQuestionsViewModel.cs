@@ -74,14 +74,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     LoadCmd = new Command(async () => await TabChange("load"));
                 }
-                //else
-                //{
-                //    LoadTextColor = Color.Gray;
-                //}
+                else
+                {
+                    LoadTextColor = Color.Gray;
+                }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "EPartsInspectionQuestionsViewModel constructor -> in EPartsInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "EPartsInspectionQuestionsViewModel constructor -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -164,7 +164,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "TabChange method -> in EPartsInspectionQuestionsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "TabChange method -> in EPartsInspectionQuestionsViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -303,7 +303,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                //if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null))
                 if (selectedTagData.TagTaskStatus != 2 && ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
                    FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
                    (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
@@ -334,7 +333,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(x => { x.SelectedTagBorderColor = Color.Transparent; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsService(taskid, tagId);
@@ -482,11 +481,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "EQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "EFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
 
-                    //if (Settings.VersionID == 4 || Settings.VersionID == 3)
-                    //{
-                    //LoadTextColor = Color.Black;
                     IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ELoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-                    //}
 
                     if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                     {

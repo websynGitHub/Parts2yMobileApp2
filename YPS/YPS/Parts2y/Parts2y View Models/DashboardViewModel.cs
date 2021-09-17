@@ -81,7 +81,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                YPSLogger.TrackEvent("DashboardViewModel.cs", "in GetTaskData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("DashboardViewModel.cs", " in GetTaskData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
 
@@ -368,7 +368,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetActionStatus method -> in DashboardViewModel! " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetActionStatus method -> in DashboardViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
             finally

@@ -95,7 +95,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "VinInspectionAnswersPageViewModel constructor -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "CInspectionAnswersPageViewModel constructor -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -147,7 +147,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FullTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FullTabClicked method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -167,7 +167,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "InspTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "InspTabClicked method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -207,7 +207,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SignTabClicked method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -255,7 +255,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in VinInspectionAnswersPageViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -380,7 +380,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -399,7 +399,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "SelectPic method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectPic method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -515,7 +515,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "NextClickMethod method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "NextClickMethod method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -532,7 +532,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ViewallClickMethod method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewallClickMethod method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -545,7 +545,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -581,7 +581,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked method -> in VinInspectionAnswersPageViewModel.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -677,7 +677,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = false;
                 trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ShowConfigurationOptions method -> in VinInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ShowConfigurationOptions method -> in CInspectionAnswersPageViewModel.cs " + Settings.userLoginID);
             }
             finally
             {

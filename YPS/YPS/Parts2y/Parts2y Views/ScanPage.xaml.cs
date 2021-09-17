@@ -37,7 +37,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ScanPage Constructor -> in ScanPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ScanPage constructor -> in ScanPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => yPSService.Handleexception(ex)).Wait();
             }
         }
@@ -65,10 +65,11 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing Method -> in ScanPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in ScanPage.xaml.cs " + Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
         }
+
         /// <summary>
         /// Gets called when clicked on the back button and redirect to previous page.
         /// </summary>

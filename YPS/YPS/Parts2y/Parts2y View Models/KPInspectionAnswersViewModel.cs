@@ -92,7 +92,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "LoadInspectionAnswersViewModel constructor -> in LoadInspectionAnswersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "KPInspectionAnswersViewModel constructor -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -117,7 +117,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "QuickTabClicked method -> in LoadInspectionAnswersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "QuickTabClicked method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -147,7 +147,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "FullTabClicked method -> in LoadInspectionAnswersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "FullTabClicked method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -167,7 +167,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "LoadInspTabClicked method -> in LoadInspectionAnswersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "LoadInspTabClicked method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -207,7 +207,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "SignTabClicked method -> in LoadInspectionAnswersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SignTabClicked method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -256,7 +256,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in LoadInspectionAnswersViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetInspectionPhotos method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -375,7 +375,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ChangeLabel method -> in LoadInspectionAnswersViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -394,7 +394,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "SelectPic method -> in LoadInspectionAnswersViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "SelectPic method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -529,7 +529,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ViewallClickMethod method -> in LoadInspectionAnswersViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ViewallClickMethod method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -542,7 +542,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in LoadInspectionAnswersViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Backevnttapped_click method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
         }
 
@@ -578,7 +578,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked method -> in LoadInspectionAnswersViewModel.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in KPInspectionAnswersViewModel.cs  " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
         }
@@ -674,7 +674,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = false;
                 trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "ShowConfigurationOptions method -> in LoadInspectionAnswersViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ShowConfigurationOptions method -> in KPInspectionAnswersViewModel.cs " + Settings.userLoginID);
             }
             finally
             {
