@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using YPS.Service;
+using YPS.Helpers;
 
 namespace YPS.Behaviours
 {
@@ -43,30 +45,39 @@ namespace YPS.Behaviours
         /// <param name="bindable"></param>
         protected override void OnAttachedTo(View bindable)
         {
-            base.OnAttachedTo(bindable);
-            AssociatedObject = bindable;
-            bindable.BindingContextChanged += OnBindingContextChanged;
+            try
+            {
+                base.OnAttachedTo(bindable);
+                AssociatedObject = bindable;
+                bindable.BindingContextChanged += OnBindingContextChanged;
 
-            if (bindable is Button myButton)
-            {
-                myButton.Clicked += View_Tapped;
-            }
-            else if (bindable is Switch mySwitch)
-            {
-                mySwitch.Toggled += View_Tapped;
-            }
-            else if (bindable is SfButton sfButton)
-            {
-                sfButton.Clicked += View_Tapped;
-            }
-            else
-            {
-                var tapGestureRecognizer = new TapGestureRecognizer();
-                tapGestureRecognizer.Tapped += View_Tapped;
-                bindable.GestureRecognizers.Add(tapGestureRecognizer);
-            }
+                if (bindable is Button myButton)
+                {
+                    myButton.Clicked += View_Tapped;
+                }
+                else if (bindable is Switch mySwitch)
+                {
+                    mySwitch.Toggled += View_Tapped;
+                }
+                else if (bindable is SfButton sfButton)
+                {
+                    sfButton.Clicked += View_Tapped;
+                }
+                else
+                {
+                    var tapGestureRecognizer = new TapGestureRecognizer();
+                    tapGestureRecognizer.Tapped += View_Tapped;
+                    bindable.GestureRecognizers.Add(tapGestureRecognizer);
+                }
 
-            base.OnAttachedTo(bindable);
+                base.OnAttachedTo(bindable);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnAttachedTo method -> in ViewTappedButtonBehavior.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -75,15 +86,24 @@ namespace YPS.Behaviours
         /// <param name="bindable"></param>
         protected override void OnDetachingFrom(View bindable)
         {
-            bindable.BindingContextChanged -= OnBindingContextChanged;
-            AssociatedObject = null;
+            try
+            {
+                bindable.BindingContextChanged -= OnBindingContextChanged;
+                AssociatedObject = null;
 
-            var exists = bindable.GestureRecognizers.FirstOrDefault() as TapGestureRecognizer;
+                var exists = bindable.GestureRecognizers.FirstOrDefault() as TapGestureRecognizer;
 
-            if (exists != null)
-                exists.Tapped -= View_Tapped;
+                if (exists != null)
+                    exists.Tapped -= View_Tapped;
 
-            base.OnDetachingFrom(bindable);
+                base.OnDetachingFrom(bindable);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnDetachingFrom method -> in ViewTappedButtonBehavior.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
 
         bool _isAnimating = false;
@@ -95,23 +115,23 @@ namespace YPS.Behaviours
         /// <param name="e"></param>
         public void View_Tapped(object sender, EventArgs e)
         {
-            if (_isAnimating)
-                return;
-
-            _isAnimating = true;
-
-            var view = (View)sender;
-
-            #region to add change Animation type when clicked on Complete & Cancel stack
-            if (view.StyleId == "cancelshipbtn" || view.StyleId == "completeshpbtn")
+            try
             {
-                AnimationType = AnimationType.Scale;
-            }
-            #endregion
+                if (_isAnimating)
+                    return;
 
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                try
+                _isAnimating = true;
+
+                var view = (View)sender;
+
+                #region to add change Animation type when clicked on Complete & Cancel stack
+                if (view.StyleId == "cancelshipbtn" || view.StyleId == "completeshpbtn")
+                {
+                    AnimationType = AnimationType.Scale;
+                }
+                #endregion
+
+                Device.BeginInvokeOnMainThread(async () =>
                 {
                     if (AnimationType == AnimationType.Fade)
                     {
@@ -150,21 +170,28 @@ namespace YPS.Behaviours
                         await view.TranslateTo(5, 0, 50);
                         view.TranslationX = 0;
                     }
-                }
-                finally
-                {
-                    if (Command != null)
-                    {
-                        if (Command.CanExecute(CommandParameter))
-                        {
-                            Command.Execute(CommandParameter);
-                        }
-                    }
-                    System.Diagnostics.Debug.WriteLine(CommandParameter);
 
-                    _isAnimating = false;
+                });
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "View_Tapped method -> in ViewTappedButtonBehavior.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
+            finally
+            {
+                if (Command != null)
+                {
+                    if (Command.CanExecute(CommandParameter))
+                    {
+                        Command.Execute(CommandParameter);
+                    }
                 }
-            });
+                System.Diagnostics.Debug.WriteLine(CommandParameter);
+
+                _isAnimating = false;
+            }
         }
 
         /// <summary>
@@ -174,7 +201,16 @@ namespace YPS.Behaviours
         /// <param name="e"></param>
         void OnBindingContextChanged(object sender, EventArgs e)
         {
-            OnBindingContextChanged();
+            try
+            {
+                OnBindingContextChanged();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnBindingContextChanged method -> in ViewTappedButtonBehavior.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -182,8 +218,17 @@ namespace YPS.Behaviours
         /// </summary>
         protected override void OnBindingContextChanged()
         {
-            base.OnBindingContextChanged();
-            BindingContext = AssociatedObject.BindingContext;
+            try
+            {
+                base.OnBindingContextChanged();
+                BindingContext = AssociatedObject.BindingContext;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnBindingContextChanged method -> in ViewTappedButtonBehavior.cs " + CommonClasses.Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
     }
 

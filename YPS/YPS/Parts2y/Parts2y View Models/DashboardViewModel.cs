@@ -191,35 +191,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
                     saveData.BgColor = Settings.Bar_Background.ToArgb();
                     Db.SaveUserPWd(saveData);
-                    #region selected profile
-                    //if (!String.IsNullOrEmpty(Settings.CompanySelected))
-                    //{
-                    //    Company = Settings.CompanySelected;
-                    //}
-
-                    //if (!String.IsNullOrEmpty(Settings.ProjectSelected) || !String.IsNullOrEmpty(Settings.JobSelected))
-                    //{
-                    //    //if (Settings.SupplierSelected == "ALL")
-                    //    //{
-                    //    //ProNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected;
-                    //    ProjectName = Settings.ProjectSelected;
-                    //    JobName = Settings.JobSelected;
-                    //    //}
-                    //    //else
-                    //    //{
-                    //    //    var pNjobName = Settings.ProjectSelected + "/" + Settings.JobSelected + "/" + Settings.SupplierSelected;
-                    //    //    string trimpNjobName = pNjobName.TrimEnd('/');
-                    //    //    ProNjobName = trimpNjobName;
-                    //    //    ProjectName = Settings.ProjectSelected;
-                    //    //    JobName = Settings.JobSelected;
-                    //    //    SupplierName = Settings.SupplierSelected;
-                    //    //}
-                    //}
-                    #endregion
                 }
 
-                //else
-                //{
                 var DBresponse = await trackService.GetSaveUserDefaultSettings(Settings.userLoginID);
 
                 if (DBresponse != null)
@@ -238,7 +211,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         Settings.JobID = DBresponse.data.JobID;
                     }
                 }
-                //}
             }
             catch (Exception ex)
             {
@@ -305,23 +277,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     var result = await trackService.GetNotifyHistory(Settings.userLoginID);
 
-                    //if (result != null)
-                    //{
-                    //if (result.status != 0)
                     if (result?.status != 0 && result?.data?.Count() > 0)
                     {
                         NotificationListCount = result.data.Count();
                         NotifyCountTxt = result.data[0].listCount > 0 ? result.data[0].listCount.ToString() : null;
                         Settings.notifyCount = result.data[0].listCount;
                     }
-                    //else if (result.message.Trim().ToLower() == "No Data Found".Trim().ToLower())
                     else
                     {
                         NotificationListCount = 0;
                         NotifyCountTxt = null;
                         Settings.notifyCount = 0;
                     }
-                    //}
                 }
                 else
                 {
@@ -541,9 +508,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         public class DashboardLabelFields : IBase
         {
-            //public bool Status { get; set; }
-            //public string Name { get; set; }
-
             public bool _Status;
             public bool Status
             {
@@ -743,6 +707,5 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #endregion Properties
-
     }
 }

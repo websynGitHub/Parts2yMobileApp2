@@ -76,7 +76,7 @@ namespace YPS
             catch (Exception ex)
             {
                 string message = ex.Message;
-                YPSLogger.ReportException(ex, "OAuthConfig-> in getdetails " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "getdetails method -> in OAuthConfig.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
             }
@@ -153,7 +153,7 @@ namespace YPS
             }
             catch (System.Exception ex)
             {
-                YPSLogger.ReportException(ex, "OAuthConfig-> in redirectingApp " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "redirectingApp method -> in OAuthConfig.cs " + Settings.userLoginID);
                 YPSService service = new YPSService();
                 await service.Handleexception(ex);
             }
@@ -191,7 +191,10 @@ namespace YPS
             }
             catch (Exception ex)
             {
-
+                string message = ex.Message;
+                YPSLogger.ReportException(ex, "Loginapicalling method -> in OAuthConfig.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                await service.Handleexception(ex);
             }
         }
     }
