@@ -6,9 +6,6 @@
              xmlns:badge ="clr-namespace:Syncfusion.XForms.BadgeView;assembly=Syncfusion.SfBadgeView.XForms"
              BackgroundColor="#E9E9E9"
              >
-    <!--<NavigationPage.TitleView>
-        <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.search}" FontSize="20" TextColor="White"  HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,15,0" />
-    </NavigationPage.TitleView>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -53,8 +50,6 @@
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF"
                                Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>
-                        <!--<Label Grid.Row="0" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>-->
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding Company}" TextColor="#FFFFFF"  HorizontalOptions="Start"
                                Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>
                     </Grid>
@@ -62,8 +57,6 @@
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
                                Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>
-                        <!--<Label Grid.Row="1" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>-->
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding ProjectName}" TextColor="#FFFFFF" HorizontalOptions="Start"
                                Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>
                     </Grid>
@@ -71,35 +64,21 @@
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
                                Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>
-                        <!--<Label Grid.Row="2" Grid.Column="1" Text=":" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>-->
                         <Label Grid.Row="0"  Grid.Column="1" Text="{Binding JobName}" TextColor="#FFFFFF" HorizontalOptions="Start"
                                Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>
 
                     </Grid>
-
                 </StackLayout>
 
                 <StackLayout Grid.Row="1" Padding="0" Margin="0" BackgroundColor="Transparent" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
                     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Margin="0,0,0,0" Orientation="Horizontal">
-                        <!--<Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>-->
+                        
                         <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
                             <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding HomeCmd}"/>
-                                </Label.GestureRecognizers>-->
                             </Label>
                             <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="True" />
                             <StackLayout.GestureRecognizers>
@@ -111,28 +90,17 @@
                             <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding JobCmd}"/>
-                                </Label.GestureRecognizers>-->
                             </Label>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding JobCmd}"/>
                             </StackLayout.GestureRecognizers>
-                            <!--<BoxView  Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
 
                         <StackLayout Margin="0,0,0,0" BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand">
                             <Label Text="{Binding labelobj.Parts.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding TaskCmd}"/>
-                                </Label.GestureRecognizers>-->
                             </Label>
-                            <!--<StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TaskCmd}"/>
-                            </StackLayout.GestureRecognizers>-->
-                            <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
 
                         <StackLayout x:Name="loadStack" Margin="0,0,0,0" BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand"
@@ -140,14 +108,7 @@
                             <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Gray" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
-                                <!--<Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                                </Label.GestureRecognizers>-->
                             </Label>
-                            <!--<StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding LoadCmd}"/>
-                            </StackLayout.GestureRecognizers>-->
-                            <!--<BoxView Style="{StaticResource StyleBoxView}" IsVisible="False" />-->
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>
@@ -157,8 +118,6 @@
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent">
                         <Grid HorizontalOptions="FillAndExpand" Margin="6,0,6,3">
-                            <!--<Grid  
-                                 Margin="0" >-->
                                 <Frame Grid.Row="0" Grid.Column="0"
                                        CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
@@ -182,15 +141,11 @@
                                                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
 
-                                    <!--<Image Source="Task.png"></Image>-->
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding TaskClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
                                 </Frame>
-                            <!--</Grid>-->
 
-                            <!--<Grid Grid.Row="0" Grid.Column="1" 
-                                 Margin="0">-->
                                 <Frame Grid.Row="0" Grid.Column="1"
                                        CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
@@ -206,12 +161,8 @@
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ScanClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
-                                    <!--<ImageButton Source="ScanPhoto.png"></ImageButton>-->
                                 </Frame>
-                            <!--</Grid>-->
 
-
-                            <!--<Grid >-->
                                 <Frame Grid.Row="1" Grid.Column="0"
                                    IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
@@ -223,14 +174,11 @@
                                         <Label Text="Compare" Style="{DynamicResource LableWithQuestionFont}"
                                                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
-                                    <!--<Image Source="Compare.png"></Image>-->
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding CompareClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
                                 </Frame>
-                            <!--</Grid>-->
 
-                            <!--<Grid>-->
                                 <Frame  Grid.Row="1" Grid.Column="1" Margin="0"
                                    IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
@@ -243,31 +191,10 @@
                                         <Label Text="Photo" Style="{DynamicResource LableWithQuestionFont}"
                                                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
-                                    <!--<Image Source="Compare.png"></Image>-->
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding PhotoClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
                                 </Frame>
-                            <!--</Grid>-->
-
-                            <!--<Grid>-->
-                                <!--<Frame Grid.Row="2" Grid.Column="0" Margin="0"
-                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
-                                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                        <Image Source="Compare.png"
-                                                 HorizontalOptions="Start" VerticalOptions="Center"
-                                                 >
-                                        </Image>
-
-                                        <Label Text="Compare Cont." Style="{DynamicResource LableWithQuestionFont}"
-                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                                    </StackLayout>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding CompareContinuousClickCmd}"></TapGestureRecognizer>
-                                    </Frame.GestureRecognizers>
-                                </Frame>-->
-                            <!--</Grid>-->
-                            
                         </Grid>
                     </StackLayout>
                 </ScrollView>

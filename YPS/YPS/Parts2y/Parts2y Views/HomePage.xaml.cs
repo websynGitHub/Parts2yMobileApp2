@@ -46,7 +46,7 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
-                YPSLogger.ReportException(ex, "HomePage Constructor-> in HomePage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "HomePage constructor-> in HomePage.xaml.cs " + Settings.userLoginID);
             }
             finally
             {
@@ -64,14 +64,12 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadindicator = true;
-                //if (string.IsNullOrEmpty(Vm.NotifyCountTxt) || Vm.NotifyCountTxt == "0")
                 if (Vm.NotificationListCount > 0)
                 {
                     await Navigation.PushAsync(new NotificationListPage());
                 }
                 else
                 {
-                    //DependencyService.Get<IToastMessage>().ShortAlert("There is no new notification.");
                     DependencyService.Get<IToastMessage>().ShortAlert("No new notification(s) available.");
                 }
             }
@@ -92,7 +90,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings.ShowSuccessAlert = true;
 
                 base.OnAppearing();
-                YPSLogger.TrackEvent("MainPage", "OnAppearing " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                YPSLogger.TrackEvent("HomePage.xaml.cs", " in OnAppearing method" + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 Settings.countmenu = 1;
                 await SecureStorage.SetAsync("mainPageisOn", "1");
@@ -100,7 +98,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in MainPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing method -> in HomePage.xaml.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
                 Vm.loadindicator = false;
             }
@@ -111,8 +109,16 @@ namespace YPS.Parts2y.Parts2y_Views
         }
         protected async override void OnDisappearing()
         {
-            base.OnDisappearing();
-            await SecureStorage.SetAsync("mainPageisOn", "0");
+            try
+            {
+                base.OnDisappearing();
+                await SecureStorage.SetAsync("mainPageisOn", "0");
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnDisappearing method -> in HomePage.xaml.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
         }
     }
 }
