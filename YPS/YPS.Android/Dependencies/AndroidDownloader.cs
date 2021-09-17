@@ -51,15 +51,24 @@ namespace YPS.Droid.Dependencies
         /// <param name="e"></param>
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
-            if (e.Error != null)
+            try
             {
-                if (OnFileDownloaded != null)
-                    OnFileDownloaded.Invoke(this, new DownloadEventArgs(false));
+                if (e.Error != null)
+                {
+                    if (OnFileDownloaded != null)
+                        OnFileDownloaded.Invoke(this, new DownloadEventArgs(false));
+                }
+                else
+                {
+                    if (OnFileDownloaded != null)
+                        OnFileDownloaded.Invoke(this, new DownloadEventArgs(true));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                if (OnFileDownloaded != null)
-                    OnFileDownloaded.Invoke(this, new DownloadEventArgs(true));
+                YPSLogger.ReportException(ex, "Completed method -> in AndroidDownloader.cs (Droid) " + Settings.userLoginID);
+                YPSService trackService = new YPSService();
+                trackService.Handleexception(ex);
             }
         }
     }
