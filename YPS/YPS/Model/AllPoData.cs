@@ -17,21 +17,21 @@ namespace YPS.Model
         public string REQNo { get; set; }
         public string PODescription { get; set; }
         public string SupplierCompanyName { get; set; }
-        public string ManufacturerCompanyName { get; set; }
-        public string CompanyName { get; set; }
-        public string ProjectName { get; set; }
-        public string CountryName { get; set; }
-        public string PriorityName { get; set; }
-        public string ExpeditorName { get; set; }
+        //public string ManufacturerCompanyName { get; set; }
+        //public string CompanyName { get; set; }
+        //public string ProjectName { get; set; }
+        //public string CountryName { get; set; }
+        //public string PriorityName { get; set; }
+        //public string ExpeditorName { get; set; }
         public int PLUploadCount { get; set; }
-        public int Unit { get; set; }
+        //public int Unit { get; set; }
         public double M3 { get; set; }
-        public double Kgs { get; set; }
-        public int QACount { get; set; }
-        public int FileCount { get; set; }
-        public int BPhotoCount { get; set; }
-        public int APhotoCount { get; set; }
-        public int TagsPrintCount { get; set; }
+        //public double Kgs { get; set; }
+        //public int QACount { get; set; }
+        //public int FileCount { get; set; }
+        //public int BPhotoCount { get; set; }
+        //public int APhotoCount { get; set; }
+        //public int TagsPrintCount { get; set; }
         public int POID { get; set; }
         public int POTagID { get; set; }
         public string POShippingNumber { get; set; }
@@ -212,16 +212,16 @@ namespace YPS.Model
         public string IDENT_DEVIATED_TAG_DESC { get; set; }
         public string ShippingNumberEncrypted { get; set; }
         public string ConditionName { get; set; }
-        public int QAClosedCount { get; set; }
+        //public int QAClosedCount { get; set; }
         public string IsReadytoyShipEncrypted { get; set; }
-        public string POAck { get; set; }
+        //public string POAck { get; set; }
         public string Remarks { get; set; }
         public string POIDEncrypted { get; set; }
         public string IdentCode { get; set; }
         public string BagNumber { get; set; }
         public int IsReadytoyShip { get; set; }
         public int ISTagPrinted { get; set; }
-        public string yBkgNumber { get; set; }
+        //public string yBkgNumber { get; set; }
         public string TaskName { get; set; }
         public int TaskID { get; set; }
         public List<int> TaskIDList { get; set; }
@@ -380,7 +380,7 @@ namespace YPS.Model
             }
         }
 
-        public bool ForMultiCheck { set; get; } = false;
+        //public bool ForMultiCheck { set; get; } = false;
         public string chatImage { set; get; }
         public bool chatTickVisible { set; get; }
         private bool _photoTickVisible;
@@ -620,6 +620,7 @@ namespace YPS.Model
         public bool UserChecked { get; set; }
 
     }
+
     public class users
     {
         public int Status { set; get; }
