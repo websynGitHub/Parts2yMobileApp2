@@ -153,8 +153,8 @@ namespace YPS.iOS
                 #region PN new code Ajay
                 UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) =>
                 {
-                // Handle approval
-            });
+                    // Handle approval
+                });
 
                 // Get current notification settings
                 UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
@@ -181,7 +181,8 @@ namespace YPS.iOS
                 if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                 {
                     var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
-                    UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) => {
+                    UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
+                    {
                         Console.WriteLine(granted);
                     });
                     UNUserNotificationCenter.Current.Delegate = new MyNotificationCenterDelegate();
@@ -238,7 +239,7 @@ namespace YPS.iOS
                 return base.FinishedLaunching(app, options);
                 YPSLogger.ReportException(ex, "FinishedLaunching method  -> in AppDelegate.cs-Exception=" + ex.Message + Settings.userLoginID);
             }
-        }     
+        }
 
 
         #region Added for Scandit
@@ -284,7 +285,7 @@ namespace YPS.iOS
 
         public class MyNotificationCenterDelegate : UNUserNotificationCenterDelegate
         {
-            
+
             public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
             {
                 RememberPwdDB Db = new RememberPwdDB();
@@ -459,7 +460,8 @@ namespace YPS.iOS
                 {
                     await SecureStorage.SetAsync("iOSFireBaseToken", DeviceToken);
 
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
 
                 }
@@ -553,10 +555,16 @@ namespace YPS.iOS
                 if (!string.IsNullOrEmpty(paramValues))
                 {
                     var navPages = paramValues.Split(';');
+
                     if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
                     {
-                        Settings.notifyJobCount = Settings.notifyJobCount + 1;
-                        MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
+                        if (showNotify[11] == Convert.ToString(Settings.CompanyID) &&
+                            showNotify[12] == Convert.ToString(Settings.ProjectID) &&
+                            showNotify[13] == Convert.ToString(Settings.JobID))
+                        {
+                            Settings.notifyJobCount = Settings.notifyJobCount + 1;
+                            MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
+                        }
                     }
                     if (application.ApplicationState == UIApplicationState.Active)
                     {
@@ -576,14 +584,14 @@ namespace YPS.iOS
                             {
                                 try
                                 {
-                                     Settings.GetParamVal = paramValues;
-                                     App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                    Settings.GetParamVal = paramValues;
+                                    App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
                                 }
                                 catch (Exception ex)
                                 {
                                     UIAlertView avAlert = new UIAlertView(title, ex.Message, null, "OK", null);
                                 }
-                               
+
 
                             }
                             else if (navPages[0] == "RemoveUser")
