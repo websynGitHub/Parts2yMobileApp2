@@ -74,7 +74,7 @@
                              HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
                     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Margin="0,0,0,0" Orientation="Horizontal">
-                        
+
                         <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
                             <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="White" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="{Binding BgColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
@@ -118,52 +118,85 @@
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent">
                         <Grid HorizontalOptions="FillAndExpand" Margin="6,0,6,3">
-                                <Frame Grid.Row="0" Grid.Column="0"
+                            <Frame Grid.Row="0" Grid.Column="0"
                                        CornerRadius="4" HasShadow="False">
-                                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                        <badge:SfBadgeView x:Name="jobBadge" IsVisible="True"
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <badge:SfBadgeView x:Name="jobBadge" IsVisible="True"
                                                            BadgeText="{Binding JobCountText}" Margin="0,0,0,0" 
                                                             HorizontalOptions="EndAndExpand">
-                                            <badge:SfBadgeView.Content>
-                                                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Task}" 
+                                        <badge:SfBadgeView.Content>
+                                            <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Task}" 
                                                  TextColor="Gray" FontSize="70" 
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
-                                                </local:FontAwesomeIconLabel>
-                                            </badge:SfBadgeView.Content>
-                                            <badge:SfBadgeView.BadgeSettings>
-                                                <badge:BadgeSetting BadgeType="Error" Offset="-7,2"
+                                            </local:FontAwesomeIconLabel>
+                                        </badge:SfBadgeView.Content>
+                                        <badge:SfBadgeView.BadgeSettings>
+                                            <badge:BadgeSetting BadgeType="Error" Offset="-7,2"
                                                                     BadgePosition="TopRight" TextPadding="7"/>
-                                            </badge:SfBadgeView.BadgeSettings>
-                                        </badge:SfBadgeView>
+                                        </badge:SfBadgeView.BadgeSettings>
+                                    </badge:SfBadgeView>
 
-                                        <Label Text="Job" Style="{DynamicResource LableWithQuestionFont}"
+                                    <Label Text="Job" Style="{DynamicResource LableWithQuestionFont}"
                                                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                                    </StackLayout>
+                                </StackLayout>
 
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding TaskClickCmd}"></TapGestureRecognizer>
-                                    </Frame.GestureRecognizers>
-                                </Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TaskClickCmd}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
 
-                                <Frame Grid.Row="0" Grid.Column="1"
+                            <Frame Grid.Row="0" Grid.Column="1"
                                        CornerRadius="4" HasShadow="False">
-                                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                        <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Scan}" 
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Scan}" 
                                                  TextColor="Gray" FontSize="70"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
-                                        </local:FontAwesomeIconLabel>
+                                    </local:FontAwesomeIconLabel>
 
-                                        <Label Text="Scan" Style="{DynamicResource LableWithQuestionFont}"
+                                    <Label Text="Scan" Style="{DynamicResource LableWithQuestionFont}"
                                                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                                    </StackLayout>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ScanClickCmd}"></TapGestureRecognizer>
-                                    </Frame.GestureRecognizers>
-                                </Frame>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ScanClickCmd}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
 
-                                <Frame Grid.Row="1" Grid.Column="0"
+                            <Frame Grid.Row="1" Grid.Column="0"
+                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <Image Source="Compare.png"
+                                                 HorizontalOptions="Start" VerticalOptions="Center"
+                                                 >
+                                    </Image>
+
+                                    <Label Text="Compare" Style="{DynamicResource LableWithQuestionFont}"
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CompareClickCmd}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                            <Frame  Grid.Row="1" Grid.Column="1" Margin="0"
+                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.CameraIc}" 
+                                                 TextColor="Gray" FontSize="70"
+                                                 HorizontalOptions="Start" VerticalOptions="Center"
+                                                 >
+                                    </local:FontAwesomeIconLabel>
+
+                                    <Label Text="Photo" Style="{DynamicResource LableWithQuestionFont}"
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PhotoClickCmd}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                            <!--<Frame Grid.Row="2" Grid.Column="0" Margin="0"
                                    IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                         <Image Source="Compare.png"
@@ -171,30 +204,13 @@
                                                  >
                                         </Image>
 
-                                        <Label Text="Compare" Style="{DynamicResource LableWithQuestionFont}"
+                                        <Label Text="Compare Cont." Style="{DynamicResource LableWithQuestionFont}"
                                                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                                     </StackLayout>
                                     <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding CompareClickCmd}"></TapGestureRecognizer>
+                                        <TapGestureRecognizer Command="{Binding CompareContinuousClickCmd}"></TapGestureRecognizer>
                                     </Frame.GestureRecognizers>
-                                </Frame>
-
-                                <Frame  Grid.Row="1" Grid.Column="1" Margin="0"
-                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
-                                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                        <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.CameraIc}" 
-                                                 TextColor="Gray" FontSize="70"
-                                                 HorizontalOptions="Start" VerticalOptions="Center"
-                                                 >
-                                        </local:FontAwesomeIconLabel>
-
-                                        <Label Text="Photo" Style="{DynamicResource LableWithQuestionFont}"
-                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                                    </StackLayout>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding PhotoClickCmd}"></TapGestureRecognizer>
-                                    </Frame.GestureRecognizers>
-                                </Frame>
+                                </Frame>-->
                         </Grid>
                     </StackLayout>
                 </ScrollView>
