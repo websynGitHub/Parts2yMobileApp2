@@ -95,12 +95,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     result = await trackService.LoadPoDataService(sendPodata);
 
-                    if (result?.status != 0 && result?.data?.allPoData != null)
+                    if (result?.status != 0 && result?.data?.allPoDataMobile != null)
                     {
                         Settings.AllPOData = new ObservableCollection<AllPoData>();
-                        Settings.AllPOData = result.data.allPoData;
+                        Settings.AllPOData = result.data.allPoDataMobile;
 
-                        var groubbyval = result.data.allPoData.GroupBy(gb => new { gb.TaskID });
+                        var groubbyval = result.data.allPoDataMobile.GroupBy(gb => new { gb.TaskID });
 
                         ObservableCollection<AllPoData> groupedlist = new ObservableCollection<AllPoData>();
 
@@ -190,6 +190,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IsPNEnabled = Settings.IsPNEnabled;
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
                     saveData.BgColor = Settings.Bar_Background.ToArgb();
+                    saveData.ScanditKey = HostingURL.scandItLicencekey;
+                    saveData.IsMobileCompareCont = Settings.IsMobileCompareCont;
                     Db.SaveUserPWd(saveData);
                 }
 
@@ -406,15 +408,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name) + " :";
-                        labelobj.Company.Status = company == null ? true : (company.Status == 1 ? true : false);
+                        labelobj.Company.Status = company?.Status == 1 ? true : false;
                         labelobj.Project.Name = (project != null ? (!string.IsNullOrEmpty(project.LblText) ? project.LblText : labelobj.Project.Name) : labelobj.Project.Name) + " :";
-                        labelobj.Project.Status = project == null ? true : (project.Status == 1 ? true : false);
+                        labelobj.Project.Status = project?.Status == 1 ? true : false;
                         labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name) + " :";
-                        labelobj.Job.Status = job == null ? true : (job.Status == 1 ? true : false);
+                        labelobj.Job.Status = job?.Status == 1 ? true : false;
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
-                        labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
-                        labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
+                        labelobj.Home.Status = home?.Status == 1 ? true : false;
+                        labelobj.Parts.Status = parts?.Status == 1 ? true : false;
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
                 }
@@ -670,6 +672,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _isCompareVisible = value;
                 NotifyPropertyChanged("isCompareVisible");
+            }
+        }
+
+        private bool _IsMobileCompareCont = Settings.IsMobileCompareCont;
+        public bool IsMobileCompareCont
+        {
+            get => _IsMobileCompareCont;
+            set
+            {
+                _IsMobileCompareCont = value;
+                NotifyPropertyChanged("IsMobileCompareCont");
             }
         }
 

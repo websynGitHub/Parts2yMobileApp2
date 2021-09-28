@@ -60,7 +60,6 @@ namespace YPS
             {
 
                 InitializeComponent();
-                SetupCertificatePinningCheck();
                 FlowListView.Init();
                 MyNavigationPage = new NavigationPage();
                 Current.MainPage = MyNavigationPage;
@@ -86,6 +85,9 @@ namespace YPS
 
                         if (!String.IsNullOrEmpty(navPages[0]))
                         {
+                            HostingURL.scandItLicencekey = globalResult.data.ScanditKey;
+                            Settings.IsMobileCompareCont = globalResult.data.IsMobileCompareCont;
+
                             RememberPwdDB DbParts2y = new RememberPwdDB();
                             var userParts2y = DbParts2y.GetUserDetails();
 
@@ -276,6 +278,8 @@ namespace YPS
                             Settings.IsPNEnabled = userData.IsPNEnabled;
                             Settings.IsEmailEnabled = userData.IsEmailEnabled;
                             Settings.Bar_Background = System.Drawing.Color.FromArgb(userData.BgColor);
+                            HostingURL.scandItLicencekey = userData.ScanditKey;
+                            Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
 
                             var current = Connectivity.NetworkAccess;
 
@@ -387,6 +391,8 @@ namespace YPS
                                     Settings.IsIIJEnabled = result.data.IsIIJEnabled;
                                     Settings.IsPNEnabled = result.data.IsPNEnabled;
                                     Settings.IsEmailEnabled = result.data.IsEmailEnabled;
+                                    HostingURL.scandItLicencekey = result.data.ScanditKey;
+                                    Settings.IsMobileCompareCont = result.data.IsMobileCompareCont;
                                     // Settings.IsIIJEnabled = true;       
                                 }
                             }

@@ -233,7 +233,6 @@ namespace YPS.CommonClasses
         public static int QAType { set; get; }
         public static int Timerminutes { set; get; } = 1;
 
-
         public static int APhoto { get; set; }
         public static int BPhoto { get; set; }
         public static int Files { get; set; }
@@ -269,6 +268,7 @@ namespace YPS.CommonClasses
         public static string scanQRValueA { get; set; } = "";
         public static string scanQRValueB { get; set; } = "";
         public static int? notifyJobCount { set; get; } = 0;
+        public static bool IsMobileCompareCont { set; get; }
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }
@@ -716,7 +716,7 @@ namespace YPS.CommonClasses
 
     #region Scandit Ajay Added 23-07-2021
 
-   
+
     public class ScanerSettings
     {
         public bool RotationWithDevice { get; set; }

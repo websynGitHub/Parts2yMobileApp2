@@ -263,7 +263,7 @@
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.InvoiceNumber.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding InvoiceNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                            <Label Text="{Binding Invoice1No}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
 
@@ -290,7 +290,7 @@
                                                       VerticalOptions="Center">
                                                             <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding TagDescription}" TextColor="Black"
+                                                            <Label Text="{Binding IDENT_DEVIATED_TAG_DESC}" TextColor="Black"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"
                                                                    IsVisible="{Binding IsTagDescLabelVisible}"/>
                                                         </StackLayout>

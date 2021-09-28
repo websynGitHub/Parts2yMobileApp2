@@ -134,7 +134,7 @@ namespace YPS.ViewModel
                 #endregion
 
                 ChangeLabel();
-                HeaderFilterData();
+                Searchdatapicker();
                 Task.Run(() => GetSavedUserSearchSettings()).Wait();
             }
             catch (Exception ex)
@@ -171,6 +171,7 @@ namespace YPS.ViewModel
                 await service.Handleexception(ex);
             }
         }
+
         /// <summary>
         /// Gets called when an item is selected from Filter DropDownList
         /// </summary>
@@ -407,13 +408,10 @@ namespace YPS.ViewModel
                 {
                     var filterData = await service.GetHeaderFilterDataService();
 
-                    if (filterData != null)
+                    if (filterData?.status == 1)
                     {
-                        if (filterData.status != 0)
-                        {
-                            Settings.alldropdownvalues = filterData.data;
-                            HeaderFilterData();
-                        }
+                        Settings.alldropdownvalues = filterData.data;
+                        HeaderFilterData();
                     }
                     else
                     {
@@ -443,58 +441,58 @@ namespace YPS.ViewModel
             {
                 IndicatorVisibility = true;
 
-                if (Settings.alldropdownvalues != null)
-                {
-                    var list = Settings.alldropdownvalues.Discipline.Where(x => x.ParentID == Settings.CompanyID).ToList();
-                    DisciplineList = new List<DDLmaster>();
-                    DisciplineList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
-                    DisciplineList.AddRange(list);
-                    DisciplineNames = DisciplineList.Select(x => x.Name).ToList();
+                //if (Settings.alldropdownvalues != null)
+                //{
+                var list = Settings.alldropdownvalues.Discipline.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                DisciplineList = new List<DDLmaster>();
+                DisciplineList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                DisciplineList.AddRange(list);
+                DisciplineNames = DisciplineList.Select(x => x.Name).ToList();
 
-                    var elevllist = Settings.alldropdownvalues.ELevel.Where(x => x.ParentID == Settings.CompanyID).ToList();
-                    ELevelList = new List<DDLmaster>();
-                    ELevelList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
-                    ELevelList.AddRange(elevllist);
-                    ELevelNames = ELevelList.Select(x => x.Name).ToList();
+                var elevllist = Settings.alldropdownvalues.ELevel.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                ELevelList = new List<DDLmaster>();
+                ELevelList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                ELevelList.AddRange(elevllist);
+                ELevelNames = ELevelList.Select(x => x.Name).ToList();
 
-                    var prioritylist = Settings.alldropdownvalues.Priority.Where(x => x.ParentID == Settings.CompanyID).ToList();
-                    PriorityList = new List<DDLmaster>();
-                    PriorityList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
-                    PriorityList.AddRange(prioritylist);
-                    PriorityNames = PriorityList.Select(x => x.Name).ToList();
+                var prioritylist = Settings.alldropdownvalues.Priority.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                PriorityList = new List<DDLmaster>();
+                PriorityList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                PriorityList.AddRange(prioritylist);
+                PriorityNames = PriorityList.Select(x => x.Name).ToList();
 
-                    var expeditorlist = Settings.alldropdownvalues.Expeditor.Where(x => x.ParentID == Settings.CompanyID).ToList();
-                    Expeditorlist = new List<DDLmaster>();
-                    Expeditorlist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
-                    Expeditorlist.AddRange(expeditorlist);
-                    ExpeditorNames = Expeditorlist.Select(x => x.Name).ToList();
+                var expeditorlist = Settings.alldropdownvalues.Expeditor.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                Expeditorlist = new List<DDLmaster>();
+                Expeditorlist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                Expeditorlist.AddRange(expeditorlist);
+                ExpeditorNames = Expeditorlist.Select(x => x.Name).ToList();
 
-                    var conditionlist = Settings.alldropdownvalues.Condition.Where(x => x.ParentID == Settings.CompanyID).ToList();
-                    Conditionlist = new List<DDLmaster>();
-                    Conditionlist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
-                    Conditionlist.AddRange(conditionlist);
-                    ConditionNames = Conditionlist.Select(x => x.Name).ToList();
+                var conditionlist = Settings.alldropdownvalues.Condition.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                Conditionlist = new List<DDLmaster>();
+                Conditionlist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                Conditionlist.AddRange(conditionlist);
+                ConditionNames = Conditionlist.Select(x => x.Name).ToList();
 
-                    //var resourcelist = Settings.alldropdownvalues.Condition.Where(x => x.ParentID == Settings.CompanyID).ToList();
-                    Resourcelist = new List<DDLmaster>();
-                    Resourcelist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
-                    Resourcelist.AddRange(Settings.alldropdownvalues.Resource.Where(x => x.ParentID == Settings.CompanyID).ToList());
-                    ResourceNames = Resourcelist.Select(x => x.Name).ToList();
+                //var resourcelist = Settings.alldropdownvalues.Condition.Where(x => x.ParentID == Settings.CompanyID).ToList();
+                Resourcelist = new List<DDLmaster>();
+                Resourcelist.Add(new DDLmaster() { Name = "ALL", ID = 0 });
+                Resourcelist.AddRange(Settings.alldropdownvalues.Resource);
+                ResourceNames = Resourcelist.Select(x => x.Name).ToList();
 
-                    BindKeyTabValues();
-                }
-                else
-                {
-                    try
-                    {
-                        Searchdatapicker();
-                    }
-                    catch (Exception ex)
-                    {
-                        YPSLogger.ReportException(ex, "Inner catch block in HeaderFilterData method-> in FilterDataViewModel.cs " + Settings.userLoginID);
-                        await service.Handleexception(ex);
-                    }
-                }
+                BindKeyTabValues();
+                //}
+                //else
+                //{
+                //    try
+                //    {
+                //        Searchdatapicker();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        YPSLogger.ReportException(ex, "Inner catch block in HeaderFilterData method-> in FilterDataViewModel.cs " + Settings.userLoginID);
+                //        await service.Handleexception(ex);
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -790,7 +788,7 @@ namespace YPS.ViewModel
                         labelobj.TaskName.Name = taskname != null ? taskname.LblText : "Task Name";
                         labelobj.TaskName.Status = (taskname == null ? true : false) || (taskname != null && taskname.Status == 1) ? true : false;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
-                        labelobj.SearchPageTitle.Name= searchpagetitle != null ? searchpagetitle.LblText : labelobj.SearchPageTitle.Name;
+                        labelobj.SearchPageTitle.Name = searchpagetitle != null ? searchpagetitle.LblText : labelobj.SearchPageTitle.Name;
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";
                         labelobj.SaveSearchBtn.Name = SaveSearchBtn != null ? SaveSearchBtn.LblText : "Save & Search";

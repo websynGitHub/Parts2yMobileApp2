@@ -137,6 +137,14 @@ namespace YPS.Parts2y.Parts2y_Views
                     }
                 });
 
+                MessagingCenter.Subscribe<string, string>("QAChatCount", "updatecount", (sender, args) =>
+                {
+                    var countdata = args.Split(',');
+                    var updateCount = Settings.AllPOData.Where(wr => wr.POID == Convert.ToInt32(countdata[0]) &&
+                    wr.POTagID == Convert.ToInt32(countdata[1])).FirstOrDefault();
+                    updateCount.TagQACount = Convert.ToInt32(countdata[2]);
+
+                });
                 #endregion
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
@@ -331,7 +339,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadindicator = false;
-                
+
                 Vm.IsScanOrInspPopUpVisible = false;
             }
             catch (Exception ex)

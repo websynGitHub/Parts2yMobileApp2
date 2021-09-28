@@ -154,7 +154,7 @@ namespace YPS.Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "Back_Tapped constructor -> in ImageView.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Back_Tapped method -> in ImageView.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -167,7 +167,7 @@ namespace YPS.Views
             try
             {
                 base.OnAppearing();
-                (Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = false;
+                //(Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = false;
             }
             catch (Exception ex)
             {
@@ -176,15 +176,15 @@ namespace YPS.Views
             }
         }
 
-        /// <summary>
-        /// Gets called when back icon is clicked.
-        /// </summary>
-        /// <returns></returns>
-        protected override bool OnBackButtonPressed()
-        {
-            (Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = true;
-            return base.OnBackButtonPressed();
-        }
+        ///// <summary>
+        ///// Gets called when back icon is clicked.
+        ///// </summary>
+        ///// <returns></returns>
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    (Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = true;
+        //    return base.OnBackButtonPressed();
+        //}
 
         /// <summary>
         /// This method is for view image.

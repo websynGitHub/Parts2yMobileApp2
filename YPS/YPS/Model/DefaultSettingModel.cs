@@ -229,7 +229,8 @@ namespace YPS.Model
         public bool IsPNEnabled { get; set; }
         public SSLkeyData sSLPinningKeys { get; set; }
         public AppSettings appSettings { get; set; }
-
+        public string ScanditKey { get; set; }
+        public bool IsMobileCompareCont { get; set; }
     }
     public class ApplicationSettings
     {

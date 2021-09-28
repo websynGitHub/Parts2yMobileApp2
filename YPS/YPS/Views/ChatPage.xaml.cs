@@ -80,7 +80,7 @@ namespace YPS.Views
                 Thread threadConnectiongroupchat = new Thread(vm.Connect);
                 threadConnectiongroupchat.Start();
                 GetChatData();
-                bg.BadgeText = vm.bgcount.ToString();
+                bg.BadgeText = (Settings.ChatUserCount = vm.bgcount).ToString();
                 vm.IsEmailenable = Settings.IsEmailEnabled;
                 DependencyService.Get<ISQLite>().deleteReadCountNmsg(qaId);
                 CheckUserAndOS();

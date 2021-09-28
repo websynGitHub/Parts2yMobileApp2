@@ -36,6 +36,8 @@ namespace YPS.Model
         public string SelectedScanRule { get; set; }
         public int? EnteredScanTotal { get; set; }
         public int BgColor { get; set; }
+        public string ScanditKey { get; set; }
+        public bool IsMobileCompareCont { get; set; }
 
         /// <summary>
         /// Encrypted

@@ -186,7 +186,7 @@ namespace YPS.ViewModels
                 Settings.QaId = qaid;
                 var result = await service.ChatHistory(Settings.PoId, qaid, "", Settings.QAType);// Calling The API for chat history
 
-                bgcount = result.UserCount;
+                bgcount = Settings.ChatUserCount = result.UserCount;
 
                 if (result != null && (result.data != null && result.data.Count > 0))
                 {
@@ -196,7 +196,7 @@ namespace YPS.ViewModels
                     {
 
                         Uri uriResult;
-                        bgcount = item.UserCount;
+                        bgcount = Settings.ChatUserCount = item.UserCount;
                         item.IsMine = item.UserID == Settings.userLoginID ? true : false;
                         time = !string.IsNullOrEmpty(item.CreatedDate.ToString()) ? String.Format(Settings.DateFormat, item.CreatedDate) : string.Empty;
 

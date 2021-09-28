@@ -194,9 +194,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     var result = await trackService.LoadPoDataService(sendPodata);
 
-                    if (selectedPOTagData == null && selectedTagData != null && selectedTagData.photoTags != null && result != null && result.data != null && result.data.allPoData != null)
+                    if (selectedPOTagData == null && selectedTagData != null && selectedTagData.photoTags != null && result != null && result.data != null && result.data.allPoDataMobile != null)
                     {
-                        selectedPOTagData = result.data.allPoData.Where(wr => wr.POTagID == selectedTagData.photoTags[0].POTagID).FirstOrDefault();
+                        selectedPOTagData = result.data.allPoDataMobile.Where(wr => wr.POTagID == selectedTagData.photoTags[0].POTagID).FirstOrDefault();
                     }
 
                     if (selectedTagData != null)
@@ -293,19 +293,19 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result != null && result.data != null)
                     {
-                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        if (result.status != 0 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
 
-                            var groubbyval = result.data.allPoData.GroupBy(gb => gb.POShippingNumber);
+                            var groubbyval = result.data.allPoDataMobile.GroupBy(gb => gb.POShippingNumber);
                             ObservableCollection<AllPoData> PoDataCollections = new ObservableCollection<AllPoData>();
-                            PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoData
+                            PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoDataMobile
                                 .Where(wr => wr.TagNumber == ScannedResult)?
                                 .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
                                 ThenBy(tob => tob.TaskName));
 
                             if (PoDataCollections?.Count == 0)
                             {
-                                PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoData
+                                PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoDataMobile
                                    .Where(wr => wr.IdentCode == ScannedResult)?
                                    .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
                                    ThenBy(tob => tob.TaskName));

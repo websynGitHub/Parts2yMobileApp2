@@ -163,9 +163,9 @@ namespace YPS.Views
 
                     if (result != null && result.data != null)
                     {
-                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        if (result.status != 0 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
                         }
                     }
                 }

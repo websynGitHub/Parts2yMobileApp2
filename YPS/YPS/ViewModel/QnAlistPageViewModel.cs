@@ -74,6 +74,9 @@ namespace YPS.ViewModel
 
                     if (result != null && (result.data != null && result.data.Count > 0))
                     {
+                        string[] countarray = { poid.ToString(), potagID.ToString(), result.data.Count.ToString() };
+                        string val = string.Join(",", countarray);
+                        MessagingCenter.Send<string, string>("QAChatCount", "updatecount", val); ;
 
                         foreach (var item in result.data)
                         {

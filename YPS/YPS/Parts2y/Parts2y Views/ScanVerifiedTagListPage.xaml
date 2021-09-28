@@ -129,7 +129,7 @@
                                                       VerticalOptions="Center">
                                                             <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=VerifiedScanTagList}}" TextColor="#4c4c4c"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding TagDescription}" TextColor="Black"
+                                                            <Label Text="{Binding IDENT_DEVIATED_TAG_DESC}" TextColor="Black"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"
                                                                    IsVisible="{Binding IsTagDescLabelVisible}"/>
                                                         </StackLayout>

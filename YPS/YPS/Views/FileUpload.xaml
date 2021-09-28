@@ -64,15 +64,9 @@
                             <Label Text="{Binding SetFileName}" x:Name="SetFileName" LineBreakMode="TailTruncation"
                                    TextColor="Gray" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                                    Style="{StaticResource LableWithMediumFont}"/>
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ICommandPickFile}"/>
-                            </StackLayout.GestureRecognizers>
                         </StackLayout>
-                        <Image Grid.Column="1" IsVisible="{Binding IsFolderVisible}" Source="{Binding AddFolder}" HorizontalOptions="EndAndExpand" HeightRequest="40" WidthRequest="40" Margin="0,0,5,0">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ICommandPickFile}"/>
-                            </Image.GestureRecognizers>
-                        </Image>
+                        
+                        <Image Grid.Column="1" IsVisible="{Binding IsFolderVisible}" Source="{Binding AddFolder}" HorizontalOptions="EndAndExpand" HeightRequest="40" WidthRequest="40" Margin="0,0,5,0"/>
 
                         <Image Grid.Column="1" IsVisible="{Binding IsCrossVisible}" Source="{Binding AddCross}" HorizontalOptions="EndAndExpand" HeightRequest="40" WidthRequest="40" Margin="0,0,5,0">
                             <Image.GestureRecognizers>
@@ -80,6 +74,9 @@
                             </Image.GestureRecognizers>
                         </Image>
                     </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ICommandPickFile}"/>
+                    </Frame.GestureRecognizers>
                 </Frame>
 
                 <Frame Grid.Row="2" IsVisible="{Binding FrameForUploadFile}" 
@@ -112,7 +109,8 @@
 
                 <StackLayout Grid.Row="3" Padding="6,0,6,6">
                     <Label IsVisible="{Binding HideLabelAndShow}" Text="No data found." TextColor="Black" 
-                           HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" Style="{StaticResource LableWithQuestionFont}"/>
+                           HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                           Style="{StaticResource LableWithQuestionFont}"/>
                     <flv:FlowListView FlowColumnCount="3" IsVisible="{Binding HideListAndShow}" x:Name="listView" FlowItemsSource="{Binding ListOfFile,Mode=TwoWay}"
                                       SeparatorVisibility="None" BackgroundColor="White" HasUnevenRows="false" RowHeight="150">
                         <flv:FlowListView.FlowColumnTemplate>

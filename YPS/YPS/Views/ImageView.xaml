@@ -6,7 +6,7 @@
              x:Class="YPS.Views.ImageView" BackgroundColor="#E9E9E9" NavigationPage.HasNavigationBar="False"
              xmlns:local="clr-namespace:YPS.CustomRenders" x:Name="ImgView"
              xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
-    
+
     <AbsoluteLayout>
         <RelativeLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <Grid RowSpacing="0" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
@@ -20,8 +20,8 @@
                 <Grid Grid.Row="0"  x:Name="headerpart"
                           RowDefinitions="*,Auto" ColumnDefinitions="60,*,Auto" Style="{StaticResource HeaderMainGrid}">
 
-                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10"
-                                 VerticalOptions="StartAndExpand" Spacing="15"> 
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="10,10,10,10"
+                                 VerticalOptions="StartAndExpand" Spacing="15">
                         <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
                                                   VerticalOptions="Start">
@@ -30,7 +30,7 @@
                             </local:FontAwesomeIconLabel.GestureRecognizers>
                         </local:FontAwesomeIconLabel>
                     </StackLayout>
-                    
+
                     <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Vertical" Spacing="0"
                                  Margin="8,10,0,15" VerticalOptions="StartAndExpand">
                         <Label x:Name="Groupname" Text="Product Photos" LineBreakMode="TailTruncation"
@@ -131,7 +131,7 @@
                     </BindableLayout.ItemTemplate>
                 </cards:SfCardLayout>
 
- <cards:SfCardLayout IsVisible="{Binding IsRepoPhotosVisible}" Margin="0,4,0,4"
+                <cards:SfCardLayout IsVisible="{Binding IsRepoPhotosVisible}" Margin="0,4,0,4"
                                 Padding="0,2,0,2" x:Name="synfRepoImageViewList" VisibleCardIndex="{Binding VisibleCardInx}"
                                 BindableLayout.ItemsSource="{Binding repophotoimageViews}" ShowSwipedCard="True"
                                 VisibleCardIndexChanged="SynfImageViewList_VisibleCardIndexChanged" VerticalOptions="Center" 
@@ -147,7 +147,7 @@
                                     <forms1:CachedImage Grid.Row="0" Source="{Binding FullFileUrl}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
-                                            
+
                                             <Label Text="{Binding CreatedDate}" TextColor="Black"
                                        Style="{StaticResource LblSubTitle}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
@@ -163,8 +163,8 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </cards:SfCardLayout>
-                
- <cards:SfCardLayout IsVisible="{Binding IsInspectionPhotosVisible}" Margin="0,4,0,4"
+
+                <cards:SfCardLayout IsVisible="{Binding IsInspectionPhotosVisible}" Margin="0,4,0,4"
                                 Padding="0,2,0,2" x:Name="synfInspectionImageViewList" VisibleCardIndex="{Binding VisibleCardInx}"
                                 BindableLayout.ItemsSource="{Binding inspectionImageViews}" ShowSwipedCard="True"
                                 VisibleCardIndexChanged="SynfImageViewList_VisibleCardIndexChanged" VerticalOptions="FillAndExpand" 
@@ -203,7 +203,8 @@
                             </cards:SfCardView>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-                </cards:SfCardLayout>            </Grid>
+                </cards:SfCardLayout>
+            </Grid>
         </RelativeLayout>
     </AbsoluteLayout>
 </ContentPage>

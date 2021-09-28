@@ -264,9 +264,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result != null && result.data != null)
                     {
-                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        if (result.status != 0 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
                         }
                     }
                 }
@@ -474,16 +474,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid == null ? false : (poid.Status == 1 ? true : false);
+                        labelobj.POID.Status = poid?.Status == 1 ? true : false;
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? false : (shippingnumber.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Status = shippingnumber?.Status == 1 ? true : false;
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
-                        labelobj.REQNo.Status = reqnumber == null ? false : (reqnumber.Status == 1 ? true : false);
+                        labelobj.REQNo.Status = reqnumber?.Status == 1 ? true : false;
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
+                        labelobj.TaskName.Status = taskanme?.Status == 1 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                        labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
-
+                        labelobj.EventName.Status = eventname?.Status == 1 ? true : false;
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                         labelobj.Home.Name = "Home";

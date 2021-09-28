@@ -55,9 +55,11 @@ namespace YPS.ViewModel
                 CheckedChangedCmd = new Command(CheckedChanged);
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call API
                 UserList = new List<User>();
-                GetChatUser(poId, qaId, Settings.QAType);// Get the users in the chat
                 GroupName = chatTitle;
                 #endregion
+
+                Task.Run(() => DynamicTextChange()).Wait();
+                GetChatUser(poId, qaId, Settings.QAType);// Get the users in the chat
 
                 if (checkStack == true)
                 {
@@ -75,8 +77,6 @@ namespace YPS.ViewModel
                     addchatUserStack = false;
                     QnACloseStack = true;
                 }
-
-                DynamicTextChange();
             }
             catch (Exception ex)
             {
@@ -273,8 +273,10 @@ namespace YPS.ViewModel
 
                                 if (Settings.ChatClosedOrNot == "Closed")
                                 {
+                                    item.IsAddRemoveIconVisible = item.ISCurrentUser == 1 || item.Status == 1 ? true : false;
                                     item.img = Icons.tickCircle;
-                                    item.IconColor = Color.FromHex("#269DC9");
+                                    item.IconColor = item.ISCurrentUser == 1 ? Color.Blue : Color.BlueViolet;
+                                    //item.IconColor = Color.FromHex("#269DC9");
                                 }
                                 else if (Settings.ChatClosedOrNot == "Archived")
                                 {
@@ -283,18 +285,36 @@ namespace YPS.ViewModel
                                 }
                                 else
                                 {
-                                    if (item.Status == 1 && removeuser == true)
+                                    if (item.Status == 1)
                                     {
-                                        item.img = Icons.minusCircle;
-                                        item.checkType = false;
-                                        item.IconColor = Color.Red;
+                                        item.IsAddRemoveIconVisible = true;
+
+                                        if (item.ISCurrentUser != 1 && removeuser == true)
+                                        {
+                                            item.img = Icons.minusCircle;
+                                            item.IsAddStatus = false;
+                                            item.IconColor = Color.Red;
+                                        }
+                                        else
+                                        {
+                                            item.img = Icons.tickCircle;
+                                            item.IconColor = item.ISCurrentUser == 1 ? Color.Blue : Color.BlueViolet;
+                                        }
                                     }
-                                    else if (item.Status == 0 && adduser == true)
+                                    else if (item.Status == 0)
                                     {
-                                        item.img = Icons.plusCircle;
-                                        item.checkType = true;
-                                        item.IconColor = Color.Green;
+                                        if (adduser == true)
+                                        {
+                                            item.IsAddRemoveIconVisible = true;
+                                            item.img = Icons.plusCircle;
+                                            item.IsAddStatus = true;
+                                            item.IconColor = Color.Green;
+                                        }
                                     }
+
+                                    item.Iscurentuser = item.ISCurrentUser == 1 ? false : true;
+                                    item.UserChecked = item.ISCurrentUser == 1 ? true : false;
+                                    item.CheckBoxOpacity = item.ISCurrentUser == 1 ? 0.5 : 1;
                                 }
                             }
 
@@ -370,6 +390,8 @@ namespace YPS.ViewModel
                 {
                     IsUpdateBtnVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQATitleEdit".Trim()).FirstOrDefault()) != null ? true : false;
                     QnACloseIcon = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQAClose".Trim()).FirstOrDefault()) != null ? true : false;
+                    adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                    removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
 
                     if (CheckStack == true)
                     {

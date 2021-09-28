@@ -158,7 +158,8 @@ namespace YPS.Views
 
             try
             {
-                if (!string.IsNullOrEmpty(d.img.Trim().ToLower()) || d.img.Trim().ToLower() != "ok.png")
+                //if (!string.IsNullOrEmpty(d.img.Trim().ToLower()) || d.img.Trim().ToLower() != "ok.png")
+                if (d?.IconColor == Color.Green || d?.IconColor == Color.Red)
                 {
                     vm.IndicatorVisibility = true;
                     Userlist.SelectedItem = null;
@@ -191,19 +192,20 @@ namespace YPS.Views
                                     userupdate.Title = Settings.ChatTitle;
                                     userupdate.QAType = Settings.QAType;
 
-                                    if (d.img.Trim().ToLower() == "minusic.png")
+                                    //if (d.img.Trim().ToLower() == "minusic.png")
+                                    //{
+                                    //    type = 1;
+                                    //}
+                                    //else if (d.img.Trim().ToLower() == "plusic.png")
+                                    //{
+                                    //    type = 2;
+                                    //}
+
+                                    if (d.IsAddStatus == false)
                                     {
                                         type = 1;
                                     }
-                                    else if (d.img.Trim().ToLower() == "plusic.png")
-                                    {
-                                        type = 2;
-                                    }
-                                    if (d.checkType == false)
-                                    {
-                                        type = 1;
-                                    }
-                                    else if (d.checkType == true)
+                                    else if (d.IsAddStatus == true)
                                     {
                                         type = 2;
                                     }

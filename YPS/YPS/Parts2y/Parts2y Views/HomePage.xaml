@@ -19,7 +19,7 @@
 
     <NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0">
-            <Label Text="Home" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
+            <Label Text="Home-WS" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Start"
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
@@ -47,25 +47,28 @@
                   RowSpacing="0">
                 <StackLayout Grid.Row="0" BackgroundColor="{Binding BgColor}" Padding="74,5,10,25" Margin="0" Orientation="Vertical">
                     <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*"
+                          IsVisible="{Binding labelobj.Company.Status}">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Company.Name}" TextColor="#FFFFFF"
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>
+                               Style="{DynamicResource LableWithQuestionFont}"/>
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding Company}" TextColor="#FFFFFF"  HorizontalOptions="Start"
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Company.Status}"/>
+                               Style="{DynamicResource LableWithQuestionFont}"/>
                     </Grid>
                     <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*"
+                          IsVisible="{Binding labelobj.Project.Status}">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Project.Name}" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>
+                               Style="{DynamicResource LableWithQuestionFont}"/>
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding ProjectName}" TextColor="#FFFFFF" HorizontalOptions="Start"
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Project.Status}"/>
+                               Style="{DynamicResource LableWithQuestionFont}"/>
                     </Grid>
                     <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*"
+                          IsVisible="{Binding labelobj.Job.Status}">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Job.Name}" TextColor="#FFFFFF" 
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>
+                               Style="{DynamicResource LableWithQuestionFont}"/>
                         <Label Grid.Row="0"  Grid.Column="1" Text="{Binding JobName}" TextColor="#FFFFFF" HorizontalOptions="Start"
-                               Style="{DynamicResource LableWithQuestionFont}" IsVisible="{Binding labelobj.Job.Status}"/>
+                               Style="{DynamicResource LableWithQuestionFont}"/>
 
                     </Grid>
                 </StackLayout>
@@ -196,21 +199,21 @@
                                 </Frame.GestureRecognizers>
                             </Frame>
 
-                            <!--<Frame Grid.Row="2" Grid.Column="0" Margin="0"
-                                   IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
-                                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                        <Image Source="Compare.png"
+                            <Frame Grid.Row="2" Grid.Column="0" Margin="0"
+                                   IsVisible="{Binding IsMobileCompareCont}" CornerRadius="4" HasShadow="False">
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <Image Source="Compare.png"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
-                                        </Image>
+                                    </Image>
 
-                                        <Label Text="Compare Cont." Style="{DynamicResource LableWithQuestionFont}"
+                                    <Label Text="Compare Cont." Style="{DynamicResource LableWithQuestionFont}"
                                                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                                    </StackLayout>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding CompareContinuousClickCmd}"></TapGestureRecognizer>
-                                    </Frame.GestureRecognizers>
-                                </Frame>-->
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CompareContinuousClickCmd}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
                         </Grid>
                     </StackLayout>
                 </ScrollView>
