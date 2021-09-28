@@ -57,7 +57,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Tagnumbers = selectedtagdata.TaskName;
                 select_pic = new Command(async () => await SelectPic());
                 upload_pic = new Command(async () => await UploadPhoto());
-                //CloseCommand = new Command(async () => await ClosePic());
                 ViewPhotoDetailsCmd = new Command(ViewPhotoDetails);
                 DeleteImageCmd = new Command(DeleteImage);
                 HomeCommand = new Command(HomeCommand_btn);
@@ -84,16 +83,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         IsPhotoUploadIconVisible = true;
                         closeLabelText = true;
-                        //DoneBtnOpacity = 1.0;
                     }
                     else
                     {
                         closeLabelText = false;
-                        //DoneBtnOpacity = 0.5;
                         IsPhotoUploadIconVisible = false;
                     }
                 }
-                //IsPhotoUploadIconVisible = selectedTagData.TaskStatus == 2 ? true : false;
             }
             catch (Exception ex)
             {
@@ -119,9 +115,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result != null && result.data != null)
                     {
-                        if (result.status != 0 && result.data.allPoData != null && result.data.allPoData.Count > 0)
+                        if (result.status != 0 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == selectedTagData.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == selectedTagData.TaskID));
                         }
                     }
                 }
@@ -147,7 +143,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 IndicatorVisibility = true;
-                //await Task.Delay(1);
 
                 if (tabname == "home")
                 {
@@ -162,7 +157,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else if (tabname == "parts")
                 {
                     await Navigation.PopAsync();
-                    //await Navigation.PushAsync(new POChildListPage(await GetUpdatedAllPOData(), SendPodData));
                 }
             }
             catch (Exception ex)
@@ -325,12 +319,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                         await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
                                     }
-                                    else
-                                    {
-                                    }
-                                }
-                                else
-                                {
                                 }
                             }
                             else
@@ -347,7 +335,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         IndicatorVisibility = false;
                     });
                 }
-                //}
             }
             catch (Exception ex)
             {
@@ -439,12 +426,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         Settings.IsRefreshPartsPage = true;
                                         DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
                                     }
-                                    else
-                                    {
-                                    }
-                                }
-                                else
-                                {
                                 }
                             }
 
@@ -507,7 +488,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
                                 }
                             }
-
                         }
                         else
                         {
@@ -577,7 +557,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (file != null)
                             {
                                 IndicatorVisibility = false;
-                                //btnenable = true;
 
                                 if (photoCounts == 0)
                                 {
@@ -606,9 +585,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 IsImageViewForUploadVisible = true;
                                 RowHeightOpenCam = 100;
                             }
-                        }
-                        else
-                        {
                         }
                     }
                     else
@@ -690,7 +666,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                //await Navigation.PopAsync(true);
                 App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
