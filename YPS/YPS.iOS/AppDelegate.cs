@@ -300,6 +300,8 @@ namespace YPS.iOS
                     Settings.AndroidVersion = userData.AndroidVersion;
                     Settings.iOSversion = userData.iOSversion;
                     Settings.IsIIJEnabled = userData.IIJEnable;
+                    HostingURL.scandItLicencekey = userData.ScanditKey;
+                    Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
                 }
                 completionHandler(UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Alert);
 
@@ -546,7 +548,7 @@ namespace YPS.iOS
                 if (!string.IsNullOrEmpty(paramValues))
                 {
                     var navPages = paramValues.Split(';');
-                    
+
                     if (application.ApplicationState == UIApplicationState.Active)
                     {
                         Settings.Appbackgroundmode = false;
@@ -574,7 +576,8 @@ namespace YPS.iOS
                                 Settings.AndroidVersion = userData.AndroidVersion;
                                 Settings.iOSversion = userData.iOSversion;
                                 Settings.IsIIJEnabled = userData.IIJEnable;
-
+                                HostingURL.scandItLicencekey = userData.ScanditKey;
+                                Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
                             }
                             Settings.GetParamVal = paramValues;
                             // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
@@ -617,10 +620,12 @@ namespace YPS.iOS
                                 Settings.AndroidVersion = userData.AndroidVersion;
                                 Settings.iOSversion = userData.iOSversion;
                                 Settings.IsIIJEnabled = userData.IIJEnable;
+                                HostingURL.scandItLicencekey = userData.ScanditKey;
+                                Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
                             }
                             Settings.GetParamVal = paramValues;
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
-                            {                               
+                            {
                                 App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
                             }
                             else if (navPages[0] == "RemoveUser")
