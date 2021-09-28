@@ -16,31 +16,14 @@ namespace YPS.Model
         public string PONumber { get; set; }
         public string REQNo { get; set; }
         public string PODescription { get; set; }
-        public string SupplierCompanyName { get; set; }
-        //public string ManufacturerCompanyName { get; set; }
-        //public string CompanyName { get; set; }
-        //public string ProjectName { get; set; }
-        //public string CountryName { get; set; }
-        //public string PriorityName { get; set; }
-        //public string ExpeditorName { get; set; }
-        public int PLUploadCount { get; set; }
-        //public int Unit { get; set; }
-        public double M3 { get; set; }
-        //public double Kgs { get; set; }
-        //public int QACount { get; set; }
-        //public int FileCount { get; set; }
-        //public int BPhotoCount { get; set; }
-        //public int APhotoCount { get; set; }
-        //public int TagsPrintCount { get; set; }
         public int POID { get; set; }
         public int POTagID { get; set; }
         public string POShippingNumber { get; set; }
-        public string InvoiceNumber { get; set; }
-
-
+        //public string InvoiceNumber { get; set; }
+        public string Invoice1No { get; set; }
         public string TagNumber { get; set; }
-        public string TagDescription { get; set; }
-        //public int TagQACount { get; set; }
+        //public string TagDescription { get; set; }
+        public string IDENT_DEVIATED_TAG_DESC { get; set; }
 
         private int _TagQACount;
         public int TagQACount
@@ -202,26 +185,10 @@ namespace YPS.Model
         public int ISFinalVol { get; set; }
         public int IsPhotoRequired { get; set; }
         public string ROS { get; set; }
-        public int? POS { get; set; }
-        public int? SUB { get; set; }
-        public string SIZE1 { get; set; }
-        public string SIZE2 { get; set; }
-        public string SIZE3 { get; set; }
-        public string SIZE4 { get; set; }
-        public string COMMODITY_CODE { get; set; }
-        public string IDENT_DEVIATED_TAG_DESC { get; set; }
-        public string ShippingNumberEncrypted { get; set; }
         public string ConditionName { get; set; }
-        //public int QAClosedCount { get; set; }
-        public string IsReadytoyShipEncrypted { get; set; }
-        //public string POAck { get; set; }
         public string Remarks { get; set; }
-        public string POIDEncrypted { get; set; }
         public string IdentCode { get; set; }
         public string BagNumber { get; set; }
-        public int IsReadytoyShip { get; set; }
-        public int ISTagPrinted { get; set; }
-        //public string yBkgNumber { get; set; }
         public string TaskName { get; set; }
         public int TaskID { get; set; }
         public List<int> TaskIDList { get; set; }
@@ -571,7 +538,8 @@ namespace YPS.Model
     {
         public ObservableCollection<object> poData { get; set; }
         public ObservableCollection<object> poTags { get; set; }
-        public ObservableCollection<AllPoData> allPoData { get; set; }
+        public ObservableCollection<AllPoData> allPoDataMobile { get; set; }
+        //public ObservableCollection<AllPoData> allPoData { get; set; }
         public int listCount { get; set; }
     }
 
@@ -611,14 +579,14 @@ namespace YPS.Model
         public int RoleID { get; set; }
         public int ISCurrentUser { get; set; }
         public int CreatedBy { get; set; }
-        //public bool check { get; set; }
         public string Title { get; set; }
         public bool Iscurentuser { get; set; } = true;
         public string img { get; set; }
-        public bool checkType { get; set; }
+        public bool IsAddStatus { get; set; }
         public Xamarin.Forms.Color IconColor { get; set; }
         public bool UserChecked { get; set; }
-
+        public bool IsAddRemoveIconVisible { get; set; }
+        public double CheckBoxOpacity { get; set; } = 1;
     }
 
     public class users
