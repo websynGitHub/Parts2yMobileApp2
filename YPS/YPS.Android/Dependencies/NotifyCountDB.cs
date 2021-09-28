@@ -1,20 +1,33 @@
 ﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using YPS.Helpers;
+using YPS.Service;
+using YPS.CommonClasses;
 
 namespace YPS.Droid.Dependencies
 {
     public class NotifyCountDB
     {
         private SQLiteConnection _sqlconnection;
-
+        YPSService trackService;
         /// <summary>
         /// Getting conection and creating table.
         /// </summary>
         public NotifyCountDB()
         {
-            _sqlconnection = new SQLiteConnection(SQLite_Android.DbFilePath);
-            _sqlconnection.CreateTable<NotifyCount>();
+            try
+            {
+                trackService = new YPSService();
+                _sqlconnection = new SQLiteConnection(SQLite_Android.DbFilePath);
+                _sqlconnection.CreateTable<NotifyCount>();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "NotifyCountDB constructor -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -23,7 +36,15 @@ namespace YPS.Droid.Dependencies
         /// <param name="count"></param>
         public void SaveNotifyCount(NotifyCount count)
         {
-            _sqlconnection.Insert(count);
+            try
+            {
+                _sqlconnection.Insert(count);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SaveNotifyCount method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -32,7 +53,16 @@ namespace YPS.Droid.Dependencies
         /// <returns></returns>
         public List<NotifyCount> GetAllNotifications()
         {
-            return (from t in _sqlconnection.Table<NotifyCount>() select t).ToList();
+            try
+            {
+                return (from t in _sqlconnection.Table<NotifyCount>() select t).ToList();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetAllNotifications method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -41,7 +71,16 @@ namespace YPS.Droid.Dependencies
         /// <returns></returns>
         public List<string> GetAllNotificationTitle()
         {
-            return (from t in _sqlconnection.Table<NotifyCount>() select t.AllPramText).ToList();
+            try
+            {
+                return (from t in _sqlconnection.Table<NotifyCount>() select t.AllPramText).ToList();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetAllNotificationTitle method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -51,7 +90,16 @@ namespace YPS.Droid.Dependencies
         /// <returns></returns>
         public List<NotifyCount> SpecificNotification(int id)
         {
-            return _sqlconnection.Query<NotifyCount>("Select * From [NotifyCount] Where QaId=?", id);
+            try
+            {
+                return _sqlconnection.Query<NotifyCount>("Select * From [NotifyCount] Where QaId=?", id);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SpecificNotification method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -60,7 +108,15 @@ namespace YPS.Droid.Dependencies
         /// <param name="id"></param>
         public void ClearSpecificNotifications(int id)
         {
-            _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount] Where QaId=?", id);
+            try
+            {
+                _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount] Where QaId=?", id);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ClearSpecificNotifications method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
 
         /// <summary>
@@ -68,7 +124,15 @@ namespace YPS.Droid.Dependencies
         /// </summary>
         public void DeletePNCounts()
         {
-            _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount]" );
+            try
+            {
+                _sqlconnection.Query<NotifyCount>("Delete From [NotifyCount]");
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DeletePNCounts method -> in NotifyCountDB.cs " + Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
         }
     }
 }

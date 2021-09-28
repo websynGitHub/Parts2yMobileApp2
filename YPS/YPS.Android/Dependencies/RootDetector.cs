@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using YPS.Droid.Dependencies;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Service;
+using YPS.CommonClasses;
 
 [assembly: Dependency(typeof(RootDetector))]
 namespace YPS.Droid.Dependencies
@@ -36,20 +38,19 @@ namespace YPS.Droid.Dependencies
                     // Store for future verification with google servers
                     attestationResponse = jwsResponse;
                     var decodedResult = jwsResponse.DecodeJwsResult(nonce);
-                    if(decodedResult!=null)
+                    if (decodedResult != null)
                     {
                         var result = JsonConvert.DeserializeObject<SafetyNetModel>(decodedResult);
-                       
-                        if(result!=null)
+
+                        if (result != null)
                         {
-                            if (result.ctsProfileMatch== "true" && result.basicIntegrity== "true")
+                            if (result.ctsProfileMatch == "true" && result.basicIntegrity == "true")
                             {
                                 response = true;
                             }
                             else
                             {
                                 response = false;
-
                             }
                         }
                     }
@@ -61,20 +62,30 @@ namespace YPS.Droid.Dependencies
             }
             catch (Exception ex)
             {
+                YPSLogger.ReportException(ex, "CheckIfRooted method -> in RootDetector.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
                 response = false;
-
             }
             return response;
         }
-       
+
         /// <summary>
         /// Gets called when connection Google Play failes.
         /// </summary>
         /// <param name="result"></param>
         public void OnConnectionFailed(ConnectionResult result)
         {
-            App.Current.MainPage.DisplayAlert("Alert", "Failed to connect to Google Play Services", "OK");
+            try
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Failed to connect to Google Play Services", "OK");
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnConnectionFailed method -> in RootDetector.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
+            }
         }
-
     }
 }

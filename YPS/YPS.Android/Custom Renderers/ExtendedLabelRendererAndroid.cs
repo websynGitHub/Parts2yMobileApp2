@@ -1,9 +1,13 @@
 ﻿using Android.Content;
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using YPS.CustomRender;
 using YPS.Droid.Custom_Renderers;
+using YPS.Helpers;
+using YPS.Service;
+using YPS.CommonClasses;
 
 [assembly: ExportRenderer(typeof(ExtendedLabel), typeof(ExtendedLabelRendererAndroid))]
 namespace YPS.Droid.Custom_Renderers
@@ -14,7 +18,7 @@ namespace YPS.Droid.Custom_Renderers
         /// Parameterized constructor.
         /// </summary>
         /// <param name="context"></param>
-        public ExtendedLabelRendererAndroid(Context context) : base(context) {}
+        public ExtendedLabelRendererAndroid(Context context) : base(context) { }
 
         /// <summary>
         /// OnElementChanged
@@ -22,11 +26,20 @@ namespace YPS.Droid.Custom_Renderers
         /// <param name="e"></param>
         protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
-            base.OnElementChanged(e);
-
-            if (Control != null && Element != null)
+            try
             {
-                UpdateProperties((ExtendedLabel)Element);
+                base.OnElementChanged(e);
+
+                if (Control != null && Element != null)
+                {
+                    UpdateProperties((ExtendedLabel)Element);
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OnElementChanged method -> in OnElementPropertyChanged.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
             }
         }
 
@@ -37,11 +50,20 @@ namespace YPS.Droid.Custom_Renderers
         /// <param name="e"></param>
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            base.OnElementPropertyChanged(sender, e);
-
-            if (sender != null)
+            try
             {
-                UpdateProperties((ExtendedLabel)sender);
+                base.OnElementPropertyChanged(sender, e);
+
+                if (sender != null)
+                {
+                    UpdateProperties((ExtendedLabel)sender);
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "UpdateProperties method -> in OnElementPropertyChanged.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
             }
         }
 
@@ -51,10 +73,19 @@ namespace YPS.Droid.Custom_Renderers
         /// <param name="extendedLabel"></param>
         private void UpdateProperties(ExtendedLabel extendedLabel)
         {
-            if (extendedLabel.MaxLines > 0d)
+            try
             {
-                Control.SetSingleLine(false);
-                Control.SetMaxLines(extendedLabel.MaxLines);
+                if (extendedLabel.MaxLines > 0d)
+                {
+                    Control.SetSingleLine(false);
+                    Control.SetMaxLines(extendedLabel.MaxLines);
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "UpdateProperties method -> in ExtendedLabelRendererAndroid.cs " + Settings.userLoginID);
+                YPSService service = new YPSService();
+                service.Handleexception(ex);
             }
         }
     }

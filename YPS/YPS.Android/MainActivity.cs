@@ -359,36 +359,36 @@ namespace YPS.Droid
             }
         }
 
-        //protected override void OnResume()
-        //{
-        //    try
-        //    {
-        //        base.OnResume();
+        protected override void OnResume()
+        {
+            try
+            {
+                base.OnResume();
 
-        //        Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSService service = new YPSService();
-        //        YPSLogger.ReportException(ex, "OnResume method-> in MainActivity.cs " + Settings.userLoginID);
-        //        service.Handleexception(ex);
-        //    }
-        //}
+                Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
+            }
+            catch (Exception ex)
+            {
+                YPSService service = new YPSService();
+                YPSLogger.ReportException(ex, "OnResume method-> in MainActivity.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+            }
+        }
 
-        //protected override void OnStop()
-        //{
-        //    try
-        //    {
-        //        base.OnStop();
-        //        Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSService service = new YPSService();
-        //        YPSLogger.ReportException(ex, "OnStop method-> in MainActivity.cs " + Settings.userLoginID);
-        //        service.Handleexception(ex);
-        //    }
-        //}
+        protected override void OnStop()
+        {
+            try
+            {
+                base.OnStop();
+                Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
+            }
+            catch (Exception ex)
+            {
+                YPSService service = new YPSService();
+                YPSLogger.ReportException(ex, "OnStop method-> in MainActivity.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+            }
+        }
 
         void CreateNotificationChannel()
         {
@@ -424,8 +424,7 @@ namespace YPS.Droid
 
                 for (int i = 0; i < permissions.Length; i++)
                 {
-                    if (permissions[i].Equals("android.permission.CAMERA") && grantResults[i] == Permission.Granted)
-                        global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+                    global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
                 }
 
                 base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
