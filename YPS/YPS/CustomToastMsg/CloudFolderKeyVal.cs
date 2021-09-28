@@ -400,8 +400,7 @@ namespace YPS.CustomToastMsg
         //OLD
         //public static string scandItLicencekey = "AeUg02GPQW+LQNsakx9oKmAH8IrQG9AmH1BKUM5tVhLuWMM/FFj+/pMlwybUfcHkzkChSuwZ8jDcLGs2ISqD3bxZIoL2XeE2jw1A7Ut8ZzzdTTcBKmA0pfxprY/ZOunN1C2kPI44zwOoEAiVqgiwSkC4HggoWmuGwSUegKWJcmguvtisIqXeJiv1h9wlALpydmJPLc8Wq2j+u16ugMaQJforuRWjPOknSyk5oRExHQDT2MBc33lR7Hmzql2p15EEb1fLFVbhEStQhwZwxQgGbk7sl8kxmleqmFUeKvJOGf/GG8nJ8blFlTRH7akAQUSu77YCccEBPO19eo4WQTATViFlih0GwvmFIJrWL6/L3vWerQ/8OD/YC1G+ngq2pGVAukbWaSdRhhc5bNRq0w0CwACTmSuqxCPlKJexkpoVECd+Z2TcKsS3rZS4MtUkfCVniWdbQJwsJJXWeppxB8mOk8aUfEYqFYg8QlW7kTIM5XUQyF6+FweSc616B9UYSzBp1WzXuMa5q4nCClUKKUlJfyzqKQzu5Ckg/3EzB+ch6qy6QrrbuU6xjtLJNzz6AXG9ix+tAiQPg4bBdt5YHo8TN6oMuNhncGkjQpMukzJiwdFJLeL8pNu/xiY4rU0wdmuZok7QUZZtMcsX/qi59UFmibOB/sGvf1MReyWdcx+EQmDd2/1JdplFqKEKMjigKAAb1I+OGI9g3Al0WlmmifJxjyvdHW8aFeM/EnSerghQ5CBK3EwiuruueBcdPkNs7ajXkLsRIF+5rqMHOmQQW9w5YCqwEl2s9jPUsWZ0z+s1Utle7OtDhP8bcYuqfEA=";
         //NEW
-        public static string scandItLicencekey = "AbqwVRbLNvKRB3HszUT2QfFAYccUBGTY9Bk3AQAQN3GXR2TbYjimL0tKdMsDQ7I+3XFZ7Qtzk9FMDzgy6GiEXa0p1+hrYJxKphGZVJdvawf1aR+2SmNUlwMw0kqpPkmtXRstOJgvqQtuD+6jv6EfkjrUuqhg782lFlikUG+vRg/dEWVOs6P6i4LGprRMEie5ODl2ed2wwRYUdvsmz+kBhQ3LsHNO6HyGNMtUNAEbKUIIIfZrWoBTH65MfvZSa+2OWosln77uFjhzz34V7trMHk6aIh3M7a2esEhO1ABfv5VYB698zH2R2Swqte3hUjZVf4YBgqEvyw3SDb31oTyROcaPauxPMESfj12YMSYRh3dmhcFrl3pMoe/bPO2wEyICekLf6MmPQSA4MBDRsMJoshe615iDlrESx4dlqkL+u4CumLyohd1VjisNhqtVUvoDc/aRDFOY3jWvf9+pqSF4R+HBj/ds39U/fLpTlYPex7yUfNzZEJC46du3A20SYwtKp+lYs0fN77YjjqqNq8Hx2buGNVM2aJLlJhGwObPAheHBiwljxSzCdAQR6upJbTmHyRO8WAn7wnr54RuNyslG2zViXl5JznvMUBAhVB33Y0jotQan4esE10zh2te4W/LjqWMCsHFKJ6IIIv2zIPdjO8lR/7C3sQLFG0usfP+sYNq8XN1NFJfDH75E9QgzpZvrcD2bLL8vp6sR+VLSmS66alXuAiPao1JblGqMbKWlJ5oviIzUw1uvxHVMAnU0MOHeLVnyENyWrFt+wkOxjRWE9CKvZ4/1ns1eJOVGGUWcsnVsFT6//pnfLWDvohI=";
-
+        public static string scandItLicencekey = "";
         #endregion
 
         #region DEV:
@@ -421,7 +420,7 @@ namespace YPS.CustomToastMsg
         #region LIVE:
         //public static string HubConnectionUrl { get; set; } = "https://www.parts2y.com/";
         //public static string WebServiceUrl { get; set; } = "https://www.parts2y.com/api/";
-        //public static string Appcenter_droid { get; set; } = "android=187f2593-7ed5-4ea9-8bb8-61f03175e30f;";
+        //public static string Appcenter_droid { get; set; } = "android=b3a4d5ad-e6bb-4e6e-a4b3-4b6dbdbd9ee4;";
         //public static string Appcenter_iOS { get; set; } = "ios=6aeae3ae-1423-41c0-b9ec-0de97e33789d;";
         //public static string Bdchk { get; set; } = "TXXv/K4nwyXFxNfZDiFY4pTAH4PhtGwuuMq5br5uqJw=";
         /////public static string Bdchk { get; set; } = "jjWxg36jzbNTyL3cTAx+fBKuerSOTbzE8vK9hcyzKbA=";//old key

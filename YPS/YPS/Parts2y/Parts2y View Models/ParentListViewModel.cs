@@ -453,12 +453,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (result != null)
                             {
-                                if (result.status != 0 && result.data.allPoData != null)
+                                if (result.status != 0 && result.data.allPoDataMobile != null)
                                 {
                                     Settings.AllPOData = new ObservableCollection<AllPoData>();
-                                    Settings.AllPOData = result.data.allPoData;
+                                    Settings.AllPOData = result.data.allPoDataMobile;
 
-                                    var groubbyval = result.data.allPoData.GroupBy(gb => new { gb.TaskID });
+                                    var groubbyval = result.data.allPoDataMobile.GroupBy(gb => new { gb.TaskID });
 
                                     ObservableCollection<AllPoData> groupedlist = new ObservableCollection<AllPoData>();
 
@@ -1116,27 +1116,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name) + " :";
-                        labelobj.Company.Status = company == null ? false : (company.Status == 1 ? true : false);
+                        labelobj.Company.Status = company?.Status == 1 ? true : false;
                         labelobj.Project.Name = (project != null ? (!string.IsNullOrEmpty(project.LblText) ? project.LblText : labelobj.Project.Name) : labelobj.Project.Name) + " :";
-                        labelobj.Project.Status = project == null ? false : (project.Status == 1 ? true : false);
+                        labelobj.Project.Status = project?.Status == 1 ? true : false;
                         labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name) + " :";
-                        labelobj.Job.Status = job == null ? false : (job.Status == 1 ? true : false);
+                        labelobj.Job.Status = job?.Status == 1 ? true : false;
 
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid == null ? false : (poid.Status == 1 ? true : false);
+                        labelobj.POID.Status = poid?.Status == 1 ? true : false;
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? false : (shippingnumber.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Status = shippingnumber?.Status == 1 ? true : false;
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
-                        labelobj.REQNo.Status = reqnumber == null ? false : (reqnumber.Status == 1 ? true : false);
+                        labelobj.REQNo.Status = reqnumber?.Status == 1 ? true : false;
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
-
+                        labelobj.TaskName.Status = taskanme?.Status == 1 ? true : false;
                         labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name) + " :";
-                        labelobj.StartTime.Status = starttime == null ? false : (starttime.Status == 1 ? true : false);
+                        labelobj.StartTime.Status = starttime?.Status == 1 ? true : false;
                         labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
-                        labelobj.EndTime.Status = endtime == null ? false : (endtime.Status == 1 ? true : false);
+                        labelobj.EndTime.Status = endtime?.Status == 1 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                        labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
+                        labelobj.EventName.Status = eventname?.Status == 1 ? true : false;
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
@@ -1456,9 +1455,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #region Properties for dynamic label change
         public class DashboardLabelChangeClass
         {
-            public DashboardLabelFields Job { get; set; } = new DashboardLabelFields { Status = false, Name = "Job" };
-            public DashboardLabelFields Project { get; set; } = new DashboardLabelFields { Status = false, Name = "Project" };
-            public DashboardLabelFields Company { get; set; } = new DashboardLabelFields { Status = false, Name = "Company" };
+            public DashboardLabelFields Job { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
+            public DashboardLabelFields Project { get; set; } = new DashboardLabelFields { Status = true, Name = "Project" };
+            public DashboardLabelFields Company { get; set; } = new DashboardLabelFields { Status = true, Name = "Company" };
             public DashboardLabelFields Supplier { get; set; } = new DashboardLabelFields { Status = false, Name = "SupplierCompanyName" };
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
             {
@@ -1498,6 +1497,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = false,
                 Name = "Event"
             };
+            public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = false, Name = "Start Time" };
+            public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = false, Name = "End Time" };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };
@@ -1508,8 +1509,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
             public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
             public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
-            public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = false, Name = "Start Time" };
-            public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = false, Name = "End Time" };
             public DashboardLabelFields SavedSearchFilters { get; set; } = new DashboardLabelFields { Status = true, Name = "Saved Search Filters" };
         }
         public class DashboardLabelFields : IBase

@@ -53,8 +53,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Tagnumbers = vinValue;
                 IsCarrierInsp = iscarrierinsp;
                 Question = inspectionConfiguration.SerialNo + " " + inspectionConfiguration.Question;
-                TaskName = selectedTagData.TaskName;
-                EventName = selectedTagData.EventName;
+                TaskName = selectedtagdata.TaskName;
+                EventName = selectedtagdata.EventName;
                 this.inspectionConfiguration = inspectionConfiguration;
                 trackService = new YPSService();
                 ListOfImage = new ObservableCollection<GalleryImage>();

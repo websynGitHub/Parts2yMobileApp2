@@ -188,7 +188,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), 0);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 0);
 
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
@@ -219,7 +219,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), 1);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 1);
 
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -250,7 +250,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), 2);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 2);
 
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -281,7 +281,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
                 TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoData.Where(wr => wr.TaskID == TaskID)), -1);
+                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), -1);
 
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
@@ -571,7 +571,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 #endregion Status icon
 
                                 data.IsTaskResourceVisible = data.TaskResourceID == Settings.userLoginID ? false : true;
-                                data.IsTagDescLabelVisible = string.IsNullOrEmpty(data.TagDescription) ? false : true;
+                                data.IsTagDescLabelVisible = string.IsNullOrEmpty(data.IDENT_DEVIATED_TAG_DESC) ? false : true;
                                 data.IsConditionNameLabelVisible = string.IsNullOrEmpty(data.ConditionName) ? false : true;
                             }
                         }
@@ -1325,29 +1325,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid == null ? false : (poid.Status == 1 ? true : false);
+                        labelobj.POID.Status = poid?.Status == 1 ? true : false;
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
-                        labelobj.TaskName.Status = taskanme == null ? false : (taskanme.Status == 1 ? true : false);
+                        labelobj.TaskName.Status = taskanme?.Status == 1 ? true : false;
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
                         labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name) + " :";
-                        labelobj.StartTime.Status = starttime == null ? false : (starttime.Status == 1 ? true : false);
+                        labelobj.StartTime.Status = starttime?.Status == 1 ? true : false;
                         labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
-                        labelobj.EndTime.Status = endtime == null ? false : (endtime.Status == 1 ? true : false);
+                        labelobj.EndTime.Status = endtime?.Status == 1 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
-                        labelobj.EventName.Status = eventname == null ? false : (eventname.Status == 1 ? true : false);
-
+                        labelobj.EventName.Status = eventname?.Status == 1 ? true : false;
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
-                        labelobj.TagNumber.Status = tagnumber == null ? false : (tagnumber.Status == 1 ? true : false);
+                        labelobj.TagNumber.Status = tagnumber?.Status == 1 ? true : false;
                         labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode == null ? false : (identcode.Status == 1 ? true : false);
+                        labelobj.IdentCode.Status = identcode?.Status == 1 ? true : false;
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
-                        labelobj.ConditionName.Status = conditionname == null ? false : (conditionname.Status == 1 ? true : false);
+                        labelobj.ConditionName.Status = conditionname?.Status == 1 ? true : false;
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
-                        labelobj.InvoiceNumber.Status = invoicenumber == null ? false : (invoicenumber.Status == 1 ? true : false);
+                        labelobj.InvoiceNumber.Status = invoicenumber?.Status == 1 ? true : false;
                         labelobj.TagDesc.Name = (tagdesc != null ? (!string.IsNullOrEmpty(tagdesc.LblText) ? tagdesc.LblText : labelobj.TagDesc.Name) : labelobj.TagDesc.Name) + " :";
-                        labelobj.TagDesc.Status = tagdesc == null ? false : (tagdesc.Status == 1 ? true : false);
+                        labelobj.TagDesc.Status = tagdesc?.Status == 1 ? true : false;
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
-                        labelobj.ShippingNumber.Status = shippingnumber == null ? false : (shippingnumber.Status == 1 ? true : false);
+                        labelobj.ShippingNumber.Status = shippingnumber?.Status == 1 ? true : false;
 
                         labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) + "\n";
                         labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
