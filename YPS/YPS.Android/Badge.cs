@@ -79,7 +79,7 @@ namespace YPS.Droid
 					mBadge = new XiaomiHomeBadger(context);
 					return mBadge;
 				}*/
-
+                
                 //foreach (string badgeclass in BADGERS)
                 //{
                 //    Type t = Type.GetType("YPS.Droid.Implementation." + badgeclass);

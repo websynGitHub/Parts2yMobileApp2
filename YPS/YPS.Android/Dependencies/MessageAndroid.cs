@@ -7,6 +7,9 @@ using YPS.Droid.Dependencies;
 using YPS.Helpers;
 using YPS.Service;
 using YPS.CommonClasses;
+using Android.Graphics;
+using Xamarin.Forms.Platform.Android;
+using Xamarin.Forms;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MessageAndroid))]
 namespace YPS.Droid.Dependencies
@@ -21,15 +24,18 @@ namespace YPS.Droid.Dependencies
         {
             try
             {
-                Toast toast = Toast.MakeText(Application.Context, message, ToastLength.Short);
-                toast.SetGravity(GravityFlags.Center, 0, 0);
-                toast.Show();
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    Toast toast = Toast.MakeText(Android.App.Application.Context, message, ToastLength.Short);
+                    toast.SetGravity(GravityFlags.Center, 0, 0);
+                    toast.View.PlaySoundEffect(SoundEffects.NavigationDown);
+                    toast.View.Background.SetColorFilter(Settings.Bar_Background.ToAndroid(), PorterDuff.Mode.SrcIn);
+                    toast.Show();
+                });
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "ShortAlert method -> in MessageAndroid.cs " + Settings.userLoginID);
-                YPSService trackService = new YPSService();
-                trackService.Handleexception(ex);
             }
         }
     }
