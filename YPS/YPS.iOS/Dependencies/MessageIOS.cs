@@ -5,6 +5,7 @@ using YPS.iOS.Dependencies;
 using System;
 using YPS.CommonClasses;
 using YPS.Helpers;
+using Xamarin.Forms.Platform.iOS;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MessageIOS))]
 namespace YPS.iOS.Dependencies
@@ -41,6 +42,8 @@ namespace YPS.iOS.Dependencies
                 });
 
                 alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
+                alert.View.BackgroundColor = Settings.Bar_Background.ToUIColor();
+                alert.View.Layer.CornerRadius=10;
                 UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
             }
             catch (Exception ex)
