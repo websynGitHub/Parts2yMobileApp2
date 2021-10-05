@@ -4,45 +4,66 @@ using Android.App;
 using Android.Content;
 using Android.Net;
 using Android.OS;
+using YPS.Helpers;
+using YPS.Service;
 
 namespace YPS.Droid.Implementation
 {
-	public class XiaomiHomeBadger: MyBadge
-	{
-		public static String INTENT_ACTION = "android.intent.action.APPLICATION_MESSAGE_UPDATE";
-		public static String EXTRA_UPDATE_APP_COMPONENT_NAME = "android.intent.extra.update_application_component_name";
-		public static String EXTRA_UPDATE_APP_MSG_TEXT = "android.intent.extra.update_application_message_text";
+    public class XiaomiHomeBadger : MyBadge
+    {
+        public static String INTENT_ACTION = "android.intent.action.APPLICATION_MESSAGE_UPDATE";
+        public static String EXTRA_UPDATE_APP_COMPONENT_NAME = "android.intent.extra.update_application_component_name";
+        public static String EXTRA_UPDATE_APP_MSG_TEXT = "android.intent.extra.update_application_message_text";
 
-		public XiaomiHomeBadger (Context context) : base(context)
-		{
-		}
+        public XiaomiHomeBadger(Context context) : base(context)
+        {
+        }
 
-		public override void executeBadge(int badgeCount)
-		{
-			try {
-				Java.Lang.Class miuiNotificationClass = Java.Lang.Class.ForName("android.app.MiuiNotification");
-				Java.Lang.Object miuiNotification = miuiNotificationClass.NewInstance();
-				Java.Lang.Reflect.Field field = miuiNotification.Class.GetDeclaredField("messageCount");
-				field.Accessible = true;
-				field.Set(miuiNotification, badgeCount == 0 ? "" : badgeCount.ToString());
-			} catch (Exception e) {
-				Intent localIntent = new Intent(
-					INTENT_ACTION);
-				localIntent.PutExtra(EXTRA_UPDATE_APP_COMPONENT_NAME, getContextPackageName() + "/" + getEntryActivityName());
-				localIntent.PutExtra(EXTRA_UPDATE_APP_MSG_TEXT, badgeCount == 0 ? "" : badgeCount.ToString());
-				mContext.SendBroadcast(localIntent);
-			}
-		}
+        public override void executeBadge(int badgeCount)
+        {
+            try
+            {
+                Java.Lang.Class miuiNotificationClass = Java.Lang.Class.ForName("android.app.MiuiNotification");
+                Java.Lang.Object miuiNotification = miuiNotificationClass.NewInstance();
+                Java.Lang.Reflect.Field field = miuiNotification.Class.GetDeclaredField("messageCount");
+                field.Accessible = true;
+                field.Set(miuiNotification, badgeCount == 0 ? "" : badgeCount.ToString());
+            }
+            catch (Exception ex)
+            {
+                Intent localIntent = new Intent(
+                    INTENT_ACTION);
+                localIntent.PutExtra(EXTRA_UPDATE_APP_COMPONENT_NAME, getContextPackageName() + "/" + getEntryActivityName());
+                localIntent.PutExtra(EXTRA_UPDATE_APP_MSG_TEXT, badgeCount == 0 ? "" : badgeCount.ToString());
+                mContext.SendBroadcast(localIntent);
 
-		public override List<String>  getSupportLaunchers() {
-			List<string> supportedLaunchers = new List<string> ();
-			supportedLaunchers.Add ("com.miui.miuilite");
-			supportedLaunchers.Add ("com.miui.home");
-			supportedLaunchers.Add ("com.miui.miuihome");
-			supportedLaunchers.Add ("com.miui.miuihome2");
-			supportedLaunchers.Add ("com.miui.mihome");
-			supportedLaunchers.Add ("com.miui.mihome2");
-			return supportedLaunchers;
-		}
-	}
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "executeBadge method -> in XiaomiHomeBadger.cs " + YPS.CommonClasses.Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
+        }
+
+        public override List<String> getSupportLaunchers()
+        {
+            try
+            {
+                List<string> supportedLaunchers = new List<string>();
+                supportedLaunchers.Add("com.miui.miuilite");
+                supportedLaunchers.Add("com.miui.home");
+                supportedLaunchers.Add("com.miui.miuihome");
+                supportedLaunchers.Add("com.miui.miuihome2");
+                supportedLaunchers.Add("com.miui.mihome");
+                supportedLaunchers.Add("com.miui.mihome2");
+                return supportedLaunchers;
+            }
+            catch (Exception ex)
+            {
+
+                YPSService trackService = new YPSService();
+                YPSLogger.ReportException(ex, "getSupportLaunchers method -> in XiaomiHomeBadger.cs " + YPS.CommonClasses.Settings.userLoginID);
+                trackService.Handleexception(ex);
+                return null;
+            }
+        }
+    }
 }

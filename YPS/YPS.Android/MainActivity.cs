@@ -364,7 +364,8 @@ namespace YPS.Droid
             try
             {
                 base.OnResume();
-
+                Badge badge = new Badge(this);
+                badge.count(0);
                 Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
             }
             catch (Exception ex)
@@ -380,6 +381,8 @@ namespace YPS.Droid
             try
             {
                 base.OnStop();
+                Badge badge = new Badge(this);
+                badge.count(0);
                 Xamarin.Forms.DependencyService.Get<IPNClearClass>().CancelPush(null, 0);
             }
             catch (Exception ex)
