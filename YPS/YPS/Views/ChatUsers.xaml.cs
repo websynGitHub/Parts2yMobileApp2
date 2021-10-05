@@ -87,7 +87,6 @@ namespace YPS.Views
                 }
                 else
                 {
-                    titleupdate.IsVisible = true;
                     Settings.ChatClosedOrNot = chatClosedOrNot = "Open";
                 }
 
@@ -316,7 +315,7 @@ namespace YPS.Views
         }
 
         /// <summary>
-        /// Gets called when clicked on "Start Chat" button, to create a new Q&A.
+        /// Gets called when clicked on "Start" button, to create a new Q&A.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -345,7 +344,6 @@ namespace YPS.Views
 
                         try
                         {
-
                             data.Title = vm.GroupName;
                             data.users = vm.UserList;
                             data.tags = tag;
@@ -528,7 +526,8 @@ namespace YPS.Views
         {
             try
             {
-                await Navigation.PopToRootAsync();
+                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                //await Navigation.PopToRootAsync();
             }
             catch (Exception ex)
             {
