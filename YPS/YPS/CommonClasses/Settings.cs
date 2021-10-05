@@ -10,7 +10,7 @@ namespace YPS.CommonClasses
         public static ObservableCollection<AllPoData> AllPOData { get; set; }
         public static string ScanValue { get; set; }
         //public static string ImpTxtCode { get; set; } = "TDdmwPkI+5H5TLnqUfTTow==";
-        public static Color Bar_Background { get; set; } = Xamarin.Forms.Color.FromHex("#269DC9");
+        public static Xamarin.Forms.Color Bar_Background { get; set; } = Xamarin.Forms.Color.FromHex("#269DC9");
         public static string DateFormat { get; set; } = "{0:dd MMM yyyy HH:mm}";
         public static Color HighlightedTabTxtColor { get; set; } = Color.Green;
         public static bool EndRefresh2 { get; set; }
@@ -238,7 +238,7 @@ namespace YPS.CommonClasses
         public static int Files { get; set; }
         public static int Chat { get; set; }
         public static bool IsAppLabelCall { get; set; }
-        public static bool SearchWentWrong { get; set; }
+        //public static bool SearchWentWrong { get; set; }
         public static bool mutipleTimeClick { get; set; }
         public static bool isExpectedPublicKey { get; set; } = true;
         public static string Text { get; set; }

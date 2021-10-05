@@ -122,15 +122,17 @@ namespace YPS.Views
         {
             try
             {
+                vm.IndicatorVisibility = true;
                 Settings.PerviousPage = Settings.RedirectPage.Trim().ToLower() == "yship" ? "Yship" : Settings.PerviousPage;// Setting previous page to Settings
                 Settings.RedirectPageQA = "QnAlistPage";// Setting Redirect to page to setting
                 chatUserList.SelectedItem = null;
+                ChatData d = (ChatData)e.Item;
+                d.SelectedQABgColor = Settings.Bar_Background;
+
                 bool checkInternet = await App.CheckInterNetConnection();// Checking internet connection
 
                 if (checkInternet)
                 {
-                    ChatData d = (ChatData)e.Item;
-
                     if (d.QAID != null)
                     {
                         List<Tag> lstdat = new List<Tag>();
@@ -162,6 +164,7 @@ namespace YPS.Views
                 await service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
+            vm.IndicatorVisibility = true;
         }
 
         /// <summary>

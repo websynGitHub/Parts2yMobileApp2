@@ -309,7 +309,7 @@
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
                                 Grid.Column="0">
                         <Button.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </Button.Behaviors>
                     </Button>
 
@@ -319,7 +319,7 @@
                                 Grid.Column="1">
 
                         <Button.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </Button.Behaviors>
                     </Button>
                 </Grid>
@@ -336,7 +336,7 @@
                                                >
 
                     <Button.Behaviors>
-                        <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                     </Button.Behaviors>
                 </Button>
 
@@ -353,11 +353,10 @@
                 </StackLayout>
             </ContentView>
 
-            <ContentView IsVisible="{Binding showScanHistory}" BackgroundColor="Transparent" Padding="0" Margin="10,25,10,25"
+            <ContentView Style="{StaticResource PopUpContentView}" IsVisible="{Binding showScanHistory}" Padding="0"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Frame Padding="2" CornerRadius="8" BackgroundColor="#E9E9E9" BorderColor="{Binding BgColor}"
-                          HorizontalOptions="FillAndExpand"
-                         VerticalOptions="FillAndExpand">
+                <Frame Padding="2" CornerRadius="8" BackgroundColor="#E9E9E9" BorderColor="{Binding BgColor}"  Margin="10,25,10,25"
+                          HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
                     <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent" Spacing="0">

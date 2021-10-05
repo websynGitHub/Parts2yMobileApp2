@@ -284,7 +284,7 @@
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium">
 
                                 <syncfusion:SfButton.Behaviors>
-                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </syncfusion:SfButton.Behaviors>
                             </syncfusion:SfButton>
 
@@ -296,7 +296,7 @@
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium">
 
                                 <syncfusion:SfButton.Behaviors>
-                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </syncfusion:SfButton.Behaviors>
                             </syncfusion:SfButton>
                         </Grid>
@@ -313,7 +313,7 @@
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
                         <syncfusion:SfButton.Behaviors>
-                            <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </syncfusion:SfButton.Behaviors>
                     </syncfusion:SfButton>
                 </StackLayout>

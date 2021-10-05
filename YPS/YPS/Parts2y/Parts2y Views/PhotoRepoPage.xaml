@@ -151,7 +151,7 @@
                                             </StackLayout>
                                         </sfbuttons:SfButton.Content>
                                         <sfbuttons:SfButton.Behaviors>
-                                            <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                            <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                         </sfbuttons:SfButton.Behaviors>
                                     </sfbuttons:SfButton>
                                 </Grid>
@@ -174,7 +174,7 @@
                                     </Grid>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
-                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
 
@@ -190,7 +190,7 @@
                                     </Grid>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
-                                    <behaviours:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
                         </Grid>

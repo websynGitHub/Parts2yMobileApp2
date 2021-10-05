@@ -51,13 +51,13 @@
 
             <ListView Grid.Row="1" CachingStrategy="RecycleElementAndDataTemplate" x:Name="chatUserList" 
                       SeparatorVisibility="None" HasUnevenRows="False" RowHeight="100" IsVisible="{Binding chatUserList,Mode=TwoWay}"
-                      BackgroundColor="Transparent" Margin="0,2,0,0" VerticalOptions="Fill"
+                      BackgroundColor="Transparent" Margin="0,6,0,0" VerticalOptions="Fill"
                       ItemsSource="{Binding UserConversations}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                                 <Frame CornerRadius="4" BackgroundColor="White" HasShadow="False" Padding="10,12,10,12"
-                                       Margin="6,6,6,0">
+                                       Margin="6,0,6,6" BorderColor="{Binding SelectedQABgColor}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>

@@ -55,15 +55,15 @@
                         </Grid>
 
 
-                        <ListView x:Name="list" BackgroundColor="#E9E9E9" HasUnevenRows="True" IsPullToRefreshEnabled="True"
-                      IsVisible="{Binding PLHideListAndShow}" CachingStrategy="RecycleElementAndDataTemplate"
-                                      ItemTapped="NotifyCountlist_ItemTapped" SeparatorVisibility="None" Grid.Row="1"
-                                      Margin="0,2,0,0">
+                        <ListView x:Name="list" BackgroundColor="#E9E9E9" HasUnevenRows="True" IsPullToRefreshEnabled="True" 
+                                  IsVisible="{Binding PLHideListAndShow}" CachingStrategy="RecycleElementAndDataTemplate"
+                                  ItemTapped="NotifyCountlist_ItemTapped" SeparatorVisibility="None" Grid.Row="1"
+                                  Margin="0,6,0,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <ViewCell.View>
-                                            <Frame Margin="6,6,6,0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
+                                            <Frame Margin="6,0,6,6" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        CornerRadius="4" HasShadow="False">
                                                 <Grid BackgroundColor="Transparent"
                                                           RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">

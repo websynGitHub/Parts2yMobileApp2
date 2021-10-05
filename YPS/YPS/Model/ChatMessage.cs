@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using YPS.Service;
 using YPS.ViewModels;
 
@@ -76,7 +77,21 @@ namespace YPS.Models
             public string UpdatedDate { get; set; }
             public string Chatstatus { get; set; }
             public string StatusColor { get; set; }
-            //public Nullable<int> UnreadMessagesCount { get; set; }
+
+            private Color _SelectedQABgColor = Color.Transparent;
+            public Color SelectedQABgColor
+            {
+                get
+                {
+                    return _SelectedQABgColor;
+                }
+                set
+                {
+                    this._SelectedQABgColor = value;
+                    RaisePropertyChanged("SelectedQABgColor");
+                }
+            }
+
             private Nullable<int> _UnreadMessagesCount;
             public Nullable<int> UnreadMessagesCount
             {

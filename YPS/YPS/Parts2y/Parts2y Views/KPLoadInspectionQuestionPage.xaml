@@ -254,7 +254,7 @@
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
                                     <sfbuttons:SfButton.Behaviors>
-                                        <behaviors1:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                        <behaviors1:ViewTappedButtonBehavior AnimationType="Scale"/>
                                     </sfbuttons:SfButton.Behaviors>
                                 </sfbuttons:SfButton>
                             </StackLayout>

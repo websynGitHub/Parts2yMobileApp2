@@ -234,8 +234,8 @@
                                                local:LongPressedEffect.SlCommand="{Binding BindingContext.MoveToNextPageCmd,Source={x:Reference Name=POTagPage}}"
                                                          local:LongPressedEffect.SlCommandParameter="{Binding .}">
                                             <StackLayout Orientation="Vertical">
-                                                <Grid RowDefinitions="*" ColumnDefinitions="*">
 
+                                                <Grid RowDefinitions="*" ColumnDefinitions="*">
                                                     <StackLayout Orientation="Vertical">
                                                         <Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=POTagPage}}"
@@ -422,21 +422,14 @@
                                                  IsVisible="{Binding BindingContext.IsRightArrowVisible,Source={x:Reference Name=POTagPage}}"
                                                  VerticalOptions="Center">
                                                         </local:FontAwesomeIconLabel>
-
-
                                                     </StackLayout>
-
                                                 </StackLayout>
                                             </StackLayout>
-
                                             <Frame.Effects>
                                                 <local:LongPressedEffect />
                                             </Frame.Effects>
-
                                         </Frame>
                                     </Grid>
-
-
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
@@ -479,10 +472,8 @@
                 </StackLayout>
             </RelativeLayout>
 
-            <ContentView IsVisible="{Binding IsScanOrInspPopUpVisible}" BackgroundColor="#99000000"
-                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                     >
+            <ContentView Style="{StaticResource PopUpContentView}" IsVisible="{Binding IsScanOrInspPopUpVisible}" 
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" 
                    BorderColor="{Binding BgColor}" Margin="10,5,10,5" CornerRadius="5"
                    >
@@ -531,7 +522,7 @@
                                     </Grid>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
                         </StackLayout>

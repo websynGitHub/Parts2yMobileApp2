@@ -50,7 +50,7 @@
                         <Grid Grid.Row="0" x:Name="headerpart" RowDefinitions="*,Auto" ColumnDefinitions="60,*,Auto" 
                               Style="{StaticResource HeaderMainGrid}">
 
-                            <StackLayout Orientation="Vertical" Margin="10,10,10,10" VerticalOptions="StartAndExpand"
+                            <StackLayout Orientation="Vertical" Margin="10,0,10,10" VerticalOptions="StartAndExpand"
                                          Spacing="15">
                                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}" 
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
@@ -111,7 +111,7 @@
                                       HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
                             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Orientation="Horizontal">
-                                
+
                                 <StackLayout BackgroundColor="DarkGray"  HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
@@ -337,12 +337,10 @@
             </RelativeLayout>
 
 
-            <ContentView BackgroundColor="Transparent" Padding="0" Margin="10,25,10,25"
-                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                          IsVisible="{Binding IsSearchFilterListVisible}">
+            <ContentView Style="{StaticResource PopUpContentView}" Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                         AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsSearchFilterListVisible}">
                 <Frame Padding="2" CornerRadius="8" BackgroundColor="#E9E9E9" BorderColor="{Binding BgColor}"
-                          HorizontalOptions="FillAndExpand"
-                         VerticalOptions="FillAndExpand">
+                          HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="10,25,10,25">
                     <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent" Spacing="0">
                         <Grid ColumnDefinitions="*,Auto" HorizontalOptions="Fill" Margin="10,15,0,0">
@@ -388,14 +386,6 @@
                     </StackLayout>
                 </Frame>
             </ContentView>
-
-
-            <!--<ContentView IsVisible="{Binding NoRecordsLbl}" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
-                         VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Label HorizontalTextAlignment="Center"
-                         Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
-            </ContentView>-->
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
                          VerticalOptions="FillAndExpand" IsVisible="{Binding loadingindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

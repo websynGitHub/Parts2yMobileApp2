@@ -275,7 +275,7 @@ namespace YPS.CustomToastMsg
                 Settings.IIJConsumerSecret = string.Empty;
                 Settings.ProjectID = Settings.CompanyID = Settings.JobID =
                 Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = 0;
-                Settings.IsIIJEnabled = false;
+                Settings.IsSearchClicked = Settings.IsIIJEnabled = false;
                 RememberPwdDB Db = new RememberPwdDB();
                 var user = Db.GetUserDetails().FirstOrDefault();
 

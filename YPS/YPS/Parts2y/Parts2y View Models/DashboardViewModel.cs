@@ -189,7 +189,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IIJEnable = Settings.IsIIJEnabled;
                     saveData.IsPNEnabled = Settings.IsPNEnabled;
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
-                    saveData.BgColor = Settings.Bar_Background.ToArgb();
+                    saveData.BgColor = Settings.Bar_Background.ToHex();
                     saveData.ScanditKey = HostingURL.scandItLicencekey;
                     saveData.IsMobileCompareCont = Settings.IsMobileCompareCont;
                     Db.SaveUserPWd(saveData);

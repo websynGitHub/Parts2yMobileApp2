@@ -32,14 +32,14 @@
                         </local:FontAwesomeIconLabel.GestureRecognizers>
                     </local:FontAwesomeIconLabel>
                 </StackLayout>
-               
+
                 <StackLayout Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
                                          Orientation="Vertical" HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="StartAndExpand" Margin="8,10,0,15">
                     <Label Text="{Binding labelobj.SearchPageTitle.Name}" Style="{StaticResource LableWithMediumFont}"
                    TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
                 </StackLayout>
-                    
+
                 <local:FontAwesomeIconLabel x:Name="Home" Text="{x:Static local1:Icons.HomeIc}" Grid.Row="0" Grid.Column="2"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
                                                   VerticalOptions="Center" Margin="10,10,10,10">
@@ -48,7 +48,7 @@
                     </local:FontAwesomeIconLabel.GestureRecognizers>
                 </local:FontAwesomeIconLabel>
             </Grid>
-            
+
             <Grid Grid.Row="1" RowDefinitions="*,50" HorizontalOptions="CenterAndExpand"
                   VerticalOptions="FillAndExpand" Padding="6,0,6,0" Margin="0" IsVisible="{Binding IsSearchContentVisible}">
                 <ScrollView Grid.Row="0" Padding="0" Margin="0">
@@ -56,106 +56,106 @@
                     <StackLayout  HorizontalOptions="FillAndExpand" Orientation="Vertical"
                                  IsVisible="{Binding headerVisibility}" VerticalOptions="StartAndExpand"
                                      Padding="0" Margin="0" Spacing="0">
-                        
-                            <sfinput:SfTextInputLayout Hint="{Binding labelobj.PO.Name}" ContainerBackgroundColor="White"
+
+                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.PO.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.PO.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False">
-                                <Entry AutomationId="AutoKeyForPoNo" x:Name="poNumber" Text="{Binding poNumber}" 
+                            <Entry AutomationId="AutoKeyForPoNo" x:Name="poNumber" Text="{Binding poNumber}" 
                                      Grid.Row="0" VerticalOptions="CenterAndExpand"  Style="{StaticResource EntryTextStyle}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                                <sfinput:SfTextInputLayout.HintLabelStyle>
-                                    <sfinput:LabelStyle FontSize="18">
-                                        <sfinput:LabelStyle.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                <sfinput:LabelStyle FontSize="18">
+                                    <sfinput:LabelStyle.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                        </sfinput:LabelStyle.FontFamily>
-                                    </sfinput:LabelStyle>
-                                </sfinput:SfTextInputLayout.HintLabelStyle>
-                            </sfinput:SfTextInputLayout>
+                                    </sfinput:LabelStyle.FontFamily>
+                                </sfinput:LabelStyle>
+                            </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.REQNo.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.REQNo.Status}" InputViewPadding="12,0,0,0"
                                                    Style="{StaticResource SfInputLayout}" ReserveSpaceForAssistiveLabels="False">
-                                <Entry AutomationId="AutoKeyForReqNo" x:Name="reqNumber" Text="{Binding reqNumber}" Grid.Row="0"
+                            <Entry AutomationId="AutoKeyForReqNo" x:Name="reqNumber" Text="{Binding reqNumber}" Grid.Row="0"
                                         Style="{StaticResource EntryTextStyle}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                                <sfinput:SfTextInputLayout.HintLabelStyle>
-                                    <sfinput:LabelStyle FontSize="18">
-                                        <sfinput:LabelStyle.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                <sfinput:LabelStyle FontSize="18">
+                                    <sfinput:LabelStyle.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                        </sfinput:LabelStyle.FontFamily>
-                                    </sfinput:LabelStyle>
-                                </sfinput:SfTextInputLayout.HintLabelStyle>
-                            </sfinput:SfTextInputLayout>
+                                    </sfinput:LabelStyle.FontFamily>
+                                </sfinput:LabelStyle>
+                            </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.ShippingNumber.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.ShippingNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                     ReserveSpaceForAssistiveLabels="False">
-                                <Entry AutomationId="AutoKeyForShippingNo"  x:Name="shipNumber" Text="{Binding shipNumber}" Grid.Row="0"
+                            <Entry AutomationId="AutoKeyForShippingNo"  x:Name="shipNumber" Text="{Binding shipNumber}" Grid.Row="0"
                                         Style="{StaticResource EntryTextStyle}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                                <sfinput:SfTextInputLayout.HintLabelStyle>
-                                    <sfinput:LabelStyle FontSize="18">
-                                        <sfinput:LabelStyle.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                <sfinput:LabelStyle FontSize="18">
+                                    <sfinput:LabelStyle.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                        </sfinput:LabelStyle.FontFamily>
-                                    </sfinput:LabelStyle>
-                                </sfinput:SfTextInputLayout.HintLabelStyle>
-                            </sfinput:SfTextInputLayout>
+                                    </sfinput:LabelStyle.FontFamily>
+                                </sfinput:LabelStyle>
+                            </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.DisciplineName.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.DisciplineName.Status}"
                                                    Style="{StaticResource SfInputLayout}" ReserveSpaceForAssistiveLabels="False">
-                                <combobox:SfComboBox x:Name="disc_Picker" Text="{Binding DisciplineDefaultValue,Mode=TwoWay}"
+                            <combobox:SfComboBox x:Name="disc_Picker" Text="{Binding DisciplineDefaultValue,Mode=TwoWay}"
                                                  SelectedItem="{Binding SelectedDisciplineValue}" DataSource="{Binding DisciplineNames,Mode=TwoWay}"
                                                HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
                                                      Style="{StaticResource SfComboBoxTextStyle}">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
+                                <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">20</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.ELevelName.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.ELevelName.Status}"
                                                   Style="{StaticResource SfInputLayout}" ReserveSpaceForAssistiveLabels="False">
-                                <combobox:SfComboBox x:Name="ELevel_Picker" Text="{Binding ELevelDefaultValue,Mode=TwoWay}" 
+                            <combobox:SfComboBox x:Name="ELevel_Picker" Text="{Binding ELevelDefaultValue,Mode=TwoWay}" 
                                                  SelectedItem="{Binding SelectedELevelValue}" DataSource="{Binding ELevelNames}" 
                                                  HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
                                                      Style="{StaticResource SfComboBoxTextStyle}">
-                                    <combobox:SfComboBox.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">20</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </combobox:SfComboBox.HeightRequest>
-                                </combobox:SfComboBox>
-                            </sfinput:SfTextInputLayout>
+                                <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">20</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.Condition.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.Condition.Status}"
@@ -177,89 +177,89 @@
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.TagNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False">
-                                <Entry x:Name="tagNumber" Text="{Binding tagNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                                <sfinput:SfTextInputLayout.HintLabelStyle>
-                                    <sfinput:LabelStyle FontSize="18">
-                                        <sfinput:LabelStyle.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                            <Entry x:Name="tagNumber" Text="{Binding tagNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                <sfinput:LabelStyle FontSize="18">
+                                    <sfinput:LabelStyle.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                        </sfinput:LabelStyle.FontFamily>
-                                    </sfinput:LabelStyle>
-                                </sfinput:SfTextInputLayout.HintLabelStyle>
-                            </sfinput:SfTextInputLayout>
+                                    </sfinput:LabelStyle.FontFamily>
+                                </sfinput:LabelStyle>
+                            </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.IdentCode.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.IdentCode.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False">
-                                <Entry Text="{Binding Identcode}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                                <sfinput:SfTextInputLayout.HintLabelStyle>
-                                    <sfinput:LabelStyle FontSize="18">
-                                        <sfinput:LabelStyle.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                            <Entry Text="{Binding Identcode}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                <sfinput:LabelStyle FontSize="18">
+                                    <sfinput:LabelStyle.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                        </sfinput:LabelStyle.FontFamily>
-                                    </sfinput:LabelStyle>
-                                </sfinput:SfTextInputLayout.HintLabelStyle>
-                            </sfinput:SfTextInputLayout>
+                                    </sfinput:LabelStyle.FontFamily>
+                                </sfinput:LabelStyle>
+                            </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.BagNumber.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.BagNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False">
-                                <Entry Text="{Binding BagNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                                <sfinput:SfTextInputLayout.HintLabelStyle>
-                                    <sfinput:LabelStyle FontSize="18">
-                                        <sfinput:LabelStyle.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                            <Entry Text="{Binding BagNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                <sfinput:LabelStyle FontSize="18">
+                                    <sfinput:LabelStyle.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                        </sfinput:LabelStyle.FontFamily>
-                                    </sfinput:LabelStyle>
-                                </sfinput:SfTextInputLayout.HintLabelStyle>
-                            </sfinput:SfTextInputLayout>
+                                    </sfinput:LabelStyle.FontFamily>
+                                </sfinput:LabelStyle>
+                            </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.yBkgNumber.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.yBkgNumber.Status}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False">
-                                <Entry Text="{Binding YbkgNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
-                                    <Entry.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS">47</On>
-                                            <On Platform="Android">50</On>
-                                        </OnPlatform>
-                                    </Entry.HeightRequest>
-                                </Entry>
-                                <sfinput:SfTextInputLayout.HintLabelStyle>
-                                    <sfinput:LabelStyle FontSize="18">
-                                        <sfinput:LabelStyle.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                            <Entry Text="{Binding YbkgNumber}" Grid.Row="0" Style="{StaticResource EntryTextStyle}">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">47</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                            </Entry>
+                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                <sfinput:LabelStyle FontSize="18">
+                                    <sfinput:LabelStyle.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                        </sfinput:LabelStyle.FontFamily>
-                                    </sfinput:LabelStyle>
-                                </sfinput:SfTextInputLayout.HintLabelStyle>
-                            </sfinput:SfTextInputLayout>
+                                    </sfinput:LabelStyle.FontFamily>
+                                </sfinput:LabelStyle>
+                            </sfinput:SfTextInputLayout.HintLabelStyle>
+                        </sfinput:SfTextInputLayout>
 
                         <sfinput:SfTextInputLayout Hint="{Binding labelobj.TaskName.Name}" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding labelobj.TaskName.Status}"
@@ -301,7 +301,7 @@
 
                     </StackLayout>
                 </ScrollView>
-                
+
                 <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
                   Padding="0,0,0,4" HeightRequest="45" ColumnDefinitions="*,*,Auto">
 
@@ -317,7 +317,7 @@
                             </Grid>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
 
@@ -333,7 +333,7 @@
                             </Grid>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
 
@@ -349,22 +349,20 @@
                             </Grid>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
                 </Grid>
             </Grid>
         </Grid>
 
-        <ContentView IsVisible="{Binding IsSaveSearchContentVisible}" BackgroundColor="#99000000"
-                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                     >
-           
-                <Frame VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White" 
+        <ContentView Style="{StaticResource PopUpContentView}" IsVisible="{Binding IsSaveSearchContentVisible}"
+                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+
+            <Frame VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White" 
                    BorderColor="{Binding BgColor}" Margin="10,5,10,5" CornerRadius="5"
                    >
-                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="5,0,0,5">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Margin="5,0,0,5">
                     <Grid ColumnDefinitions="*,Auto" HorizontalOptions="Fill" Margin="10,15,0,0">
                         <Label Grid.Row="0" Grid.Column="0" Text="Save the Filter" Style="{DynamicResource LableWithQuestionFont}"
                                TextColor="Black"/>
@@ -376,68 +374,68 @@
                             </FontAwsm:FontAwesomeIconLabel.GestureRecognizers>
                         </FontAwsm:FontAwesomeIconLabel>
                     </Grid>
-                        
-                        <sfinput:SfTextInputLayout Hint="Filter Names *" ContainerBackgroundColor="White"
+
+                    <sfinput:SfTextInputLayout Hint="Filter Names *" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" ErrorColor="Red" 
                                                HasError="{Binding SearchFilterDDlHasError}"
                                                    Style="{StaticResource SfInputLayout}" ReserveSpaceForAssistiveLabels="False">
-                            <combobox:SfComboBox DataSource="{Binding SearchFilterList}" DisplayMemberPath="Name"
+                        <combobox:SfComboBox DataSource="{Binding SearchFilterList}" DisplayMemberPath="Name"
                                          SelectedItem="{Binding SelectedFilterName}" MaximumDropDownHeight="200"
                                          HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
                                          Style="{StaticResource SfComboBoxTextStyle}">
-                                <combobox:SfComboBox.HeightRequest>
-                                    <OnPlatform x:TypeArguments="x:Double">
-                                        <On Platform="iOS">20</On>
-                                        <On Platform="Android">50</On>
-                                    </OnPlatform>
-                                </combobox:SfComboBox.HeightRequest>
-                            </combobox:SfComboBox>
-                        </sfinput:SfTextInputLayout>
+                            <combobox:SfComboBox.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">20</On>
+                                    <On Platform="Android">50</On>
+                                </OnPlatform>
+                            </combobox:SfComboBox.HeightRequest>
+                        </combobox:SfComboBox>
+                    </sfinput:SfTextInputLayout>
 
-                        <sfinput:SfTextInputLayout Hint="Filter Name *" ContainerBackgroundColor="White"
+                    <sfinput:SfTextInputLayout Hint="Filter Name *" ContainerBackgroundColor="White"
                                                    HorizontalOptions="Start" IsVisible="{Binding IsNewSaveSearchEntryVisible}"
                                                    Style="{StaticResource SfInputLayout}" InputViewPadding="12,0,0,0"
                                                    ReserveSpaceForAssistiveLabels="False" ErrorColor="Red" HasError="{Binding SearchFilterEntryHasError}">
-                            <Entry AutomationId="AutoKeyForPoNo" Text="{Binding FilterName}" 
+                        <Entry AutomationId="AutoKeyForPoNo" Text="{Binding FilterName}" 
                                      Grid.Row="0" VerticalOptions="CenterAndExpand"  Style="{StaticResource EntryTextStyle}">
-                                <Entry.HeightRequest>
-                                    <OnPlatform x:TypeArguments="x:Double">
-                                        <On Platform="iOS">47</On>
-                                        <On Platform="Android">50</On>
-                                    </OnPlatform>
-                                </Entry.HeightRequest>
-                            </Entry>
-                            <sfinput:SfTextInputLayout.HintLabelStyle>
-                                <sfinput:LabelStyle FontSize="18">
-                                    <sfinput:LabelStyle.FontFamily>
-                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                            <Entry.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">47</On>
+                                    <On Platform="Android">50</On>
+                                </OnPlatform>
+                            </Entry.HeightRequest>
+                        </Entry>
+                        <sfinput:SfTextInputLayout.HintLabelStyle>
+                            <sfinput:LabelStyle FontSize="18">
+                                <sfinput:LabelStyle.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
                                                         Android="Lato-Regular.ttf#Lato-Regular" />
-                                    </sfinput:LabelStyle.FontFamily>
-                                </sfinput:LabelStyle>
-                            </sfinput:SfTextInputLayout.HintLabelStyle>
-                        </sfinput:SfTextInputLayout>
+                                </sfinput:LabelStyle.FontFamily>
+                            </sfinput:LabelStyle>
+                        </sfinput:SfTextInputLayout.HintLabelStyle>
+                    </sfinput:SfTextInputLayout>
 
-                        <sfbuttons:SfButton x:Name="searchfilter"  AutomationId="AutoSearchForFilterBtn" HorizontalOptions="FillAndExpand" Grid.Column="1"
+                    <sfbuttons:SfButton x:Name="searchfilter"  AutomationId="AutoSearchForFilterBtn" HorizontalOptions="FillAndExpand" Grid.Column="1"
                                     Command="{Binding applyCommand}" CommandParameter="{x:Reference Name=searchfilter}"
                                         Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                         Margin="0,6,0,0">
-                            <sfbuttons:SfButton.Content>
-                                <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Text="{Binding labelobj.SearchBtn.Name}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                </Grid>
-                            </sfbuttons:SfButton.Content>
-                            <sfbuttons:SfButton.Behaviors>
-                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
-                            </sfbuttons:SfButton.Behaviors>
-                        </sfbuttons:SfButton>
-                    </StackLayout>
-                </Frame>
+                        <sfbuttons:SfButton.Content>
+                            <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding labelobj.SearchBtn.Name}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                            </Grid>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                </StackLayout>
+            </Frame>
             <!--</StackLayout>-->
         </ContentView>
-        
+
         <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <Frame Style="{StaticResource FmForActivityIndicator}">
                 <StackLayout Padding="15">

@@ -349,6 +349,12 @@
 
 
             <!--Parts2y Start-->
+            <Style TargetType="ContentView" x:Key="PopUpContentView">
+                <Setter Property="BackgroundColor" Value="#99000000"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+            </Style>
+
             <Style TargetType="Grid" x:Key="HeaderMainGrid">
                 <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>

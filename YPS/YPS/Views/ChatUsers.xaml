@@ -106,7 +106,7 @@
                                     </StackLayout>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
                         </Grid>
@@ -140,7 +140,7 @@
                                             Text="{Binding labelobjdefval.closeQAStart}" Clicked="CancelClicked1"
                                              Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
                                 <sfbuttons:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
 
@@ -148,7 +148,7 @@
                                              Text="{Binding labelobjdefval.startQA}" Clicked="AddToChatClicked"
                                             Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                                 <sfbuttons:SfButton.Behaviors>
-                                    <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                    <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
                         </Grid>
@@ -202,7 +202,7 @@
                                             Text="{Binding labelobjdefval.closeQA}" Clicked="QnAClose" HorizontalOptions="Center" 
                                             Style="{StaticResource SfBtnBlue}">
                             <sfbuttons:SfButton.Behaviors>
-                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
                     </Grid>

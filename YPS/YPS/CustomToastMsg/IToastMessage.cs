@@ -1,4 +1,6 @@
-﻿namespace YPS.CustomToastMsg
+﻿using System;
+
+namespace YPS.CustomToastMsg
 {
     public interface IToastMessage
     {

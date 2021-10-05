@@ -5,6 +5,7 @@ using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
 using YPS.Helpers;
 using YPS.Model;
+using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
 
 namespace YPS.Views
@@ -96,7 +97,8 @@ namespace YPS.Views
         {
             try
             {
-                Navigation.PopToRootAsync();
+                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                //Navigation.PopToRootAsync();
             }
             catch (Exception ex)
             {

@@ -277,7 +277,7 @@ namespace YPS
                             Settings.IsIIJEnabled = userData.IIJEnable;
                             Settings.IsPNEnabled = userData.IsPNEnabled;
                             Settings.IsEmailEnabled = userData.IsEmailEnabled;
-                            Settings.Bar_Background = System.Drawing.Color.FromArgb(userData.BgColor);
+                            Settings.Bar_Background = Color.FromHex(userData.BgColor);
                             HostingURL.scandItLicencekey = userData.ScanditKey;
                             Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
 

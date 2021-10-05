@@ -101,7 +101,7 @@
                                 </StackLayout>
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
-                                <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                                <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
                     </Grid>
@@ -200,7 +200,8 @@
                 </StackLayout>
             </Grid>
 
-            <ContentView IsVisible="{Binding PopUpForFileDes}" BackgroundColor="#99000000" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <ContentView Style="{StaticResource PopUpContentView}" IsVisible="{Binding PopUpForFileDes}" 
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <Frame CornerRadius="7" BorderColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" Padding="7" Margin="10,0,10,0">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>

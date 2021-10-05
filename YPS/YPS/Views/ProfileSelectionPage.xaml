@@ -295,7 +295,7 @@
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}">
                         <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
 
@@ -312,7 +312,7 @@
                             </Grid>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior Command="{Binding OnValidationCommand}" AnimationType="Scale"/>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
                 </StackLayout>

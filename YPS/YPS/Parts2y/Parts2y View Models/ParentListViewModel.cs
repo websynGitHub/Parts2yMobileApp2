@@ -444,7 +444,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (ifNotRootedDevie)
                     {
-
                         var checkInternet = await App.CheckInterNetConnection();
 
                         if (checkInternet)
@@ -587,7 +586,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         Exception ex = new Exception();
-                        YPSLogger.ReportException(ex, "BindGridData method ->Your phone is rooted , please unroot to use app in ParentListViewModel.cs ");
+                        YPSLogger.ReportException(ex, "BindGridData method -> Your phone is rooted , please unroot to use app in ParentListViewModel.cs ");
                         await App.Current.MainPage.DisplayAlert("Warning", "Your phone is rooted , please unroot to use app", "OK");
                         System.Diagnostics.Process.GetCurrentProcess().Kill();
                     }
@@ -968,21 +967,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if ((!String.IsNullOrEmpty(Settings.PONumber) || !String.IsNullOrEmpty(Settings.REQNo) || !String.IsNullOrEmpty(Settings.ShippingNo) || !string.IsNullOrEmpty(Settings.TaskName) ||
-                   Settings.DisciplineID != 0 || Settings.ELevelID != 0 || Settings.ConditionID != 0 || Settings.ResourceID != 0 || Settings.ExpeditorID != 0 || !string.IsNullOrEmpty(Settings.Ybkgnumber)
-                   || Settings.PriorityID != 0 || !String.IsNullOrEmpty(Settings.TAGNo) || !String.IsNullOrEmpty(Settings.IdentCodeNo) || !String.IsNullOrEmpty(Settings.BagNo)) && Settings.SearchWentWrong == false)
-                {
-                    SearchIcon = "\uf00e";
-                }
-                else if ((Settings.LocationPickupID != 0 || Settings.LocationPOLID != 0 || Settings.LocationPODID != 0 || Settings.LocationDeliverPlaceID != 0)
-                    && Settings.SearchWentWrong == false)
-                {
-                    SearchIcon = "\uf00e";
-                }
-                else if ((!String.IsNullOrEmpty(Settings.DeliveryFrom) || !String.IsNullOrEmpty(Settings.ETDFrom) || !String.IsNullOrEmpty(Settings.ETAFrom) ||
-                    !String.IsNullOrEmpty(Settings.OnsiteFrom) || !String.IsNullOrEmpty(Settings.DeliveryTo) || !String.IsNullOrEmpty(Settings.ETDTo) ||
-                    !string.IsNullOrEmpty(Settings.Ybkgnumber) || !string.IsNullOrEmpty(Settings.TaskName) ||
-                    !String.IsNullOrEmpty(Settings.ETATo) || !String.IsNullOrEmpty(Settings.OnsiteTo)) && Settings.SearchWentWrong == false)
+                if (!String.IsNullOrEmpty(Settings.PONumber) || !String.IsNullOrEmpty(Settings.REQNo) || !String.IsNullOrEmpty(Settings.ShippingNo) ||
+                    Settings.DisciplineID != 0 || Settings.ELevelID != 0 || Settings.ConditionID != 0 || !String.IsNullOrEmpty(Settings.TAGNo) ||
+                    !String.IsNullOrEmpty(Settings.IdentCodeNo) || !String.IsNullOrEmpty(Settings.BagNo) || !string.IsNullOrEmpty(Settings.Ybkgnumber) ||
+                    !string.IsNullOrEmpty(Settings.TaskName) || Settings.ResourceID != 0)
                 {
                     SearchIcon = "\uf00e";
                 }
@@ -1030,46 +1018,43 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     Serchdata = await trackService.GetSearchValuesService(Settings.userLoginID);
                 }
 
-                if (Serchdata != null)
+                //if (Serchdata != null)
+                //{
+                if (Serchdata?.status == 1 && !string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
                 {
-                    if (Serchdata.status == 1)
-                    {
-                        if (!string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
-                        {
-                            var searchC = JsonConvert.DeserializeObject<SendPodata>(Serchdata.data.SearchCriteria);
+                    //if (!string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
+                    //{
+                    var searchC = JsonConvert.DeserializeObject<SendPodata>(Serchdata.data.SearchCriteria);
 
-                            if (searchC != null)
-                            {
-                                //Key
-                                sendPodata.PONumber = Settings.PONumber = Settings.IsSearchClicked == false ? searchC.PONumber : Settings.PONumber;
-                                sendPodata.REQNo = Settings.REQNo = Settings.IsSearchClicked == false ? searchC.REQNo : Settings.REQNo;
-                                sendPodata.ShippingNo = Settings.ShippingNo = Settings.IsSearchClicked == false ? searchC.ShippingNo : Settings.ShippingNo;
-                                sendPodata.DisciplineID = Settings.DisciplineID = Settings.IsSearchClicked == false ? searchC.DisciplineID : Settings.DisciplineID;
-                                sendPodata.ELevelID = Settings.ELevelID = Settings.IsSearchClicked == false ? searchC.ELevelID : Settings.ELevelID;
-                                sendPodata.ConditionID = Settings.ConditionID = Settings.IsSearchClicked == false ? searchC.ConditionID : Settings.ConditionID;
-                                sendPodata.ExpeditorID = Settings.ExpeditorID = Settings.IsSearchClicked == false ? searchC.ExpeditorID : Settings.ExpeditorID;
-                                sendPodata.PriorityID = Settings.PriorityID = Settings.IsSearchClicked == false ? searchC.PriorityID : Settings.PriorityID;
-                                sendPodata.ResourceID = Settings.ResourceID = Settings.IsSearchClicked == false ? searchC.ResourceID : Settings.ResourceID;
-                                sendPodata.TagNo = Settings.TAGNo = Settings.IsSearchClicked == false ? searchC.TagNo : Settings.TAGNo;
-                                sendPodata.IdentCode = Settings.IdentCodeNo = Settings.IsSearchClicked == false ? searchC.IdentCode : Settings.IdentCodeNo;
-                                sendPodata.BagNo = Settings.BagNo = Settings.IsSearchClicked == false ? searchC.BagNo : Settings.BagNo;
-                                sendPodata.yBkgNumber = Settings.Ybkgnumber = Settings.IsSearchClicked == false ? searchC.yBkgNumber : Settings.Ybkgnumber;
-                                sendPodata.TaskName = Settings.TaskName = Settings.IsSearchClicked == false ? searchC.TaskName : Settings.TaskName;
-
-                                Settings.SearchWentWrong = false;
-                            }
-                        }
-                        else
-                        {
-                            await SaveAndClearSearch(sendPodata, false);
-                        }
-                    }
-                    else
+                    if (searchC != null)
                     {
-                        Settings.SearchWentWrong = true;
-                        await SaveAndClearSearch(sendPodata, false);
+                        //Key
+                        sendPodata.PONumber = Settings.PONumber = Settings.IsSearchClicked == false ? searchC.PONumber : Settings.PONumber;
+                        sendPodata.REQNo = Settings.REQNo = Settings.IsSearchClicked == false ? searchC.REQNo : Settings.REQNo;
+                        sendPodata.ShippingNo = Settings.ShippingNo = Settings.IsSearchClicked == false ? searchC.ShippingNo : Settings.ShippingNo;
+                        sendPodata.DisciplineID = Settings.DisciplineID = Settings.IsSearchClicked == false ? searchC.DisciplineID : Settings.DisciplineID;
+                        sendPodata.ELevelID = Settings.ELevelID = Settings.IsSearchClicked == false ? searchC.ELevelID : Settings.ELevelID;
+                        sendPodata.ConditionID = Settings.ConditionID = Settings.IsSearchClicked == false ? searchC.ConditionID : Settings.ConditionID;
+                        sendPodata.ExpeditorID = Settings.ExpeditorID = Settings.IsSearchClicked == false ? searchC.ExpeditorID : Settings.ExpeditorID;
+                        sendPodata.PriorityID = Settings.PriorityID = Settings.IsSearchClicked == false ? searchC.PriorityID : Settings.PriorityID;
+                        sendPodata.ResourceID = Settings.ResourceID = Settings.IsSearchClicked == false ? searchC.ResourceID : Settings.ResourceID;
+                        sendPodata.TagNo = Settings.TAGNo = Settings.IsSearchClicked == false ? searchC.TagNo : Settings.TAGNo;
+                        sendPodata.IdentCode = Settings.IdentCodeNo = Settings.IsSearchClicked == false ? searchC.IdentCode : Settings.IdentCodeNo;
+                        sendPodata.BagNo = Settings.BagNo = Settings.IsSearchClicked == false ? searchC.BagNo : Settings.BagNo;
+                        sendPodata.yBkgNumber = Settings.Ybkgnumber = Settings.IsSearchClicked == false ? searchC.yBkgNumber : Settings.Ybkgnumber;
+                        sendPodata.TaskName = Settings.TaskName = Settings.IsSearchClicked == false ? searchC.TaskName : Settings.TaskName;
                     }
+                    //}
+                    //else
+                    //{
+                    //    await SaveAndClearSearch(sendPodata, false);
+                    //}
                 }
+                else
+                {
+                    await SaveAndClearSearch(sendPodata, false);
+                }
+                //}
             }
             catch (Exception ex)
             {
