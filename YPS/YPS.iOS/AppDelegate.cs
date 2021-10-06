@@ -585,8 +585,16 @@ namespace YPS.iOS
                             {
                                 try
                                 {
-                                    Settings.Appbackgroundmode = true;
-                                    App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                    //MyLogging("Debug", "Background > DidReceiveRemoteNotification");
+                                    //the web api call goes into "Network connection lost" error if I don't add the delay.
+                                    Task.Run(async () =>
+                                    {
+                                        await System.Threading.Tasks.Task.Delay(1000);
+                                        App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                    });
+                                
+                                    //Settings.Appbackgroundmode = true;
+                                    
                                 }
                                 catch (Exception ex)
                                 {
@@ -626,7 +634,12 @@ namespace YPS.iOS
                             Settings.GetParamVal = paramValues;
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                             {
-                                App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                Task.Run(async () =>
+                                {
+                                    await System.Threading.Tasks.Task.Delay(1000);
+                                    App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                });
+                                //App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
                             }
                             else if (navPages[0] == "RemoveUser")
                             {
