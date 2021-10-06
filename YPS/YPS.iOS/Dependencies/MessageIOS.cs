@@ -43,7 +43,7 @@ namespace YPS.iOS.Dependencies
 
                 alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
                 alert.View.BackgroundColor = Settings.Bar_Background.ToUIColor();
-                alert.View.Layer.CornerRadius=10;
+                alert.View.Layer.CornerRadius=18;
                 UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
             }
             catch (Exception ex)
