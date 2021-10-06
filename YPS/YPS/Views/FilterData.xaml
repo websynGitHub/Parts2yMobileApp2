@@ -302,10 +302,10 @@
                     </StackLayout>
                 </ScrollView>
 
-                <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                  Padding="0,0,0,4" HeightRequest="45" ColumnDefinitions="*,*,Auto">
+                <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                  Padding="0,0,0,4" HeightRequest="45" Orientation="Horizontal">
 
-                    <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Grid.Column="0" Command="{Binding resetCommand}" 
+                    <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Command="{Binding resetCommand}" 
                                      Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
                         <sfbuttons:SfButton.Content>
                             <Grid HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
@@ -321,7 +321,8 @@
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
 
-                    <sfbuttons:SfButton x:Name="search" AutomationId="AutoSearchForFilterBtn" HorizontalOptions="FillAndExpand" Grid.Column="1"
+                    <sfbuttons:SfButton x:Name="search" AutomationId="AutoSearchForFilterBtn" HorizontalOptions="FillAndExpand" 
+                                        
                                     Command="{Binding applyCommand}" CommandParameter="{x:Reference search}" 
                                         Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                         <sfbuttons:SfButton.Content>
@@ -337,7 +338,7 @@
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
 
-                    <sfbuttons:SfButton x:Name="saveandsearch" HorizontalOptions="FillAndExpand" Grid.Column="2"
+                    <sfbuttons:SfButton x:Name="saveandsearch" HorizontalOptions="FillAndExpand"
                                     Clicked="search_Clicked"
                                         Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                         <sfbuttons:SfButton.Content>
@@ -352,7 +353,7 @@
                             <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
-                </Grid>
+                    </StackLayout>
             </Grid>
         </Grid>
 
