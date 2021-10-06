@@ -551,7 +551,6 @@ namespace YPS.iOS
 
                     if (application.ApplicationState == UIApplicationState.Active)
                     {
-                        Settings.Appbackgroundmode = false;
                         //show alert
                         //if (!string.IsNullOrEmpty(paramValues))
                         //{
@@ -593,7 +592,6 @@ namespace YPS.iOS
                                         App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
                                     });
                                 
-                                    //Settings.Appbackgroundmode = true;
                                     
                                 }
                                 catch (Exception ex)
@@ -618,7 +616,6 @@ namespace YPS.iOS
                         {
                             RememberPwdDB Db = new RememberPwdDB();
                             var user = Db.GetUserDetails();
-                            Settings.Appbackgroundmode = true;
                             if (user.Count == 1)
                             {
                                 var userData = user.FirstOrDefault();
