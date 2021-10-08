@@ -815,7 +815,7 @@ namespace YPS.ViewModels
                             YPSService service = new YPSService();
                             var ChatMailrespose = await service.Chatmail(sendchatdata);
 
-                            if (ChatMailrespose.status != 0)
+                            if (ChatMailrespose?.status == 1)
                             {
                                 checkMail = true;
                                 DependencyService.Get<IToastMessage>().ShortAlert("Mail send success.");

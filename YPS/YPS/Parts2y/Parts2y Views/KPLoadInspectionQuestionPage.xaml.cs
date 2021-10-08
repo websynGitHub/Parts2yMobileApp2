@@ -70,27 +70,35 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 if (SelectedPodataList[0].TaskID != 0)
                 {
+                    var checkInternet = await App.CheckInterNetConnection();
 
-                    if (SelectedPodataList[0].TaskStatus != 2)
+                    if (checkInternet)
                     {
-                        TagTaskStatus taskstatus = new TagTaskStatus();
-                        taskstatus.TaskID = Helperclass.Encrypt(SelectedPodataList[0].TaskID.ToString());
-                        taskstatus.TaskStatus = 2;
-                        taskstatus.CreatedBy = Settings.userLoginID;
-                        var taskval = await service.UpdateTaskStatus(taskstatus);
-
-                        if (taskval.status == 1)
+                        if (SelectedPodataList[0].TaskStatus != 2)
                         {
-                            SelectedPodataList[0].TaskID = 2;
-                            await Vm.TabChange("job");
-                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            TagTaskStatus taskstatus = new TagTaskStatus();
+                            taskstatus.TaskID = Helperclass.Encrypt(SelectedPodataList[0].TaskID.ToString());
+                            taskstatus.TaskStatus = 2;
+                            taskstatus.CreatedBy = Settings.userLoginID;
+                            var taskval = await service.UpdateTaskStatus(taskstatus);
+
+                            if (taskval?.status == 1)
+                            {
+                                SelectedPodataList[0].TaskID = 2;
+                                await Vm.TabChange("job");
+                                DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            }
                         }
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked constructor -> in KPLoadInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in KPLoadInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

@@ -95,26 +95,35 @@ namespace YPS.Parts2y.Parts2y_Views
                     tagtaskstatus.Status = 2;
                     tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                    var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+                    var checkInternet = await App.CheckInterNetConnection();
 
-                    if (result.status == 1)
+                    if (checkInternet)
                     {
-                        selectedTagData.TagTaskStatus = 2;
+                        var result = await service.UpdateTagTaskStatus(tagtaskstatus);
 
-                        if (selectedTagData.TaskStatus == 0)
+                        if (result?.status == 1)
                         {
-                            ObservableCollection<AllPoData> podate = await Vm.GetUpdatedAllPOData();
-                            TagTaskStatus taskstatus = new TagTaskStatus();
-                            taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                            taskstatus.TaskStatus = (podate?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault() != null) ? 1 : 2;
-                            taskstatus.CreatedBy = Settings.userLoginID;
+                            selectedTagData.TagTaskStatus = 2;
 
-                            var taskval = await service.UpdateTaskStatus(taskstatus);
-                            selectedTagData.TaskStatus = 1;
+                            if (selectedTagData.TaskStatus == 0)
+                            {
+                                ObservableCollection<AllPoData> podate = await Vm.GetUpdatedAllPOData();
+                                TagTaskStatus taskstatus = new TagTaskStatus();
+                                taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                                taskstatus.TaskStatus = (podate?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault() != null) ? 1 : 2;
+                                taskstatus.CreatedBy = Settings.userLoginID;
+
+                                var taskval = await service.UpdateTaskStatus(taskstatus);
+                                selectedTagData.TaskStatus = 1;
+                            }
+
+                            await Vm.TabChange("job");
+                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                         }
-
-                        await Vm.TabChange("job");
-                        DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }

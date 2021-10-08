@@ -106,13 +106,17 @@ namespace YPS.Views
             {
                 vm.loadingindicator = true;
                 var data = await vm.GetNotificationHistory();
-                Settings.notifyCount = data[0].listCount;
 
-                Device.BeginInvokeOnMainThread(async () =>
+                if (data?.Count() > 0)
                 {
-                    clearAllLbl.IsVisible = (data.Where(wr => wr.IsRead == false).FirstOrDefault()) != null ? true : false;
-                });
-                list.ItemsSource = data;
+                    Settings.notifyCount = (int)data[0]?.listCount;
+
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        clearAllLbl.IsVisible = (data?.Where(wr => wr.IsRead == false).FirstOrDefault()) != null ? true : false;
+                    });
+                    list.ItemsSource = data;
+                }
             }
             catch (Exception ex)
             {

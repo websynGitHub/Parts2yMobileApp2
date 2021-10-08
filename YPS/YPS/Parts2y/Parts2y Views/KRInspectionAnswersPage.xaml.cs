@@ -60,54 +60,63 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                if (Vm.isInspVIN == true)
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
                 {
-                    if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
+                    if (Vm.isInspVIN == true)
                     {
-                        TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                        tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                        tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
-                        tagtaskstatus.Status = 2;
-                        tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                        var result = await service.UpdateTagTaskStatus(tagtaskstatus);
-
-                        if (result.status == 1)
+                        if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
                         {
-                            if (selectedTagData.TaskStatus == 0)
+                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                            tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                            tagtaskstatus.Status = 2;
+                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                            if (result?.status == 1)
+                            {
+                                if (selectedTagData.TaskStatus == 0)
+                                {
+                                    TagTaskStatus taskstatus = new TagTaskStatus();
+                                    taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                                    taskstatus.TaskStatus = 1;
+                                    taskstatus.CreatedBy = Settings.userLoginID;
+
+                                    var taskval = await service.UpdateTaskStatus(taskstatus);
+                                }
+                                DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (selectedTagData.TaskID != 0)
+                        {
+
+                            if (selectedTagData.TaskStatus != 2)
                             {
                                 TagTaskStatus taskstatus = new TagTaskStatus();
                                 taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                                taskstatus.TaskStatus = 1;
+                                taskstatus.TaskStatus = 2;
                                 taskstatus.CreatedBy = Settings.userLoginID;
 
                                 var taskval = await service.UpdateTaskStatus(taskstatus);
+
+                                if (taskval?.status == 1)
+                                {
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                }
                             }
-                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+
                         }
                     }
                 }
                 else
                 {
-                    if (selectedTagData.TaskID != 0)
-                    {
-
-                        if (selectedTagData.TaskStatus != 2)
-                        {
-                            TagTaskStatus taskstatus = new TagTaskStatus();
-                            taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                            taskstatus.TaskStatus = 2;
-                            taskstatus.CreatedBy = Settings.userLoginID;
-
-                            var taskval = await service.UpdateTaskStatus(taskstatus);
-
-                            if (taskval.status == 1)
-                            {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                            }
-                        }
-
-                    }
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

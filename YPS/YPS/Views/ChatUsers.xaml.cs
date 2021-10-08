@@ -191,15 +191,6 @@ namespace YPS.Views
                                     userupdate.Title = Settings.ChatTitle;
                                     userupdate.QAType = Settings.QAType;
 
-                                    //if (d.img.Trim().ToLower() == "minusic.png")
-                                    //{
-                                    //    type = 1;
-                                    //}
-                                    //else if (d.img.Trim().ToLower() == "plusic.png")
-                                    //{
-                                    //    type = 2;
-                                    //}
-
                                     if (d.IsAddStatus == false)
                                     {
                                         type = 1;
@@ -211,7 +202,7 @@ namespace YPS.Views
 
                                     var result = await service.Updateuser(userupdate, type);// Calling the API to update the user(s)
 
-                                    if (result != null && result.status == 1)
+                                    if (result?.status == 1)
                                     {
                                         vm.GetChatUser(Settings.PoId, d.QAID, Settings.QAType);
                                     }
@@ -327,101 +318,107 @@ namespace YPS.Views
 
             try
             {
-                ChatData data = new ChatData();
+                var checkInternet = await App.CheckInterNetConnection();
 
-                bool has = vm.UserList.Any(cus => cus.UserID == Settings.userLoginID);
-
-                if (!has)
+                if (checkInternet)
                 {
-                    vm.UserList.Add(new User() { Status = 1, UserID = Settings.userLoginID });
-                }
+                    ChatData data = new ChatData();
 
-                if (vm.UserList.Count >= 1)
-                {
-                    if (!string.IsNullOrEmpty(Title_entry.Text))
+                    bool has = vm.UserList.Any(cus => cus.UserID == Settings.userLoginID);
+
+                    if (!has)
                     {
-                        int bgCount = vm.UserList.Count;
+                        vm.UserList.Add(new User() { Status = 1, UserID = Settings.userLoginID });
+                    }
 
-                        try
+                    if (vm.UserList.Count >= 1)
+                    {
+                        if (!string.IsNullOrEmpty(Title_entry.Text))
                         {
-                            data.Title = vm.GroupName;
-                            data.users = vm.UserList;
-                            data.tags = tag;
-                            data.POID = Settings.PoId;
-                            data.CreatedBy = Settings.userLoginID;
-                            data.QAType = Settings.QAType;
-                            var result = await service.ChatStart(data);
+                            int bgCount = vm.UserList.Count;
 
-                            if (result != null)
+                            try
                             {
-                                Settings.refreshPage = 1;
+                                data.Title = vm.GroupName;
+                                data.users = vm.UserList;
+                                data.tags = tag;
+                                data.POID = Settings.PoId;
+                                data.CreatedBy = Settings.userLoginID;
+                                data.QAType = Settings.QAType;
+                                var result = await service.ChatStart(data);
 
-                                if (result.status != 0)
+                                if (result != null)
                                 {
-                                    if (result.data.QAID == 0)
-                                    {
-                                        await Navigation.PopAsync();
-                                        await App.Current.MainPage.DisplayAlert("Alert", "Conversation is not started, please try again.", "Ok");
-                                    }
-                                    else
-                                    {
-                                        vm.GroupName = result.data.Title;
-                                        Settings.tagnumbers = result.data.TagNumbers;
-                                        Settings.QaId = result.data.QAID;
-                                        Settings.PoId = result.data.POID;
-                                        Settings.chatgroupname = result.data.Title;
-                                        Settings.ChatuserCountImgHide = 0;
+                                    Settings.refreshPage = 1;
 
-                                        foreach (var items in data.tags)
+                                    if (result?.status == 1)
+                                    {
+                                        if (result.data.QAID == 0)
                                         {
-                                            if (items.TaskID != 0 && items.TagTaskStatus == 0)
+                                            await Navigation.PopAsync();
+                                            await App.Current.MainPage.DisplayAlert("Alert", "Conversation is not started, please try again.", "Ok");
+                                        }
+                                        else
+                                        {
+                                            vm.GroupName = result.data.Title;
+                                            Settings.tagnumbers = result.data.TagNumbers;
+                                            Settings.QaId = result.data.QAID;
+                                            Settings.PoId = result.data.POID;
+                                            Settings.chatgroupname = result.data.Title;
+                                            Settings.ChatuserCountImgHide = 0;
+
+                                            foreach (var items in data.tags)
                                             {
-                                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                                                tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
-                                                tagtaskstatus.Status = 1;
-                                                tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                                                var val = await service.UpdateTagTaskStatus(tagtaskstatus);
-
-                                                if (val.status == 1)
+                                                if (items.TaskID != 0 && items.TagTaskStatus == 0)
                                                 {
-                                                    if (items.TaskID != 0 && items.TaskStatus == 0)
-                                                    {
-                                                        TagTaskStatus taskstatus = new TagTaskStatus();
-                                                        taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                        taskstatus.TaskStatus = 1;
-                                                        taskstatus.CreatedBy = Settings.userLoginID;
+                                                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                                    tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                    tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
+                                                    tagtaskstatus.Status = 1;
+                                                    tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                                                        var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                    var val = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                                    if (val?.status == 1)
+                                                    {
+                                                        if (items.TaskID != 0 && items.TaskStatus == 0)
+                                                        {
+                                                            TagTaskStatus taskstatus = new TagTaskStatus();
+                                                            taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                            taskstatus.TaskStatus = 1;
+                                                            taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                            var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                        }
                                                     }
                                                 }
                                             }
+
+                                            await Navigation.PushAsync(new ChatPage());
+                                            Settings.mutipleTimeClick = false;
                                         }
-                                        await Navigation.PushAsync(new ChatPage());
-                                        Settings.mutipleTimeClick = false;
                                     }
+                                    vm.chatListCollections = result.data;
                                 }
-                                vm.chatListCollections = result.data;
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                //   DependencyService.Get<IToastMessage>().ShortAlert(result.message);
+                                await service.Handleexception(ex);
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            await service.Handleexception(ex);
+                            await App.Current.MainPage.DisplayAlert("YPS!", "Please enter chat title.", "Ok");
                         }
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("YPS!", "Please enter chat title.", "Ok");
+                        await App.Current.MainPage.DisplayAlert("YPS!", "Please select atleast one user.", "Ok");
                     }
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("YPS!", "Please select atleast one user.", "Ok");
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -496,7 +493,7 @@ namespace YPS.Views
                     {
                         var result = await service.ConversationsClose(Settings.PoId, Settings.QaId, Settings.QAType);
 
-                        if (result != null && result.status == 1)
+                        if (result?.status == 1)
                         {
                             await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");// Display message for success
                             App.Current.MainPage = App.Current.MainPage = new MenuPage(typeof(HomePage));

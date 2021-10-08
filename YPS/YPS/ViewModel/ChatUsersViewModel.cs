@@ -265,7 +265,7 @@ namespace YPS.ViewModel
 
                     if (result != null)
                     {
-                        if (result.status == 1)
+                        if (result.status == 1 && result.data.Count > 0)
                         {
                             foreach (var item in result.data)
                             {

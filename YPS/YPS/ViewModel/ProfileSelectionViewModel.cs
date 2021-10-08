@@ -112,11 +112,11 @@ namespace YPS.ViewModel
                     // Calling API to get default settings data for login user.
                     var DBresponse = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
 
-                    if (DBresponse != null && DBresponse.status != 0)
+                    if (DBresponse != null && DBresponse.status == 1)
                     {
                         Settings.VersionID = DBresponse.data.VersionID;
 
-                        if (PDefaultSettingModel != null && PDefaultSettingModel.status != 0 && PDefaultSettingModel.data != null)
+                        if (PDefaultSettingModel != null && PDefaultSettingModel.status == 1 && PDefaultSettingModel.data != null)
                         {
                             // Getting all Label values based on the language Id and version Id from the settings page. 
                             if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
@@ -190,7 +190,7 @@ namespace YPS.ViewModel
                     }
                     else //If the login user default setting data is not available.
                     {
-                        if (PDefaultSettingModel.status != 0)
+                        if (PDefaultSettingModel?.status == 1)
                         {
                             //Getting a list of company name from company list model.
                             CompanyList = PDefaultSettingModel.data.Company;
@@ -280,13 +280,13 @@ namespace YPS.ViewModel
 
                             if (DBresponse != null)
                             {
-                                if (DBresponse.status != 0) // if user default settings are saved successfully
+                                if (DBresponse.status == 1) // if user default settings are saved successfully
                                 {
                                     var val = await service.GetSaveUserDefaultSettings(Settings.userLoginID);
 
-                                    if (val != null && val.data != null)
+                                    if (val?.data != null)
                                     {
-                                        Settings.Bar_Background = Color.FromHex(val.data.VersionColorCode);
+                                        Settings.Bar_Background = Color.FromHex(val.data?.VersionColorCode != null ? val.data.VersionColorCode : "#269DC9");
                                         Settings.VersionID = val.data.VersionID;
                                     }
 
@@ -374,7 +374,7 @@ namespace YPS.ViewModel
                     // Calling GetProfile API.
                     var getProfileData = await service.GetProfile(loginID);
 
-                    if (getProfileData != null && getProfileData.status != 0 && getProfileData.data != null)
+                    if (getProfileData != null && getProfileData.status == 1 && getProfileData.data != null)
                     {
                         //Setting update profile data to Labels.
                         Email = getProfileData.data.Email;
@@ -417,7 +417,7 @@ namespace YPS.ViewModel
                     // Calling TimeZones API.
                     var stimeZone = await service.GetTimeZone();
 
-                    if (stimeZone != null && stimeZone.status != 0 && (stimeZone.data != null && stimeZone.data.Count > 0))
+                    if (stimeZone != null && stimeZone.status == 1 && (stimeZone.data != null && stimeZone.data.Count > 0))
                     {
                         //Setting a list of TimeZone to TimeZone PopUp
                         TimeZone = new ObservableCollection<string>(stimeZone.data.Select(X => X.DisplayText).ToList());
@@ -426,7 +426,7 @@ namespace YPS.ViewModel
                     // Calling Languages API.
                     var language = await service.GetLanguages();
 
-                    if (language != null && language.status != 0 && (language.data != null && language.data.Count > 0))
+                    if (language != null && language.status == 1 && (language.data != null && language.data.Count > 0))
                     {
                         ListOfLanguage = language.data;
                         var addLangName = new List<string>();
@@ -546,7 +546,7 @@ namespace YPS.ViewModel
                             // Calling UpdateProfile API to update profile data.
                             var finalResponse = await service.UpdateProfile(uProfile);
 
-                            if (finalResponse.status != 0 || finalResponse != null)
+                            if (finalResponse?.status == 1)
                             {
                                 Settings.SGivenName = GivenName;
                                 UpdateDb.GivenName = GivenName;

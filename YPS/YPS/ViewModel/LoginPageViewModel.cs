@@ -82,7 +82,7 @@ namespace YPS.ViewModel
                         ///Calling login API to login.
                         var result = await service.LoginService(login);
 
-                        if (result.status != 0)
+                        if (result?.status == 1)
                         {
                             if (result.data.UserID > 0)
                             {
@@ -182,7 +182,7 @@ namespace YPS.ViewModel
 
                                     if (DBresponse != null)
                                     {
-                                        if (DBresponse.status != 0)
+                                        if (DBresponse.status == 1)
                                         {
                                             Settings.CompanyID = DBresponse.data.CompanyID;
                                             Settings.ProjectID = DBresponse.data.ProjectID;

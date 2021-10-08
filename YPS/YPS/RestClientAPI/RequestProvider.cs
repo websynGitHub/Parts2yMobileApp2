@@ -38,7 +38,7 @@ namespace YPS.RestClientAPI
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.access_token);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "RequestProvider constructor -> in RequestProvider.cs" + Settings.userLoginID);
@@ -65,10 +65,6 @@ namespace YPS.RestClientAPI
                         var jsonResponse = await response.Content.ReadAsStringAsync();
                         return JsonConvert.DeserializeObject<TResult>(jsonResponse);
                     }
-                    else
-                    {
-                        //App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
-                    }
                 }
             }
             catch (Exception ex)
@@ -83,9 +79,16 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID +  " from Api="+ url);
+                    if (ex.Message.StartsWith("Unable to resolve host") && ex.Message.EndsWith("No address associated with hostname"))
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs -> this exception gets logged, when there is no internet connection and you try to hit api. We can ignore this..." + Settings.userLoginID + " from Api=" + url);
+                    }
+                    else
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    }
                     await service.Handleexception(ex);
-                    throw new Exception("Poor Internet Connection.");
+                    //throw new Exception("Poor Internet Connection.");
                 }
             }
             returnnulldata nullData = new returnnulldata();
@@ -116,7 +119,6 @@ namespace YPS.RestClientAPI
         /// <param name="data"></param>
         /// <returns></returns>
         public async Task<TResult> PostAsync<TRequest, TResult>(string url, TRequest data)
-        
         {
             try
             {
@@ -148,9 +150,16 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    if (ex.Message.StartsWith("Unable to resolve host") && ex.Message.EndsWith("No address associated with hostname"))
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs -> this exception gets logged, when there is no internet connection and you try to hit api. We can ignore this..." + Settings.userLoginID + " from Api=" + url);
+                    }
+                    else
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    }
                     await service.Handleexception(ex);
-                    throw new Exception("Poor internet connection.");
+                    //throw new Exception("Poor internet connection.");
                 }
             }
             returnnulldata empty = new returnnulldata();
@@ -194,9 +203,16 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with three parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    if (ex.Message.StartsWith("Unable to resolve host") && ex.Message.EndsWith("No address associated with hostname"))
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with three parameters and type string -> in RequestProvider.cs -> this exception gets logged, when there is no internet connection and you try to hit api. We can ignore this..." + Settings.userLoginID + " from Api=" + url);
+                    }
+                    else
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with three parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    }
                     await service.Handleexception(ex);
-                    throw new Exception("Poor Internet Connection.");
+                    //throw new Exception("Poor Internet Connection.");
                 }
             }
             returnnulldata empty = new returnnulldata();
@@ -224,11 +240,6 @@ namespace YPS.RestClientAPI
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<TResult>(jsonResponse);
                 }
-                else
-                {
-                    //App.Current.MainPage = new YPSMasterPage(typeof(LoginPage));
-                }
-
             }
             catch (Exception ex)
             {
@@ -242,9 +253,16 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    if (ex.Message.StartsWith("Unable to resolve host") && ex.Message.EndsWith("No address associated with hostname"))
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs -> this exception gets logged, when there is no internet connection and you try to hit api. We can ignore this..." + Settings.userLoginID + " from Api=" + url);
+                    }
+                    else
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with one parameters and type string -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    }
                     await service.Handleexception(ex);
-                    throw new Exception("Poor Internet Connection.");
+                    //throw new Exception("Poor Internet Connection.");
                 }
             }
             returnnulldata nullData = new returnnulldata();
@@ -272,7 +290,7 @@ namespace YPS.RestClientAPI
                 HttpResponseMessage response = null;
                 response = await httpClient.PostAsync(url, httpContent);
                 await HandleResponse(response);
-                
+
                 if (stopresponceconversion == false)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -291,9 +309,16 @@ namespace YPS.RestClientAPI
                 #endregion
                 else
                 {
-                    YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    if (ex.Message.StartsWith("Unable to resolve host") && ex.Message.EndsWith("No address associated with hostname"))
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs -> this exception gets logged, when there is no internet connection and you try to hit api. We can ignore this..." + Settings.userLoginID + " from Api=" + url);
+                    }
+                    else
+                    {
+                        YPSLogger.ReportException(ex, "PostAsync method with two parameters, string(url) and model -> in RequestProvider.cs UserID: " + Settings.userLoginID + " from Api=" + url);
+                    }
                     await service.Handleexception(ex);
-                    throw new Exception("Poor internet connection.");
+                    //throw new Exception("Poor internet connection.");
                 }
             }
             returnnulldata empty = new returnnulldata();
@@ -341,11 +366,11 @@ namespace YPS.RestClientAPI
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "HandleResponse method -> in RequestProvider.cs UserID: " + Settings.userLoginID );
+                YPSLogger.ReportException(ex, "HandleResponse method -> in RequestProvider.cs UserID: " + Settings.userLoginID);
                 await service.Handleexception(ex);
-                throw new Exception("Poor internet connection.");
+                //throw new Exception("Poor internet connection.");
             }
         }
     }

@@ -175,7 +175,7 @@ namespace YPS.ViewModel
 
                                         if (uploadresult != null)
                                         {
-                                            if (uploadresult.status != 0)
+                                            if (uploadresult.status == 1)
                                             {
                                                 if (UploadType == (int)UploadTypeEnums.GoodsPhotos_BP)
                                                 {
@@ -460,7 +460,7 @@ namespace YPS.ViewModel
                                 var initialdata = await BlobUpload.YPSFileUpload(UploadType, (int)BlobContainer.cnttagfiles, DataForFileUpload);
                                 var initialresult = initialdata as InitialResponse;
 
-                                if (initialresult?.status != 0)
+                                if (initialresult?.status == 1)
                                 {
                                     InspBtnOpacity = Select_Items?.photoTags?.Count > 1 ? 0.5 : 1.0;
                                     selectiontype_index = 1;
@@ -550,7 +550,7 @@ namespace YPS.ViewModel
 
                                 if (result != null)
                                 {
-                                    if (result.status != 0)
+                                    if (result.status == 1)
                                     {
                                         InspBtnOpacity = 1.0;
 
@@ -674,7 +674,9 @@ namespace YPS.ViewModel
                         }
                     }
                     else
+                    {
                         DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -711,7 +713,7 @@ namespace YPS.ViewModel
                         /// Calling photo API to get photos.
                         var uploadresult = await service.FinalPhotosList(puid_value);
 
-                        if (uploadresult?.status != 0)
+                        if (uploadresult?.status == 1)
                         {
                             AllPhotosData = uploadresult;
 
@@ -782,7 +784,7 @@ namespace YPS.ViewModel
                         /// Calling ClosePhoto API to close upload photo.
                         var closePhotoResult = await service.ClosePhotoData(poid, puid);
 
-                        if (closePhotoResult.status != 0 || closePhotoResult != null)
+                        if (closePhotoResult?.status == 1)
                         {
                             MessagingCenter.Send<string, string>("PhotoComplted", "showtickMark", puid.ToString());
 

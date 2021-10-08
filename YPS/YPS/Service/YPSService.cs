@@ -141,12 +141,16 @@ namespace YPS.Service
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
+                    msg = true;
                     RestClient restClient = new RestClient();
                     trackData = await restClient.Handleexception(ErrorMessage);
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Alert", "Please check your internet connection.", "Ok");
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await App.Current.MainPage.DisplayAlert("Alert", "Please check your internet connection.", "Ok");
+                    });
                     msg = true;
                 }
 
@@ -154,8 +158,17 @@ namespace YPS.Service
             catch (Exception ex)
             {
                 if (!msg)
-                    await App.Current.MainPage.DisplayAlert("Alert", "Please check your internet connection!", "Ok");
-                YPSLogger.ReportException(ex, "Handleexception method-> in YPSService.cs:-> this is not an exception.if you try to hit api, when there is no internet connection then this exception will come.we can ignore this..." + Settings.userLoginID);
+                {
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await App.Current.MainPage.DisplayAlert("Alert", "Please check your internet connection.", "Ok");
+                    });
+                    YPSLogger.ReportException(ex, "Handleexception method -> in YPSService.cs -> this exception gets logged, when there is no internet connection and you try to hit api. We can ignore this..." + Settings.userLoginID);
+                }
+                else
+                {
+                    YPSLogger.ReportException(ex, "Handleexception method -> in YPSService.cs, UserID: " + Settings.userLoginID);
+                }
             }
             return trackData;
         }
@@ -719,7 +732,7 @@ namespace YPS.Service
                 YPSLogger.ReportException(ex, "GetglobelSettings method  -> in YPSService.cs-Exception=" + ex.Message + Settings.userLoginID);
                 return null;
             }
-           
+
         }
 
         /// <summary>

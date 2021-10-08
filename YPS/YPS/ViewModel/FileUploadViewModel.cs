@@ -224,7 +224,7 @@ namespace YPS.ViewModel
                             if (cloaseResponse != null)
                             {
                                 /// If file close succeessfully.
-                                if (cloaseResponse.status != 0)
+                                if (cloaseResponse.status == 1)
                                 {
                                     access = true;
                                     ///MessagingCenter used for update main page grid data file count.
@@ -320,7 +320,7 @@ namespace YPS.ViewModel
                                 //myFuid = FinalReturnData.data.FUID;
                                 myFuid = FinalReturnData.data.files[0].FUID;
 
-                                if (FinalReturnData.status != 0)
+                                if (FinalReturnData?.status == 1)
                                 {
                                     /// Checking image and file extention.
                                     string initialIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
@@ -360,7 +360,7 @@ namespace YPS.ViewModel
 
                                             var result = await service.UpdateTagTaskStatus(tagtaskstatus);
 
-                                            if (result.status == 1)
+                                            if (result?.status == 1)
                                             {
                                                 if (items.TaskID != 0 && items.TaskStatus == 0)
                                                 {
@@ -404,7 +404,7 @@ namespace YPS.ViewModel
                             {
                                 var response = returnplFileData as SecondRootObject;
 
-                                if (response.status != 0)
+                                if (response?.status == 1)
                                 {
                                     /// Checking image and file extention.
                                     string FileIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
@@ -451,7 +451,7 @@ namespace YPS.ViewModel
                             {
                                 var finalplData = returnplData as PLFileUploadResult;
 
-                                if (finalplData.status != 0)
+                                if (finalplData?.status == 1)
                                 {
                                     /// Checking image and file extention.
                                     string PLIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
@@ -528,7 +528,7 @@ namespace YPS.ViewModel
 
                             if (finalResult != null)
                             {
-                                if (finalResult.status != 0)
+                                if (finalResult.status == 1)
                                 {
                                     if (finalResult.data.fileTags.Count() != 0)
                                     {
@@ -628,7 +628,7 @@ namespace YPS.ViewModel
 
                         if (PlData != null)
                         {
-                            if (PlData.status != 0)
+                            if (PlData.status == 1)
                             {
                                 foreach (var items in PlData.data)
                                 {
@@ -881,7 +881,7 @@ namespace YPS.ViewModel
                                 /// Calling DeleteFile API with "FileID".
                                 var deleteFile = await service.DeleteFileService(fileUpload.FileID);
 
-                                if (deleteFile.status != 0 || deleteFile != null)
+                                if (deleteFile?.status == 1)
                                 {
                                     var deleteItem = ListOfFile.Where(x => x.FileID == fileUpload.FileID).ToList();
 
@@ -927,7 +927,7 @@ namespace YPS.ViewModel
                                 /// Calling DeletePLFile API with "POID".
                                 var PlDeleteResponse = await service.DeletePLFiles(PLfileUpload.ID);
 
-                                if (PlDeleteResponse.status != 0 || PlDeleteResponse != null)
+                                if (PlDeleteResponse?.status == 1)
                                 {
                                     var delete_Item = PLListOfFile.Where(x => x.ID == PLfileUpload.ID).ToList();
 

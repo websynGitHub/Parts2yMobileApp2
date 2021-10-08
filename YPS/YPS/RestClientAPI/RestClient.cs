@@ -396,8 +396,7 @@ namespace YPS.RestClientAPI
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "LoadPoDataRestClient method -> in RestClient.cs" + Settings.userLoginID);
-                return null;
+                YPSLogger.ReportException(ex, "LoadPoDataRestClient method -> in RestClient.cs" + Settings.userLoginID);                return null;
             }
         }
 
@@ -1133,7 +1132,7 @@ namespace YPS.RestClientAPI
                 string url = WebServiceUrl + "Login/GlobalSettings?SecurityCode=" + Settings.SecurityCode;
                 return await requestProvider.PostSettings<ApplicationSettings>(url);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "GetAllSettings method -> in RestClient.cs" + Settings.userLoginID);
@@ -1650,7 +1649,11 @@ namespace YPS.RestClientAPI
             try
             {
                 string errorMessage = string.Empty;
-                var json = JsonConvert.SerializeObject(ErrorMessage);
+                var json = JsonConvert.SerializeObject(ErrorMessage, Formatting.None, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    Error = (ser, er) => er.ErrorContext.Handled = true
+                });
                 HttpContent httpContent = new StringContent(json);
                 httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 HttpResponseMessage response = null;

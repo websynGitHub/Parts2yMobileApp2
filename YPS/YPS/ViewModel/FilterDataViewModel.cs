@@ -441,8 +441,6 @@ namespace YPS.ViewModel
             {
                 IndicatorVisibility = true;
 
-                //if (Settings.alldropdownvalues != null)
-                //{
                 var list = Settings.alldropdownvalues.Discipline.Where(x => x.ParentID == Settings.CompanyID).ToList();
                 DisciplineList = new List<DDLmaster>();
                 DisciplineList.Add(new DDLmaster() { Name = "ALL", ID = 0 });
@@ -480,19 +478,6 @@ namespace YPS.ViewModel
                 ResourceNames = Resourcelist.Select(x => x.Name).ToList();
 
                 BindKeyTabValues();
-                //}
-                //else
-                //{
-                //    try
-                //    {
-                //        Searchdatapicker();
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        YPSLogger.ReportException(ex, "Inner catch block in HeaderFilterData method-> in FilterDataViewModel.cs " + Settings.userLoginID);
-                //        await service.Handleexception(ex);
-                //    }
-                //}
             }
             catch (Exception ex)
             {

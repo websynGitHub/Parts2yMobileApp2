@@ -74,7 +74,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-      
+
         /// <summary>
         /// This method gets called when page is appearing.
         /// </summary>
@@ -91,20 +91,19 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Settings.mutipleTimeClick = false;
 
-                var checkInternet = await App.CheckInterNetConnection();
 
-                if (checkInternet)
+                if (Settings.refreshPage == 1)
                 {
-                    if (Settings.refreshPage == 1)
-                    {
+                    var checkInternet = await App.CheckInterNetConnection();
 
+                    if (checkInternet)
+                    {
                         Settings.refreshPage = 0;
 
                         if (Settings.IsFilterreset == true)
                         {
                             Settings.IsFilterreset = false;
                         }
-
 
                         if (Vm.AllTabVisibility == true)
                         {
@@ -122,13 +121,13 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             await Vm.Pending_Tap();
                         }
-                    }
 
-                    await Vm.ShowHideSearFilterList(false);
-                }
-                else
-                {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await Vm.ShowHideSearFilterList(false);
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
                 }
 
                 Vm.loadingindicator = false;
