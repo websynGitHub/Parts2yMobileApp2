@@ -177,7 +177,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result != null && result.data != null)
                     {
-                        if (result.status != 0 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
+                        if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
                             AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
                         }
@@ -243,7 +243,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null)
+                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                    SelectedPodataList[0].TaskStatus != 2)
                 {
                     IsDoneEnable = true;
                     DoneOpacity = 1.0;

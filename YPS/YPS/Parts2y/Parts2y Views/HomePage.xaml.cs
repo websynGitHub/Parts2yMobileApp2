@@ -20,12 +20,13 @@ namespace YPS.Parts2y.Parts2y_Views
     {
         DashboardViewModel Vm;
         YPSService trackService;
+        bool isswing;
 
         public HomePage()
         {
             try
             {
-                BindingContext = Vm = new DashboardViewModel(Navigation);
+                BindingContext = Vm = new DashboardViewModel(Navigation, this);
 
                 Vm.loadindicator = true;
                 trackService = new YPSService();
@@ -36,6 +37,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseCount", (sender, args) =>
                 {
                     Vm.NotifyCountTxt = args;
+                    Task.Run(MoveBell);
                 });
 
                 MessagingCenter.Subscribe<string, string>("PushNotificationCame", "IncreaseJobCount", (sender, args) =>
@@ -54,6 +56,30 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
+        public async void MoveBell()
+        {
+            try
+            {
+                if (Vm.NotifyCountTxt != null && Convert.ToInt32(Vm.NotifyCountTxt) > 0)
+                {
+                    while (isswing)
+                    {
+                        await BellIcon.RotateTo(15, 300, Easing.Linear);
+                        await BellIcon.RotateTo(-15, 300, Easing.Linear);
+                    }
+                }
+                else
+                {
+                    BellIcon.Rotation = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Task.Run(() => trackService.Handleexception(ex)).Wait();
+                YPSLogger.ReportException(ex, "MoveBell method -> in HomePage.xaml.cs " + Settings.userLoginID);
+            }
+        }
+
         /// <summary>
         /// This method is called when clicked on notification icon and redirect to notification page.
         /// </summary>
@@ -64,6 +90,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadindicator = true;
+
                 if (Vm.NotificationListCount > 0)
                 {
                     await Navigation.PushAsync(new NotificationListPage());
@@ -87,6 +114,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadindicator = true;
+                isswing = true;
                 Settings.ShowSuccessAlert = true;
 
                 base.OnAppearing();
@@ -107,11 +135,13 @@ namespace YPS.Parts2y.Parts2y_Views
                 Vm.loadindicator = false;
             }
         }
+
         protected async override void OnDisappearing()
         {
             try
             {
                 base.OnDisappearing();
+                isswing = false;
                 await SecureStorage.SetAsync("mainPageisOn", "0");
             }
             catch (Exception ex)

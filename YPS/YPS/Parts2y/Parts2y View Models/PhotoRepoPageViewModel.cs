@@ -216,7 +216,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     var response = await service.DeleteSingleRepoPhoto(data.FileID);
 
-                                    if (response.status == 1)
+                                    if (response?.status == 1)
                                     {
                                         await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
                                         update = true;
@@ -226,7 +226,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 {
                                     var allresponse = await service.DeleteAllRepoPhoto();
 
-                                    if (allresponse.status == 1)
+                                    if (allresponse?.status == 1)
                                     {
                                         await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
                                         update = true;

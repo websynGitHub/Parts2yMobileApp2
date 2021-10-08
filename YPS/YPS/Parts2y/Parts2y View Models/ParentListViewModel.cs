@@ -452,7 +452,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (result != null)
                             {
-                                if (result.status != 0 && result.data.allPoDataMobile != null)
+                                if (result.status == 1 && result.data.allPoDataMobile != null)
                                 {
                                     Settings.AllPOData = new ObservableCollection<AllPoData>();
                                     Settings.AllPOData = result.data.allPoDataMobile;
@@ -681,37 +681,47 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     var senderval = sender as AllPoData;
 
                     YPSService yPSService = new YPSService();
-                    var printResult = await yPSService.PrintPDFByUsingPOID(senderval.POID);
 
-                    PrintPDFModel printPDFModel = new PrintPDFModel();
+                    var checkInternet = await App.CheckInterNetConnection();
 
-                    if (printResult.status != 0 && printResult != null)
+                    if (checkInternet)
                     {
-                        var bArrayPOID = printResult.data;
-                        byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
+                        var printResult = await yPSService.PrintPDFByUsingPOID(senderval.POID);
 
-                        printPDFModel.bArray = bytesPOID;
-                        printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
-                        printPDFModel.PDFFileTitle = "Shipping Marks";
+                        PrintPDFModel printPDFModel = new PrintPDFModel();
 
-                        switch (Device.RuntimePlatform)
+                        if (printResult?.status == 1)
                         {
-                            case Device.iOS:
+                            var bArrayPOID = printResult.data;
+                            byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
 
-                                if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
-                                {
-                                    await FileManager.GetByteArrayData(printPDFModel);
-                                }
+                            printPDFModel.bArray = bytesPOID;
+                            printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
+                            printPDFModel.PDFFileTitle = "Shipping Marks";
 
-                                var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
+                            switch (Device.RuntimePlatform)
+                            {
+                                case Device.iOS:
 
-                                DependencyService.Get<NewOpenPdfI>().passPath(url);
+                                    if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
+                                    {
+                                        await FileManager.GetByteArrayData(printPDFModel);
+                                    }
 
-                                break;
-                            case Device.Android:
-                                await Navigation.PushAsync(new PdfViewPage(printPDFModel));
-                                break;
+                                    var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
+
+                                    DependencyService.Get<NewOpenPdfI>().passPath(url);
+
+                                    break;
+                                case Device.Android:
+                                    await Navigation.PushAsync(new PdfViewPage(printPDFModel));
+                                    break;
+                            }
                         }
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
@@ -766,7 +776,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(true);
 
             }
             catch (Exception ex)
@@ -994,67 +1004,66 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                SearchSetting Serchdata = new SearchSetting();
+                var checkInternet = await App.CheckInterNetConnection();
 
-                if (isfromsearchfilter == true)
+                if (checkInternet)
                 {
-                    Serchdata = await trackService.GetSavedUserSearchSettingsByID(SelectedFilterName);
+                    SearchSetting Serchdata = new SearchSetting();
 
-                    if (Serchdata != null && Serchdata.data != null && !string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
+                    if (isfromsearchfilter == true)
                     {
-                        SearchPassData defaultData = new SearchPassData();
-                        defaultData.SearchName = !string.IsNullOrEmpty(SelectedFilterName?.Name) ? SelectedFilterName?.Name : null;
-                        defaultData.ID = SelectedFilterName != null && SelectedFilterName.ID != 0 ? SelectedFilterName.ID : 0;
-                        defaultData.UserID = Settings.userLoginID;
-                        defaultData.CompanyID = Settings.CompanyID;
-                        defaultData.ProjectID = Settings.ProjectID;
-                        defaultData.JobID = Settings.JobID;
-                        defaultData.SearchCriteria = Serchdata.data.SearchCriteria;
-                        var responseData = await trackService.SaveSerchvaluesSetting(defaultData);
+                        Serchdata = await trackService.GetSavedUserSearchSettingsByID(SelectedFilterName);
+
+                        if (Serchdata != null && Serchdata.data != null && !string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
+                        {
+                            SearchPassData defaultData = new SearchPassData();
+                            defaultData.SearchName = !string.IsNullOrEmpty(SelectedFilterName?.Name) ? SelectedFilterName?.Name : null;
+                            defaultData.ID = SelectedFilterName != null && SelectedFilterName.ID != 0 ? SelectedFilterName.ID : 0;
+                            defaultData.UserID = Settings.userLoginID;
+                            defaultData.CompanyID = Settings.CompanyID;
+                            defaultData.ProjectID = Settings.ProjectID;
+                            defaultData.JobID = Settings.JobID;
+                            defaultData.SearchCriteria = Serchdata.data.SearchCriteria;
+                            var responseData = await trackService.SaveSerchvaluesSetting(defaultData);
+                        }
+                    }
+                    else
+                    {
+                        Serchdata = await trackService.GetSearchValuesService(Settings.userLoginID);
+                    }
+
+                    if (Serchdata?.status == 1 && !string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
+                    {
+                        var searchC = JsonConvert.DeserializeObject<SendPodata>(Serchdata.data.SearchCriteria);
+
+                        if (searchC != null)
+                        {
+                            //Key
+                            sendPodata.PONumber = Settings.PONumber = Settings.IsSearchClicked == false ? searchC.PONumber : Settings.PONumber;
+                            sendPodata.REQNo = Settings.REQNo = Settings.IsSearchClicked == false ? searchC.REQNo : Settings.REQNo;
+                            sendPodata.ShippingNo = Settings.ShippingNo = Settings.IsSearchClicked == false ? searchC.ShippingNo : Settings.ShippingNo;
+                            sendPodata.DisciplineID = Settings.DisciplineID = Settings.IsSearchClicked == false ? searchC.DisciplineID : Settings.DisciplineID;
+                            sendPodata.ELevelID = Settings.ELevelID = Settings.IsSearchClicked == false ? searchC.ELevelID : Settings.ELevelID;
+                            sendPodata.ConditionID = Settings.ConditionID = Settings.IsSearchClicked == false ? searchC.ConditionID : Settings.ConditionID;
+                            sendPodata.ExpeditorID = Settings.ExpeditorID = Settings.IsSearchClicked == false ? searchC.ExpeditorID : Settings.ExpeditorID;
+                            sendPodata.PriorityID = Settings.PriorityID = Settings.IsSearchClicked == false ? searchC.PriorityID : Settings.PriorityID;
+                            sendPodata.ResourceID = Settings.ResourceID = Settings.IsSearchClicked == false ? searchC.ResourceID : Settings.ResourceID;
+                            sendPodata.TagNo = Settings.TAGNo = Settings.IsSearchClicked == false ? searchC.TagNo : Settings.TAGNo;
+                            sendPodata.IdentCode = Settings.IdentCodeNo = Settings.IsSearchClicked == false ? searchC.IdentCode : Settings.IdentCodeNo;
+                            sendPodata.BagNo = Settings.BagNo = Settings.IsSearchClicked == false ? searchC.BagNo : Settings.BagNo;
+                            sendPodata.yBkgNumber = Settings.Ybkgnumber = Settings.IsSearchClicked == false ? searchC.yBkgNumber : Settings.Ybkgnumber;
+                            sendPodata.TaskName = Settings.TaskName = Settings.IsSearchClicked == false ? searchC.TaskName : Settings.TaskName;
+                        }
+                    }
+                    else
+                    {
+                        await SaveAndClearSearch(sendPodata, false);
                     }
                 }
                 else
                 {
-                    Serchdata = await trackService.GetSearchValuesService(Settings.userLoginID);
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
-
-                //if (Serchdata != null)
-                //{
-                if (Serchdata?.status == 1 && !string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
-                {
-                    //if (!string.IsNullOrEmpty(Serchdata.data.SearchCriteria))
-                    //{
-                    var searchC = JsonConvert.DeserializeObject<SendPodata>(Serchdata.data.SearchCriteria);
-
-                    if (searchC != null)
-                    {
-                        //Key
-                        sendPodata.PONumber = Settings.PONumber = Settings.IsSearchClicked == false ? searchC.PONumber : Settings.PONumber;
-                        sendPodata.REQNo = Settings.REQNo = Settings.IsSearchClicked == false ? searchC.REQNo : Settings.REQNo;
-                        sendPodata.ShippingNo = Settings.ShippingNo = Settings.IsSearchClicked == false ? searchC.ShippingNo : Settings.ShippingNo;
-                        sendPodata.DisciplineID = Settings.DisciplineID = Settings.IsSearchClicked == false ? searchC.DisciplineID : Settings.DisciplineID;
-                        sendPodata.ELevelID = Settings.ELevelID = Settings.IsSearchClicked == false ? searchC.ELevelID : Settings.ELevelID;
-                        sendPodata.ConditionID = Settings.ConditionID = Settings.IsSearchClicked == false ? searchC.ConditionID : Settings.ConditionID;
-                        sendPodata.ExpeditorID = Settings.ExpeditorID = Settings.IsSearchClicked == false ? searchC.ExpeditorID : Settings.ExpeditorID;
-                        sendPodata.PriorityID = Settings.PriorityID = Settings.IsSearchClicked == false ? searchC.PriorityID : Settings.PriorityID;
-                        sendPodata.ResourceID = Settings.ResourceID = Settings.IsSearchClicked == false ? searchC.ResourceID : Settings.ResourceID;
-                        sendPodata.TagNo = Settings.TAGNo = Settings.IsSearchClicked == false ? searchC.TagNo : Settings.TAGNo;
-                        sendPodata.IdentCode = Settings.IdentCodeNo = Settings.IsSearchClicked == false ? searchC.IdentCode : Settings.IdentCodeNo;
-                        sendPodata.BagNo = Settings.BagNo = Settings.IsSearchClicked == false ? searchC.BagNo : Settings.BagNo;
-                        sendPodata.yBkgNumber = Settings.Ybkgnumber = Settings.IsSearchClicked == false ? searchC.yBkgNumber : Settings.Ybkgnumber;
-                        sendPodata.TaskName = Settings.TaskName = Settings.IsSearchClicked == false ? searchC.TaskName : Settings.TaskName;
-                    }
-                    //}
-                    //else
-                    //{
-                    //    await SaveAndClearSearch(sendPodata, false);
-                    //}
-                }
-                else
-                {
-                    await SaveAndClearSearch(sendPodata, false);
-                }
-                //}
             }
             catch (Exception ex)
             {

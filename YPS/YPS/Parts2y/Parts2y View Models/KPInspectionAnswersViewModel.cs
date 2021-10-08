@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using YPS.CommonClasses;
+using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
 using YPS.Parts2y.Parts2y_Views;
@@ -250,6 +251,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
 
                 }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
             }
             catch (Exception ex)
             {
@@ -489,6 +494,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                         }
                     }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
                 }
                 else
                 {
@@ -555,21 +564,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     tagtaskstatus.Status = 1;
                     tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                    var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+                    var checkInternet = await App.CheckInterNetConnection();
 
-                    if (result.status == 1)
+                    if (checkInternet)
                     {
-                        if (selectedTagData.TaskStatus == 0)
-                        {
-                            TagTaskStatus taskstatus = new TagTaskStatus();
-                            taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                            taskstatus.TaskStatus = 1;
-                            taskstatus.CreatedBy = Settings.userLoginID;
+                        var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
 
-                            var taskval = await trackService.UpdateTaskStatus(taskstatus);
+                        if (result?.status == 1)
+                        {
+                            if (selectedTagData.TaskStatus == 0)
+                            {
+                                TagTaskStatus taskstatus = new TagTaskStatus();
+                                taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                                taskstatus.TaskStatus = 1;
+                                taskstatus.CreatedBy = Settings.userLoginID;
+
+                                var taskval = await trackService.UpdateTaskStatus(taskstatus);
+                            }
+                            selectedTagData.TagTaskStatus = 1;
+                            selectedTagData.TaskStatus = 1;
                         }
-                        selectedTagData.TagTaskStatus = 1;
-                        selectedTagData.TaskStatus = 1;
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }

@@ -23,10 +23,9 @@
                    VerticalOptions="Center" Style="{DynamicResource LableWithQuestionFont}"/>
 
             <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
-                               
                                Margin="0,0,0,0" Grid.Column="3" >
                 <badge:SfBadgeView.Content>
-                    <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Notifications}" HeightRequest="40" 
+                    <local:FontAwesomeIconLabel x:Name="BellIcon" Text="{x:Static local1:Icons.Notifications}" HeightRequest="40" 
                                                 WidthRequest="35" Style="{StaticResource LblIconStyle}"
                                                 FontSize="20">
                         <local:FontAwesomeIconLabel.GestureRecognizers>

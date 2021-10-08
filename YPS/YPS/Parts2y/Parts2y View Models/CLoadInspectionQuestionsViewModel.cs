@@ -85,45 +85,54 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                var signature = await trackService.GetInspSignatureByTask(taskid);
+                var checkInternet = await App.CheckInterNetConnection();
 
-                if (signature != null && signature.status == 1)
+                if (checkInternet)
                 {
-                    var supervisorimagesignCBU = signature.data.listData.
-                                            Where(wr => wr.SignType == (int)InspectionSignatureType.VinSupervisor).
-                                            Select(c => c.Signature).FirstOrDefault();
+                    var signature = await trackService.GetInspSignatureByTask(taskid);
 
-                    var auditorimagesignCBU = signature.data.listData.
-                      Where(wr => wr.SignType == (int)InspectionSignatureType.VinAuditor).
-                      Select(c => c.Signature).FirstOrDefault();
+                    if (signature != null && signature.status == 1)
+                    {
+                        var supervisorimagesignCBU = signature.data.listData.
+                                                Where(wr => wr.SignType == (int)InspectionSignatureType.VinSupervisor).
+                                                Select(c => c.Signature).FirstOrDefault();
 
-                    var supervisorimagesignCarrier = signature.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierSupervisor).
-                        Select(c => c.Signature).FirstOrDefault();
+                        var auditorimagesignCBU = signature.data.listData.
+                          Where(wr => wr.SignType == (int)InspectionSignatureType.VinAuditor).
+                          Select(c => c.Signature).FirstOrDefault();
 
-                    var auditorimagesignCarrier = signature.data.listData.
-                        Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierAuditor).
-                        Select(c => c.Signature).FirstOrDefault();
+                        var supervisorimagesignCarrier = signature.data.listData.
+                            Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierSupervisor).
+                            Select(c => c.Signature).FirstOrDefault();
 
-                    SupervisorImageSignCBU = supervisorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCBU))) :
+                        var auditorimagesignCarrier = signature.data.listData.
+                            Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierAuditor).
+                            Select(c => c.Signature).FirstOrDefault();
+
+                        SupervisorImageSignCBU = supervisorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCBU))) :
+                            null;
+
+                        AuditorImageSignCBU = auditorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCBU))) :
                         null;
 
-                    AuditorImageSignCBU = auditorimagesignCBU != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCBU))) :
-                    null;
+                        SupervisorImageSignCarrier = supervisorimagesignCarrier != null ?
+                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCarrier))) : null;
 
-                    SupervisorImageSignCarrier = supervisorimagesignCarrier != null ?
-                    ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(supervisorimagesignCarrier))) : null;
+                        AuditorImageSignCarrier = auditorimagesignCarrier != null ?
+                        ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCarrier))) : null;
 
-                    AuditorImageSignCarrier = auditorimagesignCarrier != null ?
-                    ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCarrier))) : null;
-
-                    if (IsAllTagsDone == true && QuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null
-                        && SelectedPodataList[0].TaskID != 2 && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
-                        supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
+                        if (IsAllTagsDone == true && QuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null
+                            && SelectedPodataList[0].TaskID != 2 && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
+                            supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
+                        {
+                            IsDoneEnable = true;
+                            DoneOpacity = 1.0;
+                        }
                     }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -264,7 +273,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result != null && result.data != null)
                     {
-                        if (result.status != 0 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
+                        if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
                             AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
                         }

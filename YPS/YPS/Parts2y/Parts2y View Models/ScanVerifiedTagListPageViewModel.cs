@@ -261,14 +261,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
 
-                YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", " in AssignUnAssignedTask method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                var checkInternet = await App.CheckInterNetConnection();
 
-                var val = await service.AssignUnassignedTask(podata.TaskID);
-
-                if (val?.status == 1)
+                if (checkInternet)
                 {
-                    podata.PhotoInspText = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
-                    podata.JobTileColor = Color.White;
+                    YPSLogger.TrackEvent("ScanVerifiedTagListPageViewModel.cs", " in AssignUnAssignedTask method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                    var val = await service.AssignUnassignedTask(podata.TaskID);
+
+                    if (val?.status == 1)
+                    {
+                        podata.PhotoInspText = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
+                        podata.JobTileColor = Color.White;
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
