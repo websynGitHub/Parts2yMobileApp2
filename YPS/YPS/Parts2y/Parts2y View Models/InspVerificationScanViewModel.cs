@@ -79,6 +79,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (pass1 == PermissionStatus.Denied)
                 {
+                    IsScanPage = false;
                     var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to scan.", null, null, "Maybe Later", "Settings");
                     switch (checkSelect)
                     {
