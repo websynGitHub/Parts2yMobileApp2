@@ -31,13 +31,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
 
         YPSService trackService;
+        HomePage homePage;
 
-        public DashboardViewModel(INavigation _Navigation)
+        public DashboardViewModel(INavigation _Navigation, HomePage homepage)
         {
             try
             {
                 loadindicator = true;
                 Navigation = _Navigation;
+                homePage = homepage;
                 trackService = new YPSService();
                 BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 TaskClickCmd = new Command(async () => await RedirectToPage("task"));
@@ -95,7 +97,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     result = await trackService.LoadPoDataService(sendPodata);
 
-                    if (result?.status != 0 && result?.data?.allPoDataMobile != null)
+                    if (result?.status == 1 && result?.data?.allPoDataMobile != null)
                     {
                         Settings.AllPOData = new ObservableCollection<AllPoData>();
                         Settings.AllPOData = result.data.allPoDataMobile;
@@ -195,23 +197,32 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     Db.SaveUserPWd(saveData);
                 }
 
-                var DBresponse = await trackService.GetSaveUserDefaultSettings(Settings.userLoginID);
+                var checkInternet = await App.CheckInterNetConnection();
 
-                if (DBresponse != null)
+                if (checkInternet)
                 {
-                    if (DBresponse.status == 1)
+                    var DBresponse = await trackService.GetSaveUserDefaultSettings(Settings.userLoginID);
+
+                    if (DBresponse != null)
                     {
-                        Settings.VersionID = DBresponse.data.VersionID;
-                        Company = Settings.CompanySelected = DBresponse.data.CompanyName;
+                        if (DBresponse.status == 1)
+                        {
+                            Settings.VersionID = DBresponse.data.VersionID;
+                            Company = Settings.CompanySelected = DBresponse.data.CompanyName;
 
 
-                        ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
-                        ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
-                        JobName = Settings.JobSelected = DBresponse.data.JobNumber;
-                        Settings.CompanyID = DBresponse.data.CompanyID;
-                        Settings.ProjectID = DBresponse.data.ProjectID;
-                        Settings.JobID = DBresponse.data.JobID;
+                            ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
+                            ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
+                            JobName = Settings.JobSelected = DBresponse.data.JobNumber;
+                            Settings.CompanyID = DBresponse.data.CompanyID;
+                            Settings.ProjectID = DBresponse.data.ProjectID;
+                            Settings.JobID = DBresponse.data.JobID;
+                        }
                     }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -279,7 +290,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     var result = await trackService.GetNotifyHistory(Settings.userLoginID);
 
-                    if (result?.status != 0 && result?.data?.Count() > 0)
+                    if (result?.status == 1 && result?.data?.Count() > 0)
                     {
                         NotificationListCount = result.data.Count();
                         NotifyCountTxt = result.data[0].listCount > 0 ? result.data[0].listCount.ToString() : null;
@@ -291,6 +302,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         NotifyCountTxt = null;
                         Settings.notifyCount = 0;
                     }
+                    Task.Run(homePage.MoveBell);
                 }
                 else
                 {
