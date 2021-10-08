@@ -91,12 +91,11 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Settings.mutipleTimeClick = false;
 
+                var checkInternet = await App.CheckInterNetConnection();
 
-                if (Settings.refreshPage == 1)
+                if (checkInternet)
                 {
-                    var checkInternet = await App.CheckInterNetConnection();
-
-                    if (checkInternet)
+                    if (Settings.refreshPage == 1)
                     {
                         Settings.refreshPage = 0;
 
@@ -121,13 +120,12 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             await Vm.Pending_Tap();
                         }
-
-                        await Vm.ShowHideSearFilterList(false);
                     }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
+                    await Vm.ShowHideSearFilterList(false);
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
 
                 Vm.loadingindicator = false;

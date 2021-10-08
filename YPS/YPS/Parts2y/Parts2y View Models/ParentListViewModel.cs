@@ -201,28 +201,37 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                YPSLogger.TrackEvent("ParentListViewModel.cs", " in ShowHideSearFilterList method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                var checkInternet = await App.CheckInterNetConnection();
 
-                var result = await trackService.GetSavedUserSearchSettings();
-
-                if (result != null && result.data != null)
+                if (checkInternet)
                 {
-                    if (result.data.Count != 0)
+                    YPSLogger.TrackEvent("ParentListViewModel.cs", " in ShowHideSearFilterList method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                    var result = await trackService.GetSavedUserSearchSettings();
+
+                    if (result != null && result.data != null)
                     {
-                        SearchFilterList = new ObservableCollection<SearchPassData>(result.data);
-
-                        SearchFilterList.Where(wr => wr.Status == 1 && Settings.IsSearchClicked == false).Select(c =>
-                          {
-                              c.SelectedTagBorderColor = Settings.Bar_Background;
-                              return c;
-                          }).ToList();
-
-                        IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
-                        IsSearchFilterListVisible = popfilterlist == true ? true : false;
-
-                        if (NoRecordsLbl == true && popfilterlist == true)
+                        if (result.data.Count != 0)
                         {
-                            NoRecordsLbl = false;
+                            SearchFilterList = new ObservableCollection<SearchPassData>(result.data);
+
+                            SearchFilterList.Where(wr => wr.Status == 1 && Settings.IsSearchClicked == false).Select(c =>
+                              {
+                                  c.SelectedTagBorderColor = Settings.Bar_Background;
+                                  return c;
+                              }).ToList();
+
+                            IsSearchFilterIconVisible = SearchFilterList?.Count > 0 ? true : false;
+                            IsSearchFilterListVisible = popfilterlist == true ? true : false;
+
+                            if (NoRecordsLbl == true && popfilterlist == true)
+                            {
+                                NoRecordsLbl = false;
+                            }
+                        }
+                        else
+                        {
+                            IsSearchFilterIconVisible = false;
                         }
                     }
                     else
@@ -232,7 +241,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    IsSearchFilterIconVisible = false;
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
