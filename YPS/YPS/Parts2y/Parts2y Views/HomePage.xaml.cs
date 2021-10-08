@@ -62,6 +62,8 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 if (Vm.NotifyCountTxt != null && Convert.ToInt32(Vm.NotifyCountTxt) > 0)
                 {
+                    isswing = true;
+
                     while (isswing)
                     {
                         await BellIcon.RotateTo(15, 300, Easing.Linear);
@@ -70,6 +72,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else
                 {
+                    isswing = false;
                     BellIcon.Rotation = 0;
                 }
             }
@@ -114,7 +117,6 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.loadindicator = true;
-                isswing = true;
                 Settings.ShowSuccessAlert = true;
 
                 base.OnAppearing();
