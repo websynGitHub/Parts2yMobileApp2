@@ -184,18 +184,31 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                GetPoData result = await trackService.LoadPoDataService(sendPodata);
-                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
-                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 0);
+                bool checkInternet = await App.CheckInterNetConnection();
 
-                PendingTabVisibility = true;
-                CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
-                PendingTabTextColor = Settings.Bar_Background;
-                InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
-                SelectedTagCountVisible = false;
-                SelectedTagCount = 0;
+                if (checkInternet)
+                {
+                    GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                    POID = (int)allPOTagData?.Select(c => c.POID).FirstOrDefault();
+                    TaskID = (int)allPOTagData?.Select(c => c.TaskID).FirstOrDefault();
+
+                    if (result?.data?.allPoDataMobile?.Count > 0)
+                    {
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 0);
+                    }
+
+                    PendingTabVisibility = true;
+                    CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
+                    PendingTabTextColor = Settings.Bar_Background;
+                    InProgressTabTextColor = CompleteTabTextColor = AllTabTextColor = Color.Black;
+                    SelectedTagCountVisible = false;
+                    SelectedTagCount = 0;
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
             }
             catch (Exception ex)
             {
@@ -215,18 +228,31 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                GetPoData result = await trackService.LoadPoDataService(sendPodata);
-                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
-                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 1);
+                bool checkInternet = await App.CheckInterNetConnection();
 
-                InProgressTabVisibility = true;
-                CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                InProgressTabTextColor = Settings.Bar_Background;
-                CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
-                SelectedTagCountVisible = false;
-                SelectedTagCount = 0;
+                if (checkInternet)
+                {
+                    GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                    POID = (int)allPOTagData?.Select(c => c.POID).FirstOrDefault();
+                    TaskID = (int)allPOTagData?.Select(c => c.TaskID).FirstOrDefault();
+
+                    if (result?.data?.allPoDataMobile?.Count > 0)
+                    {
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 1);
+                    }
+
+                    InProgressTabVisibility = true;
+                    CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                    InProgressTabTextColor = Settings.Bar_Background;
+                    CompleteTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+                    SelectedTagCountVisible = false;
+                    SelectedTagCount = 0;
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
             }
             catch (Exception ex)
             {
@@ -246,18 +272,31 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                GetPoData result = await trackService.LoadPoDataService(sendPodata);
-                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
-                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 2);
+                bool checkInternet = await App.CheckInterNetConnection();
 
-                CompleteTabVisibility = true;
-                InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
-                CompleteTabTextColor = Settings.Bar_Background;
-                InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
-                SelectedTagCountVisible = false;
-                SelectedTagCount = 0;
+                if (checkInternet)
+                {
+                    GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                    POID = (int)allPOTagData?.Select(c => c.POID).FirstOrDefault();
+                    TaskID = (int)allPOTagData?.Select(c => c.TaskID).FirstOrDefault();
+
+                    if (result?.data?.allPoDataMobile?.Count > 0)
+                    {
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 2);
+                    }
+
+                    CompleteTabVisibility = true;
+                    InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
+                    CompleteTabTextColor = Settings.Bar_Background;
+                    InProgressTabTextColor = PendingTabTextColor = AllTabTextColor = Color.Black;
+                    SelectedTagCountVisible = false;
+                    SelectedTagCount = 0;
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
             }
             catch (Exception ex)
             {
@@ -277,23 +316,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                GetPoData result = await trackService.LoadPoDataService(sendPodata);
-                POID = allPOTagData.Select(c => c.POID).FirstOrDefault();
-                TaskID = allPOTagData.Select(c => c.TaskID).FirstOrDefault();
 
-                PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), -1);
+                bool checkInternet = await App.CheckInterNetConnection();
 
-                AllTabVisibility = true;
-                InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
-                AllTabTextColor = Settings.Bar_Background;
-                InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
-                SelectedTagCountVisible = false;
-                SelectedTagCount = 0;
+                if (checkInternet)
+                {
+                    GetPoData result = await trackService.LoadPoDataService(sendPodata);
+                    POID = (int)allPOTagData?.Select(c => c.POID).FirstOrDefault();
+                    TaskID = (int)allPOTagData?.Select(c => c.TaskID).FirstOrDefault();
+
+                    if (result?.data?.allPoDataMobile?.Count > 0)
+                    {
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), -1);
+                    }
+
+                    AllTabVisibility = true;
+                    InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
+                    AllTabTextColor = Settings.Bar_Background;
+                    InProgressTabTextColor = CompleteTabTextColor = PendingTabTextColor = Color.Black;
+                    SelectedTagCountVisible = false;
+                    SelectedTagCount = 0;
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
             }
             catch (Exception ex)
             {
                 loadindicator = false;
-                YPSLogger.ReportException(ex, "Complete_Tap method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "All_Tap method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -321,7 +373,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             return result;
         }
-
 
         public async Task ScanOrInsp(string clicktype)
         {
@@ -963,7 +1014,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
 
-                            if (result.status == 1)
+                            if (result?.status == 1)
                             {
                                 if (AllTabVisibility == true)
                                 {
@@ -1038,6 +1089,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         var checkInternet = await App.CheckInterNetConnection();
+
                         if (checkInternet)
                         {
                             string poTagID = "";
@@ -1058,7 +1110,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 PrintPDFModel printPDFModel = new PrintPDFModel();
 
-                                if (printResult.status != 0 && printResult != null)
+                                if (printResult?.status == 1)
                                 {
                                     var bArray = printResult.data;
                                     byte[] bytes = Convert.FromBase64String(bArray);

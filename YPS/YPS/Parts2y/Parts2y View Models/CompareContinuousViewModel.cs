@@ -70,29 +70,27 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                var data = await trackService.GetSaveScanConfig();
-                var result = data as YPS.Model.GetSavedConfigResponse;
+                var result = await trackService.GetSaveScanConfig();
 
-                if (result != null)
+                if (result?.status == 1 && result?.data != null)
                 {
                     SelectedRule.ID = result.data.ScanConfigID;
                     TotalCount = result.data.ScanCount;
                 }
 
-                var daatddl = await trackService.GetScanConfig();
-                var resultddl = daatddl as YPS.Model.ScanConfigResponse;
+                var resultddl = await trackService.GetScanConfig();
 
-                if (resultddl != null && SelectedRule != null)
+                if (resultddl?.status == 1 && resultddl?.data.Count > 0 && SelectedRule != null)
                 {
                     ScanRuleLst = resultddl.data;
-                    SelectedScanRule = SelectedRule.ID == 0 ? ScanRuleLst[0].Name :
+                    SelectedScanRule = SelectedRule.ID == 0 ? ScanRuleLst[0]?.Name :
                         ScanRuleLst.Where(wr => wr.ID == SelectedRule.ID).FirstOrDefault().Name;
 
                     SelectedRule.Length = SelectedRule.ID == 0 ? ScanRuleLst[0].Length :
                        ScanRuleLst.Where(wr => wr.ID == SelectedRule.ID).FirstOrDefault().Length;
 
 
-                    SelectedRule.Position = SelectedRule.ID == 0 ? ScanRuleLst[0].Position :
+                    SelectedRule.Position = SelectedRule.ID == 0 ? ScanRuleLst[0]?.Position :
                        ScanRuleLst.Where(wr => wr.ID == SelectedRule.ID).FirstOrDefault().Position;
 
                     if (!string.IsNullOrEmpty(SelectedScanRule) && TotalCount > 0)
@@ -103,7 +101,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetSavedConfigDataFromDB method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetSavedConfigDataFromDB method -> in CompareViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -442,38 +440,46 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (TotalCount > 0 && TotalCount <= 300)
                 {
-                    var data = trackService.SaveScanConfig(SelectedRule, TotalCount).Result as YPS.Model.SaveScanConfigResponse;
+                    var checkInternet = await App.CheckInterNetConnection();
 
-                    if (data.status == 1)
+                    if (checkInternet)
                     {
-                        OKCount = "0";
-                        NGCount = "0";
-                        compareHistoryList = new List<CompareHistoryList>();
-                        latestCompareHistoryList = new List<CompareHistoryList>();
-                        scancountpermit = TotalCountHeader = TotalCount;
-                        SelectedScanRuleHeader = SelectedScanRule;
-                        OKCount = OKCount + "/" + TotalCount;
-                        NGCount = NGCount;
-                        IsScanEnable = IsScanContentVisible = ScanTabVisibility = true;
-                        IsConfigContentVisible = ConfigTabVisibility = false;
-                        ScanOpacity = 1;
-                        IsTotalValidMsg = false;
-                        ScanTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
-                        CompareTabTextColor = Color.Black;
+                        var data = trackService.SaveScanConfig(SelectedRule, TotalCount).Result as YPS.Model.SaveScanConfigResponse;
 
-                        return true;
+                        if (data?.status == 1)
+                        {
+                            OKCount = "0";
+                            NGCount = "0";
+                            compareHistoryList = new List<CompareHistoryList>();
+                            latestCompareHistoryList = new List<CompareHistoryList>();
+                            scancountpermit = TotalCountHeader = TotalCount;
+                            SelectedScanRuleHeader = SelectedScanRule;
+                            OKCount = OKCount + "/" + TotalCount;
+                            NGCount = NGCount;
+                            IsScanEnable = IsScanContentVisible = ScanTabVisibility = true;
+                            IsConfigContentVisible = ConfigTabVisibility = false;
+                            ScanOpacity = 1;
+                            IsTotalValidMsg = false;
+                            ScanTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
+                            CompareTabTextColor = Color.Black;
+
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     else
                     {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         return false;
                     }
-
                 }
                 else
                 {
                     TotalErrorTxt = "Total should be in between 1 and 300";
                     IsTotalValidMsg = true;
-
                     return false;
                 }
             }
