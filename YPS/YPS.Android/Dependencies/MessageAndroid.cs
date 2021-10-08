@@ -28,7 +28,6 @@ namespace YPS.Droid.Dependencies
                 {
                     Toast toast = Toast.MakeText(Android.App.Application.Context, message, ToastLength.Short);
                     toast.SetGravity(GravityFlags.Center, 0, 0);
-                    toast.View.PlaySoundEffect(SoundEffects.NavigationDown);
                     toast.View.Background.SetColorFilter(Settings.Bar_Background.ToAndroid(), PorterDuff.Mode.SrcIn);
                     toast.Show();
                 });
