@@ -352,7 +352,7 @@
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <sfbuttons:SfButton Clicked="SaveClick" Margin="6,0,6,6" 
                                     Style="{StaticResource SfBtnBlue}" CornerRadius="4"
-                                    HeightRequest="43"  BackgroundColor="{Binding BgColor}"
+                                    BackgroundColor="{Binding BgColor}"
                                     HorizontalOptions="FillAndExpand" VerticalOptions="End">
                     <sfbuttons:SfButton.Content>
                         <Label Text="Save" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
