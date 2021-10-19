@@ -650,10 +650,10 @@ namespace YPS.Service
         /// GetallApplabelsService
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionsForUser> GetallActionStatusService()
+        public async Task<ActionsForUser> GetallActionStatusService(int userloginID)
         {
             RestClient restClient = new RestClient();
-            return await restClient.AllActionStatus();
+            return await restClient.AllActionStatus(userloginID);
         }
 
         /// <summary>

@@ -348,12 +348,15 @@
                                 <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="End"
                                              BackgroundColor="Transparent" Margin="0,0,0,2" 
                                              IsVisible="{Binding SignTabVisibility}" Grid.Row="1">
-                                    <sfbuttons:SfButton Text="Done" Margin="0,0,0,4" Clicked="DoneClicked"
+                                    <sfbuttons:SfButton Margin="0,0,0,4" Padding="1,0,1,0" Clicked="DoneClicked"
                                                 Style="{StaticResource SfBtnBlue}"
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}" IsEnabled="{Binding IsDoneEnable}"
                                         Opacity="{Binding DoneOpacity}">
-                                        <sfbuttons:SfButton.Behaviors>
+                                    <sfbuttons:SfButton.Content>
+                                        <Label  Text="Done" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                                    </sfbuttons:SfButton.Content>
+                                    <sfbuttons:SfButton.Behaviors>
                                             <behaviors1:ViewTappedButtonBehavior AnimationType="Scale"/>
                                         </sfbuttons:SfButton.Behaviors>
                                     </sfbuttons:SfButton>

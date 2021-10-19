@@ -301,10 +301,32 @@
                     </StackLayout>
                 </ScrollView>
 
-                <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                                  HeightRequest="45" Margin="6,0,6,2"
-                                  IsVisible="{Binding showLatestViewFrame}" BackgroundColor="Transparent" >
-                    <Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
+                <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="6,0,6,4"
+                                  IsVisible="{Binding showLatestViewFrame}" BackgroundColor="Transparent">
+                    <sfbuttons:SfButton x:Name="clearhistory" Style="{StaticResource SfBtnBlue}" CornerRadius="4" 
+                                        BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory" 
+                                        Grid.Column="0">
+                        <sfbuttons:SfButton.Content>
+                            <Label Text="Reset" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+
+                    <sfbuttons:SfButton Style="{StaticResource SfBtnBlue}"  CornerRadius="4" 
+                                        BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory" 
+                                        Grid.Column="1">
+                        <sfbuttons:SfButton.Content>
+                            <Label Text="View" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+                    <!--<Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
                                                 HeightRequest="43"  BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
                                 Grid.Column="0">
@@ -321,15 +343,26 @@
                         <Button.Behaviors>
                             <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </Button.Behaviors>
-                    </Button>
+                    </Button>-->
                 </Grid>
-
             </Grid>
 
 
             <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Button Text="Save" Clicked="SaveClick" Margin="6,0,6,4"
+                <sfbuttons:SfButton Clicked="SaveClick" Margin="6,0,6,6" 
+                                    Style="{StaticResource SfBtnBlue}" CornerRadius="4"
+                                    HeightRequest="43"  BackgroundColor="{Binding BgColor}"
+                                    HorizontalOptions="FillAndExpand" VerticalOptions="End">
+                    <sfbuttons:SfButton.Content>
+                        <Label Text="Save" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                    </sfbuttons:SfButton.Content>
+                    <sfbuttons:SfButton.Behaviors>
+                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                    </sfbuttons:SfButton.Behaviors>
+                </sfbuttons:SfButton>
+                
+                <!--<Button Text="Save" Clicked="SaveClick" Margin="6,0,6,4"
                                                 Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
                                                 HeightRequest="43"  BackgroundColor="{Binding BgColor}"
                                                 HorizontalOptions="FillAndExpand" VerticalOptions="End"
@@ -338,9 +371,10 @@
                     <Button.Behaviors>
                         <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                     </Button.Behaviors>
-                </Button>
+                </Button>-->
 
             </ContentView>
+           
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                          IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">

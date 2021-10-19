@@ -88,23 +88,28 @@
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition x:Name="UpdateBtnTittleClmWidth" Width="Auto"/>
+                                <ColumnDefinition Width="0.60*"/>
                             </Grid.ColumnDefinitions>
                             <local2:MyEntry Grid.Row="0" Grid.Column="0" x:Name="Title_entry" Text="{Binding GroupName,Mode=TwoWay}" 
                                             TextColor="Black" Placeholder="{Binding labelobjdefval.qatitle}"
                                             HorizontalOptions="FillAndExpand" Style="{StaticResource EntryTextStyle}"/>
                            
                             <sfbuttons:SfButton Grid.Row="0" Grid.Column="1" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
-                                                HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="40"
+                                                HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="50"
                                                 BackgroundColor="{Binding BgColor}" IsVisible="{Binding IsUpdateBtnVisible}"
-                                                Margin="0,0,5,0">
+                                                Margin="0,0,5,0" Padding="1,0,1,0">
                                 <sfbuttons:SfButton.Content>
+                                    <Label Text="{Binding labelobjdefval.updateUsers}" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
+                                </sfbuttons:SfButton.Content>
+                                
+                                <!--<sfbuttons:SfButton.Content>
                                   
                                     <StackLayout Style="{StaticResource StackInSfButton}">
                                         <Label  Text="{Binding labelobjdefval.updateUsers}"
                                                Style="{StaticResource SfButtonTextLbl}" ></Label>
                                     </StackLayout>
-                                </sfbuttons:SfButton.Content>
+                                </sfbuttons:SfButton.Content>-->
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
@@ -136,17 +141,26 @@
                         <Grid x:Name="Startstack" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
                                  Margin="4,0,4,4" Grid.Row="1" >
 
-                            <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="0"
-                                            Text="{Binding labelobjdefval.closeQAStart}" Clicked="CancelClicked1"
-                                             Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
+                            <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="0" 
+                                                Clicked="CancelClicked1"
+                                                Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                                Padding="1,0,1,0">
+                                <sfbuttons:SfButton.Content>
+                                    <Label Text="{Binding labelobjdefval.closeQAStart}" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
+                                </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
 
-                            <sfbuttons:SfButton  x:Name="nameStartChat"  HorizontalOptions="FillAndExpand" Grid.Column="1"
-                                             Text="{Binding labelobjdefval.startQA}" Clicked="AddToChatClicked"
-                                            Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                            <sfbuttons:SfButton x:Name="nameStartChat"  HorizontalOptions="FillAndExpand" Grid.Column="1" 
+                                                Clicked="AddToChatClicked" Style="{StaticResource SfBtnBlue}"
+                                                BackgroundColor="{Binding BgColor}" Padding="1,0,1,0">
+                                <sfbuttons:SfButton.Content>
+                                    <Label Text="{Binding labelobjdefval.startQA}"  Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
+                                </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
@@ -192,15 +206,19 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <!--<ColumnDefinition Width="*"/>-->
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Text="To mark as Q&amp;A Closed, Please click on Q&amp;A Close." FontAttributes="Bold"
                                Margin="20" HorizontalOptions="Center"  Style="{StaticResource LableWithQuestionFont}" />
 
                         <sfbuttons:SfButton x:Name="nameQAClosebtn" Grid.Row="1" BackgroundColor="{Binding BgColor}"
-                                            Text="{Binding labelobjdefval.closeQA}" Clicked="QnAClose" HorizontalOptions="Center" 
-                                            Style="{StaticResource SfBtnBlue}">
+                                            Clicked="QnAClose" HorizontalOptions="Center" 
+                                            Style="{StaticResource SfBtnBlue}" Margin="3">
+                            <sfbuttons:SfButton.Content>
+                                <Label Text="{Binding labelobjdefval.closeQA}" Style="{StaticResource SfButtonTextLbl}" 
+                                       Padding="0"/>
+                            </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>

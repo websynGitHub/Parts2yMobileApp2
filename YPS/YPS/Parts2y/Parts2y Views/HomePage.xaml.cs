@@ -100,7 +100,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("No new notification(s) available.");
+                    DependencyService.Get<IToastMessage>().ShortAlert("No notification(s) available.");
                 }
             }
             catch (Exception ex)
@@ -116,11 +116,11 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                YPSLogger.TrackEvent("HomePage.xaml.cs", " in OnAppearing method" + DateTime.Now + " UserId: " + Settings.userLoginID);
+                base.OnAppearing();
+
                 Vm.loadindicator = true;
                 Settings.ShowSuccessAlert = true;
-
-                base.OnAppearing();
-                YPSLogger.TrackEvent("HomePage.xaml.cs", " in OnAppearing method" + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 Settings.countmenu = 1;
                 await SecureStorage.SetAsync("mainPageisOn", "1");

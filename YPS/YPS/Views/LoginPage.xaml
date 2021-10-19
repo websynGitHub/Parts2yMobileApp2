@@ -38,16 +38,12 @@
                                 </sfinput:SfTextInputLayout.TrailingView>
                             </sfinput:SfTextInputLayout>
                             <BoxView Grid.Row="4" Color="Transparent"/>
-                            <sfbuttons:SfButton Grid.Row="5" AutomationId="AutoLoginBtn" WidthRequest="200"
+                            
+                            <sfbuttons:SfButton Grid.Row="5" WidthRequest="200"
                                                 Command="{Binding ILoginCommand}" Style="{StaticResource SfBtnBlue}">
                                 <sfbuttons:SfButton.Content>
-                                    <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Padding="10,0,10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Text="Login" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                    </Grid>
+                                    <Label Text="Login" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>

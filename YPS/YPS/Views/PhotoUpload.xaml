@@ -244,20 +244,19 @@
                             <Grid HeightRequest="80">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="0.50*"/>
                                 </Grid.ColumnDefinitions>
                                 <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding description_txt,Mode=TwoWay}"
-                                                HeightRequest="70"
-                                                Placeholder="{Binding labelobjDesc}" TextColor="Black" PlaceholderColor="Gray" Keyboard="Text"
+                                                HeightRequest="70" Placeholder="{Binding labelobjDesc}" TextColor="Black" 
+                                                PlaceholderColor="Gray" Keyboard="Text" 
                                                 Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
 
                                 <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
-                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                                    Padding="1,0,1,0" HorizontalOptions="End" VerticalOptions="Center">
                                     <sfbuttons:SfButton.Content>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Padding="10,10,10,10">
-                                            <Label Text="{Binding labelobjUploadBtn}" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                        </StackLayout>
+                                        <Label Text="{Binding labelobjUploadBtn}" Style="{StaticResource SfButtonTextLbl}"
+                                               Padding="0"/>
                                     </sfbuttons:SfButton.Content>
                                     <sfbuttons:SfButton.Behaviors>
                                         <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -270,11 +269,15 @@
 
                 </Grid>
 
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
+                      ColumnDefinitions="*,*,*"  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+                    
                 <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding FirstMainStack}"
                     Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="End"
                                                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"   
-                                                Margin="10,0,0,0">
+                                                Margin="10,0,0,0" Grid.Column="0">
                     <local:FontAwesomeIconLabel.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectPhotoCmd}"/>
                     </local:FontAwesomeIconLabel.GestureRecognizers>
@@ -283,30 +286,28 @@
                 <local:FontAwesomeIconLabel x:Name="Scan" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" IsVisible="{Binding IsScanIconVisible}"
                     Text="{x:Static StaticIcons:Icons.Scan}" TextColor="Black" FontSize="50" HorizontalOptions="Center" VerticalOptions="End"
                                                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
-                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"  >
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
+                                            Grid.Column="1">
                     <local:FontAwesomeIconLabel.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ScanCmd}"/>
                     </local:FontAwesomeIconLabel.GestureRecognizers>
                 </local:FontAwesomeIconLabel>
 
-                <sfbuttons:SfButton  HorizontalOptions="End" VerticalOptions="End" HeightRequest="50"
+                <sfbuttons:SfButton  HorizontalOptions="End" VerticalOptions="End"
                                     Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                     Opacity="{Binding InspBtnOpacity}" IsVisible="{Binding IsInspBtnVisible}"
                                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
-                                         Margin="0,0,10,4">
+                                         Margin="0,0,10,4" Grid.Column="2">
                     <sfbuttons:SfButton.Content>
-                        <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                        </Grid>
+                        <Label Text="Insp" Style="{StaticResource SfButtonTextLbl}" />
                     </sfbuttons:SfButton.Content>
                     <sfbuttons:SfButton.Behaviors>
                         <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                     </sfbuttons:SfButton.Behaviors>
                 </sfbuttons:SfButton>
+                </Grid>
+
             </RelativeLayout>
 
             <ContentView IsVisible="{Binding IndicatorVisibility}" BackgroundColor="Transparent"

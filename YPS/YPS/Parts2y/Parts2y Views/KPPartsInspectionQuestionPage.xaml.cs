@@ -48,8 +48,8 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnAppearing();
 
-                if (Vm.selectedTagData?.TaskResourceID == Settings.userLoginID)
-                {
+                //if (Vm.selectedTagData?.TaskResourceID == Settings.userLoginID)
+                //{
                     if (Vm.QuickTabVisibility == true)
                     {
                         Vm.QuickTabClicked();
@@ -62,18 +62,18 @@ namespace YPS.Parts2y.Parts2y_Views
                     {
                         Vm.SignTabClicked();
                     }
-                }
-                else
-                {
-                    if (Vm.SignTabVisibility == true)
-                    {
-                        Vm.SignTabClicked();
-                    }
-                    else
-                    {
-                        Task.Run(() => Vm.QuickTabClicked()).Wait();
-                    }
-                }
+                //}
+                //else
+                //{
+                //    if (Vm.SignTabVisibility == true)
+                //    {
+                //        Vm.SignTabClicked();
+                //    }
+                //    else
+                //    {
+                //        Task.Run(() => Vm.QuickTabClicked()).Wait();
+                //    }
+                //}
             }
             catch (Exception ex)
             {

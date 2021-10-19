@@ -278,25 +278,28 @@
                         <Grid VerticalOptions="End" HorizontalOptions="FillAndExpand" Grid.Row="3"
                                Margin="6,0,6,6" HeightRequest="45" IsVisible="{Binding IsAnswersVisible}">
 
-                            <syncfusion:SfButton Text="VIEW ALL"
-                                    Command="{Binding ViewallClick}"
-                                    HorizontalOptions="FillAndExpand"
+                            <syncfusion:SfButton Command="{Binding ViewallClick}" HorizontalOptions="FillAndExpand"
                                     VerticalOptions="End" Style="{StaticResource SfBtnBlue}"
                                     Grid.Row="0" Grid.Column="0" TextColor="White"
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium">
-
+                                <syncfusion:SfButton.Content>
+                                    <Label Text="VIEW ALL" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
+                                </syncfusion:SfButton.Content>
                                 <syncfusion:SfButton.Behaviors>
                                     <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </syncfusion:SfButton.Behaviors>
                             </syncfusion:SfButton>
 
-                            <syncfusion:SfButton Text="{Binding NextButtonText,Mode=TwoWay}"  
-                                    Command="{Binding NextClick}"
-                                    HorizontalOptions="FillAndExpand"
+                            <syncfusion:SfButton Command="{Binding NextClick}"
+                                    HorizontalOptions="FillAndExpand" Padding="1,0,1,0"
                                     VerticalOptions="End" Style="{StaticResource SfBtnBlue}"
                                     Grid.Row="0" Grid.Column="1" TextColor="White"
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium">
-
+                                <syncfusion:SfButton.Content>
+                                    <Label Text="{Binding NextButtonText,Mode=TwoWay}" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
+                                </syncfusion:SfButton.Content>
                                 <syncfusion:SfButton.Behaviors>
                                     <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </syncfusion:SfButton.Behaviors>

@@ -75,14 +75,14 @@
                   BackgroundColor="White" Margin="0,0,0,0" HeightRequest="45">
 
                         <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Grid.Column="0" Command="{Binding reScanCmd}" 
-                                     Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
+                                     Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                             <sfbuttons:SfButton.Content>
                                 <Grid HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Label Text="Re-Scan" Grid.Column="0"
-                                   Style="{StaticResource SfButtonTextLbl}"></Label>
+                                   Style="{StaticResource SfButtonTextLbl}"/>
                                 </Grid>
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
@@ -98,7 +98,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
+                                    <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"/>
                                 </Grid>
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>

@@ -47,32 +47,32 @@ namespace YPS.Parts2y.Parts2y_Views
                 base.OnAppearing();
 
 
-                if (Vm.selectedTagData?.TaskResourceID == Settings.userLoginID)
+                //if (Vm.selectedTagData?.TaskResourceID == Settings.userLoginID)
+                //{
+                if (Vm.QuickTabVisibility == true)
                 {
-                    if (Vm.QuickTabVisibility == true)
-                    {
-                        Vm.QuickTabClicked();
-                    }
-                    else if (Vm.FullTabVisibility == true)
-                    {
-                        Vm.FullTabClicked();
-                    }
-                    else if (Vm.SignTabVisibility == true)
-                    {
-                        Vm.SignTabClicked();
-                    }
+                    Vm.QuickTabClicked();
                 }
-                else
+                else if (Vm.FullTabVisibility == true)
                 {
-                    if (Vm.SignTabVisibility == true)
-                    {
-                        Vm.SignTabClicked();
-                    }
-                    else
-                    {
-                        Task.Run(() => Vm.QuickTabClicked()).Wait();
-                    }
+                    Vm.FullTabClicked();
                 }
+                else if (Vm.SignTabVisibility == true)
+                {
+                    Vm.SignTabClicked();
+                }
+                //}
+                //else
+                //{
+                //    if (Vm.SignTabVisibility == true)
+                //    {
+                //        Vm.SignTabClicked();
+                //    }
+                //    else
+                //    {
+                //        Task.Run(() => Vm.QuickTabClicked()).Wait();
+                //    }
+                //}
             }
             catch (Exception ex)
             {

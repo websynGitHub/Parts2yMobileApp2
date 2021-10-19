@@ -46,8 +46,9 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="57"/>
                         </Grid.RowDefinitions>
+                        
                         <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*" 
                               Style="{StaticResource HeaderMainGrid}">
 
@@ -268,21 +269,17 @@
                           Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
                         
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
-                                 Margin="4,0,4,4" Grid.Row="2" IsVisible="{Binding IsLinkButtonsVisible}">
+                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
+                              RowDefinitions="50" ColumnDefinitions="*,*" Margin="4,0,4,4" Grid.Row="2"
+                              IsVisible="{Binding IsLinkButtonsVisible}">
                             <sfbuttons:SfButton x:Name="b" HorizontalOptions="FillAndExpand"
                                     Command="{Binding BindingContext.LinkBeforePackingPhotoCmd, Source={x:Reference Name=Link}}" 
-                                                                            CommandParameter="{x:Reference b}"
-                                                                            Style="{StaticResource SfBtnBlue}" 
-                                                          BackgroundColor="{Binding BindingContext.BgColor, Source={x:Reference Name=Link}}">
+                                    CommandParameter="{x:Reference b}" Style="{StaticResource SfBtnBlue}" 
+                                    BackgroundColor="{Binding BindingContext.BgColor, Source={x:Reference Name=Link}}"
+                                    Grid.Row="0" Grid.Column="0" Padding="1,0,1,0">
                                 <sfbuttons:SfButton.Content>
-                                    <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Text="{Binding BindingContext.labelobj.BeforePacking.Name, Source={x:Reference Name=Link}}"
-                                                                           Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                    </Grid>
+                                    <Label Text="{Binding BindingContext.labelobj.BeforePacking.Name, Source={x:Reference Name=Link}}"
+                                           Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -291,21 +288,17 @@
 
                             <sfbuttons:SfButton x:Name="a" Command="{Binding BindingContext.LinkAfterPackingPhotoCmd, Source={x:Reference Name=Link}}" 
                                             CommandParameter="{x:Reference a}" Style="{StaticResource SfBtnBlue}" HorizontalOptions="FillAndExpand"
-                                                          BackgroundColor="{Binding BindingContext.BgColor, Source={x:Reference Name=Link}}">
+                                            BackgroundColor="{Binding BindingContext.BgColor, Source={x:Reference Name=Link}}"
+                                                Grid.Row="0" Grid.Column="1" Padding="1,0,1,0">
                                 <sfbuttons:SfButton.Content>
-                                    <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Text="{Binding BindingContext.labelobj.AfterPacking.Name , Source={x:Reference Name=Link}}" 
-                                                                           Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                    </Grid>
+                                    <Label Text="{Binding BindingContext.labelobj.AfterPacking.Name , Source={x:Reference Name=Link}}" 
+                                           Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </sfbuttons:SfButton.Behaviors>
                             </sfbuttons:SfButton>
-                        </StackLayout>
+                        </Grid>
 
                     </Grid>
                 </StackLayout>

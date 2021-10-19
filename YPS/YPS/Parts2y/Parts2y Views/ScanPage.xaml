@@ -70,41 +70,38 @@
                         </Grid>
                     </Grid>
 
-                    <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" Orientation="Horizontal">
-
-                        <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Command="{Binding reScanCmd}" 
-                                     Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
+                    <!--<StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" Orientation="Horizontal">-->
+                        <FlexLayout Grid.Row="1" HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="End"
+                  BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" 
+                        Direction="Row" AlignItems="Center" JustifyContent="SpaceEvenly"
+                                    >
+                            <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Command="{Binding reScanCmd}" 
+                                     Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                                 FlexLayout.Grow="1" Margin="0,0,2,0" HeightRequest="48">
                             <sfbuttons:SfButton.Content>
-                                <Grid HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Text="Re-Scan" Grid.Column="0"
-                                   Style="{StaticResource SfButtonTextLbl}"></Label>
-                                </Grid>
-                            </sfbuttons:SfButton.Content>
+                                    <Label Text="Re-Scan" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                                </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
 
-                        <sfbuttons:SfButton HorizontalOptions="FillAndExpand" IsVisible="{Binding IsPhotoBtnVisible}"
+                        <sfbuttons:SfButton HorizontalOptions="FillAndExpand" IsVisible="{Binding IsPhotoBtnVisible}" Margin="2,0,0,0"
                                     Command="{Binding MoveNextCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
-                                            IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding PhotoOpacity}"> 
+                                            IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding PhotoOpacity}"
+                                            FlexLayout.Grow="1" HeightRequest="48"> 
                             <sfbuttons:SfButton.Content>
-                                <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Text="{Binding PageNextButton}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                </Grid>
-                            </sfbuttons:SfButton.Content>
+                                    <Label Text="{Binding PageNextButton}" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
+                                </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
-                    </StackLayout>
+                        </FlexLayout>
+                    <!--</StackLayout>-->
                 </Grid>
             </Grid>
 

@@ -141,23 +141,21 @@
                     <StackLayout Grid.Row="2"  IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" 
                                  VerticalOptions="EndAndExpand" Padding="10">
                         <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
-                            <Grid HeightRequest="80" BackgroundColor="White">
+                            <Grid HeightRequest="80" BackgroundColor="White" ColumnSpacing="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="0.50*"/>
                                 </Grid.ColumnDefinitions>
                                 <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding description_txt,Mode=TwoWay}"
-                                                HeightRequest="70"
-                                                Placeholder="{Binding labelobjDesc}" TextColor="Black" PlaceholderColor="Gray" Keyboard="Text"
-                                                Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
-
+                                                HeightRequest="70" Placeholder="{Binding labelobjDesc}" TextColor="Black" 
+                                                PlaceholderColor="Gray" Keyboard="Text" Style="{StaticResource EditorTextStyle}"
+                                                VerticalOptions="CenterAndExpand"/>
                                 <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
-                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                                    HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <sfbuttons:SfButton.Content>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Padding="10,10,10,10">
-                                            <Label Text="{Binding labelobjUploadBtn}" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                        </StackLayout>
+                                        <Label Text="{Binding labelobjUploadBtn}" Style="{StaticResource SfButtonTextLbl}" 
+                                               Padding="0"/>
                                     </sfbuttons:SfButton.Content>
                                     <sfbuttons:SfButton.Behaviors>
                                         <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>

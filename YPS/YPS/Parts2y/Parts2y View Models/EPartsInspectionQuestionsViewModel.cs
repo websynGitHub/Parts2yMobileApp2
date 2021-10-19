@@ -478,35 +478,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "EQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-                    IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "EFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
-
-                    IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ELoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-
                     if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                     {
-                        if (IsQuickTabVisible == false && IsFullTabVisible == false)
-                        {
-                            SignTabClicked();
-                        }
-
-                        if (IsQuickTabVisible == true)
-                        {
-                            QuickTabVisibility = true;
-                            FullTabVisibility = false;
-                            SignTabVisibility = false;
-                        }
-                        else if (IsFullTabVisible == true)
-                        {
-                            FullTabVisibility = true;
-                            QuickTabVisibility = false;
-                            SignTabVisibility = false;
-                        }
+                        IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "EQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                        IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "EFullInspection".Trim()).FirstOrDefault()) != null ? true : false;
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ELoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                     }
                     else
                     {
-                        IsQuickTabVisible = true;
-                        IsFullTabVisible = false;
+                        var actions = await trackService.GetallActionStatusService((int)selectedTagData?.TaskResourceID);
+
+                        if (actions?.status == 1 && actions?.data?.Count > 0)
+                        {
+                            IsQuickTabVisible = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "EQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                            IsFullTabVisible = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "EFullInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                        }
+                        SignTabVisibility = false;
+                    }
+
+                    if (IsQuickTabVisible == false && IsFullTabVisible == false)
+                    {
+                        SignTabClicked();
+                    }
+
+                    if (IsQuickTabVisible == true)
+                    {
+                        QuickTabVisibility = true;
+                        FullTabVisibility = false;
+                        SignTabVisibility = false;
+                    }
+                    else if (IsFullTabVisible == true)
+                    {
+                        FullTabVisibility = true;
+                        QuickTabVisibility = false;
                         SignTabVisibility = false;
                     }
                 }

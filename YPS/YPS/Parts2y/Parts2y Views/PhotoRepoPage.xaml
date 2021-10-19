@@ -44,24 +44,26 @@
                         </StackLayout>
                     </Grid>
 
-                    <Grid Grid.Row="1"  Margin="0" IsVisible="{Binding UploadViewContentVisible}">
+                    <Grid Grid.Row="1" Margin="0" IsVisible="{Binding UploadViewContentVisible}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="0"/>
-                            <RowDefinition Height="{Binding NoRecHeight}"/>
+                            <!--<RowDefinition Height="0"/>
+                            <RowDefinition Height="{Binding NoRecHeight}"/>-->
                             <RowDefinition Height="{Binding RowHeightOpenCam}"/>
                         </Grid.RowDefinitions>
 
-                        <StackLayout Grid.Row="0" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0" BackgroundColor="#E9E9E9">
+                        <StackLayout Grid.Row="0" IsVisible="{Binding IsPhotosListStackVisible}" Margin="6,0,6,0" 
+                                     BackgroundColor="#E9E9E9">
                             <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="1" 
                                           FlowItemsSource="{Binding RepoPhotosList,Mode=TwoWay}" BackgroundColor="#E9E9E9"
                                           IsVisible="{Binding IsPhotosListVisible}" SeparatorVisibility="None" HasUnevenRows="True" >
                                 <flv:FlowListView.FlowColumnTemplate >
                                     <DataTemplate>
-                                        <Frame Padding="0" Margin="5" HasShadow="False" IsClippedToBounds="True" 
-                                               CornerRadius="2" BackgroundColor="#E9E9E9">
-                                            <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                        <!--<Frame Padding="0" Margin="0,5,0,0" HasShadow="False" IsClippedToBounds="True" 
+                                               CornerRadius="2" BackgroundColor="#E9E9E9">-->
+                                            <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,*" BackgroundColor="#E9E9E9"
+                                                  Margin="5">
                                                 <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="80"/>
@@ -112,8 +114,7 @@
                                                     </Frame>
                                                 </StackLayout>
                                             </Grid>
-
-                                        </Frame>
+                                        <!--</Frame>-->
                                     </DataTemplate>
                                 </flv:FlowListView.FlowColumnTemplate>
                             </flv:FlowListView>
@@ -129,13 +130,13 @@
                                    VerticalOptions="FillAndExpand"/>
                         </ScrollView>
 
-                        <StackLayout Grid.Row="3"  IsEnabled="{Binding IsUploadStackEnable}" IsVisible="{Binding IsUploadStackVisible}"
-                                 VerticalOptions="EndAndExpand" Padding="10" >
+                        <StackLayout Grid.Row="1"  IsEnabled="{Binding IsUploadStackEnable}" IsVisible="{Binding IsUploadStackVisible}"
+                                 VerticalOptions="EndAndExpand" Padding="10">
                             <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
-                                <Grid HeightRequest="80">
+                                <Grid HeightRequest="80" ColumnSpacing="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="0.50*"/>
                                     </Grid.ColumnDefinitions>
                                     <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding DescriptionText,Mode=TwoWay}"
                                                 HeightRequest="70"
@@ -143,12 +144,12 @@
                                                 Style="{StaticResource EditorTextStyle}" VerticalOptions="CenterAndExpand"/>
 
                                     <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
-                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                                                    Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                                        HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                                                        Padding="1,0,1,0">
                                         <sfbuttons:SfButton.Content>
-                                            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Padding="10,10,10,10">
-                                                <Label Text="{Binding labelobj.Upload.Name}" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                            </StackLayout>
+                                            <Label Text="{Binding labelobj.Upload.Name}" Style="{StaticResource SfButtonTextLbl}" 
+                                                   Padding="0"/>
                                         </sfbuttons:SfButton.Content>
                                         <sfbuttons:SfButton.Behaviors>
                                             <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -158,20 +159,14 @@
                             </Frame>
                         </StackLayout>
 
-
-                        <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="4,0,4,0"
-                  Padding="0,0,0,4" HeightRequest="45" IsVisible="{Binding IsBottomButtonsVisible}">
+                        <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="4,0,4,6" 
+                              Padding="0" IsVisible="{Binding IsBottomButtonsVisible}">
 
                             <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Grid.Column="0" Command="{Binding DeleteAllCmd}" 
-                                     Style="{StaticResource SfBtnRed}" BackgroundColor="{Binding BgColor}">
+                                     Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                                 <sfbuttons:SfButton.Content>
-                                    <Grid HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Text="Delete All" Grid.Column="0"
-                                   Style="{StaticResource SfButtonTextLbl}"></Label>
-                                    </Grid>
+                                    <Label Text="Delete All" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -182,12 +177,8 @@
                                     Command="{Binding MoveLinkCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                             IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding LinkOpacity}">
                                 <sfbuttons:SfButton.Content>
-                                    <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Text="{Binding PageNextButton}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                    </Grid>
+                                    <Label Text="{Binding PageNextButton}" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>

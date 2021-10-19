@@ -227,7 +227,7 @@ namespace YPS
         {
             try
             {
-                var lblResult = await service.GetallActionStatusService();
+                var lblResult = await service.GetallActionStatusService(Settings.userLoginID);
 
                 if (lblResult != null && lblResult.data != null)
                 {

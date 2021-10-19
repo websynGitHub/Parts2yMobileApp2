@@ -396,7 +396,7 @@ namespace YPS.RestClientAPI
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
-                YPSLogger.ReportException(ex, "LoadPoDataRestClient method -> in RestClient.cs" + Settings.userLoginID);                return null;
+                YPSLogger.ReportException(ex, "LoadPoDataRestClient method -> in RestClient.cs" + Settings.userLoginID); return null;
             }
         }
 
@@ -1069,11 +1069,12 @@ namespace YPS.RestClientAPI
         /// All action status
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionsForUser> AllActionStatus()
+        public async Task<ActionsForUser> AllActionStatus(int userloginID)
         {
             try
             {
-                return await requestProvider.PostAsync<ActionsForUser>(WebServiceUrl + "Login/GetActionByUserId?UserID=" + Settings.userLoginID.ToString());
+                return await requestProvider.PostAsync<ActionsForUser>(WebServiceUrl + "Login/GetActionByUserId?UserID=" + userloginID.ToString());
+                //return await requestProvider.PostAsync<ActionsForUser>(WebServiceUrl + "Login/GetActionByUserId?UserID=" + Settings.userLoginID.ToString());
             }
             catch (Exception ex)
             {

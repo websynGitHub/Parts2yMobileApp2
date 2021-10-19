@@ -21,7 +21,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 InitializeComponent();
-                BindingContext = Vm = new DashboardViewModel(Navigation);
+                //BindingContext = Vm = new DashboardViewModel(Navigation);
             }
             catch(Exception ex)
             {

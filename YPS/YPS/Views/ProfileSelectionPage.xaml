@@ -289,11 +289,14 @@
                          AbsoluteLayout.LayoutFlags="All" HorizontalOptions="FillAndExpand" VerticalOptions="End"
                          Margin="6,0,6,2">
                 <StackLayout>
-                    <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" AutomationId="AutoSetAsDefault"
-                                        Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Margin="0,0,0,4" Grid.Row="5"
+                    <sfbuttons:SfButton IsVisible="{Binding settingsVisibility}" Margin="0,0,0,4"
                                                 Command="{Binding ICommandSetAsDefault}" Style="{StaticResource SfBtnBlue}"
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Content>
+                            <Label Text="{Binding SetAsDefaultBtn,Mode=TwoWay}" Style="{StaticResource SfButtonTextLbl}"
+                                   Padding="0"/>
+                        </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
                             <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
@@ -303,13 +306,8 @@
                                             HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandUpdate}" 
                                                 Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                         <sfbuttons:SfButton.Content>
-                            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Padding="10,0,10,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"></Label>
-                            </Grid>
+                            <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Style="{StaticResource SfButtonTextLbl}"
+                                   Padding="0"/>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
                             <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>

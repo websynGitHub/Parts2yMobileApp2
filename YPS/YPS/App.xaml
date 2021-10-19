@@ -262,7 +262,7 @@
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                 <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
                 <Setter Property="CornerRadius" Value="4"/>
-                <Setter Property="HeightRequest" Value="43"/>
+                <Setter Property="HeightRequest" Value="48"/>
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="18"/>
             </Style>
@@ -293,10 +293,14 @@
             </Style>
 
             <Style x:Key="SfButtonTextLbl" TargetType="Label">
-                <Setter Property="Padding" Value="3,0,0,0"/>
+                <!--<Setter Property="Padding" Value="3,0,0,0"/>-->
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="18"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="LineBreakMode" Value="WordWrap"/>
+                <Setter Property="Margin" Value="7,0,7,0"/>
             </Style>
 
 

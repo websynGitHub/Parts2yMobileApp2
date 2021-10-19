@@ -696,7 +696,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             potagdata = data[0];
                         }
 
-                        if (uniq.Count() == 0)
+                        if (data == null || data?.Count == 0)
                         {
                             DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
                         }
@@ -710,7 +710,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                if (uniq?.Count() == 1)
+                                if (data?.Count() == 1)
                                 {
                                     PhotoUploadModel selectedTagsData = new PhotoUploadModel();
                                     List<PhotoTag> lstdat = new List<PhotoTag>();
@@ -889,7 +889,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var data = taglist.Where(wr => wr.IsChecked == true).ToList();
                             var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                            if (uniq.Count() == 0)
+                            if (data == null || data.Count() == 0)
                             {
                                 DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload file(s).");
                             }

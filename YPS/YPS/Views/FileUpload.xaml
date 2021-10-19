@@ -36,14 +36,14 @@
                             </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         </LblIcons:FontAwesomeIconLabel>
                     </StackLayout>
-                        
+
                     <StackLayout Grid.Column="1" Grid.Row="0" Margin="8,10,0,15"
                               HorizontalOptions="StartAndExpand" Orientation="Vertical" 
                                         VerticalOptions="StartAndExpand">
                         <Label x:Name="Groupname" Style="{StaticResource LblTitleName}"/>
                         <Label Text="{Binding tagNumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
                     </StackLayout>
-                    
+
                     <LblIcons:FontAwesomeIconLabel Grid.Column="2" Grid.Row="0"  Text="{x:Static StaticIcons:Icons.HomeIc}"
                                                    Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start"
                                                    VerticalOptions="StartAndExpand"  Margin="8,10,0,15">
@@ -65,7 +65,7 @@
                                    TextColor="Gray" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                                    Style="{StaticResource LableWithMediumFont}"/>
                         </StackLayout>
-                        
+
                         <Image Grid.Column="1" IsVisible="{Binding IsFolderVisible}" Source="{Binding AddFolder}" HorizontalOptions="EndAndExpand" HeightRequest="40" WidthRequest="40" Margin="0,0,5,0"/>
 
                         <Image Grid.Column="1" IsVisible="{Binding IsCrossVisible}" Source="{Binding AddCross}" HorizontalOptions="EndAndExpand" HeightRequest="40" WidthRequest="40" Margin="0,0,5,0">
@@ -85,20 +85,20 @@
                     <Grid ColumnSpacing="0" RowSpacing="0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.50*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <LblIcons:MyEditor x:Name="nameDescription" Grid.Column="0" Placeholder="{Binding labelobjFile.description}" 
                                              Text="{Binding FileDescription,Mode=TwoWay}"  Style="{StaticResource EditorTextStyle}"
                                              TextColor="Black" VerticalOptions="CenterAndExpand" MaxLength="500"
                                            HeightRequest="70"/>
 
                         <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}" IsVisible="{Binding HideUploadButton}"
-                                            Style="{StaticResource SfBtnBlue}" Margin="0,0,5,0" BackgroundColor="{Binding BgColor}">
+                                            Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                            Margin="0,0,5,0" HorizontalOptions="End" VerticalOptions="Center">
                             <sfbuttons:SfButton.Content>
-                                <StackLayout Style="{StaticResource StackInSfButton}">
-                                    <Label Text="{Binding labelobjFile.upload}" Style="{StaticResource SfButtonTextLbl}"></Label>
-                                </StackLayout>
+                                <Label Text="{Binding labelobjFile.upload}" Style="{StaticResource SfButtonTextLbl}"
+                                       Padding="0"/>
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -244,7 +244,7 @@
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
                         <Label Grid.Row="2" Grid.Column="2" Text="{Binding EntityName,Mode=TwoWay}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
-                        
+
                         <Label Grid.Row="3" x:Name="nameUploadedDatelbl" Grid.Column="0" 
                                Text="{Binding labelobjFile.uploadeddate}" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
@@ -253,7 +253,7 @@
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
                         <Label Grid.Row="3" Grid.Column="2" Text="{Binding UploadedDate,Mode=TwoWay}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
-                        
+
                         <Label Grid.Row="4" x:Name="nameFileNamelbl" Grid.Column="0"
                                Text="{Binding labelobjFile.filename}" FontAttributes="Bold"
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
@@ -262,7 +262,7 @@
                                Style="{DynamicResource LabelWithSendOTPFont}"/>
                         <Label Grid.Row="4" Grid.Column="2" Text="{Binding FileName}" TextColor="Black"
                                Style="{DynamicResource LableWithSmallFont}"/>
-                       
+
                         <Label x:Name="nameDescriptionlbl" Text="{Binding labelobjFile.descriptionlbl} "
                                           FontAttributes="Bold" Style="{DynamicResource LabelWithSendOTPFont}"
                                            Grid.Row="5" Grid.Column="0"/>
@@ -271,7 +271,7 @@
                         <Label Text="{Binding Description}" TextColor="Black"
                                            Style="{DynamicResource LableWithSmallFont}"
                                            Grid.Row="5" Grid.Column="2"/>
-                       
+
                     </Grid>
                 </Frame>
             </ContentView>
