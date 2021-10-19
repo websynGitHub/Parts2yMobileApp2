@@ -42,13 +42,23 @@ namespace YPS.iOS.Dependencies
                 });
 
                 alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
-                alert.View.BackgroundColor = Settings.Bar_Background.ToUIColor();
-                alert.View.Layer.CornerRadius=18;
+                var firstSubView = alert.View.Subviews[0];
+                var secondSubView = firstSubView.Subviews[0];
+
+                foreach (var allsubview in secondSubView.Subviews)
+                {
+                    allsubview.BackgroundColor = Settings.Bar_Background.ToUIColor();
+                }
+                alert.View.RemoveBackgroundLayer();
+                alert.View.Layer.BackgroundColor = Settings.Bar_Background.ToCGColor();
+                alert.View.Layer.CornerRadius = 18;
+                var txtcolor = new UIStringAttributes { ForegroundColor = UIColor.White, BackgroundColor = UIColor.Green };
+                alert.SetValueForKey(new NSAttributedString(message, txtcolor), new NSString("attributedMessage"));
                 UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "ShowAlert method-> in MessageIOS.cs" + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ShowAlert method -> in MessageIOS.cs" + Settings.userLoginID);
             }
         }
 
