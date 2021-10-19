@@ -27,8 +27,11 @@ namespace YPS.Droid.Dependencies
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     Toast toast = Toast.MakeText(Android.App.Application.Context, message, ToastLength.Short);
+                    var view = toast.View;
                     toast.SetGravity(GravityFlags.Center, 0, 0);
                     toast.View.Background.SetColorFilter(Settings.Bar_Background.ToAndroid(), PorterDuff.Mode.SrcIn);
+                    TextView textview = (TextView)toast.View.FindViewById(Android.Resource.Id.Message);
+                    textview.SetTextColor(Android.Graphics.Color.White);
                     toast.Show();
                 });
             }
