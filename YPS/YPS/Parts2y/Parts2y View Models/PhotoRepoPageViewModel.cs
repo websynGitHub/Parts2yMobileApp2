@@ -355,7 +355,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        RowHeightOpenCam = 50;
+                        RowHeightOpenCam = 53;
                         IsUploadStackVisible = IsImageViewForUploadVisible = false;
                         IsPhotosListStackVisible = true;
 
@@ -702,7 +702,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
-        private int _RowHeightOpenCam = 50;
+        private int _RowHeightOpenCam = 53;
         public int RowHeightOpenCam
         {
             get => _RowHeightOpenCam;
