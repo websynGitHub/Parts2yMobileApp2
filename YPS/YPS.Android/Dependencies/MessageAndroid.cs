@@ -31,6 +31,7 @@ namespace YPS.Droid.Dependencies
                     toast.SetGravity(GravityFlags.Center, 0, 0);
                     toast.View.Background.SetColorFilter(Settings.Bar_Background.ToAndroid(), PorterDuff.Mode.SrcIn);
                     TextView textview = (TextView)toast.View.FindViewById(Android.Resource.Id.Message);
+                    textview.SetTypeface(null, TypefaceStyle.Bold);
                     textview.SetTextColor(Android.Graphics.Color.White);
                     toast.Show();
                 });

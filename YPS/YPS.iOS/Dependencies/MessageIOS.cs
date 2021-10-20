@@ -52,7 +52,7 @@ namespace YPS.iOS.Dependencies
                 alert.View.RemoveBackgroundLayer();
                 alert.View.Layer.BackgroundColor = Settings.Bar_Background.ToCGColor();
                 alert.View.Layer.CornerRadius = 18;
-                var txtcolor = new UIStringAttributes { ForegroundColor = UIColor.White };
+                var txtcolor = new UIStringAttributes { ForegroundColor = UIColor.White,Font=UIFont.BoldSystemFontOfSize(17)};
                 alert.SetValueForKey(new NSAttributedString(message, txtcolor), new NSString("attributedMessage"));
                 UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
             }
