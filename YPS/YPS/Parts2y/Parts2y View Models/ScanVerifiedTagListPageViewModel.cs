@@ -169,7 +169,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 #region PhotoUpload
                                 if (podata.IsPhotoRequired == 0)
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
                                 }
                                 else
                                 {
@@ -455,6 +455,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        public string _VinsOrParts = Settings.VersionID == 2 ? "VIN(s)" : "part(s)";
+        public string VinsOrParts
+        {
+            get => _VinsOrParts;
+            set
+            {
+                _VinsOrParts = value;
+                RaisePropertyChanged("VinsOrParts");
+            }
+        }
 
         //private string _PhotoInspText { set; get; }
         //public string PhotoInspText

@@ -403,7 +403,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 #region PhotoUpload
                                 if (podata.cameImage == "cross.png")
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
                                 }
                                 else
                                 {
@@ -482,6 +482,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+        public string _VinsOrParts = Settings.VersionID == 2 ? "VIN(s)" : "part(s)";
+        public string VinsOrParts
+        {
+            get => _VinsOrParts;
+            set
+            {
+                _VinsOrParts = value;
+                RaisePropertyChanged("VinsOrParts");
+            }
+        }
+
         public bool _IsAssignMsgVisible;
         public bool IsAssignMsgVisible
         {

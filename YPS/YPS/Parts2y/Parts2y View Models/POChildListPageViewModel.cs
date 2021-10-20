@@ -698,15 +698,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (data == null || data?.Count == 0)
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload photo(s).");
                         }
                         else
                         {
-                            var restricData = data.Where(r => r.cameImage == "cross.png").ToList();
+                            var restricData = data.Where(r => r.IsPhotoRequired == 0).ToList();
 
                             if (restricData.Count > 0)
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected tag(s).");
+                                DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
                             }
                             else
                             {
@@ -752,7 +753,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected tag(s).");
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected " + VinsOrParts + ".");
                                     }
                                     else
                                     {
@@ -813,7 +814,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (uniq.Count() == 0)
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start conversation.");
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start conversation.");
                         }
                         else
                         {
@@ -891,7 +892,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (data == null || data.Count() == 0)
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload file(s).");
+                                DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload file(s).");
                             }
                             else
                             {
@@ -931,7 +932,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected tag(s).");
+                                    DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected " + VinsOrParts + ".");
                                 }
                                 else
                                 {
@@ -986,11 +987,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Some of the tag(s) are already marked as done.");
+                        DependencyService.Get<IToastMessage>().ShortAlert("Some of the " + VinsOrParts + " are already marked as done.");
                     }
                     else if (selectedTagData.Count() == 0)
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to mark as done.");
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to mark as done.");
                     }
                     else
                     {
@@ -1084,7 +1085,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (uniq?.Count() == 0)
                     {
                         //Please select tag(s) to download the report
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s).");
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + ".");
                     }
                     else
                     {
@@ -1425,6 +1426,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public string _VinsOrParts = Settings.VersionID == 2 ? "VIN(s)" : "part(s)";
+        public string VinsOrParts
+        {
+            get => _VinsOrParts;
+            set
+            {
+                _VinsOrParts = value;
+                RaisePropertyChanged("VinsOrParts");
+            }
+        }
 
         public string _SelectedPartsNo = "Record(s) selected";
         public string SelectedPartsNo
