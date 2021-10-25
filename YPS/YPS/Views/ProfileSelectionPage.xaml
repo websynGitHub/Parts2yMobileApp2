@@ -19,6 +19,34 @@
                 <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
                 <Setter Property="Margin" Value="0,2,0,0"/>
             </Style>
+
+            <Style x:Key="closeButton" TargetType="Button">
+                <Setter Property="Text" Value="UPLOAD"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BackgroundColor" Value="#269DC9"/>
+                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="Padding" Value="{OnPlatform iOS='10,0,10,0',Android=0}"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style x:Key="LabelStyleInDropDown" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="LineBreakMode" Value="TailTruncation"/>
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style x:Key="DropDownImg" TargetType="Image">
+                <Setter Property="Source" Value="dropdownarrow.png"/>
+                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HeightRequest" Value="17"/>
+                <Setter Property="WidthRequest" Value="16"/>
+                <Setter Property="Margin" Value="0,0,2,0"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -245,7 +273,7 @@
                                     <StackLayout Orientation="Horizontal" x:Name="TimeZoneLabel">
                                         <Label Style="{StaticResource LabelStyleInDropDown}" 
                                                    Text="{Binding TimeZoneTextDisplay,Mode=TwoWay}"
-                                           Margin="12,0,0,0" />
+                                           Margin="12,0,0,0"/>
 
                                         <Image Style="{StaticResource DropDownImg}"/>
                                         <StackLayout.GestureRecognizers>
@@ -333,7 +361,7 @@
                         </Frame>
                         <Button Grid.Row="0" Grid.Column="1" Text="Close" WidthRequest="80"
                                 BackgroundColor="Transparent" TextColor="Red" Clicked="TimeZoneClosePopUp"
-                                VerticalOptions="CenterAndExpand" Style="{StaticResource uploadBtn}"/>
+                                VerticalOptions="CenterAndExpand" Style="{StaticResource closeButton}"/>
                     </Grid>
                     <ListView x:Name="ListViewTimeZ" ItemsSource="{Binding TimeZone,Mode=TwoWay}" ItemTapped="ListView_ItemTapped" 
                               Margin="5">
