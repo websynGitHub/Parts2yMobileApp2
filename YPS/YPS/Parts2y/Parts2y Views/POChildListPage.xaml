@@ -9,7 +9,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-
             <Style TargetType="Grid">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
@@ -29,6 +28,12 @@
                 <Setter Property="HeightRequest" Value="3"/>
                 <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
                 <Setter Property="Margin" Value="0,2,0,0"/>
+            </Style>
+
+            <Style x:Key="ButtonNavigationBarStackLayoutStyle" TargetType="StackLayout">
+                <Setter Property="VerticalOptions" Value="EndAndExpand" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Spacing" Value="0"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>

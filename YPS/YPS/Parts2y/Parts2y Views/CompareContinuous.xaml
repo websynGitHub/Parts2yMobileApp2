@@ -329,24 +329,6 @@
                             <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                         </sfbuttons:SfButton.Behaviors>
                     </sfbuttons:SfButton>
-                    <!--<Button x:Name="clearhistory" Text="Reset" Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory"
-                                Grid.Column="0">
-                        <Button.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
-                        </Button.Behaviors>
-                    </Button>
-
-                    <Button Text="View" Style="{StaticResource tabAsButtonStyle}"  CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory"
-                                Grid.Column="1">
-
-                        <Button.Behaviors>
-                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
-                        </Button.Behaviors>
-                    </Button>-->
                 </Grid>
             </Grid>
 
@@ -364,18 +346,6 @@
                         <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                     </sfbuttons:SfButton.Behaviors>
                 </sfbuttons:SfButton>
-
-                <!--<Button Text="Save" Clicked="SaveClick" Margin="6,0,6,4"
-                                                Style="{StaticResource tabAsButtonStyle}" CornerRadius="4"
-                                                HeightRequest="43"  BackgroundColor="{Binding BgColor}"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                                               >
-
-                    <Button.Behaviors>
-                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
-                    </Button.Behaviors>
-                </Button>-->
-
             </ContentView>
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
