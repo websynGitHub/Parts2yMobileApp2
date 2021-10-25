@@ -38,7 +38,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetMobileBuildsData constructor-> in MobileBuildsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "MobileBuildsViewModel constructor-> in MobileBuildsViewModel.cs " + Settings.userLoginID);
                 yPSService.Handleexception(ex);
             }
         }
@@ -63,7 +63,7 @@ namespace YPS.ViewModel
                     /// Calling mobile builds API to get data.
                     var mobileData = await yPSService.GetMobileBuilds(buildsModel);
 
-                    if (mobileData.status != 0)
+                    if (mobileData?.status == 1)
                     {
                         foreach (var items in mobileData.data)
                         {
@@ -110,7 +110,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "GetMobileBuildsData method-> in MobileBuildsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "GetMobileBuildsData method-> in MobileBuildsViewModel.cs " + Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
             finally
@@ -142,7 +142,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DescriptionClick method-> in MobileBuildsViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DescriptionClick method-> in MobileBuildsViewModel.cs " + Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
             finally
@@ -158,7 +158,7 @@ namespace YPS.ViewModel
         private async void DownloadFileClick(object sender)
         {
             IndicatorVisibility = true;
-            YPSLogger.TrackEvent("MobileBuildsViewModel", "in DownloadFileClick method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+            YPSLogger.TrackEvent("MobileBuildsViewModel.cs ", "in DownloadFileClick method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
@@ -198,7 +198,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DownloadFileClick method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DownloadFileClick method-> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
             finally
@@ -254,7 +254,7 @@ namespace YPS.ViewModel
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnFileDownloaded method-> in FileUploadViewModel " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnFileDownloaded method-> in FileUploadViewModel.cs " + Settings.userLoginID);
                 await yPSService.Handleexception(ex);
             }
             finally

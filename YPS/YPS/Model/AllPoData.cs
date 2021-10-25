@@ -95,6 +95,20 @@ namespace YPS.Model
             }
         }
 
+        private double _PhotoInspLabelOpacity { set; get; } = 1.0;
+        public double PhotoInspLabelOpacity
+        {
+            get
+            {
+                return _PhotoInspLabelOpacity;
+            }
+            set
+            {
+                this._PhotoInspLabelOpacity = value;
+                RaisePropertyChanged("PhotoInspLabelOpacity");
+            }
+        }
+
         private bool _IsIconVisible { set; get; } = true;
         public bool IsIconVisible
         {

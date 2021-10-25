@@ -73,8 +73,6 @@ namespace YPS.ViewModel
 
                 isuploadcompleted = select_items != null ? select_items.isCompleted : allPo_Data.photoTickVisible;
 
-                bool val = App.Current.MainPage.Navigation.NavigationStack.Contains(new ScanVerifiedTagListPage(null, 0)) == true ? false : true;
-
                 if (SelectionType.Trim().ToLower() == "initialphoto")
                 {
                     Select_Items = select_items;

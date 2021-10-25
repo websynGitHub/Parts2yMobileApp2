@@ -6,7 +6,6 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
               xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
-             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="YPS.App">
 
     <Application.Resources>
@@ -28,18 +27,6 @@
             </Style>
             <!--Font Aswesome Style End-->
 
-            <!--Style for Toolbar navigations start-->
-            <Style TargetType="Grid" x:Key="ToolbarNavGrid">
-                <Setter Property="BackgroundColor" Value="Black"/>
-                <Setter Property="Padding" Value="{OnPlatform Android='0,0,0,0',iOS='0,17,0,0'}"/>
-                <Setter Property="RowSpacing" Value="0"/>
-                <Setter Property="Padding" Value="0,48,0,0"/>
-                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
-            </Style>
-            <Style TargetType="Button" x:Key="BackNavBtn">
-                <Setter Property="Image" Value="backIc.png"/>
-                <Setter Property="BackgroundColor" Value="Black"/>
-            </Style>
             <Style TargetType="Label" x:Key="LblTitleName">
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="FontSize" Value="Medium"/>
@@ -48,11 +35,11 @@
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="19"/>
             </Style>
+
             <Style TargetType="Label" x:Key="LblSubTitle" 
                    BasedOn="{StaticResource LblTitleName}">
                 <Setter Property="FontSize" Value="14"/>
             </Style>
-            <!--Tollbar navigation end-->
 
             <!--Style for Activity Indicator start-->
             <Style TargetType="Frame" x:Key="FmForActivityIndicator">
@@ -64,6 +51,7 @@
                 <Setter Property="WidthRequest" Value="110"/>
                 <Setter Property="BackgroundColor" Value="#80000000"/>
             </Style>
+
             <Style TargetType="ActivityIndicator" x:Key="ActivityIndicatorStyle">
                 <Setter Property="IsRunning" Value="True"/>
                 <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
@@ -72,6 +60,7 @@
                 <Setter Property="WidthRequest" Value="30"/>
                 <Setter Property="HeightRequest" Value="30"/>
             </Style>
+
             <Style TargetType="Label" x:Key="ActivityIndicatorLbl">
                 <Setter Property="Text" Value="Loading..."/>
                 <Setter Property="TextColor" Value="White"/>
@@ -79,121 +68,12 @@
             </Style>
             <!--Activity Indicator end-->
 
-            <!--Style for file upload listView controls (Frame,Image,StackLayout start)-->
-            <Style TargetType="Frame" x:Key="ListVFrame">
-                <Setter Property="Padding" Value="4"/>
-                <Setter Property="HasShadow" Value="False"/>
-                <Setter Property="CornerRadius" Value="2"/>
-            </Style>
-            <Style TargetType="Image" x:Key="TypesOfImg">
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                <Setter Property="Aspect" Value="AspectFill"/>
-            </Style>
-            <Style TargetType="StackLayout" x:Key="ListVStackFooter">
-                <Setter Property="Padding" Value="6,0,6,2"/>
-                <Setter Property="VerticalOptions" Value="EndAndExpand"/>
-                <Setter Property="Orientation" Value="Horizontal"/>
-            </Style>
-            <!--Style for File upload ListView controls end-->
-
-            <!--For date display style-->
-            <Style x:Key="dateLabelStyle" TargetType="Label">
-                <Setter Property="HorizontalTextAlignment" Value="Start" />
-                <Setter Property="VerticalTextAlignment" Value="Center" />
-                <Setter Property="TextColor" Value="Black" />
-                <Setter Property="FontSize" Value="15" />
-                <Setter Property="Margin" Value="10,0,0,0"/>
-            </Style>
-
             <!--Button NavigationBar StackLayout Style-->
-            <Style x:Key="ButtonNavigationBarStackLayoutStyle" TargetType="StackLayout">
-                <Setter Property="VerticalOptions" Value="EndAndExpand" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="Spacing" Value="0"/>
-            </Style>
-            <!--Button NavigationBar Label Style-->
-            <Style x:Key="ButtonNavigationBarLabelStyle" TargetType="Label">
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="FontSize" Value="10"/>
-            </Style>
-            <!-- Bottom NavigationBar Image Style-->
-            <Style x:Key="ButtonNavigationBarImageStyle" TargetType="Image">
-                <Setter Property="WidthRequest" Value="30" />
-                <Setter Property="HeightRequest" Value="30" />
-            </Style>
-
-            <!-- Filter Tabs Styles -->
-            <Style x:Key="filterTabStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="15"/>
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-            </Style>
-
-            <Style x:Key="MenuStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="HorizontalTextAlignment" Value="Start"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="LineBreakMode" Value="TailTruncation"/>
-                <Setter Property="FontSize" Value="16"/>
-            </Style>
-
-            <Style x:Key="FrameStyleForEntry" TargetType="Frame">
-                <Setter Property="Padding" Value="5,1,5,1"/>
-                <Setter Property="CornerRadius" Value="7"/>
-                <Setter Property="HasShadow" Value="False"/>
-                <Setter Property="BorderColor" Value="Gray"/>
-                <Setter Property="HeightRequest" Value="45"/>
-            </Style>
 
             <Style TargetType="BoxView" x:Key="StyleBoxView">
                 <Setter Property="HeightRequest" Value="3"/>
                 <Setter Property="BackgroundColor" Value="#269DC9"/>
                 <Setter Property="Margin" Value="{OnPlatform Android='0,2,0,0',iOS='0,6,0,0'}"/>
-            </Style>
-            <Style x:Key="CalendarImg" TargetType="Image">
-                <Setter Property="Source" Value="calendarIc.png"/>
-                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="HeightRequest" Value="30"/>
-                <Setter Property="WidthRequest" Value="30"/>
-                <Setter Property="Margin" Value="0,0,10,0"/>
-            </Style>
-
-            <Style x:Key="TimeImg" TargetType="Image">
-                <Setter Property="Source" Value="TimerIc.png"/>
-                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="HeightRequest" Value="30"/>
-                <Setter Property="WidthRequest" Value="30"/>
-                <Setter Property="Margin" Value="0,0,10,0"/>
-            </Style>
-
-            <Style x:Key="LabelStyleForPicker" TargetType="Label">
-                <Setter Property="Text" Value="Select"/>
-                <Setter Property="FontSize" Value="Medium"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="Margin" Value="5,0,0,0"/>
-            </Style>
-
-            <Style x:Key="ArrowImgForPicker" TargetType="Image">
-                <Setter Property="Source" Value="downarrow.png"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
-                <Setter Property="HeightRequest" Value="20"/>
-                <Setter Property="WidthRequest" Value="20"/>
-                <Setter Property="Margin" Value="0,0,20,0"/>
-            </Style>
-
-            <Style x:Key="LblStyleAttachmentName" TargetType="Label">
-                <Setter Property="FontSize" Value="Default"/>
-                <Setter Property="LineBreakMode" Value="TailTruncation"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
             </Style>
 
             <Style x:Key="LabelStyle" TargetType="Label">
@@ -214,48 +94,7 @@
                 <Setter Property="TextColor" Value="Black"/>
             </Style>
 
-            <!--Style for upload button Frame-->
-            <Style x:Key="FrameStyleForFileUpload" TargetType="Frame">
-                <Setter Property="Padding" Value="{OnPlatform iOS='5,1,3,1',Android='5,3,3,3'}"/>
-                <Setter Property="CornerRadius" Value="4"/>
-                <Setter Property="HasShadow" Value="False"/>
-                <Setter Property="BorderColor" Value="Gray"/>
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="Margin" Value="5,0,5,0"/>
-            </Style>
-            <Style x:Key="uploadBtn" TargetType="Button">
-                <Setter Property="Text" Value="UPLOAD"/>
-                <Setter Property="TextColor" Value="White"/>
-                <Setter Property="BackgroundColor" Value="#269DC9"/>
-                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="Padding" Value="{OnPlatform iOS='10,0,10,0',Android=0}"/>
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-            </Style>
-
-            <Style x:Key="tabAsButtonStyle" TargetType="Button">
-                <Setter Property="TextColor" Value="White"/>
-                <Setter Property="BackgroundColor" Value="#269DC9"/>
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-            </Style>
-
-
             <!--Sf related styles Start-->
-
-            <Style x:Key="SfCheckBoxTextStyle" TargetType="sfbuttons:SfCheckBox">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-                <Setter Property="TextColor" Value="Black"/>
-            </Style>
-
-            <Style x:Key="SfRadioButtonTextStyle" TargetType="sfbuttons:SfRadioButton">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-                <Setter Property="TextColor" Value="Black"/>
-            </Style>
-
             <Style x:Key="SfBtnBlue" TargetType="sfbuttons:SfButton">
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="BackgroundColor" Value="#269DC9"/>
@@ -265,31 +104,6 @@
                 <Setter Property="HeightRequest" Value="48"/>
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="18"/>
-            </Style>
-
-            <Style x:Key="SfBtnRed" TargetType="sfbuttons:SfButton">
-                <Setter Property="TextColor" Value="White"/>
-                <Setter Property="BackgroundColor" Value="#E46E5B"/>
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="CornerRadius" Value="4"/>
-                <Setter Property="HeightRequest" Value="42"/>
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-            </Style>
-
-            <Style x:Key="StackInSfButton" TargetType="StackLayout">
-                <Setter Property="Orientation" Value="Horizontal"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                <Setter Property="Padding" Value="10,0,10,0"/>
-            </Style>
-
-            <Style x:Key="FontAwsmLblSfbutton" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="TextColor" Value="White"/>
-                <Setter Property="FontSize" Value="Medium"/>
             </Style>
 
             <Style x:Key="SfButtonTextLbl" TargetType="Label">
@@ -303,54 +117,20 @@
                 <Setter Property="Margin" Value="7,0,7,0"/>
             </Style>
 
-
             <Style x:Key="SfInputLayout" TargetType="sfInputlayout:SfTextInputLayout">
                 <Setter Property="FocusedColor" Value="{Binding BgColor}"/>
                 <Setter Property="OutlineCornerRadius" Value="7"/>
                 <Setter Property="ContainerType" Value="Outlined"/>
                 <Setter Property="Padding" Value="0,1,0,1"/>
                 <Setter Property="ErrorLabelStyle" Value="{DynamicResource LableWithLargeFont}"/>
-
             </Style>
 
             <Style x:Key="SfComboBoxTextStyle" TargetType="combobox:SfComboBox">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-            </Style>
-
-            <Style x:Key="LabelStyleInDropDown" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}"/>
                 <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="LineBreakMode" Value="TailTruncation"/>
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-            </Style>
-
-            <Style x:Key="XamarinPickerTextStyle" TargetType="Picker">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="FontSize" Value="18"/>
-            </Style>
-
-            <Style x:Key="FALabelStyleInDropDown" TargetType="Label">
-                <Setter Property="FontSize" Value="Large"/>
-                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="LineBreakMode" Value="TailTruncation"/>
-                <Setter Property="HeightRequest" Value="30"/>
-                <Setter Property="WidthRequest" Value="17"/>
-                <Setter Property="TextColor" Value="Gray"/>
-            </Style>
-
-            <Style x:Key="DropDownImg" TargetType="Image">
-                <Setter Property="Source" Value="dropdownarrow.png"/>
-                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                <Setter Property="HeightRequest" Value="17"/>
-                <Setter Property="WidthRequest" Value="16"/>
-                <Setter Property="Margin" Value="0,0,2,0"/>
+                <Setter Property="TextSize" Value="18"/>
             </Style>
             <!--Sf related styles End-->
-
-
 
             <!--Parts2y Start-->
             <Style TargetType="ContentView" x:Key="PopUpContentView">
@@ -365,14 +145,6 @@
                 <Setter Property="VerticalOptions" Value="FillAndExpand"/>
                 <Setter Property="Padding" Value="0,48,0,0"/>
                 <Setter Property="RowSpacing" Value="5"/>
-            </Style>
-
-            <Style TargetType="Grid" x:Key="HeaderMainGridRowSpacingZero">
-                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
-                <Setter Property="Padding" Value="0,48,0,0"/>
-                <Setter Property="RowSpacing" Value="0"/>
             </Style>
 
             <Style TargetType="Label" x:Key="LableWithSmallFont">
@@ -390,15 +162,11 @@
                 <Setter Property="FontSize" Value="16"/>
             </Style>
 
-            <Style TargetType="Label" x:Key="LabelWithSendOTPFontBold">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
-                <Setter Property="FontSize" Value="16"/>
-            </Style>
-
             <Style TargetType="Label" x:Key="LableWithMicroFont">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="11"/>
             </Style>
+
             <Style TargetType="Label" x:Key="LableWithMediumFont">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="19"/>
@@ -414,38 +182,10 @@
                 <Setter Property="FontSize" Value="19"/>
             </Style>
 
-
-            <Style TargetType="Label" x:Key="LableWithQuestionFontBold">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
-                <Setter Property="FontSize" Value="19"/>
-            </Style>
-
             <Style TargetType="Label" x:Key="LabelWithBusnoFontBold">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
                 <Setter Property="FontSize" Value="25"/>
             </Style>
-
-            <Style TargetType="Label" x:Key="LableWithBoldMediumFont">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
-                <Setter Property="FontSize" Value="18"/>
-            </Style>
-
-            <Style TargetType="input:RadioButton" x:Key="RadioButtonWithOptions">
-                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
-                <Setter Property="TextFontSize" Value="19"/>
-            </Style>
-
-            <Style TargetType="Button" x:Key="ButtonWithFont">
-                <Setter Property="FontFamily" Value="{DynamicResource RobotoRegular}" />
-                <Setter Property="BorderRadius" Value="5" />
-                <Setter Property="FontSize" Value="17" />
-            </Style>
-
-            <OnPlatform x:Key="LatoLight"
-      x:TypeArguments="x:String"
-      iOS="Lato-Light"
-      Android="Lato-Light.ttf#Lato-Light"
-      WinPhone="Assets/Fonts/Lato-Light.ttf#Lato-Light"/>
 
             <OnPlatform x:Key="LatoBold"
       x:TypeArguments="x:String"
