@@ -61,7 +61,7 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    await Navigation.PopAsync(false);
+                    Navigation.PopToRootAsync(false);
                 }
             }
             catch (Exception ex)
