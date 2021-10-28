@@ -277,7 +277,7 @@ namespace YPS.ViewModel
                         Settings.IsFilterreset = true;
                         FilterName = string.Empty;
 
-                        await Navigation.PopAsync();
+                        await Navigation.PopAsync(false);
                     }
                     else
                     {

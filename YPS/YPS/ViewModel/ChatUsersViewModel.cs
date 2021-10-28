@@ -30,6 +30,7 @@ namespace YPS.ViewModel
         #endregion
 
         #region Declaring Data Members
+        INavigation Navigation;
         YPSService service;
         bool checkInternet; public bool adduser = true, removeuser = true, CheckStack;
         #endregion
@@ -40,12 +41,14 @@ namespace YPS.ViewModel
         /// <param name="poid"></param>
         /// <param name="qaid"></param>
         /// <param name="checkstack"></param>
-        public ChatUsersViewModel(int? poId, int? qaId, bool checkStack, string chatTitle)
+        public ChatUsersViewModel(INavigation _Navigation, int? poId, int? qaId, bool checkStack, string chatTitle)
         {
             YPSLogger.TrackEvent("ChatUsersViewModel", " constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
             try
             {
+                Navigation = _Navigation;
+
                 CheckStack = checkStack;
 
                 #region Binnding the events to ICommand & creating new instance for data members
@@ -58,7 +61,7 @@ namespace YPS.ViewModel
                 GroupName = chatTitle;
                 #endregion
 
-                Task.Run(() => DynamicTextChange()).Wait();
+                DynamicTextChange();
                 GetChatUser(poId, qaId, Settings.QAType);// Get the users in the chat
 
                 if (checkStack == true)
@@ -335,8 +338,8 @@ namespace YPS.ViewModel
                         else
                         {
                             await App.Current.MainPage.DisplayAlert("Chat", "No users avaliable to start chat.", "OK");
-                            App.Current.MainPage = new MenuPage(typeof(HomePage));
-
+                            await Navigation.PopToRootAsync(false);
+                            //App.Current.MainPage = new MenuPage(typeof(HomePage));
                         }
                     }
                     else

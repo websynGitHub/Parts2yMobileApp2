@@ -159,7 +159,7 @@ namespace YPS.Views
                     Settings.GetParamVal = "test;" + (e.Item as NotifyHistory).POID.ToString() + ";" + tgs + ";" + Settings.userLoginID + ";" +
                     (e.Item as NotifyHistory).QAID + ";" + (e.Item as NotifyHistory).Status + ";" + Settings.userRoleID + ";" + (e.Item as NotifyHistory).QATitle + ";" + (e.Item as NotifyHistory).QAType;
                     Settings.IsChatBackButtonVisible = true;
-                    Navigation.PushAsync(new ChatPage());
+                    Navigation.PushAsync(new ChatPage(), false);
                 }
                 else
                 {
@@ -185,7 +185,7 @@ namespace YPS.Views
                 Settings.IsChatBackButtonVisible = true;
                 BindingContext = vm = new NotificationViewModel(Navigation, this);
                 vm.loadingindicator = true;
-                Navigation.PushAsync(new ChatPage());
+                Navigation.PushAsync(new ChatPage(), false);
                 Settings.GetParamVal = string.Empty;
 
             }

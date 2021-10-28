@@ -85,7 +85,7 @@ namespace YPS.Views
                 DependencyService.Get<ISQLite>().deleteReadCountNmsg(qaId);
                 CheckUserAndOS();
 
-                Task.Run(() => ShowHideActions()).Wait();
+                ShowHideActions();
             }
             catch (Exception ex)
             {
@@ -317,7 +317,7 @@ namespace YPS.Views
                         if (Navigation.NavigationStack.Count == 1 ||
                                      Navigation.NavigationStack.Last().GetType() != typeof(FileView))
                         {
-                            await Navigation.PushAsync(new FileView(items, vm.photoList, chatTitle, chatTags));
+                            await Navigation.PushAsync(new FileView(items, vm.photoList, chatTitle, chatTags), false);
                         }
                     }
                     else if (items.MessageType.Trim().ToLower() == "pdf")
@@ -325,7 +325,7 @@ namespace YPS.Views
                         if (Navigation.NavigationStack.Count == 1 ||
                                     Navigation.NavigationStack.Last().GetType() != typeof(FileView))
                         {
-                            await Navigation.PushAsync(new FileView(items.Image));
+                            await Navigation.PushAsync(new FileView(items.Image), false);
                         }
                     }
                 }
@@ -370,7 +370,7 @@ namespace YPS.Views
             try
             {
                 Settings.HeaderTitle = "Add/Remove user(s)";
-                await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, true));
+                await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, true), false);
             }
             catch (Exception ex)
             {
@@ -391,7 +391,7 @@ namespace YPS.Views
             try
             {
                 Settings.HeaderTitle = "Close QA";
-                await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, false));
+                await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, false), false);
             }
             catch (Exception ex)
             {
@@ -405,11 +405,12 @@ namespace YPS.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GoToHomeTapped(object sender, EventArgs e)
+        private async void GoToHomeTapped(object sender, EventArgs e)
         {
             try
             {
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
@@ -458,13 +459,13 @@ namespace YPS.Views
             {
                 if (Settings.RedirectPageQA.Trim().ToLower() == "qnalistpage")
                 {
-                    Navigation.PopAsync();
+                    Navigation.PopAsync(false);
                     Settings.RedirectPageQA = "";
                 }
                 else
                 {
                     Settings.RedirectPagefirsttime = "NewAdded";
-                    Navigation.PopAsync();
+                    Navigation.PopAsync(false);
                 }
             }
             catch (Exception ex)

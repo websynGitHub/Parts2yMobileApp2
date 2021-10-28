@@ -149,7 +149,7 @@ namespace YPS.Views
                         if (Navigation.NavigationStack.Count == 1 ||
                                          Navigation.NavigationStack.Last().GetType() != typeof(ChatPage))//allowing to navigate only for single click
                         {
-                            await Navigation.PushAsync(new ChatPage(d.QAID, d.POID, d.TagNumbers, d.Title, d.tags, d.Status));
+                            await Navigation.PushAsync(new ChatPage(d.QAID, d.POID, d.TagNumbers, d.Title, d.tags, d.Status), false);
                         }
                     }
                 }
@@ -218,7 +218,7 @@ namespace YPS.Views
         {
             try
             {
-                Navigation.PopAsync();
+                Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {

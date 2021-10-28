@@ -131,7 +131,7 @@ namespace YPS.Views
                     Settings.TaskID = 0;
                 }
 
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {

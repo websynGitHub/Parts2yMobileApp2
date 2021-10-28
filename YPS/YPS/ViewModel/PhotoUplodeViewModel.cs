@@ -244,8 +244,8 @@ namespace YPS.ViewModel
         {
             try
             {
-                //await Navigation.PopAsync(true);
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
@@ -287,7 +287,7 @@ namespace YPS.ViewModel
                             items.ShowAndHideDescr = true;
                         }
                     }
-                    await Navigation.PushAsync(new ImageView(imageLists, photoid, Tagnumbers));
+                    await Navigation.PushAsync(new ImageView(imageLists, photoid, Tagnumbers), false);
                 }
             }
             catch (Exception ex)
@@ -795,7 +795,7 @@ namespace YPS.ViewModel
                                     DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     break;
                             }
-                            await Navigation.PopAsync(true);
+                            await Navigation.PopAsync(false);
                         }
                     }
                     else
@@ -838,11 +838,11 @@ namespace YPS.ViewModel
                 {
                     if (selectiontype_index == 0 && puid == 0)
                     {
-                        await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null));
+                        await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null), false);
                     }
                     else
                     {
-                        await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData));
+                        await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData), false);
                     }
                 }
             }
@@ -1064,23 +1064,23 @@ namespace YPS.ViewModel
                 {
                     if (Settings.VersionID == 1)
                     {
-                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(SelectedTagData, isAllDone));
+                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
                     }
                     else if (Settings.VersionID == 2)
                     {
-                        await Navigation.PushAsync(new CVinInspectQuestionsPage(SelectedTagData, isAllDone));
+                        await Navigation.PushAsync(new CVinInspectQuestionsPage(SelectedTagData, isAllDone), false);
                     }
                     else if (Settings.VersionID == 3)
                     {
-                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(SelectedTagData, isAllDone));
+                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
                     }
                     else if (Settings.VersionID == 4)
                     {
-                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(SelectedTagData, isAllDone));
+                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(SelectedTagData, isAllDone), false);
                     }
                     else if (Settings.VersionID == 5)
                     {
-                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(SelectedTagData, isAllDone));
+                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
                     }
                 }
                 else

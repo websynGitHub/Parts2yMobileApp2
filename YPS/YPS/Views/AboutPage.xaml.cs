@@ -50,7 +50,7 @@ namespace YPS.Views
         {
             try
             {
-                Navigation.PopModalAsync();
+                Navigation.PopToRootAsync(false);
             }
             catch (Exception ex)
             {

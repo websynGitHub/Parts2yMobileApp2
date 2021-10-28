@@ -49,6 +49,7 @@ namespace YPS.ViewModel
                 ICommandSetAsDefault = new Command(async () => await SetAsDefaultClick(pagetype));
                 ICommandProfile = new Command(async () => await UpdateProfileClick());
                 ICommandSettings = new Command(async () => await DefaultSettingsClick());
+                ICommandUpdate = new Command(async () => await UpdateClick());
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
 
                 profileBgColor = Color.LightBlue;
@@ -56,11 +57,10 @@ namespace YPS.ViewModel
                 settingsVisibility = settingbox = true;
                 profileVisibility = profilebox = false;
 
-                ICommandUpdate = new Command(async () => await UpdateClick());
-                GetProfileData();
-                GetDefaultSettingsData();
+                Task.Run(() => GetProfileData()).Wait();
+                Task.Run(() => GetDefaultSettingsData()).Wait();
 
-                Task.Run(() => GetSettingsData());
+                Task.Run(() => GetSettingsData()).Wait();
             }
             catch (Exception ex)
             {
@@ -76,11 +76,11 @@ namespace YPS.ViewModel
             {
                 if (Navigation.ModalStack.Count > 0)
                 {
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopModalAsync(false);
                 }
                 else
                 {
-                    await Navigation.PopAsync();
+                    await Navigation.PopAsync(false);
                 }
             }
             catch (Exception ex)
@@ -289,8 +289,7 @@ namespace YPS.ViewModel
                                         Settings.Bar_Background = Color.FromHex(val.data?.VersionColorCode != null ? val.data.VersionColorCode : "#269DC9");
                                         Settings.VersionID = val.data.VersionID;
                                     }
-
-                                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                    Navigation.PopToRootAsync(false);
                                 }
                             }
                         }
@@ -553,12 +552,9 @@ namespace YPS.ViewModel
                                 //Upadating user login id in local database.
                                 rememberPwd.UpdatePWd(UpdateDb, Settings.userLoginID);
 
-                                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                                Navigation.PopToRootAsync(false);
                             }
-                            else
-                            {
-                                //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
-                            }
+                            
                         }
                     }
                 }

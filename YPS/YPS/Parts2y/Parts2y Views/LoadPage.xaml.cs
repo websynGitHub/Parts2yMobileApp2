@@ -66,7 +66,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -86,19 +86,28 @@ namespace YPS.Parts2y.Parts2y_Views
                     tagtaskstatus.TaskStatus = 2;
                     tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                    var result = await service.UpdateTaskStatus(tagtaskstatus);
+                    var checkInternet = await App.CheckInterNetConnection();
 
-                    if (result.status == 1)
+                    if (checkInternet)
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                        Vm.IsPhotoUploadIconVisible = false;
-                        Vm.closeLabelText = false;
+                        var result = await service.UpdateTaskStatus(tagtaskstatus);
+
+                        if (result?.status == 1)
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            Vm.IsPhotoUploadIconVisible = false;
+                            Vm.closeLabelText = false;
+                        }
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked constructor -> in LoadPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in LoadPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

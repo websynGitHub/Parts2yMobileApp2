@@ -179,7 +179,8 @@ namespace YPS.ViewModel
             try
             {
                 IndicatorVisibility = true;
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
@@ -239,7 +240,7 @@ namespace YPS.ViewModel
                                             DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                             break;
                                     }
-                                    await Navigation.PopAsync(true);
+                                    await Navigation.PopAsync(false);
                                 }
                             }
                         }

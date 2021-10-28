@@ -115,7 +115,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result != null && result.data != null)
                     {
-                        if (result.status != 0 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
+                        if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
                             AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == selectedTagData.TaskID));
                         }
@@ -146,17 +146,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (tabname == "home")
                 {
-                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                    await Navigation.PopToRootAsync(false);
+                    //App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
                 else if (tabname == "job")
                 {
                     Navigation.RemovePage(Navigation.NavigationStack[2]);
 
-                    await Navigation.PopAsync();
+                    await Navigation.PopAsync(false);
                 }
                 else if (tabname == "parts")
                 {
-                    await Navigation.PopAsync();
+                    await Navigation.PopAsync(false);
                 }
             }
             catch (Exception ex)
@@ -194,7 +195,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         /// Calling photo API to get photos.
                         var result = await service.GetLoadPhotos(taskid);
 
-                        if (result != null && result.status != 0 && result.data.Count != 0)
+                        if (result != null && result.status == 1 && result.data.Count != 0)
                         {
                             IsPhotosListVisible = true;
                             IsPhotosListStackVisible = true;
@@ -260,7 +261,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                 }
 
-                await Navigation.PushAsync(new ImageView(imageLists, photoid, Tagnumbers));
+                await Navigation.PushAsync(new ImageView(imageLists, photoid, Tagnumbers), false);
             }
             catch (Exception ex)
             {
@@ -305,7 +306,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 if (uploadresult != null)
                                 {
-                                    if (uploadresult.status != 0)
+                                    if (uploadresult.status == 1)
                                     {
                                         var item = LoadPhotosList.Where(x => x.PhotoID == findData.PhotoID).FirstOrDefault();
                                         LoadPhotosList.Remove(item);
@@ -407,7 +408,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 var initialresult = initialdata as LoadPhotosUploadResponse;
                                 if (initialresult != null)
                                 {
-                                    if (initialresult.status != 0)
+                                    if (initialresult.status == 1)
                                     {
                                         selectiontype_index = 1;
 
@@ -666,7 +667,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {

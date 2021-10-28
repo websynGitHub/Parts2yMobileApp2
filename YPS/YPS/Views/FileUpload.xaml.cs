@@ -119,7 +119,7 @@ namespace YPS.Views
         {
             try
             {
-                Navigation.PopAsync();
+                Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {

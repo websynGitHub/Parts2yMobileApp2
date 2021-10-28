@@ -35,7 +35,7 @@ namespace YPS.Views
                 InitializeComponent();
                 service = new YPSService();
                 Groupname.Text = "Photo Repo";
-                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+                BindingContext = ImageVm = new ImageViewModelView(Navigation, photosList, photoId);
                 synfRepoImageViewList.WidthRequest = App.ScreenWidth;
                 synfRepoImageViewList.HeightRequest = App.ScreenHeight;
                 YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
@@ -150,7 +150,7 @@ namespace YPS.Views
         {
             try
             {
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -167,7 +167,6 @@ namespace YPS.Views
             try
             {
                 base.OnAppearing();
-                //(Xamarin.Forms.Application.Current.MainPage as MenuPage).IsGestureEnabled = false;
             }
             catch (Exception ex)
             {

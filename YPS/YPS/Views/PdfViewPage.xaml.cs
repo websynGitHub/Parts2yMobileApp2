@@ -79,7 +79,7 @@ namespace YPS.Views
             try
             {
                 Settings.mutipleTimeClick = false;
-                Navigation.PopAsync();
+                Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -93,12 +93,12 @@ namespace YPS.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GoToHome_Tapped(object sender, EventArgs e)
+        private async void GoToHome_Tapped(object sender, EventArgs e)
         {
             try
             {
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
-                //Navigation.PopToRootAsync();
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {

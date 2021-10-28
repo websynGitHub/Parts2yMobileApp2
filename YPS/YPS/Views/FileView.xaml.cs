@@ -98,7 +98,6 @@ namespace YPS.Views
             try
             {
                 base.OnAppearing();
-                //(Application.Current.MainPage as MenuPage).IsGestureEnabled = false;
             }
             catch (Exception ex)
             {

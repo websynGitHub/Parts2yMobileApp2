@@ -42,8 +42,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 MoveOrAssignAndMoveCmd = new Command(MoveOrAssignAndMove);
 
-                Task.Run(() => ShowContentsToLink(matchedtaglist)).Wait();
-                Task.Run(() => DynamicTextChange()).Wait();
+                Task.Run(() => ShowContentsToLink(matchedtaglist));
+                Task.Run(() => DynamicTextChange());
             }
             catch (Exception ex)
             {
@@ -93,9 +93,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
 
                         values.IsTaskResourceVisible = values.TaskResourceID == Settings.userLoginID ? false : true;
-
+                        values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
+                        values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
                         values.PhotoInspText = values.TaskResourceID == 0 ? "Assign & " + inspphoto : inspphoto;
-
+                        values.PhotoInspLabelOpacity = values.IsPhotoRequired == 0 ? 0.4 : 1.0;
                     }
 
                     AllPoTagCollections = new ObservableCollection<AllPoData>(matchedtaglist);
@@ -160,7 +161,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 Device.BeginInvokeOnMainThread(async () =>
                                 {
                                     IndicatorVisibility = true;
-                                    await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isalldone));
+                                    await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isalldone), false);
                                 });
                             }
                             else
@@ -204,7 +205,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 Device.BeginInvokeOnMainThread(async () =>
                                                 {
                                                     IndicatorVisibility = true;
-                                                    await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false));
+                                                    await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false), false);
                                                 });
                                             }
                                         }
@@ -225,7 +226,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 Device.BeginInvokeOnMainThread(async () =>
                                                 {
                                                     IndicatorVisibility = true;
-                                                    await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible, isalldone, false));
+                                                    await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible, isalldone, false), false);
                                                 });
                                             }
                                             catch (Exception ex)
@@ -273,6 +274,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         podata.PhotoInspText = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
                         podata.JobTileColor = Color.White;
+                        podata.TaskResourceID = Settings.userLoginID;
                     }
                 }
                 else

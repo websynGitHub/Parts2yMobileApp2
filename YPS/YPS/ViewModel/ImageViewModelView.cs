@@ -14,6 +14,7 @@ namespace YPS.ViewModel
 {
     public class ImageViewModelView : IBase
     {
+        INavigation Navigation;
         public ICommand HomeCommand { get; set; }
         public ObservableCollection<CustomPhotoModel> imageViews { get; set; }
         public ObservableCollection<PhotoRepoDBModel> repophotoimageViews { get; set; }
@@ -27,10 +28,11 @@ namespace YPS.ViewModel
         /// </summary>
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
-        public ImageViewModelView(ObservableCollection<PhotoRepoDBModel> photosList, int photoId)
+        public ImageViewModelView(INavigation _Navigation, ObservableCollection<PhotoRepoDBModel> photosList, int photoId)
         {
             try
             {
+                Navigation = _Navigation;
                 repophotoimageViews = new ObservableCollection<PhotoRepoDBModel>();
                 repophotoimageViews = photosList;
                 IsRepoPhotosVisible = true;
@@ -155,7 +157,8 @@ namespace YPS.ViewModel
             try
             {
                 //await Navigation.PopAsync(true);
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {

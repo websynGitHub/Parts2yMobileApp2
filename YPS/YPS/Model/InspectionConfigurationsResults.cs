@@ -131,6 +131,15 @@ namespace YPS.Model
             set
             {
                 this._Area = value;
+
+                if (string.IsNullOrEmpty(this.Area))
+                {
+                    AreBgColor = Color.Transparent;
+                }
+                else
+                {
+                    AreBgColor = Color.Yellow;
+                }
                 RaisePropertyChanged("Area");
             }
         }
@@ -240,10 +249,12 @@ namespace YPS.Model
                 if (value == 1)
                 {
                     ItemBackground = YPS.CommonClasses.Settings.Bar_Background;
+                    SignQuesBgColor = Color.FromHex("#005800");
                 }
                 else
                 {
                     ItemBackground = Color.Transparent;
+                    SignQuesBgColor = Color.Black;
                 }
                 RaisePropertyChanged("Status");
             }

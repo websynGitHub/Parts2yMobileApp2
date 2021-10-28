@@ -35,6 +35,7 @@ namespace YPS.ViewModel
 
             try
             {
+                loadingindicator = true;
                 service = new YPSService();
                 pageName = pagename;
                 Navigation = _Navigation;
@@ -47,6 +48,7 @@ namespace YPS.ViewModel
                 YPSLogger.ReportException(ex, "NotificationViewModel constructor -> in NotificationViewModel.cs " + Settings.userLoginID);
                 service.Handleexception(ex);
             }
+            loadingindicator = false;
         }
 
         public async Task Backevnttapped_click()
@@ -59,7 +61,7 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    await Navigation.PopAsync();
+                    await Navigation.PopAsync(false);
                 }
             }
             catch (Exception ex)
@@ -78,6 +80,7 @@ namespace YPS.ViewModel
 
             try
             {
+                loadingindicator = true;
                 var checkInternet = await App.CheckInterNetConnection();
 
                 if (checkInternet)
@@ -108,6 +111,7 @@ namespace YPS.ViewModel
                 YPSLogger.ReportException(ex, "clearall_clicked method -> in NotificationViewModel.cs " + Settings.userLoginID);
                 var trackResult = await service.Handleexception(ex);
             }
+            loadingindicator = false;
         }
 
         /// <summary>
@@ -332,7 +336,7 @@ namespace YPS.ViewModel
             get => _loadingindicator; set
             {
                 _loadingindicator = value;
-                RaisePropertyChanged("loadingindicator");
+                NotifyPropertyChanged("loadingindicator");
             }
         }
 

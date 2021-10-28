@@ -44,7 +44,7 @@ namespace YPS.Views
             try
             {
                 InitializeComponent();
-                BindingContext = vm = new ChatUsersViewModel(poid, qaid, checkStack, Settings.ChatTitle);
+                BindingContext = vm = new ChatUsersViewModel(Navigation, poid, qaid, checkStack, Settings.ChatTitle);
 
                 tag = tags;
                 visableState = checkStack;
@@ -127,7 +127,7 @@ namespace YPS.Views
                 Settings.chatPageCount = 0;
                 Settings.currentPage = "chatPage";// Setting the current page as "chatPage" to the Settings property
                 service = new YPSService();// Creating new instance of the YPSService, which is used to call API
-                BindingContext = vm = new ChatUsersViewModel(data.POID, data.QAID, visableState, null);
+                BindingContext = vm = new ChatUsersViewModel(Navigation, data.POID, data.QAID, visableState, null);
 
                 MessagingCenter.Subscribe<string>("ChatUsers", "BindUsers", (sender) =>
                 {
@@ -355,7 +355,7 @@ namespace YPS.Views
                                     {
                                         if (result.data.QAID == 0)
                                         {
-                                            await Navigation.PopAsync();
+                                            await Navigation.PopAsync(false);
                                             await App.Current.MainPage.DisplayAlert("Alert", "Conversation is not started, please try again.", "Ok");
                                         }
                                         else
@@ -394,7 +394,7 @@ namespace YPS.Views
                                                 }
                                             }
 
-                                            await Navigation.PushAsync(new ChatPage());
+                                            await Navigation.PushAsync(new ChatPage(), false);
                                             Settings.mutipleTimeClick = false;
                                         }
                                     }
@@ -441,7 +441,7 @@ namespace YPS.Views
             try
             {
                 Settings.mutipleTimeClick = false;
-                Navigation.PopAsync();
+                Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -462,7 +462,7 @@ namespace YPS.Views
             try
             {
                 Settings.mutipleTimeClick = false;
-                Navigation.PopAsync();
+                Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -496,7 +496,8 @@ namespace YPS.Views
                         if (result?.status == 1)
                         {
                             await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");// Display message for success
-                            App.Current.MainPage = App.Current.MainPage = new MenuPage(typeof(HomePage));
+                            await Navigation.PopToRootAsync(false);
+                            //App.Current.MainPage = App.Current.MainPage = new MenuPage(typeof(HomePage));
                         }
                     }
                     else
@@ -523,8 +524,8 @@ namespace YPS.Views
         {
             try
             {
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
-                //await Navigation.PopToRootAsync();
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
