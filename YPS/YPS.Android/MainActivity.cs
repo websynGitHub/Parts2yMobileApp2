@@ -261,11 +261,22 @@ namespace YPS.Droid
                     {
                         if (mainPage.Detail.Navigation.ModalStack.Count > 0)
                         {
-                            mainPage.Detail.Navigation.PopModalAsync();
+                            mainPage.Detail.Navigation.PopModalAsync(false);
                         }
                         else if (mainPage.Detail.Navigation.NavigationStack.Count > 0)
                         {
-                            mainPage.Detail.Navigation.PopAsync();
+                            if (mainPage.Detail.Navigation.NavigationStack[mainPage.Detail.Navigation.NavigationStack.Count - 1].GetType().Name.Trim().ToLower() == "PhotoUpload".Trim().ToLower())
+                            {
+                                CommonMethods.BackClickFromPhotoUpload(mainPage?.Detail?.Navigation);
+                            }
+                            else if (mainPage.Detail.Navigation.NavigationStack[mainPage.Detail.Navigation.NavigationStack.Count - 1].GetType().Name.Trim().ToLower().Contains("Insp".Trim().ToLower()))
+                            {
+                                CommonMethods.BackClickFromInspToParts(mainPage?.Detail?.Navigation);
+                            }
+                            else
+                            {
+                                mainPage.Detail.Navigation.PopAsync(false);
+                            }
                         }
                         return false;
                     }
@@ -273,7 +284,7 @@ namespace YPS.Droid
                     {
                         if (mainPage.Detail.Navigation.ModalStack.Count >= 1)
                         {
-                            mainPage.Detail.Navigation.PopModalAsync();
+                            mainPage.Detail.Navigation.PopModalAsync(false);
                             return false;
                         }
                         else
@@ -287,7 +298,7 @@ namespace YPS.Droid
                     Xamarin.Forms.Page x = App.Current.MainPage;
                     if (App.Current.MainPage.Navigation.ModalStack.Count >= 1)
                     {
-                        App.Current.MainPage.Navigation.PopModalAsync();
+                        App.Current.MainPage.Navigation.PopModalAsync(false);
                         return false;
                     }
                     else
