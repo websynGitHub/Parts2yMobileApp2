@@ -59,10 +59,11 @@ namespace YPS.ViewModel
         /// </summary>
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
-        public ImageViewModelView(ObservableCollection<LoadPhotoModel> photosList, int photoId)
+        public ImageViewModelView(INavigation _Navigation, ObservableCollection<LoadPhotoModel> photosList, int photoId)
         {
             try
             {
+                Navigation = _Navigation;
                 loadphotoimageViews = new ObservableCollection<LoadPhotoModel>();
                 loadphotoimageViews = photosList;
                 IsLoadPhotosVisible = true;
@@ -90,10 +91,11 @@ namespace YPS.ViewModel
         /// </summary>
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
-        public ImageViewModelView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId)
+        public ImageViewModelView(INavigation _Navigation, ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId)
         {
             try
             {
+                Navigation = _Navigation;
                 inspectionImageViews = new ObservableCollection<InspectionPhotosResponseListData>();
                 inspectionImageViews = photosList;
                 IsInspectionPhotosVisible = true;
@@ -122,10 +124,11 @@ namespace YPS.ViewModel
         /// </summary>
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
-        public ImageViewModelView(ObservableCollection<CustomPhotoModel> photosList, int photoId)
+        public ImageViewModelView(INavigation _Navigation, ObservableCollection<CustomPhotoModel> photosList, int photoId)
         {
             try
             {
+                Navigation = _Navigation;
                 imageViews = new ObservableCollection<CustomPhotoModel>();
                 imageViews = photosList;
                 pophoto = true;

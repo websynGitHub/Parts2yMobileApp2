@@ -64,7 +64,7 @@ namespace YPS.Views
                 InitializeComponent();
                 service = new YPSService();
                 Groupname.Text = "Load Photos";
-                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+                BindingContext = ImageVm = new ImageViewModelView(Navigation, photosList, photoId);
                 synfLoadImageViewList.WidthRequest = App.ScreenWidth;
                 synfLoadImageViewList.HeightRequest = App.ScreenHeight;
                 YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
@@ -93,7 +93,7 @@ namespace YPS.Views
             {
                 InitializeComponent();
                 service = new YPSService();
-                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+                BindingContext = ImageVm = new ImageViewModelView(Navigation, photosList, photoId);
                 synfImageViewList.WidthRequest = App.ScreenWidth;
                 synfImageViewList.HeightRequest = App.ScreenHeight;
                 YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
@@ -122,7 +122,7 @@ namespace YPS.Views
             {
                 InitializeComponent();
                 service = new YPSService();
-                BindingContext = ImageVm = new ImageViewModelView(photosList, photoId);
+                BindingContext = ImageVm = new ImageViewModelView(Navigation, photosList, photoId);
                 synfImageViewList.WidthRequest = App.ScreenWidth;
                 synfImageViewList.HeightRequest = App.ScreenHeight;
                 YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
