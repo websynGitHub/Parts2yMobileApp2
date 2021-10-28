@@ -159,9 +159,7 @@ namespace YPS.ViewModel
         {
             try
             {
-                //await Navigation.PopAsync(true);
-                await Navigation.PopToRootAsync(false);
-                //App.Current.MainPage = new MenuPage(typeof(HomePage));
+                 Navigation.PopToRootAsync(false);
             }
             catch (Exception ex)
             {
