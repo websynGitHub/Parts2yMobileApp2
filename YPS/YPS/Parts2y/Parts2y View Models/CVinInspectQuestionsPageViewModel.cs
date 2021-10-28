@@ -209,7 +209,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (tabname.Trim().ToLower() == "home".Trim().ToLower())
                 {
                     loadindicator = true;
-                    await Navigation.PopToRootAsync(false);));
+                    await Navigation.PopToRootAsync(false);
                 }
                 else if (tabname.Trim().ToLower() == "job".Trim().ToLower())
                 {
