@@ -59,8 +59,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 MoveLinkCmd = new Command(async () => await ShowContentsToLink());
                 ViewPhotoDetailsCmd = new Command(ViewPhotoDetails);
 
-                Task.Run(() => DynamicTextChange().Wait());
-                Task.Run(() => GetPhotosData().Wait());
+                Task.Run(() => DynamicTextChange());
+                GetPhotosData();
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (move)
                         {
-                            await Navigation.PushAsync(new LinkPage(new ObservableCollection<PhotoRepoDBModel>(RepoPhotosList.Where(wr => wr.IsSelected == true).ToList())));
+                            await Navigation.PushAsync(new LinkPage(new ObservableCollection<PhotoRepoDBModel>(RepoPhotosList.Where(wr => wr.IsSelected == true).ToList())), false);
                         }
                     }
                     else
@@ -124,7 +124,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (move)
                         {
-                            await Navigation.PushAsync(new LinkPage(RepoPhotosList));
+                            await Navigation.PushAsync(new LinkPage(RepoPhotosList), false);
                         }
                     }
                 }
@@ -170,7 +170,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                 }
 
-                await Navigation.PushAsync(new ImageView(imageLists, photoid));
+                await Navigation.PushAsync(new ImageView(imageLists, photoid), false);
             }
             catch (Exception ex)
             {

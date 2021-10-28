@@ -89,7 +89,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PhotoClickCommand = new Command(async () => await SelectPic());
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
 
-                Task.Run(() => ChangeLabel()).Wait();
+                ChangeLabel();
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PartsQueVm.FullTabVisibility = false;
                 PartsQueVm.SignTabVisibility = false;
 
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -144,7 +144,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PartsQueVm.QuickTabVisibility = false;
                 PartsQueVm.FullTabVisibility = true;
                 PartsQueVm.SignTabVisibility = false;
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -164,7 +164,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 LoadQueVm.LoadInspTabVisibility = true;
                 LoadQueVm.SignTabVisibility = false;
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -204,7 +204,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     PartsQueVm.SignTabVisibility = true;
                 }
 
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -394,7 +394,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             try
             {
-                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber, selectedTagData, IsInspTabVisible == true ? true : false));
+                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber, selectedTagData, IsInspTabVisible == true ? true : false), false);
             }
             catch (Exception ex)
             {
@@ -516,7 +516,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                 }
 
-                await GetInspectionPhotos();
+                GetInspectionPhotos();
             }
             catch (Exception ex)
             {
@@ -533,7 +533,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -546,7 +546,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {

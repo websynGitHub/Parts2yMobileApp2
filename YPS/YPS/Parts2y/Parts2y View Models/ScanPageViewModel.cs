@@ -129,7 +129,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            await Navigation.PopAsync();
+                            await Navigation.PopAsync(false);
 
                             ScannedResult = scanresult.Text;
 
@@ -155,7 +155,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         ScannerPage.AutoFocus();
 
-                        await Navigation.PushAsync(ScannerPage);
+                        await Navigation.PushAsync(ScannerPage, false);
 
                         overlay.FlashButtonClicked += (s, ed) =>
                         {
@@ -319,7 +319,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 StatusTextBgColor = Color.DarkGreen;
                                 ScannedValue = ScannedResult;
 
-                                await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, uploadType));
+                                await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, uploadType), false);
                                 Navigation.RemovePage(Navigation.NavigationStack[1]);
                             }
                             else
@@ -367,7 +367,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             Settings.POID = podata.POID;
                             Settings.TaskID = podata.TaskID;
-                            await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, false));
+                            await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, false), false);
                         }
                         else if (uploadType != 0)
                         {
@@ -381,7 +381,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     podata.TagNumber = selectedTagData.photoTags[0].TagNumber;
 
                                     Settings.CanUploadPhotos = true;
-                                    await Navigation.PopAsync();
+                                    await Navigation.PopAsync(false);
                                 }
                                 else
                                 {
@@ -392,7 +392,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     }
 
                                     Settings.CanUploadPhotos = true;
-                                    await Navigation.PopAsync();
+                                    await Navigation.PopAsync(false);
                                 }
                             }
                         }
@@ -432,7 +432,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                             if (selectedTagsData.photoTags.Count != 0)
                                             {
-                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, false, false));
+                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, false, false), false);
                                             }
                                         }
                                     }
@@ -448,7 +448,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                                 Settings.TaskID = podata.TaskID;
                                                 Settings.currentPuId = podata.PUID;
                                                 Settings.BphotoCount = podata.TagBPhotoCount;
-                                                await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible, false, false));
+                                                await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible, false, false), false);
                                             }
                                             catch (Exception ex)
                                             {

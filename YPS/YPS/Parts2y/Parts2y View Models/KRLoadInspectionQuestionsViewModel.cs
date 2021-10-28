@@ -65,8 +65,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PartsCmd = new Command(async () => await TabChange("parts"));
                 LoadCmd = new Command(async () => await TabChange("load"));
 
-                Task.Run(() => ChangeLabel()).Wait();
-                Task.Run(() => GetQuestionsLIst()).Wait();
+                ChangeLabel();
+                Task.Run(GetQuestionsLIst);
             }
             catch (Exception ex)
             {
@@ -83,63 +83,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (tabname == "home")
                 {
-                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                    await Navigation.PopToRootAsync(false);
+                    //App.Current.MainPage = new MenuPage(typeof(HomePage));
                 }
                 else if (tabname == "job")
                 {
-                    pagecount = Navigation.NavigationStack.Count() - 1;
-
-                    if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "ParentListPage".Trim().ToLower())
-                    {
-                        while (pagecount > 2)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-                    }
-                    else
-                    {
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                        pagecount = Navigation.NavigationStack.Count() - 1;
-
-                        while (pagecount > 2)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-
-                    }
-                    await Navigation.PopAsync();
+                    CommonMethods.BackClickFromInspToJobs(Navigation);
                 }
                 else if (tabname == "parts")
                 {
-                    pagecount = Navigation.NavigationStack.Count() - 1;
-
-                    if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
-                    {
-                        while (pagecount > 3)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-                    }
-                    else
-                    {
-                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                        pagecount = Navigation.NavigationStack.Count() - 1;
-
-                        while (pagecount > 3)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-
-                    }
-
-                    await Navigation.PopAsync();
+                    CommonMethods.BackClickFromInspToParts(Navigation);
                 }
             }
             catch (Exception ex)
@@ -231,10 +184,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-
                 await GetConfigurationResults(6);
-
-                QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
 
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
@@ -270,7 +220,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsByTask(taskid);
@@ -281,12 +231,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
 
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
+                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                     else
                     {
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
+                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                 }
             }
@@ -318,32 +268,34 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                pagecount = Navigation.NavigationStack.Count() - 1;
+                CommonMethods.BackClickFromInspToParts(Navigation);
 
-                if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
-                {
-                    while (pagecount > 3)
-                    {
-                        pagecount--;
-                        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                    }
-                }
-                else
-                {
-                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
+                //pagecount = Navigation.NavigationStack.Count() - 1;
 
-                    pagecount = Navigation.NavigationStack.Count() - 1;
+                //if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
+                //{
+                //    while (pagecount > 3)
+                //    {
+                //        pagecount--;
+                //        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
+                //    }
+                //}
+                //else
+                //{
+                //    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                //    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
 
-                    while (pagecount > 3)
-                    {
-                        pagecount--;
-                        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                    }
+                //    pagecount = Navigation.NavigationStack.Count() - 1;
 
-                }
+                //    while (pagecount > 3)
+                //    {
+                //        pagecount--;
+                //        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
+                //    }
 
-                await Navigation.PopAsync();
+                //}
+
+                //await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -360,7 +312,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
                 await Navigation.PushAsync(new KRInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0],
-                    false, null, this, IsAllTagsDone));
+                    false, null, this, IsAllTagsDone), false);
             }
             catch (Exception ex)
             {

@@ -59,8 +59,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 EventName = selectedTagData.EventName;
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
-                Task.Run(() => ChangeLabel()).Wait();
-                Task.Run(() => GetQuestionsLIst()).Wait();
+                ChangeLabel();
+                Task.Run(GetQuestionsLIst);
 
                 QuickTabCmd = new Command(QuickTabClicked);
                 FullTabCmd = new Command(FullTabClicked);
@@ -209,72 +209,25 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (tabname.Trim().ToLower() == "home".Trim().ToLower())
                 {
                     loadindicator = true;
-                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                    await Navigation.PopToRootAsync(false);));
                 }
                 else if (tabname.Trim().ToLower() == "job".Trim().ToLower())
                 {
                     loadindicator = true;
 
-                    pagecount = Navigation.NavigationStack.Count() - 1;
-
-                    if (Navigation.NavigationStack[1].GetType().Name.Trim().ToLower() == "ParentListPage".Trim().ToLower())
-                    {
-                        while (pagecount > 2)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-                    }
-                    else
-                    {
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                        pagecount = Navigation.NavigationStack.Count() - 1;
-
-                        while (pagecount > 2)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-
-                    }
-                    await Navigation.PopAsync();
+                    CommonMethods.BackClickFromInspToJobs(Navigation);
                 }
                 else if (tabname.Trim().ToLower() == "parts".Trim().ToLower())
                 {
                     loadindicator = true;
 
-                    pagecount = Navigation.NavigationStack.Count() - 1;
-
-                    if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
-                    {
-                        while (pagecount > 3)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-                    }
-                    else
-                    {
-                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                        Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                        pagecount = Navigation.NavigationStack.Count() - 1;
-
-                        while (pagecount > 3)
-                        {
-                            pagecount--;
-                            Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                        }
-
-                    }
-                    await Navigation.PopAsync();
+                    CommonMethods.BackClickFromInspToParts(Navigation);
                 }
                 else if (tabname.Trim().ToLower() == "load".Trim().ToLower())
                 {
                     ObservableCollection<AllPoData> preparelist = new ObservableCollection<AllPoData>();
                     preparelist.Add(selectedTagData);
-                    await Navigation.PushAsync(new CLoadInspectionQuestionsPage(preparelist, isAllDone));
+                    await Navigation.PushAsync(new CLoadInspectionQuestionsPage(preparelist, isAllDone), false);
                 }
             }
             catch (Exception ex)
@@ -401,14 +354,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await GetConfigurationResults(1);
                     QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 1).ToList());
-                    QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
+                    //QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
                 if (IsFullTabVisible == true)
                 {
                     await GetConfigurationResults(2);
                     FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 2).ToList());
-                    FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
+                    //FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
                 await GetInspSignature();
@@ -442,7 +395,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
-                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; a.SignQuesBgColor = Color.Black; return true; });
+                    QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsService(taskid, tagId);
@@ -453,12 +406,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
 
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
+                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                     else
                     {
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
+                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                 }
             }
@@ -490,31 +443,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                pagecount = Navigation.NavigationStack.Count() - 1;
-
-                if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
-                {
-                    while (pagecount > 3)
-                    {
-                        pagecount--;
-                        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                    }
-                }
-                else
-                {
-                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                    pagecount = Navigation.NavigationStack.Count() - 1;
-
-                    while (pagecount > 3)
-                    {
-                        pagecount--;
-                        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                    }
-
-                }
-                await Navigation.PopAsync();
+                CommonMethods.BackClickFromInspToParts(Navigation);
             }
             catch (Exception ex)
             {
@@ -533,7 +462,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 await GetConfigurationResults(inspectionConfiguration.CategoryID);
                 await Navigation.PushAsync(new CInspectionAnswersPage(inspectionConfiguration,
                     new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == inspectionConfiguration.CategoryID).ToList())
-                    , inspectionResultsLists, selectedTagData, true, null, this));
+                    , inspectionResultsLists, selectedTagData, true, null, this), false);
             }
             catch (Exception ex)
             {
@@ -685,16 +614,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
-        //private base64 _SignaturePadPopup = false;
-        //public bool SignaturePadPopup
-        //{
-        //    get { return _SignaturePadPopup; }
-        //    set
-        //    {
-        //        _SignaturePadPopup = value;
-        //        RaisePropertyChanged("SignaturePadPopup");
-        //    }
-        //}
         private bool _IsConditionNameLabelVisible = true;
         public bool IsConditionNameLabelVisible
         {

@@ -41,7 +41,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Navigation = _Navigation;
                 homePage = homepage;
                 trackService = new YPSService();
-                BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 TaskClickCmd = new Command(async () => await RedirectToPage("task"));
                 CompareClickCmd = new Command(async () => await RedirectToPage("compare"));
                 ScanClickCmd = new Command(async () => await RedirectToPage("scan"));
@@ -52,13 +51,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 TaskCmd = new Command(async () => await TabChange("task"));
                 LoadCmd = new Command(async () => await TabChange("load"));
-
-                Task.Run(() => GetTaskData()).Wait();
-                Task.Run(() => RememberUserDetails()).Wait();
-                Task.Run(() => GetActionStatus()).Wait();
-                Task.Run(() => GetallApplabels()).Wait();
-                Task.Run(() => ChangeLabel()).Wait();
-                Task.Run(() => GetQuestions()).Wait();
             }
             catch (Exception ex)
             {
@@ -77,7 +69,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// </summary>
         /// <param name="iSPagingNoAuto"></param>
         /// <returns></returns>
-        public async Task GetTaskData()
+        public async void GetTaskData()
         {
             try
             {
@@ -151,7 +143,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (tabname == "job")
                 {
-                    await Navigation.PushAsync(new ParentListPage());
+                    await Navigation.PushAsync(new ParentListPage(), false);
                 }
             }
             catch (Exception ex)
@@ -170,7 +162,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// This method is to remember user details.
         /// </summary>
         /// <returns></returns>
-        public async Task RememberUserDetails()
+        public async void RememberUserDetails()
         {
             try
             {
@@ -244,23 +236,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (page.Trim().ToLower() == "task".Trim().ToLower())
                 {
-                    await Navigation.PushAsync(new ParentListPage());
+                    await Navigation.PushAsync(new ParentListPage(), false);
                 }
                 else if (page.Trim().ToLower() == "compare".Trim().ToLower())
                 {
-                    await Navigation.PushAsync(new Compare());
+                    await Navigation.PushAsync(new Compare(), false);
                 }
                 else if (page.Trim().ToLower() == "scan".Trim().ToLower())
                 {
-                    await Navigation.PushAsync(new ScanPage(0, null, false, null));
+                    await Navigation.PushAsync(new ScanPage(0, null, false, null), false);
                 }
                 else if (page.Trim().ToLower() == "photo".Trim().ToLower())
                 {
-                    await Navigation.PushAsync(new PhotoRepoPage());
+                    await Navigation.PushAsync(new PhotoRepoPage(), false);
                 }
                 else
                 {
-                    await Navigation.PushAsync(new CompareContinuous());
+                    await Navigation.PushAsync(new CompareContinuous(), false);
                 }
 
             }
@@ -319,7 +311,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This method get all label texts, used in the app.
         /// </summary>
-        public async Task GetallApplabels()
+        public async void GetallApplabels()
         {
             try
             {
@@ -367,7 +359,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This method is to get the status of actions present in application.
         /// </summary>
-        public async Task GetActionStatus()
+        public async void GetActionStatus()
         {
             try
             {
@@ -394,7 +386,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This is for changing the labels dynamically
         /// </summary>
-        public async Task ChangeLabel()
+        public async void ChangeLabel()
         {
             try
             {
@@ -477,7 +469,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private async Task GetQuestions()
+        public async void GetQuestions()
         {
             try
             {

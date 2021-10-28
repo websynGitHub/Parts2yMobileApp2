@@ -58,8 +58,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 this.inspectionConfiguration = inspectionConfiguration;
                 trackService = new YPSService();
                 ListOfImage = new ObservableCollection<GalleryImage>();
-                Task.Run(() => DynamicTextChange()).Wait();
-                Task.Run(() => GetInspectionPhotos()).Wait();
+                Task.Run(() => DynamicTextChange());
+                Task.Run(() => GetInspectionPhotos());
                 select_pic = new Command(async () => await SelectPic());
                 upload_pic = new Command(async () => await Photo_Upload());
                 deleteImage = new Command<InspectionPhotosResponseListData>(Delete_Photo);
@@ -131,7 +131,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     int photoid = data.ID;
                     var imageLists = finalPhotoListA;
 
-                    await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers, Question));
+                    await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers, Question), false);
                 }
             }
             catch (Exception ex)

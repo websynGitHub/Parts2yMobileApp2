@@ -58,7 +58,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     allPOTagData = new ObservableCollection<AllPoData>(potag);
                 }
 
-                Task.Run(() => PreparePoTagList(potag, -1)).Wait();
+                PreparePoTagList(potag, -1);
                 viewExistingFiles = new Command(ViewUploadedFiles);
                 viewExistingBUPhotos = new Command(tap_eachCamB);
                 viewExistingAUPhotos = new Command(tap_eachCamA);
@@ -123,46 +123,46 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (tabname == "home")
                 {
                     loadindicator = true;
-                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                    await Navigation.PopToRootAsync(false);
                 }
                 else if (tabname == "job")
                 {
                     loadindicator = true;
-                    await Navigation.PopAsync();
+                    await Navigation.PopAsync(false);
                 }
                 else if (tabname == "load")
                 {
                     if (Settings.VersionID == 1)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new ELoadInspectionQuestionsPage(allPOTagData, isalldone));
+                        await Navigation.PushAsync(new ELoadInspectionQuestionsPage(allPOTagData, isalldone), false);
                     }
                     else if (Settings.VersionID == 2)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new CLoadInspectionQuestionsPage(allPOTagData, isalldone));
+                        await Navigation.PushAsync(new CLoadInspectionQuestionsPage(allPOTagData, isalldone), false);
                     }
                     else if (Settings.VersionID == 3)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new KRLoadInspectionQuestionsPage(allPOTagData, isalldone));
+                        await Navigation.PushAsync(new KRLoadInspectionQuestionsPage(allPOTagData, isalldone), false);
                     }
                     else if (Settings.VersionID == 4)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new KPLoadInspectionQuestionPage(allPOTagData, isalldone));
+                        await Navigation.PushAsync(new KPLoadInspectionQuestionPage(allPOTagData, isalldone), false);
                     }
                     else if (Settings.VersionID == 5)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new PLoadInspectionQuestionsPage(allPOTagData, isalldone));
+                        await Navigation.PushAsync(new PLoadInspectionQuestionsPage(allPOTagData, isalldone), false);
                     }
                     else
                     {
                         if (isalldone == true)
                         {
                             loadindicator = true;
-                            await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone));
+                            await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone), false);
                         }
                     }
                 }
@@ -387,30 +387,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (clicktype.Trim().ToLower() == "scan".Trim().ToLower())
                     {
-                        await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone));
+                        await Navigation.PushAsync(new InspVerificationScanPage(POTagDetail, isalldone), false);
 
                     }
                     else
                     {
                         if (Settings.VersionID == 1)
                         {
-                            await Navigation.PushAsync(new EPartsInspectionQuestionsPage(POTagDetail, isalldone));
+                            await Navigation.PushAsync(new EPartsInspectionQuestionsPage(POTagDetail, isalldone), false);
                         }
                         else if (Settings.VersionID == 2)
                         {
-                            await Navigation.PushAsync(new CVinInspectQuestionsPage(POTagDetail, isalldone));
+                            await Navigation.PushAsync(new CVinInspectQuestionsPage(POTagDetail, isalldone), false);
                         }
                         else if (Settings.VersionID == 3)
                         {
-                            await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(POTagDetail, isalldone));
+                            await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(POTagDetail, isalldone), false);
                         }
                         else if (Settings.VersionID == 4)
                         {
-                            await Navigation.PushAsync(new KPPartsInspectionQuestionPage(POTagDetail, isalldone));
+                            await Navigation.PushAsync(new KPPartsInspectionQuestionPage(POTagDetail, isalldone), false);
                         }
                         else if (Settings.VersionID == 5)
                         {
-                            await Navigation.PushAsync(new PPartsInspectionQuestionsPage(POTagDetail, isalldone));
+                            await Navigation.PushAsync(new PPartsInspectionQuestionsPage(POTagDetail, isalldone), false);
                         }
                     }
                 }
@@ -470,7 +470,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                await Navigation.PopToRootAsync(false);
+                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
@@ -663,7 +664,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -759,7 +760,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     {
                                         if (selectedTagsData.photoTags.Count != 0)
                                         {
-                                            await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, true));
+                                            await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, true), false);
                                         }
                                         else
                                         {
@@ -844,7 +845,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (selectedTagsData.tags.Count != 0)
                             {
                                 Settings.ChatuserCountImgHide = 1;
-                                await Navigation.PushAsync(new ChatUsers(selectedTagsData, true));
+                                await Navigation.PushAsync(new ChatUsers(selectedTagsData, true), false);
                             }
                             else
                             {
@@ -1131,7 +1132,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             DependencyService.Get<NewOpenPdfI>().passPath(url);
                                             break;
                                         case Device.Android:
-                                            await Navigation.PushAsync(new PdfViewPage(printPDFModel));
+                                            await Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
                                             break;
                                     }
                                 }
@@ -1180,7 +1181,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Settings.CanOpenScanner = false;
                             Settings.currentPuId = potag.PUID;
                             Settings.BphotoCount = potag.TagBPhotoCount;
-                            await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, true));
+                            await Navigation.PushAsync(new PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, true), false);
                         }
                         catch (Exception ex)
                         {
@@ -1237,7 +1238,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Settings.CanOpenScanner = false;
                             Settings.AphotoCount = allPo.TagAPhotoCount;
                             Settings.currentPuId = allPo.PUID;
-                            await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible, isalldone, true));
+                            await Navigation.PushAsync(new PhotoUpload(null, allPo, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, allPo.photoTickVisible, isalldone, true), false);
                         }
                         catch (Exception ex)
                         {
@@ -1276,7 +1277,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         var allPo = obj as AllPoData;
 
-                        await Navigation.PushAsync(new QnAlistPage(allPo.POID, allPo.POTagID, Settings.QAType));
+                        await Navigation.PushAsync(new QnAlistPage(allPo.POID, allPo.POTagID, Settings.QAType), false);
                     }
                     catch (Exception ex)
                     {
@@ -1314,7 +1315,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         Settings.currentFuId = allPo.FUID;
                         Settings.FilesCount = allPo.TagFilesCount;
-                        await Navigation.PushAsync(new FileUpload(null, allPo.POID, allPo.FUID, "fileUpload", allPo.fileTickVisible));
+                        await Navigation.PushAsync(new FileUpload(null, allPo.POID, allPo.FUID, "fileUpload", allPo.fileTickVisible), false);
                     }
                     catch (Exception ex)
                     {

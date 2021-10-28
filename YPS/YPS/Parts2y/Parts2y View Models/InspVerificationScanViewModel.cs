@@ -111,7 +111,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            await Navigation.PopAsync();
+                            await Navigation.PopAsync(false);
 
                             ScannedResult = scanresult.Text;
 
@@ -124,11 +124,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
 
                     if (Navigation.ModalStack.Count == 0 ||
-                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
                         ScannerPage.AutoFocus();
 
-                        await Navigation.PushAsync(ScannerPage);
+                        await Navigation.PushAsync(ScannerPage, false);
 
                         overlay.FlashButtonClicked += (s, ed) =>
                         {
@@ -248,23 +248,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (Settings.VersionID == 1)
                     {
-                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(podata, isAllDone));
+                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(podata, isAllDone), false);
                     }
                     else if (Settings.VersionID == 2)
                     {
-                        await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isAllDone));
+                        await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isAllDone), false);
                     }
                     else if (Settings.VersionID == 3)
                     {
-                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(podata, isAllDone));
+                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(podata, isAllDone), false);
                     }
                     else if (Settings.VersionID == 4)
                     {
-                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(podata, isAllDone));
+                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(podata, isAllDone), false);
                     }
                     else if (Settings.VersionID == 5)
                     {
-                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(podata, isAllDone));
+                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(podata, isAllDone), false);
                     }
                 }
                 else

@@ -49,8 +49,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 LinkAfterPackingPhotoCmd = new Command(LinkPhotoToTag);
                 SelectTagItemCmd = new Command(TagLongPessed);
 
-                Task.Run(() => DynamicTextChange().Wait());
-                Task.Run(() => ShowContentsToLink().Wait());
+                DynamicTextChange();
+                ShowContentsToLink();
             }
             catch (Exception ex)
             {
@@ -142,11 +142,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 selectedTagsData.photoTags = lstdat;
                                 Settings.currentPoTagId_Inti = lstdat;
 
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false));
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false), false);
                             }
                             else
                             {
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, false));
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, potag.photoTickVisible, isalldone, false), false);
                             }
                         }
                         catch (Exception ex)
@@ -240,11 +240,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 selectedTagsData.photoTags = lstdat;
                                 Settings.currentPoTagId_Inti = lstdat;
 
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, false, isalldone, false));
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, false, isalldone, false), false);
                             }
                             else
                             {
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, potag.photoTickVisible, isalldone, false));
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(null, potag, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, potag.photoTickVisible, isalldone, false), false);
                             }
                         }
                         catch (Exception ex)
@@ -457,7 +457,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : " Part(s)")
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : " part(s)")
                             + " to start linking photo(s).");
                     }
                 }
@@ -518,6 +518,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         #endregion Status icon
 
                         values.IsTaskResourceVisible = values.TaskResourceID == Settings.userLoginID ? false : true;
+                        values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
+                        values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
                     }
 
                     AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);

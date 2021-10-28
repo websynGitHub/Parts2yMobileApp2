@@ -49,6 +49,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
                 Navigation = _Navigation;
                 trackService = new YPSService();
                 comparepage = ComparePage;
@@ -70,12 +71,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "CompareViewModel constructor -> in CompareViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
+            loadindicator = false;
         }
 
         public async Task GetSavedConfigDataFromDB()
         {
             try
             {
+                loadindicator = true;
+
                 var result = await trackService.GetSaveScanConfig();
 
                 if (result?.status == 1 && result?.data != null)
@@ -110,6 +114,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "GetSavedConfigDataFromDB method -> in CompareViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
+            loadindicator = false;
         }
 
         public async Task GetUsersScanConfig()
@@ -606,6 +611,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadindicator = true;
+
                 if (tab == "scan")
                 {
                     IsScanContentVisible = ScanTabVisibility = true;
@@ -628,6 +635,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 YPSLogger.ReportException(ex, "TabChange method -> in CompareViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
+            loadindicator = false;
         }
 
         public async Task<bool> SaveConfig()
@@ -640,7 +648,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        var data = trackService.SaveScanConfig(SelectedRule, TotalCount).Result as YPS.Model.SaveScanConfigResponse;
+                        var data = await trackService.SaveScanConfig(SelectedRule, TotalCount);
 
                         if (data.status == 1)
                         {

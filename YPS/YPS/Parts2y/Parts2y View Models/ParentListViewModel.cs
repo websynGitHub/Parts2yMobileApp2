@@ -73,6 +73,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
+                loadingindicator = true;
                 YPSLogger.TrackEvent("ParentListViewModel.cs", " in ParentListViewModel constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Navigation = _Navigation;
                 pagename = page;
@@ -85,7 +86,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 profileSettingVisible = true;
                 mainStack = true;
 
-                Task.Run(() => ChangeLabel()).Wait();
+                ChangeLabel();
                 Task.Run(() => BindGridData(-1)).Wait();
 
                 #region Assigning methods to the respective ICommands
@@ -111,6 +112,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService.Handleexception(ex);
                 YPSLogger.ReportException(ex, "ParentListViewModel constructor -> in ParentListViewModel.cs " + Settings.userLoginID);
             }
+            loadingindicator = false;
         }
 
         /// <summary>
@@ -301,7 +303,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (tabname == "home")
                 {
-                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                    await Navigation.PopToRootAsync(false);
                 }
             }
             catch (Exception ex)
@@ -324,7 +326,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(0);
+                BindGridData(0);
 
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
@@ -347,7 +349,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(1);
+                BindGridData(1);
 
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -369,7 +371,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(2);
+                BindGridData(2);
 
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -391,7 +393,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await BindGridData(-1);
+                BindGridData(-1);
 
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
@@ -654,7 +656,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            await Navigation.PushAsync(new POChildListPage(PoDataChilds, sendPodata));
+                            await Navigation.PushAsync(new POChildListPage(PoDataChilds, sendPodata), false);
                         }
 
                     }
@@ -723,7 +725,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     break;
                                 case Device.Android:
-                                    await Navigation.PushAsync(new PdfViewPage(printPDFModel));
+                                    await Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
                                     break;
                             }
                         }
@@ -765,7 +767,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     Settings.fileUploadPageCount = 1;
                     Settings.isFinalvol = senderval.ISFinalVol;
                     await Navigation.PushAsync(new FileUpload(poShipNum_obj, senderval.POID, senderval.FUID,
-                        "plFile", false));
+                        "plFile", false), false);
                 }
             }
             catch (Exception ex)
@@ -785,8 +787,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopAsync(true);
-
+                Navigation.PopToRootAsync(false);
             }
             catch (Exception ex)
             {
@@ -817,7 +818,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             IsSearchFilterListVisible = false;
                             Settings.filterPageCount = 1;
                             Settings.refreshPage = 1;
-                            await Navigation.PushAsync(new FilterData());
+                            await Navigation.PushAsync(new FilterData(), false);
                         }
                     }
                     else
