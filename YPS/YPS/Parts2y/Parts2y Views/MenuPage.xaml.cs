@@ -76,7 +76,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         if (Detail.Navigation.ModalStack.Count == 0 ||
             Detail.Navigation.ModalStack.Last().GetType() != typeof(ProfileSelectionPage))
                         {
-                            await Detail.Navigation.PushModalAsync(new ProfileSelectionPage((int)QAType.PT));
+                            Detail.Navigation.PushAsync(new ProfileSelectionPage((int)QAType.PT), false);
                         }
                         this.MasterBehavior = MasterBehavior.Popover;
                         IsPresented = false;
@@ -109,7 +109,7 @@ namespace YPS.Parts2y.Parts2y_Views
                         if (Detail.Navigation.ModalStack.Count == 0 ||
            Detail.Navigation.ModalStack.Last().GetType() != typeof(YPS.Views.AboutPage))
                         {
-                            await Detail.Navigation.PushModalAsync(new YPS.Views.AboutPage());
+                            await Detail.Navigation.PushAsync(new YPS.Views.AboutPage(), false);
                         }
                         this.MasterBehavior = MasterBehavior.Popover;
                         IsPresented = false;

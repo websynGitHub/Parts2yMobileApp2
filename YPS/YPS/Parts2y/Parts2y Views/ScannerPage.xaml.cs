@@ -127,7 +127,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                Navigation.PopModalAsync();
+                Navigation.PopModalAsync(false);
             }
             catch (Exception ex)
             {
@@ -173,7 +173,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                         if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
                         {
-                            await App.Current.MainPage.Navigation.PopModalAsync();
+                            await App.Current.MainPage.Navigation.PopModalAsync(false);
                         }
                     }
                     else
@@ -190,19 +190,19 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
                             {
-                                await App.Current.MainPage.Navigation.PopModalAsync();
+                                await App.Current.MainPage.Navigation.PopModalAsync(false);
                             }
                         }
                     }
                 }
                 else
                 {
-                    //await scannerPage.compareVM.Scanditscan(Settings.scanQRValuecode);
+                    await scannerPage.compareVM.Scanditscan(Settings.scanQRValuecode);
                     Settings.scanredirectpage = string.Empty;
 
                     if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
                     {
-                        await App.Current.MainPage.Navigation.PopModalAsync();
+                        await App.Current.MainPage.Navigation.PopModalAsync(false);
                     }
                 }
             }

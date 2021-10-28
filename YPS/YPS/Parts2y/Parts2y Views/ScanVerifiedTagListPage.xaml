@@ -206,21 +206,20 @@
                                                                      VerticalOptions="Center" Grid.Column="0" Spacing="0">
                                                             <local:FontAwesomeIconLabel Text="{Binding TagTaskStatusIcon}" FontSize="23"  TextColor="#000000" 
                                                                                     HorizontalOptions="Start" VerticalOptions="Center" 
-                                                                                        Margin="10,0,90,0"
-                                                                                    />
-
-
+                                                                                        Margin="10,0,90,0"/>
                                                         </StackLayout>
 
-                                                        <local:FontAwesomeIconLabel Text="{Binding PhotoInspText}"
-                                                                                        HorizontalOptions="End" HeightRequest="20"
-                                                                                        VerticalOptions="Center" Margin="0,0,2,3"
-                                                                                        TextColor="Black" Grid.Column="1"
-                                                                                        Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        <local:FontAwesomeIconLabel Text="{Binding PhotoInspText}" 
+                                                                                    HorizontalOptions="End" HeightRequest="20"
+                                                                                    VerticalOptions="Center" Margin="0,0,2,3"
+                                                                                    TextColor="Black" Grid.Column="1"
+                                                                                    Style="{DynamicResource LableWithQuestionFont}"
+                                                                                    Opacity="{Binding PhotoInspLabelOpacity}"/>
 
-                                                        <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.righticon}" 
-                                                 FontSize="37" TextColor="#000000" HorizontalOptions="End" 
-                                                 VerticalOptions="Center" Margin="0,0,10,3" Grid.Column="2"/>
+                                                        <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.righticon}"  
+                                                                                    FontSize="37" TextColor="#000000" HorizontalOptions="End" 
+                                                                                    VerticalOptions="Center" Margin="0,0,10,3" Grid.Column="2"
+                                                                                    Opacity="{Binding PhotoInspLabelOpacity}"/>
 
                                                     </Grid>
                                                 </Grid>

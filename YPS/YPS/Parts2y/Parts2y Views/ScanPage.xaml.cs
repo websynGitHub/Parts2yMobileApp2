@@ -59,7 +59,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 {
                     if (Vm.IsScanPage == true)
                     {
-                        await Navigation.PopAsync();
+                        await Navigation.PopAsync(false);
                     }
                 }
             }
@@ -79,7 +79,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                Navigation.PopAsync();
+                Navigation.PopToRootAsync(false);
             }
             catch (Exception ex)
             {

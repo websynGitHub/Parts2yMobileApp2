@@ -35,12 +35,12 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-        private void HomeRedirection(object sender, EventArgs e)
+        private async void HomeRedirection(object sender, EventArgs e)
         {
             try
             {
                 vm.IndicatorVisibility = true;
-                App.Current.MainPage = new MenuPage(typeof(HomePage));
+                await Navigation.PopToRootAsync(false);
             }
             catch (Exception ex)
             {

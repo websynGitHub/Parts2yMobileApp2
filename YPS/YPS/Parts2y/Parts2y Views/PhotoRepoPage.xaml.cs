@@ -45,23 +45,6 @@ namespace YPS.Parts2y.Parts2y_Views
             Vm.IndicatorVisibility = false;
         }
 
-        protected async override void OnAppearing()
-        {
-            try
-            {
-                Vm.IndicatorVisibility = true;
-                base.OnAppearing();
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "OnAppearing method -> in PhotoRepoPage.xaml.cs " + Settings.userLoginID);
-                await yPSService.Handleexception(ex);
-                Vm.IndicatorVisibility = false;
-            }
-            Vm.IndicatorVisibility = false;
-        }
-
-
         /// <summary>
         /// Gets called when clicked on the back button and redirect to previous page.
         /// </summary>
@@ -72,7 +55,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.IndicatorVisibility = true;
-                await Navigation.PopAsync();
+                Navigation.PopToRootAsync(false);
             }
             catch (Exception ex)
             {

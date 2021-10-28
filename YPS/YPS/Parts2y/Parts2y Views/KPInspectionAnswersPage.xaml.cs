@@ -48,7 +48,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 base.OnAppearing();
-                Task.Run(() => Vm.GetInspectionPhotos()).Wait();
+                Task.Run(() => Vm.GetInspectionPhotos());
             }
             catch (Exception ex)
             {

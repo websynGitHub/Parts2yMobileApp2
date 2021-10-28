@@ -121,7 +121,7 @@ namespace YPS.Parts2y.Parts2y_Views
                             await Vm.Pending_Tap();
                         }
                     }
-                    await Vm.ShowHideSearFilterList(false);
+                    Task.Run(() => Vm.ShowHideSearFilterList(false));
                 }
                 else
                 {
@@ -184,21 +184,6 @@ namespace YPS.Parts2y.Parts2y_Views
         }
         #endregion
 
-        /// <summary>
-        /// This method is called when leaving the page.
-        /// </summary>
-        protected override async void OnDisappearing()
-        {
-            try
-            {
-                base.OnDisappearing();
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "OnDisappearing method -> in ParentListPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
-                await trackService.Handleexception(ex);
-            }
-        }
 
         private async void HideSearchFilter(object sender, EventArgs e)
         {

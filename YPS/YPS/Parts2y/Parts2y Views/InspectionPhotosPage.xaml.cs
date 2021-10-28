@@ -38,7 +38,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {

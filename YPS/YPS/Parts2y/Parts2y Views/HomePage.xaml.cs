@@ -96,7 +96,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (Vm.NotificationListCount > 0)
                 {
-                    await Navigation.PushAsync(new NotificationListPage());
+                    await Navigation.PushAsync(new NotificationListPage(), false);
                 }
                 else
                 {
@@ -120,10 +120,19 @@ namespace YPS.Parts2y.Parts2y_Views
                 base.OnAppearing();
 
                 Vm.loadindicator = true;
+                (((App.Current.MainPage) as MenuPage).Detail as NavigationPage).BarBackgroundColor = Vm.BgColor = YPS.CommonClasses.Settings.Bar_Background;
+                (((App.Current.MainPage) as MenuPage).FindByName("contentpage") as ContentPage).BackgroundColor = YPS.CommonClasses.Settings.Bar_Background;
+
                 Settings.ShowSuccessAlert = true;
 
                 Settings.countmenu = 1;
                 await SecureStorage.SetAsync("mainPageisOn", "1");
+                Task.Run(() => Vm.GetTaskData()).Wait();
+                Task.Run(() => Vm.RememberUserDetails()).Wait();
+                Vm.GetActionStatus();
+                Vm.GetallApplabels();
+                Vm.ChangeLabel();
+                Vm.GetQuestions();
                 Vm.GetPNCount();
             }
             catch (Exception ex)

@@ -24,22 +24,25 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                trackService = new YPSService();
                 InitializeComponent();
-                Settings.scanredirectpage = "CompareContinuous";
                 BindingContext = Vm = new CompareContinuousViewModel(Navigation, this, false);
+                Vm.loadindicator = true;
+                trackService = new YPSService();
+                Settings.scanredirectpage = "CompareContinuous";
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "CompareContinuous constructor -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
+            Vm.loadindicator = false;
         }
 
         private async void ClearHistory(object sender, EventArgs e)
         {
             try
             {
+                Vm.loadindicator = true;
                 BindingContext = Vm = new CompareContinuousViewModel(Navigation, this, true);
             }
             catch (Exception ex)
@@ -47,6 +50,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 YPSLogger.ReportException(ex, "ClearHistory method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
+            Vm.loadindicator = false;
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                await Navigation.PopAsync();
+                Navigation.PopToRootAsync(false);
             }
             catch (Exception ex)
             {
@@ -71,6 +75,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
+                Vm.loadindicator = true;
                 Vm.showScanHistory = true;
             }
             catch (Exception ex)
@@ -78,12 +83,14 @@ namespace YPS.Parts2y.Parts2y_Views
                 YPSLogger.ReportException(ex, "ViewHistory method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
+            Vm.loadindicator = false;
         }
 
         private async void HideHistory(object sender, EventArgs e)
         {
             try
             {
+                Vm.loadindicator = true;
                 Vm.showScanHistory = false;
             }
             catch (Exception ex)
@@ -91,6 +98,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 YPSLogger.ReportException(ex, "HideHistory method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
+            Vm.loadindicator = false;
         }
 
         private async void TotalEntryTextChanged(object sender, TextChangedEventArgs e)
@@ -114,18 +122,8 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (result)
                 {
-                    int? total = Vm.TotalCount;
-                    string selectedrule = Vm.SelectedScanRule;
-
-
-                    Vm.TotalCount = total;
-                    Vm.SelectedScanRule = selectedrule;
-                    bool value = await Vm.SaveConfig();
-
-                    if (value == true)
-                    {
-                        BindingContext = Vm = new CompareContinuousViewModel(Navigation, this, false);
-                    }
+                    Vm.loadindicator = true;
+                    await Vm.SaveConfig();
                 }
             }
             catch (Exception ex)
@@ -133,34 +131,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 YPSLogger.ReportException(ex, "SaveClick method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 await trackService.Handleexception(ex);
             }
-        }
-
-        protected override void OnAppearing()
-        {
-            try
-            {
-                base.OnAppearing();
-            }
-            catch (Exception ex)
-            {
-
-                YPSLogger.ReportException(ex, "OnAppearing method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
-                trackService.Handleexception(ex);
-            }
-        }
-
-        protected override void OnDisappearing()
-        {
-            try
-            {
-                base.OnDisappearing();
-            }
-            catch (Exception ex)
-            {
-
-                YPSLogger.ReportException(ex, "OnDisappearing method -> in CompareContinuous.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
-                trackService.Handleexception(ex);
-            }
+            Vm.loadindicator = false;
         }
     }
 }

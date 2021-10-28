@@ -78,7 +78,7 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 Vm.IndicatorVisibility = true;
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
