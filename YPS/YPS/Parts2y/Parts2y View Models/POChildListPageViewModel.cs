@@ -664,7 +664,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopAsync(false);
+                Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
