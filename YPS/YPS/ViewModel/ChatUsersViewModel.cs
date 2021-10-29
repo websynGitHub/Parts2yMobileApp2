@@ -213,17 +213,26 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
+
+
                     if (!string.IsNullOrEmpty(GroupName))
                     {
-                        var result = await service.UpdateChatTitle(GroupName, Settings.QAType);
-
-                        if (result != null && result.status == 0)
+                        if (UpdateBtnOpacity == 1.0)
                         {
-                            await App.Current.MainPage.DisplayAlert("Alert", "Update fail.", "Ok");
+                            var result = await service.UpdateChatTitle(GroupName, Settings.QAType);
+
+                            if (result != null && result.status == 0)
+                            {
+                                await App.Current.MainPage.DisplayAlert("Alert", "Update fail.", "Ok");
+                            }
+                            else
+                            {
+                                await App.Current.MainPage.DisplayAlert("Alert", "Success.", "Ok");
+                            }
                         }
                         else
                         {
-                            await App.Current.MainPage.DisplayAlert("Alert", "Success.", "Ok");
+                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
@@ -276,7 +285,7 @@ namespace YPS.ViewModel
 
                                 if (Settings.ChatClosedOrNot == "Closed")
                                 {
-                                    item.IsAddRemoveIconVisible = item.ISCurrentUser == 1 || item.Status == 1 ? true : false;
+                                    item.AddRemoveIconOpacity = (item.IsIconVisible = item.ISCurrentUser == 1 || item.Status == 1 ? true : false) == true ? 1.0 : 0.5;
                                     item.img = Icons.tickCircle;
                                     item.IconColor = item.ISCurrentUser == 1 ? Color.Blue : Color.BlueViolet;
                                     //item.IconColor = Color.FromHex("#269DC9");
@@ -290,16 +299,19 @@ namespace YPS.ViewModel
                                 {
                                     if (item.Status == 1)
                                     {
-                                        item.IsAddRemoveIconVisible = true;
-
-                                        if (item.ISCurrentUser != 1 && removeuser == true)
+                                        if (item.ISCurrentUser != 1)
                                         {
+                                            if (removeuser == true)
+                                            {
+                                                item.AddRemoveIconOpacity = 1.0;
+                                            }
                                             item.img = Icons.minusCircle;
                                             item.IsAddStatus = false;
                                             item.IconColor = Color.Red;
                                         }
                                         else
                                         {
+                                            item.AddRemoveIconOpacity = 1.0;
                                             item.img = Icons.tickCircle;
                                             item.IconColor = item.ISCurrentUser == 1 ? Color.Blue : Color.BlueViolet;
                                         }
@@ -308,11 +320,12 @@ namespace YPS.ViewModel
                                     {
                                         if (adduser == true)
                                         {
-                                            item.IsAddRemoveIconVisible = true;
-                                            item.img = Icons.plusCircle;
-                                            item.IsAddStatus = true;
-                                            item.IconColor = Color.Green;
+                                            item.AddRemoveIconOpacity = 1.0;
                                         }
+                                        item.img = Icons.plusCircle;
+                                        item.IsAddStatus = true;
+                                        item.IconColor = Color.Green;
+
                                     }
 
                                     item.Iscurentuser = item.ISCurrentUser == 1 ? false : true;
@@ -391,8 +404,8 @@ namespace YPS.ViewModel
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    IsUpdateBtnVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQATitleEdit".Trim()).FirstOrDefault()) != null ? true : false;
-                    QnACloseIcon = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQAClose".Trim()).FirstOrDefault()) != null ? true : false;
+                    UpdateBtnOpacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQATitleEdit".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    QnACloseIconOpacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQAClose".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
                     adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
                     removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
 
@@ -421,14 +434,14 @@ namespace YPS.ViewModel
             }
         }
         #region Properties
-        private bool _IsUpdateBtnVisible;
-        public bool IsUpdateBtnVisible
+        private double _UpdateBtnOpacity;
+        public double UpdateBtnOpacity
         {
-            get => _IsUpdateBtnVisible;
+            get => _UpdateBtnOpacity;
             set
             {
-                _IsUpdateBtnVisible = value;
-                OnPropertyChanged("IsUpdateBtnVisible");
+                _UpdateBtnOpacity = value;
+                OnPropertyChanged("UpdateBtnOpacity");
             }
         }
 
@@ -571,6 +584,20 @@ namespace YPS.ViewModel
                 OnPropertyChanged("QnACloseStack");
             }
         }
+        public double _QnACloseIconOpacity = 1.0;
+        public double QnACloseIconOpacity
+        {
+            get
+            {
+                return _QnACloseIconOpacity;
+            }
+            set
+            {
+                _QnACloseIconOpacity = value;
+                OnPropertyChanged("QnACloseIconOpacity");
+            }
+        }
+
         public bool _QnACloseIcon = true;
         public bool QnACloseIcon
         {
@@ -584,6 +611,7 @@ namespace YPS.ViewModel
                 OnPropertyChanged("QnACloseIcon");
             }
         }
+
         public bool _adduserIcon = true;
         public bool adduserIcon
         {

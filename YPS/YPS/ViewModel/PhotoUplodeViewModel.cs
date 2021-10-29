@@ -69,17 +69,16 @@ namespace YPS.ViewModel
                 Access_Photo = accessPhoto;
                 types = SelectionType;
                 SelectedTagData = allPo_Data;
-                IsScanIconVisible = isSacanIconVisible = issacaniconvisible;
+                //IsScanIconVisible = isSacanIconVisible = issacaniconvisible;
 
                 isuploadcompleted = select_items != null ? select_items.isCompleted : allPo_Data.photoTickVisible;
 
                 if (SelectionType.Trim().ToLower() == "initialphoto")
                 {
+                    InspBtnOpacity = 0.5;
                     Select_Items = select_items;
                     puid = select_items.PUID;
                     poid = select_items.POID;
-                    //RowHeightTitle = 40;
-                    //RowHeightTagNumber = 0;
                     selectiontype_index = 0;
                     closeLabelText = false;
                     RowHeightcomplete = 0;
@@ -147,11 +146,7 @@ namespace YPS.ViewModel
                 {
                     multiple_Taps = true;
 
-                    if (Access_Photo == true)
-                    {
-                        await App.Current.MainPage.DisplayAlert("Message", "You can't able to delete this photo.", "OK");
-                    }
-                    else
+                    if (DeleteIconOpacity == 1.0)
                     {
                         bool confirm = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
 
@@ -183,6 +178,7 @@ namespace YPS.ViewModel
                                                     if (AllPhotosData.data.BPhotos.Count == 0)
                                                     {
                                                         NoPhotos_Visibility = true;
+                                                        InspBtnOpacity = 0.5;
                                                     }
                                                 }
                                                 else
@@ -193,6 +189,7 @@ namespace YPS.ViewModel
                                                     if (AllPhotosData.data.Aphotos.Count == 0)
                                                     {
                                                         NoPhotos_Visibility = true;
+                                                        InspBtnOpacity = 0.5;
                                                     }
                                                 }
 
@@ -201,6 +198,7 @@ namespace YPS.ViewModel
                                                 if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
                                                 {
                                                     closeLabelText = false;
+                                                    InspBtnOpacity = 0.5;
                                                     RowHeightcomplete = 0;
                                                 }
                                                 await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
@@ -221,6 +219,10 @@ namespace YPS.ViewModel
                                 IndicatorVisibility = false;
                             });
                         }
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
             }
@@ -423,10 +425,11 @@ namespace YPS.ViewModel
 
                     if (checkInternet)
                     {
-                        FirstMainStack = true;
-                        IsScanIconVisible = isSacanIconVisible == true ? true : false;
-                        IsInspBtnVisible = true;
-                        RowHeightOpenCam = 0;
+                        //FirstMainStack = true;
+                        //IsScanIconVisible = isSacanIconVisible == true ? true : false;
+                        //IsInspBtnVisible = true;
+                        ISBottomButtonsVisible = true;
+                        RowHeightOpenCam = 57;
                         SecondMainStack = firstStack = secondStack = false;
                         listStack = true;
 
@@ -717,7 +720,6 @@ namespace YPS.ViewModel
 
                             if (AllPhotosData?.data?.photoTags?.Count != 0)
                             {
-                                InspBtnOpacity = 1.0;
                                 var result = AllPhotosData.data.photoTags.Select(x => x.TagNumber).ToList();
                                 string result1 = String.Join(" | ", result);
                                 Tagnumbers = result1;
@@ -725,6 +727,7 @@ namespace YPS.ViewModel
 
                             finalPhotoListA = AllPhotosData.data.Aphotos;
                             finalPhotoListB = AllPhotosData.data.BPhotos;
+                            InspBtnOpacity = AllPhotosData.data.Aphotos.Count > 0 || AllPhotosData.data.BPhotos.Count > 0 ? 1.0 : 0.5;
 
                             if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
                             {
@@ -836,13 +839,20 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    if (selectiontype_index == 0 && puid == 0)
+                    if (ScanIconOpacity == 1.0)
                     {
-                        await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null), false);
+                        if (selectiontype_index == 0 && puid == 0)
+                        {
+                            await Navigation.PushAsync(new ScanPage(UploadType, Select_Items, true, null), false);
+                        }
+                        else
+                        {
+                            await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData), false);
+                        }
                     }
                     else
                     {
-                        await Navigation.PushAsync(new ScanPage(UploadType, null, false, SelectedTagData), false);
+                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
             }
@@ -875,25 +885,113 @@ namespace YPS.ViewModel
                     }).ToList();
                 }
 
-
-                string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
-
-                if (action == "Camera")
+                if (CamIconOpacity == 1.0)
                 {
-                    IndicatorVisibility = true;
+                    string action = await App.Current.MainPage.DisplayActionSheet("", "Cancel", null, "Camera", "Gallery");
 
-                    /// Checking camera is available or not in in mobile.
-                    if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+                    if (action == "Camera")
                     {
-                        btnenable = false;
-                        /// Request permission a user to allowed take photos from the camera.
-                        var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-                        var statusiOS = resultIOS[Permission.Camera];
+                        IndicatorVisibility = true;
 
-                        /// Checking permission is allowed or denied by the user to access the photo from mobile.
+                        /// Checking camera is available or not in in mobile.
+                        if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+                        {
+                            btnenable = false;
+                            /// Request permission a user to allowed take photos from the camera.
+                            var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+                            var statusiOS = resultIOS[Permission.Camera];
+
+                            /// Checking permission is allowed or denied by the user to access the photo from mobile.
+                            if (statusiOS == PermissionStatus.Denied)
+                            {
+                                var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to take photos.", null, null, "Maybe Later", "Settings");
+                                switch (checkSelect)
+                                {
+                                    case "Maybe Later":
+                                        break;
+                                    case "Settings":
+                                        CrossPermissions.Current.OpenAppSettings();
+                                        break;
+                                }
+                            }
+                            else if (statusiOS == PermissionStatus.Granted)
+                            {
+                                var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                                {
+                                    PhotoSize = PhotoSize.Custom,
+                                    CustomPhotoSize = Settings.PhotoSize,
+                                    CompressionQuality = Settings.CompressionQuality
+                                });
+
+                                if (file != null)
+                                {
+                                    IndicatorVisibility = false;
+                                    btnenable = true;
+
+                                    if (photoCounts == 0)
+                                    {
+                                        CaptchaImage1 = ImageSource.FromStream(() =>
+                                        {
+                                            return file.GetStreamWithImageRotatedForExternalStorage();
+                                        });
+
+                                        firstStack = true;
+                                        closeLabelText = false;
+                                        RowHeightcomplete = 0;
+                                        listStack = false;
+                                        secondStack = false;
+                                        NoPhotos_Visibility = false;
+
+                                    }
+                                    else
+                                    {
+                                        CaptchaImage2 = ImageSource.FromStream(() =>
+                                        {
+                                            return file.GetStreamWithImageRotatedForExternalStorage();
+                                        });
+
+                                        firstStack = false;
+                                        secondStack = true;
+                                        closeLabelText = false;
+                                        listStack = false;
+                                        RowHeightcomplete = 0;
+                                        NoPhotos_Visibility = false;
+
+                                    }
+
+                                    extension = Path.GetExtension(file.Path);
+                                    Mediafile = file.Path;
+                                    picStream = file.GetStreamWithImageRotatedForExternalStorage();
+                                    fileName = Path.GetFileNameWithoutExtension(file.Path);
+                                    //FirstMainStack = false;
+                                    //IsScanIconVisible = false;
+                                    //IsInspBtnVisible = false;
+                                    ISBottomButtonsVisible = false;
+                                    RowHeightOpenCam = 100;
+                                    SecondMainStack = true;
+                                }
+                            }
+                            else
+                            {
+                                btnenable = true;
+                            }
+                        }
+                        else
+                        {
+                            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                        }
+                        btnenable = true;
+                    }
+                    else if (action == "Gallery")
+                    {
+                        /// Request permission a user to allowed take photos from the gallery.
+                        var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
+                        var statusiOS = resultIOS[Permission.Photos];
+
+                        /// Checking permission is allowed or denied9 by the user to access the photo from mobile.
                         if (statusiOS == PermissionStatus.Denied)
                         {
-                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to take photos.", null, null, "Maybe Later", "Settings");
+                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the gallery to take photos.", null, null, "Maybe Later", "Settings");
                             switch (checkSelect)
                             {
                                 case "Maybe Later":
@@ -905,58 +1003,47 @@ namespace YPS.ViewModel
                         }
                         else if (statusiOS == PermissionStatus.Granted)
                         {
-                            var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                            IndicatorVisibility = true;
+
+                            var fileOS = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
                             {
                                 PhotoSize = PhotoSize.Custom,
                                 CustomPhotoSize = Settings.PhotoSize,
                                 CompressionQuality = Settings.CompressionQuality
                             });
 
-                            if (file != null)
+                            if (fileOS != null)
                             {
-                                IndicatorVisibility = false;
-                                btnenable = true;
-
-                                if (photoCounts == 0)
+                                Device.BeginInvokeOnMainThread(() =>
                                 {
-                                    CaptchaImage1 = ImageSource.FromStream(() =>
+                                    if (photoCounts == 0)
                                     {
-                                        return file.GetStreamWithImageRotatedForExternalStorage();
-                                    });
+                                        CaptchaImage1 = ImageSource.FromFile(fileOS.Path);
+                                        firstStack = true;
+                                        listStack = false;
+                                        secondStack = false;
+                                    }
+                                    else
+                                    {
+                                        CaptchaImage2 = ImageSource.FromFile(fileOS.Path);
+                                        firstStack = false;
+                                        secondStack = true;
+                                    }
 
-                                    firstStack = true;
                                     closeLabelText = false;
                                     RowHeightcomplete = 0;
-                                    listStack = false;
-                                    secondStack = false;
+                                    //FirstMainStack = false;
+                                    //IsScanIconVisible = false;
+                                    //IsInspBtnVisible = false;
+                                    ISBottomButtonsVisible = false;
+                                    RowHeightOpenCam = 100;
+                                    SecondMainStack = true;
                                     NoPhotos_Visibility = false;
-
-                                }
-                                else
-                                {
-                                    CaptchaImage2 = ImageSource.FromStream(() =>
-                                    {
-                                        return file.GetStreamWithImageRotatedForExternalStorage();
-                                    });
-
-                                    firstStack = false;
-                                    secondStack = true;
-                                    closeLabelText = false;
-                                    listStack = false;
-                                    RowHeightcomplete = 0;
-                                    NoPhotos_Visibility = false;
-
-                                }
-
-                                extension = Path.GetExtension(file.Path);
-                                Mediafile = file.Path;
-                                picStream = file.GetStreamWithImageRotatedForExternalStorage();
-                                fileName = Path.GetFileNameWithoutExtension(file.Path);
-                                FirstMainStack = false;
-                                IsScanIconVisible = false;
-                                IsInspBtnVisible = false;
-                                RowHeightOpenCam = 100;
-                                SecondMainStack = true;
+                                    btnenable = true;
+                                    extension = Path.GetExtension(fileOS.Path);
+                                    picStream = fileOS.GetStreamWithImageRotatedForExternalStorage();
+                                    fileName = Path.GetFileNameWithoutExtension(fileOS.Path);
+                                });
                             }
                         }
                         else
@@ -964,79 +1051,10 @@ namespace YPS.ViewModel
                             btnenable = true;
                         }
                     }
-                    else
-                    {
-                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
-                    }
-                    btnenable = true;
                 }
-                else if (action == "Gallery")
+                else
                 {
-                    /// Request permission a user to allowed take photos from the gallery.
-                    var resultIOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
-                    var statusiOS = resultIOS[Permission.Photos];
-
-                    /// Checking permission is allowed or denied9 by the user to access the photo from mobile.
-                    if (statusiOS == PermissionStatus.Denied)
-                    {
-                        var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the gallery to take photos.", null, null, "Maybe Later", "Settings");
-                        switch (checkSelect)
-                        {
-                            case "Maybe Later":
-                                break;
-                            case "Settings":
-                                CrossPermissions.Current.OpenAppSettings();
-                                break;
-                        }
-                    }
-                    else if (statusiOS == PermissionStatus.Granted)
-                    {
-                        IndicatorVisibility = true;
-
-                        var fileOS = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
-                        {
-                            PhotoSize = PhotoSize.Custom,
-                            CustomPhotoSize = Settings.PhotoSize,
-                            CompressionQuality = Settings.CompressionQuality
-                        });
-
-                        if (fileOS != null)
-                        {
-                            Device.BeginInvokeOnMainThread(() =>
-                            {
-                                if (photoCounts == 0)
-                                {
-                                    CaptchaImage1 = ImageSource.FromFile(fileOS.Path);
-                                    firstStack = true;
-                                    listStack = false;
-                                    secondStack = false;
-                                }
-                                else
-                                {
-                                    CaptchaImage2 = ImageSource.FromFile(fileOS.Path);
-                                    firstStack = false;
-                                    secondStack = true;
-                                }
-
-                                closeLabelText = false;
-                                RowHeightcomplete = 0;
-                                FirstMainStack = false;
-                                IsScanIconVisible = false;
-                                IsInspBtnVisible = false;
-                                RowHeightOpenCam = 100;
-                                SecondMainStack = true;
-                                NoPhotos_Visibility = false;
-                                btnenable = true;
-                                extension = Path.GetExtension(fileOS.Path);
-                                picStream = fileOS.GetStreamWithImageRotatedForExternalStorage();
-                                fileName = Path.GetFileNameWithoutExtension(fileOS.Path);
-                            });
-                        }
-                    }
-                    else
-                    {
-                        btnenable = true;
-                    }
+                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
                 IndicatorVisibility = false;
             }
@@ -1131,10 +1149,10 @@ namespace YPS.ViewModel
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
-                    IsInspBtnVisible = FirstMainStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? true : false;
+                    DeleteIconOpacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
+                    ScanIconOpacity = CamIconOpacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoUpload".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
 
-                    IsScanIconVisible = isSacanIconVisible == false ? false : IsInspBtnVisible;
+                    //ScanIconOpacity = isSacanIconVisible == false ? false : IsInspBtnVisible;
                 }
             }
             catch (Exception ex)
@@ -1146,33 +1164,47 @@ namespace YPS.ViewModel
 
         #region Properties
 
-        private bool _IsScanIconVisible { set; get; } = true;
-        public bool IsScanIconVisible
+        private bool _ISBottomButtonsVisible { set; get; } = true;
+        public bool ISBottomButtonsVisible
         {
             get
             {
-                return _IsScanIconVisible;
+                return _ISBottomButtonsVisible;
             }
             set
             {
-                _IsScanIconVisible = value;
-                RaisePropertyChanged("IsScanIconVisible");
+                _ISBottomButtonsVisible = value;
+                RaisePropertyChanged("ISBottomButtonsVisible");
             }
         }
 
-        private bool _IsInspBtnVisible { set; get; } = true;
-        public bool IsInspBtnVisible
+        private double _ScanIconOpacity { set; get; } = 1.0;
+        public double ScanIconOpacity
         {
             get
             {
-                return _IsInspBtnVisible;
+                return _ScanIconOpacity;
             }
             set
             {
-                _IsInspBtnVisible = value;
-                RaisePropertyChanged("IsInspBtnVisible");
+                _ScanIconOpacity = value;
+                RaisePropertyChanged("ScanIconOpacity");
             }
         }
+
+        //private bool _IsInspBtnVisible { set; get; } = true;
+        //public bool IsInspBtnVisible
+        //{
+        //    get
+        //    {
+        //        return _IsInspBtnVisible;
+        //    }
+        //    set
+        //    {
+        //        _IsInspBtnVisible = value;
+        //        RaisePropertyChanged("IsInspBtnVisible");
+        //    }
+        //}
 
         private double _InspBtnOpacity { set; get; } = 0.5;
         public double InspBtnOpacity
@@ -1327,13 +1359,13 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private bool _FirstMainStack = true;
-        public bool FirstMainStack
+        private double _CamIconOpacity = 1.0;
+        public double CamIconOpacity
         {
-            get { return _FirstMainStack; }
+            get { return _CamIconOpacity; }
             set
             {
-                _FirstMainStack = value;
+                _CamIconOpacity = value;
                 NotifyPropertyChanged();
             }
         }
@@ -1437,7 +1469,7 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private int _RowHeightOpenCam = 0;
+        private int _RowHeightOpenCam = 57;
         public int RowHeightOpenCam
         {
             get => _RowHeightOpenCam;
@@ -1487,13 +1519,13 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        private bool _DeleteIconStack = true;
-        public bool DeleteIconStack
+        private double _DeleteIconOpacity = 1.0;
+        public double DeleteIconOpacity
         {
-            get => _DeleteIconStack;
+            get => _DeleteIconOpacity;
             set
             {
-                _DeleteIconStack = value;
+                _DeleteIconOpacity = value;
                 NotifyPropertyChanged();
             }
         }

@@ -35,7 +35,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings.refreshPage = 1;
                 taskResourceID = potag[0]?.TaskResourceID;
 
-                BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata);
+                BindingContext = Vm = new POChildListPageViewModel(Navigation, potag, sendpodata, this);
 
                 Settings.refreshPage = 1;
 
@@ -268,48 +268,35 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (imgCamera.Opacity == 1.0)
+                    stckCamera.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        stckCamera.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_InitialCamera),
-                            CommandParameter = ChildDataList,
-                        });
+                        Command = new Command(Vm.tap_InitialCamera),
+                        CommandParameter = ChildDataList,
+                    });
 
-                    }
-                    if (imgFileUpload.Opacity == 1.0)
+                    stckFileUpload.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        stckFileUpload.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_InitialFileUpload),
-                            CommandParameter = ChildDataList,
-                        });
+                        Command = new Command(Vm.tap_InitialFileUpload),
+                        CommandParameter = ChildDataList,
+                    });
 
-                    }
-                    if (imgChat.Opacity == 1.0)
+                    stckChat.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        stckChat.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_OnMessage),
-                            CommandParameter = ChildDataList,
-                        });
-                    }
-                    if (imgPrinter.Opacity == 1.0)
+                        Command = new Command(Vm.tap_OnMessage),
+                        CommandParameter = ChildDataList,
+                    });
+
+                    stckPrinter.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        stckPrinter.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.tap_Printer),
-                            CommandParameter = ChildDataList,
-                        });
-                    }
-                    if (imgDone.Opacity == 1.0)
+                        Command = new Command(Vm.tap_Printer),
+                        CommandParameter = ChildDataList,
+                    });
+
+                    stckDone.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        stckDone.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(Vm.MarkAsDone),
-                            CommandParameter = ChildDataList,
-                        });
-                    }
+                        Command = new Command(Vm.MarkAsDone),
+                        CommandParameter = ChildDataList,
+                    });
 
                     if (taskResourceID == Settings.userLoginID)
                     {

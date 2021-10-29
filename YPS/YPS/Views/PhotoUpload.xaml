@@ -138,8 +138,11 @@
                                                     </forms:CachedImage.GestureRecognizers>
                                                 </forms:CachedImage>
                                                 <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000"
-                                                         IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=pholist}}">
-                                                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                         >
+                                                    <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.MyDeleteIc}" 
+                                                                                   Style="{StaticResource LblIconStyle}"
+                                                                                   Opacity="{Binding BindingContext.DeleteIconOpacity,Source={x:Reference Name=pholist}}"
+                                                                                   FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
                                                     <StackLayout.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.deleteImage,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
                                                     </StackLayout.GestureRecognizers>
@@ -196,8 +199,11 @@
                                                         <TapGestureRecognizer Command="{Binding BindingContext.tap_OnImge,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
                                                     </forms:CachedImage.GestureRecognizers>
                                                 </forms:CachedImage>
-                                                <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000" IsVisible="{Binding BindingContext.DeleteIconStack,Source={x:Reference Name=pholist}}">
-                                                    <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyle}" FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
+                                                <StackLayout Grid.Row="0" Padding="1" HorizontalOptions="End" BackgroundColor="#80000000">
+                                                    <LblIcons:FontAwesomeIconLabel Text="{Static StaticIcons:Icons.MyDeleteIc}" 
+                                                                                   Style="{StaticResource LblIconStyle}"
+                                                                                   Opacity="{Binding BindingContext.DeleteIconOpacity,Source={x:Reference Name=pholist}}"
+                                                                                   FontSize="{OnPlatform Android=Medium,iOS=Large}"/>
                                                     <StackLayout.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.deleteImage,Source={x:Reference Name=pholist}}" CommandParameter="{Binding .}"/>
                                                     </StackLayout.GestureRecognizers>
@@ -267,9 +273,49 @@
                     </StackLayout>
 
 
+                    <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" IsVisible="{Binding ISBottomButtonsVisible}"
+                      ColumnDefinitions="*,*,*"  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+
+                        <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent" IsEnabled="{Binding btnenable}"
+                                                    Opacity="{Binding CamIconOpacity}"
+                    Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="End"
+                                                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"   
+                                                Margin="10,0,0,0" Grid.Column="0">
+                            <local:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectPhotoCmd}"/>
+                            </local:FontAwesomeIconLabel.GestureRecognizers>
+                        </local:FontAwesomeIconLabel>
+
+                        <local:FontAwesomeIconLabel x:Name="Scan" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" 
+                                                    Opacity="{Binding ScanIconOpacity}"
+                    Text="{x:Static StaticIcons:Icons.Scan}" TextColor="Black" FontSize="50" HorizontalOptions="Center" VerticalOptions="End"
+                                                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
+                                            Grid.Column="1">
+                            <local:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ScanCmd}"/>
+                            </local:FontAwesomeIconLabel.GestureRecognizers>
+                        </local:FontAwesomeIconLabel>
+
+                        <sfbuttons:SfButton  HorizontalOptions="End" VerticalOptions="End"
+                                    Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
+                                    Opacity="{Binding InspBtnOpacity}"
+                                            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
+                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
+                                         Margin="0,0,10,4" Grid.Column="2">
+                            <sfbuttons:SfButton.Content>
+                                <Label Text="Insp" Style="{StaticResource SfButtonTextLbl}" />
+                            </sfbuttons:SfButton.Content>
+                            <sfbuttons:SfButton.Behaviors>
+                                <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                            </sfbuttons:SfButton.Behaviors>
+                        </sfbuttons:SfButton>
+                    </Grid>
                 </Grid>
 
-                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
+                <!--<Grid HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
                       ColumnDefinitions="*,*,*"  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
                     
@@ -306,7 +352,7 @@
                         <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                     </sfbuttons:SfButton.Behaviors>
                 </sfbuttons:SfButton>
-                </Grid>
+                </Grid>-->
 
             </RelativeLayout>
 

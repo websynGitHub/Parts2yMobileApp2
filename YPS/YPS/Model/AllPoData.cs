@@ -123,6 +123,17 @@ namespace YPS.Model
             }
         }
 
+        public double _ShippingMarkOpacity = 1.0;
+        public double ShippingMarkOpacity
+        {
+            get => _ShippingMarkOpacity;
+            set
+            {
+                _ShippingMarkOpacity = value;
+                RaisePropertyChanged("ShippingMarkOpacity");
+            }
+        }
+
         public bool _IsShippingMarkVisible = true;
         public bool IsShippingMarkVisible
         {
@@ -599,7 +610,8 @@ namespace YPS.Model
         public bool IsAddStatus { get; set; }
         public Xamarin.Forms.Color IconColor { get; set; }
         public bool UserChecked { get; set; }
-        public bool IsAddRemoveIconVisible { get; set; }
+        public double AddRemoveIconOpacity { get; set; } = 0.5;
+        public bool IsIconVisible { get; set; } = true;
         public double CheckBoxOpacity { get; set; } = 1;
     }
 

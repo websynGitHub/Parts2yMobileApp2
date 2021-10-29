@@ -42,15 +42,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command InspCmd { set; get; }
         SendPodata sendPodata = new SendPodata();
         ObservableCollection<AllPoData> allPOTagData;
+        POChildListPage pageName;
         int POID, TaskID;
         public static bool isalldone;
 
-        public POChildListPageViewModel(INavigation _Navigation, ObservableCollection<AllPoData> potag, SendPodata sendpodata)
+        public POChildListPageViewModel(INavigation _Navigation, ObservableCollection<AllPoData> potag, SendPodata sendpodata, POChildListPage pagename)
         {
             try
             {
                 Navigation = _Navigation;
                 sendPodata = sendpodata;
+                pageName = pagename;
                 trackService = new YPSService();
 
                 if (potag != null)
@@ -687,93 +689,100 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
-                        var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                        var uniq = data.GroupBy(x => x.POShippingNumber);
-                        AllPoData potagdata = new AllPoData();
-
-                        if (data != null && data.Count == 1)
+                        if (pageName.imgCamera.Opacity == 1.0)
                         {
-                            potagdata = data[0];
-                        }
+                            var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
+                            var data = taglist.Where(wr => wr.IsChecked == true).ToList();
+                            var uniq = data.GroupBy(x => x.POShippingNumber);
+                            AllPoData potagdata = new AllPoData();
 
-                        if (data == null || data?.Count == 0)
-                        {
-                            //DependencyService.Get<IToastMessage>().ShortAlert("Please select tag(s) to start upload photo(s).");
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload photo(s).");
-                        }
-                        else
-                        {
-                            var restricData = data.Where(r => r.IsPhotoRequired == 0).ToList();
-
-                            if (restricData.Count > 0)
+                            if (data != null && data.Count == 1)
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
+                                potagdata = data[0];
+                            }
+
+                            if (data == null || data?.Count == 0)
+                            {
+                                DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload photo(s).");
                             }
                             else
                             {
-                                if (data?.Count() == 1)
+                                var restricData = data.Where(r => r.IsPhotoRequired == 0).ToList();
+
+                                if (restricData.Count > 0)
                                 {
-                                    PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-                                    List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                                    foreach (var podata in uniq)
-                                    {
-                                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                        selectedTagsData.POID = d.POID;
-                                        selectedTagsData.isCompleted = d.photoTickVisible;
-
-
-                                        foreach (var item in podata)
-                                        {
-                                            if (item.TagAPhotoCount == 0 && item.TagBPhotoCount == 0 && item.PUID == 0)
-                                            {
-                                                PhotoTag tg = new PhotoTag();
-
-                                                if (item.POTagID != 0)
-                                                {
-                                                    tg.POTagID = item.POTagID;
-                                                    tg.TaskID = item.TaskID;
-                                                    tg.TaskStatus = item.TaskStatus;
-                                                    tg.TagTaskStatus = item.TagTaskStatus;
-                                                    tg.TagNumber = item.TagNumber;
-                                                    tg.IdentCode = item.IdentCode;
-                                                    Settings.Tagnumbers = item.TagNumber;
-                                                    lstdat.Add(tg);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                selectedTagsData.alreadyExit = "alreadyExit";
-                                                break;
-                                            }
-                                        }
-                                        selectedTagsData.photoTags = lstdat;
-                                        Settings.currentPoTagId_Inti = lstdat;
-                                    }
-
-                                    if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
-                                    {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected " + VinsOrParts + ".");
-                                    }
-                                    else
-                                    {
-                                        if (selectedTagsData.photoTags.Count != 0)
-                                        {
-                                            await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, true), false);
-                                        }
-                                        else
-                                        {
-                                            DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
-                                        }
-                                    }
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
                                 }
                                 else
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Please select only one record to upload photo(s).");
+                                    if (data?.Count() == 1)
+                                    {
+                                        PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+                                        List<PhotoTag> lstdat = new List<PhotoTag>();
+
+                                        foreach (var podata in uniq)
+                                        {
+                                            var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                            selectedTagsData.POID = d.POID;
+                                            selectedTagsData.isCompleted = d.photoTickVisible;
+
+
+                                            foreach (var item in podata)
+                                            {
+                                                if (item.TagAPhotoCount == 0 && item.TagBPhotoCount == 0 && item.PUID == 0)
+                                                {
+                                                    PhotoTag tg = new PhotoTag();
+
+                                                    if (item.POTagID != 0)
+                                                    {
+                                                        tg.POTagID = item.POTagID;
+                                                        tg.TaskID = item.TaskID;
+                                                        tg.TaskStatus = item.TaskStatus;
+                                                        tg.TagTaskStatus = item.TagTaskStatus;
+                                                        tg.TagNumber = item.TagNumber;
+                                                        tg.IdentCode = item.IdentCode;
+                                                        Settings.Tagnumbers = item.TagNumber;
+                                                        lstdat.Add(tg);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    selectedTagsData.alreadyExit = "alreadyExit";
+                                                    break;
+                                                }
+                                            }
+                                            selectedTagsData.photoTags = lstdat;
+                                            Settings.currentPoTagId_Inti = lstdat;
+                                        }
+
+                                        if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
+                                        {
+                                            DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected " + VinsOrParts + ".");
+                                        }
+                                        else
+                                        {
+                                            if (selectedTagsData.photoTags.Count != 0)
+                                            {
+                                                await Navigation.PushAsync(new PhotoUpload(selectedTagsData, potagdata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, true), false);
+                                            }
+                                            else
+                                            {
+                                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Please select only one record to upload photo(s).");
+                                    }
                                 }
                             }
                         }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        }
+
                     }
                     else
                     {
@@ -809,48 +818,55 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
-                        var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                        var uniq = data.GroupBy(x => x.POShippingNumber);
-
-                        if (uniq.Count() == 0)
+                        if (pageName.imgChat.Opacity == 1.0)
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start conversation.");
-                        }
-                        else
-                        {
-                            ChatData selectedTagsData = new ChatData();
-                            List<Tag> lstdat = new List<Tag>();
+                            var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
+                            var data = taglist.Where(wr => wr.IsChecked == true).ToList();
+                            var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                            foreach (var podata in uniq)
+                            if (uniq.Count() == 0)
                             {
-                                var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                selectedTagsData.POID = d.POID;
-
-                                foreach (var item in podata)
-                                {
-                                    Tag tg = new Tag();
-
-                                    if (item.POTagID != 0)
-                                    {
-                                        tg.POTagID = item.POTagID;
-                                        tg.TaskID = item.TaskID;
-                                        tg.TaskStatus = item.TaskStatus;
-                                        tg.TagTaskStatus = item.TagTaskStatus;
-                                        lstdat.Add(tg);
-                                    }
-                                }
-                                selectedTagsData.tags = lstdat;
-                            }
-                            if (selectedTagsData.tags.Count != 0)
-                            {
-                                Settings.ChatuserCountImgHide = 1;
-                                await Navigation.PushAsync(new ChatUsers(selectedTagsData, true), false);
+                                DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start conversation.");
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                ChatData selectedTagsData = new ChatData();
+                                List<Tag> lstdat = new List<Tag>();
+
+                                foreach (var podata in uniq)
+                                {
+                                    var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                    selectedTagsData.POID = d.POID;
+
+                                    foreach (var item in podata)
+                                    {
+                                        Tag tg = new Tag();
+
+                                        if (item.POTagID != 0)
+                                        {
+                                            tg.POTagID = item.POTagID;
+                                            tg.TaskID = item.TaskID;
+                                            tg.TaskStatus = item.TaskStatus;
+                                            tg.TagTaskStatus = item.TagTaskStatus;
+                                            lstdat.Add(tg);
+                                        }
+                                    }
+                                    selectedTagsData.tags = lstdat;
+                                }
+                                if (selectedTagsData.tags.Count != 0)
+                                {
+                                    Settings.ChatuserCountImgHide = 1;
+                                    await Navigation.PushAsync(new ChatUsers(selectedTagsData, true), false);
+                                }
+                                else
+                                {
+                                    DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                }
                             }
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
@@ -887,65 +903,72 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         try
                         {
-                            var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
-                            var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                            var uniq = data.GroupBy(x => x.POShippingNumber);
-
-                            if (data == null || data.Count() == 0)
+                            if (pageName.imgFileUpload.Opacity == 1.0)
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload file(s).");
-                            }
-                            else
-                            {
-                                StartUploadFileModel selectedTagsData = new StartUploadFileModel();
-                                List<FileTag> lstdat = new List<FileTag>();
+                                var taglist = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
+                                var data = taglist.Where(wr => wr.IsChecked == true).ToList();
+                                var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                                foreach (var podata in uniq)
+                                if (data == null || data.Count() == 0)
                                 {
-                                    var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                    selectedTagsData.POID = d.POID;
-
-                                    foreach (var item in podata)
-                                    {
-                                        FileTag tg = new FileTag();
-                                        if (item.TagFilesCount == 0 && item.FUID == 0)
-                                        {
-                                            if (item.POTagID != 0)
-                                            {
-                                                tg.POTagID = item.POTagID;
-                                                tg.TaskID = item.TaskID;
-                                                tg.TaskStatus = item.TaskStatus;
-                                                tg.TagTaskStatus = item.TagTaskStatus;
-                                                tg.TagNumber = item.TagNumber;
-                                                tg.IdentCode = item.IdentCode;
-                                                lstdat.Add(tg);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            selectedTagsData.alreadyExit = "alreadyExit";
-                                            break;
-                                        }
-
-                                    }
-                                    selectedTagsData.FileTags = Settings.currentPoTagId_Inti_F = lstdat;
-                                }
-
-                                if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
-                                {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected " + VinsOrParts + ".");
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload file(s).");
                                 }
                                 else
                                 {
-                                    if (selectedTagsData.FileTags.Count != 0)
+                                    StartUploadFileModel selectedTagsData = new StartUploadFileModel();
+                                    List<FileTag> lstdat = new List<FileTag>();
+
+                                    foreach (var podata in uniq)
                                     {
-                                        await Navigation.PushAsync(new FileUpload(selectedTagsData, 0, 0, "initialFile", false));
+                                        var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                        selectedTagsData.POID = d.POID;
+
+                                        foreach (var item in podata)
+                                        {
+                                            FileTag tg = new FileTag();
+                                            if (item.TagFilesCount == 0 && item.FUID == 0)
+                                            {
+                                                if (item.POTagID != 0)
+                                                {
+                                                    tg.POTagID = item.POTagID;
+                                                    tg.TaskID = item.TaskID;
+                                                    tg.TaskStatus = item.TaskStatus;
+                                                    tg.TagTaskStatus = item.TagTaskStatus;
+                                                    tg.TagNumber = item.TagNumber;
+                                                    tg.IdentCode = item.IdentCode;
+                                                    lstdat.Add(tg);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                selectedTagsData.alreadyExit = "alreadyExit";
+                                                break;
+                                            }
+
+                                        }
+                                        selectedTagsData.FileTags = Settings.currentPoTagId_Inti_F = lstdat;
+                                    }
+
+                                    if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
+                                    {
+                                        DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected " + VinsOrParts + ".");
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                        if (selectedTagsData.FileTags.Count != 0)
+                                        {
+                                            await Navigation.PushAsync(new FileUpload(selectedTagsData, 0, 0, "initialFile", false));
+                                        }
+                                        else
+                                        {
+                                            DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                        }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                             }
                         }
                         catch (Exception ex)
@@ -983,74 +1006,81 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet)
                 {
-                    var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
-                    var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
+                    if (pageName.imgDone.Opacity == 1.0)
+                    {
+                        var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
+                        var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
 
-                    if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Some of the " + VinsOrParts + " are already marked as done.");
-                    }
-                    else if (selectedTagData.Count() == 0)
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to mark as done.");
+                        if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Some of the " + VinsOrParts + " are already marked as done.");
+                        }
+                        else if (selectedTagData.Count() == 0)
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to mark as done.");
+                        }
+                        else
+                        {
+                            bool makeitdone = await App.Current.MainPage.DisplayAlert("Confirm", "Make sure you have finished the inspection for the selected. \nAre you sure, you want to mark the selected as Done ? ", "Ok", "Cancel");
+
+                            if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0 && makeitdone == true)
+                            {
+                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
+
+                                List<string> EncPOTagID = new List<string>();
+
+                                foreach (var data in selectedTagData)
+                                {
+                                    var value = Helperclass.Encrypt(data.POTagID.ToString());
+                                    EncPOTagID.Add(value);
+                                }
+                                tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
+                                tagtaskstatus.Status = 2;
+                                tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                                var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
+
+                                if (result?.status == 1)
+                                {
+                                    if (AllTabVisibility == true)
+                                    {
+                                        await All_Tap();
+                                    }
+                                    else if (CompleteTabVisibility == true)
+                                    {
+                                        await Complete_Tap();
+                                    }
+                                    else if (InProgressTabVisibility == true)
+                                    {
+                                        await InProgress_Tap();
+                                    }
+                                    else
+                                    {
+                                        await Pending_Tap();
+                                    }
+
+                                    if ((selectedTagData.Where(wr => wr.TaskID != 0).Count()) != 0)
+                                    {
+                                        TagTaskStatus taskstatus = new TagTaskStatus();
+                                        taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
+                                        taskstatus.TaskStatus = (PoDataChildCollections?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault()) == null ? 2 : 1;
+                                        taskstatus.CreatedBy = Settings.userLoginID;
+
+                                        var taskval = await trackService.UpdateTaskStatus(taskstatus);
+                                    }
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                }
+
+                                Settings.IsRefreshPartsPage = false;
+                                SelectedTagCount = 0;
+                                SelectedTagCountVisible = false;
+                            }
+                        }
                     }
                     else
                     {
-                        bool makeitdone = await App.Current.MainPage.DisplayAlert("Confirm", "Make sure you have finished the inspection for the selected. \nAre you sure, you want to mark the selected as Done ? ", "Ok", "Cancel");
-
-                        if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0 && makeitdone == true)
-                        {
-                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
-
-                            List<string> EncPOTagID = new List<string>();
-
-                            foreach (var data in selectedTagData)
-                            {
-                                var value = Helperclass.Encrypt(data.POTagID.ToString());
-                                EncPOTagID.Add(value);
-                            }
-                            tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
-                            tagtaskstatus.Status = 2;
-                            tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                            var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
-
-                            if (result?.status == 1)
-                            {
-                                if (AllTabVisibility == true)
-                                {
-                                    await All_Tap();
-                                }
-                                else if (CompleteTabVisibility == true)
-                                {
-                                    await Complete_Tap();
-                                }
-                                else if (InProgressTabVisibility == true)
-                                {
-                                    await InProgress_Tap();
-                                }
-                                else
-                                {
-                                    await Pending_Tap();
-                                }
-
-                                if ((selectedTagData.Where(wr => wr.TaskID != 0).Count()) != 0)
-                                {
-                                    TagTaskStatus taskstatus = new TagTaskStatus();
-                                    taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
-                                    taskstatus.TaskStatus = (PoDataChildCollections?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault()) == null ? 2 : 1;
-                                    taskstatus.CreatedBy = Settings.userLoginID;
-
-                                    var taskval = await trackService.UpdateTaskStatus(taskstatus);
-                                }
-                                DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                            }
-
-                            Settings.IsRefreshPartsPage = false;
-                            SelectedTagCount = 0;
-                            SelectedTagCountVisible = false;
-                        }
+                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
                 else
@@ -1079,73 +1109,80 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     YPSLogger.TrackEvent("POChildListPageViewModel.cs", " in tap_Printer method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                    var taglist = (obj as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
-                    var data = taglist.Where(wr => wr.IsChecked == true).ToList();
-                    var uniq = data.GroupBy(x => x.POShippingNumber);
-
-                    if (uniq?.Count() == 0)
+                    if (pageName.imgPrinter.Opacity == 1.0)
                     {
-                        //Please select tag(s) to download the report
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + ".");
-                    }
-                    else
-                    {
-                        var checkInternet = await App.CheckInterNetConnection();
+                        var taglist = (obj as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
+                        var data = taglist.Where(wr => wr.IsChecked == true).ToList();
+                        var uniq = data.GroupBy(x => x.POShippingNumber);
 
-                        if (checkInternet)
+                        if (uniq?.Count() == 0)
                         {
-                            string poTagID = "";
-                            foreach (var podata in uniq)
+                            //Please select tag(s) to download the report
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + ".");
+                        }
+                        else
+                        {
+                            var checkInternet = await App.CheckInterNetConnection();
+
+                            if (checkInternet)
                             {
-                                var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
-                                foreach (var item in podata)
+                                string poTagID = "";
+                                foreach (var podata in uniq)
                                 {
-                                    poTagID += item.POTagID + ",";
-                                }
-                            }
-                            poTagID = poTagID.TrimEnd(',');
-
-                            if (poTagID != "0")
-                            {
-                                YPSService pSService = new YPSService();
-                                var printResult = await pSService.PrintPDF(poTagID);
-
-                                PrintPDFModel printPDFModel = new PrintPDFModel();
-
-                                if (printResult?.status == 1)
-                                {
-                                    var bArray = printResult.data;
-                                    byte[] bytes = Convert.FromBase64String(bArray);
-                                    printPDFModel.bArray = bytes;
-                                    printPDFModel.FileName = "PrintTag" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
-                                    printPDFModel.PDFFileTitle = "Print Tag";
-
-                                    switch (Device.RuntimePlatform)
+                                    var d = data.Where(y => y.POShippingNumber == podata.Key).FirstOrDefault();
+                                    foreach (var item in podata)
                                     {
-                                        case Device.iOS:
-                                            if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
-                                            {
-                                                await FileManager.GetByteArrayData(printPDFModel);
-                                            }
-
-                                            var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
-                                            DependencyService.Get<NewOpenPdfI>().passPath(url);
-                                            break;
-                                        case Device.Android:
-                                            await Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
-                                            break;
+                                        poTagID += item.POTagID + ",";
                                     }
+                                }
+                                poTagID = poTagID.TrimEnd(',');
+
+                                if (poTagID != "0")
+                                {
+                                    YPSService pSService = new YPSService();
+                                    var printResult = await pSService.PrintPDF(poTagID);
+
+                                    PrintPDFModel printPDFModel = new PrintPDFModel();
+
+                                    if (printResult?.status == 1)
+                                    {
+                                        var bArray = printResult.data;
+                                        byte[] bytes = Convert.FromBase64String(bArray);
+                                        printPDFModel.bArray = bytes;
+                                        printPDFModel.FileName = "PrintTag" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
+                                        printPDFModel.PDFFileTitle = "Print Tag";
+
+                                        switch (Device.RuntimePlatform)
+                                        {
+                                            case Device.iOS:
+                                                if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
+                                                {
+                                                    await FileManager.GetByteArrayData(printPDFModel);
+                                                }
+
+                                                var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
+                                                DependencyService.Get<NewOpenPdfI>().passPath(url);
+                                                break;
+                                            case Device.Android:
+                                                await Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
+                                                break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
                                 }
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                             }
                         }
-                        else
-                        {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                        }
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
             }

@@ -290,202 +290,209 @@ namespace YPS.ViewModel
 
                 if (checkInternet)
                 {
-                    if (SetFileName.ToLower().Trim() != "please choose a file")
+                    if (UploadBtnOpacity == 1.0)
                     {
-                        if (UploadType.ToLower().Trim() == "initialfile" && myFuid == 0)
+                        if (SetFileName.ToLower().Trim() != "please choose a file")
                         {
-                            List<MyFile> phUploadList = new List<MyFile>();
-
-                            StartUploadFileModel DataForFileUploadObj = new StartUploadFileModel();
-                            DataForFileUploadObj = DataForFileUpload;
-                            DataForFileUploadObj.CreatedBy = Settings.userLoginID;
-
-                            MyFile phUpload = new MyFile();
-                            phUpload.FUID = DataForFileUpload.FUID;
-                            phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
-                            phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
-                            phUpload.CreatedBy = Settings.userLoginID;
-                            phUpload.FileDescription = FileDescription;// uploadType;
-                            phUpload.UploadType = UploadTypevalue;
-                            phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
-                            phUpload.PicStream = picStream;
-                            DataForFileUploadObj.files.Add(phUpload);
-
-                            /// Calling the blob API to initial upload file.
-                            var returnData = await BlobUpload.YPSFileUpload(UploadTypevalue, (int)BlobContainer.cnttagfiles, null, null, DataForFileUploadObj,
-                                null, null, null, "", "");
-
-                            if (returnData != null)
+                            if (UploadType.ToLower().Trim() == "initialfile" && myFuid == 0)
                             {
-                                var FinalReturnData = returnData as RootObject;
-                                //myFuid = FinalReturnData.data.FUID;
-                                myFuid = FinalReturnData.data.files[0].FUID;
+                                List<MyFile> phUploadList = new List<MyFile>();
 
-                                if (FinalReturnData?.status == 1)
+                                StartUploadFileModel DataForFileUploadObj = new StartUploadFileModel();
+                                DataForFileUploadObj = DataForFileUpload;
+                                DataForFileUploadObj.CreatedBy = Settings.userLoginID;
+
+                                MyFile phUpload = new MyFile();
+                                phUpload.FUID = DataForFileUpload.FUID;
+                                phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                                phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
+                                phUpload.CreatedBy = Settings.userLoginID;
+                                phUpload.FileDescription = FileDescription;// uploadType;
+                                phUpload.UploadType = UploadTypevalue;
+                                phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
+                                phUpload.PicStream = picStream;
+                                DataForFileUploadObj.files.Add(phUpload);
+
+                                /// Calling the blob API to initial upload file.
+                                var returnData = await BlobUpload.YPSFileUpload(UploadTypevalue, (int)BlobContainer.cnttagfiles, null, null, DataForFileUploadObj,
+                                    null, null, null, "", "");
+
+                                if (returnData != null)
                                 {
-                                    /// Checking image and file extention.
-                                    string initialIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
+                                    var FinalReturnData = returnData as RootObject;
+                                    //myFuid = FinalReturnData.data.FUID;
+                                    myFuid = FinalReturnData.data.files[0].FUID;
 
-                                    foreach (var file in DataForFileUpload.files)
+                                    if (FinalReturnData?.status == 1)
                                     {
-                                        ListOfFile.Insert(0, new MyFile() { FileName = file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = file.FileID, FileDescription = file.FileDescription, FileURL = file.FileURL, CreatedDate = file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = file.RoleName, EntityName = file.EntityName });
-                                    }
+                                        /// Checking image and file extention.
+                                        string initialIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
 
-                                    HideListAndShow = true;
-                                    HideLabelAndShow = false;
-                                    /// MessagingCenter used for update main page grid data file count.
-                                    MessagingCenter.Send<string, string>("FilesCountI", "msgFileInitial", ListOfFile.Count().ToString() + "," + myFuid);
-                                    SetFileName = "Please choose a file";
-                                    AddFolder = "ChooseFile.png";
-                                    IsFolderVisible = true;
-                                    IsCrossVisible = false;
-                                    FileDescription = "";
-
-                                    if (ListOfFile.Count() == 0)
-                                    {
-                                        ListOfFile = null;
-                                        HideListAndShow = closeLabelText = false;
-                                        HideLabelAndShow = true;
-                                        RowHeightcomplete = 0;
-                                    }
-
-                                    foreach (var items in DataForFileUpload.FileTags)
-                                    {
-                                        if (items.TaskID != 0 && items.TagTaskStatus == 0)
+                                        foreach (var file in DataForFileUpload.files)
                                         {
-                                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                                            tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                            tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
-                                            tagtaskstatus.Status = 1;
-                                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+                                            ListOfFile.Insert(0, new MyFile() { FileName = file.FileName, GivenName = Settings.SGivenName, ImageURL = initialIcon, FileID = file.FileID, FileDescription = file.FileDescription, FileURL = file.FileURL, CreatedDate = file.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = file.RoleName, EntityName = file.EntityName });
+                                        }
 
-                                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+                                        HideListAndShow = true;
+                                        HideLabelAndShow = false;
+                                        /// MessagingCenter used for update main page grid data file count.
+                                        MessagingCenter.Send<string, string>("FilesCountI", "msgFileInitial", ListOfFile.Count().ToString() + "," + myFuid);
+                                        SetFileName = "Please choose a file";
+                                        AddFolder = "ChooseFile.png";
+                                        IsFolderVisible = true;
+                                        IsCrossVisible = false;
+                                        FileDescription = "";
 
-                                            if (result?.status == 1)
+                                        if (ListOfFile.Count() == 0)
+                                        {
+                                            ListOfFile = null;
+                                            HideListAndShow = closeLabelText = false;
+                                            HideLabelAndShow = true;
+                                            RowHeightcomplete = 0;
+                                        }
+
+                                        foreach (var items in DataForFileUpload.FileTags)
+                                        {
+                                            if (items.TaskID != 0 && items.TagTaskStatus == 0)
                                             {
-                                                if (items.TaskID != 0 && items.TaskStatus == 0)
-                                                {
-                                                    TagTaskStatus taskstatus = new TagTaskStatus();
-                                                    taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
-                                                    taskstatus.TaskStatus = 1;
-                                                    taskstatus.CreatedBy = Settings.userLoginID;
+                                                TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                                                tagtaskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                tagtaskstatus.POTagID = Helperclass.Encrypt(items.POTagID.ToString());
+                                                tagtaskstatus.Status = 1;
+                                                tagtaskstatus.CreatedBy = Settings.userLoginID;
 
-                                                    var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                                                if (result?.status == 1)
+                                                {
+                                                    if (items.TaskID != 0 && items.TaskStatus == 0)
+                                                    {
+                                                        TagTaskStatus taskstatus = new TagTaskStatus();
+                                                        taskstatus.TaskID = Helperclass.Encrypt(items.TaskID.ToString());
+                                                        taskstatus.TaskStatus = 1;
+                                                        taskstatus.CreatedBy = Settings.userLoginID;
+
+                                                        var taskval = await service.UpdateTaskStatus(taskstatus);
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
 
-                                    Settings.IsRefreshPartsPage = true;
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
-                                    UploadType = "fileUpload";
+                                        Settings.IsRefreshPartsPage = true;
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                        UploadType = "fileUpload";
+                                    }
                                 }
                             }
-                        }
-                        else if (UploadType == "fileUpload")
-                        {
-                            List<MyFile> phUploadlist = new List<MyFile>();
-
-                            MyFile phUpload = new MyFile();
-                            phUpload.FUID = myFuid;
-                            phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
-                            phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
-                            phUpload.CreatedBy = Settings.userLoginID;
-                            phUpload.FileDescription = FileDescription;// uploadType;
-                            phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
-                            phUpload.PicStream = picStream;
-
-                            phUploadlist.Add(phUpload);
-
-                            /// Calling the blob API to upload file.
-                            var returnplFileData = await BlobUpload.YPSFileUpload(UploadTypevalue,
-                                (int)BlobContainer.cnttagfiles, null, null, null, phUploadlist);
-
-                            if (returnplFileData != null)
+                            else if (UploadType == "fileUpload")
                             {
-                                var response = returnplFileData as SecondRootObject;
+                                List<MyFile> phUploadlist = new List<MyFile>();
 
-                                if (response?.status == 1)
+                                MyFile phUpload = new MyFile();
+                                phUpload.FUID = myFuid;
+                                phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                                phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
+                                phUpload.CreatedBy = Settings.userLoginID;
+                                phUpload.FileDescription = FileDescription;// uploadType;
+                                phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
+                                phUpload.PicStream = picStream;
+
+                                phUploadlist.Add(phUpload);
+
+                                /// Calling the blob API to upload file.
+                                var returnplFileData = await BlobUpload.YPSFileUpload(UploadTypevalue,
+                                    (int)BlobContainer.cnttagfiles, null, null, null, phUploadlist);
+
+                                if (returnplFileData != null)
                                 {
-                                    /// Checking image and file extention.
-                                    string FileIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
+                                    var response = returnplFileData as SecondRootObject;
 
-                                    foreach (var val in response.data)
+                                    if (response?.status == 1)
                                     {
-                                        ListOfFile.Insert(0, new MyFile() { FileName = val.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = val.FileID, FileDescription = val.FileDescription, FileURL = val.FileURL, CreatedDate = val.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = val.RoleName, EntityName = val.EntityName });
+                                        /// Checking image and file extention.
+                                        string FileIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
+
+                                        foreach (var val in response.data)
+                                        {
+                                            ListOfFile.Insert(0, new MyFile() { FileName = val.FileName, GivenName = Settings.SGivenName, ImageURL = FileIcon, FileID = val.FileID, FileDescription = val.FileDescription, FileURL = val.FileURL, CreatedDate = val.CreatedDate, HideDeleteIc = true, HideDownloadFileIc = true, RoleName = val.RoleName, EntityName = val.EntityName });
+                                        }
+
+                                        HideListAndShow = true;
+                                        HideLabelAndShow = false;
+                                        SetFileName = "Please choose a file";
+                                        AddFolder = "ChooseFile.png";
+                                        IsFolderVisible = true;
+                                        IsCrossVisible = false;
+                                        FileDescription = "";
+                                        /// MessagingCenter used for update main page grid data file count.
+                                        MessagingCenter.Send<string, string>("FilesCounts", "msgF", ListOfFile.Count().ToString() + "," + myFuid);
+
+                                        Settings.IsRefreshPartsPage = true;
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
-
-                                    HideListAndShow = true;
-                                    HideLabelAndShow = false;
-                                    SetFileName = "Please choose a file";
-                                    AddFolder = "ChooseFile.png";
-                                    IsFolderVisible = true;
-                                    IsCrossVisible = false;
-                                    FileDescription = "";
-                                    /// MessagingCenter used for update main page grid data file count.
-                                    MessagingCenter.Send<string, string>("FilesCounts", "msgF", ListOfFile.Count().ToString() + "," + myFuid);
-
-                                    Settings.IsRefreshPartsPage = true;
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                 }
+                            }
+                            else
+                            {
+                                List<PLFileUpload> pluploadList = new List<PLFileUpload>();
+
+                                PLFileUpload phUpload = new PLFileUpload();
+                                phUpload.POID = plFileUploadData.POID;
+                                phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
+                                phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
+                                phUpload.FileDescription = FileDescription;
+                                phUpload.CreatedBy = Settings.userLoginID;
+                                phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
+                                phUpload.PicStream = picStream;
+
+                                pluploadList.Add(phUpload);
+
+                                /// Calling the blob API to PL upload file.
+                                var returnplData = await BlobUpload.YPSFileUpload(UploadTypevalue, (int)BlobContainer.cntplfiles, null, null, null, null, pluploadList);
+
+                                if (returnplData != null)
+                                {
+                                    var finalplData = returnplData as PLFileUploadResult;
+
+                                    if (finalplData?.status == 1)
+                                    {
+                                        /// Checking image and file extention.
+                                        string PLIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
+                                        foreach (var data in finalplData.data)
+                                        {
+                                            PLListOfFile.Insert(0, new PLFileUpload() { FileName = data.FileName, GivenName = Settings.SGivenName, FileURL = data.FileURL, ImageURL = PLIcon, ID = data.ID, FileDescription = data.FileDescription, CreatedDate = data.CreatedDate, HideDeleteIc = true, RoleName = data.RoleName, EntityName = data.EntityName });
+                                        }
+                                        PLHideListAndShow = true;
+                                        HideLabelAndShow = false;
+                                        SetFileName = "Please choose a file";
+                                        AddFolder = "ChooseFile.png";
+                                        IsFolderVisible = true;
+                                        IsCrossVisible = false;
+                                        FileDescription = "";
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                    }
+                                }
+                            }
+
+                            if (UploadType.ToLower().Trim() == "initialfile" || UploadType == "fileUpload")
+                            {
+                                closeLabelText = true;
+                                RowHeightcomplete = 50;
+                            }
+                            else
+                            {
+                                closeLabelText = false;
+                                RowHeightcomplete = 0;
                             }
                         }
                         else
                         {
-                            List<PLFileUpload> pluploadList = new List<PLFileUpload>();
-
-                            PLFileUpload phUpload = new PLFileUpload();
-                            phUpload.POID = plFileUploadData.POID;
-                            phUpload.FileURL = "ImFi_Mob" + '_' + Settings.userLoginID + "_" + DateTime.Now.ToString("yyyy-MMM-dd-HHmmss") + "_" + Guid.NewGuid() + extension;
-                            phUpload.FileName = Path.GetFileNameWithoutExtension(FilePath64);
-                            phUpload.FileDescription = FileDescription;
-                            phUpload.CreatedBy = Settings.userLoginID;
-                            phUpload.CreatedDate = String.Format(Settings.DateFormat, DateTime.Now);
-                            phUpload.PicStream = picStream;
-
-                            pluploadList.Add(phUpload);
-
-                            /// Calling the blob API to PL upload file.
-                            var returnplData = await BlobUpload.YPSFileUpload(UploadTypevalue, (int)BlobContainer.cntplfiles, null, null, null, null, pluploadList);
-
-                            if (returnplData != null)
-                            {
-                                var finalplData = returnplData as PLFileUploadResult;
-
-                                if (finalplData?.status == 1)
-                                {
-                                    /// Checking image and file extention.
-                                    string PLIcon = CheckExtensionOfImage(Path.GetExtension(FilePath64).ToLower());
-                                    foreach (var data in finalplData.data)
-                                    {
-                                        PLListOfFile.Insert(0, new PLFileUpload() { FileName = data.FileName, GivenName = Settings.SGivenName, FileURL = data.FileURL, ImageURL = PLIcon, ID = data.ID, FileDescription = data.FileDescription, CreatedDate = data.CreatedDate, HideDeleteIc = true, RoleName = data.RoleName, EntityName = data.EntityName });
-                                    }
-                                    PLHideListAndShow = true;
-                                    HideLabelAndShow = false;
-                                    SetFileName = "Please choose a file";
-                                    AddFolder = "ChooseFile.png";
-                                    IsFolderVisible = true;
-                                    IsCrossVisible = false;
-                                    FileDescription = "";
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
-                                }
-                            }
-                        }
-
-                        if (UploadType.ToLower().Trim() == "initialfile" || UploadType == "fileUpload")
-                        {
-                            closeLabelText = true;
-                            RowHeightcomplete = 50;
-                        }
-                        else
-                        {
-                            closeLabelText = false;
-                            RowHeightcomplete = 0;
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions:.png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.");
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions:.png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.");
+                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
                 else
@@ -870,93 +877,107 @@ namespace YPS.ViewModel
                 {
                     if (UploadType.ToLower().Trim() == "initialfile" || UploadType.ToLower().Trim() == "fileupload")
                     {
-                        MyFile fileUpload = null;
-
-                        if (ListOfFile != null && ListOfFile.Count > 0)
+                        if (OpacityDeleteButton == 1.0)
                         {
-                            bool result = await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete?", "OK", "Cancel");
-                            if (result)
+                            MyFile fileUpload = null;
+
+                            if (ListOfFile != null && ListOfFile.Count > 0)
                             {
-                                IndicatorVisibility = true;
-                                fileUpload = (from res in ListOfFile where res.FileID == (int)sender select res).FirstOrDefault();
-                                /// Calling DeleteFile API with "FileID".
-                                var deleteFile = await service.DeleteFileService(fileUpload.FileID);
-
-                                if (deleteFile?.status == 1)
+                                bool result = await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete?", "OK", "Cancel");
+                                if (result)
                                 {
-                                    var deleteItem = ListOfFile.Where(x => x.FileID == fileUpload.FileID).ToList();
+                                    IndicatorVisibility = true;
+                                    fileUpload = (from res in ListOfFile where res.FileID == (int)sender select res).FirstOrDefault();
+                                    /// Calling DeleteFile API with "FileID".
+                                    var deleteFile = await service.DeleteFileService(fileUpload.FileID);
 
-                                    if (deleteItem.Count == 1)
+                                    if (deleteFile?.status == 1)
                                     {
-                                        ListOfFile.Remove(deleteItem.FirstOrDefault());
-                                        MessagingCenter.Send<string, string>("FilesCount", "deleteFile", ListOfFile.Count().ToString() + "," + myFuid);
+                                        var deleteItem = ListOfFile.Where(x => x.FileID == fileUpload.FileID).ToList();
 
-                                        switch (Device.RuntimePlatform)
+                                        if (deleteItem.Count == 1)
                                         {
-                                            case Device.iOS:
-                                                await App.Current.MainPage.DisplayAlert("Delete", "Success.", "Close");
-                                                break;
-                                            case Device.Android:
-                                                DependencyService.Get<IToastMessage>().ShortAlert("Success.");
-                                                break;
-                                        }
-                                        if (ListOfFile.Count() == 0)
-                                        {
-                                            HideListAndShow = false;
-                                            HideLabelAndShow = true;
-                                            closeLabelText = false;
-                                            RowHeightcomplete = 0;
+                                            ListOfFile.Remove(deleteItem.FirstOrDefault());
+                                            MessagingCenter.Send<string, string>("FilesCount", "deleteFile", ListOfFile.Count().ToString() + "," + myFuid);
+
+                                            switch (Device.RuntimePlatform)
+                                            {
+                                                case Device.iOS:
+                                                    await App.Current.MainPage.DisplayAlert("Delete", "Success.", "Close");
+                                                    break;
+                                                case Device.Android:
+                                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                                    break;
+                                            }
+                                            if (ListOfFile.Count() == 0)
+                                            {
+                                                HideListAndShow = false;
+                                                HideLabelAndShow = true;
+                                                closeLabelText = false;
+                                                RowHeightcomplete = 0;
+                                            }
                                         }
                                     }
+                                    IndicatorVisibility = false;
                                 }
-                                IndicatorVisibility = false;
                             }
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
                     {
-                        PLFileUpload PLfileUpload = null;
-
-                        if (PLListOfFile != null && PLListOfFile.Count > 0)
+                        if (PLOpacityDeleteButton == 1.0)
                         {
-                            bool result = await App.Current.MainPage.DisplayAlert("Alert", "Are you sure you want to delete?", "OK", "Cancel");
+                            PLFileUpload PLfileUpload = null;
 
-                            if (result)
+                            if (PLListOfFile != null && PLListOfFile.Count > 0)
                             {
-                                IndicatorVisibility = true;
-                                PLfileUpload = (from res in PLListOfFile where res.ID == (int)sender select res).FirstOrDefault();
-                                /// Calling DeletePLFile API with "POID".
-                                var PlDeleteResponse = await service.DeletePLFiles(PLfileUpload.ID);
+                                bool result = await App.Current.MainPage.DisplayAlert("Alert", "Are you sure you want to delete?", "OK", "Cancel");
 
-                                if (PlDeleteResponse?.status == 1)
+                                if (result)
                                 {
-                                    var delete_Item = PLListOfFile.Where(x => x.ID == PLfileUpload.ID).ToList();
+                                    IndicatorVisibility = true;
+                                    PLfileUpload = (from res in PLListOfFile where res.ID == (int)sender select res).FirstOrDefault();
+                                    /// Calling DeletePLFile API with "POID".
+                                    var PlDeleteResponse = await service.DeletePLFiles(PLfileUpload.ID);
 
-                                    if (delete_Item.Count == 1)
+                                    if (PlDeleteResponse?.status == 1)
                                     {
-                                        PLListOfFile.Remove(delete_Item.FirstOrDefault());
+                                        var delete_Item = PLListOfFile.Where(x => x.ID == PLfileUpload.ID).ToList();
 
-                                        switch (Device.RuntimePlatform)
+                                        if (delete_Item.Count == 1)
                                         {
-                                            case Device.iOS:
-                                                await App.Current.MainPage.DisplayAlert("Delete", "Success.", "Close");
-                                                break;
-                                            case Device.Android:
-                                                DependencyService.Get<IToastMessage>().ShortAlert("Success.");
-                                                break;
-                                        }
+                                            PLListOfFile.Remove(delete_Item.FirstOrDefault());
 
-                                        if (PLListOfFile.Count() == 0)
-                                        {
-                                            PLHideListAndShow = false;
-                                            HideLabelAndShow = true;
-                                            closeLabelText = false;
-                                            RowHeightcomplete = 0;
+                                            switch (Device.RuntimePlatform)
+                                            {
+                                                case Device.iOS:
+                                                    await App.Current.MainPage.DisplayAlert("Delete", "Success.", "Close");
+                                                    break;
+                                                case Device.Android:
+                                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                                    break;
+                                            }
+
+                                            if (PLListOfFile.Count() == 0)
+                                            {
+                                                PLHideListAndShow = false;
+                                                HideLabelAndShow = true;
+                                                closeLabelText = false;
+                                                RowHeightcomplete = 0;
+                                            }
                                         }
                                     }
+                                    IndicatorVisibility = false;
                                 }
-                                IndicatorVisibility = false;
                             }
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                 }
@@ -986,211 +1007,218 @@ namespace YPS.ViewModel
 
             try
             {
-                switch (Device.RuntimePlatform)
+                if (UploadBtnOpacity == 1.0)
                 {
-                    case Device.Android:
+                    switch (Device.RuntimePlatform)
+                    {
+                        case Device.Android:
 
-                        var selectOptionsForAndroid = await App.Current.MainPage.DisplayActionSheet("Select", "Cancel", null, "Photos", "Files");
+                            var selectOptionsForAndroid = await App.Current.MainPage.DisplayActionSheet("Select", "Cancel", null, "Photos", "Files");
 
-                        switch (selectOptionsForAndroid)
-                        {
-                            case "Photos":
-                                /// Checking permission is allowed or denied by the user to access the photo from mobile for Android.
-                                var requestedPermissionsPhoto = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
-                                var pass = requestedPermissionsPhoto[Permission.Photos];
+                            switch (selectOptionsForAndroid)
+                            {
+                                case "Photos":
+                                    /// Checking permission is allowed or denied by the user to access the photo from mobile for Android.
+                                    var requestedPermissionsPhoto = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
+                                    var pass = requestedPermissionsPhoto[Permission.Photos];
 
-                                if (pass != PermissionStatus.Denied)
-                                {
-                                    file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                                    if (pass != PermissionStatus.Denied)
                                     {
-                                        PhotoSize = PhotoSize.Custom,
-                                        CustomPhotoSize = Settings.PhotoSize,
-                                        CompressionQuality = Settings.CompressionQuality,
-                                    });
-
-                                    if (file == null)
-                                    {
-                                        return;
-                                    }
-
-                                    closeLabelText = false;
-                                    RowHeightcomplete = 0;
-                                    string photoName = Path.GetFileName(file.Path);
-                                    extension = Path.GetExtension(file.Path);
-                                    picStream = file.GetStream();
-                                    IndicatorVisibility = true;
-
-                                    if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
-                                    {
-                                        SetFileName = photoName;
-                                        AddCross = "cross.png";
-                                        IsCrossVisible = true;
-                                        IsFolderVisible = false;
-                                        FilePath64 = file.Path;
-                                    }
-                                    else
-                                    {
-                                        await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
-                                    }
-                                }
-                                else
-                                {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
-                                }
-                                IndicatorVisibility = false;
-                                break;
-
-                            case "Files":
-
-                                /// Checking permission is allowed or denied by the user to access the file from mobile for Android.
-                                var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
-                                var requestedPermissionStatus = requestedPermissions[Permission.Storage];
-                                var pass1 = requestedPermissions[Permission.Storage];
-
-                                if (pass1 != PermissionStatus.Denied)
-                                {
-                                    FileData fileData = await CrossFilePicker.Current.PickFile();
-
-                                    if (fileData == null)
-                                    {
-                                        return; /// user canceled file picking
-                                    }
-
-                                    closeLabelText = false;
-                                    RowHeightcomplete = 0;
-                                    string AndroidfileName = fileData.FileName;
-                                    string AndroidfilePath = fileData.FilePath;
-                                    extension = Path.GetExtension(AndroidfilePath).ToLower();
-
-                                    if (extension == "")
-                                    {
-                                        extension = Path.GetExtension(AndroidfileName).ToLower();
-                                    }
-
-                                    picStream = fileData.GetStream();
-                                    IndicatorVisibility = true;
-
-                                    if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
-                                    {
-                                        SetFileName = AndroidfileName;
-                                        AddCross = "cross.png";
-                                        IsCrossVisible = true;
-                                        IsFolderVisible = false;
-                                        FilePath64 = AndroidfilePath;
-                                    }
-                                    else
-                                    {
-                                        await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
-                                    }
-                                }
-                                else
-                                {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
-                                }
-                                IndicatorVisibility = false;
-                                break;
-                        }
-                        break;
-
-                    case Device.iOS:
-
-                        var selectOptions = await App.Current.MainPage.DisplayActionSheet("Select", "Cancel", null, "Photos", "Files");
-
-                        switch (selectOptions)
-                        {
-                            case "Photos":
-                                /// Checking permission is allowed or denied by the user to access the photo from mobile for iOS.
-                                var statusiOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
-                                var pass = statusiOS[Permission.Photos];
-
-                                if (pass == PermissionStatus.Denied)
-                                {
-                                    if (Application.Current.Properties.ContainsKey("CheckingPermissionDenied"))
-                                    {
-                                        var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission needs to access the photo gallery", null, null, "Maybe Later", "Settings");
-                                        switch (checkSelect)
+                                        file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
                                         {
-                                            case "Maybe Later":
+                                            PhotoSize = PhotoSize.Custom,
+                                            CustomPhotoSize = Settings.PhotoSize,
+                                            CompressionQuality = Settings.CompressionQuality,
+                                        });
 
-                                                break;
-                                            case "Settings":
-                                                CrossPermissions.Current.OpenAppSettings();
-                                                break;
+                                        if (file == null)
+                                        {
+                                            return;
+                                        }
+
+                                        closeLabelText = false;
+                                        RowHeightcomplete = 0;
+                                        string photoName = Path.GetFileName(file.Path);
+                                        extension = Path.GetExtension(file.Path);
+                                        picStream = file.GetStream();
+                                        IndicatorVisibility = true;
+
+                                        if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                                        {
+                                            SetFileName = photoName;
+                                            AddCross = "cross.png";
+                                            IsCrossVisible = true;
+                                            IsFolderVisible = false;
+                                            FilePath64 = file.Path;
+                                        }
+                                        else
+                                        {
+                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
                                         }
                                     }
-
-                                    Application.Current.Properties["CheckingPermissionDenied"] = "1";
-                                    await App.Current.SavePropertiesAsync();
-                                }
-                                else if (pass == PermissionStatus.Granted)
-                                {
-                                    file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                                    else
                                     {
-                                        PhotoSize = PhotoSize.Custom,
-                                        CustomPhotoSize = Settings.PhotoSize,
-                                        CompressionQuality = Settings.CompressionQuality
-                                    });
+                                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
+                                    }
+                                    IndicatorVisibility = false;
+                                    break;
 
-                                    if (file == null)
-                                        return;
+                                case "Files":
+
+                                    /// Checking permission is allowed or denied by the user to access the file from mobile for Android.
+                                    var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+                                    var requestedPermissionStatus = requestedPermissions[Permission.Storage];
+                                    var pass1 = requestedPermissions[Permission.Storage];
+
+                                    if (pass1 != PermissionStatus.Denied)
+                                    {
+                                        FileData fileData = await CrossFilePicker.Current.PickFile();
+
+                                        if (fileData == null)
+                                        {
+                                            return; /// user canceled file picking
+                                        }
+
+                                        closeLabelText = false;
+                                        RowHeightcomplete = 0;
+                                        string AndroidfileName = fileData.FileName;
+                                        string AndroidfilePath = fileData.FilePath;
+                                        extension = Path.GetExtension(AndroidfilePath).ToLower();
+
+                                        if (extension == "")
+                                        {
+                                            extension = Path.GetExtension(AndroidfileName).ToLower();
+                                        }
+
+                                        picStream = fileData.GetStream();
+                                        IndicatorVisibility = true;
+
+                                        if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                                        {
+                                            SetFileName = AndroidfileName;
+                                            AddCross = "cross.png";
+                                            IsCrossVisible = true;
+                                            IsFolderVisible = false;
+                                            FilePath64 = AndroidfilePath;
+                                        }
+                                        else
+                                        {
+                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
+                                    }
+                                    IndicatorVisibility = false;
+                                    break;
+                            }
+                            break;
+
+                        case Device.iOS:
+
+                            var selectOptions = await App.Current.MainPage.DisplayActionSheet("Select", "Cancel", null, "Photos", "Files");
+
+                            switch (selectOptions)
+                            {
+                                case "Photos":
+                                    /// Checking permission is allowed or denied by the user to access the photo from mobile for iOS.
+                                    var statusiOS = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Photos);
+                                    var pass = statusiOS[Permission.Photos];
+
+                                    if (pass == PermissionStatus.Denied)
+                                    {
+                                        if (Application.Current.Properties.ContainsKey("CheckingPermissionDenied"))
+                                        {
+                                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission needs to access the photo gallery", null, null, "Maybe Later", "Settings");
+                                            switch (checkSelect)
+                                            {
+                                                case "Maybe Later":
+
+                                                    break;
+                                                case "Settings":
+                                                    CrossPermissions.Current.OpenAppSettings();
+                                                    break;
+                                            }
+                                        }
+
+                                        Application.Current.Properties["CheckingPermissionDenied"] = "1";
+                                        await App.Current.SavePropertiesAsync();
+                                    }
+                                    else if (pass == PermissionStatus.Granted)
+                                    {
+                                        file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                                        {
+                                            PhotoSize = PhotoSize.Custom,
+                                            CustomPhotoSize = Settings.PhotoSize,
+                                            CompressionQuality = Settings.CompressionQuality
+                                        });
+
+                                        if (file == null)
+                                            return;
+
+                                        closeLabelText = false;
+                                        RowHeightcomplete = 0;
+                                        string iOSPhotoName = Path.GetFileName(file.Path);
+
+                                        extension = Path.GetExtension(file.Path);
+                                        picStream = file.GetStream();
+                                        IndicatorVisibility = true;
+
+                                        if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                                        {
+                                            SetFileName = iOSPhotoName;
+                                            AddCross = "cross.png";
+                                            IsCrossVisible = true;
+                                            IsFolderVisible = false;
+                                            FilePath64 = file.Path;
+                                        }
+                                        else
+                                        {
+                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
+                                        }
+
+                                        IndicatorVisibility = false;
+                                    }
+                                    break;
+
+                                case "Files":
+
+
+                                    FileData fileDataForiOS = await CrossFilePicker.Current.PickFile();
+
+                                    if (fileDataForiOS == null)
+                                        return; /// user canceled file picking
 
                                     closeLabelText = false;
                                     RowHeightcomplete = 0;
-                                    string iOSPhotoName = Path.GetFileName(file.Path);
-
-                                    extension = Path.GetExtension(file.Path);
-                                    picStream = file.GetStream();
+                                    string iOSfileName = fileDataForiOS.FileName;
+                                    string iOSfilePath = fileDataForiOS.FilePath;
+                                    extension = Path.GetExtension(iOSfilePath).ToLower();
+                                    picStream = fileDataForiOS.GetStream();
                                     IndicatorVisibility = true;
 
                                     if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
                                     {
-                                        SetFileName = iOSPhotoName;
+                                        SetFileName = iOSfileName;
                                         AddCross = "cross.png";
                                         IsCrossVisible = true;
                                         IsFolderVisible = false;
-                                        FilePath64 = file.Path;
+                                        FilePath64 = iOSfilePath;
                                     }
                                     else
                                     {
                                         await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
                                     }
-
                                     IndicatorVisibility = false;
-                                }
-                                break;
-
-                            case "Files":
-
-
-                                FileData fileDataForiOS = await CrossFilePicker.Current.PickFile();
-
-                                if (fileDataForiOS == null)
-                                    return; /// user canceled file picking
-
-                                closeLabelText = false;
-                                RowHeightcomplete = 0;
-                                string iOSfileName = fileDataForiOS.FileName;
-                                string iOSfilePath = fileDataForiOS.FilePath;
-                                extension = Path.GetExtension(iOSfilePath).ToLower();
-                                picStream = fileDataForiOS.GetStream();
-                                IndicatorVisibility = true;
-
-                                if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
-                                {
-                                    SetFileName = iOSfileName;
-                                    AddCross = "cross.png";
-                                    IsCrossVisible = true;
-                                    IsFolderVisible = false;
-                                    FilePath64 = iOSfilePath;
-                                }
-                                else
-                                {
-                                    await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
-                                }
-                                IndicatorVisibility = false;
-                                break;
-                        }
-                        break;
+                                    break;
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
             }
             catch (Exception ex)
@@ -1299,27 +1327,30 @@ namespace YPS.ViewModel
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    PLHideDeleteButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PLUploadDelete").FirstOrDefault() != null ? true : false;
-                    HideDeleteButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileDelete").FirstOrDefault() != null ? true : false;
+                    PLOpacityDeleteButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PLUploadDelete").FirstOrDefault() != null ? 1.0 : 0.5;
+                    OpacityDeleteButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileDelete").FirstOrDefault() != null ? 1.0 : 0.5;
                     var hidepluploadButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PLUpload").FirstOrDefault() != null ? true : false;
                     var hideploadButton = Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "FileUpload").FirstOrDefault() != null ? true : false;
 
                     if (hidepluploadButton == false && hideploadButton == false)
                     {
-                        ICommandPickFile = null;
+                        //ICommandPickFile = null;
                         HideUploadButton = false;
+                        UploadBtnOpacity = 0.5;
                     }
                     else
                     {
                         if (hidepluploadButton == false && UploadType == "plFile")
                         {
                             HideUploadButton = false;
-                            ICommandPickFile = null;
+                            //ICommandPickFile = null;
+                            UploadBtnOpacity = 0.5;
                         }
                         else if (hideploadButton == false && UploadType == "fileUpload")
                         {
                             HideUploadButton = false;
-                            ICommandPickFile = null;
+                            //ICommandPickFile = null;
+                            UploadBtnOpacity = 0.5;
                         }
                     }
                 }
@@ -1333,24 +1364,35 @@ namespace YPS.ViewModel
 
         #region Properties
 
-        public bool _PLHideDeleteButton = true;
-        public bool PLHideDeleteButton
+        public double _UploadBtnOpacity = 1.0;
+        public double UploadBtnOpacity
         {
-            get { return _PLHideDeleteButton; }
+            get { return _UploadBtnOpacity; }
             set
             {
-                _PLHideDeleteButton = value;
+                _UploadBtnOpacity = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public bool _HideDeleteButton = true;
-        public bool HideDeleteButton
+        public double _PLOpacityDeleteButton = 1.0;
+        public double PLOpacityDeleteButton
         {
-            get { return _HideDeleteButton; }
+            get { return _PLOpacityDeleteButton; }
             set
             {
-                _HideDeleteButton = value;
+                _PLOpacityDeleteButton = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double _OpacityDeleteButton = 1.0;
+        public double OpacityDeleteButton
+        {
+            get { return _OpacityDeleteButton; }
+            set
+            {
+                _OpacityDeleteButton = value;
                 NotifyPropertyChanged();
             }
         }

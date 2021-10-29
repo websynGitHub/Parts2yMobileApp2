@@ -642,10 +642,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
                     }
 
-                    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
-                    {
-                        DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
-                    }
+                    //if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    //{
+                    //    DeleteIconStack = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "PhotoDelete".Trim()).FirstOrDefault()) != null ? true : false;
+                    //}
                 }
             }
             catch (Exception ex)

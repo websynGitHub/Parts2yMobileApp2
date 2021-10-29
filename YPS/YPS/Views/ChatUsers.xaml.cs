@@ -157,54 +157,60 @@ namespace YPS.Views
 
             try
             {
-                //if (!string.IsNullOrEmpty(d.img.Trim().ToLower()) || d.img.Trim().ToLower() != "ok.png")
                 if (d?.IconColor == Color.Green || d?.IconColor == Color.Red)
                 {
-                    vm.IndicatorVisibility = true;
-                    Userlist.SelectedItem = null;
-                    BackgroundColor = Color.Transparent;
-
-                    try
+                    if (d?.AddRemoveIconOpacity == 1.0)
                     {
-                        if (chatClosedOrNot == "Open")
+                        vm.IndicatorVisibility = true;
+                        Userlist.SelectedItem = null;
+                        BackgroundColor = Color.Transparent;
+
+                        try
                         {
-                            vm.IndicatorVisibility = true;
-                            BackgroundColor = Color.Transparent;
-                            checkInternet = await App.CheckInterNetConnection();// Checking the internet connection
-
-                            if (checkInternet)
+                            if (chatClosedOrNot == "Open")
                             {
-                                if (d.QAID != 0)
+                                vm.IndicatorVisibility = true;
+                                BackgroundColor = Color.Transparent;
+                                checkInternet = await App.CheckInterNetConnection();// Checking the internet connection
+
+                                if (checkInternet)
                                 {
-                                    UserUpdating userupdate = new UserUpdating();
-                                    Settings.QaId = d.QAID;
-                                    userupdate.POID = Settings.PoId;
-                                    userupdate.QAID = d.QAID;
-                                    userupdate.RoleID = d.RoleID;
-                                    userupdate.Status = d.Status;
-                                    userupdate.UserCount = d.UserCount;
-                                    userupdate.UserID = d.UserID;
-                                    userupdate.UserName = d.UserName;
-                                    userupdate.ISCurrentUser = d.ISCurrentUser;
-                                    userupdate.CreatedBy = Settings.userLoginID;
-                                    userupdate.FullName = d.FullName;
-                                    userupdate.Title = Settings.ChatTitle;
-                                    userupdate.QAType = Settings.QAType;
-
-                                    if (d.IsAddStatus == false)
+                                    if (d.QAID != 0)
                                     {
-                                        type = 1;
+                                        UserUpdating userupdate = new UserUpdating();
+                                        Settings.QaId = d.QAID;
+                                        userupdate.POID = Settings.PoId;
+                                        userupdate.QAID = d.QAID;
+                                        userupdate.RoleID = d.RoleID;
+                                        userupdate.Status = d.Status;
+                                        userupdate.UserCount = d.UserCount;
+                                        userupdate.UserID = d.UserID;
+                                        userupdate.UserName = d.UserName;
+                                        userupdate.ISCurrentUser = d.ISCurrentUser;
+                                        userupdate.CreatedBy = Settings.userLoginID;
+                                        userupdate.FullName = d.FullName;
+                                        userupdate.Title = Settings.ChatTitle;
+                                        userupdate.QAType = Settings.QAType;
+
+                                        if (d.IsAddStatus == false)
+                                        {
+                                            type = 1;
+                                        }
+                                        else if (d.IsAddStatus == true)
+                                        {
+                                            type = 2;
+                                        }
+
+                                        var result = await service.Updateuser(userupdate, type);// Calling the API to update the user(s)
+
+                                        if (result?.status == 1)
+                                        {
+                                            vm.GetChatUser(Settings.PoId, d.QAID, Settings.QAType);
+                                        }
                                     }
-                                    else if (d.IsAddStatus == true)
+                                    else
                                     {
-                                        type = 2;
-                                    }
-
-                                    var result = await service.Updateuser(userupdate, type);// Calling the API to update the user(s)
-
-                                    if (result?.status == 1)
-                                    {
-                                        vm.GetChatUser(Settings.PoId, d.QAID, Settings.QAType);
+                                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                                     }
                                 }
                                 else
@@ -212,24 +218,18 @@ namespace YPS.Views
                                     DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                                 }
                             }
-                            else
-                            {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            YPSLogger.ReportException(ex, "ListItemTapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
+                            await service.Handleexception(ex);
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        YPSLogger.ReportException(ex, "ListItemTapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
-                        await service.Handleexception(ex);
-                        vm.IndicatorVisibility = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
-                    vm.IndicatorVisibility = false;
-                }
-                else
-                {
-                    vm.IndicatorVisibility = false;
                 }
             }
             catch (Exception ex)
@@ -238,6 +238,7 @@ namespace YPS.Views
                 await service.Handleexception(ex);
                 vm.IndicatorVisibility = false;
             }
+            vm.IndicatorVisibility = false;
         }
 
         /// <summary>
@@ -564,17 +565,24 @@ namespace YPS.Views
             {
                 YPSLogger.TrackEvent("ChatUsers.xaml.cs", " CloseQA_Tapped " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                if (vm.QnACloseIconOpacity == 1.0)
                 {
-                    vm.adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
-                    vm.removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
-                }
+                    if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
+                    {
+                        vm.adduser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatAddUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                        vm.removeuser = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatRemoveUsers".Trim()).FirstOrDefault()) != null ? true : false;
+                    }
 
-                vm.addchatUserStack = false;
-                vm.QnACloseStack = true;
-                singleheader.Text = "Close QA";
-                singleheader.IsVisible = true;
-                Settings.HeaderTitle = string.Empty;
+                    vm.addchatUserStack = false;
+                    vm.QnACloseStack = true;
+                    singleheader.Text = "Close QA";
+                    singleheader.IsVisible = true;
+                    Settings.HeaderTitle = string.Empty;
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                }
             }
             catch (Exception ex)
             {

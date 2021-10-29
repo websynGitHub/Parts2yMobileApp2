@@ -53,7 +53,7 @@
                     <Label x:Name="Usernames" Style="{StaticResource LblSubTitle}"/>
                 </StackLayout>
 
-                <LblIcons:FontAwesomeIconLabel Grid.Column="2" x:Name="btnchatexit" IsVisible="False" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}">
+                <LblIcons:FontAwesomeIconLabel Grid.Column="2" x:Name="btnchatexit" IsVisible="True" Text="{Static StaticIcons:Icons.QACheckBoxIc}" Style="{StaticResource LblIconStyle}">
                     <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="QnAClose"/>
                     </LblIcons:FontAwesomeIconLabel.GestureRecognizers>

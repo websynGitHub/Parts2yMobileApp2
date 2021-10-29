@@ -276,7 +276,7 @@
                                     Command="{Binding BindingContext.LinkBeforePackingPhotoCmd, Source={x:Reference Name=Link}}" 
                                     CommandParameter="{x:Reference b}" Style="{StaticResource SfBtnBlue}" 
                                     BackgroundColor="{Binding BindingContext.BgColor, Source={x:Reference Name=Link}}"
-                                    Grid.Row="0" Grid.Column="0" Padding="1,0,1,0">
+                                    Grid.Row="0" Grid.Column="0" Padding="1,0,1,0" Opacity="{Binding PackingButtonOpacity}">
                                 <sfbuttons:SfButton.Content>
                                     <Label Text="{Binding BindingContext.labelobj.BeforePacking.Name, Source={x:Reference Name=Link}}"
                                            Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
@@ -289,7 +289,7 @@
                             <sfbuttons:SfButton x:Name="a" Command="{Binding BindingContext.LinkAfterPackingPhotoCmd, Source={x:Reference Name=Link}}" 
                                             CommandParameter="{x:Reference a}" Style="{StaticResource SfBtnBlue}" HorizontalOptions="FillAndExpand"
                                             BackgroundColor="{Binding BindingContext.BgColor, Source={x:Reference Name=Link}}"
-                                                Grid.Row="0" Grid.Column="1" Padding="1,0,1,0">
+                                                Grid.Row="0" Grid.Column="1" Padding="1,0,1,0" Opacity="{Binding PackingButtonOpacity}">
                                 <sfbuttons:SfButton.Content>
                                     <Label Text="{Binding BindingContext.labelobj.AfterPacking.Name , Source={x:Reference Name=Link}}" 
                                            Style="{StaticResource SfButtonTextLbl}" Padding="0"/>

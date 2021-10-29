@@ -124,7 +124,8 @@
                                              TextColor="Black" VerticalOptions="CenterAndExpand" MaxLength="500"
                                            HeightRequest="70"/>
 
-                        <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}" IsVisible="{Binding HideUploadButton}"
+                        <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding ICommandFileUpload}" 
+                                            IsEnabled="{Binding HideUploadButton}" Opacity="{Binding UploadBtnOpacity}"
                                             Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                             Margin="0,0,5,0" HorizontalOptions="End" VerticalOptions="Center">
                             <sfbuttons:SfButton.Content>
@@ -143,7 +144,7 @@
                            HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
                            Style="{StaticResource LableWithQuestionFont}"/>
                     <flv:FlowListView FlowColumnCount="3" IsVisible="{Binding HideListAndShow}" x:Name="listView" FlowItemsSource="{Binding ListOfFile,Mode=TwoWay}"
-                                      SeparatorVisibility="None" BackgroundColor="White" HasUnevenRows="false" RowHeight="150">
+                                      SeparatorVisibility="None" BackgroundColor="Transparent" HasUnevenRows="false" RowHeight="150">
                         <flv:FlowListView.FlowColumnTemplate>
                             <DataTemplate>
                                 <Frame Style="{StaticResource ListVFrame}"  BorderColor="{Binding BindingContext.BgColor, Source={x:Reference Name=xFileUpload}}" 
@@ -170,7 +171,7 @@
                                         </Grid>
                                         <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}" HeightRequest="40"/>
                                         <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
-                                            <LblIcons:FontAwesomeIconLabel  IsVisible="{Binding BindingContext.HideDeleteButton,Source={x:Reference Name=xFileUpload}}"
+                                            <LblIcons:FontAwesomeIconLabel  Opacity="{Binding BindingContext.OpacityDeleteButton,Source={x:Reference Name=xFileUpload}}"
                                                 Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
                                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.ICommandDeleteFile, Source={x:Reference Name=xFileUpload} }" CommandParameter="{Binding FileID}"/>
@@ -214,7 +215,7 @@
                                         </Grid>
                                         <Image Grid.Row="1" Source="{Binding ImageURL}" Style="{StaticResource TypesOfImg}" HeightRequest="40"/>
                                         <StackLayout Grid.Row="2" Style="{StaticResource ListVStackFooter}">
-                                            <LblIcons:FontAwesomeIconLabel IsVisible="{Binding BindingContext.PLHideDeleteButton,Source={x:Reference Name=xFileUpload}}" Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
+                                            <LblIcons:FontAwesomeIconLabel Opacity="{Binding BindingContext.PLOpacityDeleteButton,Source={x:Reference Name=xFileUpload}}" Text="{x:Static StaticIcons:Icons.MyDeleteIc}" Style="{StaticResource LblIconStyleForList}">
                                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                                     <TapGestureRecognizer  Command="{Binding BindingContext.ICommandDeleteFile, Source={x:Reference Name=xFileUpload}}" CommandParameter="{Binding ID}"/>
                                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -235,8 +236,10 @@
 
             <ContentView Style="{StaticResource PopUpContentView}" IsVisible="{Binding PopUpForFileDes}" 
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                
                 <Frame CornerRadius="7" BorderColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="White" Padding="7" Margin="10,0,10,0">
-                    <Grid Margin="5">
+                   
+ <Grid Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>

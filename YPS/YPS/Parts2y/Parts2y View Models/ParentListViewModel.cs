@@ -303,7 +303,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (tabname == "home")
                 {
-                    await Navigation.PopToRootAsync(false);
+                    Navigation.PopToRootAsync(false);
                 }
             }
             catch (Exception ex)
@@ -326,7 +326,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                BindGridData(0);
+                await BindGridData(0);
 
                 PendingTabVisibility = true;
                 CompleteTabVisibility = InProgressTabVisibility = AllTabVisibility = false;
@@ -349,7 +349,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                BindGridData(1);
+                await BindGridData(1);
 
                 InProgressTabVisibility = true;
                 CompleteTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -371,7 +371,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                BindGridData(2);
+                await BindGridData(2);
 
                 CompleteTabVisibility = true;
                 InProgressTabVisibility = PendingTabVisibility = AllTabVisibility = false;
@@ -393,7 +393,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                BindGridData(-1);
+                await BindGridData(-1);
 
                 AllTabVisibility = true;
                 InProgressTabVisibility = CompleteTabVisibility = PendingTabVisibility = false;
@@ -505,7 +505,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         }
 
                                         groupdata.IsTaskResourceVisible = val.Select(c => c.TaskResourceID).FirstOrDefault() == Settings.userLoginID ? false : true;
-                                        groupdata.IsShippingMarkVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ShippingMarkDownload".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                                        groupdata.ShippingMarkOpacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ShippingMarkDownload".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
 
                                         if (val.Select(c => c?.TaskResourceID).FirstOrDefault() == 0 || val.Select(c => c?.TaskResourceID).FirstOrDefault() == null)
                                         {
@@ -725,7 +725,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     break;
                                 case Device.Android:
-                                    await Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
+                                    Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
                                     break;
                             }
                         }
@@ -766,8 +766,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     poShipNum_obj.alreadyExit = senderval.POShippingNumber;
                     Settings.fileUploadPageCount = 1;
                     Settings.isFinalvol = senderval.ISFinalVol;
-                    await Navigation.PushAsync(new FileUpload(poShipNum_obj, senderval.POID, senderval.FUID,
-                        "plFile", false), false);
+                    Navigation.PushAsync(new FileUpload(poShipNum_obj, senderval.POID, senderval.FUID,
+                       "plFile", false), false);
                 }
             }
             catch (Exception ex)
@@ -818,7 +818,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             IsSearchFilterListVisible = false;
                             Settings.filterPageCount = 1;
                             Settings.refreshPage = 1;
-                            await Navigation.PushAsync(new FilterData(), false);
+                            Navigation.PushAsync(new FilterData(), false);
                         }
                     }
                     else

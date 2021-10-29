@@ -156,7 +156,7 @@ namespace YPS.Views
             {
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-                    btnchatexit.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQAClose".Trim()).FirstOrDefault()) != null ? true : false;
+                    btnchatexit.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim() == "ChatQAClose".Trim()).FirstOrDefault()) != null ? 1.0 : 0.5;
 
                     if (Settings.chatstatus == 0 || Settings.chatstatus == -1)
                     {
@@ -390,8 +390,15 @@ namespace YPS.Views
         {
             try
             {
-                Settings.HeaderTitle = "Close QA";
-                await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, false), false);
+                if (btnchatexit.Opacity == 1.0)
+                {
+                    Settings.HeaderTitle = "Close QA";
+                    await Navigation.PushAsync(new ChatUsers(Settings.PoId, Settings.QaId, poData.tags, false), false);
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                }
             }
             catch (Exception ex)
             {

@@ -27,7 +27,7 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="Transparent">
@@ -66,7 +66,8 @@
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="StartAndExpand"/>
                     <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="2" x:Name="chatExitImg" Text="{Static StaticIcons:Icons.QACheckBoxIc}" 
-                                                   Style="{StaticResource LblIconStyle}" IsVisible="{Binding QnACloseIcon}">
+                                                   Style="{StaticResource LblIconStyle}" Opacity="{Binding QnACloseIconOpacity}" 
+                                                   IsVisible="{Binding QnACloseIcon}">
                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             <TapGestureRecognizer Tapped="CloseQA_Tapped"/>
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
@@ -90,7 +91,7 @@
                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                     </LblIcons:FontAwesomeIconLabel>
                 </Grid>
-                
+
                 <StackLayout Grid.Row="1" x:Name="Userstack" IsVisible="{Binding addchatUserStack,Mode=TwoWay}" 
                              HorizontalOptions="Center" Margin="2,0,2,0">
                     <Frame Style="{StaticResource FrameStyleForFileUpload}" HeightRequest="45" HorizontalOptions="FillAndExpand"
@@ -106,10 +107,10 @@
                             <local2:MyEntry Grid.Row="0" Grid.Column="0" x:Name="Title_entry" Text="{Binding GroupName,Mode=TwoWay}" 
                                             TextColor="Black" Placeholder="{Binding labelobjdefval.qatitle}"
                                             HorizontalOptions="FillAndExpand" Style="{StaticResource EntryTextStyle}"/>
-                           
+
                             <sfbuttons:SfButton Grid.Row="0" Grid.Column="1" x:Name="titleupdate" Style="{StaticResource SfBtnBlue}"
                                                 HorizontalOptions="EndAndExpand" Command="{Binding Updatetitle}" HeightRequest="50"
-                                                BackgroundColor="{Binding BgColor}" IsVisible="{Binding IsUpdateBtnVisible}"
+                                                BackgroundColor="{Binding BgColor}" Opacity="{Binding UpdateBtnOpacity}"
                                                 Margin="0,0,5,0" Padding="1,0,1,0">
                                 <sfbuttons:SfButton.Content>
                                     <Label Text="{Binding labelobjdefval.updateUsers}" Style="{StaticResource SfButtonTextLbl}" 
@@ -121,7 +122,7 @@
                             </sfbuttons:SfButton>
                         </Grid>
                     </Frame>
-                   
+
                     <Grid x:Name="StartUser" VerticalOptions="FillAndExpand"
                                 RowDefinitions="*,50" >
                         <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
@@ -136,13 +137,13 @@
                                                                  IsChecked="{Binding UserChecked}" ClassId="{Binding UserID,Mode=TwoWay}" 
                                                                  CheckChangedCommand="{Binding BindingContext.CheckedChangedCmd,Source={x:Reference Name=ChatUser}}" 
                                                                  />
-                                            
+
                                         </StackLayout>
                                     </DataTemplate>
                                 </sflistView:SfListView.ItemTemplate>
                             </sflistView:SfListView>
                         </ScrollView>
-                        
+
                         <Grid x:Name="Startstack" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
                                  Margin="4,0,4,4" Grid.Row="1" >
 
@@ -172,7 +173,7 @@
                             </sfbuttons:SfButton>
                         </Grid>
                     </Grid>
-                   
+
                     <StackLayout x:Name="Adduser"   VerticalOptions="FillAndExpand"
                                Margin="4,0,4,0"  >
                         <ListView  x:Name="Userlist"
@@ -190,8 +191,8 @@
                                                    HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center" 
                                                    ClassId="{Binding UserID}" Style="{DynamicResource LableWithMediumFontt}"/>
                                             <LblIcons:FontAwesomeIconLabel x:Name="adduser" Grid.Column="1" Text="{Binding img}" 
-                                                                           TextColor="{Binding IconColor}" IsVisible="{Binding IsAddRemoveIconVisible}"
-                                                                           Style="{StaticResource LblIconStyleForList}" 
+                                                                           TextColor="{Binding IconColor}" Opacity="{Binding AddRemoveIconOpacity}"
+                                                                           IsVisible="{Binding IsIconVisible}" Style="{StaticResource LblIconStyleForList}" 
                                                                            HorizontalOptions="End" VerticalOptions="Center" 
                                                                            ClassId="{Binding UserID}"/>
                                         </Grid>
@@ -200,9 +201,9 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackLayout>
-                  
+
                 </StackLayout>
-                
+
                 <StackLayout Grid.Row="1" IsVisible="{Binding QnACloseStack,Mode=TwoWay}">
 
                     <Grid>

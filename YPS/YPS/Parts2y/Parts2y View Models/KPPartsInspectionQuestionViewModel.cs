@@ -495,16 +495,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
-        //private base64 _SignaturePadPopup = false;
-        //public bool SignaturePadPopup
-        //{
-        //    get { return _SignaturePadPopup; }
-        //    set
-        //    {
-        //        _SignaturePadPopup = value;
-        //        RaisePropertyChanged("SignaturePadPopup");
-        //    }
-        //}
         private bool _IsConditionNameLabelVisible = true;
         public bool IsConditionNameLabelVisible
         {
