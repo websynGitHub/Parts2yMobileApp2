@@ -295,7 +295,7 @@
                                                     </Frame>
 
                                                     <Frame Padding="0,3,3,3" Margin="0,0,0,3" CornerRadius="2" HasShadow="False" BackgroundColor="Transparent"
-                                                       IsVisible="{Binding IsShippingMarkVisible}">
+                                                       Opacity="{Binding ShippingMarkOpacity}" IsVisible="{Binding IsShippingMarkVisible}">
                                                         <Image Source="shipicon.png" x:Name="ShipPrinter" 
                                                     HeightRequest="25" Margin="3,0,0,0" BackgroundColor="Transparent"
                                                    HorizontalOptions="End">

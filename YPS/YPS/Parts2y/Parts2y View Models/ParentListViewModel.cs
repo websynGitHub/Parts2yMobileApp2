@@ -697,37 +697,44 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        var printResult = await yPSService.PrintPDFByUsingPOID(senderval.POID);
-
-                        PrintPDFModel printPDFModel = new PrintPDFModel();
-
-                        if (printResult?.status == 1)
+                        if (senderval.ShippingMarkOpacity == 1.0)
                         {
-                            var bArrayPOID = printResult.data;
-                            byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
+                            var printResult = await yPSService.PrintPDFByUsingPOID(senderval.POID);
 
-                            printPDFModel.bArray = bytesPOID;
-                            printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
-                            printPDFModel.PDFFileTitle = "Shipping Marks";
+                            PrintPDFModel printPDFModel = new PrintPDFModel();
 
-                            switch (Device.RuntimePlatform)
+                            if (printResult?.status == 1)
                             {
-                                case Device.iOS:
+                                var bArrayPOID = printResult.data;
+                                byte[] bytesPOID = Convert.FromBase64String(bArrayPOID);
 
-                                    if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
-                                    {
-                                        await FileManager.GetByteArrayData(printPDFModel);
-                                    }
+                                printPDFModel.bArray = bytesPOID;
+                                printPDFModel.FileName = "ShippingMark" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
+                                printPDFModel.PDFFileTitle = "Shipping Marks";
 
-                                    var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
+                                switch (Device.RuntimePlatform)
+                                {
+                                    case Device.iOS:
 
-                                    DependencyService.Get<NewOpenPdfI>().passPath(url);
+                                        if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
+                                        {
+                                            await FileManager.GetByteArrayData(printPDFModel);
+                                        }
 
-                                    break;
-                                case Device.Android:
-                                    Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
-                                    break;
+                                        var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
+
+                                        DependencyService.Get<NewOpenPdfI>().passPath(url);
+
+                                        break;
+                                    case Device.Android:
+                                        Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
+                                        break;
+                                }
                             }
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
