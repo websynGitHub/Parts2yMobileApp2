@@ -79,7 +79,14 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                Navigation.PopToRootAsync(false);
+                //if(Navigation.NavigationStack[Navigation.NavigationStack.Count-1].GetType().Name=="")
+                //{
+
+                //}
+                //else
+                //{
+                Navigation.PopAsync(false);
+                //}
             }
             catch (Exception ex)
             {
