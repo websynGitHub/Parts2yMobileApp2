@@ -175,10 +175,11 @@
                             </StackLayout>
                         </StackLayout>
 
-                        <ScrollView Grid.Row="2" Orientation="Vertical" Padding="10,12,10,12"  VerticalOptions="FillAndExpand" 
+                        <StackLayout Grid.Row="2" Orientation="Vertical" VerticalOptions="FillAndExpand" 
                                     IsVisible="{Binding IsAnswersVisible}">
-                            <StackLayout >
-                                <Grid>
+                            <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand" Margin="10,12,10,10">
+                                <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+                                    <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
@@ -245,7 +246,7 @@
 
                                     </StackLayout>
                                 </Grid>
-                                <Grid VerticalOptions="EndAndExpand" HeightRequest="100">
+                                    <Grid VerticalOptions="EndAndExpand" HeightRequest="100"  Margin="0,0,0,5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="100"/>
@@ -268,10 +269,9 @@
                                                             HorizontalOptions="Start" Style="{StaticResource LableWithQuestionFont}" TextColor="Black"/>
                                     </StackLayout>
                                 </Grid>
-
-
-                            </StackLayout>
-                        </ScrollView>
+                                </StackLayout>
+                            </ScrollView>
+                        </StackLayout>
 
                         <Grid VerticalOptions="End" HorizontalOptions="FillAndExpand" Grid.Row="3"
                                Margin="6,0,6,6" HeightRequest="45" IsVisible="{Binding IsAnswersVisible}">
