@@ -92,7 +92,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             values.JobTileColor = Color.LightGray;
                         }
 
-                        values.IsTaskResourceVisible = values.TaskResourceID == Settings.userLoginID ? false : true;
+                        //values.IsTaskResourceVisible = values.TaskResourceID == Settings.userLoginID ? false : true;
+                        values.StartTime = !string.IsNullOrEmpty(values.StartTime) ? Convert.ToDateTime(values.StartTime).ToString("HH:mm") : values.StartTime;
+                        values.EndTime = !string.IsNullOrEmpty(values.EndTime) ? Convert.ToDateTime(values.EndTime).ToString("HH:mm") : values.EndTime;
+                        values.IsTimeGiven = string.IsNullOrEmpty(values.StartTime) && string.IsNullOrEmpty(values.EndTime) ? false : true;
+                        //values.IsTaskResourceVisible = values.TaskResourceID == 0 ? false : true;
                         values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
                         values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
                         values.PhotoInspText = values.TaskResourceID == 0 ? "Assign & " + inspphoto : inspphoto;
@@ -338,9 +342,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ConditionName.Status = conditionname?.Status == 1 ? true : false;
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
                         labelobj.InvoiceNumber.Status = invoicenumber?.Status == 1 ? true : false;
-                        labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name) + " :";
+                        labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name);
                         labelobj.StartTime.Status = starttime?.Status == 1 ? true : false;
-                        labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
+                        labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name);
                         labelobj.EndTime.Status = endtime?.Status == 1 ? true : false;
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
                         labelobj.ShippingNumber.Status = shippingnumber?.Status == 1 ? true : false;
