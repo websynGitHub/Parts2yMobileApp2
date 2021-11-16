@@ -50,18 +50,18 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 //if (Vm.selectedTagData?.TaskResourceID == Settings.userLoginID)
                 //{
-                    if (Vm.QuickTabVisibility == true)
-                    {
-                        Vm.QuickTabClicked();
-                    }
-                    else if (Vm.FullTabVisibility == true)
-                    {
-                        Vm.FullTabClicked();
-                    }
-                    else if (Vm.SignTabVisibility == true)
-                    {
-                        Vm.SignTabClicked();
-                    }
+                if (Vm.QuickTabVisibility == true)
+                {
+                    Vm.QuickTabClicked();
+                }
+                else if (Vm.FullTabVisibility == true)
+                {
+                    Vm.FullTabClicked();
+                }
+                else if (Vm.SignTabVisibility == true)
+                {
+                    Vm.SignTabClicked();
+                }
                 //}
                 //else
                 //{
@@ -87,26 +87,27 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
                 {
-                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                    tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
-                    tagtaskstatus.Status = 2;
-                    tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                    var checkInternet = await App.CheckInterNetConnection();
-
-                    if (checkInternet)
+                    //if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
+                    if (selectedTagData.TaskID != 0)
                     {
+                        TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                        tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                        tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                        tagtaskstatus.Status = 2;
+                        tagtaskstatus.CreatedBy = Settings.userLoginID;
+
                         var result = await service.UpdateTagTaskStatus(tagtaskstatus);
 
                         if (result?.status == 1)
                         {
                             selectedTagData.TagTaskStatus = 2;
 
-                            if (selectedTagData.TaskStatus == 0)
-                            {
+                            //if (selectedTagData.TaskStatus == 0)
+                            //{
                                 ObservableCollection<AllPoData> podate = await Vm.GetUpdatedAllPOData();
                                 TagTaskStatus taskstatus = new TagTaskStatus();
                                 taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
@@ -114,17 +115,17 @@ namespace YPS.Parts2y.Parts2y_Views
                                 taskstatus.CreatedBy = Settings.userLoginID;
 
                                 var taskval = await service.UpdateTaskStatus(taskstatus);
-                                selectedTagData.TaskStatus = 1;
-                            }
+                                selectedTagData.TaskStatus = taskstatus.TaskStatus;
+                            //}
 
                             await Vm.TabChange("job");
                             DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                         }
                     }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

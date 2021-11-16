@@ -24,7 +24,8 @@ namespace YPS.Parts2y.Parts2y_Views
 
         public PInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
             List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp,
-            PPartsInspectionQuestionsViewModel PartsQueVm, PLoadInspectionQuestionsViewModel LoadQueVm, bool isalldone = false)
+            PPartsInspectionQuestionsViewModel PartsQueVm, PLoadInspectionQuestionsViewModel LoadQueVm, bool isalldone = false,
+            string pendingTagIDs = null)
         {
             try
             {
@@ -32,7 +33,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 selectedTagData = selectedtagdata;
                 BindingContext = Vm = new PInspectionAnswersViewModel(Navigation, this, inspectionConfiguration,
-                    inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, PartsQueVm, LoadQueVm, isalldone);
+                    inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, PartsQueVm, LoadQueVm, isalldone, pendingTagIDs);
             }
             catch (Exception ex)
             {

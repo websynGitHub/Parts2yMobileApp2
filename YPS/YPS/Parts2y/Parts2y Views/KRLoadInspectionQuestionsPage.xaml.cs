@@ -66,14 +66,14 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                if (SelectedPodataList[0].TaskID != 0)
-                {
-                    var checkInternet = await App.CheckInterNetConnection();
+                var checkInternet = await App.CheckInterNetConnection();
 
-                    if (checkInternet)
+                if (checkInternet)
+                {
+                    if (SelectedPodataList[0].TaskID != 0)
                     {
-                        if (SelectedPodataList[0].TaskStatus != 2)
-                        {
+                        //if (SelectedPodataList[0].TaskStatus != 2)
+                        //{
                             TagTaskStatus taskstatus = new TagTaskStatus();
                             taskstatus.TaskID = Helperclass.Encrypt(SelectedPodataList[0].TaskID.ToString());
                             taskstatus.TaskStatus = 2;
@@ -86,12 +86,12 @@ namespace YPS.Parts2y.Parts2y_Views
                                 await Vm.TabChange("job");
                                 DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                             }
-                        }
+                        //}
                     }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

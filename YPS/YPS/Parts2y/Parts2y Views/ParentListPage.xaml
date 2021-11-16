@@ -206,7 +206,7 @@
                         </Grid>
 
                         <CollectionView x:Name="ParentDataList" Grid.Row="3" BackgroundColor="Transparent"
-                               ItemsSource="{Binding PoDataCollections}" VerticalOptions="Fill"
+                               ItemsSource="{Binding PoDataCollections}" VerticalOptions="Fill" VerticalScrollBarVisibility="Always"
                               Margin="0,6,0,0" IsVisible="{Binding ISPoDataListVisible}" SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -229,7 +229,29 @@
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
 
-                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
+                                                        <StackLayout Orientation="Horizontal" Spacing="0">
+                                                            <Label Text="{Binding BindingContext.labelobj.StartTime.Name, 
+                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="-" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.EndTime.Name, 
+                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                                            <Label Text=" : " TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                                            <Label Text="{Binding StartTime}" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                                            <Label Text=" - " TextColor="Black" IsVisible="{Binding IsTimeGiven}" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                                            <Label Text="{Binding EndTime}" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </StackLayout>
+                                                        <!--<Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.StartTime.Status, Source={x:Reference Name=POPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.StartTime.Name, 
@@ -247,10 +269,9 @@
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                             <Label Text="{Binding EndTime}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>
+                                                        </Grid>-->
 
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
-                                                           IsVisible="{Binding IsTaskResourceVisible}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.Resource.Name, 
                                                                 Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 

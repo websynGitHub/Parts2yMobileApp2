@@ -85,7 +85,7 @@
                         </Grid>
 
                         <CollectionView x:Name="LinkListData" Grid.Row="1" VerticalOptions="FillAndExpand"
-                                 ItemsSource="{Binding AllPoTagCollections}"
+                                 ItemsSource="{Binding AllPoTagCollections}" VerticalScrollBarVisibility="Always"
                                 Margin="0,6,0,0" >
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:Name="datatemplete">
@@ -178,7 +178,6 @@
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
-                                                           IsVisible="{Binding IsTaskResourceVisible}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.Resource.Name, 
                                                                 Source={x:Reference Name=Link}}"  TextColor="#4c4c4c" 

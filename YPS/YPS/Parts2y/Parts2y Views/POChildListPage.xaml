@@ -81,7 +81,27 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
 
-                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.StartTime.Status}" 
+                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                    <Label Text="{Binding labelobj.StartTime.Name}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Text="-" TextColor="#FFFFFF" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Text="{Binding labelobj.EndTime.Name}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                    <Label Text=" : " TextColor="#FFFFFF" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                    <Label Text="{Binding StartTime}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                    <Label Text=" - " TextColor="#FFFFFF" IsVisible="{Binding IsTimeGiven}" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+
+                                    <Label Text="{Binding EndTime}" TextColor="#FFFFFF" 
+                                          Style="{DynamicResource LableWithQuestionFont}"/>
+                                </StackLayout>
+
+                                <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.StartTime.Status}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.StartTime.Name}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
@@ -95,7 +115,7 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding EndTime}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>
+                                </Grid>-->
 
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding IsResourcecVisible}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
@@ -226,7 +246,7 @@
                         </Grid>
 
                         <CollectionView x:Name="ChildDataList" Grid.Row="3" BackgroundColor="Transparent"
-                                 ItemsSource="{Binding PoDataChildCollections}"
+                                 ItemsSource="{Binding PoDataChildCollections}" VerticalScrollBarVisibility="Always"
                                 Margin="0,6,0,0" IsVisible="{Binding IsPOTagDataListVisible}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:Name="datatemplete">
@@ -320,7 +340,7 @@
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
 
-                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
+                                                        <!--<Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding IsTaskResourceVisible}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.Resource.Name, 
@@ -328,7 +348,7 @@
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                             <Label Text="{Binding TaskResourceName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>
+                                                        </Grid>-->
                                                     </StackLayout>
                                                 </Grid>
 

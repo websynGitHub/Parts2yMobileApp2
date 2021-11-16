@@ -28,15 +28,16 @@ namespace YPS.Parts2y.Parts2y_Views
         AllPoData selectedTagData;
 
         public CInspectionAnswersPage(InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList, List<InspectionResultsList> inspectionResultsLists, AllPoData selectedtagdata, bool isVINInsp,
-            CLoadInspectionQuestionsViewModel CarQueVm, CVinInspectQuestionsPageViewModel VINQueVm, bool isalldone = false
-            )
+            CLoadInspectionQuestionsViewModel CarQueVm, CVinInspectQuestionsPageViewModel VINQueVm, bool isalldone = false,
+            string pendingTagIDs = null)
         {
             try
             {
                 service = new YPSService();
                 InitializeComponent();
                 selectedTagData = selectedtagdata;
-                BindingContext = Vm = new CInspectionAnswersPageViewModel(Navigation, this, inspectionConfiguration, inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, CarQueVm, VINQueVm, isalldone);
+                BindingContext = Vm = new CInspectionAnswersPageViewModel(Navigation, this, inspectionConfiguration, 
+                    inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, CarQueVm, VINQueVm, isalldone, pendingTagIDs);
             }
             catch (Exception ex)
             {

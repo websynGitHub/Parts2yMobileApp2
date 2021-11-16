@@ -181,7 +181,7 @@
                 </Grid>
 
                 <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" 
-                                            Opacity="{Binding CamIconOpacity}"
+                                            Opacity="{Binding CamIconOpacity}" IsVisible="{Binding IsCamVisible}"
                              RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=-55}"
                              RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=-63}"
                     Text="{x:Static StaticIcons:Icons.CameraIc}" TextColor="Black" FontSize="50" HorizontalOptions="Start" VerticalOptions="Center"

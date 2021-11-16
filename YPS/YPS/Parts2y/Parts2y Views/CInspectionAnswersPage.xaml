@@ -106,7 +106,7 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
 
-                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding IsResourcecVisible}" 
+                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Resource.Name}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>

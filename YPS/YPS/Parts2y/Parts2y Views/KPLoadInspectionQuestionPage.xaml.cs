@@ -68,32 +68,32 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                if (SelectedPodataList[0].TaskID != 0)
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
                 {
-                    var checkInternet = await App.CheckInterNetConnection();
-
-                    if (checkInternet)
+                    if (SelectedPodataList[0].TaskID != 0)
                     {
-                        if (SelectedPodataList[0].TaskStatus != 2)
+                        //if (SelectedPodataList[0].TaskStatus != 2)
+                        //{
+                        TagTaskStatus taskstatus = new TagTaskStatus();
+                        taskstatus.TaskID = Helperclass.Encrypt(SelectedPodataList[0].TaskID.ToString());
+                        taskstatus.TaskStatus = 2;
+                        taskstatus.CreatedBy = Settings.userLoginID;
+                        var taskval = await service.UpdateTaskStatus(taskstatus);
+
+                        if (taskval?.status == 1)
                         {
-                            TagTaskStatus taskstatus = new TagTaskStatus();
-                            taskstatus.TaskID = Helperclass.Encrypt(SelectedPodataList[0].TaskID.ToString());
-                            taskstatus.TaskStatus = 2;
-                            taskstatus.CreatedBy = Settings.userLoginID;
-                            var taskval = await service.UpdateTaskStatus(taskstatus);
-
-                            if (taskval?.status == 1)
-                            {
-                                SelectedPodataList[0].TaskID = 2;
-                                await Vm.TabChange("job");
-                                DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                            }
+                            SelectedPodataList[0].TaskID = 2;
+                            await Vm.TabChange("job");
+                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                         }
+                        //}
                     }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

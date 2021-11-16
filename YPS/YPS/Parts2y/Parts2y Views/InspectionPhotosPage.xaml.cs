@@ -19,13 +19,15 @@ namespace YPS.Parts2y.Parts2y_Views
         InspectionPhotoUploadViewModel Vm;
         YPSService trackService;
 
-        public InspectionPhotosPage(int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata, bool iscarrierinsp)
+        public InspectionPhotosPage(int tagId, InspectionConfiguration inspectionConfiguration, string vinValue,
+            AllPoData selectedtagdata, bool iscarrierinsp, bool isvininsp, string pendingTagIDs = null)
         {
             try
             {
                 trackService = new YPSService();
                 InitializeComponent();
-                BindingContext = Vm = new InspectionPhotoUploadViewModel(Navigation, this, tagId, inspectionConfiguration, vinValue, selectedtagdata, iscarrierinsp);
+                BindingContext = Vm = new InspectionPhotoUploadViewModel(Navigation, this, tagId, inspectionConfiguration, vinValue,
+                    selectedtagdata, iscarrierinsp, isvininsp, pendingTagIDs);
             }
             catch (Exception ex)
             {
