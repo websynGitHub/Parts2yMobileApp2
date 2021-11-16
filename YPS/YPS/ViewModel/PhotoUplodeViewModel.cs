@@ -75,7 +75,7 @@ namespace YPS.ViewModel
 
                 if (SelectionType.Trim().ToLower() == "initialphoto")
                 {
-                    InspBtnOpacity = 0.5;
+                    //InspBtnOpacity = 0.5;
                     Select_Items = select_items;
                     puid = select_items.PUID;
                     poid = select_items.POID;
@@ -178,7 +178,7 @@ namespace YPS.ViewModel
                                                     if (AllPhotosData.data.BPhotos.Count == 0)
                                                     {
                                                         NoPhotos_Visibility = true;
-                                                        InspBtnOpacity = 0.5;
+                                                        //InspBtnOpacity = 0.5;
                                                     }
                                                 }
                                                 else
@@ -189,7 +189,7 @@ namespace YPS.ViewModel
                                                     if (AllPhotosData.data.Aphotos.Count == 0)
                                                     {
                                                         NoPhotos_Visibility = true;
-                                                        InspBtnOpacity = 0.5;
+                                                        //InspBtnOpacity = 0.5;
                                                     }
                                                 }
 
@@ -198,7 +198,7 @@ namespace YPS.ViewModel
                                                 if (AllPhotosData.data.Aphotos.Count == 0 && AllPhotosData.data.BPhotos.Count == 0)
                                                 {
                                                     closeLabelText = false;
-                                                    InspBtnOpacity = 0.5;
+                                                    //InspBtnOpacity = 0.5;
                                                     RowHeightcomplete = 0;
                                                 }
                                                 await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
@@ -463,7 +463,7 @@ namespace YPS.ViewModel
 
                                 if (initialresult?.status == 1)
                                 {
-                                    InspBtnOpacity = Select_Items?.photoTags?.Count > 1 ? 0.5 : 1.0;
+                                    //InspBtnOpacity = Select_Items?.photoTags?.Count > 1 ? 0.5 : 1.0;
                                     selectiontype_index = 1;
                                     puid = initialresult.data.photos[0].PUID;
 
@@ -553,7 +553,7 @@ namespace YPS.ViewModel
                                 {
                                     if (result.status == 1)
                                     {
-                                        InspBtnOpacity = 1.0;
+                                        //InspBtnOpacity = 1.0;
 
                                         if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP) //(uploadType == "A")
                                         {
@@ -727,7 +727,7 @@ namespace YPS.ViewModel
 
                             finalPhotoListA = AllPhotosData.data.Aphotos;
                             finalPhotoListB = AllPhotosData.data.BPhotos;
-                            InspBtnOpacity = AllPhotosData.data.Aphotos.Count > 0 || AllPhotosData.data.BPhotos.Count > 0 ? 1.0 : 0.5;
+                            //InspBtnOpacity = AllPhotosData.data.Aphotos.Count > 0 || AllPhotosData.data.BPhotos.Count > 0 ? 1.0 : 0.5;
 
                             if (UploadType == (int)UploadTypeEnums.GoodsPhotos_AP)
                             {
@@ -1078,8 +1078,8 @@ namespace YPS.ViewModel
             {
                 IndicatorVisibility = true;
 
-                if (InspBtnOpacity == 1.0)
-                {
+                //if (InspBtnOpacity == 1.0)
+                //{
                     if (Settings.VersionID == 1)
                     {
                         await Navigation.PushAsync(new EPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
@@ -1100,11 +1100,11 @@ namespace YPS.ViewModel
                     {
                         await Navigation.PushAsync(new PPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
                     }
-                }
-                else
-                {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Upload atleast one photo to start inspection.");
-                }
+                //}
+                //else
+                //{
+                //    DependencyService.Get<IToastMessage>().ShortAlert("Upload atleast one photo to start inspection.");
+                //}
             }
             catch (Exception ex)
             {
@@ -1206,19 +1206,19 @@ namespace YPS.ViewModel
         //    }
         //}
 
-        private double _InspBtnOpacity { set; get; } = 0.5;
-        public double InspBtnOpacity
-        {
-            get
-            {
-                return _InspBtnOpacity;
-            }
-            set
-            {
-                _InspBtnOpacity = value;
-                RaisePropertyChanged("InspBtnOpacity");
-            }
-        }
+        //private double _InspBtnOpacity { set; get; } = 0.5;
+        //public double InspBtnOpacity
+        //{
+        //    get
+        //    {
+        //        return _InspBtnOpacity;
+        //    }
+        //    set
+        //    {
+        //        _InspBtnOpacity = value;
+        //        RaisePropertyChanged("InspBtnOpacity");
+        //    }
+        //}
 
         private double _CompleteBtnOpacity { set; get; } = 1.0;
         public double CompleteBtnOpacity

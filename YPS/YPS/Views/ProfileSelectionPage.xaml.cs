@@ -231,7 +231,7 @@ namespace YPS.Views
                 Vm.LangaugeLbl = data.Where(X => X.FieldID.Trim().ToLower() == Settings.Languagelabel1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Language" + " *").FirstOrDefault();
                 Vm.UpdateBtn = data.Where(X => X.FieldID.Trim().ToLower() == Settings.UpdateBtn1.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText : "Update").FirstOrDefault();
                 Vm.LoginLbl = data.Where(x => x.FieldID.Trim().ToLower() == Vm.LoginLbl.Trim().ToLower()).Select(m => !string.IsNullOrEmpty(m.LblText) ? m.LblText + " *" : "Login ID *").FirstOrDefault();
-                var supplierstatus = data.Where(wr => wr.FieldID.Trim().ToLower() == Settings.supplierlabel1.Trim().ToLower()).FirstOrDefault();
+                //var supplierstatus = data.Where(wr => wr.FieldID.Trim().ToLower() == Settings.supplierlabel1.Trim().ToLower()).FirstOrDefault();
             }
             catch (Exception ex)
             {

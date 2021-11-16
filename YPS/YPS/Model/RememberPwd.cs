@@ -39,6 +39,7 @@ namespace YPS.Model
         public string BgColor { get; set; }
         public string ScanditKey { get; set; }
         public bool IsMobileCompareCont { get; set; }
+        public string RoleColorCode { get; set; }
 
         /// <summary>
         /// Encrypted

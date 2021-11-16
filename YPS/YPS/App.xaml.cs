@@ -210,7 +210,7 @@ namespace YPS
                     Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
                     Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
                     Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
-                    Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
+                    //Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -287,6 +287,7 @@ namespace YPS
                             Settings.IsPNEnabled = userData.IsPNEnabled;
                             Settings.IsEmailEnabled = userData.IsEmailEnabled;
                             Settings.Bar_Background = Color.FromHex(userData.BgColor);
+                            Settings.RoleColorCode = userData.RoleColorCode;
                             HostingURL.scandItLicencekey = userData.ScanditKey;
                             Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
 

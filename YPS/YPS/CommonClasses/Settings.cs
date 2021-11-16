@@ -11,6 +11,7 @@ namespace YPS.CommonClasses
         public static string ScanValue { get; set; }
         //public static string ImpTxtCode { get; set; } = "TDdmwPkI+5H5TLnqUfTTow==";
         public static Xamarin.Forms.Color Bar_Background { get; set; } = Xamarin.Forms.Color.FromHex("#269DC9");
+        public static string RoleColorCode { get; set; }
         public static string DateFormat { get; set; } = "{0:dd MMM yyyy HH:mm}";
         public static Color HighlightedTabTxtColor { get; set; } = Color.Green;
         public static bool EndRefresh2 { get; set; }
@@ -292,7 +293,7 @@ namespace YPS.CommonClasses
         public static string Companylabel1 { set; get; } = "Company";
         public static string projectlabel1 { set; get; } = "Project";
         public static string joblabel1 { set; get; } = "Job";
-        public static string supplierlabel1 { set; get; } = "SupplierCompanyName";
+        //public static string supplierlabel1 { set; get; } = "SupplierCompanyName";
         public static string SetAsDefaultBtn1 { set; get; } = "SetAsDefault";
         public static string Emaillabel1 { set; get; } = "Email";
         public static string GivenNamelabel1 { set; get; } = "GivenName";

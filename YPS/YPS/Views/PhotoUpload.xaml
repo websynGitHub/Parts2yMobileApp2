@@ -301,7 +301,6 @@
 
                         <sfbuttons:SfButton  HorizontalOptions="End" VerticalOptions="End"
                                     Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
-                                    Opacity="{Binding InspBtnOpacity}"
                                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1}"
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
                                          Margin="0,0,10,4" Grid.Column="2">

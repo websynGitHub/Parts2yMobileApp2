@@ -302,6 +302,8 @@ namespace YPS.iOS
                     Settings.IsIIJEnabled = userData.IIJEnable;
                     HostingURL.scandItLicencekey = userData.ScanditKey;
                     Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                    Settings.Bar_Background = Color.FromHex(userData.BgColor);
+                    Settings.RoleColorCode = userData.RoleColorCode;
                 }
                 completionHandler(UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Alert);
 
@@ -577,6 +579,8 @@ namespace YPS.iOS
                                 Settings.IsIIJEnabled = userData.IIJEnable;
                                 HostingURL.scandItLicencekey = userData.ScanditKey;
                                 Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                                Settings.Bar_Background = Color.FromHex(userData.BgColor);
+                                Settings.RoleColorCode = userData.RoleColorCode;
                             }
                             Settings.GetParamVal = paramValues;
                             // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
@@ -627,6 +631,8 @@ namespace YPS.iOS
                                 Settings.IsIIJEnabled = userData.IIJEnable;
                                 HostingURL.scandItLicencekey = userData.ScanditKey;
                                 Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                                Settings.Bar_Background = Color.FromHex(userData.BgColor);
+                                Settings.RoleColorCode = userData.RoleColorCode;
                             }
                             Settings.GetParamVal = paramValues;
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())

@@ -26,7 +26,6 @@ namespace YPS.ViewModel
         #region ICommands and variables declaration.
         public INavigation Navigation { get; set; }
         public YPSService service;
-        private NullableDatePicker myNullableDate;
         bool checkInternet;
 
         public ICommand disc_PickerCommand { set; get; }
@@ -259,6 +258,7 @@ namespace YPS.ViewModel
                         SaveUserDS.TaskName = Settings.TaskName = JobName;
                         SaveUserDS.SortByID = string.IsNullOrEmpty(SaveUserDS.SortByID) ? "" : SaveUserDS.SortByID;
                         SaveUserDS.OrderByID = string.IsNullOrEmpty(SaveUserDS.OrderByID) ? "asc" : SaveUserDS.OrderByID;
+                        SaveUserDS.EventID = SaveUserDS.EventID == 0 ? 0 : SaveUserDS.EventID;
                         //Save the filter field values to DB
                         SearchPassData defaultData = new SearchPassData();
                         defaultData.UserID = Settings.userLoginID;

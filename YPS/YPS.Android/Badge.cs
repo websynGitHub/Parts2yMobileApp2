@@ -15,19 +15,7 @@ namespace YPS.Droid
         private static MyBadge mBadge;
         private static Context mContext;
         private static string LOG_TAG = "BadgeImplementation";
-        private static List<String> BADGERS = new List<String>(
-            new String[] { "AdwHomeBadger",
-                "ApexHomeBadger",
-                "AsusHomeLauncher",
-                "LGHomeBadger",
-                "NewHtcHomeBadger",
-                "NovaHomeBadger",
-                "SamsungHomeBadger",
-                "SolidHomeBadger",
-                "SonyHomeBadger",
-                "XiaomiHomeBadger",
-            }
-        );
+        private static List<String> BADGERS = new List<String>();
 
         public Badge(Context context)
         {
@@ -69,27 +57,10 @@ namespace YPS.Droid
                 }
                 Log.Debug(LOG_TAG, "Finding badger");
 
-
                 Intent intent = new Intent(Intent.ActionMain);
                 intent.AddCategory(Intent.CategoryHome);
                 ResolveInfo resolveInfo = context.PackageManager.ResolveActivity(intent, PackageInfoFlags.MatchDefaultOnly);
                 String currentHomePackage = resolveInfo.ActivityInfo.PackageName.ToLower();
-
-                /*if (Build.Manufacturer.ToLower() == "xiaomi") {
-					mBadge = new XiaomiHomeBadger(context);
-					return mBadge;
-				}*/
-                
-                //foreach (string badgeclass in BADGERS)
-                //{
-                //    Type t = Type.GetType("YPS.Droid.Implementation." + badgeclass);
-                //    MyBadge myObject = (MyBadge)Activator.CreateInstance(t, new Object[] { context });
-                //    if (myObject.getSupportLaunchers().Contains(currentHomePackage))
-                //    {
-                //        mBadge = myObject;
-                //    }
-                //}
-
 
                 if (mBadge == null)
                 {

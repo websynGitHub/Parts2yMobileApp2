@@ -219,6 +219,7 @@ namespace YPS.Model
         public List<int> TaskIDList { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
+        public bool IsTimeGiven { get; set; }
         public string EventName { get; set; }
         public int TagTaskStatus { get; set; }
         public int TaskStatus { get; set; }
@@ -229,8 +230,10 @@ namespace YPS.Model
         public int EventID { get; set; }
         public string TaskResourceName { get; set; }
         public string TaskResourceRole { get; set; }
+        public int EntityTypeID { get; set; }
+        public string EntityTypeName { get; set; }
 
-        public bool _IsTaskResourceVisible { set; get; }
+        public bool _IsTaskResourceVisible { set; get; } = true;
         public bool IsTaskResourceVisible
         {
             get
@@ -557,6 +560,7 @@ namespace YPS.Model
         public string TaskName { get; set; }
         public string SortByID { get; set; }
         public string OrderByID { get; set; }
+        public int EventID { get; set; }
     }
 
     public class POData

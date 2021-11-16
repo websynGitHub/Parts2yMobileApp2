@@ -130,7 +130,7 @@ namespace YPS.ViewModel
                                     string company = verfieldsforID.Where(wr => wr.FieldID == Settings.Companylabel1).Select(s => s.LblText).FirstOrDefault();
                                     string job = verfieldsforID.Where(wr => wr.FieldID == Settings.joblabel1).Select(s => s.LblText).FirstOrDefault();
                                     string proj = verfieldsforID.Where(wr => wr.FieldID == Settings.projectlabel1).Select(s => s.LblText).FirstOrDefault();
-                                    string supplier = verfieldsforID.Where(wr => wr.FieldID == Settings.supplierlabel1).Select(s => s.LblText).FirstOrDefault();
+                                    //string supplier = verfieldsforID.Where(wr => wr.FieldID == Settings.supplierlabel1).Select(s => s.LblText).FirstOrDefault();
                                     string setAsDefaultBtn = verfieldsforID.Where(wr => wr.FieldID == Settings.SetAsDefaultBtn1).Select(s => s.LblText).FirstOrDefault();
                                     string email = verfieldsforID.Where(wr => wr.FieldID == Settings.Emaillabel1).Select(s => s.LblText).FirstOrDefault();
                                     string givenName = verfieldsforID.Where(wr => wr.FieldID == Settings.GivenNamelabel1).Select(s => s.LblText).FirstOrDefault();
@@ -138,9 +138,9 @@ namespace YPS.ViewModel
                                     string timeZone = verfieldsforID.Where(wr => wr.FieldID == Settings.TimeZonelabel1).Select(s => s.LblText).FirstOrDefault();
                                     string language = verfieldsforID.Where(wr => wr.FieldID == Settings.Languagelabel1).Select(s => s.LblText).FirstOrDefault();
                                     string update = verfieldsforID.Where(wr => wr.FieldID == Settings.UpdateBtn1).Select(s => s.LblText).FirstOrDefault();
-                                    var supplierstatus = verfieldsforID.Where(wr => wr.FieldID == Settings.supplierlabel1).FirstOrDefault();
+                                    //var supplierstatus = verfieldsforID.Where(wr => wr.FieldID == Settings.supplierlabel1).FirstOrDefault();
                                     var loginid = verfieldsforID.Where(wr => wr.FieldID == LoginLbl).Select(s => s.LblText).FirstOrDefault();
-                                    suppliestatus = supplierstatus.Status;
+                                    //suppliestatus = supplierstatus.Status;
 
                                     DefaultSettinglabel = !string.IsNullOrEmpty(defaultsettings) ? defaultsettings : "Default Setting";
                                     UpdateProfilelabel = !string.IsNullOrEmpty(updateprofile) ? updateprofile : "Update Profile";
@@ -286,7 +286,8 @@ namespace YPS.ViewModel
 
                                     if (val?.data != null)
                                     {
-                                        Settings.Bar_Background = Color.FromHex(val.data?.VersionColorCode != null ? val.data.VersionColorCode : "#269DC9");
+                                        //Settings.Bar_Background = Color.FromHex(val.data?.VersionColorCode != null ? val.data.VersionColorCode : "#269DC9");
+                                        Settings.Bar_Background = !string.IsNullOrEmpty(Settings.RoleColorCode) ? Color.FromHex(Settings.RoleColorCode) : (val.data?.VersionColorCode != null ? Color.FromHex(val.data.VersionColorCode) : Settings.Bar_Background);
                                         Settings.VersionID = val.data.VersionID;
                                     }
                                     Navigation.PopToRootAsync(false);
@@ -554,7 +555,7 @@ namespace YPS.ViewModel
 
                                 Navigation.PopToRootAsync(false);
                             }
-                            
+
                         }
                     }
                 }
