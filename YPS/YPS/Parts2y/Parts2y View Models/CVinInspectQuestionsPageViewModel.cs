@@ -93,11 +93,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 var result = await trackService.GetInspSignatureByTag(taskid, tagId);
 
-                if (Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower())
+                if (selectedTagData?.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower())
                 {
                     IsDealerSignVisible = true;
                     IsOwnerSignVisible = false;
-                    IsSignatureCarrierVisible = (selectedTagData?.TaskResourceID == Settings.userLoginID && IsLoadTabVisible == true) ? false : true;
 
                     var carrierdriverimagesign = result?.data?.listData.
                         Where(wr => wr.SignType == (int)InspectionSignatureType.CarrierDriver).Select(c => c.Signature).FirstOrDefault();
@@ -111,25 +110,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     VINDealerImageSignCarrier = vindealerimagesigncarrier != null ?
                         ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(vindealerimagesigncarrier))) : null;
 
-                    if (selectedTagData.TagTaskStatus != 2 && ((IsLoadTabVisible == false && carrierdriverimagesign != null && vindealerimagesigncarrier != null) || (IsLoadTabVisible == true)) &&
-                   ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                   FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
-                   )
+                    if (((IsSignatureCarrierVisible == true && carrierdriverimagesign != null && vindealerimagesigncarrier != null) || (IsSignatureCarrierVisible == false)) &&
+                 ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                 FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                 (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                 (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                 )
                     {
                         IsDoneEnable = true;
                         DoneOpacity = 1.0;
                     }
                 }
-                else if (Settings.EntityTypeName.Trim().ToLower() == "Owner".Trim().ToLower() ||
-                    Settings.EntityTypeName.Trim().ToLower() == "LSP".Trim().ToLower() ||
-                    Settings.EntityTypeName.Trim().ToLower() == "Supplier".Trim().ToLower() ||
-                    Settings.EntityTypeName.Trim().ToLower() == "LLP".Trim().ToLower())
+                else if (selectedTagData?.EntityTypeName.Trim().ToLower() == "Owner".Trim().ToLower() ||
+                   selectedTagData?.EntityTypeName.Trim().ToLower() == "LSP".Trim().ToLower() ||
+                   selectedTagData?.EntityTypeName.Trim().ToLower() == "Supplier".Trim().ToLower() ||
+                   selectedTagData?.EntityTypeName.Trim().ToLower() == "LLP".Trim().ToLower())
                 {
                     IsDealerSignVisible = false;
                     IsOwnerSignVisible = true;
-                    IsSignatureCarrierVisible = (selectedTagData?.TaskResourceID == Settings.userLoginID && IsLoadTabVisible == true) ? false : true;
 
                     var driverimagesign = result?.data?.listData?.
                         Where(wr => wr.SignType == (int)InspectionSignatureType.VinDriver).
@@ -139,12 +137,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     DriverImageSign = driverimagesign != null ?
                         ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(driverimagesign))) : null;
 
-                    if (selectedTagData.TagTaskStatus != 2 && ((IsLoadTabVisible == false && driverimagesign != null) || (IsLoadTabVisible == true)) &&
-                   ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                   FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
-                   )
+                    if (((IsSignatureCarrierVisible == true && driverimagesign != null) || (IsSignatureCarrierVisible == false)) &&
+                 ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                 FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                 (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                 (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                 )
                     {
                         IsDoneEnable = true;
                         DoneOpacity = 1.0;
@@ -267,7 +265,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == selectedTagData?.TaskID));
                         }
                     }
                 }
@@ -354,14 +352,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await GetConfigurationResults(1);
                     QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 1).ToList());
-                    //QuickSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
                 if (IsFullTabVisible == true)
                 {
                     await GetConfigurationResults(2);
                     FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory.Where(wr => wr.CategoryID == 2).ToList());
-                    //FullSignQuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 }
 
                 await GetInspSignature();
@@ -406,12 +402,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
 
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                     else
                     {
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                 }
             }
@@ -493,6 +487,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var identcode = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.IdentCode.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var conditionname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ConditionName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
 
@@ -507,6 +502,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TaskName.Status = taskanme?.Status == 1 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                         labelobj.EventName.Status = eventname?.Status == 1 ? true : false;
+                        labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                         labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
                     }
@@ -514,15 +510,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                 {
-
-                    SignTabText = IsLoadTabVisible == false ? "Checklist & Sign" : "Checklist";
+                    IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
 
                     if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                     {
                         IsQuickTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                         IsFullTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CFullInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
-                        IsSignatureCarrierVisible = (IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false) == true ? false : true;
-
+                        IsSignatureCarrierVisible = IsLoadTabVisible == true ? false : true;
                     }
                     else
                     {
@@ -532,12 +526,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             IsQuickTabVisible = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "CQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                             IsFullTabVisible = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "CFullInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                            IsSignatureCarrierVisible = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? false : true;
                         }
 
                         SignTabVisibility = false;
-                        SignTabText = "Checklist & Sign";
-                        IsSignatureCarrierVisible = true;
                     }
+
+                    SignTabText = IsSignatureCarrierVisible == true ? "Checklist & Sign" : "Checklist";
 
                     if (IsQuickTabVisible == false && IsFullTabVisible == false)
                     {
@@ -589,6 +584,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Status = false,
                 Name = "Event"
+            };
+            public DashboardLabelFields Resource { get; set; } = new DashboardLabelFields
+            {
+                Status = false,
+                Name = "Resource"
             };
             public DashboardLabelFields IdentCode { get; set; } = new DashboardLabelFields { Status = false, Name = "IdentCode" };
             public DashboardLabelFields ConditionName { get; set; } = new DashboardLabelFields { Status = false, Name = "ConditionName" };

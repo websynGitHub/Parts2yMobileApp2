@@ -481,8 +481,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.ShippingNumber = val.Select(s => s.ShippingNumber).FirstOrDefault();
                                         groupdata.POShippingNumber = val.Select(s => s.POShippingNumber).FirstOrDefault();
                                         groupdata.TaskName = val.Select(s => s.TaskName).FirstOrDefault();
-                                        groupdata.StartTime = val.Select(s => s.StartTime).FirstOrDefault();
-                                        groupdata.EndTime = val.Select(s => s.EndTime).FirstOrDefault();
+                                        groupdata.StartTime = val.Select(s => !string.IsNullOrEmpty(s.StartTime) ? Convert.ToDateTime(s.StartTime).ToString("HH:mm") : s.StartTime).FirstOrDefault();
+                                        groupdata.EndTime = val.Select(s => !string.IsNullOrEmpty(s.EndTime) ? Convert.ToDateTime(s.EndTime).ToString("HH:mm") : s.EndTime).FirstOrDefault();
+                                        groupdata.IsTimeGiven = string.IsNullOrEmpty(groupdata.StartTime) && string.IsNullOrEmpty(groupdata.EndTime) ? false : true;
                                         groupdata.TaskID = val.Select(s => s.TaskID).FirstOrDefault();
                                         groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
                                         groupdata.TaskResourceName = val.Select(s => s.TaskResourceName).FirstOrDefault();
@@ -504,7 +505,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             groupdata.POTaskStatusIcon = Icons.Done;
                                         }
 
-                                        groupdata.IsTaskResourceVisible = val.Select(c => c.TaskResourceID).FirstOrDefault() == Settings.userLoginID ? false : true;
+                                        //groupdata.IsTaskResourceVisible = val.Select(c => c.TaskResourceID).FirstOrDefault() == Settings.userLoginID ? false : true;
                                         groupdata.ShippingMarkOpacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ShippingMarkDownload".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
 
                                         if (val.Select(c => c?.TaskResourceID).FirstOrDefault() == 0 || val.Select(c => c?.TaskResourceID).FirstOrDefault() == null)
@@ -649,10 +650,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (PODetails?.TaskResourceID == 0 || PODetails?.TaskResourceID == null)
                         {
-                            var tag = labelval?.Where(wr => wr.FieldID.Trim().ToLower() == "TagNumber".Trim().ToLower())?.Select(c => new { c.LblText }).FirstOrDefault().ToString();
+                            var tag = labelval?.Where(wr => wr.FieldID.Trim().ToLower() == "TagNumber".Trim().ToLower())?.FirstOrDefault().LblText.ToString();
 
-                            await App.Current.MainPage.DisplayAlert(labelval?.Where(wr => wr.FieldID.Trim().ToLower() == "TagNumber".Trim().ToLower())?.Select(c => new { c.LblText }).FirstOrDefault().LblText.ToString(),
-                                String.Join("\n \n", PoDataChilds?.Select(c => c.TagNumber).ToList()), "Ok");
+                            await App.Current.MainPage.DisplayAlert("This job is not yet assigned.",
+                                "To assign this job, scan one of the " + tag + " from the Home.\n\n" +
+                               tag + "\n" + String.Join("\n \n", PoDataChilds?.Select(c => c.TagNumber).ToList()), "Ok");
                         }
                         else
                         {
@@ -663,7 +665,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     catch (Exception ex)
                     {
                         trackService.Handleexception(ex);
-                        YPSLogger.ReportException(ex, "SelectedParentDetails method -> in ParentListViewModel.cs " + Settings.userLoginID);
+                        YPSLogger.ReportException(ex, "SelectedParentDetails method -> in ParentListViewModel.cs, inner exception" + Settings.userLoginID);
                     }
                     finally
                     {
@@ -673,6 +675,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
+                trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "SelectedParentDetails method -> in ParentListViewModel.cs " + Settings.userLoginID);
                 loadingindicator = false;
             }
         }
@@ -1141,9 +1145,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.REQNo.Status = reqnumber?.Status == 1 ? true : false;
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme?.Status == 1 ? true : false;
-                        labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name) + " :";
+                        labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name);
                         labelobj.StartTime.Status = starttime?.Status == 1 ? true : false;
-                        labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
+                        labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) /*+ " :"*/;
                         labelobj.EndTime.Status = endtime?.Status == 1 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                         labelobj.EventName.Status = eventname?.Status == 1 ? true : false;

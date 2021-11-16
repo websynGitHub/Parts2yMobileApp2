@@ -48,6 +48,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 trackService = new YPSService();
                 pageName = pagename;
                 SelectedPodataList = selectedpodatalist;
+                Settings.POID = SelectedPodataList[0].POID;
+                Settings.TaskID = SelectedPodataList[0].TaskID;
                 taskid = SelectedPodataList[0].TaskID;
                 IsAllTagsDone = isalltagdone;
                 PONumber = SelectedPodataList[0].PONumber;
@@ -56,7 +58,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 TaskName = SelectedPodataList[0].TaskName;
                 EventName = SelectedPodataList[0].EventName;
                 Resource = SelectedPodataList[0].TaskResourceName;
-                IsResourcecVisible = SelectedPodataList[0].TaskResourceID == Settings.userLoginID ? false : true;
+                //IsResourcecVisible = SelectedPodataList[0].TaskResourceID == Settings.userLoginID ? false : true;
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
                 LoadInspTabCmd = new Command(LoadInspTabClicked);
@@ -132,7 +134,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == SelectedPodataList[0]?.TaskID));
                         }
                     }
                 }
@@ -187,8 +189,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 await GetConfigurationResults(12);
 
-                //QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
-
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;
                 LoadInspTabTextColor = Color.Black;
@@ -196,8 +196,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                    SelectedPodataList[0].TaskStatus != 2)
+                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null)
                 {
                     IsDoneEnable = true;
                     DoneOpacity = 1.0;
@@ -283,10 +282,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
+                List<string> EncPOTagID = new List<string>();
+
+                foreach (var data in SelectedPodataList.Where(wr => wr.TagTaskStatus == 0))
+                {
+                    var value = Helperclass.Encrypt(data.POTagID.ToString());
+                    EncPOTagID.Add(value);
+                }
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await Navigation.PushAsync(new EInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0],
-                    false, null, this, IsAllTagsDone), false);
+                await Navigation.PushAsync(new EInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, 
+                    inspectionResultsLists, SelectedPodataList[0],
+                    false, null, this, IsAllTagsDone, string.Join(",", EncPOTagID)), false);
             }
             catch (Exception ex)
             {

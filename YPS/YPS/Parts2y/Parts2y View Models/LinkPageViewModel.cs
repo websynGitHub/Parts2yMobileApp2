@@ -534,7 +534,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         #endregion Status icon
 
-                        values.IsTaskResourceVisible = values.TaskResourceID == Settings.userLoginID ? false : true;
+                        //values.IsTaskResourceVisible = values.TaskResourceID == Settings.userLoginID ? false : true;
                         values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
                         values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
                     }

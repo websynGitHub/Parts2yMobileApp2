@@ -184,6 +184,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IsPNEnabled = Settings.IsPNEnabled;
                     saveData.IsEmailEnabled = Settings.IsEmailEnabled;
                     saveData.BgColor = Settings.Bar_Background.ToHex();
+                    saveData.RoleColorCode = Settings.RoleColorCode;
                     saveData.ScanditKey = HostingURL.scandItLicencekey;
                     saveData.IsMobileCompareCont = Settings.IsMobileCompareCont;
                     Db.SaveUserPWd(saveData);
@@ -328,7 +329,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
                         Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
                         Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
+                        //Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
 
                     }
                 }
@@ -341,7 +342,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
                         Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
                         Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
+                        //Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
                     }
                 }
             }

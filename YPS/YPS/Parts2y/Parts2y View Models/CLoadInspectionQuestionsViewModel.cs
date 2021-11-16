@@ -58,7 +58,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 TaskName = SelectedPodataList[0].TaskName;
                 EventName = SelectedPodataList[0].EventName;
                 Resource = SelectedPodataList[0].TaskResourceName;
-                IsResourcecVisible = SelectedPodataList[0].TaskResourceID == Settings.userLoginID ? false : true;
+                //IsResourcecVisible = SelectedPodataList[0].TaskResourceID == Settings.userLoginID ? false : true;
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
                 InspTabCmd = new Command(InspTabClicked);
@@ -121,7 +121,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCarrier))) : null;
 
                         if (IsAllTagsDone == true && QuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null
-                            && SelectedPodataList[0].TaskID != 2 && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
+                            && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
                             supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
                         {
                             IsDoneEnable = true;
@@ -280,7 +280,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 await GetConfigurationResults(3);
 
-                //QuestionListCategory.Where(wr => wr.Status == 1).ToList().ForEach(l => { l.SignQuesBgColor = Color.FromHex("#005800"); });
                 await GetInspSignature();
 
                 IsSignQuestionListVisible = true;
@@ -321,12 +320,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
 
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                     else
                     {
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
-                        //QuestionListCategory.Where(wr => string.IsNullOrEmpty(wr.Area)).ToList().ForEach(s => { s.AreBgColor = Color.Transparent; });
                     }
                 }
             }
@@ -397,9 +394,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
+                List<string> EncPOTagID = new List<string>();
+
+                foreach (var data in SelectedPodataList.Where(wr => wr.TagTaskStatus == 0))
+                {
+                    var value = Helperclass.Encrypt(data.POTagID.ToString());
+                    EncPOTagID.Add(value);
+                }
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await Navigation.PushAsync(new CInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, inspectionResultsLists, SelectedPodataList[0], false, this, null, IsAllTagsDone), false);
+                await Navigation.PushAsync(new CInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, 
+                    inspectionResultsLists, SelectedPodataList[0], false, this, null, IsAllTagsDone, string.Join(",", EncPOTagID)), false);
             }
             catch (Exception ex)
             {
@@ -645,7 +650,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsResourcecVisible = false;
+        private bool _IsResourcecVisible = true;
         public bool IsResourcecVisible
         {
             get { return _IsResourcecVisible; }

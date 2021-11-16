@@ -35,19 +35,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
         InspectionPhotosPage pagename;
         AllPoData selectedTagData;
         Stream picStream;
-        string extension = "", fileName, Mediafile, types = string.Empty;
+        string extension = "", fileName, Mediafile, types = string.Empty, pendingTagIDs;
         int tagId, taskid;
-        bool multiple_Taps, IsCarrierInsp;
+        bool multiple_Taps, IsCarrierInsp, isInspVIN;
         InspectionConfiguration inspectionConfiguration;
         #endregion
 
-        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId, InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata, bool iscarrierinsp)
+        public InspectionPhotoUploadViewModel(INavigation _Navigation, InspectionPhotosPage page, int tagId,
+            InspectionConfiguration inspectionConfiguration, string vinValue, AllPoData selectedtagdata, bool iscarrierinsp,
+            bool isvininsp, string pendingtagIDs = null)
         {
             try
             {
                 Navigation = _Navigation;
                 pagename = page;
                 selectedTagData = selectedtagdata;
+                isInspVIN = isvininsp;
+                pendingTagIDs = pendingtagIDs;
                 this.tagId = tagId;
                 taskid = selectedtagdata.TaskID;
                 Tagnumbers = vinValue;
@@ -209,10 +213,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     IndicatorVisibility = false;
                                     btnenable = true;
                                     AStack = false;
+                                    IsCamVisible = false;
                                     NoPhotos_Visibility = false;
                                     firstStack = true;
                                     SecondMainStack = true;
-                                    //FirstMainStack = false;
                                     RowHeightOpenCam = 100;
 
                                     picStream = photo.GetStreamWithImageRotatedForExternalStorage();
@@ -243,10 +247,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         IndicatorVisibility = false;
                                         btnenable = true;
                                         AStack = false;
+                                        IsCamVisible = false;
                                         NoPhotos_Visibility = false;
                                         firstStack = true;
                                         SecondMainStack = true;
-                                        //FirstMainStack = false;
                                         RowHeightOpenCam = 100;
 
                                         picStream = file.GetStreamWithImageRotatedForExternalStorage();
@@ -313,10 +317,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 if (fileOS != null)
                                 {
                                     AStack = false;
+                                    IsCamVisible = false;
                                     NoPhotos_Visibility = false;
                                     firstStack = true;
                                     SecondMainStack = true;
-                                    //FirstMainStack = false;
                                     RowHeightOpenCam = 100;
                                     int id = 0;
                                     ListOfImage.Clear();
@@ -358,10 +362,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         if (ListOfImage.Count != 0)
                                             ListOfImage.Clear();
                                         AStack = false;
+                                        IsCamVisible = false;
                                         NoPhotos_Visibility = false;
                                         firstStack = true;
                                         SecondMainStack = true;
-                                        //FirstMainStack = false;
                                         RowHeightOpenCam = 100;
                                         extension = "ios";
                                         int id = 0;
@@ -420,9 +424,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         AStack = true;
                         SecondMainStack = true;
+                        IsCamVisible = true;
                         NoPhotos_Visibility = false;
                         firstStack = false;
-                        //FirstMainStack = false;
 
                         if (extension.Trim().ToLower() == ".png" || extension.Trim().ToLower() == ".jpg" || extension.Trim().ToLower() == ".jpeg" || extension.Trim().ToLower() == ".gif" || extension.Trim().ToLower() == ".bmp" || extension.Trim().ToLower() == "ios")
                         {
@@ -551,18 +555,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus == 0)
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
                 {
-                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                    tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
-                    tagtaskstatus.Status = 1;
-                    tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                    var checkInternet = await App.CheckInterNetConnection();
-
-                    if (checkInternet)
+                    //if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus == 0)
+                    if (selectedTagData.TaskID != 0 && ((isInspVIN == false && !string.IsNullOrEmpty(pendingTagIDs)) ||
+                        (isInspVIN == true && selectedTagData.TagTaskStatus == 0)))
                     {
+                        TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                        tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                        tagtaskstatus.POTagID = !string.IsNullOrEmpty(pendingTagIDs) ? string.Join(",", pendingTagIDs) : Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                        //tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                        tagtaskstatus.Status = 1;
+                        tagtaskstatus.CreatedBy = Settings.userLoginID;
+
                         var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
 
                         if (result?.status == 1)
@@ -576,14 +583,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 var taskval = await trackService.UpdateTaskStatus(taskstatus);
                             }
-                            selectedTagData.TagTaskStatus = 1;
                             selectedTagData.TaskStatus = 1;
+                            selectedTagData.TagTaskStatus = 1;
                         }
                     }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -823,6 +830,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _CamIconOpacity = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _IsCamVisible = true;
+        public bool IsCamVisible
+        {
+            get { return _IsCamVisible; }
+            set
+            {
+                _IsCamVisible = value;
                 NotifyPropertyChanged();
             }
         }

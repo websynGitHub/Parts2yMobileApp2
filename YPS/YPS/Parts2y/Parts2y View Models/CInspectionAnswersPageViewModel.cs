@@ -43,12 +43,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
         List<InspectionResultsList> inspectionResultsList;
         CLoadInspectionQuestionsViewModel CarQueVm;
         CVinInspectQuestionsPageViewModel VINQueVm;
-
+        string pendingTagIDs;
         #endregion
 
         public CInspectionAnswersPageViewModel(INavigation _Navigation, CInspectionAnswersPage page, InspectionConfiguration inspectionConfiguration, ObservableCollection<InspectionConfiguration> inspectionConfigurationList,
             List<InspectionResultsList> inspectionResultsList, AllPoData selectedtagdata, bool isVINInsp,
-             CLoadInspectionQuestionsViewModel carcueVm, CVinInspectQuestionsPageViewModel vinqueVm, bool isalldone = false)
+             CLoadInspectionQuestionsViewModel carcueVm, CVinInspectQuestionsPageViewModel vinqueVm, bool isalldone = false,
+             string pendingtagIDs = null)
         {
             try
             {
@@ -61,6 +62,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 isInspVIN = isVINInsp;
                 isAllDone = isalldone;
                 selectedTagData = selectedtagdata;
+                pendingTagIDs = pendingtagIDs;
                 this.tagId = selectedtagdata.POTagID;
                 taskid = selectedtagdata.TaskID;
                 PONumber = selectedtagdata.PONumber;
@@ -69,7 +71,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 TaskName = selectedtagdata.TaskName;
                 Resource = selectedtagdata.TaskResourceName;
                 EventName = selectedtagdata.EventName;
-                IsResourcecVisible = selectedtagdata.TaskResourceID == Settings.userLoginID ? false : true;
+                //IsResourcecVisible = selectedtagdata.TaskResourceID == Settings.userLoginID ? false : true;
                 TagNumber = selectedtagdata.TagNumber;
                 IndentCode = selectedtagdata.IdentCode;
                 IsConditionNameLabelVisible = string.IsNullOrEmpty(selectedTagData.ConditionName) ? false : true;
@@ -287,6 +289,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var identcode = labelval.Where(wr => wr.FieldID == labelobj.IdentCode.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var conditionname = labelval.Where(wr => wr.FieldID == labelobj.ConditionName.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var resource = labelval.Where(wr => wr.FieldID == labelobj.Resource.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
@@ -299,7 +302,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.TaskName.Status = taskanme?.Status == 1 ? true : false;
                             labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                             labelobj.EventName.Status = eventname?.Status == 1 ? true : false;
-                            IsResourcecVisible = false;
+                            labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                             if (Settings.AllActionStatus != null && Settings.AllActionStatus.Count > 0)
                             {
@@ -398,7 +401,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             try
             {
-                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber, selectedTagData, IsInspTabVisible == true ? true : false), false);
+                await Navigation.PushAsync(new InspectionPhotosPage(this.tagId, InspectionConfiguration, TagNumber, selectedTagData,
+                    IsInspTabVisible == true ? true : false, isInspVIN, pendingTagIDs), false);
             }
             catch (Exception ex)
             {
@@ -561,21 +565,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus == 0)
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
                 {
-                    TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                    tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                    tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
-                    tagtaskstatus.Status = 1;
-                    tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                    var checkInternet = await App.CheckInterNetConnection();
-
-                    if (checkInternet)
+                    //if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus == 0)
+                    if (selectedTagData.TaskID != 0 && ((isInspVIN == false && !string.IsNullOrEmpty(pendingTagIDs)) ||
+                        (isInspVIN == true && selectedTagData.TagTaskStatus == 0)))
                     {
+                        TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                        tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                        tagtaskstatus.POTagID = !string.IsNullOrEmpty(pendingTagIDs) ? string.Join(",", pendingTagIDs) : Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                        //tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                        tagtaskstatus.Status = 1;
+                        tagtaskstatus.CreatedBy = Settings.userLoginID;
+
                         var result = await trackService.UpdateTagTaskStatus(tagtaskstatus);
 
-                        if (result.status == 1)
+                        if (result?.status == 1)
                         {
                             if (selectedTagData.TaskStatus == 0)
                             {
@@ -586,14 +593,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 var taskval = await trackService.UpdateTaskStatus(taskstatus);
                             }
-                            selectedTagData.TagTaskStatus = 1;
                             selectedTagData.TaskStatus = 1;
+                            selectedTagData.TagTaskStatus = 1;
                         }
                     }
-                    else
-                    {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

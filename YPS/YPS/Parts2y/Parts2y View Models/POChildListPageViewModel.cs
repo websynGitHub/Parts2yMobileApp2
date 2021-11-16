@@ -518,6 +518,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (potaglist != null && potaglist.Count > 0)
                 {
+                    allPOTagData = potaglist;
                     await UpdateTabCount(potaglist);
 
                     if (tagTaskStatus == 0)
@@ -624,7 +625,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 }
                                 #endregion Status icon
 
-                                data.IsTaskResourceVisible = data.TaskResourceID == Settings.userLoginID ? false : true;
+                                //data.IsTaskResourceVisible = data.TaskResourceID == Settings.userLoginID ? false : true;
                                 data.IsTagDescLabelVisible = string.IsNullOrEmpty(data.IDENT_DEVIATED_TAG_DESC) ? false : true;
                                 data.IsConditionNameLabelVisible = string.IsNullOrEmpty(data.ConditionName) ? false : true;
                             }
@@ -1011,11 +1012,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var val = (sender as CollectionView).ItemsSource as ObservableCollection<AllPoData>;
                         var selectedTagData = val.Where(wr => wr.IsChecked == true).ToList();
 
-                        if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
-                        {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Some of the " + VinsOrParts + " are already marked as done.");
-                        }
-                        else if (selectedTagData.Count() == 0)
+                        //if ((selectedTagData.Where(wr => wr.TagTaskStatus == 2).Count()) > 0)
+                        //{
+                        //    DependencyService.Get<IToastMessage>().ShortAlert("Some of the " + VinsOrParts + " are already marked as done.");
+                        //}
+                        //else if (selectedTagData.Count() == 0)
+                        if (selectedTagData.Count() == 0)
                         {
                             DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to mark as done.");
                         }
@@ -1023,7 +1025,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             bool makeitdone = await App.Current.MainPage.DisplayAlert("Confirm", "Make sure you have finished the inspection for the selected. \nAre you sure, you want to mark the selected as Done ? ", "Ok", "Cancel");
 
-                            if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0 && makeitdone == true)
+                            //if ((selectedTagData.Where(wr => wr.TaskID != 0 && wr.TagTaskStatus != 2).Count()) != 0 && makeitdone == true)
+                            if (makeitdone == true)
                             {
                                 TagTaskStatus tagtaskstatus = new TagTaskStatus();
                                 tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
@@ -1064,12 +1067,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     {
                                         TagTaskStatus taskstatus = new TagTaskStatus();
                                         taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.Select(c => c.TaskID).FirstOrDefault().ToString());
-                                        taskstatus.TaskStatus = (PoDataChildCollections?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault()) == null ? 2 : 1;
+                                        taskstatus.TaskStatus = (allPOTagData?.Where(wr => wr.TagTaskStatus != 2).FirstOrDefault()) == null ? 2 : 1;
                                         taskstatus.CreatedBy = Settings.userLoginID;
 
                                         var taskval = await trackService.UpdateTaskStatus(taskstatus);
+                                        allPOTagData.All(a => { a.TaskStatus = taskstatus.TaskStatus; return true; });
                                     }
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                    DependencyService.Get<IToastMessage>().ShortAlert("Selected " + VinsOrParts + " are marked as done.");
                                 }
 
                                 Settings.IsRefreshPartsPage = false;
@@ -1420,9 +1424,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme?.Status == 1 ? true : false;
                         labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
-                        labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name) + " :";
+                        labelobj.StartTime.Name = (starttime != null ? (!string.IsNullOrEmpty(starttime.LblText) ? starttime.LblText : labelobj.StartTime.Name) : labelobj.StartTime.Name);
                         labelobj.StartTime.Status = starttime?.Status == 1 ? true : false;
-                        labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) + " :";
+                        labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name);
                         labelobj.EndTime.Status = endtime?.Status == 1 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                         labelobj.EventName.Status = eventname?.Status == 1 ? true : false;
@@ -1961,13 +1965,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     ShippingNumber = value[0].ShippingNumber;
                     REQNo = value[0].REQNo;
                     TaskName = value[0].TaskName;
-                    StartTime = value[0].StartTime;
-                    EndTime = value[0].EndTime;
+                    StartTime = !string.IsNullOrEmpty(value[0].StartTime) ? Convert.ToDateTime(value[0].StartTime).ToString("HH:mm") : value[0].StartTime;
+                    EndTime = !string.IsNullOrEmpty(value[0].EndTime) ? Convert.ToDateTime(value[0].EndTime).ToString("HH:mm") : value[0].EndTime;
+                    IsTimeGiven = string.IsNullOrEmpty(value[0].StartTime) && string.IsNullOrEmpty(value[0].EndTime) ? false : true;
                     EventName = value[0].EventName;
                     Resource = value[0].TaskResourceName;
-                    IsResourcecVisible = value[0].TaskResourceID == Settings.userLoginID ? false : true;
+                    IsResourcecVisible = value[0].TaskResourceID == 0 ? false : true;
+                    //IsResourcecVisible = value[0].TaskResourceID == Settings.userLoginID ? false : true;
                 }
                 RaisePropertyChanged("PoDataChildCollections");
+            }
+        }
+
+        private bool _IsTimeGiven;
+        public bool IsTimeGiven
+        {
+            get { return _IsTimeGiven; }
+            set
+            {
+                _IsTimeGiven = value;
+                NotifyPropertyChanged();
             }
         }
 
