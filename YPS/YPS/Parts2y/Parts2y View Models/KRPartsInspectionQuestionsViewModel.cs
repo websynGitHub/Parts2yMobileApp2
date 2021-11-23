@@ -60,9 +60,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 EventName = selectedTagData.EventName;
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
-                ChangeLabel();
-                Task.Run(GetQuestionsLIst);
-
                 QuickTabCmd = new Command(QuickTabClicked);
                 FullTabCmd = new Command(FullTabClicked);
                 SignalTabCmd = new Command(SignTabClicked);
@@ -72,12 +69,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 //if (selectedTagData?.TaskResourceID == Settings.userLoginID)
                 //{
-                    LoadCmd = new Command(async () => await TabChange("load"));
+                LoadCmd = new Command(async () => await TabChange("load"));
                 //}
                 //else
                 //{
                 //    LoadTextColor = Color.Gray;
                 //}
+
+                ChangeLabel();
+                Task.Run(GetQuestionsLIst);
             }
             catch (Exception ex)
             {
@@ -417,6 +417,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             IsQuickTabVisible = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "KrQuickInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
                             IsFullTabVisible = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "KrFullInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+                            var isLoadAction = (actions?.data?.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? true : false;
+
+                            if (isLoadAction == false)
+                            {
+                                LoadCmd = null;
+                                LoadTextColor = Color.Gray;
+                            }
                         }
                         SignTabVisibility = false;
                     }

@@ -383,7 +383,7 @@
                                               Padding="6,0,6,6" BackgroundColor="Transparent">
                                         <Frame Margin="0" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        BackgroundColor="White" CornerRadius="4"  HasShadow="False">
-                                            <Grid ColumnDefinitions="*,*">
+                                            <Grid ColumnDefinitions="*,Auto">
                                                 <Label Text="{Binding Name}" TextColor="Black" Grid.Column="0"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
 

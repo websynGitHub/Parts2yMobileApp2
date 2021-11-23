@@ -41,7 +41,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command ScanCmd { set; get; }
         public Command InspCmd { set; get; }
         SendPodata sendPodata = new SendPodata();
-        ObservableCollection<AllPoData> allPOTagData;
+        public ObservableCollection<AllPoData> allPOTagData;
         POChildListPage pageName;
         int POID, TaskID;
         public static bool isalldone;
@@ -1468,6 +1468,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public Color _LoadTextColor = Color.Black;
+        public Color LoadTextColor
+        {
+            get => _LoadTextColor;
+            set
+            {
+                _LoadTextColor = value;
+                RaisePropertyChanged("LoadTextColor");
+            }
+        }
 
         public string _VinsOrParts = Settings.VersionID == 2 ? "VIN(s)" : "part(s)";
         public string VinsOrParts

@@ -25,6 +25,7 @@ namespace YPS.Parts2y.Parts2y_Views
         public static Timer loadertimer;
         YPSService trackService;
         int? taskResourceID;
+        List<ActionsForUserData> userActionsForJob;
 
         public POChildListPage(ObservableCollection<AllPoData> potag, SendPodata sendpodata)
         {
@@ -155,16 +156,37 @@ namespace YPS.Parts2y.Parts2y_Views
                     imgPrinter.Opacity = PrinterLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PrintTagReportDownload".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
                     imgDone.Opacity = DoneLbl.Opacity = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "TaskComplete".Trim().ToLower()).FirstOrDefault()) != null ? 1.0 : 0.5;
 
+                    if (taskResourceID != Settings.userLoginID)
+                    {
+                        var actions = Task.Run(async () => await trackService.GetallActionStatusService((int)Vm.allPOTagData[0]?.TaskResourceID)).Result;
+
+                        if (actions != null && actions.data != null)
+                        {
+                            userActionsForJob = actions.data.ToList();
+                        }
+                    }
+
                     if (Settings.VersionID == 1)
                     {
                         loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "ELoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
 
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "ELoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
                     }
                     else if (Settings.VersionID == 2)
                     {
                         loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "CCarrierInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "CCarrierInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
 
                     }
                     else if (Settings.VersionID == 3)
@@ -172,17 +194,35 @@ namespace YPS.Parts2y.Parts2y_Views
                         loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
 
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "KrLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+
                     }
                     else if (Settings.VersionID == 4)
                     {
                         loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KpLoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
 
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "KpLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+
                     }
                     else if (Settings.VersionID == 5)
                     {
                         loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PLoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "PLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
                     }
                 }
 
@@ -298,11 +338,13 @@ namespace YPS.Parts2y.Parts2y_Views
                         CommandParameter = ChildDataList,
                     });
 
-
-                    loadStack.GestureRecognizers.Add(new TapGestureRecognizer
+                    if (Vm.LoadTextColor == Color.Black)
                     {
-                        Command = new Command(async () => await Vm.TabChange("load")),
-                    });
+                        loadStack.GestureRecognizers.Add(new TapGestureRecognizer
+                        {
+                            Command = new Command(async () => await Vm.TabChange("load")),
+                        });
+                    }
                 });
             }
             catch (Exception ex)
