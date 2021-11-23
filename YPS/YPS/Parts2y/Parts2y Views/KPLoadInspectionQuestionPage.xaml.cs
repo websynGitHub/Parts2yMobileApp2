@@ -72,7 +72,10 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (checkInternet)
                 {
-                    if (SelectedPodataList[0].TaskID != 0)
+
+                    bool makeitdone = await App.Current.MainPage.DisplayAlert("Confirm", "Make sure you have finished the inspection. \nAre you sure, you want to mark this as Done ? ", "Ok", "Cancel");
+
+                    if (makeitdone == true && SelectedPodataList[0].TaskID != 0)
                     {
                         //if (SelectedPodataList[0].TaskStatus != 2)
                         //{
@@ -84,9 +87,23 @@ namespace YPS.Parts2y.Parts2y_Views
 
                         if (taskval?.status == 1)
                         {
-                            SelectedPodataList[0].TaskID = 2;
+                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                            tagtaskstatus.TaskID = Helperclass.Encrypt(SelectedPodataList.Select(c => c.TaskID).FirstOrDefault().ToString());
+
+                            List<string> EncPOTagID = new List<string>();
+
+                            foreach (var data in SelectedPodataList)
+                            {
+                                var value = Helperclass.Encrypt(data.POTagID.ToString());
+                                EncPOTagID.Add(value);
+                            }
+                            tagtaskstatus.POTagID = string.Join(",", EncPOTagID);
+                            tagtaskstatus.Status = 2;
+                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
                             await Vm.TabChange("job");
-                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            DependencyService.Get<IToastMessage>().ShortAlert("This job is marked as done.");
                         }
                         //}
                     }

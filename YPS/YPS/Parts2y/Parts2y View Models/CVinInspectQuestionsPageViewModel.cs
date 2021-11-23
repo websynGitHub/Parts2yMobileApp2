@@ -71,14 +71,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
 
-                if (selectedTagData?.TaskResourceID == Settings.userLoginID)
-                {
+                //if (selectedTagData?.TaskResourceID == Settings.userLoginID)
+                //{
                     LoadCmd = new Command(async () => await TabChange("load"));
-                }
-                else
-                {
-                    LoadTextColor = Color.Gray;
-                }
+                //}
+                //else
+                //{
+                //    LoadTextColor = Color.Gray;
+                //}
             }
             catch (Exception ex)
             {
@@ -110,16 +110,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     VINDealerImageSignCarrier = vindealerimagesigncarrier != null ?
                         ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(vindealerimagesigncarrier))) : null;
 
-                    if (((IsSignatureCarrierVisible == true && carrierdriverimagesign != null && vindealerimagesigncarrier != null) || (IsSignatureCarrierVisible == false)) &&
-                 ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                 FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                 (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                 (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
-                 )
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
-                    }
+                    //   if (((IsSignatureCarrierVisible == true && carrierdriverimagesign != null && vindealerimagesigncarrier != null) || (IsSignatureCarrierVisible == false)) &&
+                    //((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                    //FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                    //(FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                    //(QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                    //)
+                    //   {
+                    //       IsDoneEnable = true;
+                    //       DoneOpacity = 1.0;
+                    //   }
                 }
                 else if (selectedTagData?.EntityTypeName.Trim().ToLower() == "Owner".Trim().ToLower() ||
                    selectedTagData?.EntityTypeName.Trim().ToLower() == "LSP".Trim().ToLower() ||
@@ -137,30 +137,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     DriverImageSign = driverimagesign != null ?
                         ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(driverimagesign))) : null;
 
-                    if (((IsSignatureCarrierVisible == true && driverimagesign != null) || (IsSignatureCarrierVisible == false)) &&
-                 ((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                 FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                 (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                 (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
-                 )
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
-                    }
+                    //   if (((IsSignatureCarrierVisible == true && driverimagesign != null) || (IsSignatureCarrierVisible == false)) &&
+                    //((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                    //FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                    //(FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                    //(QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                    //)
+                    //   {
+                    //       IsDoneEnable = true;
+                    //       DoneOpacity = 1.0;
+                    //   }
                 }
                 else
                 {
                     IsSignatureCarrierVisible = false;
 
-                    if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                      FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                      (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                      (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
-                      selectedTagData.TagTaskStatus != 2)
-                    {
-                        IsDoneEnable = true;
-                        DoneOpacity = 1.0;
-                    }
+                    //if ((QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                    //  FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                    //  (FullSignQuestionListCategory == null && QuickSignQuestionListCategory != null && QuickSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                    //  (QuickSignQuestionListCategory == null && FullSignQuestionListCategory != null && FullSignQuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null) &&
+                    //  selectedTagData.TagTaskStatus != 2)
+                    //{
+                    //    IsDoneEnable = true;
+                    //    DoneOpacity = 1.0;
+                    //}
                 }
             }
             catch (Exception ex)
@@ -769,7 +769,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsDoneEnable = false;
+        private bool _IsDoneEnable = true;
         public bool IsDoneEnable
         {
             get { return _IsDoneEnable; }
@@ -780,7 +780,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private double _DoneOpacity = 0.5;
+        private double _DoneOpacity = 1.0;
         public double DoneOpacity
         {
             get { return _DoneOpacity; }

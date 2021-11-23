@@ -388,7 +388,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     OKCount = "0";
                                     NGCount = "0";
-                                    OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCount;
+                                    OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCountHeader;
                                     NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
 
                                     if (scanFor.Trim().ToLower() == "b".Trim().ToLower() && scancountpermit == 0)

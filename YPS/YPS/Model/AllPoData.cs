@@ -561,6 +561,7 @@ namespace YPS.Model
         public string SortByID { get; set; }
         public string OrderByID { get; set; }
         public int EventID { get; set; }
+        public int TaskStatus { get; set; }
     }
 
     public class POData

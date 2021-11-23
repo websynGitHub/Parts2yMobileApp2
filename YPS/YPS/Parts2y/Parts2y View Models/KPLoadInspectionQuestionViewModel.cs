@@ -196,11 +196,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null)
-                {
-                    IsDoneEnable = true;
-                    DoneOpacity = 1.0;
-                }
+                //if (IsAllTagsDone == true && QuestionListCategory.Where(wr => wr.Status == 0).FirstOrDefault() == null)
+                //{
+                //    IsDoneEnable = true;
+                //    DoneOpacity = 1.0;
+                //}
             }
             catch (Exception ex)
             {
@@ -503,7 +503,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsDoneEnable = false;
+        private bool _IsDoneEnable = true;
         public bool IsDoneEnable
         {
             get { return _IsDoneEnable; }
@@ -514,7 +514,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private double _DoneOpacity = 0.5;
+        private double _DoneOpacity = 1.0;
         public double DoneOpacity
         {
             get { return _DoneOpacity; }

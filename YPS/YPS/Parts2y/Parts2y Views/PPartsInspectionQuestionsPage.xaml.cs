@@ -89,8 +89,9 @@ namespace YPS.Parts2y.Parts2y_Views
 
                 if (checkInternet)
                 {
-                    //if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
-                    if (selectedTagData.TaskID != 0)
+                    bool makeitdone = await App.Current.MainPage.DisplayAlert("Confirm", "Make sure you have finished the inspection. \nAre you sure, you want to mark the selected part as Done ? ", "Ok", "Cancel");
+
+                    if (makeitdone == true && selectedTagData.TaskID != 0)
                     {
                         TagTaskStatus tagtaskstatus = new TagTaskStatus();
                         tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
@@ -104,8 +105,6 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             selectedTagData.TagTaskStatus = 2;
 
-                            //if (selectedTagData.TaskStatus == 0)
-                            //{
                             ObservableCollection<AllPoData> podate = await Vm.GetUpdatedAllPOData();
                             TagTaskStatus taskstatus = new TagTaskStatus();
                             taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
@@ -114,10 +113,9 @@ namespace YPS.Parts2y.Parts2y_Views
 
                             var taskval = await service.UpdateTaskStatus(taskstatus);
                             selectedTagData.TaskStatus = taskstatus.TaskStatus;
-                            //}
 
                             await Vm.TabChange("job");
-                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            DependencyService.Get<IToastMessage>().ShortAlert("This part is marked as done.");
                         }
                     }
                 }

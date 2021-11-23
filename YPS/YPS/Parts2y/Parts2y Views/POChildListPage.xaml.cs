@@ -298,17 +298,11 @@ namespace YPS.Parts2y.Parts2y_Views
                         CommandParameter = ChildDataList,
                     });
 
-                    if (taskResourceID == Settings.userLoginID)
+
+                    loadStack.GestureRecognizers.Add(new TapGestureRecognizer
                     {
-                        loadStack.GestureRecognizers.Add(new TapGestureRecognizer
-                        {
-                            Command = new Command(async () => await Vm.TabChange("load")),
-                        });
-                    }
-                    else
-                    {
-                        Vm.LoadTextColor = Color.Gray;
-                    }
+                        Command = new Command(async () => await Vm.TabChange("load")),
+                    });
                 });
             }
             catch (Exception ex)

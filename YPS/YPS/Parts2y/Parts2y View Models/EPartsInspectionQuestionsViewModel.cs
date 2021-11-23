@@ -70,14 +70,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 PartsCmd = new Command(async () => await TabChange("parts"));
 
-                if (selectedTagData?.TaskResourceID == Settings.userLoginID)
-                {
+                //if (selectedTagData?.TaskResourceID == Settings.userLoginID)
+                //{
                     LoadCmd = new Command(async () => await TabChange("load"));
-                }
-                else
-                {
-                    LoadTextColor = Color.Gray;
-                }
+                //}
+                //else
+                //{
+                //    LoadTextColor = Color.Gray;
+                //}
             }
             catch (Exception ex)
             {
@@ -253,15 +253,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 SignTabTextColor = Settings.Bar_Background;
                 SignTabVisibility = true;
 
-                if (((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
-                   FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
-                   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
-                   )
-                {
-                    IsDoneEnable = true;
-                    DoneOpacity = 1.0;
-                }
+                //if (((QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null &&
+                //   FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                //   (FullSignQuestionListCategory == null && QuickSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null) ||
+                //   (QuickSignQuestionListCategory == null && FullSignQuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null))
+                //   )
+                //{
+                //    IsDoneEnable = true;
+                //    DoneOpacity = 1.0;
+                //}
             }
             catch (Exception ex)
             {
@@ -665,7 +665,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsDoneEnable = false;
+        private bool _IsDoneEnable = true;
         public bool IsDoneEnable
         {
             get { return _IsDoneEnable; }
@@ -676,7 +676,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private double _DoneOpacity = 0.5;
+        private double _DoneOpacity = 1.0;
         public double DoneOpacity
         {
             get { return _DoneOpacity; }

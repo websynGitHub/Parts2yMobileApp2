@@ -120,13 +120,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         AuditorImageSignCarrier = auditorimagesignCarrier != null ?
                         ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(auditorimagesignCarrier))) : null;
 
-                        if (IsAllTagsDone == true && QuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null
-                            && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
-                            supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
-                        {
-                            IsDoneEnable = true;
-                            DoneOpacity = 1.0;
-                        }
+                        //if (IsAllTagsDone == true && QuestionListCategory?.Where(wr => wr.Status == 0).FirstOrDefault() == null
+                        //    && supervisorimagesignCBU != null && auditorimagesignCBU != null &&
+                        //    supervisorimagesignCarrier != null && auditorimagesignCarrier != null)
+                        //{
+                        //    IsDoneEnable = true;
+                        //    DoneOpacity = 1.0;
+                        //}
                     }
                 }
                 else
@@ -403,7 +403,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
 
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
-                await Navigation.PushAsync(new CInspectionAnswersPage(inspectionConfiguration, QuestionListCategory, 
+                await Navigation.PushAsync(new CInspectionAnswersPage(inspectionConfiguration, QuestionListCategory,
                     inspectionResultsLists, SelectedPodataList[0], false, this, null, IsAllTagsDone, string.Join(",", EncPOTagID)), false);
             }
             catch (Exception ex)
@@ -628,7 +628,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private bool _IsDoneEnable = false;
+        private bool _IsDoneEnable = true;
         public bool IsDoneEnable
         {
             get { return _IsDoneEnable; }
@@ -639,7 +639,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private double _DoneOpacity = 0.5;
+        private double _DoneOpacity = 1.0;
         public double DoneOpacity
         {
             get { return _DoneOpacity; }

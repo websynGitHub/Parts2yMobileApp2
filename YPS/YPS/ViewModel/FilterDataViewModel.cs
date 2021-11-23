@@ -259,6 +259,7 @@ namespace YPS.ViewModel
                         SaveUserDS.SortByID = string.IsNullOrEmpty(SaveUserDS.SortByID) ? "" : SaveUserDS.SortByID;
                         SaveUserDS.OrderByID = string.IsNullOrEmpty(SaveUserDS.OrderByID) ? "asc" : SaveUserDS.OrderByID;
                         SaveUserDS.EventID = SaveUserDS.EventID == 0 ? 0 : SaveUserDS.EventID;
+                        SaveUserDS.TaskStatus = SaveUserDS.TaskStatus == -1 ? -1 : SaveUserDS.TaskStatus;
                         //Save the filter field values to DB
                         SearchPassData defaultData = new SearchPassData();
                         defaultData.UserID = Settings.userLoginID;

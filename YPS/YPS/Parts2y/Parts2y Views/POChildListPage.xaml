@@ -182,7 +182,7 @@
 
                                 <StackLayout x:Name="loadStack" BackgroundColor="DarkGray" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" >
                                     <Label Text="{Binding labelobj.Load.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
-                                       TextColor="{Binding LoadTextColor}" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     </Label>
                                 </StackLayout>

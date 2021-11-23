@@ -1533,17 +1533,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        public Color _LoadTextColor = Color.Black;
-        public Color LoadTextColor
-        {
-            get => _LoadTextColor;
-            set
-            {
-                _LoadTextColor = value;
-                RaisePropertyChanged("LoadTextColor");
-            }
-        }
-
         public string _PendingLabel;
         public string PendingLabel
         {
