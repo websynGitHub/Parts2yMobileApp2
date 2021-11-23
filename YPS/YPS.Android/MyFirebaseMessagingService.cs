@@ -84,7 +84,7 @@ namespace YPS.Droid
             {
                 YPSService trackService = new YPSService();
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "OnMessageReceived method outer cathc -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnMessageReceived method outer cath -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
             }
         }
 
@@ -104,8 +104,14 @@ namespace YPS.Droid
                 if (showNotify[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
                 {
                     showMessages = messageBody;
-                    Settings.notifyJobCount = Settings.notifyJobCount + 1;
-                    MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
+
+                    if (showNotify[11] == Convert.ToString(Settings.CompanyID) &&
+                        showNotify[12] == Convert.ToString(Settings.ProjectID) &&
+                        showNotify[13] == Convert.ToString(Settings.JobID))
+                    {
+                        Settings.notifyJobCount = Settings.notifyJobCount + 1;
+                        MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
+                    }
                 }
                 else
                 {
@@ -166,8 +172,8 @@ namespace YPS.Droid
                     MessagingCenter.Send<string, int>("firebaseservice", "ChatCount", PushId);
                 }
 
-                //Badge badge = new Badge(this);
-                //badge.count((int)Settings.notifyJobCount + Settings.notifyCount);
+                Badge badge = new Badge(this);
+                badge.count(Convert.ToInt32(showNotify[10]));
 
                 var pendingIntent = PendingIntent.GetActivity(this, PushId, intent, PendingIntentFlags.OneShot);
 

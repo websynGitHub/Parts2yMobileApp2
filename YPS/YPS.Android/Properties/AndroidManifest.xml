@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.parts2y.uat" android:installLocation="auto" android:versionName="3.59" android:versionCode="1">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.synergies.ypsapp" android:installLocation="auto" android:versionName="3.99" android:versionCode="1">
 	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="29" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -15,10 +15,10 @@
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-	<permission android:name="com.parts2y.uat.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+	<permission android:name="com.synergies.ypsapp.permission.C2D_MESSAGE" android:protectionLevel="signature" />
 	<!--<application android:label="YPS.Android"></application>-->
-	<application android:requestLegacyExternalStorage="true" android:icon="@drawable/ypslogo33" android:allowBackup="false" android:debuggable="false" android:label="Parts2y UAT">
-		<provider android:name="android.support.v4.content.FileProvider" android:authorities="com.parts2y.uat.fileprovider" android:exported="false" android:grantUriPermissions="true">
+	<application android:requestLegacyExternalStorage="true" android:allowBackup="false" android:debuggable="false" android:label="Parts2y WS" android:icon="@drawable/ypslogo22">
+		<provider android:name="android.support.v4.content.FileProvider" android:authorities="com.synergies.ypsapp.fileprovider" android:exported="false" android:grantUriPermissions="true">
 			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"></meta-data>
 		</provider>
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
@@ -29,7 +29,7 @@
 				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
 				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 				<action android:name="com.google.firebase.MESSAGING_EVENT" />
-				<category android:name="com.parts2y.uat" />
+				<category android:name="com.synergies.ypsapp" />
 			</intent-filter>
 		</receiver>
 	</application>
