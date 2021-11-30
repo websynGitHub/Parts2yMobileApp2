@@ -315,6 +315,9 @@ namespace YPS.iOS
         public override void DidEnterBackground(UIApplication uiApplication)
         {
             Messaging.SharedInstance.Disconnect();
+            UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+            //DependencyService.Get<IPNClearClass>().CanclPush("", 0);
         }
 
         #region Background blur app resume
@@ -543,8 +546,26 @@ namespace YPS.iOS
 
                 if (val == "1")
                 {
-                    Settings.notifyCount = Settings.notifyCount + 1;
-                    MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Settings.notifyCount.ToString());
+                    if (!string.IsNullOrEmpty(paramValues))
+                    {
+                        var navPages = paramValues.Split(';');
+
+                        if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
+                        {
+                            if (showNotify[11] == Convert.ToString(Settings.CompanyID) &&
+                                showNotify[12] == Convert.ToString(Settings.ProjectID) &&
+                                showNotify[13] == Convert.ToString(Settings.JobID))
+                            {
+                                Settings.notifyJobCount = Settings.notifyJobCount + 1;
+                                MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
+                            }
+                        }
+                        else
+                        {
+                            Settings.notifyCount = Settings.notifyCount + 1;
+                            MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Settings.notifyCount.ToString());
+                        }
+                    }
                 }
                 #region googl logic
                 if (!string.IsNullOrEmpty(paramValues))
@@ -553,6 +574,26 @@ namespace YPS.iOS
 
                     if (application.ApplicationState == UIApplicationState.Active)
                     {
+                        //if (!string.IsNullOrEmpty(paramValues))
+                        //{
+                        //    //var navPages = paramValues.Split(';');
+
+                        //    if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
+                        //    {
+                        //        if (showNotify[11] == Convert.ToString(Settings.CompanyID) &&
+                        //            showNotify[12] == Convert.ToString(Settings.ProjectID) &&
+                        //            showNotify[13] == Convert.ToString(Settings.JobID))
+                        //        {
+                        //            Settings.notifyJobCount = Settings.notifyJobCount + 1;
+                        //            MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
+                        //        }
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    Settings.notifyCount = Settings.notifyCount + 1;
+                        //    MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseCount", Settings.notifyCount.ToString());
+                        //}
                         //show alert
                         //if (!string.IsNullOrEmpty(paramValues))
                         //{
@@ -584,27 +625,24 @@ namespace YPS.iOS
                             }
                             Settings.GetParamVal = paramValues;
                             // Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
-                            if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
-                            {
-                                try
-                                {
-                                    //MyLogging("Debug", "Background > DidReceiveRemoteNotification");
-                                    //the web api call goes into "Network connection lost" error if I don't add the delay.
-                                    Task.Run(async () =>
-                                    {
-                                        await System.Threading.Tasks.Task.Delay(1000);
-                                        App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
-                                    });
-                                
-                                    
-                                }
-                                catch (Exception ex)
-                                {
-                                    UIAlertView avAlert = new UIAlertView(title, ex.Message, null, "OK", null);
-                                }
-
-                            }
-                            else if (navPages[0] == "RemoveUser")
+                            //if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
+                            //{
+                            //    try
+                            //    {
+                            //        //MyLogging("Debug", "Background > DidReceiveRemoteNotification");
+                            //        //the web api call goes into "Network connection lost" error if I don't add the delay.
+                            //        //Task.Run(async () =>
+                            //        //{
+                            //        //    await System.Threading.Tasks.Task.Delay(1000);
+                            //        //    App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                            //        //});
+                            //    }
+                            //    catch (Exception ex)
+                            //    {
+                            //        UIAlertView avAlert = new UIAlertView(title, ex.Message, null, "OK", null);
+                            //    }
+                            //}
+                            if (navPages[0].Trim().ToLower() == "RemoveUser".Trim().ToLower())
                             {
                                 App.Current.MainPage = new MenuPage(typeof(HomePage));
                             }
@@ -637,14 +675,17 @@ namespace YPS.iOS
                             Settings.GetParamVal = paramValues;
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())
                             {
-                                Task.Run(async () =>
-                                {
-                                    await System.Threading.Tasks.Task.Delay(1000);
-                                    App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
-                                });
-                                //App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                //Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                                //{
+                                //    Task.Run(async () =>
+                                //{
+                                //await System.Threading.Tasks.Task.Delay(1000);
+                                App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                //}).Wait();
+                                //    //App.Current.MainPage = new MenuPage(typeof(NotificationListPage));
+                                //});
                             }
-                            else if (navPages[0] == "RemoveUser")
+                            else if (navPages[0].Trim().ToLower() == "RemoveUser".Trim().ToLower())
                             {
                                 App.Current.MainPage = new MenuPage(typeof(HomePage));
                             }
@@ -654,20 +695,8 @@ namespace YPS.iOS
                             }
                         }
                     }
-                    if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
-                    {
-                        if (showNotify[11] == Convert.ToString(Settings.CompanyID) &&
-                            showNotify[12] == Convert.ToString(Settings.ProjectID) &&
-                            showNotify[13] == Convert.ToString(Settings.JobID))
-                        {
-                            Settings.notifyJobCount = Settings.notifyJobCount + 1;
-                            MessagingCenter.Send<string, string>("PushNotificationCame", "IncreaseJobCount", Convert.ToString(Settings.notifyJobCount));
-                        }
-                    }
                 }
-
                 #endregion               
-
             }
             catch (Exception ex)
             {
