@@ -58,7 +58,34 @@
                                        Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
 
-                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.IdentCode.Status}"
+                                <Grid  RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.Barcode1.Status}"
+                      HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding  labelobj.Barcode1.Name}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding  Barcode1}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+
+                                <Grid  RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.ShippingNumberForParts.Status}"
+                      HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding  labelobj.ShippingNumberForParts.Name}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding  ShippingNumber}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+
+                                <Grid  RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.BagNumber.Status}"
+                      HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                               RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding  labelobj.BagNumber.Name}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding  BagNumber}" TextColor="#FFFFFF" 
+                                       Style="{DynamicResource LableWithQuestionFont}"/>
+                                </Grid>
+
+                                <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding labelobj.IdentCode.Status}"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding  labelobj.IdentCode.Name}" TextColor="#FFFFFF" 
                                        Style="{DynamicResource LableWithQuestionFont}"/>
@@ -74,7 +101,7 @@
                                     <Label Text="{Binding ConditionName}" TextColor="#FFFFFF"
                                                                    IsVisible="{Binding IsConditionNameLabelVisible}"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                </StackLayout>
+                                </StackLayout>-->
 
                                 <Grid RowSpacing="0" Padding="0"  IsVisible="{Binding labelobj.POID.Status}"
                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
@@ -106,13 +133,14 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
 
-                                <Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                                <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 
+                                      HorizontalOptions="FillAndExpand" RowDefinitions="Auto" 
+                                      ColumnDefinitions="Auto,*" IsVisible="{Binding IsResourcecVisible}">
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.Resource.Name}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding Resource}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>
+                                </Grid>-->
 
                                 <Frame VerticalOptions="Center" HorizontalOptions="Start" BackgroundColor="#FFBB00" 
                                        CornerRadius="5" Padding="4,1,4,1">

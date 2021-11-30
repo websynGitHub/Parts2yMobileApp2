@@ -42,18 +42,18 @@ namespace YPS.ViewModel
         #region Properties for dynamic label change
         public class filtterlabelclass
         {
-            public filtterlabelFields PO { get; set; } = new filtterlabelFields();
-            public filtterlabelFields REQNo { get; set; } = new filtterlabelFields();
-            public filtterlabelFields ShippingNumber { get; set; } = new filtterlabelFields();
-            public filtterlabelFields DisciplineName { get; set; } = new filtterlabelFields();
-            public filtterlabelFields ELevelName { get; set; } = new filtterlabelFields();
-            public filtterlabelFields Condition { get; set; } = new filtterlabelFields();
-            public filtterlabelFields Expeditor { get; set; } = new filtterlabelFields();
-            public filtterlabelFields PriorityName { get; set; } = new filtterlabelFields();
-            public filtterlabelFields TagNumber { get; set; } = new filtterlabelFields();
-            public filtterlabelFields IdentCode { get; set; } = new filtterlabelFields();
-            public filtterlabelFields BagNumber { get; set; } = new filtterlabelFields();
-            public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields();
+            public filtterlabelFields PO { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields REQNo { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields ShippingNumber { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields DisciplineName { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields ELevelName { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields Condition { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields Expeditor { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields PriorityName { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields TagNumber { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields IdentCode { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields BagNumber { get; set; } = new filtterlabelFields() { Status = false };
+            public filtterlabelFields yBkgNumber { get; set; } = new filtterlabelFields() { Status = false };
             public filtterlabelFields TaskName { get; set; } = new filtterlabelFields() { Name = "Task Name" };
             public filtterlabelFields ResourceName { get; set; } = new filtterlabelFields() { Name = "Resource", Status = true };
             public filtterlabelFields SearchPageTitle { get; set; } = new filtterlabelFields() { Name = "Search Data", Status = true };
@@ -747,32 +747,32 @@ namespace YPS.ViewModel
                         var SaveSearchBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.SaveSearchBtn.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Changing label & Show/Hide fields
-                        labelobj.PO.Name = poval != null ? poval.LblText : "Purchase#";
-                        labelobj.PO.Status = (poval == null ? true : false) || (poval != null && poval.Status == 1) ? true : false;
+                        labelobj.PO.Name = poval != null ? poval?.LblText : "Purchase#";
+                        labelobj.PO.Status = poval?.Status == 1 || poval?.Status == 2 ? true : false;
                         labelobj.REQNo.Name = REQNo != null ? REQNo.LblText : "REQ#";
-                        labelobj.REQNo.Status = (REQNo == null ? true : false) || (REQNo != null && REQNo.Status == 1) ? true : false;
+                        labelobj.REQNo.Status = REQNo?.Status == 1 || REQNo?.Status == 2 ? true : false;
                         labelobj.ShippingNumber.Name = ShippingNumber != null ? ShippingNumber.LblText : "Shipping#";
-                        labelobj.ShippingNumber.Status = (ShippingNumber == null ? true : false) || (ShippingNumber != null && ShippingNumber.Status == 1) ? true : false;
+                        labelobj.ShippingNumber.Status = ShippingNumber?.Status == 1 || ShippingNumber?.Status == 2 ? true : false;
                         labelobj.DisciplineName.Name = DisciplineName != null ? DisciplineName.LblText : "Discipline";
-                        labelobj.DisciplineName.Status = (DisciplineName == null ? true : false) || ((DisciplineName != null && DisciplineName.Status == 1) ? true : false);
+                        labelobj.DisciplineName.Status = DisciplineName?.Status == 1 || DisciplineName?.Status == 2 ? true : false;
                         labelobj.ELevelName.Name = ELevelName != null ? ELevelName.LblText : "ELeavel";
-                        labelobj.ELevelName.Status = (ELevelName == null ? true : false) || (ELevelName != null && ELevelName.Status == 1) ? true : false;
+                        labelobj.ELevelName.Status = ELevelName?.Status == 1 || ELevelName?.Status == 2 ? true : false;
                         labelobj.Condition.Name = Condition != null ? Condition.LblText : "Condition";
-                        labelobj.Condition.Status = (Condition == null ? true : false) || (Condition != null && Condition.Status == 1) ? true : false;
+                        labelobj.Condition.Status = Condition?.Status == 1 || Condition?.Status == 2 ? true : false;
                         labelobj.Expeditor.Name = Expeditor != null ? Expeditor.LblText : "Expeditor";
-                        labelobj.Expeditor.Status = (Expeditor == null ? true : false) || (Expeditor != null && Expeditor.Status == 1) ? true : false;
+                        labelobj.Expeditor.Status = Expeditor?.Status == 1 || Expeditor?.Status == 2 ? true : false;
                         labelobj.PriorityName.Name = PriorityName != null ? PriorityName.LblText : "Priority";
-                        labelobj.PriorityName.Status = (PriorityName == null ? true : false) || (PriorityName != null && PriorityName.Status == 1) ? true : false;
+                        labelobj.PriorityName.Status = PriorityName?.Status == 1 || PriorityName?.Status == 2 ? true : false;
                         labelobj.TagNumber.Name = TagNumber != null ? TagNumber.LblText : "Tag#";
-                        labelobj.TagNumber.Status = (TagNumber == null ? true : false) || (TagNumber != null && TagNumber.Status == 1) ? true : false;
+                        labelobj.TagNumber.Status = TagNumber?.Status == 1 || TagNumber?.Status == 2 ? true : false;
                         labelobj.IdentCode.Name = IdentCode != null ? IdentCode.LblText : "Ident Code";
-                        labelobj.IdentCode.Status = (IdentCode == null ? true : false) || (IdentCode != null && IdentCode.Status == 1) ? true : false;
+                        labelobj.IdentCode.Status = IdentCode?.Status == 1 || IdentCode?.Status == 2 ? true : false;
                         labelobj.BagNumber.Name = BagNumber != null ? BagNumber.LblText : "Outer Package";
-                        labelobj.BagNumber.Status = (BagNumber == null ? true : false) || (BagNumber != null && BagNumber.Status == 1) ? true : false;
+                        labelobj.BagNumber.Status = BagNumber?.Status == 1 || BagNumber?.Status == 2 ? true : false;
                         labelobj.yBkgNumber.Name = ybkgnumber != null ? ybkgnumber.LblText : "yBkg Number";
-                        labelobj.yBkgNumber.Status = (ybkgnumber == null ? true : false) || (ybkgnumber != null && ybkgnumber.Status == 1) ? true : false;
+                        labelobj.yBkgNumber.Status = ybkgnumber?.Status == 1 || ybkgnumber?.Status == 2 ? true : false;
                         labelobj.TaskName.Name = taskname != null ? taskname.LblText : "Task Name";
-                        labelobj.TaskName.Status = (taskname == null ? true : false) || (taskname != null && taskname.Status == 1) ? true : false;
+                        labelobj.TaskName.Status = (taskname == null ? true : false) || (taskname != null && taskname.Status == 1 || taskname.Status == 2) ? true : false;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
                         labelobj.SearchPageTitle.Name = searchpagetitle != null ? searchpagetitle.LblText : labelobj.SearchPageTitle.Name;
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";

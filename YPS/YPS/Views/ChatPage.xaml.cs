@@ -82,7 +82,7 @@ namespace YPS.Views
                 GetChatData();
                 bg.BadgeText = (Settings.ChatUserCount = vm.bgcount).ToString();
                 vm.IsEmailenable = Settings.IsEmailEnabled;
-                DependencyService.Get<ISQLite>().deleteReadCountNmsg(qaId);
+                //DependencyService.Get<ISQLite>().deleteReadCountNmsg(qaId);
                 CheckUserAndOS();
 
                 ShowHideActions();
@@ -350,6 +350,7 @@ namespace YPS.Views
                 Settings.currentChatPage = 0;
 
                 var result = await service.ReadNotifyHistory(qaId, Settings.userLoginID);
+                DependencyService.Get<ISQLite>().deleteReadCountNmsg(qaId);
             }
             catch (Exception ex)
             {
@@ -416,7 +417,14 @@ namespace YPS.Views
         {
             try
             {
-                await Navigation.PopToRootAsync(false);
+                if (App.Current.MainPage.GetType().Name.Trim().ToLower() != "HomePage".Trim().ToLower())
+                {
+                    App.Current.MainPage = new MenuPage(typeof(HomePage));
+                }
+                else
+                {
+                    await Navigation.PopToRootAsync(false);
+                }
                 //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)

@@ -413,11 +413,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name) + " :";
-                        labelobj.Company.Status = company?.Status == 1 ? true : false;
+                        labelobj.Company.Status = company?.Status == 1 || company?.Status == 2 ? true : false;
                         labelobj.Project.Name = (project != null ? (!string.IsNullOrEmpty(project.LblText) ? project.LblText : labelobj.Project.Name) : labelobj.Project.Name) + " :";
-                        labelobj.Project.Status = project?.Status == 1 ? true : false;
+                        labelobj.Project.Status = project?.Status == 1 || project?.Status == 2 ? true : false;
                         labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name) + " :";
-                        labelobj.Job.Status = job?.Status == 1 ? true : false;
+                        labelobj.Job.Status = job?.Status == 1 || job?.Status == 2 ? true : false;
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
                         labelobj.Home.Status = home?.Status == 1 ? true : false;

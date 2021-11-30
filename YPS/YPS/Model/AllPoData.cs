@@ -232,6 +232,7 @@ namespace YPS.Model
         public string TaskResourceRole { get; set; }
         public int EntityTypeID { get; set; }
         public string EntityTypeName { get; set; }
+        public string Barcode1 { get; set; }
 
         public bool _IsTaskResourceVisible { set; get; } = true;
         public bool IsTaskResourceVisible

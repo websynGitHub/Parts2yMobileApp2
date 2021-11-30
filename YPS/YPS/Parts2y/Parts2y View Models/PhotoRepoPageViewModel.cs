@@ -638,7 +638,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Upload.Name = (upload != null ? (!string.IsNullOrEmpty(upload.LblText) ? upload.LblText : labelobj.Upload.Name) : labelobj.Upload.Name);
-                        labelobj.Upload.Status = upload == null ? true : (upload.Status == 1 ? true : false);
+                        labelobj.Upload.Status = upload == null ? true : (upload.Status == 1 || upload.Status == 2 ? true : false);
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
                     }
 
