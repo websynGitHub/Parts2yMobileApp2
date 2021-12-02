@@ -275,7 +275,10 @@ namespace YPS.Droid
                             }
                             else
                             {
-                                mainPage.Detail.Navigation.PopAsync(false);
+                                if (mainPage.Detail.Navigation.NavigationStack[mainPage.Detail.Navigation.NavigationStack.Count - 2].GetType().Name.Trim().ToLower() != "ChatUsers".Trim().ToLower())
+                                {
+                                    mainPage.Detail.Navigation.PopAsync(false);
+                                }
                             }
                         }
                         return false;
