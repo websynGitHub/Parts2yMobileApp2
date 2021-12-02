@@ -33,7 +33,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="{Binding RowHeightOpenCam}"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*" 
@@ -130,14 +130,18 @@
 
                     <Frame Margin="5" Grid.Row="1" Padding="0" CornerRadius="8" HasShadow="False" IsVisible="{Binding firstStack}" 
                            BackgroundColor="Transparent">
+                            
                         <ScrollView>
-                            <StackLayout BindableLayout.ItemsSource="{Binding ListOfImage}">
+                            <StackLayout Orientation="Vertical">
+
+                                <StackLayout BindableLayout.ItemsSource="{Binding ListOfImage}"
+                                         >
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="40"/>
-                                                <RowDefinition Height="360"/>
+                                                <RowDefinition Height="350"/>
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Grid.RowSpan="2" Source="{Binding ImgPath,Mode=TwoWay}" x:Name="img" Aspect="AspectFill"/>
                                             <Frame Grid.Row="0" Padding="2" HorizontalOptions="End" BackgroundColor="#80000000" >
@@ -148,36 +152,48 @@
                                         </Grid>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                        </ScrollView>
-                    </Frame>
 
-                    <StackLayout Grid.Row="2"  IsEnabled="{Binding btnenable}" IsVisible="{Binding SecondMainStack}" 
-                                 VerticalOptions="EndAndExpand" Padding="10">
-                        <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4" HasShadow="False" BackgroundColor="White">
-                            <Grid HeightRequest="80" BackgroundColor="White" ColumnSpacing="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="0.50*"/>
-                                </Grid.ColumnDefinitions>
-                                <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding description_txt,Mode=TwoWay}"
+                                
+                            </StackLayout>
+                            
+                            <!--<StackLayout IsEnabled="{Binding btnenable}"
+                                         IsVisible="{Binding SecondMainStack}" 
+                                 VerticalOptions="EndAndExpand" Padding="10">-->
+                                <Frame BorderColor="Gray" Padding="8,3,8,3" CornerRadius="4"
+                                       HasShadow="False" BackgroundColor="White"
+                                        IsEnabled="{Binding btnenable}"
+                                         IsVisible="{Binding SecondMainStack}" 
+                                 VerticalOptions="EndAndExpand" >
+                                    <Grid HeightRequest="80" BackgroundColor="White" ColumnSpacing="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="0.50*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <local:MyEditor Grid.Column="0" x:Name="nameDescription" Text="{Binding description_txt,Mode=TwoWay}"
                                                 HeightRequest="70" Placeholder="{Binding labelobjDesc}" TextColor="Black" 
                                                 PlaceholderColor="Gray" Keyboard="Text" Style="{StaticResource EditorTextStyle}"
                                                 VerticalOptions="CenterAndExpand"/>
-                                <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
+                                        <sfbuttons:SfButton Grid.Column="1" x:Name="nameUploadbtn" Command="{Binding upload_pic}"
                                                     Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                                     HorizontalOptions="EndAndExpand" VerticalOptions="Center">
-                                    <sfbuttons:SfButton.Content>
-                                        <Label Text="{Binding labelobjUploadBtn}" Style="{StaticResource SfButtonTextLbl}" 
+                                            <sfbuttons:SfButton.Content>
+                                                <Label Text="{Binding labelobjUploadBtn}" Style="{StaticResource SfButtonTextLbl}" 
                                                Padding="0"/>
-                                    </sfbuttons:SfButton.Content>
-                                    <sfbuttons:SfButton.Behaviors>
-                                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
-                                    </sfbuttons:SfButton.Behaviors>
-                                </sfbuttons:SfButton>
-                            </Grid>
-                        </Frame>
-                    </StackLayout>
+                                            </sfbuttons:SfButton.Content>
+                                            <sfbuttons:SfButton.Behaviors>
+                                                <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                                            </sfbuttons:SfButton.Behaviors>
+                                        </sfbuttons:SfButton>
+                                    </Grid>
+                                </Frame>
+                            <!--</StackLayout>-->
+                            </StackLayout>
+
+                        </ScrollView>
+
+                    </Frame>
+
+                
                 </Grid>
 
                 <local:FontAwesomeIconLabel x:Name="PhotoUploadIcon" BackgroundColor="Transparent"  IsEnabled="{Binding btnenable}" 

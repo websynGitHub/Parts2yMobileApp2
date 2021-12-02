@@ -136,32 +136,34 @@ namespace YPS.ViewModel
                     {
                         foreach (var item in result.data)
                         {
-                            var obj = new NotifyHistory()
-                            {
-                                isImageVisible = Uri.TryCreate(item.Message, UriKind.Absolute, out uriResult),
-                                isTextVisible = !Uri.TryCreate(item.Message, UriKind.Absolute, out uriResult),
-                                Message = item.Message,
-                                NotifiedOn = item.NotifiedOn,
-                                UserName = item.UserName,
-                                QATitle = item.QATitle,
-                                POID = item.POID,
-                                QAID = item.QAID,
-                                Tags = item.Tags,
-                                Status = item.Status,
-                                UserId = item.UserId,
-                                RoleId = item.RoleId,
-                                TagNumber = item.TagNumber,
-                                QAType = item.QAType,
-                                MessageType = item.MessageType,
-                                NotificationType = item.NotificationType,
-                                FullName = item.FullName,
-                                RoleName = item.RoleName,
-                                IsRead = item.IsRead,
-                                ReadStatusIcon = item.IsRead == true ? Icons.WhiteEnvOpen : Icons.WhiteEnvClose,
-                                listCount = item.listCount,
-                            };
-                            NotifyHistoryData.Add(obj);
+                            //var obj = new NotifyHistory()
+                            //{
+                            item.isImageVisible = Uri.TryCreate(item.Message, UriKind.Absolute, out uriResult);
+                            item.isTextVisible = !Uri.TryCreate(item.Message, UriKind.Absolute, out uriResult);
+                            //Message = item.Message,
+                            //NotifiedOn = item.NotifiedOn,
+                            //UserName = item.UserName,
+                            //QATitle = item.QATitle,
+                            //POID = item.POID,
+                            //QAID = item.QAID,
+                            //Tags = item.Tags,
+                            //Status = item.Status,
+                            //UserId = item.UserId,
+                            //RoleId = item.RoleId,
+                            //TagNumber = item.TagNumber,
+                            //QAType = item.QAType,
+                            //MessageType = item.MessageType,
+                            //NotificationType = item.NotificationType,
+                            //FullName = item.FullName,
+                            //RoleName = item.RoleName,
+                            //IsRead = item.IsRead,
+                            item.TaskName = "";
+                            item.ReadStatusIcon = item.IsRead == true ? Icons.WhiteEnvOpen : Icons.WhiteEnvClose;
+                            //listCount = item.listCount,
+                            //};
+                            //NotifyHistoryData.Add(obj);
                         }
+                        NotifyHistoryData = result.data;
                     }
                     else
                     {

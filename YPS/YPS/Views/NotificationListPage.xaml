@@ -65,34 +65,38 @@
                                         <ViewCell.View>
                                             <Frame Margin="6,0,6,6" Padding="10,12,10,12" BorderColor="{Binding SelectedTagBorderColor}" 
                                        CornerRadius="4" HasShadow="False">
-                                                <Grid BackgroundColor="Transparent"
+                                                <StackLayout>
+                                                    
+                                                <!--<Grid BackgroundColor="Transparent"
                                                           RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
+                                                    </Grid.ColumnDefinitions>-->
 
-                                                    <StackLayout Orientation="Horizontal" Grid.Column="0" 
-                                                                     Grid.Row="0" >
-                                                        <Label  Text="{Binding QATitle}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
-                                                    </StackLayout>
+                                                    <!--<StackLayout Orientation="Horizontal" 
+                                                                 Grid.Column="0" 
+                                                                     Grid.Row="0" >-->
+                                                        <Label Text="{Binding QATitle}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
+                                                    <!--</StackLayout>-->
 
                                                     <Label  Text="{Binding Message}" IsVisible="{Binding isTextVisible}" TextColor="Black" 
                                                Style="{StaticResource LableWithQuestionFont}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
-                                                                Grid.Column="0" Grid.Row="1" FontSize="17" />
+                                                                FontSize="17" />
 
-                                                    <StackLayout Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Start">
-                                                        <StackLayout Orientation="Horizontal" Spacing="0">
+                                                    <StackLayout Orientation="Horizontal" 
+                                                                 HorizontalOptions="Start" Spacing="0">
+                                                        <!--<StackLayout Orientation="Horizontal" Spacing="0">-->
                                                             <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
                                                             <Label Text=" (" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
                                                             <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
                                                             <Label Text=")" TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
-                                                        </StackLayout>
+                                                        <!--</StackLayout>-->
                                                     </StackLayout>
 
                                                     <Label  Text="{Binding NotifiedOn}" Style="{StaticResource LblSubTitle}"
-                                                                Grid.Column="0" Grid.Row="3" TextColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" HorizontalTextAlignment="Start" />
+                                                               TextColor="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" HorizontalTextAlignment="Start" />
 
-                                                    <Grid Grid.Column="0" Grid.Row="4" HorizontalOptions="Start"
+                                                    <Grid HorizontalOptions="Start"
                                               RowDefinitions="Auto" ColumnDefinitions="Auto,*" 
                                                                IsVisible="{Binding BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=Notificationpage}}">
                                                         <Label x:Name="tagnameD" Text="{Binding  BindingContext.labelobj.TagNumber.Name, Source={x:Reference Name=Notificationpage}}" 
@@ -101,7 +105,7 @@
                                                     Grid.Column="1" Style="{StaticResource LblSubTitle}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
                                                     </Grid>
 
-                                                    <Grid Grid.Column="0" Grid.Row="5" HorizontalOptions="FillAndExpand"
+                                                    <Grid HorizontalOptions="FillAndExpand"
                                               RowDefinitions="Auto" ColumnDefinitions="Auto,*,Auto,Auto">
                                                         <Label Text="{Binding  BindingContext.labelobj.TaskName.Name, Source={x:Reference Name=Notificationpage}}" 
                                                    Grid.Column="0" TextColor="#4c4c4c" Style="{StaticResource LblSubTitle}"
@@ -126,7 +130,9 @@
 
                                                     </Grid>
 
-                                                </Grid>
+                                                <!--</Grid>-->
+                                                </StackLayout>
+
                                             </Frame>
                                         </ViewCell.View>
                                     </ViewCell>
