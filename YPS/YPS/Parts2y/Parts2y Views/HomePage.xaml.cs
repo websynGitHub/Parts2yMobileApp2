@@ -120,8 +120,15 @@ namespace YPS.Parts2y.Parts2y_Views
                 base.OnAppearing();
 
                 Vm.loadindicator = true;
-                (((App.Current.MainPage) as MenuPage).Detail as NavigationPage).BarBackgroundColor = Vm.BgColor = YPS.CommonClasses.Settings.Bar_Background;
-                (((App.Current.MainPage) as MenuPage).FindByName("contentpage") as ContentPage).BackgroundColor = YPS.CommonClasses.Settings.Bar_Background;
+
+                if (Settings.CanCallForSettings == true)
+                {
+                    Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+                    Settings.CanCallForSettings = false;
+                }
+
+                (((App.Current.MainPage) as MenuPage).Detail as NavigationPage).BarBackgroundColor = Vm.BgColor = Settings.Bar_Background;
+                (((App.Current.MainPage) as MenuPage).FindByName("contentpage") as ContentPage).BackgroundColor = Settings.Bar_Background;
 
                 Settings.ShowSuccessAlert = true;
 
@@ -153,6 +160,7 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 base.OnDisappearing();
                 isswing = false;
+                Settings.CanCallForSettings = true;
                 await SecureStorage.SetAsync("mainPageisOn", "0");
             }
             catch (Exception ex)

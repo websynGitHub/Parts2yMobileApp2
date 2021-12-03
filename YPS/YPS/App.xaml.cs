@@ -102,7 +102,8 @@ namespace YPS
                                     Settings.IsIIJEnabled = userParts2y[0].IIJEnable;
                                     Settings.IsPNEnabled = userParts2y[0].IsPNEnabled;
                                     Settings.IsEmailEnabled = userParts2y[0].IsEmailEnabled;
-
+                                    
+                                    Settings.CanCallForSettings = false;
                                     Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
 
                                     if (navPages[0].Trim().ToLower() == "AddUser".Trim().ToLower() ||
@@ -295,6 +296,7 @@ namespace YPS
 
                             if (current == NetworkAccess.Internet)
                             {
+                                Settings.CanCallForSettings = false;
                                 Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
 
                                 if (Settings.userRoleID != 0)

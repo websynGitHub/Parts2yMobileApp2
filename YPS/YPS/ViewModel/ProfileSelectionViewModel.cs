@@ -290,6 +290,7 @@ namespace YPS.ViewModel
                                         Settings.Bar_Background = !string.IsNullOrEmpty(Settings.RoleColorCode) ? Color.FromHex(Settings.RoleColorCode) : (val.data?.VersionColorCode != null ? Color.FromHex(val.data.VersionColorCode) : Settings.Bar_Background);
                                         Settings.VersionID = val.data.VersionID;
                                     }
+                                    Settings.CanCallForSettings = false;
                                     Navigation.PopToRootAsync(false);
                                 }
                             }
@@ -552,7 +553,7 @@ namespace YPS.ViewModel
                                 UpdateDb.GivenName = GivenName;
                                 //Upadating user login id in local database.
                                 rememberPwd.UpdatePWd(UpdateDb, Settings.userLoginID);
-
+                                Settings.CanCallForSettings = false;
                                 Navigation.PopToRootAsync(false);
                             }
 
