@@ -1080,26 +1080,26 @@ namespace YPS.ViewModel
 
                 //if (InspBtnOpacity == 1.0)
                 //{
-                    if (Settings.VersionID == 1)
-                    {
-                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
-                    }
-                    else if (Settings.VersionID == 2)
-                    {
-                        await Navigation.PushAsync(new CVinInspectQuestionsPage(SelectedTagData, isAllDone), false);
-                    }
-                    else if (Settings.VersionID == 3)
-                    {
-                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
-                    }
-                    else if (Settings.VersionID == 4)
-                    {
-                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(SelectedTagData, isAllDone), false);
-                    }
-                    else if (Settings.VersionID == 5)
-                    {
-                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
-                    }
+                if (Settings.VersionID == 1)
+                {
+                    await Navigation.PushAsync(new EPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
+                }
+                else if (Settings.VersionID == 2)
+                {
+                    await Navigation.PushAsync(new CVinInspectQuestionsPage(SelectedTagData, isAllDone), false);
+                }
+                else if (Settings.VersionID == 3)
+                {
+                    await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
+                }
+                else if (Settings.VersionID == 4)
+                {
+                    await Navigation.PushAsync(new KPPartsInspectionQuestionPage(SelectedTagData, isAllDone), false);
+                }
+                else if (Settings.VersionID == 5)
+                {
+                    await Navigation.PushAsync(new PPartsInspectionQuestionsPage(SelectedTagData, isAllDone), false);
+                }
                 //}
                 //else
                 //{
@@ -1136,6 +1136,7 @@ namespace YPS.ViewModel
                         var notcomplete = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobjNotComplete.Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var beforepacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == "Before Packing".Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
                         var afterpacking = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == "After Packing".Trim().ToLower().Replace(" ", string.Empty)).Select(c => c.LblText).FirstOrDefault();
+                        var insp = labelval.Where(wr => wr.FieldID.Trim().ToLower() == Insp.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         labelobjUploadBtn = uploadBtn != null ? (!string.IsNullOrEmpty(uploadBtn) ? uploadBtn : labelobjUploadBtn) : labelobjUploadBtn;
                         labelobjDesc = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : labelobjDesc) : labelobjDesc;
@@ -1143,7 +1144,7 @@ namespace YPS.ViewModel
                         labelobjNotComplete = (notcomplete != null ? (!string.IsNullOrEmpty(notcomplete) ? "Not " + notcomplete : "Not Complete") : "Not Complete");
                         BeforePacking = (beforepacking != null ? (!string.IsNullOrEmpty(beforepacking) ? beforepacking : BeforePacking) : BeforePacking);
                         AfterPacking = (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking) ? afterpacking : AfterPacking) : AfterPacking);
-
+                        Insp = insp != null ? (!string.IsNullOrEmpty(insp.LblText) ? insp.LblText : Insp) : Insp;
                     }
                 }
 
@@ -1552,6 +1553,16 @@ namespace YPS.ViewModel
             }
         }
 
+        private string _Insp = "LCMbtnInsp";
+        public string Insp
+        {
+            get => _Insp;
+            set
+            {
+                _Insp = value;
+                NotifyPropertyChanged();
+            }
+        }
         private string _labelobjComplete = "LCUploadComplete";
         public string labelobjComplete
         {

@@ -58,6 +58,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Settings.scanQRValueB = "";
 
                 Task.Run(() => GetSavedConfigDataFromDB()).Wait();
+                ChangeLabel();
                 scansetting = SettingsArchiver.UnarchiveSettings();
             }
             catch (Exception ex)
@@ -406,7 +407,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnDidScan method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
+                YPSLogger.ReportException(ex, "Scanditscan method -> in CompareContinuousViewModel.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -460,6 +461,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             NGCount = "0";
                             compareHistoryList = new List<CompareHistoryList>();
                             latestCompareHistoryList = new List<CompareHistoryList>();
+                            compareList = new List<CompareHistoryList>();
+                            historySerialNo = 1;
                             scancountpermit = TotalCountHeader = TotalCount;
                             SelectedScanRuleHeader = SelectedScanRule;
                             OKCount = OKCount + "/" + TotalCount;
@@ -470,6 +473,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             IsTotalValidMsg = false;
                             ScanTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
                             CompareTabTextColor = Color.Black;
+                            isEnableBFrame = isEnableAFrame == true ? false : true;
+
+                            if (isEnableBFrame == true)
+                            {
+                                opacityB = 1.0;
+                                resultB = "";
+                            }
 
                             return true;
                         }
@@ -499,7 +509,118 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+
+        /// <summary>
+        /// This is for changing the text dynamically
+        /// </summary>
+        public async void ChangeLabel()
+        {
+            try
+            {
+                loadindicator = true;
+
+                labelobj = new DashboardLabelChangeClass();
+
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                    if (labelval.Count > 0)
+                    {
+                        //Getting Label values & Status based on FieldID
+                        var rule = labelval.Where(wr => wr.FieldID == labelobj.Rule.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var total = labelval.Where(wr => wr.FieldID == labelobj.Total.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var okcount = labelval.Where(wr => wr.FieldID == labelobj.OkCount.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var ngcount = labelval.Where(wr => wr.FieldID == labelobj.NGCount.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var scan = labelval.Where(wr => wr.FieldID == labelobj.Scan.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var configure = labelval.Where(wr => wr.FieldID == labelobj.Configure.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var save = labelval.Where(wr => wr.FieldID == labelobj.Save.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var reset = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Reset.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var view = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.View.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var back = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Back.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        //Assigning the Labels & Show/Hide the controls based on the data
+                        labelobj.Rule.Name = (rule != null ? (!string.IsNullOrEmpty(rule.LblText) ? rule.LblText : labelobj.Rule.Name) : labelobj.Rule.Name) + " :";
+                        labelobj.Total.Name = (total != null ? (!string.IsNullOrEmpty(total.LblText) ? total.LblText : labelobj.Total.Name) : labelobj.Total.Name) + " :";
+                        labelobj.RuleForHint.Name = (rule != null ? (!string.IsNullOrEmpty(rule.LblText) ? rule.LblText : labelobj.Rule.Name) : labelobj.Rule.Name);
+                        labelobj.TotalForHint.Name = (total != null ? (!string.IsNullOrEmpty(total.LblText) ? total.LblText : labelobj.Total.Name) : labelobj.Total.Name);
+                        labelobj.OkCount.Name = (okcount != null ? (!string.IsNullOrEmpty(okcount.LblText) ? okcount.LblText : labelobj.OkCount.Name) : labelobj.OkCount.Name) + " :";
+                        labelobj.NGCount.Name = (ngcount != null ? (!string.IsNullOrEmpty(ngcount.LblText) ? ngcount.LblText : labelobj.NGCount.Name) : labelobj.NGCount.Name) + " :";
+                        labelobj.Scan.Name = scan != null ? (!string.IsNullOrEmpty(scan.LblText) ? scan.LblText : labelobj.Scan.Name) : labelobj.Scan.Name;
+                        labelobj.Configure.Name = configure != null ? (!string.IsNullOrEmpty(configure.LblText) ? configure.LblText : labelobj.Configure.Name) : labelobj.Configure.Name;
+                        labelobj.Save.Name = save != null ? (!string.IsNullOrEmpty(save.LblText) ? save.LblText : labelobj.Save.Name) : labelobj.Save.Name;
+                        labelobj.Reset.Name = (reset != null ? (!string.IsNullOrEmpty(reset.LblText) ? reset.LblText : labelobj.Reset.Name) : labelobj.Reset.Name);
+                        labelobj.View.Name = (view != null ? (!string.IsNullOrEmpty(view.LblText) ? view.LblText : labelobj.View.Name) : labelobj.View.Name);
+                        labelobj.Back.Name = (back != null ? (!string.IsNullOrEmpty(back.LblText) ? back.LblText : labelobj.Back.Name) : labelobj.Back.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in CompareContinuousViewModel.cs " + Settings.userLoginID);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
         #region Properties
+
+        #region Properties for dynamic label change
+        public class DashboardLabelChangeClass
+        {
+            public DashboardLabelFields Rule { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMRule" };
+            public DashboardLabelFields Total { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMTotal" };
+            public DashboardLabelFields RuleForHint { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMRule" };
+            public DashboardLabelFields TotalForHint { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMTotal" };
+            public DashboardLabelFields OkCount { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMOkCount" };
+            public DashboardLabelFields NGCount { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMNGCount" };
+            public DashboardLabelFields Scan { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMScan" };
+            public DashboardLabelFields Configure { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMConfigure" };
+            public DashboardLabelFields Save { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnSave" };
+            public DashboardLabelFields Reset { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnReset" };
+            public DashboardLabelFields View { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnView" };
+            public DashboardLabelFields Back { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnBack" };
+        }
+        public class DashboardLabelFields : IBase
+        {
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
+        public DashboardLabelChangeClass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
         private Color _ScanTabTextColor = Color.Black;
         public Color ScanTabTextColor
         {

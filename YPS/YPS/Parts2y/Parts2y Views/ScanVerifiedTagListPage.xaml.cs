@@ -21,12 +21,14 @@ namespace YPS.Parts2y.Parts2y_Views
         ScanVerifiedTagListPageViewModel vm;
         YPSService service;
 
-        public ScanVerifiedTagListPage(ObservableCollection<AllPoData> matchedtaglist, int uploadtype)
+        public ScanVerifiedTagListPage(ObservableCollection<AllPoData> matchedtaglist,
+            ObservableCollection<AllPoData> allpodata, int uploadtype)
         {
             try
             {
                 InitializeComponent();
-                BindingContext = vm = new ScanVerifiedTagListPageViewModel(Navigation, this, matchedtaglist, uploadtype);
+                BindingContext = vm = new ScanVerifiedTagListPageViewModel(Navigation, this,
+                    matchedtaglist, allpodata, uploadtype);
             }
             catch (Exception ex)
             {

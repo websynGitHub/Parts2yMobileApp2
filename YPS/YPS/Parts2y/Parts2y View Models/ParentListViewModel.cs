@@ -86,7 +86,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 profileSettingVisible = true;
                 mainStack = true;
 
-                ChangeLabel();
+                //ChangeLabel();
+                Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => BindGridData(-1)).Wait();
 
                 #region Assigning methods to the respective ICommands
@@ -492,6 +493,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.TaskResourceID = val.Select(s => s.TaskResourceID).FirstOrDefault();
                                         groupdata.EventID = val.Select(s => s.EventID).FirstOrDefault();
 
+                                        IEnumerable<int> poidlist = val.Select(s => s.POID).Distinct();
+                                        groupdata.PONumberForDisplay = poidlist.Count() == 1 ? groupdata.PONumber : "Multiple";
+                                        groupdata.ShippingNumberForDisplay = poidlist.Count() == 1 ? groupdata.ShippingNumber : "Multiple";
+                                        groupdata.REQNoForDisplay = poidlist.Count() == 1 ? groupdata.REQNo : "Multiple";
+                                        groupdata.TagNumberForDisplay = poidlist.Count() == 1 ? groupdata.TagNumber : "Multiple";
+
                                         if (groupdata.TaskStatus == 0)
                                         {
                                             groupdata.POTaskStatusIcon = Icons.Pending;
@@ -530,24 +537,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         PoDataCollections = new ObservableCollection<AllPoData>(groupedlist.Where(wr => wr.TaskStatus == postatus));
                                     }
 
-                                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+                                    //List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
 
-                                    if (labelval.Count > 0)
-                                    {
-                                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                    //if (labelval.Count > 0)
+                                    //{
+                                    //    var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                    //    var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                    //    var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                                    //    var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-                                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
-                                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
-                                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
-                                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
-                                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
-                                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
-                                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name);
-                                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
-                                    }
+                                    //    labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
+                                    //    labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
+                                    //    labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                                    //    labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
+                                    //    labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                                    //    labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
+                                    //    labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name);
+                                    //    labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
+                                    //}
 
                                     if (PoDataCollections.Count > 0)
                                     {
@@ -647,6 +654,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var PoDataChilds = new ObservableCollection<AllPoData>(
                                 Settings.AllPOData.Where(wr => wr.TaskID == PODetails.TaskID).ToList()
                                 );
+
+                        PoDataChilds.ToList().ForEach(fe =>
+                        {
+                            fe.PONumberForDisplay = PODetails.PONumberForDisplay;
+                            fe.ShippingNumberForDisplay = PODetails.ShippingNumberForDisplay;
+                            fe.REQNoForDisplay = PODetails.REQNoForDisplay;
+                            fe.TagNumberForDisplay = PODetails.TagNumberForDisplay;
+                        });
 
                         if (PODetails?.TaskResourceID == 0 || PODetails?.TaskResourceID == null)
                         {
@@ -1113,7 +1128,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var project = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Project.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var job = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Job.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
-                        var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.POID.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var poid = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.PONumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1129,6 +1144,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         var savedsearchfilters = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.SavedSearchFilters.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
+                        var pending = labelval.Where(wr => wr.FieldID == labelobj.Pending.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var inprogress = labelval.Where(wr => wr.FieldID == labelobj.Inprogress.Name.Trim().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var complete = labelval.Where(wr => wr.FieldID == labelobj.Completed.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var all = labelval.Where(wr => wr.FieldID == labelobj.All.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Company.Name = (company != null ? (!string.IsNullOrEmpty(company.LblText) ? company.LblText : labelobj.Company.Name) : labelobj.Company.Name) + " :";
                         labelobj.Company.Status = company?.Status == 1 || company?.Status == 2 ? true : false;
@@ -1137,8 +1157,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Job.Name = (job != null ? (!string.IsNullOrEmpty(job.LblText) ? job.LblText : labelobj.Job.Name) : labelobj.Job.Name) + " :";
                         labelobj.Job.Status = job?.Status == 1 || job?.Status == 2 ? true : false;
 
-                        labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
-                        labelobj.POID.Status = poid?.Status == 1 || poid?.Status == 2 ? true : false;
+                        labelobj.PONumber.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.PONumber.Name) : labelobj.PONumber.Name) + " :";
+                        labelobj.PONumber.Status = poid?.Status == 1 || poid?.Status == 2 ? true : false;
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
                         labelobj.ShippingNumber.Status = shippingnumber?.Status == 1 || shippingnumber?.Status == 2 ? true : false;
                         labelobj.REQNo.Name = (reqnumber != null ? (!string.IsNullOrEmpty(reqnumber.LblText) ? reqnumber.LblText : labelobj.REQNo.Name) : labelobj.REQNo.Name) + " :";
@@ -1154,13 +1174,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
-                        labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
-                        labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
-                        labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
+                        labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
+                        labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
+                        labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
 
-                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+                        //labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
 
                         labelobj.SavedSearchFilters.Name = (savedsearchfilters != null ? (!string.IsNullOrEmpty(savedsearchfilters.LblText) ? savedsearchfilters.LblText : labelobj.SavedSearchFilters.Name) : labelobj.SavedSearchFilters.Name);
+
+                        labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name);
+                        labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
+                        labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name);
+                        labelobj.Inprogress.Status = inprogress == null ? true : (inprogress.Status == 1 ? true : false);
+                        labelobj.Completed.Name = (complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Completed.Name) : labelobj.Completed.Name);
+                        labelobj.Completed.Status = complete == null ? true : (complete.Status == 1 ? true : false);
+                        labelobj.All.Name = (all != null ? (!string.IsNullOrEmpty(all.LblText) ? all.LblText : labelobj.All.Name) : labelobj.All.Name);
+                        labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
                     }
                 }
 
@@ -1474,7 +1503,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Project { get; set; } = new DashboardLabelFields { Status = true, Name = "Project" };
             public DashboardLabelFields Company { get; set; } = new DashboardLabelFields { Status = true, Name = "Company" };
             public DashboardLabelFields Supplier { get; set; } = new DashboardLabelFields { Status = false, Name = "SupplierCompanyName" };
-            public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
+            public DashboardLabelFields PONumber { get; set; } = new DashboardLabelFields
             {
                 Status = false,
                 Name = "PONumber"
@@ -1515,15 +1544,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = false, Name = "Start Time" };
             public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = false, Name = "End Time" };
 
-            public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
-            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };
-            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Done" };
-            public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "All" };
+            public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPending" };
+            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMProgress" };
+            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMDone" };
+            public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMAll" };
 
-            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "Home" };
-            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
-            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
-            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMHome" };
+            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMTask" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMParts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMLoad" };
             public DashboardLabelFields SavedSearchFilters { get; set; } = new DashboardLabelFields { Status = true, Name = "Saved Search Filters" };
         }
         public class DashboardLabelFields : IBase

@@ -232,11 +232,13 @@ namespace YPS.ViewModel
 
                         var tagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var markallread = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.MarkAllRead.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
                         labelobj.TaskName.Status = taskanme?.Status == 1 || taskanme?.Status == 2 ? true : false;
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber?.Status == 1 || tagnumber?.Status == 2 ? true : false;
+                        labelobj.MarkAllRead.Name = (markallread != null ? (!string.IsNullOrEmpty(markallread.LblText) ? markallread.LblText : labelobj.MarkAllRead.Name) : labelobj.MarkAllRead.Name);
                     }
                 }
             }
@@ -258,6 +260,11 @@ namespace YPS.ViewModel
             {
                 Status = false,
                 Name = "TaskName"
+            };
+			public DashboardLabelFields MarkAllRead { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMClearAll"
             };
         }
         public class DashboardLabelFields : IBase

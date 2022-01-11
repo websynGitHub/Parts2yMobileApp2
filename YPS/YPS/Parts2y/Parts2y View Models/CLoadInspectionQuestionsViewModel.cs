@@ -52,13 +52,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Settings.TaskID = SelectedPodataList[0].TaskID;
                 taskid = SelectedPodataList[0].TaskID;
                 IsAllTagsDone = isalltagdone;
-                PONumber = SelectedPodataList[0].PONumber;
-                ShippingNumber = SelectedPodataList[0].ShippingNumber;
-                REQNo = SelectedPodataList[0].REQNo;
+                PONumber = SelectedPodataList[0].PONumberForDisplay;
+                ShippingNumber = SelectedPodataList[0].ShippingNumberForDisplay;
+                REQNo = SelectedPodataList[0].REQNoForDisplay;
                 TaskName = SelectedPodataList[0].TaskName;
                 EventName = SelectedPodataList[0].EventName;
-                //Resource = SelectedPodataList[0].TaskResourceName;
-                //IsResourcecVisible = SelectedPodataList[0].TaskResourceID == Settings.userLoginID ? false : true;
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
                 InspTabCmd = new Command(InspTabClicked);
@@ -356,31 +354,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 CommonMethods.BackClickFromInspToParts(Navigation);
-                //pagecount = Navigation.NavigationStack.Count() - 1;
-
-                //if (Navigation.NavigationStack[2].GetType().Name.Trim().ToLower() == "POChildListPage".Trim().ToLower())
-                //{
-                //    while (pagecount > 3)
-                //    {
-                //        pagecount--;
-                //        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                //    }
-                //}
-                //else
-                //{
-                //    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
-                //    Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
-
-                //    pagecount = Navigation.NavigationStack.Count() - 1;
-
-                //    while (pagecount > 3)
-                //    {
-                //        pagecount--;
-                //        Navigation.RemovePage(Navigation.NavigationStack[pagecount]);
-                //    }
-                //}
-
-                //await Navigation.PopAsync(false);
             }
             catch (Exception ex)
             {
@@ -435,8 +408,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ShippingNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var reqnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.REQNo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        //var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        var home = labelval.Where(wr => wr.FieldID == labelobj.Home.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var jobs = labelval.Where(wr => wr.FieldID == labelobj.Jobs.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var parts = labelval.Where(wr => wr.FieldID == labelobj.Parts.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var load = labelval.Where(wr => wr.FieldID == labelobj.Load.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        var carrierinsp = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.CarrierInsp.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var checklistandsign = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ChecklistAndSign.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var signaturecbu = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.SignaturesCBU.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var signaturecarrier = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.SignatureCarrier.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var supervisor = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Supervisor.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var auditor = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Auditor.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var dealer = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Dealer.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var driver = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Driver.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var done = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Done.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -449,11 +436,32 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TaskName.Status = taskanme?.Status == 1 || taskanme?.Status == 2 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                         labelobj.EventName.Status = eventname?.Status == 1 || eventname?.Status == 2 ? true : false;
-                        //labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
-                        labelobj.Home.Name = "Home";
-                        labelobj.Jobs.Name = "Job";
-                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+                        labelobj.Home.Name = home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name;
+                        labelobj.Jobs.Name = jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name;
+                        labelobj.Parts.Name = parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name;
+                        labelobj.Load.Name = load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name;
+
+                        labelobj.CarrierInsp.Name = carrierinsp != null ? (!string.IsNullOrEmpty(carrierinsp.LblText) ? carrierinsp.LblText : labelobj.CarrierInsp.Name) : labelobj.CarrierInsp.Name;
+                        labelobj.ChecklistAndSign.Name = checklistandsign != null ? (!string.IsNullOrEmpty(checklistandsign.LblText) ? checklistandsign.LblText : labelobj.ChecklistAndSign.Name) : labelobj.ChecklistAndSign.Name;
+                        labelobj.SignaturesCBU.Name = signaturecbu != null ? (!string.IsNullOrEmpty(signaturecbu.LblText) ? signaturecbu.LblText : labelobj.SignaturesCBU.Name) : labelobj.SignaturesCBU.Name;
+                        labelobj.SignatureCarrier.Name = signaturecarrier != null ? (!string.IsNullOrEmpty(signaturecarrier.LblText) ? signaturecarrier.LblText : labelobj.SignatureCarrier.Name) : labelobj.SignatureCarrier.Name;
+                        labelobj.Supervisor.Name = supervisor != null ? (!string.IsNullOrEmpty(supervisor.LblText) ? supervisor.LblText : labelobj.Supervisor.Name) : labelobj.Supervisor.Name;
+                        labelobj.Auditor.Name = auditor != null ? (!string.IsNullOrEmpty(auditor.LblText) ? auditor.LblText : labelobj.Auditor.Name) : labelobj.Auditor.Name;
+                        labelobj.Dealer.Name = dealer != null ? (!string.IsNullOrEmpty(dealer.LblText) ? dealer.LblText : labelobj.Dealer.Name) : labelobj.Dealer.Name;
+                        labelobj.Driver.Name = driver != null ? (!string.IsNullOrEmpty(driver.LblText) ? driver.LblText : labelobj.Driver.Name) : labelobj.Driver.Name;
+                        labelobj.Done.Name = done != null ? (!string.IsNullOrEmpty(done.LblText) ? done.LblText : labelobj.Done.Name) : labelobj.Done.Name;
+
+                        if (Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower())
+                        {
+                            SupervisorOrDriver = labelobj.Driver.Name;
+                            AuditorOrDealer = labelobj.Dealer.Name;
+                        }
+                        else
+                        {
+                            SupervisorOrDriver = labelobj.Supervisor.Name;
+                            AuditorOrDealer = labelobj.Auditor.Name;
+                        }
                     }
                 }
             }
@@ -472,10 +480,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #region Properties for dynamic label change
         public class DashboardLabelChangeClass
         {
-            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "Home" };
-            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
-            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
-            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMHome" };
+            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMTask" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMParts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMLoad" };
 
             public DashboardLabelFields POID { get; set; } = new DashboardLabelFields
             {
@@ -509,6 +517,52 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = false,
                 Name = "Event"
             };
+
+            public DashboardLabelFields CarrierInsp { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "TBMCarrierInsp"
+            };
+            public DashboardLabelFields ChecklistAndSign { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "TBMChecklistAndSign"
+            };
+            public DashboardLabelFields SignaturesCBU { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMSignaturesCBU"
+            };
+            public DashboardLabelFields SignatureCarrier { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMSignatureCarrier"
+            };
+            public DashboardLabelFields Supervisor { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMSupervisor"
+            };
+            public DashboardLabelFields Auditor { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMAuditor"
+            };
+            public DashboardLabelFields Dealer { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMDealer"
+            };
+            public DashboardLabelFields Driver { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMDriver"
+            };
+            public DashboardLabelFields Done { get; set; } = new DashboardLabelFields
+            {
+                Status = true,
+                Name = "LCMbtnDone"
+            };
         }
         public class DashboardLabelFields : IBase
         {
@@ -527,8 +581,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
-
-        private string _SupervisorOrDriver = Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower() ? "Driver" : "Supervisor";
+        private string _SupervisorOrDriver;
         public string SupervisorOrDriver
         {
             get => _SupervisorOrDriver;
@@ -538,6 +591,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("SupervisorOrDriver");
             }
         }
+        //private string _SupervisorOrDriver = Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower() ? "Driver" : "Supervisor";
+        //public string SupervisorOrDriver
+        //{
+        //    get => _SupervisorOrDriver;
+        //    set
+        //    {
+        //        _SupervisorOrDriver = value;
+        //        RaisePropertyChanged("SupervisorOrDriver");
+        //    }
+        //}
 
         private string _AuditorOrDealer = Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower() ? "Dealer" : "Auditor";
         public string AuditorOrDealer
@@ -549,6 +612,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("AuditorOrDealer");
             }
         }
+
+        //private string _AuditorOrDealer = Settings.EntityTypeName.Trim().ToLower() == "Dealer".Trim().ToLower() ? "Dealer" : "Auditor";
+        //public string AuditorOrDealer
+        //{
+        //    get => _AuditorOrDealer;
+        //    set
+        //    {
+        //        _AuditorOrDealer = value;
+        //        RaisePropertyChanged("AuditorOrDealer");
+        //    }
+        //}
 
         private bool _IsSignatureCarrierVisible = true;
         public bool IsSignatureCarrierVisible

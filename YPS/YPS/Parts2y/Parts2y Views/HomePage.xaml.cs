@@ -137,7 +137,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 Task.Run(() => Vm.GetTaskData()).Wait();
                 Task.Run(() => Vm.RememberUserDetails()).Wait();
                 Vm.GetActionStatus();
-                Vm.GetallApplabels();
+                Task.Run(() => Vm.GetallApplabels()).Wait();
                 Vm.ChangeLabel();
                 Vm.GetQuestions();
                 Vm.GetPNCount();

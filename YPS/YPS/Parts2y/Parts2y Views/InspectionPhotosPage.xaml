@@ -51,7 +51,10 @@
                         </StackLayout>
 
 
-                        <Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,9,0,15"
+                        <StackLayout Grid.Row="0" Grid.Column="1" Spacing="0" Margin="8,9,0,15"
+                              HorizontalOptions="StartAndExpand" 
+                                        VerticalOptions="StartAndExpand">
+                            <!--<Grid Grid.Row="0" Grid.Column="1" RowSpacing="0" Margin="8,9,0,15"
                               HorizontalOptions="StartAndExpand" 
                                         VerticalOptions="StartAndExpand">
                             <Grid.RowDefinitions>
@@ -59,13 +62,15 @@
                                 <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
                                 <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
                                 <RowDefinition Height="{Binding RowHeightTagNumber,Mode=TwoWay}"/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Text="Inspection Photos" Style="{StaticResource LblTitleName}"/>
-                            <Label Grid.Row="1" Text="{Binding Tagnumbers,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
-                            <Label Grid.Row="2" Text="{Binding Question,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
-                            <Label Grid.Row="3" Text="{Binding TaskName,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
-                            <Label Grid.Row="4" Text="{Binding EventName,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
-                        </Grid>
+                            </Grid.RowDefinitions>-->
+                            <Label Text="Inspection Photos" Style="{StaticResource LblTitleName}"/>
+                            <Label Text="{Binding Tagnumbers,Mode=TwoWay}" 
+                                   IsVisible="{Binding IsTagNumberVisible}" Style="{StaticResource LblSubTitle}"/>
+                            <Label Text="{Binding Question,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                            <Label Text="{Binding TaskName,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                            <Label Text="{Binding EventName,Mode=TwoWay}" Style="{StaticResource LblSubTitle}"/>
+                        <!--</Grid>-->
+                        </StackLayout>
                     </Grid>
 
                     <flv:FlowListView FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="1"  Grid.Row="1"

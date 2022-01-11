@@ -43,7 +43,7 @@
                           VerticalOptions="CenterAndExpand">
                         <Grid  Grid.Row="0" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="Scanned on: " FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.ScanLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
@@ -52,7 +52,7 @@
                         </Grid>
                         <Grid  Grid.Row="1" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="Status: " FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.StatusLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
@@ -61,7 +61,7 @@
                         </Grid>
                         <Grid  Grid.Row="2" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="Value: " FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.ValueLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
@@ -81,7 +81,7 @@
                                      Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                                  FlexLayout.Grow="1" Margin="0,0,2,0" HeightRequest="48">
                             <sfbuttons:SfButton.Content>
-                                    <Label Text="Re-Scan" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                                <Label Text="{Binding labelobj.ReScanLabel.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                 </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -93,7 +93,7 @@
                                             IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding PhotoOpacity}"
                                             FlexLayout.Grow="1" HeightRequest="48"> 
                             <sfbuttons:SfButton.Content>
-                                    <Label Text="{Binding PageNextButton}" Style="{StaticResource SfButtonTextLbl}" 
+                                <Label Text="{Binding labelobj.PhotoLabel.Name}" Style="{StaticResource SfButtonTextLbl}" 
                                            Padding="0"/>
                                 </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>

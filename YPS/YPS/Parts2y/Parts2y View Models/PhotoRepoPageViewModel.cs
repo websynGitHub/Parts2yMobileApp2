@@ -634,11 +634,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (labelval.Count > 0)
                     {
                         var upload = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Upload.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var deleteall = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.DeleteAll.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var link = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Link.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var desc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == DescriptipnPlaceholder.Trim().ToLower()).Select(c => c.LblText).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.Upload.Name = (upload != null ? (!string.IsNullOrEmpty(upload.LblText) ? upload.LblText : labelobj.Upload.Name) : labelobj.Upload.Name);
                         labelobj.Upload.Status = upload == null ? true : (upload.Status == 1 || upload.Status == 2 ? true : false);
+                        labelobj.DeleteAll.Name = (deleteall != null ? (!string.IsNullOrEmpty(deleteall.LblText) ? deleteall.LblText : labelobj.DeleteAll.Name) : labelobj.DeleteAll.Name);
+                        labelobj.Link.Name = (link != null ? (!string.IsNullOrEmpty(link.LblText) ? link.LblText : labelobj.Link.Name) : labelobj.Link.Name);
                         DescriptipnPlaceholder = desc != null ? (!string.IsNullOrEmpty(desc) ? desc : DescriptipnPlaceholder) : DescriptipnPlaceholder;
                     }
 
@@ -664,6 +668,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Status = true,
                 Name = "Upload"
             };
+            public LabelAndActionFields DeleteAll { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMbtnDeleteAll" };
+            public LabelAndActionFields Link { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMbtnLink" };
         }
         public class LabelAndActionFields : IBase
         {

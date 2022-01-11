@@ -305,7 +305,7 @@
                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"
                                          Margin="0,0,10,4" Grid.Column="2">
                             <sfbuttons:SfButton.Content>
-                                <Label Text="Insp" Style="{StaticResource SfButtonTextLbl}" />
+                                <Label Text="{Binding Insp}" Style="{StaticResource SfButtonTextLbl}" />
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>

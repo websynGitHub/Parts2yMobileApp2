@@ -74,18 +74,6 @@
                                     <Label Text="{Binding TagNumber}" Grid.Row="0" Grid.Column="1" TextColor="White"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                 </Grid>
-
-                                <Grid HorizontalOptions="Start" 
-                                  IsVisible="{Binding  BindingContext.labelobj.IdentCode.Status, Source={x:Reference Name=VerifiedScanTagList}}"
-                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                    <Label Text="{Binding  BindingContext.labelobj.IdentCode.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}" TextColor="White"
-                                                           Grid.Row="0" Grid.Column="0" 
-                                                           HorizontalTextAlignment="Start" 
-                                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                    <Label Text="{Binding IdentCode}" Grid.Row="0" Grid.Column="1" TextColor="White"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>
                             </StackLayout>
 
                         </StackLayout>

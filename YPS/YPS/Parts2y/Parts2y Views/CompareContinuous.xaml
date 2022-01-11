@@ -55,7 +55,7 @@
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
 
-                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="Rule : "
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.Rule.Name}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedScanRuleHeader}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
@@ -63,7 +63,7 @@
 
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="Total : "
+                            <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.Total.Name}"
                              Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding TotalCountHeader}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
@@ -72,7 +72,7 @@
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
 
-                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="OK Count : "
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.OkCount.Name}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding OKCount}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
@@ -80,7 +80,7 @@
 
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="NG Count : "
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.NGCount.Name}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding NGCount}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
@@ -106,7 +106,7 @@
                     </Grid>
 
                 </Grid>
-                
+
                 <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                        Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
                     <Grid.ColumnDefinitions>
@@ -117,7 +117,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackLayout IsEnabled="{Binding IsScanEnable}" Grid.Column="0" Grid.Row="0">
-                        <Label  Text="Scan" Style="{DynamicResource LableWithQuestionFont}" 
+                        <Label  Text="{Binding labelobj.Scan.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0"
                                 HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
@@ -128,7 +128,7 @@
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                     <StackLayout Grid.Column="1" Grid.Row="0">
-                        <Label Text="Configure" TextColor="{Binding CompareTabTextColor}"
+                        <Label Text="{Binding labelobj.Configure.Name}" TextColor="{Binding CompareTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
                         </Label>
@@ -263,7 +263,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="0" Hint="Rule" 
+                                <sfinput:SfTextInputLayout Grid.Row="0" Grid.Column="0" Hint="{Binding labelobj.RuleForHint.Name}" 
                                                        Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
 
                                     <combobox:SfComboBox x:Name="LanguagePicker"
@@ -282,7 +282,7 @@
 
                                 </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Grid.Row="1" Grid.Column="0" Hint="Total"  ContainerBackgroundColor="White"
+                                <sfinput:SfTextInputLayout Grid.Row="1" Grid.Column="0" Hint="{Binding labelobj.TotalForHint.Name}"  ContainerBackgroundColor="White"
                                                        Style="{StaticResource SfInputLayout}" ErrorText="{Binding TotalErrorTxt}"
                                                            ErrorColor="Red" 
                                                            HasError="{Binding IsTotalValidMsg}">
@@ -311,7 +311,7 @@
                                         HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory" 
                                         Grid.Column="0">
                         <sfbuttons:SfButton.Content>
-                            <Label Text="Reset" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                            <Label Text="{Binding labelobj.Reset.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
                             <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -323,7 +323,7 @@
                                         HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ViewHistory" 
                                         Grid.Column="1">
                         <sfbuttons:SfButton.Content>
-                            <Label Text="View" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                            <Label Text="{Binding labelobj.View.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>
                             <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
@@ -340,7 +340,7 @@
                                     BackgroundColor="{Binding BgColor}"
                                     HorizontalOptions="FillAndExpand" VerticalOptions="End">
                     <sfbuttons:SfButton.Content>
-                        <Label Text="Save" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                        <Label Text="{Binding labelobj.Save.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                     </sfbuttons:SfButton.Content>
                     <sfbuttons:SfButton.Behaviors>
                         <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>

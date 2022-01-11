@@ -48,6 +48,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 selectedPOTagData = selectedpoagdata;
                 selectedTagData = selectedtagdata;
                 trackService = new YPSService();
+                ChangeLabel();
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
                 MoveNextCmd = new Command(async () => await MoveNext(ScannedAllPOData));
@@ -151,7 +152,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
 
                     if (Navigation.ModalStack.Count == 0 ||
-                                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
                     {
                         ScannerPage.AutoFocus();
 
@@ -319,7 +320,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 StatusTextBgColor = Color.DarkGreen;
                                 ScannedValue = ScannedResult;
 
-                                await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, uploadType), false);
+                                await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, result.data.allPoDataMobile, uploadType), false);
                                 Navigation.RemovePage(Navigation.NavigationStack[1]);
                             }
                             else
@@ -481,7 +482,89 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         }
 
+        public async void ChangeLabel()
+        {
+            try
+            {
+                labelobj = new DashboardLabelChangeClass();
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+
+                    if (labelval.Count > 0)
+                    {
+                        var scan = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ScanLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var status = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.StatusLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var value = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ValueLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var rescan = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ReScanLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var photo = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.PhotoLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        labelobj.ScanLabel.Name = (scan != null ? (!string.IsNullOrEmpty(scan.LblText) ? scan.LblText : labelobj.ScanLabel.Name) : labelobj.ScanLabel.Name) + " :";
+                        labelobj.StatusLabel.Name = (status != null ? (!string.IsNullOrEmpty(status.LblText) ? status.LblText : labelobj.StatusLabel.Name) : labelobj.StatusLabel.Name) + " :";
+                        labelobj.ValueLabel.Name = (value != null ? (!string.IsNullOrEmpty(value.LblText) ? value.LblText : labelobj.ValueLabel.Name) : labelobj.ValueLabel.Name) + " :";
+                        labelobj.ReScanLabel.Name = (rescan != null ? (!string.IsNullOrEmpty(rescan.LblText) ? rescan.LblText : labelobj.ReScanLabel.Name) : labelobj.ReScanLabel.Name);
+                        labelobj.PhotoLabel.Name = (photo != null ? (!string.IsNullOrEmpty(photo.LblText) ? photo.LblText : labelobj.PhotoLabel.Name) : labelobj.PhotoLabel.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in ScanPageViewModel.cs " + Settings.userLoginID);
+            }
+        }
+
         #region Properties
+
+        #region Labels
+        public class DashboardLabelChangeClass
+        {
+            public DashboardLabelFields ScanLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMScannedOn" };
+            public DashboardLabelFields StatusLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMStatus" };
+            public DashboardLabelFields ValueLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMValue" };
+            public DashboardLabelFields ReScanLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnReScan" };
+            public DashboardLabelFields PhotoLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnPhoto" };
+        }
+        public class DashboardLabelFields : IBase
+        {
+            //public bool Status { get; set; }
+            //public string Name { get; set; }
+
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
+        public DashboardLabelChangeClass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
         public string _VinsOrParts = Settings.VersionID == 2 ? "VIN(s)" : "part(s)";
         public string VinsOrParts
         {

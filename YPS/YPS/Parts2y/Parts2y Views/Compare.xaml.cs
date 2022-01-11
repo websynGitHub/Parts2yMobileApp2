@@ -38,7 +38,7 @@ namespace YPS.Parts2y.Parts2y_Views
             Vm.loadindicator = false;
         }
 
-        private async void ClearHistory(object sender, EventArgs e)
+        public async void ClearHistory(object sender, EventArgs e)
         {
             try
             {

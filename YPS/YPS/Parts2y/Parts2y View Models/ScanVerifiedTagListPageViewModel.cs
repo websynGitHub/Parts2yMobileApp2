@@ -30,7 +30,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         #endregion
 
         public ScanVerifiedTagListPageViewModel(INavigation _Navigation, ScanVerifiedTagListPage page,
-            ObservableCollection<AllPoData> matchedtaglist, int uploadtype)
+            ObservableCollection<AllPoData> matchedtaglist, ObservableCollection<AllPoData> allpodata, int uploadtype)
         {
             try
             {
@@ -39,11 +39,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 pagename = page;
                 uploadType = uploadtype;
                 service = new YPSService();
+                AllPoDataList = allpodata;
 
                 MoveOrAssignAndMoveCmd = new Command(MoveOrAssignAndMove);
 
+                Task.Run(() => DynamicTextChange()).Wait();
                 Task.Run(() => ShowContentsToLink(matchedtaglist));
-                Task.Run(() => DynamicTextChange());
             }
             catch (Exception ex)
             {
@@ -99,8 +100,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //values.IsTaskResourceVisible = values.TaskResourceID == 0 ? false : true;
                         values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
                         values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
-                        values.PhotoInspText = values.TaskResourceID == 0 ? "Assign & " + inspphoto : inspphoto;
+                        values.PhotoInspText = values.TaskResourceID == 0 ? labelobj.Assign.Name + " & " + labelobj.InspOrPhoto.Name : labelobj.InspOrPhoto.Name;
+                        //values.PhotoInspText = values.TaskResourceID == 0 ? "Assign & " + inspphoto : inspphoto;
                         values.PhotoInspLabelOpacity = values.IsPhotoRequired == 0 ? 0.4 : 1.0;
+
+                        IEnumerable<int> poidlist = AllPoDataList.Where(wr => wr.TaskID == values.TaskID).Select(s => s.POID).Distinct();
+                        values.PONumberForDisplay = poidlist.Count() == 1 ? values.PONumber : "Multiple";
+                        values.ShippingNumberForDisplay = poidlist.Count() == 1 ? values.ShippingNumber : "Multiple";
+                        values.REQNoForDisplay = poidlist.Count() == 1 ? values.REQNo : "Multiple";
+                        values.TagNumberForDisplay = poidlist.Count() == 1 ? values.TagNumber : "Multiple";
                     }
 
                     AllPoTagCollections = new ObservableCollection<AllPoData>(matchedtaglist);
@@ -135,8 +143,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (checkInternet == true)
                 {
+
                     var podata = sender as AllPoData;
                     AllPoTagCollections?.ToList().ForEach(fe => { fe.SelectedTagBorderColor = Color.Transparent; });
+
                     podata.SelectedTagBorderColor = Settings.Bar_Background;
                     bool isalldone = AllPoTagCollections?.Where(wr => wr.TaskID == podata?.TaskID && wr.TagTaskStatus != 2).FirstOrDefault() == null ? true : false;
 
@@ -325,6 +335,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ShippingNumber.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var barcode1 = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Barcode1.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var assign = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Assign.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var insporphoto = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InspOrPhoto.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -338,8 +350,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber?.Status == 1 || tagnumber?.Status == 2 ? true : false;
-                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode?.Status == 1 || identcode?.Status == 2 ? true : false;
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname?.Status == 1 || conditionname?.Status == 2 ? true : false;
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
@@ -354,6 +364,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Barcode1.Status = barcode1?.Status == 1 || barcode1?.Status == 2 ? true : false;
                         labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
                         labelobj.BagNumber.Status = bagnumber?.Status == 1 || bagnumber?.Status == 2 ? true : false;
+                        labelobj.Assign.Name = (assign != null ? (!string.IsNullOrEmpty(assign.LblText) ? assign.LblText : labelobj.Assign.Name) : labelobj.Assign.Name);
+                        labelobj.InspOrPhoto.Name = (insporphoto != null ? (!string.IsNullOrEmpty(insporphoto.LblText) ? insporphoto.LblText : labelobj.InspOrPhoto.Name) : labelobj.InspOrPhoto.Name);
+
                     }
                 }
             }
@@ -428,6 +441,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public LabelAndActionFields EndTime { get; set; } = new LabelAndActionFields { Status = false, Name = "End Time" };
             public LabelAndActionFields Barcode1 { get; set; } = new LabelAndActionFields { Status = false, Name = "Barcode1" };
             public LabelAndActionFields BagNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "BagNumber" };
+
+            public LabelAndActionFields Assign { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMAssign" };
+            public LabelAndActionFields InspOrPhoto { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMInspOrPhoto" };
+            //public LabelAndActionFields InspLabel { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMbtnInsp" };
+            //public LabelAndActionFields PhotoLabel { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMbtnPhoto" };
 
             public LabelAndActionFields ShippingNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "Shipping Number" };
             public LabelAndActionFields BeforePacking { get; set; } = new LabelAndActionFields { Status = true, Name = "Before Packing" };

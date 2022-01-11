@@ -518,7 +518,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (potaglist != null && potaglist.Count > 0)
                 {
+                    IEnumerable<int> poidlist = potaglist.Select(s => s.POID).Distinct();
+
+                    potaglist.ToList().ForEach(fe =>
+                    {
+                        fe.PONumberForDisplay = poidlist.Count() == 1 ? potaglist[0].PONumber : "Multiple";
+                        fe.ShippingNumberForDisplay = poidlist.Count() == 1 ? potaglist[0].ShippingNumber : "Multiple";
+                        fe.REQNoForDisplay = poidlist.Count() == 1 ? potaglist[0].REQNo : "Multiple";
+                        fe.TagNumberForDisplay = poidlist.Count() == 1 ? potaglist[0].TagNumber : "Multiple";
+                    });
+
                     allPOTagData = potaglist;
+
                     await UpdateTabCount(potaglist);
 
                     if (tagTaskStatus == 0)
@@ -1407,8 +1418,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var invoicenumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InvoiceNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var tagdesc = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TagDesc.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ShippingNumber.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var barcode1 = labelval.Where(wr => wr.FieldID.Trim().ToLower()== labelobj.Barcode1.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower()== labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var barcode1 = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Barcode1.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        var insp = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Insp.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var pending = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Pending.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var inprogress = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.Inprogress.Name.Trim().ToLower().Replace(" ", "")).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1419,6 +1432,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var jobs = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Jobs.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var parts = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Parts.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var load = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Load.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        var photo = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Photo.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var chart = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Chart.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var file = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.File.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var print = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Print.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var done = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Done.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -1434,8 +1453,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.EventName.Status = eventname?.Status == 1 || eventname?.Status == 2 ? true : false;
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber?.Status == 1 || tagnumber?.Status == 2 ? true : false;
-                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode?.Status == 1 || identcode?.Status == 2 ? true : false;
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname?.Status == 1 || conditionname?.Status == 2 ? true : false;
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
@@ -1449,6 +1466,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
                         labelobj.BagNumber.Status = bagnumber?.Status == 1 || bagnumber?.Status == 2 ? true : false;
 
+                        labelobj.Insp.Name = insp != null ? (!string.IsNullOrEmpty(insp.LblText) ? insp.LblText : labelobj.Insp.Name) : labelobj.Insp.Name;
+
                         labelobj.Pending.Name = (pending != null ? (!string.IsNullOrEmpty(pending.LblText) ? pending.LblText : labelobj.Pending.Name) : labelobj.Pending.Name) + "\n";
                         labelobj.Pending.Status = pending == null ? true : (pending.Status == 1 ? true : false);
                         labelobj.Inprogress.Name = (inprogress != null ? (!string.IsNullOrEmpty(inprogress.LblText) ? inprogress.LblText : labelobj.Inprogress.Name) : labelobj.Inprogress.Name) + "\n";
@@ -1459,10 +1478,19 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.All.Status = all == null ? true : (all.Status == 1 ? true : false);
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
-                        labelobj.Home.Status = home == null ? true : (home.Status == 1 ? true : false);
-                        labelobj.Parts.Status = parts == null ? true : (parts.Status == 1 ? true : false);
-                        labelobj.Load.Status = load == null ? true : (load.Status == 1 ? true : false);
-                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+                        labelobj.Jobs.Name = (jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name);
+                        labelobj.Parts.Name = (parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name);
+                        labelobj.Load.Name = (load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name);
+
+                        //labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+
+
+                        labelobj.Photo.Name = (photo != null ? (!string.IsNullOrEmpty(photo.LblText) ? photo.LblText : labelobj.Photo.Name) : labelobj.Photo.Name);
+                        labelobj.Chart.Name = (parts != null ? (!string.IsNullOrEmpty(chart.LblText) ? chart.LblText : labelobj.Chart.Name) : labelobj.Chart.Name);
+                        labelobj.File.Name = (file != null ? (!string.IsNullOrEmpty(file.LblText) ? file.LblText : labelobj.File.Name) : labelobj.File.Name);
+                        labelobj.Print.Name = (print != null ? (!string.IsNullOrEmpty(print.LblText) ? print.LblText : labelobj.Print.Name) : labelobj.Print.Name);
+                        labelobj.Done.Name = (done != null ? (!string.IsNullOrEmpty(done.LblText) ? done.LblText : labelobj.Done.Name) : labelobj.Done.Name);
+
                     }
                 }
             }
@@ -1770,16 +1798,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields ShippingNumber { get; set; } = new DashboardLabelFields { Status = false, Name = "Shipping Number" };
             public DashboardLabelFields Barcode1 { get; set; } = new DashboardLabelFields { Status = false, Name = "Barcode1" };
             public DashboardLabelFields BagNumber { get; set; } = new DashboardLabelFields { Status = false, Name = "BagNumber" };
+            public DashboardLabelFields Insp { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnInsp" };
 
-            public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "Pending" };
-            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "Progress" };
-            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "Done" };
-            public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "All" };
+            public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPending" };
+            public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMProgress" };
+            public DashboardLabelFields Completed { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMDone" };
+            public DashboardLabelFields All { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMAll" };
 
-            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "Home" };
-            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
-            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
-            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMHome" };
+            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMTask" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMParts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMLoad" };
+
+            public DashboardLabelFields Photo { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMPhoto" };
+            public DashboardLabelFields Chart { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMChat" };
+            public DashboardLabelFields File { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMFile" };
+            public DashboardLabelFields Print { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPrint" };
+            public DashboardLabelFields Done { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMDone" };
+
         }
         public class DashboardLabelFields : IBase
         {

@@ -11,6 +11,8 @@ using YPS.CommonClasses;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
 using YPS.Helpers;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -37,6 +39,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 InitializeComponent();
                 MyNavigationPage = new NavigationPage();
                 BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+                ChangeLabel();
+                BindingContext = this;
             }
             catch (Exception ex)
             {
@@ -54,6 +58,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings = settings;
                 comparecontinuousVM = compareContinuousVM;
                 InitializeComponent();
+                ChangeLabel();
+                BindingContext = this;
 
                 //StartBtn.IsVisible = Settings.ContinuousAfterScan == false ? false : true;
                 //StartBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
@@ -81,7 +87,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 Settings = settings;
                 compareVM = compareViewModel;
                 YPS.CommonClasses.Settings.scanredirectpage = "ScanditScan";
-
+                ChangeLabel();
+                BindingContext = this;
                 //StartBtn.IsVisible = false;
                 BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
 
@@ -148,6 +155,88 @@ namespace YPS.Parts2y.Parts2y_Views
                 var trackResult = trackService.Handleexception(ex);
             }
         }
+
+        public async void ChangeLabel()
+        {
+            try
+            {
+                labelobj = new DashboardLabelChangeClass();
+
+                if (CommonClasses.Settings.alllabeslvalues != null && CommonClasses.Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Model.Alllabeslvalues> labelval = CommonClasses.Settings.alllabeslvalues.Where(wr => wr.VersionID == CommonClasses.Settings.VersionID && wr.LanguageID == CommonClasses.Settings.LanguageID).ToList();
+
+                    if (labelval.Count > 0)
+                    {
+                        var back = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Back.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        labelobj.Back.Name = (back != null ? (!string.IsNullOrEmpty(back.LblText) ? back.LblText : labelobj.Back.Name) : labelobj.Back.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in Back_Tapped.xaml.cs " + CommonClasses.Settings.userLoginID);
+            }
+        }
+
+        #region Labels
+        #region INotifyPropertyChanged Implimentation
+        public event PropertyChangedEventHandler PropertyChanged;
+        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public void RaisePropertyChanged(String name)
+        {
+            if (PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+        #endregion
+
+        public class DashboardLabelChangeClass
+        {
+            public DashboardLabelFields Back { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnBack" };
+        }
+
+        public class DashboardLabelFields : IBase
+        {
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
+        public DashboardLabelChangeClass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
     }
 
     public class ScannerDelegate : IScannerDelegate
@@ -212,5 +301,6 @@ namespace YPS.Parts2y.Parts2y_Views
                 var trackResult = scannerPage.trackService.Handleexception(ex);
             }
         }
+
     }
 }

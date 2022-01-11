@@ -11,10 +11,13 @@ namespace YPS.Model
         public string emptyCellValue { get; set; } = string.Empty;
         public bool isColumnHidden { get; set; } = true;
         public string ShippingNumber { get; set; }
+        public string ShippingNumberForDisplay { get; set; }
         public string DisciplineName { get; set; }
         public string ELevelName { get; set; }
         public string PONumber { get; set; }
+        public string PONumberForDisplay { get; set; }
         public string REQNo { get; set; }
+        public string REQNoForDisplay { get; set; }
         public string PODescription { get; set; }
         public int POID { get; set; }
         public int POTagID { get; set; }
@@ -22,6 +25,7 @@ namespace YPS.Model
         //public string InvoiceNumber { get; set; }
         public string Invoice1No { get; set; }
         public string TagNumber { get; set; }
+        public string TagNumberForDisplay { get; set; }
         //public string TagDescription { get; set; }
         public string IDENT_DEVIATED_TAG_DESC { get; set; }
 

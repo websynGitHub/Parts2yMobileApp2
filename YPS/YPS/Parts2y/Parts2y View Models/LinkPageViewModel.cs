@@ -38,7 +38,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                Title = Settings.VersionID == 2 ? "Link VIN" : "Link Parts";
+                //Title = Settings.VersionID == 2 ? "Link VIN" : "Link Parts";
                 service = new YPSService();
                 Navigation = navigation;
                 pagename = page;
@@ -142,7 +142,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 selectedTagsData.photoTags = lstdat;
                                 Settings.currentPoTagId_Inti = lstdat;
 
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false), false);
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, potag, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false), false);
                             }
                             else
                             {
@@ -240,7 +240,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 selectedTagsData.photoTags = lstdat;
                                 Settings.currentPoTagId_Inti = lstdat;
 
-                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, null, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, false, isalldone, false), false);
+                                await Navigation.PushAsync(new YPS.Views.PhotoUpload(selectedTagsData, potag, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_AP, false, isalldone, false), false);
                             }
                             else
                             {
@@ -537,6 +537,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //values.IsTaskResourceVisible = values.TaskResourceID == Settings.userLoginID ? false : true;
                         values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
                         values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
+
+                        IEnumerable<int> poidlist = AllPoDataList.Where(wr => wr.TaskID == values.TaskID).Select(s => s.POID).Distinct();
+                        values.PONumberForDisplay = poidlist.Count() == 1 ? values.PONumber : "Multiple";
+                        values.ShippingNumberForDisplay = poidlist.Count() == 1 ? values.ShippingNumber : "Multiple";
+                        values.REQNoForDisplay = poidlist.Count() == 1 ? values.REQNo : "Multiple";
+                        values.TagNumberForDisplay = poidlist.Count() == 1 ? values.TagNumber : "Multiple";
                     }
 
                     AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
@@ -590,6 +596,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var shippingnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ShippingNumber.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
+                        var title = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Title.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
                         labelobj.POID.Status = poid?.Status == 1 || poid?.Status == 2 ? true : false;
@@ -599,17 +607,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.TagDesc.Status = tagdesc?.Status == 1 || tagdesc?.Status == 2 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                         labelobj.EventName.Status = eventname?.Status == 1 || eventname?.Status == 2 ? true : false;
-                        //labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                         labelobj.TagNumber.Status = tagnumber?.Status == 1 || tagnumber?.Status == 2 ? true : false;
-                        labelobj.IdentCode.Name = (identcode != null ? (!string.IsNullOrEmpty(identcode.LblText) ? identcode.LblText : labelobj.IdentCode.Name) : labelobj.IdentCode.Name) + " :";
-                        labelobj.IdentCode.Status = identcode?.Status == 1 || identcode?.Status == 2 ? true : false;
                         labelobj.ConditionName.Name = (conditionname != null ? (!string.IsNullOrEmpty(conditionname.LblText) ? conditionname.LblText : labelobj.ConditionName.Name) : labelobj.ConditionName.Name) + " :";
                         labelobj.ConditionName.Status = conditionname?.Status == 1 || conditionname?.Status == 2 ? true : false;
                         labelobj.InvoiceNumber.Name = (invoicenumber != null ? (!string.IsNullOrEmpty(invoicenumber.LblText) ? invoicenumber.LblText : labelobj.InvoiceNumber.Name) : labelobj.InvoiceNumber.Name) + " :";
                         labelobj.InvoiceNumber.Status = invoicenumber?.Status == 1 || invoicenumber?.Status == 2 ? true : false;
                         labelobj.ShippingNumber.Name = (shippingnumber != null ? (!string.IsNullOrEmpty(shippingnumber.LblText) ? shippingnumber.LblText : labelobj.ShippingNumber.Name) : labelobj.ShippingNumber.Name) + " :";
                         labelobj.ShippingNumber.Status = shippingnumber?.Status == 1 || shippingnumber?.Status == 2 ? true : false;
+
+                        labelobj.Title.Name = (title != null ? (!string.IsNullOrEmpty(title.LblText) ? title.LblText : labelobj.Title.Name) : labelobj.Title.Name);
 
                         labelobj.AfterPacking.Name = "To " + (afterpacking != null ? (!string.IsNullOrEmpty(afterpacking.LblText) ? afterpacking.LblText : labelobj.AfterPacking.Name) : labelobj.AfterPacking.Name);
                         labelobj.AfterPacking.Status = afterpacking == null ? true : (afterpacking.Status == 1 || afterpacking.Status == 2 ? true : false);
@@ -688,6 +695,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             };
 
 
+            public LabelAndActionFields Title { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMVINOrParts" };
             public LabelAndActionFields IdentCode { get; set; } = new LabelAndActionFields { Status = false, Name = "IdentCode" };
             public LabelAndActionFields ConditionName { get; set; } = new LabelAndActionFields { Status = false, Name = "ConditionName" };
             //public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = true, Name = "InvoiceNumber" };

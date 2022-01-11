@@ -159,7 +159,7 @@
                         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Grid.Row="2"
                               BackgroundColor="Transparent" Padding="0" Margin="6,0,6,0" Orientation="Horizontal">
                             <StackLayout HorizontalOptions="FillAndExpand">
-                                <Label  Text="Load Insp" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label  Text="{Binding labelobj.LoadInsp.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding LoadInspTabTextColor}"  Padding="0,8,0,0" HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                                 </Label>
@@ -170,7 +170,7 @@
                             </StackLayout>
 
                             <StackLayout HorizontalOptions="FillAndExpand">
-                                <Label Text="Checklist" TextColor="{Binding SignTabTextColor}"
+                                <Label Text="{Binding labelobj.Checklist.Name}" TextColor="{Binding SignTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
                                 </Label>
@@ -254,7 +254,7 @@
                                                 VerticalOptions="End" HorizontalOptions="FillAndExpand"
                                         BackgroundColor="{Binding BgColor}" Opacity="{Binding DoneOpacity}">
                                     <sfbuttons:SfButton.Content>
-                                        <Label  Text="Done" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                                        <Label  Text="{Binding labelobj.Done.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                     </sfbuttons:SfButton.Content>
                                     <sfbuttons:SfButton.Behaviors>
                                         <behaviors1:ViewTappedButtonBehavior AnimationType="Scale"/>

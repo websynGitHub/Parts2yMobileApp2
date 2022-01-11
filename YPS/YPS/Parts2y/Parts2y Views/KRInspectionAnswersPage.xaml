@@ -165,7 +165,7 @@
                         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Grid.Row="1"
                               BackgroundColor="Transparent" Padding="0" Margin="6,0,6,0" Orientation="Horizontal">
                             <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsInspTabVisible}">
-                                <Label  Text="Load Insp" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label  Text="{Binding labelobj.LoadInsp.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding InspTabTextColor}"  Padding="0,8,0,0" HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                                 </Label>
@@ -176,7 +176,7 @@
                             </StackLayout>
 
                             <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsQuickTabVisible}">
-                                <Label  Text="Quick" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label  Text="{Binding labelobj.Quick.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding QuickTabTextColor}"  Padding="0,8,0,0" HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                                 </Label>
@@ -187,7 +187,7 @@
                             </StackLayout>
 
                             <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsFullTabVisible}">
-                                <Label Text="Full" TextColor="{Binding FullTabTextColor}"
+                                <Label Text="{Binding labelobj.Full.Name}" TextColor="{Binding FullTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
                                 </Label>
@@ -285,10 +285,10 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="100"/>
                                     </Grid.ColumnDefinitions>
-                                    <sfinput:SfTextInputLayout Hint="Remarks" Grid.Column="0"
+                                        <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remarks.Name}" Grid.Column="0"
                                                        Style="{StaticResource SfInputLayout}" ContainerBackgroundColor="White">
 
-                                        <local:MyEditor HeightRequest="{OnPlatform Android=80,iOS=65}"  Placeholder="Remarks"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
+                                            <local:MyEditor HeightRequest="{OnPlatform Android=80,iOS=65}"  Placeholder="{Binding labelobj.Remarks.Name}"  Text="{Binding Remarks}" PlaceholderColor="#4c4c4c" TextColor="Black"  HorizontalOptions="FillAndExpand" Margin="0"/>
                                     </sfinput:SfTextInputLayout>
                                     <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand"  BackgroundColor="Transparent">
                                         <local:FontAwesomeIconLabel  BackgroundColor="Transparent"  Text="{x:Static local1:Icons.CameraIc}" TextColor="Black" 
@@ -310,7 +310,7 @@
                 <Grid VerticalOptions="End" HorizontalOptions="FillAndExpand" Grid.Row="3"
                                Margin="6,0,6,6" HeightRequest="45" IsVisible="{Binding IsAnswersVisible}">
 
-                            <syncfusion:SfButton Text="VIEW ALL"
+                            <syncfusion:SfButton Text="{Binding labelobj.ViewAll.Name}"
                                     Command="{Binding ViewallClick}"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="End" Style="{StaticResource SfBtnBlue}"

@@ -44,7 +44,7 @@
                           VerticalOptions="CenterAndExpand">
                         <Grid  Grid.Row="0" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="Scanned on: " FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.ScanLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
@@ -53,7 +53,7 @@
                         </Grid>
                         <Grid  Grid.Row="1" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="Status: " FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.StatusLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
@@ -62,7 +62,7 @@
                         </Grid>
                         <Grid  Grid.Row="2" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="Value: " FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.ValueLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
@@ -81,7 +81,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Text="Re-Scan" Grid.Column="0"
+                                    <Label Text="{Binding labelobj.ReScanLabel.Name}" Grid.Column="0"
                                    Style="{StaticResource SfButtonTextLbl}"/>
                                 </Grid>
                             </sfbuttons:SfButton.Content>
@@ -92,13 +92,13 @@
 
                         <sfbuttons:SfButton HorizontalOptions="FillAndExpand" Grid.Column="1"
                                     Command="{Binding MoveToInspCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
-                                            IsEnabled="{Binding IsInspEnable}" Opacity="{Binding InspOpacity}">
+                                            Opacity="{Binding InspOpacity}">
                             <sfbuttons:SfButton.Content>
                                 <Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10,0,10,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"/>
+                                    <Label Text="{Binding labelobj.InspLabel.Name}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"/>
                                 </Grid>
                             </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>

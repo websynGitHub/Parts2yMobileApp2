@@ -57,6 +57,8 @@ namespace YPS.ViewModel
             public filtterlabelFields TaskName { get; set; } = new filtterlabelFields() { Name = "Task Name" };
             public filtterlabelFields ResourceName { get; set; } = new filtterlabelFields() { Name = "Resource", Status = true };
             public filtterlabelFields SearchPageTitle { get; set; } = new filtterlabelFields() { Name = "Search Data", Status = true };
+            public filtterlabelFields SaveTheFilter { get; set; } = new filtterlabelFields() { Name = "LCMSaveTheFilter", Status = true };
+            public filtterlabelFields FilterName { get; set; } = new filtterlabelFields() { Name = "LCMFilterName", Status = true };
             public filtterlabelFields ResetBtn { get; set; } = new filtterlabelFields() { Name = "Reset", Status = true };
             public filtterlabelFields SearchBtn { get; set; } = new filtterlabelFields() { Name = "Search", Status = true };
             public filtterlabelFields SaveSearchBtn { get; set; } = new filtterlabelFields() { Name = "SaveSearch", Status = true };
@@ -740,6 +742,8 @@ namespace YPS.ViewModel
                         var ybkgnumber = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.yBkgNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var taskname = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.TaskName.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var resourcename = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ResourceName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var savethefilter = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.SaveTheFilter.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var filtername = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.FilterName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var searchpagetitle = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.SearchPageTitle.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var ResetBtn = filteredlabel.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ResetBtn.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -774,6 +778,8 @@ namespace YPS.ViewModel
                         labelobj.TaskName.Name = taskname != null ? taskname.LblText : "Task Name";
                         labelobj.TaskName.Status = (taskname == null ? true : false) || (taskname != null && taskname.Status == 1 || taskname.Status == 2) ? true : false;
                         labelobj.ResourceName.Name = resourcename != null ? resourcename.LblText : "Resource";
+                        labelobj.SaveTheFilter.Name = (savethefilter != null ? savethefilter.LblText : labelobj.SaveTheFilter.Name) + " *";
+                        labelobj.FilterName.Name = (filtername != null ? filtername.LblText : labelobj.FilterName.Name) + " *";
                         labelobj.SearchPageTitle.Name = searchpagetitle != null ? searchpagetitle.LblText : labelobj.SearchPageTitle.Name;
                         labelobj.ResetBtn.Name = ResetBtn != null ? ResetBtn.LblText : "Reset";
                         labelobj.SearchBtn.Name = SearchBtn != null ? SearchBtn.LblText : "Search";

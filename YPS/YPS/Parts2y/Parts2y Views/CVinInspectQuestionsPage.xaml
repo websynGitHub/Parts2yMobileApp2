@@ -145,7 +145,7 @@
                             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Orientation="Horizontal">
                                 <StackLayout BackgroundColor="DarkGray" HorizontalOptions="FillAndExpand" >
-                                    <Label Text="Home" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                    <Label Text="{Binding labelobj.Home.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                        TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                        HorizontalTextAlignment="Center">
                                     </Label>
@@ -155,7 +155,7 @@
                                 </StackLayout>
 
                                 <StackLayout BackgroundColor="DarkGray" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" >
-                                    <Label  Text="Job" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
+                                    <Label  Text="{Binding labelobj.Jobs.Name}" BackgroundColor="Transparent" Style="{DynamicResource LableWithQuestionFont}" 
                                         TextColor="Black" Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" 
                                         HorizontalTextAlignment="Center">
                                     </Label>
@@ -191,7 +191,7 @@
                         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Grid.Row="2"
                               BackgroundColor="Transparent" Padding="0" Margin="2,0,0,2" Orientation="Horizontal">
                             <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsQuickTabVisible}">
-                                <Label  Text="Quick" Style="{DynamicResource LableWithQuestionFont}" 
+                                <Label  Text="{Binding labelobj.Quick.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding QuickTabTextColor}"  Padding="0,8,0,0" HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
                                 </Label>
@@ -202,7 +202,7 @@
                             </StackLayout>
 
                             <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsFullTabVisible}">
-                                <Label Text="Full" TextColor="{Binding FullTabTextColor}"
+                                <Label Text="{Binding labelobj.Full.Name}" TextColor="{Binding FullTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
                                 </Label>
@@ -270,7 +270,7 @@
 
                                     <Grid x:Name="quickstackssigque" IsVisible="{Binding IsQuickTabVisible}"
                                   RowDefinitions="Auto,*">
-                                        <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Quick"
+                                        <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="{Binding labelobj.Quick.Name}"
                                    Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
                                         <flv:FlowListView FlowItemsSource="{Binding QuickSignQuestionListCategory}" HeightRequest="125"
                                                   FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9"
@@ -293,7 +293,7 @@
                                     <Grid x:Name="fullstackssigque" IsVisible="{Binding IsFullTabVisible}"
                                          HorizontalOptions="FillAndExpand" VerticalOptions="Start"
                                   RowDefinitions="Auto,*">
-                                        <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="Full"
+                                        <Label HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Text="{Binding labelobj.Full.Name}"
                                    Style="{DynamicResource LableWithQuestionFont}" TextColor="Black" Grid.Row="0"/>
                                         <flv:FlowListView FlowItemsSource="{Binding FullSignQuestionListCategory}" FlowUseAbsoluteLayoutInternally="True" FlowColumnCount="9" BackgroundColor="#E9E9E9"
                               SeparatorVisibility="None" HasUnevenRows="True" Grid.Row="1" HeightRequest="125">
@@ -315,7 +315,7 @@
                                          VerticalOptions="EndAndExpand" Spacing="0" Margin="0"
                                          IsVisible="{Binding IsSignatureCarrierVisible}">
                                         <StackLayout BackgroundColor="Black" Spacing="0" VerticalOptions="Center">
-                                            <Label Text="Signatures - CBUs" TextColor="White" HorizontalTextAlignment="Center"
+                                            <Label Text="{Binding labelobj.SignatureCBU.Name}" TextColor="White" HorizontalTextAlignment="Center"
                                            Style="{StaticResource LableWithMediumFont}" Margin="0,8,0,8" Padding="0"/>
                                         </StackLayout>
 
@@ -327,7 +327,7 @@
                                                      IsVisible="{Binding IsOwnerSignVisible}">
                                                 <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
                                                      HorizontalOptions="FillAndExpand">
-                                                    <Label x:Name="Driver" Text="Driver" TextColor="White"  HorizontalTextAlignment="Center" 
+                                                    <Label x:Name="Driver" Text="{Binding labelobj.DriverSignature.Name}" TextColor="White"  HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                 </StackLayout>
                                                 <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
@@ -347,7 +347,7 @@
                                                  VerticalOptions="FillAndExpand" Margin="2,2,2,0">
                                                     <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
                                                      HorizontalOptions="FillAndExpand">
-                                                        <Label x:Name="CarrierDriver" Text="Driver" TextColor="White"  HorizontalTextAlignment="Center" 
+                                                        <Label x:Name="CarrierDriver" Text="{Binding labelobj.DriverSignature.Name}" TextColor="White"  HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                     </StackLayout>
                                                     <Frame BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5" 
@@ -363,7 +363,7 @@
                                                 <StackLayout Spacing="0" HorizontalOptions="FillAndExpand" Margin="0,2,2,0">
                                                     <StackLayout BackgroundColor="Black" Padding="0,6,0,6"
                                                      HorizontalOptions="FillAndExpand">
-                                                        <Label x:Name="VINDealer" Text="Dealer" TextColor="White" HorizontalTextAlignment="Center" 
+                                                        <Label x:Name="VINDealer" Text="{Binding labelobj.DealerSignature.Name}" TextColor="White" HorizontalTextAlignment="Center" 
                                                     Style="{StaticResource LableWithMediumFont}" Margin="0" Padding="0"/>
                                                     </StackLayout>
                                                     <Frame  BackgroundColor="White" HasShadow="False" BorderColor="Black" Margin="0,0,0,5"
@@ -391,7 +391,7 @@
                                         BackgroundColor="{Binding BgColor}" IsEnabled="{Binding IsDoneEnable}"
                                         Opacity="{Binding DoneOpacity}">
                                     <sfbuttons:SfButton.Content>
-                                        <Label  Text="Done" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                                        <Label Text="{Binding labelobj.Done.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                     </sfbuttons:SfButton.Content>
                                     <sfbuttons:SfButton.Behaviors>
                                             <behaviors1:ViewTappedButtonBehavior AnimationType="Scale"/>

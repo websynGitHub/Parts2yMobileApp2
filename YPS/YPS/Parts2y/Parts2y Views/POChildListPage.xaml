@@ -488,31 +488,31 @@
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckCamera">
                                 <local:FontAwesomeIconLabel x:Name="imgCamera" Text="{Static local1:Icons.CameraIc}"
                                                             x:FieldModifier="Public" Style="{StaticResource LblIconStyle}"/>
-                                <Label Text="Photo" x:Name="CameraLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="{Binding labelobj.Photo.Name}" x:Name="CameraLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckChat">
                                 <local:FontAwesomeIconLabel x:Name="imgChat" Text="{Static local1:Icons.ChatIc}" 
                                                             x:FieldModifier="Public" Style="{StaticResource LblIconStyle}" Margin="0,0,0,2"/>
-                                <Label Text="Chat" x:Name="ChatLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="{Binding labelobj.Chart.Name}" x:Name="ChatLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckFileUpload">
                                 <local:FontAwesomeIconLabel x:Name="imgFileUpload" Text="{Static local1:Icons.FileAttachIc}"
                                                             x:FieldModifier="Public" Style="{StaticResource LblIconStyle}"/>
-                                <Label Text="File" x:Name="FileUploadLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="{Binding labelobj.File.Name}" x:Name="FileUploadLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckPrinter">
                                 <local:FontAwesomeIconLabel x:Name="imgPrinter" Text="{Static local1:Icons.PrintIc}" 
                                                             x:FieldModifier="Public" Style="{StaticResource LblIconStyle}"/>
-                                <Label Text="Print" x:Name="PrinterLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="{Binding labelobj.Print.Name}" x:Name="PrinterLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                             <StackLayout Style="{StaticResource ButtonNavigationBarStackLayoutStyle}" x:Name="stckDone">
                                 <local:FontAwesomeIconLabel x:Name="imgDone" FontSize="23" Text="{Static local1:Icons.Done}"
                                                             x:FieldModifier="Public" Style="{StaticResource LblIconStyle}"/>
-                                <Label Text="Done" x:Name="DoneLbl" Style="{StaticResource LableWithSmallFont}" 
+                                <Label Text="{Binding labelobj.Done.Name}" x:Name="DoneLbl" Style="{StaticResource LableWithSmallFont}" 
                                HorizontalTextAlignment="Center" TextColor="White"/>
                             </StackLayout>
                         </StackLayout>
@@ -566,7 +566,7 @@
                                                 Command="{Binding InspCmd}" Style="{StaticResource SfBtnBlue}" 
                                                 BackgroundColor="{Binding BgColor}" Margin="15,0,0,20">
                                 <sfbuttons:SfButton.Content>
-                                        <Label Text="Insp" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"/>
+                                    <Label Text="{Binding labelobj.Insp.Name}" Grid.Column="0" Style="{StaticResource SfButtonTextLbl}"/>
                                 </sfbuttons:SfButton.Content>
                                 <sfbuttons:SfButton.Behaviors>
                                     <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>

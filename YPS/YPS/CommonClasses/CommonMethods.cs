@@ -24,8 +24,8 @@ namespace YPS.CommonClasses
         {
             try
             {
-                if (Settings.POID > 0)
-                {
+                //if (Settings.POID > 0)
+                //{
                     if (Navigation?.NavigationStack[2]?.GetType()?.Name.Trim().ToLower() != "LinkPage".Trim().ToLower())
                     {
                         if (Navigation.NavigationStack.Count == 4)
@@ -39,9 +39,9 @@ namespace YPS.CommonClasses
                         Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                     }
 
-                    Settings.POID = 0;
+                    //Settings.POID = 0;
                     Settings.TaskID = 0;
-                }
+                //}
 
                 await Navigation.PopAsync(false);
             }

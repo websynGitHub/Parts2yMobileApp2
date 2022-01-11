@@ -50,7 +50,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Navigation = _Navigation;
                 pagename = page;
                 selectedTagData = selectedtagdata;
-                isInspVIN = isvininsp;
+                IsTagNumberVisible = isInspVIN = isvininsp;
                 pendingTagIDs = pendingtagIDs;
                 this.tagId = tagId;
                 taskid = selectedtagdata.TaskID;
@@ -142,7 +142,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     int photoid = data.ID;
                     var imageLists = finalPhotoListA;
 
-                    await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers, Question), false);
+                    await Navigation.PushAsync(new ImageView(imageLists, data.ID, Tagnumbers, Question, isInspVIN), false);
                 }
             }
             catch (Exception ex)
@@ -636,6 +636,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public bool _IsTagNumberVisible;
+        public bool IsTagNumberVisible
+        {
+            get { return _IsTagNumberVisible; }
+            set
+            {
+                _IsTagNumberVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public bool _IndicatorVisibility = false;
         public bool IndicatorVisibility

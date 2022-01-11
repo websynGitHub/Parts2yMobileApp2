@@ -116,7 +116,8 @@ namespace YPS.Views
         /// <param name="photosList"></param>
         /// <param name="photoId"></param>
         /// <param name="Tags"></param>
-        public ImageView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId, string Tags, string questionNumber)
+        public ImageView(ObservableCollection<InspectionPhotosResponseListData> photosList, int photoId,
+            string Tags, string questionNumber, bool istagnumvisible)
         {
             try
             {
@@ -128,7 +129,7 @@ namespace YPS.Views
                 YPSLogger.TrackEvent("ImageView.xaml.cs", " Page constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
                 Settings.currentPage = "ImageViewPage";
                 Usernames.Text = Tags;
-                Usernames.IsVisible = string.IsNullOrEmpty(Tags) ? false : true;
+                Usernames.IsVisible = (string.IsNullOrEmpty(Tags) || istagnumvisible == false) ? false : true;
                 Groupname.Text = "Inspection Photos";
                 QuestionName.Text = questionNumber;
                 QuestionName.IsVisible = string.IsNullOrEmpty(questionNumber) ? false : true;

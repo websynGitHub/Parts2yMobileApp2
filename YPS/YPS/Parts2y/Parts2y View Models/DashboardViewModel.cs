@@ -103,6 +103,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             AllPoData groupdata = new AllPoData();
                             groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
                             groupdata.TaskResourceID = val.Select(s => s.TaskResourceID).FirstOrDefault();
+                            //IEnumerable<int> poidlist = val.Select(s => s.POID).Distinct();
+                            //groupdata.PONumberForDisplay = poidlist.Count() == 1 ? groupdata.PONumber : "Multiple";
+                            //groupdata.ShippingNumberForDisplay = poidlist.Count() == 1 ? groupdata.ShippingNumber : "Multiple";
+                            //groupdata.REQNoForDisplay = poidlist.Count() == 1 ? groupdata.REQNo : "Multiple";
                             groupedlist.Add(groupdata);
                         }
 
@@ -318,33 +322,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                if (Settings.alllabeslvalues == null || Settings.alllabeslvalues.Count == 0)
+                //if (Settings.alllabeslvalues == null || Settings.alllabeslvalues.Count == 0)
+                //{
+                var lblResult = await trackService.GetallApplabelsService();
+
+                if (lblResult != null && lblResult.data != null)
                 {
-                    var lblResult = await trackService.GetallApplabelsService();
-
-                    if (lblResult != null && lblResult.data != null)
-                    {
-                        Settings.alllabeslvalues = lblResult.data.ToList();
-                        var datavalues = Settings.alllabeslvalues.Where(x => x.VersionID == Settings.VersionID && x.LanguageID == Settings.LanguageID).ToList();
-                        Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
-                        Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
-                        //Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
-
-                    }
+                    Settings.alllabeslvalues = lblResult.data.ToList();
+                    var datavalues = Settings.alllabeslvalues.Where(x => x.VersionID == Settings.VersionID && x.LanguageID == Settings.LanguageID).ToList();
+                    Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
+                    Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
+                    Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
                 }
-                else
-                {
-                    if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
-                    {
-                        var datavalues = Settings.alllabeslvalues.Where(x => x.VersionID == Settings.VersionID && x.LanguageID == Settings.LanguageID).ToList();
+                //}
+                //else
+                //{
+                //    if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                //    {
+                //        var datavalues = Settings.alllabeslvalues.Where(x => x.VersionID == Settings.VersionID && x.LanguageID == Settings.LanguageID).ToList();
 
-                        Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
-                        Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
-                        Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
-                        //Settings.supplierlabel = datavalues.Where(x => x.FieldID == Settings.supplierlabel1).Select(x => x.LblText).FirstOrDefault();
-                    }
-                }
+                //        Settings.Companylabel = datavalues.Where(x => x.FieldID == Settings.Companylabel1).Select(m => m.LblText).FirstOrDefault();
+                //        Settings.projectlabel = datavalues.Where(x => x.FieldID == Settings.projectlabel1).Select(x => x.LblText).FirstOrDefault();
+                //        Settings.joblabel = datavalues.Where(x => x.FieldID == Settings.joblabel1).Select(x => x.LblText).FirstOrDefault();
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -409,6 +410,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var jobs = labelval.Where(wr => wr.FieldID == labelobj.Jobs.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var parts = labelval.Where(wr => wr.FieldID == labelobj.Parts.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var load = labelval.Where(wr => wr.FieldID == labelobj.Load.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var scan = labelval.Where(wr => wr.FieldID == labelobj.Scan.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var compare = labelval.Where(wr => wr.FieldID == labelobj.Compare.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var comparecont = labelval.Where(wr => wr.FieldID == labelobj.CompareCont.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var photo = labelval.Where(wr => wr.FieldID == labelobj.Photo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
 
                         //Assigning the Labels & Show/Hide the controls based on the data
@@ -420,9 +425,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Job.Status = job?.Status == 1 || job?.Status == 2 ? true : false;
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
-                        labelobj.Home.Status = home?.Status == 1 ? true : false;
-                        labelobj.Parts.Status = parts?.Status == 1 ? true : false;
-                        labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+                        //labelobj.Home.Status = home?.Status == 1 || home.Status == 2 ? true : false;
+                        //labelobj.Parts.Status = parts?.Status == 1 || parts.Status == 2 ? true : false;
+                        //labelobj.Parts.Name = Settings.VersionID == 2 ? "VIN" : "Parts";
+                        labelobj.Jobs.Name = jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name;
+                        //labelobj.Jobs.Status = jobs?.Status == 1 || jobs?.Status == 2 ? true : false;
+                        labelobj.Parts.Name = parts != null ? (!string.IsNullOrEmpty(parts.LblText) ? parts.LblText : labelobj.Parts.Name) : labelobj.Parts.Name;
+                        //labelobj.Parts.Status = parts?.Status == 1 || parts.Status == 2 ? true : false;
+                        labelobj.Load.Name = load != null ? (!string.IsNullOrEmpty(load.LblText) ? load.LblText : labelobj.Load.Name) : labelobj.Load.Name;
+                        //labelobj.Load.Status = load?.Status == 1 || load?.Status == 2 ? true : false;
+                        labelobj.Scan.Name = scan != null ? (!string.IsNullOrEmpty(scan.LblText) ? scan.LblText : labelobj.Scan.Name) : labelobj.Scan.Name;
+                        //labelobj.Scan.Status = scan?.Status == 1 || scan?.Status == 2 ? true : false;
+                        labelobj.Compare.Name = compare != null ? (!string.IsNullOrEmpty(compare.LblText) ? compare.LblText : labelobj.Compare.Name) : labelobj.Compare.Name;
+                        //labelobj.Compare.Status = compare?.Status == 1 || compare?.Status == 2 ? true : false;
+                        labelobj.Photo.Name = photo != null ? (!string.IsNullOrEmpty(photo.LblText) ? photo.LblText : labelobj.Photo.Name) : labelobj.Photo.Name;
+                        //labelobj.Photo.Status = photo?.Status == 1 || photo?.Status == 2 ? true : false;
+
                     }
                 }
 
@@ -481,6 +499,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (checkInternet)
                 {
                     var configurationResult = await trackService.GetAllMInspectionConfigurations();
+                    
                     if (configurationResult != null && configurationResult.data != null)
                     {
                         Settings.allInspectionConfigurations = configurationResult.data;
@@ -507,10 +526,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Project { get; set; } = new DashboardLabelFields { Status = true, Name = "Project" };
             public DashboardLabelFields Company { get; set; } = new DashboardLabelFields { Status = true, Name = "Company" };
             public DashboardLabelFields Supplier { get; set; } = new DashboardLabelFields { Status = true, Name = "SupplierCompanyName" };
-            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "Home" };
-            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "Job" };
-            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "Parts" };
-            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "Load" };
+            public DashboardLabelFields Home { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMHome" };
+            public DashboardLabelFields Jobs { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMTask" };
+            public DashboardLabelFields Parts { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMParts" };
+            public DashboardLabelFields Load { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMLoad" };
+            public DashboardLabelFields Scan { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMScan" };
+            public DashboardLabelFields Compare { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMCompare" };
+            public DashboardLabelFields CompareCont { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMScan" };
+            public DashboardLabelFields Photo { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPhoto" };
 
         }
         public class DashboardLabelFields : IBase
@@ -549,6 +572,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private string _HomePageTitle { set; get; }
+        public string HomePageTitle
+        {
+            get
+            {
+                return _HomePageTitle;
+            }
+            set
+            {
+                this._HomePageTitle = value;
+                NotifyPropertyChanged("HomePageTitle");
+            }
+        }
 
         private string _JobCountText { set; get; }
         public string JobCountText

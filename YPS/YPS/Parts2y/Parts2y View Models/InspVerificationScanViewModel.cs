@@ -42,6 +42,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 pagename = page;
                 isAllDone = isalldone;
                 selectedTagData = selectedtagdata;
+                ChangeLabel();
 
                 #region BInding tab & click event methods to respective ICommand properties
                 reScanCmd = new Command(async () => await ReScan());
@@ -239,37 +240,40 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 IndicatorVisibility = true;
                 YPSLogger.TrackEvent("InspVerificationScanViewModel.cs", "in MoveForInspection method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                bool checkInternet = await App.CheckInterNetConnection();
-
-                if (checkInternet)
+                if (IsInspEnable == true)
                 {
-                    Settings.POID = podata.POID;
-                    Settings.TaskID = podata.TaskID;
+                    bool checkInternet = await App.CheckInterNetConnection();
 
-                    if (Settings.VersionID == 1)
+                    if (checkInternet)
                     {
-                        await Navigation.PushAsync(new EPartsInspectionQuestionsPage(podata, isAllDone), false);
+                        Settings.POID = podata.POID;
+                        Settings.TaskID = podata.TaskID;
+
+                        if (Settings.VersionID == 1)
+                        {
+                            await Navigation.PushAsync(new EPartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 2)
+                        {
+                            await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 3)
+                        {
+                            await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 4)
+                        {
+                            await Navigation.PushAsync(new KPPartsInspectionQuestionPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 5)
+                        {
+                            await Navigation.PushAsync(new PPartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
                     }
-                    else if (Settings.VersionID == 2)
+                    else
                     {
-                        await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isAllDone), false);
+                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
-                    else if (Settings.VersionID == 3)
-                    {
-                        await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(podata, isAllDone), false);
-                    }
-                    else if (Settings.VersionID == 4)
-                    {
-                        await Navigation.PushAsync(new KPPartsInspectionQuestionPage(podata, isAllDone), false);
-                    }
-                    else if (Settings.VersionID == 5)
-                    {
-                        await Navigation.PushAsync(new PPartsInspectionQuestionsPage(podata, isAllDone), false);
-                    }
-                }
-                else
-                {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -284,8 +288,90 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
         }
 
-        #region Properties
+        public async void ChangeLabel()
+        {
+            try
+            {
+                labelobj = new DashboardLabelChangeClass();
+                if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
+                {
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
 
+                    if (labelval.Count > 0)
+                    {
+                        var scan = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ScanLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var status = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.StatusLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var value = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ValueLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var rescan = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ReScanLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        //var photo = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.PhotoLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var insp = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InspLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
+                        labelobj.ScanLabel.Name = (scan != null ? (!string.IsNullOrEmpty(scan.LblText) ? scan.LblText : labelobj.ScanLabel.Name) : labelobj.ScanLabel.Name) + " :";
+                        labelobj.StatusLabel.Name = (status != null ? (!string.IsNullOrEmpty(status.LblText) ? status.LblText : labelobj.StatusLabel.Name) : labelobj.StatusLabel.Name) + " :";
+                        labelobj.ValueLabel.Name = (value != null ? (!string.IsNullOrEmpty(value.LblText) ? value.LblText : labelobj.ValueLabel.Name) : labelobj.ValueLabel.Name) + " :";
+                        labelobj.ReScanLabel.Name = (rescan != null ? (!string.IsNullOrEmpty(rescan.LblText) ? rescan.LblText : labelobj.ReScanLabel.Name) : labelobj.ReScanLabel.Name);
+                        //labelobj.PhotoLabel.Name = (photo != null ? (!string.IsNullOrEmpty(photo.LblText) ? photo.LblText : labelobj.PhotoLabel.Name) : labelobj.PhotoLabel.Name);
+                        labelobj.InspLabel.Name = (insp != null ? (!string.IsNullOrEmpty(insp.LblText) ? insp.LblText : labelobj.InspLabel.Name) : labelobj.InspLabel.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await trackService.Handleexception(ex);
+                YPSLogger.ReportException(ex, "ChangeLabel method -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
+            }
+        }
+
+        #region Properties
+        #region Labels
+        public class DashboardLabelChangeClass
+        {
+            public DashboardLabelFields ScanLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMScannedOn" };
+            public DashboardLabelFields StatusLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMStatus" };
+            public DashboardLabelFields ValueLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMValue" };
+            public DashboardLabelFields ReScanLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnReScan" };
+            //public DashboardLabelFields PhotoLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnPhoto" };
+            public DashboardLabelFields InspLabel { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnInsp" };
+        }
+        public class DashboardLabelFields : IBase
+        {
+            //public bool Status { get; set; }
+            //public string Name { get; set; }
+
+            public bool _Status;
+            public bool Status
+            {
+                get => _Status;
+                set
+                {
+                    _Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public string _Name;
+            public string Name
+            {
+                get => _Name;
+                set
+                {
+                    _Name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public DashboardLabelChangeClass _labelobj = new DashboardLabelChangeClass();
+        public DashboardLabelChangeClass labelobj
+        {
+            get => _labelobj;
+            set
+            {
+                _labelobj = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
         public bool _IsScannerPage;
         public bool IsScannerPage
         {

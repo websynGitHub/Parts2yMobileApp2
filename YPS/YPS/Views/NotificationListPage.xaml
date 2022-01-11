@@ -44,7 +44,7 @@
                                        Grid.Row="0" Grid.Column="0"/>
 
 
-                                <Label x:Name="clearAllLbl" Text="Mark all as read" TextColor="#FFFFFF" IsVisible="{Binding IsClearAllVisible}" Style="{DynamicResource LableWithQuestionFont}" x:FieldModifier="Public" 
+                                <Label x:Name="clearAllLbl" Text="{Binding labelobj.MarkAllRead.Name}" TextColor="#FFFFFF" IsVisible="{Binding IsClearAllVisible}" Style="{DynamicResource LableWithQuestionFont}" x:FieldModifier="Public" 
                                        HorizontalOptions="End"
                                        Grid.Row="0" Grid.Column="1">
                                     <Label.GestureRecognizers>

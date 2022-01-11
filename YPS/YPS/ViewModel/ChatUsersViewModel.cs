@@ -632,7 +632,7 @@ namespace YPS.ViewModel
             public string closeQA { get; set; } = "QAClose";
             public string updateUsers { get; set; } = "Update";
             public string startQA { get; set; } = "Start";
-            public string closeQAStart { get; set; } = "Close";
+            public string closeQAStart { get; set; } = "LCMbtnClose";
             public string qatitle { get; set; } = "QATitle";
         }
 
