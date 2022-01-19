@@ -253,6 +253,16 @@
                                                         </StackLayout>
                                                        
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
+                                                           IsVisible="{Binding BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=POPage}}"
+                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
+                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, 
+                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding ShippingNumberForDisplay}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                        </Grid>
+                                                        
+                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.PONumber.Status, Source={x:Reference Name=POPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.PONumber.Name, 
@@ -262,15 +272,6 @@
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
                                                         </Grid>
 
-                                                        <Grid HorizontalOptions="Start" RowSpacing="0"
-                                                           IsVisible="{Binding BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=POPage}}"
-                                                      VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, 
-                                                                Source={x:Reference Name=POPage}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding ShippingNumberForDisplay}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                        </Grid>
 
                                                         <!--<Grid HorizontalOptions="Start" RowSpacing="0"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
