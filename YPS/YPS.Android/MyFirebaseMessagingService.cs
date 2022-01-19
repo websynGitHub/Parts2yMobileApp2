@@ -84,7 +84,7 @@ namespace YPS.Droid
             {
                 YPSService trackService = new YPSService();
                 await trackService.Handleexception(ex);
-                YPSLogger.ReportException(ex, "OnMessageReceived method outer cath -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnMessageReceived method outer catch -> in MyFirebaseMessagingService.cs " + Settings.userLoginID);
             }
         }
 
