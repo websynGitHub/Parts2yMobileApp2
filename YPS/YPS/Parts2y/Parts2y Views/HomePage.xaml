@@ -121,7 +121,8 @@
                              BackgroundColor="Transparent" Margin="0,6,0,6">
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent">
-                        <Grid HorizontalOptions="FillAndExpand" Margin="6,0,6,3">
+                        <Grid HorizontalOptions="FillAndExpand" Margin="6,0,6,3"
+                              RowDefinitions="180,180,180">
                             <Frame Grid.Row="0" Grid.Column="0"
                                        CornerRadius="4" HasShadow="False">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
@@ -203,7 +204,7 @@
                             <Frame Grid.Row="2" Grid.Column="0" Margin="0"
                                    IsVisible="{Binding IsMobileCompareCont}" CornerRadius="4" HasShadow="False">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                    <Image Source="Compare.png"
+                                    <Image Source="CompareCont.png" 
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
                                     </Image>
