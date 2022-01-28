@@ -97,109 +97,109 @@
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.Barcode1.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.Barcode1.Name, Source={x:Reference Name=VerifiedScanTagList}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding Barcode1}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.Barcode1.Name, Source={x:Reference Name=VerifiedScanTagList}}"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding Barcode1}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, Source={x:Reference Name=VerifiedScanTagList}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding ShippingNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, Source={x:Reference Name=VerifiedScanTagList}}"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding ShippingNumber}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.BagNumber.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.BagNumber.Name, Source={x:Reference Name=VerifiedScanTagList}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding BagNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.BagNumber.Name, Source={x:Reference Name=VerifiedScanTagList}}"
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding BagNumber}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <StackLayout HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.TagDesc.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center">
-                                                            <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=VerifiedScanTagList}}" TextColor="#4c4c4c"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding IDENT_DEVIATED_TAG_DESC}" TextColor="Black"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"
+                                                            <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=VerifiedScanTagList}}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding IDENT_DEVIATED_TAG_DESC}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"
                                                                    IsVisible="{Binding IsTagDescLabelVisible}" MaxLines="2"/>
                                                         </StackLayout>
 
                                                         <!--<StackLayout HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.ConditionName.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center">
-                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=VerifiedScanTagList}}" TextColor="#4c4c4c"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding ConditionName}" TextColor="Black"
+                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=VerifiedScanTagList}}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding ConditionName}"
                                                                    IsVisible="{Binding IsConditionNameLabelVisible}"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </StackLayout>-->
 
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.TaskName.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=VerifiedScanTagList}}"  
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <StackLayout Orientation="Horizontal" Spacing="0">
                                                             <Label Text="{Binding BindingContext.labelobj.StartTime.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="-" TextColor="#4c4c4c" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=VerifiedScanTagList}}"  
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="-" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                             <Label Text="{Binding BindingContext.labelobj.EndTime.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=VerifiedScanTagList}}"  
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
 
-                                                            <Label Text=" : " TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text=" : " 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
 
-                                                            <Label Text="{Binding StartTime}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding StartTime}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
 
-                                                            <Label Text=" - " TextColor="Black" IsVisible="{Binding IsTimeGiven}" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text=" - " IsVisible="{Binding IsTimeGiven}" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
 
-                                                            <Label Text="{Binding EndTime}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding EndTime}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </StackLayout>
                                                         
                                                         <!--<Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.StartTime.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.StartTime.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding StartTime}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=VerifiedScanTagList}}"  
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding StartTime}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.EndTime.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.EndTime.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding EndTime}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=VerifiedScanTagList}}"  
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding EndTime}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>-->
 
                                                         <!--<Grid HorizontalOptions="Start" RowSpacing="0"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.Resource.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding TaskResourceName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=VerifiedScanTagList}}"  
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding TaskResourceName}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>-->
 
                                                         <Frame VerticalOptions="Center" HorizontalOptions="Start" BackgroundColor="#FFBB00" 
@@ -208,11 +208,11 @@
                                                            IsVisible="{Binding BindingContext.labelobj.EventName.Status, Source={x:Reference Name=VerifiedScanTagList}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,Auto" >
                                                                 <Label Text="{Binding BindingContext.labelobj.EventName.Name, 
-                                                                Source={x:Reference Name=VerifiedScanTagList}}"  TextColor="#4c4c4c" 
+                                                                Source={x:Reference Name=VerifiedScanTagList}}"  
                                                            Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" 
-                                                                   Style="{DynamicResource LableWithQuestionFont}"/>
-                                                                <Label Text="{Binding EventName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                   Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                                <Label Text="{Binding EventName}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                             </Grid>
                                                         </Frame>
                                                     </StackLayout>
@@ -230,8 +230,8 @@
                                                         <local:FontAwesomeIconLabel Text="{Binding PhotoInspText}" 
                                                                                     HorizontalOptions="End" HeightRequest="20"
                                                                                     VerticalOptions="Center" Margin="0,0,2,3"
-                                                                                    TextColor="Black" Grid.Column="1"
-                                                                                    Style="{DynamicResource LableWithQuestionFont}"
+                                                                                    Grid.Column="1"
+                                                                                    Style="{DynamicResource LableWithQuestionFontBlack}"
                                                                                     Opacity="{Binding PhotoInspLabelOpacity}"/>
 
                                                         <local:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.righticon}"  
@@ -254,8 +254,8 @@
                         </CollectionView>
 
                         <Label IsVisible="{Binding NoRecordsLbl}" Grid.Row="1" FontSize="Large" HorizontalTextAlignment="Center"
-                          Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}"/>
+                          Text="No records to display" VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFontBlack}"/>
 
                     </Grid>
                 </StackLayout>

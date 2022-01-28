@@ -207,7 +207,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Frame Grid.Row="0" Grid.Column="2" CornerRadius="3"  Margin="0"  HasShadow="False" Padding="0"  BackgroundColor="{Binding AreBgColor}" HorizontalOptions="End" HeightRequest="20" VerticalOptions="Start" >
-                                                    <Label  VerticalTextAlignment="Start"  HorizontalTextAlignment="Start" Style="{StaticResource LableWithMicroFont}"  TextColor="Black" Text="{Binding Area}" Padding="5,2,5,3" />
+                                                    <Label  VerticalTextAlignment="Start"  HorizontalTextAlignment="Start" Style="{StaticResource LableWithMicroFontBlack}" Text="{Binding Area}" Padding="5,2,5,3" />
                                                 </Frame>
                                                 <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Column="0" BackgroundColor="{Binding ItemBackground}"/>
                                                 <Label Grid.Row="0" Grid.Column="1" Padding="5,0,0,0" HorizontalOptions="Start" VerticalOptions="Center" Text="{Binding SerialNo}" TextColor="Black"

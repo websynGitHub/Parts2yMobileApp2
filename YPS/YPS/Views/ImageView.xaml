@@ -68,19 +68,19 @@
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
                                             <StackLayout Orientation="Horizontal" Spacing="0">
-                                                <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text=" (" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text=")" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text="{Binding FullName}" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text=" (" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text="{Binding RoleName}" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text=")"  Style="{StaticResource LblSubTitleBlack}"/>
                                             </StackLayout>
-                                            <Label Text="{Binding EntityName}" TextColor="Black"
-                                       Style="{StaticResource LblSubTitle}"/>
-                                            <Label Text="{Binding CreatedDate}" TextColor="Black"
-                                       Style="{StaticResource LblSubTitle}"/>
+                                            <Label Text="{Binding EntityName}"
+                                       Style="{StaticResource LblSubTitleBlack}"/>
+                                            <Label Text="{Binding CreatedDate}"
+                                       Style="{StaticResource LblSubTitleBlack}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
                                                 <Label Text="{Binding BindingContext.DescriptionLabel, Source={x:Reference Name=ImgView}}"
-                                                      Style="{StaticResource LblSubTitle}" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
-                                                <Label Text="{Binding PhotoDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
+                                                      Style="{StaticResource LblSubTitleBlack}" Grid.Row="0" Grid.Column="0"/>
+                                                <Label Text="{Binding PhotoDescription}" LineBreakMode="WordWrap" Style="{StaticResource LblSubTitleBlack}"
                                                         Grid.Row="0" Grid.Column="1"/>
                                             </Grid>
                                         </StackLayout>
@@ -108,19 +108,19 @@
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
                                             <StackLayout Orientation="Horizontal" Spacing="0">
-                                                <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text=" (" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text=")" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text="{Binding FullName}" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text=" (" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text="{Binding RoleName}" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text=")" Style="{StaticResource LblSubTitleBlack}"/>
                                             </StackLayout>
-                                            <Label Text="{Binding EntityName}" TextColor="Black"
-                                       Style="{StaticResource LblSubTitle}"/>
-                                            <Label Text="{Binding CreatedDate}" TextColor="Black"
-                                       Style="{StaticResource LblSubTitle}"/>
+                                            <Label Text="{Binding EntityName}"
+                                       Style="{StaticResource LblSubTitleBlack}"/>
+                                            <Label Text="{Binding CreatedDate}"
+                                       Style="{StaticResource LblSubTitleBlack}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
                                                 <Label Text="{Binding BindingContext.DescriptionLabel, Source={x:Reference Name=ImgView}}"
-                                                      Style="{StaticResource LblSubTitle}" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
-                                                <Label Text="{Binding PhotoDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
+                                                      Style="{StaticResource LblSubTitleBlack}" Grid.Row="0" Grid.Column="0"/>
+                                                <Label Text="{Binding PhotoDescription}" LineBreakMode="WordWrap" Style="{StaticResource LblSubTitleBlack}"
                                                         Grid.Row="0" Grid.Column="1"/>
                                             </Grid>
                                         </StackLayout>
@@ -148,12 +148,12 @@
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
 
-                                            <Label Text="{Binding CreatedDate}" TextColor="Black"
-                                       Style="{StaticResource LblSubTitle}"/>
+                                            <Label Text="{Binding CreatedDate}"
+                                       Style="{StaticResource LblSubTitleBlack}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
                                                 <Label Text="{Binding BindingContext.DescriptionLabel, Source={x:Reference Name=ImgView}}"
-                                                      Style="{StaticResource LblSubTitle}" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
-                                                <Label Text="{Binding FileDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
+                                                      Style="{StaticResource LblSubTitleBlack}"  Grid.Row="0" Grid.Column="0"/>
+                                                <Label Text="{Binding FileDescription}" LineBreakMode="WordWrap" Style="{StaticResource LblSubTitleBlack}"
                                                         Grid.Row="0" Grid.Column="1"/>
                                             </Grid>
                                         </StackLayout>
@@ -180,21 +180,21 @@
                                     <forms1:CachedImage Grid.Row="0" Source="{Binding FileURL}" LoadingPlaceholder="loader.gif" ErrorPlaceholder="loader.gif" DownsampleToViewSize="True" RetryCount="3" RetryDelay="1000" Aspect="AspectFit"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                                     <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <StackLayout Padding="20,0,5,2">
-                                            <!--<Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>-->
+                                            <!--<Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitleBlack}"/>-->
                                             <StackLayout Orientation="Horizontal" Spacing="0">
-                                                <Label Text="{Binding FullName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text=" (" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text="{Binding RoleName}" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
-                                                <Label Text=")" TextColor="Black" Style="{StaticResource LblSubTitle}"/>
+                                                <Label Text="{Binding FullName}" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text=" (" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text="{Binding RoleName}" Style="{StaticResource LblSubTitleBlack}"/>
+                                                <Label Text=")" Style="{StaticResource LblSubTitleBlack}"/>
                                             </StackLayout>
-                                            <Label Text="{Binding EntityName}" TextColor="Black"
-                                       Style="{StaticResource LblSubTitle}"/>
-                                            <Label Text="{Binding CreatedDate}" TextColor="Black"
-                                       Style="{StaticResource LblSubTitle}"/>
+                                            <Label Text="{Binding EntityName}"
+                                       Style="{StaticResource LblSubTitleBlack}"/>
+                                            <Label Text="{Binding CreatedDate}"
+                                       Style="{StaticResource LblSubTitleBlack}"/>
                                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*" IsVisible="{Binding ShowAndHideDescr}">
                                                 <Label Text="{Binding BindingContext.DescriptionLabel, Source={x:Reference Name=ImgView}}"
-                                                      Style="{StaticResource LblSubTitle}" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
-                                                <Label Text="{Binding FileDescription}" LineBreakMode="WordWrap" TextColor="Black" Style="{StaticResource LblSubTitle}"
+                                                      Style="{StaticResource LblSubTitleBlack}" Grid.Row="0" Grid.Column="0"/>
+                                                <Label Text="{Binding FileDescription}" LineBreakMode="WordWrap" Style="{StaticResource LblSubTitleBlack}"
                                                         Grid.Row="0" Grid.Column="1"/>
                                             </Grid>
                                         </StackLayout>

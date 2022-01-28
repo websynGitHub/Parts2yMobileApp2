@@ -44,30 +44,30 @@
                           VerticalOptions="CenterAndExpand">
                         <Grid  Grid.Row="0" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="{Binding labelobj.ScanLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.ScanLabel.Name}" FontAttributes="Bold"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
-                                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                            <Label Text="{Binding ScannedOn}" Grid.Row="0" Grid.Column="1" TextColor="Black"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                            <Label Text="{Binding ScannedOn}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                         </Grid>
                         <Grid  Grid.Row="1" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="{Binding labelobj.StatusLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.StatusLabel.Name}" FontAttributes="Bold"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
-                                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                            <Label Text="{Binding StatusText}" Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding StatusTextBgColor}" TextColor="White"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                            <Label Text="{Binding StatusText}" Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding StatusTextBgColor}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontWhite}"/>
                         </Grid>
                         <Grid  Grid.Row="2" Grid.Column="0"  HorizontalOptions="Start" 
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label Text="{Binding labelobj.ValueLabel.Name}" FontAttributes="Bold" TextColor="#4c4c4c"
+                            <Label Text="{Binding labelobj.ValueLabel.Name}" FontAttributes="Bold"
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
-                                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                            <Label Text="{Binding ScannedResult}" Grid.Row="0" Grid.Column="1" TextColor="Black"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                            <Label Text="{Binding ScannedResult}" Grid.Row="0" Grid.Column="1"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                         </Grid>
                     </Grid>
                   

@@ -22,7 +22,7 @@
                 
                 <forms:CachedImage x:Name="nameIncomingPhoto" LoadingPlaceholder="loader.gif" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  Aspect="AspectFill" RetryCount="3"
                                                            RetryDelay="3000" HeightRequest="189" WidthRequest="180" ></forms:CachedImage>
-                <Label x:Name="nameIncoming"  TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource LableWithSmallFont}" 
+                <Label x:Name="nameIncoming"  LineBreakMode="WordWrap" Style="{StaticResource LableWithSmallFontBlack}" 
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center"  ></Label>
                 <StackLayout x:Name="nameDocumentIncoming" HeightRequest="35" WidthRequest="180" Orientation="Horizontal">
                     <Grid>
@@ -42,6 +42,6 @@
             </StackLayout>
         </borders:SfBorder>
         <Label Grid.Row="1" Grid.Column="1" Text="{Binding MessagDateTime}" HorizontalTextAlignment="End"
-               TextColor="Gray" Margin="0,0,5,0" Style="{StaticResource LableWithMicroFont}" ></Label>
+               Margin="0,0,5,0" Style="{StaticResource LableWithMicroFontBlack}" ></Label>
     </Grid>
 </ViewCell>

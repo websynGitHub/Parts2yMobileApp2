@@ -95,7 +95,7 @@
                         <DataTemplate>
                             <local21:MyViewCell ios:Cell.DefaultBackgroundColor="#e5ddd5" >
                                 <Frame CornerRadius="10" HasShadow="False" VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" BackgroundColor="#D1EBF8" Padding="10">
-                                    <Label Text="{Binding Key, Converter={StaticResource DateConverter}}" BackgroundColor="#D1EBF8" TextColor="#6C808B" FontSize="Small" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding Key, Converter={StaticResource DateConverter}}" BackgroundColor="#D1EBF8" TextColor="Black" FontSize="Small" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                                 </Frame>
                             </local21:MyViewCell>
                         </DataTemplate>

@@ -40,6 +40,12 @@
                    BasedOn="{StaticResource LblTitleName}">
                 <Setter Property="FontSize" Value="14"/>
             </Style>
+            
+            <Style TargetType="Label" x:Key="LblSubTitleBlack" 
+                   BasedOn="{StaticResource LblTitleName}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
 
             <!--Style for Activity Indicator start-->
             <Style TargetType="Frame" x:Key="FmForActivityIndicator">
@@ -116,7 +122,7 @@
                 <Setter Property="LineBreakMode" Value="WordWrap"/>
                 <Setter Property="Margin" Value="7,0,7,0"/>
             </Style>
-
+            
             <Style x:Key="SfInputLayout" TargetType="sfInputlayout:SfTextInputLayout">
                 <Setter Property="FocusedColor" Value="{Binding BgColor}"/>
                 <Setter Property="OutlineCornerRadius" Value="7"/>
@@ -151,9 +157,21 @@
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="14"/>
             </Style>
+            
+            <Style TargetType="Label" x:Key="LableWithSmallFontBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
 
             <Style TargetType="Label" x:Key="LableWithSmallFontBold">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+            
+            <Style TargetType="Label" x:Key="LableWithSmallFontBoldBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="14"/>
             </Style>
 
@@ -161,9 +179,21 @@
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="16"/>
             </Style>
+            
+            <Style TargetType="Label" x:Key="LabelWithSendOTPFontBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
 
             <Style TargetType="Label" x:Key="LableWithMicroFont">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="11"/>
+            </Style>
+            
+            <Style TargetType="Label" x:Key="LableWithMicroFontBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="11"/>
             </Style>
 
@@ -171,9 +201,21 @@
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="19"/>
             </Style>
+            
+            <Style TargetType="Label" x:Key="LableWithMediumFontBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="19"/>
+            </Style>
 
             <Style TargetType="Label" x:Key="LableWithLargeFont">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="FontSize" Value="21"/>
+            </Style>
+            
+            <Style TargetType="Label" x:Key="LableWithLargeFontBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="21"/>
             </Style>
 
@@ -181,9 +223,27 @@
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="19"/>
             </Style>
+            
+            <Style TargetType="Label" x:Key="LableWithQuestionFontBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="19"/>
+            </Style>
+            
+            <Style TargetType="Label" x:Key="LableWithQuestionFontWhite">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextColor" Value="#FFFFFF"/>
+                <Setter Property="FontSize" Value="19"/>
+            </Style>
 
             <Style TargetType="Label" x:Key="LabelWithBusnoFontBold">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="FontSize" Value="25"/>
+            </Style>
+            
+            <Style TargetType="Label" x:Key="LabelWithBusnoFontBoldBlack">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoBold}" />
+                <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="25"/>
             </Style>
 

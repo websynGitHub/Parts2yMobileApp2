@@ -133,7 +133,7 @@
                                     <DataTemplate>
                                         <StackLayout Padding="4,5,0,5" Spacing="0">
                                             <input:CheckBox IsEnabled="{Binding Iscurentuser}" x:Name="checkBox" Opacity="{Binding CheckBoxOpacity}"
-                                                                 Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" 
+                                                                 Text="{Binding FullName}" HeightRequest="25" WidthRequest="25" TextColor="Black"
                                                                  IsChecked="{Binding UserChecked}" ClassId="{Binding UserID,Mode=TwoWay}" 
                                                                  CheckChangedCommand="{Binding BindingContext.CheckedChangedCmd,Source={x:Reference Name=ChatUser}}" 
                                                                  />
@@ -187,7 +187,7 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="40"/>
                                             </Grid.ColumnDefinitions>
-                                            <Label x:Name="usernme" Margin="5,0,0,0" Grid.Column="0" Text="{Binding FullName}"
+                                            <Label x:Name="usernme" Margin="5,0,0,0" Grid.Column="0" Text="{Binding FullName}" TextColor="Black"
                                                    HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center" 
                                                    ClassId="{Binding UserID}" Style="{DynamicResource LableWithMediumFontt}"/>
                                             <LblIcons:FontAwesomeIconLabel x:Name="adduser" Grid.Column="1" Text="{Binding img}" 
@@ -216,7 +216,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Text="To mark as Q&amp;A Closed, Please click on Q&amp;A Close." FontAttributes="Bold"
-                               Margin="20" HorizontalOptions="Center"  Style="{StaticResource LableWithQuestionFont}" />
+                               Margin="20" HorizontalOptions="Center"  Style="{StaticResource LableWithQuestionFontBlack}" />
 
                         <sfbuttons:SfButton x:Name="nameQAClosebtn" Grid.Row="1" BackgroundColor="{Binding BgColor}"
                                             Clicked="QnAClose" HorizontalOptions="Center" 

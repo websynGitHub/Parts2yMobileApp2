@@ -166,7 +166,8 @@
                                         <Image Grid.Column="1" Grid.Row="0" Source="a.png" HorizontalOptions="StartAndExpand"></Image>
                                         <Image Grid.Column="2" Grid.Row="0" Source="equal.png" HorizontalOptions="End" 
                                            VerticalOptions="CenterAndExpand"/>
-                                        <Label Text="{Binding resultA}" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
+                                        <Label Text="{Binding resultA}" Grid.Row="0" Grid.Column="3" 
+                                               Style="{StaticResource LableWithSmallFontBoldBlack}"
                                                HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
                                     </Grid>
                                     <Frame.GestureRecognizers>
@@ -193,8 +194,8 @@
                                         <Image Grid.Column="2" Grid.Row="0" Source="equal.png" HorizontalOptions="End"
                                            VerticalOptions="CenterAndExpand"/>
 
-                                        <Label Text="{Binding resultB}" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
-                                               HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
+                                        <Label Text="{Binding resultB}" Grid.Row="0" Grid.Column="3"
+                                               Style="{StaticResource LableWithSmallFontBoldBlack}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
 
                                     </Grid>
                                     <Frame.GestureRecognizers>
@@ -230,13 +231,13 @@
                                                                 <Grid.RowDefinitions>
                                                                     <RowDefinition Height="*"/>
                                                                 </Grid.RowDefinitions>
-                                                                <Label Grid.Row="0" Grid.Column="0" Margin="3" FontAttributes="Bold" Text="{Binding HistorySerialNo}"
-                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                                                                <Label Grid.Row="0" Grid.Column="0" Margin="3" Text="{Binding HistorySerialNo}" Style="{StaticResource LableWithSmallFontBoldBlack}"
+                                                                       HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/> 
                                                                 <Image Grid.Row="0" Grid.Column="1" Margin="4" Source="{Binding IsMatchedImg}"
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"></Image>
-                                                                <Label Grid.Row="0" Grid.Column="2" Margin="0" FontAttributes="Bold" Text="B ="
+                                                                <Label Grid.Row="0" Grid.Column="2" Margin="0" Text="B =" Style="{StaticResource LableWithSmallFontBoldBlack}"
                                                                        HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
-                                                                <Label Grid.Row="0" Grid.Column="3" Margin="0" FontAttributes="Bold" Text="{Binding BValue}" 
+                                                                <Label Grid.Row="0" Grid.Column="3" Margin="0" Text="{Binding BValue}" Style="{StaticResource LableWithSmallFontBoldBlack}"
                                                                        HorizontalOptions="Start"  VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
                                                             </Grid>
                                                         </ViewCell.View>

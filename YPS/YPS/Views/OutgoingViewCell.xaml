@@ -42,7 +42,7 @@
             </StackLayout>
         </borders:SfBorder>
         <Label Grid.Row="1" FontSize="Micro" Grid.Column="0" HorizontalTextAlignment="Start"  Text="{Binding MessagDateTime}" 
-               TextColor="Gray" Style="{StaticResource LableWithMicroFont}"></Label>
+               Style="{StaticResource LableWithMicroFontBlack}"></Label>
     </Grid>
 </ViewCell>
 
