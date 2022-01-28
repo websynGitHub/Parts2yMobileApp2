@@ -24,6 +24,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command CompareClickCmd { get; set; }
         public Command PhotoClickCmd { get; set; }
         public Command CompareContinuousClickCmd { get; set; }
+        public Command PolyBoxClickCmd { get; set; }
         public Command HomeCmd { get; set; }
         public Command JobCmd { get; set; }
         public Command TaskCmd { get; set; }
@@ -46,6 +47,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ScanClickCmd = new Command(async () => await RedirectToPage("scan"));
                 PhotoClickCmd = new Command(async () => await RedirectToPage("photo"));
                 CompareContinuousClickCmd = new Command(async () => await RedirectToPage("comparecontinuous"));
+                PolyBoxClickCmd = new Command(async () => await RedirectToPage("polybox"));
 
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
@@ -255,11 +257,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await Navigation.PushAsync(new PhotoRepoPage(), false);
                 }
-                else
+                else if(page.Trim().ToLower()== "comparecontinuous".Trim().ToLower())
                 {
                     await Navigation.PushAsync(new CompareContinuous(), false);
                 }
-
+                else
+                {
+                    await Navigation.PushAsync(new PolyBox(), false);
+                }
             }
             catch (Exception ex)
             {

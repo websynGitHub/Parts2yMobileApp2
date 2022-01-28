@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YPS.Parts2y.Parts2y_Views.PolyBox"
+             BackgroundColor="#E9E9E9"
+             xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
+             xmlns:LblIcons="clr-namespace:YPS.CustomRenders"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:behaviors="clr-namespace:YPS.Behaviours"
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="BoxView" x:Key="StyleBoxView">
+                <Setter Property="HeightRequest" Value="3"/>
+                <Setter Property="BackgroundColor" Value="{Binding BgColor}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <!--<RowDefinition Height="50"/>-->
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*,Auto" 
+                      Style="{StaticResource HeaderMainGrid}">
+
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" Spacing="15"
+                                         VerticalOptions="StartAndExpand" Margin="10,10,10,10">
+                        <LblIcons:FontAwesomeIconLabel Text="{x:Static StaticIcons:Icons.arrowLeft}"
+                                                  Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
+                                                  VerticalOptions="Start">
+                            <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Back_Tapped"/>
+                            </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                        </LblIcons:FontAwesomeIconLabel>
+                    </StackLayout>
+
+
+                    <StackLayout Grid.Row="0" Grid.Column="1" Margin="8,10,0,15"
+                              HorizontalOptions="StartAndExpand" VerticalOptions="Start">
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.Rule.Name}"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                            <Label TextColor="White" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedScanRuleHeader}"
+                              Style="{DynamicResource LableWithQuestionFont}"/>
+                        </Grid>
+
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                            <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.TotalPolibox.Name}"
+                             Style="{DynamicResource LableWithQuestionFont}"/>
+                            <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding TotalCountHeader}"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        </Grid>
+
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+
+                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" 
+                                   Text="{Binding labelobj.ScannedToday.Name}"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                            <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="0"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        </Grid>
+
+                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                            <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.ISR.Name}"
+                              Style="{DynamicResource LableWithQuestionFont}"/>
+                            <Label TextColor="White" Grid.Column="1" Grid.Row="0"
+                               Style="{DynamicResource LableWithQuestionFont}"/>
+                        </Grid>
+
+                    </StackLayout>
+                </Grid>
+
+                <Grid Grid.Row="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                       Padding="0" RowSpacing="0" Margin="2,0,2,0 ">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.40*"/>
+                        <ColumnDefinition Width="0.40*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackLayout IsEnabled="{Binding IsScanEnable}" Grid.Column="0" Grid.Row="0">
+                        <Label  Text="{Binding labelobj.Scan.Name}" Style="{DynamicResource LableWithQuestionFont}" 
+                                TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0"
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
+                        </Label>
+                        <BoxView  Style="{StaticResource StyleBoxView}" IsVisible="{Binding ScanTabVisibility}" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ScanTabCmd}"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.Row="0">
+                        <Label Text="{Binding labelobj.Configure.Name}" TextColor="{Binding ConfigTabTextColor}"
+                               Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
+                               Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center">
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding ConfigTabVisibility}" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ScanConfigCmd}"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Grid>
+
+                <ScrollView Grid.Row="2">
+                    <StackLayout>
+                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                              IsVisible="{Binding IsScanContentVisible}"
+                              RowDefinitions="*,Auto,*" ColumnDefinitions="*">
+
+                            <Frame Grid.Row="0" CornerRadius="5" Margin="7,10,7,0" HeightRequest="50"
+                                   VerticalOptions="FillAndExpand" WidthRequest="50"
+                                   IsVisible="{Binding IsScanContentVisible}">
+
+                                <StackLayout Orientation="Horizontal" Spacing="12">
+                                    <Image HorizontalOptions="Start" 
+                                           VerticalOptions="CenterAndExpand" 
+                                           Source="qrcodecompare.png"/>
+
+                                    <StackLayout HorizontalOptions="Start" 
+                                                 VerticalOptions="Start"
+                                                 
+                                                 Spacing="0">
+                                        <Label VerticalTextAlignment="Start"
+                                           TextColor="Black"
+                                               HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                               Style="{StaticResource LableWithQuestionFont}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding labelobj.CargoCategory.Name}"/>
+                                                    <Span Text="{Binding CargoCategory}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label VerticalTextAlignment="Start"
+                                           TextColor="Black"
+                                               HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                            Style="{StaticResource LableWithQuestionFont}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding labelobj.BagNumber.Name}"/>
+                                                    <Span Text="{Binding BagNumber}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label VerticalTextAlignment="Start"
+                                           TextColor="Black"
+                                               HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                                Style="{StaticResource LableWithQuestionFont}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding labelobj.TQBPkgSizeNoL1.Name}"/>
+                                                    <Span Text="{Binding TQBPkgSizeNoL1}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding StartScanningCmd}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                            <Frame Grid.Row="1" CornerRadius="5" Margin="7,0,7,0" 
+                                   Padding="10" HorizontalOptions="FillAndExpand" 
+                                   VerticalOptions="FillAndExpand"
+                                   IsVisible="{Binding IsScanContentVisible}">
+                                <StackLayout Padding="0,0,0,0" Margin="0" Spacing="0">
+
+                                    <sfinput:SfTextInputLayout Hint="{Binding labelobj.ScanDate.Name}" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                       ReserveSpaceForAssistiveLabels="False"
+                                                       ContainerBackgroundColor="White"
+                                                               >
+                                        <Entry Text="22/DEC/2021 13:34" FontAttributes="Bold" TextColor="Black"
+                                                           Style="{DynamicResource LableWithQuestionFont}"
+                                               IsEnabled="False">
+                                            <Entry.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">47</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </Entry.HeightRequest>
+                                        </Entry>
+                                    </sfinput:SfTextInputLayout>
+
+                                    <sfinput:SfTextInputLayout  Hint="Scan By" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                               ContainerBackgroundColor="White"
+                                                               ReserveSpaceForAssistiveLabels="False"
+                                                               >
+                                        <Entry Text="Raja Shekar" FontAttributes="Bold"
+                                               IsEnabled="False"
+                                                            Style="{StaticResource EntryTextStyle}"/>
+                                    </sfinput:SfTextInputLayout>
+
+                                    <sfinput:SfTextInputLayout  Hint="{Binding labelobj.Location.Name}" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                               ContainerBackgroundColor="White"
+                                                               ReserveSpaceForAssistiveLabels="False">
+                                        <combobox:SfComboBox  
+                                                     Text="K7" 
+                                                      VerticalOptions="CenterAndExpand"
+                                              
+                                                                 Style="{StaticResource SfComboBoxTextStyle}">
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
+
+                                    </sfinput:SfTextInputLayout>
+
+                                    <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remark.Name }" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                               ContainerBackgroundColor="White"
+                                                               ReserveSpaceForAssistiveLabels="False">
+                                        <combobox:SfComboBox Text="Re-Attach QR Label" 
+                                                      VerticalOptions="CenterAndExpand" 
+                                                                 Style="{StaticResource SfComboBoxTextStyle}">
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
+
+                                    </sfinput:SfTextInputLayout>
+
+                                    <sfinput:SfTextInputLayout Hint="Description"
+                                                       Style="{StaticResource SfInputLayout}"
+                                                               ReserveSpaceForAssistiveLabels="False"
+                                                               ContainerBackgroundColor="White">
+
+                                        <LblIcons:MyEditor FontAttributes="Bold" TextColor="Black"
+                                                       HeightRequest="85" HorizontalOptions="FillAndExpand"
+                                               WidthRequest="255" 
+                                            Text="alah hsdv hv ehvf vhffv bv v vhefv hve vev efhfv efv fv j v v hv ghve vnfv dfhv dfg vdf vgdv dvg v
+                                                           jfhvb sfhv fvhg d fv gfv fgv ddf vgf v"
+                                                               PlaceholderColor="Gray" Keyboard="Text"
+                                                Style="{StaticResource EditorTextStyle}"
+                                                               VerticalOptions="CenterAndExpand"/>
+
+                                    </sfinput:SfTextInputLayout>
+
+                                    <sfbuttons:SfRadioGroup Orientation="Horizontal"
+                                                            Padding="2,10,0,0">
+                                        <Label Text="{Binding  labelobj.Status.Name}" 
+                                               Style="{DynamicResource LableWithQuestionFont}"
+                                                TextColor="Black"/>
+                                        <sfbuttons:SfRadioButton Text="Empty"/>
+                                        <sfbuttons:SfRadioButton Text="Full"/>
+                                    </sfbuttons:SfRadioGroup>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame IsVisible="True" HasShadow="False" Margin="7,0,7,5"
+                               CornerRadius="4" Grid.Row="2"
+                                       Padding="7,5,7,5" >
+
+                                <StackLayout HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="FillAndExpand" Padding="0">
+
+                                    <Grid HorizontalOptions="Center" VerticalOptions="Center"
+                             BackgroundColor="White"    >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Label Text="{Binding labelobj.PrintTag.Name}" Grid.Row="0" Grid.Column="0"
+                                               FontSize="20" HorizontalOptions="Center"
+                                               VerticalOptions="Center" TextColor="Black"/>
+                                        <LblIcons:FontAwesomeIconLabel FontSize="50"
+                                            Text="{x:Static StaticIcons:Icons.PrintIc}" 
+                                            Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
+                                                                       VerticalOptions="Center"/>
+                                    </Grid>
+
+                                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="0,0,0,4"
+                                  BackgroundColor="Transparent">
+
+                                        <sfbuttons:SfButton x:Name="clearhistory" Style="{StaticResource SfBtnBlue}" CornerRadius="4" 
+                                        BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory" 
+                                        Grid.Column="0">
+                                            <sfbuttons:SfButton.Content>
+                                                <Label Text="{Binding labelobj.Done.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                                            </sfbuttons:SfButton.Content>
+                                            <sfbuttons:SfButton.Behaviors>
+                                                <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                                            </sfbuttons:SfButton.Behaviors>
+                                        </sfbuttons:SfButton>
+
+                                        <sfbuttons:SfButton Style="{StaticResource SfBtnBlue}"  CornerRadius="4" 
+                                        BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="End" 
+                                        Grid.Column="1">
+                                            <sfbuttons:SfButton.Content>
+                                                <Label Text="{Binding labelobj.Next.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                                            </sfbuttons:SfButton.Content>
+                                            <sfbuttons:SfButton.Behaviors>
+                                                <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                                            </sfbuttons:SfButton.Behaviors>
+                                        </sfbuttons:SfButton>
+                                    </Grid>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+
+                        <Frame IsVisible="{Binding IsConfigContentVisible}" BackgroundColor="White"
+                               CornerRadius="5" Padding="10"
+                                     VerticalOptions="FillAndExpand" Margin="7">
+
+                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                         Padding="0" Margin="0">
+                                <Label Text="Default Configuration"
+                                       TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
+
+                                <sfinput:SfTextInputLayout Hint="{Binding labelobj.RuleForHint.Name}" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                           ReserveSpaceForAssistiveLabels="False"
+                                                           ContainerBackgroundColor="White">
+                                    <combobox:SfComboBox x:Name="LanguagePicker"
+                                                                 Text="K15-Rule1"
+                                                      VerticalOptions="CenterAndExpand" 
+                                                                 Style="{StaticResource SfComboBoxTextStyle}">
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
+
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                           ReserveSpaceForAssistiveLabels="False"
+                                                           ContainerBackgroundColor="White">
+
+                                    <combobox:SfComboBox Text="K7"
+                                                      VerticalOptions="CenterAndExpand" 
+                                                                 Style="{StaticResource SfComboBoxTextStyle}">
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
+
+                                </sfinput:SfTextInputLayout>
+
+                                <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remark.Name}" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                           ContainerBackgroundColor="White"
+                                                           ReserveSpaceForAssistiveLabels="False">
+                                    <combobox:SfComboBox Text="Re-Attach QR Label"
+                                                      VerticalOptions="CenterAndExpand" 
+                                                                 Style="{StaticResource SfComboBoxTextStyle}">
+                                        <combobox:SfComboBox.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS">20</On>
+                                                <On Platform="Android">50</On>
+                                            </OnPlatform>
+                                        </combobox:SfComboBox.HeightRequest>
+                                    </combobox:SfComboBox>
+
+                                </sfinput:SfTextInputLayout>
+
+                                <sfbuttons:SfRadioGroup x:Name="statusRadio" Orientation="Horizontal"
+                                                            Padding="2,6,0,0">
+                                    <Label Text="{Binding labelobj.Status.Name}" Style="{DynamicResource LableWithQuestionFont}"
+                                                TextColor="Black"/>
+                                    <sfbuttons:SfRadioButton x:Name="empty" Text="Empty"/>
+                                    <sfbuttons:SfRadioButton x:Name="full" Text="Full"/>
+                                </sfbuttons:SfRadioGroup>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+
+
+            <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
+                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <sfbuttons:SfButton Margin="6,0,6,6" 
+                                    Style="{StaticResource SfBtnBlue}" CornerRadius="4"
+                                    BackgroundColor="{Binding BgColor}"
+                                    HorizontalOptions="FillAndExpand" VerticalOptions="End">
+                    <sfbuttons:SfButton.Content>
+                        <Label Text="{Binding labelobj.Save.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                    </sfbuttons:SfButton.Content>
+                    <sfbuttons:SfButton.Behaviors>
+                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                    </sfbuttons:SfButton.Behaviors>
+                </sfbuttons:SfButton>
+            </ContentView>
+
+            <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                         IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
+                        <StackLayout Padding="15">
+                            <ActivityIndicator IsRunning="True" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                            <Label x:Name="lblLoadingText" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..."></Label>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

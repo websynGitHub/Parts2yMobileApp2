@@ -27,6 +27,7 @@ namespace YPS.Parts2y.Parts2y_Views
         public ScanerSettings Settings { get; set; }
         public CompareContinuousViewModel comparecontinuousVM;
         public CompareViewModel compareVM;
+        public PolyBoxViewModel polyboxVM;
         public YPSService trackService;
         public Color BgColor { get; } = CommonClasses.Settings.Bar_Background;
 
@@ -101,6 +102,33 @@ namespace YPS.Parts2y.Parts2y_Views
                 var trackResult = trackService.Handleexception(ex);
             }
         }
+
+
+        public ScannerPage(ScanerSettings settings, PolyBoxViewModel polyboxViewModel)
+        {
+            try
+            {
+                InitializeComponent();
+
+                Settings = new ScanerSettings();
+                MyNavigationPage = new NavigationPage();
+                Settings = settings;
+                polyboxVM = polyboxViewModel;
+                YPS.CommonClasses.Settings.scanredirectpage = "Polybox";
+                ChangeLabel();
+                BindingContext = this;
+                BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+
+                PickerView.Delegate = new ScannerDelegate(this);
+                PickerView.Settings = Settings;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ScannerPage constructor with polyboxViewModel parameter -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
+
 
         int i;
         public void ShowResult(String symbology, String code)
@@ -282,6 +310,15 @@ namespace YPS.Parts2y.Parts2y_Views
                                 await App.Current.MainPage.Navigation.PopModalAsync(false);
                             }
                         }
+                    }
+                }
+                else if (Settings.scanredirectpage.Trim().ToLower() == "Polybox".Trim().ToLower())
+                {
+                    await scannerPage.polyboxVM.Scanditscan(Settings.scanQRValuecode);
+
+                    if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
+                    {
+                        await App.Current.MainPage.Navigation.PopModalAsync(false);
                     }
                 }
                 else

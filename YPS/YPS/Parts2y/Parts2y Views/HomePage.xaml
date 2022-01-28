@@ -217,6 +217,21 @@
                                 </Frame.GestureRecognizers>
                             </Frame>
 
+                            <Frame Grid.Row="2" Grid.Column="1" Margin="0"
+                                    CornerRadius="4" HasShadow="False">
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <Image Source="polybox.png" 
+                                                 HorizontalOptions="Start" VerticalOptions="Center"
+                                                 >
+                                    </Image>
+
+                                    <Label Text="Polybox" Style="{DynamicResource LableWithQuestionFont}"
+                                               HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PolyBoxClickCmd}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
                             <!--<Frame Grid.Row="2" Grid.Column="0"
                                        CornerRadius="4" HasShadow="False">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
