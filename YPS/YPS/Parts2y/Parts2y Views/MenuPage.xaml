@@ -41,9 +41,9 @@
 
                     <Image Source="ypslogo22.png" Aspect="AspectFit" Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" />
                     <StackLayout Grid.Column="1" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
-                        <Label Text="{Binding UserName,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}"/>
-                        <Label Text="{Binding usermail,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}" />
-                        <Label Text="{Binding EntityName,Mode=TwoWay}" TextColor="#000000" Style="{DynamicResource LableWithMediumFont}"/>
+                        <Label Text="{Binding UserName,Mode=TwoWay}" Style="{DynamicResource LableWithMediumFontBlack}"/>
+                        <Label Text="{Binding usermail,Mode=TwoWay}" Style="{DynamicResource LableWithMediumFontBlack}" />
+                        <Label Text="{Binding EntityName,Mode=TwoWay}" Style="{DynamicResource LableWithMediumFontBlack}"/>
                     </StackLayout>
                 </Grid>
                 <ListView x:Name="menuList" BackgroundColor="Transparent" ItemsSource="{Binding MenuItems}" ItemTapped="MenuItems_ItemTapped" RowHeight="{OnPlatform iOS='50'}" SeparatorColor="White" Footer="" >
