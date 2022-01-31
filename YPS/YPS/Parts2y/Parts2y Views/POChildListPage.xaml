@@ -251,7 +251,9 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:Name="datatemplete">
                                     <Grid Padding="6,0,6,6">
-                                        <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="15,12,15,12" 
+                                        <BoxView Color="{Binding SelectedTagBorderColor}"
+                                                  CornerRadius="4"/>
+                                        <Frame BackgroundColor="White" Margin="2" Padding="15,12,15,12" 
                                            BorderColor="{Binding SelectedTagBorderColor}"
                                            CornerRadius="4"  HasShadow="False"
                                                local:LongPressedEffect.Command="{Binding BindingContext.SelectTagItemCmd,Source={x:Reference Name=POTagPage}}" 
@@ -372,6 +374,16 @@
 
                                                 <StackLayout VerticalOptions="Start"
                                                       HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+
+                                                    <input:CheckBox Color="{Binding BindingContext.BgColor
+                                                        ,Source={x:Reference Name=POTagPage}}"
+                                                                    CheckChangedCommand="{Binding 
+                                                        BindingContext.TagCheckboxCheckItemCmd,
+                                                        Source={x:Reference Name=POTagPage}}"
+                                                                    CommandParameter="{Binding .}"
+                                                IsChecked="{Binding IsChecked}"
+                                                                    Type="Material"
+                                                                    BoxSizeRequest="33"/>
 
                                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
                                                          >
