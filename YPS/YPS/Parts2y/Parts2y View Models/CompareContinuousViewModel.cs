@@ -85,9 +85,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 var resultddl = await trackService.GetScanConfig();
 
-                if (resultddl?.status == 1 && resultddl?.data.Count > 0 && SelectedRule != null)
+                if (resultddl?.status == 1 && resultddl?.data.ScanConfig.Count > 0 && SelectedRule != null)
                 {
-                    ScanRuleLst = resultddl.data;
+                    ScanRuleLst = resultddl.data.ScanConfig;
                     SelectedScanRule = SelectedRule.ID == 0 ? ScanRuleLst[0]?.Name :
                         ScanRuleLst.Where(wr => wr.ID == SelectedRule.ID).FirstOrDefault().Name;
 
@@ -120,7 +120,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (result != null && SelectedRule != null)
                 {
-                    ScanRuleLst = result.data;
+                    ScanRuleLst = result.data.ScanConfig;
                     SelectedScanRule = SelectedRule.ID == 0 ? ScanRuleLst[0].Name :
                         ScanRuleLst.Where(wr => wr.ID == SelectedRule.ID).FirstOrDefault().Name;
 

@@ -15,11 +15,25 @@ namespace YPS.Model
         public int CreatedBy { get; set; }
     }
 
+    public class GetScanDataModel
+    {
+        public List<CompareModel> ScanConfig { get; set; }
+        public List<CompareModel> PolyboxRule { get; set; }
+        public List<CompareModel> PolyboxStatus { get; set; }
+        public List<CompareModel> PolyboxLocation { get; set; }
+        public List<CompareModel> PolyboxRemarks { get; set; }
+    }
+
     public class ScanConfigResponse
     {
         public string message { get; set; }
         public int status { get; set; }
-        public List<CompareModel> data { get; set; }
+        public GetScanDataModel data { get; set; }
+
+        //public ScanConfigResponse()
+        //{
+        //    data = new List<GetScanDataModel>();
+        //}
     }
 
     public class SaveScanConfigResponse

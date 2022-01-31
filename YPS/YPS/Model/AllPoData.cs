@@ -70,17 +70,6 @@ namespace YPS.Model
             }
         }
 
-        public bool _IsSelectedItemTickVisible;
-        public bool IsSelectedItemTickVisible
-        {
-            get => _IsSelectedItemTickVisible;
-            set
-            {
-                _IsSelectedItemTickVisible = value;
-                RaisePropertyChanged("IsSelectedItemTickVisible");
-            }
-        }
-
         private Color _SelectedTagBorderColor = Color.Transparent;
         public Color SelectedTagBorderColor
         {
