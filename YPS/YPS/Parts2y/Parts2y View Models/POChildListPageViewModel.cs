@@ -38,6 +38,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command PartsCmd { get; set; }
         public Command LoadCmd { set; get; }
         public Command SelectTagItemCmd { set; get; }
+        public Command TagCheckboxCheckItemCmd { set; get; }
         public Command ScanCmd { set; get; }
         public Command InspCmd { set; get; }
         SendPodata sendPodata = new SendPodata();
@@ -72,6 +73,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 PendingCmd = new Command(async () => await Pending_Tap());
                 AllCmd = new Command(async () => await All_Tap());
                 SelectTagItemCmd = new Command(TagLongPessed);
+                TagCheckboxCheckItemCmd = new Command(TagCheckbox);
                 MoveToNextPageCmd = new Command(MoveToNextPage);
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
@@ -93,7 +95,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 if (SelectedTagCount == 0)
                 {
-                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l => { l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false; });
+                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l =>
+                    {
+                        l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false;
+                    });
                 }
 
                 var item = sender as AllPoData;
@@ -114,6 +119,40 @@ namespace YPS.Parts2y.Parts2y_View_Models
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "TagLongPessed method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
+
+        public void TagCheckbox(object sender)
+        {
+            try
+            {
+                if (SelectedTagCount == 0)
+                {
+                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l =>
+                    {
+                        l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false;
+                    });
+                }
+
+                var item = sender as AllPoData;
+
+                if (item.IsChecked == true)
+                {
+                    item.IsChecked = true;
+                    item.SelectedTagBorderColor = Settings.Bar_Background;
+                }
+                else
+                {
+                    item.IsChecked = false;
+                    item.SelectedTagBorderColor = Color.Transparent;
+                }
+
+                SelectedTagCountVisible = (SelectedTagCount = PoDataChildCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "TagCheckbox method -> in POChildListPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -444,7 +483,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     loadindicator = true;
                     SelectedTagCountVisible = false;
                     SelectedTagCount = 0;
-                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l => { l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false; });
+                    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l =>
+                    {
+                        l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false;
+                    });
                     POTagDetail = sender as AllPoData;
                     POTagDetail.SelectedTagBorderColor = Settings.Bar_Background;
                     TagNumber = Settings.TagNumber = POTagDetail.TagNumber;
@@ -473,7 +515,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
                 await Navigation.PopToRootAsync(false);
-                //App.Current.MainPage = new MenuPage(typeof(HomePage));
             }
             catch (Exception ex)
             {
