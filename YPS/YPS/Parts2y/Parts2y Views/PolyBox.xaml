@@ -220,10 +220,8 @@
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False">
-                                        <combobox:SfComboBox  
-                                                     Text="K7" 
-                                                      VerticalOptions="CenterAndExpand"
-                                              
+                                        <combobox:SfComboBox  SelectedItem="{Binding ScanSelectedFromLoc,Mode=TwoWay}" DisplayMemberPath="Name"
+                                                              VerticalOptions="CenterAndExpand" DataSource="{Binding FromLocList,Mode=TwoWay}"                                              
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                             <combobox:SfComboBox.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
@@ -239,8 +237,8 @@
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False">
-                                        <combobox:SfComboBox Text="Re-Attach QR Label" 
-                                                      VerticalOptions="CenterAndExpand" 
+                                        <combobox:SfComboBox  SelectedItem="{Binding ScanSelectedEventRemark,Mode=TwoWay}" DisplayMemberPath="Name"
+                                                      VerticalOptions="CenterAndExpand"  DataSource="{Binding EventRemarkList,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                             <combobox:SfComboBox.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
@@ -273,8 +271,8 @@
                                         <Label Text="{Binding  labelobj.Status.Name}" 
                                                Style="{DynamicResource LableWithQuestionFont}"
                                                 TextColor="Black"/>
-                                        <sfbuttons:SfRadioButton Text="Empty"/>
-                                        <sfbuttons:SfRadioButton Text="Full"/>
+                                        <sfbuttons:SfRadioButton Text="{Binding FalseName}" ClassId="{Binding FalseId}" IsChecked="{Binding ScanFalse,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ScanRadioChecked"/>
+                                        <sfbuttons:SfRadioButton Text="{Binding TrueName}" ClassId="{Binding TureId}" IsChecked="{Binding ScanTrue,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ScanRadioChecked"/>
                                     </sfbuttons:SfRadioGroup>
                                 </StackLayout>
                             </Frame>
@@ -349,8 +347,8 @@
                                                            ReserveSpaceForAssistiveLabels="False"
                                                            ContainerBackgroundColor="White">
                                     <combobox:SfComboBox x:Name="LanguagePicker"
-                                                                 Text="K15-Rule1"
-                                                      VerticalOptions="CenterAndExpand" 
+                                                                  SelectedItem="{Binding ConfigSelectedRule,Mode=TwoWay}" DisplayMemberPath="Name"
+                                                      VerticalOptions="CenterAndExpand" DataSource="{Binding RuleList ,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                         <combobox:SfComboBox.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
@@ -367,8 +365,8 @@
                                                            ReserveSpaceForAssistiveLabels="False"
                                                            ContainerBackgroundColor="White">
 
-                                    <combobox:SfComboBox Text="K7"
-                                                      VerticalOptions="CenterAndExpand" 
+                                    <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedFromLoc,Mode=TwoWay}" DisplayMemberPath="Name"
+                                                      VerticalOptions="CenterAndExpand" DataSource="{Binding FromLocList,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                         <combobox:SfComboBox.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
@@ -384,8 +382,8 @@
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ContainerBackgroundColor="White"
                                                            ReserveSpaceForAssistiveLabels="False">
-                                    <combobox:SfComboBox Text="Re-Attach QR Label"
-                                                      VerticalOptions="CenterAndExpand" 
+                                    <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedEventRemark,Mode=TwoWay}" DisplayMemberPath="Name"
+                                                      VerticalOptions="CenterAndExpand"  DataSource="{Binding EventRemarkList,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                         <combobox:SfComboBox.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
@@ -401,8 +399,8 @@
                                                             Padding="2,6,0,0">
                                     <Label Text="{Binding labelobj.Status.Name}" Style="{DynamicResource LableWithQuestionFont}"
                                                 TextColor="Black"/>
-                                    <sfbuttons:SfRadioButton x:Name="empty" Text="Empty"/>
-                                    <sfbuttons:SfRadioButton x:Name="full" Text="Full"/>
+                                    <sfbuttons:SfRadioButton Text="{Binding FalseName}" ClassId="{Binding FalseId}" IsChecked="{Binding ConfigFalse,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ConfigRadioChecked"/>
+                                    <sfbuttons:SfRadioButton Text="{Binding TrueName}" ClassId="{Binding TrueId}" IsChecked="{Binding ConfigTrue,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ConfigRadioChecked"/>
                                 </sfbuttons:SfRadioGroup>
                             </StackLayout>
                         </Frame>
@@ -413,7 +411,7 @@
 
             <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <sfbuttons:SfButton Margin="6,0,6,6" 
+                <sfbuttons:SfButton Margin="6,0,6,6" Command="{Binding SaveClickCmd}"
                                     Style="{StaticResource SfBtnBlue}" CornerRadius="4"
                                     BackgroundColor="{Binding BgColor}"
                                     HorizontalOptions="FillAndExpand" VerticalOptions="End">

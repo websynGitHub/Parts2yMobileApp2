@@ -47,10 +47,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 StartScanningCmd = new Command(async () => await StartScanning());
                 ScanTabCmd = new Command(async () => await TabChange("scan"));
                 ScanConfigCmd = new Command(async () => await TabChange("config"));
+                SaveClickCmd = new Command(async () => await SaveConfig());
 
                 Settings.scanQRValueA = "";
                 Settings.scanQRValueB = "";
 
+                Task.Run(() => GetSavedConfigDataFromDB()).Wait();
                 ChangeLabel();
                 scansetting = SettingsArchiver.UnarchiveSettings();
             }
@@ -62,6 +64,83 @@ namespace YPS.Parts2y.Parts2y_View_Models
             loadindicator = false;
         }
 
+
+        public async Task GetSavedConfigDataFromDB()
+        {
+            try
+            {
+                loadindicator = true;
+
+                var result = await trackService.GetSaveScanConfig();
+
+                if (result?.status == 1 && result?.data != null)
+                {
+                    ConfigSelectedRule.ID = result.data.PolyboxRule;
+                    ConfigSelectedFromLoc.ID = result.data.PolyboxLocation;
+                    ConfigSelectedEventRemark.ID = result.data.PolyboxRemarks;
+                    ConfigSelectedSataus = result.data.PolyboxStatus;
+                }
+
+                var resultData = await trackService.GetScanConfig();
+
+                if (resultData?.status == 1)
+                {
+                    RuleList = resultData.data.PolyboxRule;
+                    ConfigSelectedRule = ConfigSelectedRule.ID == 0 ? RuleList[0] : RuleList.Where(wr => wr.ID == ConfigSelectedRule.ID).FirstOrDefault();
+                    
+                    FromLocList = resultData.data.PolyboxLocation;
+                    ScanSelectedFromLoc = ConfigSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ? FromLocList[0] : FromLocList.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
+
+                    EventRemarkList = resultData.data.PolyboxRemarks;
+                    ScanSelectedEventRemark = ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ? EventRemarkList[0] : EventRemarkList.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
+
+                    StatusList = resultData.data.PolyboxStatus;
+                    FalseName = StatusList[0].Name;
+                    TrueName = StatusList[1].Name; 
+                    FalseId = StatusList[0].ID;
+                    TrueId = StatusList[1].ID;
+
+                    if (ConfigSelectedSataus == FalseId)
+                        ConfigFalse = ScanFalse = true;
+                    else if(ConfigSelectedSataus==TrueId)
+                        ConfigTrue = ScanTrue = true;
+
+                }
+                if (result.data.PolyboxRule != 0)
+                {
+                    IsScanEnable = true;
+                    ScanOpacity = 1;
+                    TabChange("scan");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetSavedConfigDataFromDB method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+        public async Task SaveConfig()
+        {
+            try
+            {
+                loadindicator = true;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SaveConfig method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
         private async Task StartScanning()
         {
             try
@@ -173,6 +252,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
+                    IsScanContentVisible = ScanTabVisibility = false;
                     IsConfigContentVisible = ConfigTabVisibility = true;
                     ScanTabTextColor = Color.Black;
                     ConfigTabTextColor = YPS.CommonClasses.Settings.Bar_Background;
@@ -337,6 +417,215 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private List<YPS.Model.CompareModel> _RuleList;
+        public List<YPS.Model.CompareModel> RuleList
+        {
+            get => _RuleList;
+            set
+            {
+                _RuleList = value;
+                NotifyPropertyChanged("RuleList");
+            }
+        }
+
+        private List<YPS.Model.CompareModel> _FromLocList;
+        public List<YPS.Model.CompareModel> FromLocList
+        {
+            get => _FromLocList;
+            set
+            {
+                _FromLocList = value;
+                NotifyPropertyChanged("FromLocList");
+            }
+        }
+        
+        private List<YPS.Model.CompareModel> _EventRemarkList;
+        public List<YPS.Model.CompareModel> EventRemarkList
+        {
+            get => _EventRemarkList;
+            set
+            {
+                _EventRemarkList = value;
+                NotifyPropertyChanged("EventRemarkList");
+            }
+        }
+        
+        private List<YPS.Model.CompareModel> _StatusList;
+        public List<YPS.Model.CompareModel> StatusList
+        {
+            get => _StatusList;
+            set
+            {
+                _StatusList = value;
+                NotifyPropertyChanged("StatusList");
+            }
+        }
+
+        private YPS.Model.CompareModel _ConfigSelectedRule = new Model.CompareModel();
+        public YPS.Model.CompareModel ConfigSelectedRule
+        {
+            get => _ConfigSelectedRule;
+            set
+            {
+                _ConfigSelectedRule = value;
+                NotifyPropertyChanged("ConfigSelectedRule");
+            }
+        }
+
+        private YPS.Model.CompareModel _ConfigSelectedFromLoc = new Model.CompareModel();
+        public YPS.Model.CompareModel ConfigSelectedFromLoc
+        {
+            get => _ConfigSelectedFromLoc;
+            set
+            {
+                _ConfigSelectedFromLoc = value;
+                NotifyPropertyChanged("ConfigSelectedFromLoc");
+            }
+        }
+        
+        private YPS.Model.CompareModel _ConfigSelectedEventRemark = new Model.CompareModel();
+        public YPS.Model.CompareModel ConfigSelectedEventRemark
+        {
+            get => _ConfigSelectedEventRemark;
+            set
+            {
+                _ConfigSelectedEventRemark = value;
+                NotifyPropertyChanged("ConfigSelectedEventRemark");
+            }
+        }
+
+        private int _ConfigSelectedSataus;
+        public int ConfigSelectedSataus
+        {
+            get => _ConfigSelectedSataus;
+            set
+            {
+                _ConfigSelectedSataus = value;
+                NotifyPropertyChanged("ConfigSelectedSataus");
+            }
+        }
+        
+        private YPS.Model.CompareModel _ScanSelectedFromLoc = new Model.CompareModel();
+        public YPS.Model.CompareModel ScanSelectedFromLoc
+        {
+            get => _ScanSelectedFromLoc;
+            set
+            {
+                _ScanSelectedFromLoc = value;
+                NotifyPropertyChanged("ScanSelectedFromLoc");
+            }
+        }
+
+        private YPS.Model.CompareModel _ScanSelectedEventRemark = new Model.CompareModel();
+        public YPS.Model.CompareModel ScanSelectedEventRemark
+        {
+            get => _ScanSelectedEventRemark;
+            set
+            {
+                _ScanSelectedEventRemark = value;
+                NotifyPropertyChanged("ScanSelectedEventRemark");
+            }
+        }
+
+        private int _ScanSelectedStatus;
+        public int ScanSelectedStatus
+        {
+            get => _ScanSelectedStatus;
+            set
+            {
+                _ScanSelectedStatus = value;
+                NotifyPropertyChanged("ScanSelectedStatus");
+            }
+        }
+
+        private bool _ScanFalse;
+        public bool ScanFalse
+        {
+            get => _ScanFalse;
+            set
+            {
+                _ScanFalse = value;
+                RaisePropertyChanged("ScanFalse");
+            }
+        }
+        
+        private bool _ScanTrue;
+        public bool ScanTrue
+        {
+            get => _ScanTrue;
+            set
+            {
+                _ScanTrue = value;
+                RaisePropertyChanged("ScanTrue");
+            }
+        }
+        
+        private bool _ConfigFalse;
+        public bool ConfigFalse
+        {
+            get => _ConfigFalse;
+            set
+            {
+                _ConfigFalse = value;
+                RaisePropertyChanged("ConfigFalse");
+            }
+        }
+        
+        private bool _ConfigTrue;
+        public bool ConfigTrue
+        {
+            get => _ConfigTrue;
+            set
+            {
+                _ConfigTrue = value;
+                RaisePropertyChanged("ConfigTrue");
+            }
+        }
+
+        private string _FalseName;
+        public string FalseName
+        {
+            get => _FalseName;
+            set
+            {
+                _FalseName = value;
+                RaisePropertyChanged("FalseName");
+            }
+        }
+        
+        private string _TrueName;
+        public string TrueName
+        {
+            get => _TrueName;
+            set
+            {
+                _TrueName = value;
+                RaisePropertyChanged("TrueName");
+            }
+        }
+        
+        private int _FalseId;
+        public int FalseId
+        {
+            get => _FalseId;
+            set
+            {
+                _FalseId = value;
+                RaisePropertyChanged("FalseId");
+            }
+        }
+        
+        private int _TrueId;
+        public int TrueId
+        {
+            get => _TrueId;
+            set
+            {
+                _TrueId = value;
+                RaisePropertyChanged("TrueId");
+            }
+        }
+        
         private string _CargoCategory;
         public string CargoCategory
         {

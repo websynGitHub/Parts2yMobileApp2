@@ -69,5 +69,53 @@ namespace YPS.Parts2y.Parts2y_Views
                 await trackService.Handleexception(ex);
             }
         }
+
+        private async void ScanRadioChecked(object sender, Syncfusion.XForms.Buttons.StateChangedEventArgs e)
+        {
+            try
+            {
+                var rd = sender as Syncfusion.XForms.Buttons.SfRadioButton;
+                if(e.IsChecked.Value)
+                if (rd.ClassId == Vm.FalseId.ToString())
+                {
+                    Vm.ScanFalse = true;
+                    Vm.ScanTrue = false;
+                }
+                else if(rd.ClassId == Vm.TrueId.ToString())
+                {
+                    Vm.ScanFalse = false;
+                    Vm.ScanTrue = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ScanRadioChecked method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+        }
+
+        private async void ConfigRadioChecked(object sender, Syncfusion.XForms.Buttons.StateChangedEventArgs e)
+        {
+            try
+            {
+                var rd = sender as Syncfusion.XForms.Buttons.SfRadioButton;
+                if(e.IsChecked.Value)
+                if (rd.ClassId == Vm.FalseId.ToString())
+                {
+                    Vm.ConfigFalse = true;
+                    Vm.ConfigTrue = false;
+                }
+                else if (rd.ClassId == Vm.TrueId.ToString())
+                {
+                    Vm.ConfigFalse = false;
+                    Vm.ConfigTrue = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ConfigRadioChecked method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+        }
     }
 }

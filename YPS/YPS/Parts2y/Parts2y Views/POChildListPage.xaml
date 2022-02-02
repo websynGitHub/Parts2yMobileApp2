@@ -268,106 +268,106 @@
                                                               IsVisible="{Binding  BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=POTagPage}}"
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
                                                             <Label Text="{Binding  BindingContext.labelobj.TagNumber.Name, 
-                                                                Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
+                                                                Source={x:Reference Name=POTagPage}}" 
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
-                                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding TagNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding TagNumber}" Grid.Row="0" Grid.Column="1" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.POID.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.POID.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding PONumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.POID.Name, Source={x:Reference Name=POTagPage}}" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding PONumber}" Grid.Row="0" Grid.Column="1"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.Barcode1.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.Barcode1.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding Barcode1}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.Barcode1.Name, Source={x:Reference Name=POTagPage}}" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding Barcode1}" Grid.Row="0" Grid.Column="1"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding ShippingNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.ShippingNumber.Name, Source={x:Reference Name=POTagPage}}" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding ShippingNumber}" Grid.Row="0" Grid.Column="1"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.BagNumber.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.BagNumber.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding BagNumber}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.BagNumber.Name, Source={x:Reference Name=POTagPage}}" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding BagNumber}" Grid.Row="0" Grid.Column="1"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
                                                         
                                                         <!--<Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.IdentCode.Status, Source={x:Reference Name=POTagPage}}"
                                                        VerticalOptions="Center"  RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                                                            <Label Text="{Binding BindingContext.labelobj.IdentCode.Name , Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding IdentCode}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                   HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.IdentCode.Name , Source={x:Reference Name=POTagPage}}" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding IdentCode}" Grid.Row="0" Grid.Column="1"  
+                                                   HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>
 
                                                         <Grid HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.InvoiceNumber.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
-                                                            <Label Text="{Binding BindingContext.labelobj.InvoiceNumber.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding Invoice1No}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.InvoiceNumber.Name, Source={x:Reference Name=POTagPage}}" 
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding Invoice1No}" Grid.Row="0" Grid.Column="1"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>-->
 
                                                         <StackLayout HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.TagDesc.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center">
-                                                            <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding IDENT_DEVIATED_TAG_DESC}" TextColor="Black"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"
+                                                            <Label Text="{Binding BindingContext.labelobj.TagDesc.Name, Source={x:Reference Name=POTagPage}}" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding IDENT_DEVIATED_TAG_DESC}" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"
                                                                    IsVisible="{Binding IsTagDescLabelVisible}" MaxLines="2"/>
                                                         </StackLayout>
 
                                                         <!--<StackLayout HorizontalOptions="Start"
                                                               IsVisible="{Binding  BindingContext.labelobj.ConditionName.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center">
-                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=POTagPage}}" TextColor="#4c4c4c"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding ConditionName}" TextColor="Black"
+                                                            <Label Text="{Binding BindingContext.labelobj.ConditionName.Name, Source={x:Reference Name=POTagPage}}" 
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding ConditionName}" 
                                                                    IsVisible="{Binding IsConditionNameLabelVisible}"
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </StackLayout>-->
 
                                                         <!--<Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=POTagPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.TaskName.Name, 
-                                                                Source={x:Reference Name=POTagPage}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=POTagPage}}"   
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding TaskName}" Grid.Row="0" Grid.Column="1"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>-->
 
                                                         <!--<Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding IsTaskResourceVisible}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
                                                             <Label Text="{Binding BindingContext.labelobj.Resource.Name, 
-                                                                Source={x:Reference Name=POTagPage}}"  TextColor="#4c4c4c" 
-                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                                            <Label Text="{Binding TaskResourceName}" Grid.Row="0" Grid.Column="1" TextColor="Black" 
-                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
+                                                                Source={x:Reference Name=POTagPage}}"   
+                                                           Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding TaskResourceName}" Grid.Row="0" Grid.Column="1"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </Grid>-->
                                                     </StackLayout>
                                                 </Grid>
@@ -395,8 +395,8 @@
                                                   TextColor="Black" FontSize="25"
                                                  HorizontalOptions="Start" VerticalOptions="Center">
                                                                 </local:FontAwesomeIconLabel>
-                                                                <Label Text="{Binding TagFilesCount}" HorizontalOptions="Start" TextColor="Black"
-                                                       IsVisible="{Binding filecountVisible}" Style="{StaticResource LableWithMicroFont}"/>
+                                                                <Label Text="{Binding TagFilesCount}" HorizontalOptions="Start"
+                                                       IsVisible="{Binding filecountVisible}" Style="{StaticResource LableWithMicroFontBlack}"/>
                                                                 <Image Source="tickb.png" IsVisible="{Binding fileTickVisible}"
                                                        HorizontalOptions="Start" HeightRequest="15" WidthRequest="12"/>
                                                             </StackLayout>
@@ -415,7 +415,7 @@
                                                                                 Opacity="{Binding imgCamOpacityB}">
                                                                 </local:FontAwesomeIconLabel>
                                                                 <Label  Text="{Binding TagBPhotoCount}" IsVisible="{Binding BPhotoCountVisible}"
-                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFont}" TextColor="Black"/>
+                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFontBlack}"/>
                                                                 <Image Source="tickb.png" Opacity="{Binding imgTickOpacityB}" 
                                                        IsVisible="{Binding photoTickVisible}" HorizontalOptions="Start"
                                                        HeightRequest="15" WidthRequest="12"/>
@@ -436,7 +436,7 @@
                                                  >
                                                                 </local:FontAwesomeIconLabel>
                                                                 <Label  Text="{Binding TagAPhotoCount}" IsVisible="{Binding APhotoCountVisible}"
-                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFont}" TextColor="Black"/>
+                                                            HorizontalOptions="Start" Style="{StaticResource LableWithMicroFontBlack}"/>
                                                                 <Image Source="tickb.png" Opacity="{Binding imgtickOpacityA}" 
                                                        IsVisible="{Binding photoTickVisible}" HorizontalOptions="Start"
                                                        HeightRequest="15" WidthRequest="12"/>
@@ -455,8 +455,8 @@
                                                          HorizontalOptions="Center" VerticalOptions="Center">
 
                                                                 </local:FontAwesomeIconLabel>
-                                                                <Label Text="{Binding TagQACount}" HorizontalOptions="Start" TextColor="Black"
-                                                       IsVisible="{Binding countVisible}" Style="{StaticResource LableWithMicroFont}"/>
+                                                                <Label Text="{Binding TagQACount}" HorizontalOptions="Start"
+                                                       IsVisible="{Binding countVisible}" Style="{StaticResource LableWithMicroFontBlack}"/>
                                                                 <Image Source="tickb.png" IsVisible="{Binding chatTickVisible}"
                                                        HorizontalOptions="Start" HeightRequest="15" WidthRequest="12"/>
 
@@ -490,8 +490,8 @@
                         </CollectionView>
 
                         <Label HorizontalTextAlignment="Center" Grid.Row="3" IsVisible="{Binding NoRecordsLbl}" 
-                               Text="No records to display" TextColor="Black" VerticalOptions="CenterAndExpand" 
-                               HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFont}" 
+                               Text="No records to display" VerticalOptions="CenterAndExpand" 
+                               HorizontalOptions="CenterAndExpand" Style="{StaticResource LableWithLargeFontBlack}" 
                                BackgroundColor="Transparent"/>
 
                         <StackLayout Grid.Row="4" Padding="0,6,0,8" AbsoluteLayout.LayoutBounds="0,1,1,.15"
@@ -541,8 +541,8 @@
 
                         <Grid ColumnDefinitions="*,Auto" HorizontalOptions="FillAndExpand" Margin="0,7,0,0"
                               RowDefinitions="Auto,Auto">
-                            <Label Grid.Row="0" Grid.Column="0" Text="Inspection with/without scan?" Style="{DynamicResource LableWithQuestionFont}"
-                               TextColor="Black"/>
+                            <Label Grid.Row="0" Grid.Column="0" Text="Inspection with/without scan?" Style="{DynamicResource LableWithQuestionFontBlack}"
+                               />
                             <local:FontAwesomeIconLabel Text="{Static local1:Icons.CloseIc}" Style="{StaticResource LblIconStyle}"
                                                        TextColor="Red" Grid.Row="0" Grid.Column="1" Margin="0,0,0,7"
                                                            HorizontalOptions="EndAndExpand" VerticalOptions="Start">
@@ -555,9 +555,9 @@
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*"
                                   Grid.Row="1" Grid.Column="0">
                                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding labelobj.TagNumber.Name}" 
-                                       Style="{DynamicResource LableWithQuestionFont}" TextColor="Black"/>
+                                       Style="{DynamicResource LableWithQuestionFontBlack}" />
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding TagNumber}" 
-                                       Style="{DynamicResource LableWithQuestionFont}" TextColor="Black"/>
+                                       Style="{DynamicResource LableWithQuestionFontBlack}" />
                             </Grid>
                         </Grid>
                         

@@ -48,6 +48,10 @@ namespace YPS.Model
         public int UserID { get; set; }
         public int ScanConfigID { get; set; }
         public int ScanCount { get; set; }
+        public int PolyboxRule { get; set; }
+        public int PolyboxStatus { get; set; }
+        public int PolyboxLocation { get; set; }
+        public int PolyboxRemarks { get; set; }
     }
 
     public class GetSavedConfigResponse
