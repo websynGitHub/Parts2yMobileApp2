@@ -34,7 +34,8 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-
+                YPSLogger.ReportException(ex, "PolyBox constructor -> in PolyBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                Task.Run(() => trackService.Handleexception(ex)).Wait();
             }
             Vm.loadindicator = false;
         }
