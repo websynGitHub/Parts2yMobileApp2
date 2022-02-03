@@ -49,9 +49,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ScanConfigCmd = new Command(async () => await TabChange("config"));
                 SaveClickCmd = new Command(async () => await SaveConfig());
 
-                Settings.scanQRValueA = "";
-                Settings.scanQRValueB = "";
-
                 Task.Run(() => GetSavedConfigDataFromDB()).Wait();
                 ChangeLabel();
                 scansetting = SettingsArchiver.UnarchiveSettings();
