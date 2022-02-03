@@ -57,55 +57,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 await trackService.Handleexception(ex);
             }
         }
-
-        //private async void ScanRadioChecked(object sender, Syncfusion.XForms.Buttons.StateChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        var rd = sender as Syncfusion.XForms.Buttons.SfRadioButton;
-        //        if (e.IsChecked.Value)
-        //            if (rd.ClassId == Vm.EmptyId.ToString())
-        //            {
-        //                Vm.ScanFalse = true;
-        //                Vm.ScanTrue = false;
-        //            }
-        //            else if (rd.ClassId == Vm.FullId.ToString())
-        //            {
-        //                Vm.ScanFalse = false;
-        //                Vm.ScanTrue = true;
-        //            }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "ScanRadioChecked method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
-        //        await trackService.Handleexception(ex);
-        //    }
-        //}
-
-        //private async void ConfigRadioChecked(object sender, Syncfusion.XForms.Buttons.StateChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        var rd = sender as Syncfusion.XForms.Buttons.SfRadioButton;
-        //        if (e.IsChecked.Value)
-        //            if (rd.ClassId == Vm.EmptyId.ToString())
-        //            {
-        //                Vm.IsEmpty = true;
-        //                Vm.IsFull = false;
-        //            }
-        //            else if (rd.ClassId == Vm.FullId.ToString())
-        //            {
-        //                Vm.IsEmpty = false;
-        //                Vm.IsEmpty = true;
-        //            }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        YPSLogger.ReportException(ex, "ConfigRadioChecked method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
-        //        await trackService.Handleexception(ex);
-        //    }
-        //}
-
+                
         private void ConfigRadioGroupCheckedChanged(object sender, Syncfusion.XForms.Buttons.CheckedChangedEventArgs e)
         {
             try
@@ -130,26 +82,5 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-        private void ScanRadioGroupCheckedChanged(object sender, Syncfusion.XForms.Buttons.CheckedChangedEventArgs e)
-        {
-            try
-            {
-                if (e.CurrentItem.ClassId == Vm.EmptyId.ToString())
-                {
-                    Vm.ScanFalse = true;
-                    Vm.ScanTrue = false;
-                }
-                else
-                {
-                    Vm.ScanFalse = false;
-                    Vm.ScanTrue = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "ScanRadioGroupCheckedChanged method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
-                trackService.Handleexception(ex);
-            }
-        }
     }
 }

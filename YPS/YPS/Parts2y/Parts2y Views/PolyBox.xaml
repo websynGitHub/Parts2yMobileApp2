@@ -293,7 +293,6 @@
                                                            ReserveSpaceForAssistiveLabels="False">
                                         <sfbuttons:SfRadioGroup Orientation="Horizontal"
                                                                 IsEnabled="False"
-                                                            CheckedChanged="ScanRadioGroupCheckedChanged"
                                                                 HeightRequest="{OnPlatform Android=50,iOS=20 }">
                                         
                                             <Label Text="{Binding  labelobj.Status.Name}" 
