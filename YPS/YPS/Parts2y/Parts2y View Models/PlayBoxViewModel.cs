@@ -26,7 +26,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
     {
         YPSService trackService;
         public int historySerialNo = 1;
-        List<CompareHistoryList> lstcomparehistory = new List<CompareHistoryList>();
         private PolyBox polyboxPage;
         public int? scancountpermit;
         private ScanerSettings scansetting;
@@ -35,6 +34,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand ScanTabCmd { get; set; }
         public ICommand ScanConfigCmd { get; set; }
         public ICommand SaveClickCmd { get; set; }
+
         public PolyBoxViewModel(INavigation _Navigation, PolyBox polyboxpage, bool reset)
         {
             try
@@ -83,30 +83,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 var resultData = await trackService.GetScanConfig();
 
-                if (resultData?.status == 1)
+                if (resultData?.data != null)
                 {
                     RuleList = resultData.data.PolyboxRule;
-                    ConfigSelectedRule = ConfigSelectedRule.ID == 0 ? RuleList[0] : RuleList.Where(wr => wr.ID == ConfigSelectedRule.ID).FirstOrDefault();
-                    
+                    ConfigSelectedRule = ConfigSelectedRule.ID == 0 ? RuleList[0] : RuleList?.Where(wr => wr.ID == ConfigSelectedRule.ID).FirstOrDefault();
+                    SelectedScanRuleHeader = ConfigSelectedRule.Name;
+
                     FromLocList = resultData.data.PolyboxLocation;
-                    ScanSelectedFromLoc = ConfigSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ? FromLocList[0] : FromLocList.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
+                    ScanSelectedFromLoc = ConfigSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ? FromLocList[0] : FromLocList?.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
 
                     EventRemarkList = resultData.data.PolyboxRemarks;
-                    ScanSelectedEventRemark = ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ? EventRemarkList[0] : EventRemarkList.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
+                    ScanSelectedEventRemark = ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ? EventRemarkList[0] : EventRemarkList?.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
 
-                    StatusList = resultData.data.PolyboxStatus;
-                    FalseName = StatusList[0].Name;
-                    TrueName = StatusList[1].Name; 
-                    FalseId = StatusList[0].ID;
-                    TrueId = StatusList[1].ID;
+                    //StatusList = resultData.data.PolyboxStatus;
+                    EmptyName = resultData.data.PolyboxStatus[0].Name;
+                    FullName = resultData.data.PolyboxStatus[1].Name;
+                    EmptyId = resultData.data.PolyboxStatus[0].ID;
+                    FullId = resultData.data.PolyboxStatus[1].ID;
 
-                    if (ConfigSelectedSataus == FalseId)
-                        ConfigFalse = ScanFalse = true;
-                    else if(ConfigSelectedSataus==TrueId)
-                        ConfigTrue = ScanTrue = true;
-
+                    if (ConfigSelectedSataus == EmptyId)
+                    {
+                        IsEmpty = ScanFalse = true;
+                    }
+                    else if (ConfigSelectedSataus == FullId)
+                    {
+                        IsFull = ScanTrue = true;
+                    }
                 }
-                if (result.data.PolyboxRule != 0)
+
+                if (ConfigSelectedRule?.ID != 0 && ConfigSelectedFromLoc?.ID != 0 &&
+                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
                 {
                     IsScanEnable = true;
                     ScanOpacity = 1;
@@ -130,6 +136,57 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
+
+                bool result = await App.Current.MainPage.DisplayAlert("Save configuration", "Are you sure?", "Yes", "No");
+
+                if (result)
+                {
+                    if (ConfigSelectedRule?.ID != 0 && ConfigSelectedFromLoc?.ID != 0 &&
+                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
+                    {
+                        var checkInternet = await App.CheckInterNetConnection();
+
+                        if (checkInternet)
+                        {
+                            var data = await trackService.SaveScanConfig(0, 0, ConfigSelectedRule.ID,
+                                ConfigSelectedFromLoc.ID, ConfigSelectedEventRemark.ID, ConfigSelectedSataus);
+
+                            if (data?.status == 1)
+                            {
+                                SelectedScanRuleHeader = ConfigSelectedRule.Name;
+                                ScanSelectedFromLoc = ConfigSelectedFromLoc;
+                                ScanSelectedEventRemark = ConfigSelectedEventRemark;
+
+                                if (ConfigSelectedSataus == EmptyId)
+                                {
+                                    ScanFalse = true;
+                                    ScanTrue = false;
+                                }
+                                else
+                                {
+                                    ScanTrue = true;
+                                    ScanFalse = false;
+                                }
+
+                                TabChange("scan");
+                            }
+                            else
+                            {
+                            }
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        }
+                    }
+                    else
+                    {
+                        IsRuleError = ConfigSelectedRule?.ID == 0 ? true : false;
+                        IsLocError = ConfigSelectedFromLoc?.ID == 0 ? true : false;
+                        IsRemarkError = ConfigSelectedEventRemark?.ID == 0 ? true : false;
+                        IsStatusError = ConfigSelectedSataus == 0 ? true : false;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -141,6 +198,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = false;
             }
         }
+
         private async Task StartScanning()
         {
             try
@@ -208,16 +266,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
 
                     string sp = "\n\n";
-                    var scanvalue = scanresult.Split('/');
+                    var scanvalue = scanresult.Split(';');
 
                     foreach (var val in scanvalue)
                     {
-                        if (scanvalue[0] == CargoCategory)
+                        if (CargoCategory != scanvalue[0])
                         {
                             CargoCategory = val;
                             continue;
                         }
-                        else if (scanvalue[1] == BagNumber)
+                        else if (BagNumber != scanvalue[1])
                         {
                             BagNumber = val;
                             continue;
@@ -228,6 +286,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             break;
                         }
                     }
+
+                    ScannedDateTime = DateTime.Now.ToString("dd/MMM/yyyy HH:mm");
+                    ScannedBy = Settings.Username;
                 });
             }
             catch (Exception ex)
@@ -293,7 +354,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var save = labelval.Where(wr => wr.FieldID == labelobj.Save.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var printtag = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.PrintTag.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var next = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Next.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var back = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Back.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var scandate = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ScanDate.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var scanby = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ScannedBy.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var status = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Status.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -313,9 +373,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.ScannedToday.Name = (scannedtoday != null ? (!string.IsNullOrEmpty(scannedtoday.LblText) ? scannedtoday.LblText : labelobj.ScannedToday.Name) : labelobj.ScannedToday.Name) + " :";
                         labelobj.ISR.Name = (isr != null ? (!string.IsNullOrEmpty(isr.LblText) ? isr.LblText : labelobj.ISR.Name) : labelobj.ISR.Name) + " :";
 
-                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
-                        labelobj.CargoCategory.Name = (cargocategory1 != null ? (!string.IsNullOrEmpty(cargocategory1.LblText) ? cargocategory1.LblText : labelobj.CargoCategory.Name) : labelobj.CargoCategory.Name) + " :";
-                        labelobj.TQBPkgSizeNoL1.Name = (tqbpkgsizenol1 != null ? (!string.IsNullOrEmpty(tqbpkgsizenol1.LblText) ? tqbpkgsizenol1.LblText : labelobj.TQBPkgSizeNoL1.Name) : labelobj.TQBPkgSizeNoL1.Name) + " :";
+                        labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " : ";
+                        labelobj.CargoCategory.Name = (cargocategory1 != null ? (!string.IsNullOrEmpty(cargocategory1.LblText) ? cargocategory1.LblText : labelobj.CargoCategory.Name) : labelobj.CargoCategory.Name) + " : ";
+                        labelobj.TQBPkgSizeNoL1.Name = (tqbpkgsizenol1 != null ? (!string.IsNullOrEmpty(tqbpkgsizenol1.LblText) ? tqbpkgsizenol1.LblText : labelobj.TQBPkgSizeNoL1.Name) : labelobj.TQBPkgSizeNoL1.Name) + " : ";
 
                         labelobj.Scan.Name = scan != null ? (!string.IsNullOrEmpty(scan.LblText) ? scan.LblText : labelobj.Scan.Name) : labelobj.Scan.Name;
                         labelobj.Configure.Name = configure != null ? (!string.IsNullOrEmpty(configure.LblText) ? configure.LblText : labelobj.Configure.Name) : labelobj.Configure.Name;
@@ -323,7 +383,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Save.Name = save != null ? (!string.IsNullOrEmpty(save.LblText) ? save.LblText : labelobj.Save.Name) : labelobj.Save.Name;
                         labelobj.PrintTag.Name = (printtag != null ? (!string.IsNullOrEmpty(printtag.LblText) ? printtag.LblText : labelobj.PrintTag.Name) : labelobj.Next.Name) + " :";
                         labelobj.Next.Name = (next != null ? (!string.IsNullOrEmpty(next.LblText) ? next.LblText : labelobj.Next.Name) : labelobj.Next.Name) + " " + labelobj.Scan.Name;
-                        labelobj.Back.Name = (back != null ? (!string.IsNullOrEmpty(back.LblText) ? back.LblText : labelobj.Back.Name) : labelobj.Back.Name);
                         labelobj.Done.Name = done != null ? (!string.IsNullOrEmpty(done.LblText) ? done.LblText : labelobj.Done.Name) : labelobj.Done.Name;
 
                         labelobj.ScanDate.Name = scandate != null ? (!string.IsNullOrEmpty(scandate.LblText) ? scandate.LblText : labelobj.ScanDate.Name) : labelobj.ScanDate.Name;
@@ -417,6 +476,94 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private bool _IsGPSCorVisible;
+        public bool IsGPSCorVisible
+        {
+            get => _IsGPSCorVisible;
+            set
+            {
+                _IsGPSCorVisible = value;
+                NotifyPropertyChanged("IsGPSCorVisible");
+            }
+        }
+
+        private bool _IsRuleError;
+        public bool IsRuleError
+        {
+            get => _IsRuleError;
+            set
+            {
+                _IsRuleError = value;
+                NotifyPropertyChanged("IsRuleError");
+            }
+        }
+
+        private bool _IsLocError;
+        public bool IsLocError
+        {
+            get => _IsLocError;
+            set
+            {
+                _IsLocError = value;
+                NotifyPropertyChanged("IsLocError");
+            }
+        }
+
+        private bool _IsRemarkError;
+        public bool IsRemarkError
+        {
+            get => _IsRemarkError;
+            set
+            {
+                _IsRemarkError = value;
+                NotifyPropertyChanged("IsRemarkError");
+            }
+        }
+
+        private bool _IsStatusError;
+        public bool IsStatusError
+        {
+            get => _IsStatusError;
+            set
+            {
+                _IsStatusError = value;
+                NotifyPropertyChanged("IsStatusError");
+            }
+        }
+
+        private string _ScannedBy;
+        public string ScannedBy
+        {
+            get => _ScannedBy;
+            set
+            {
+                _ScannedBy = value;
+                NotifyPropertyChanged("ScannedBy");
+            }
+        }
+
+        private string _ScannedDateTime;
+        public string ScannedDateTime
+        {
+            get => _ScannedDateTime;
+            set
+            {
+                _ScannedDateTime = value;
+                NotifyPropertyChanged("ScannedDateTime");
+            }
+        }
+
+        private string _ScanLocText;
+        public string ScanLocText
+        {
+            get => _ScanLocText;
+            set
+            {
+                _ScanLocText = value;
+                NotifyPropertyChanged("ScanLocText");
+            }
+        }
+
         private List<YPS.Model.CompareModel> _RuleList;
         public List<YPS.Model.CompareModel> RuleList
         {
@@ -438,7 +585,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 NotifyPropertyChanged("FromLocList");
             }
         }
-        
+
         private List<YPS.Model.CompareModel> _EventRemarkList;
         public List<YPS.Model.CompareModel> EventRemarkList
         {
@@ -447,17 +594,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _EventRemarkList = value;
                 NotifyPropertyChanged("EventRemarkList");
-            }
-        }
-        
-        private List<YPS.Model.CompareModel> _StatusList;
-        public List<YPS.Model.CompareModel> StatusList
-        {
-            get => _StatusList;
-            set
-            {
-                _StatusList = value;
-                NotifyPropertyChanged("StatusList");
             }
         }
 
@@ -482,7 +618,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 NotifyPropertyChanged("ConfigSelectedFromLoc");
             }
         }
-        
+
         private YPS.Model.CompareModel _ConfigSelectedEventRemark = new Model.CompareModel();
         public YPS.Model.CompareModel ConfigSelectedEventRemark
         {
@@ -504,7 +640,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 NotifyPropertyChanged("ConfigSelectedSataus");
             }
         }
-        
+
         private YPS.Model.CompareModel _ScanSelectedFromLoc = new Model.CompareModel();
         public YPS.Model.CompareModel ScanSelectedFromLoc
         {
@@ -513,6 +649,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _ScanSelectedFromLoc = value;
                 NotifyPropertyChanged("ScanSelectedFromLoc");
+
+                if (value.ID == 8)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
+                        ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
+                        IsGPSCorVisible = true;
+                    });
+                }
+                else
+                {
+                    ScanLocText = ScanSelectedFromLoc.Name;
+                    IsGPSCorVisible = false;
+                }
             }
         }
 
@@ -548,7 +699,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("ScanFalse");
             }
         }
-        
+
         private bool _ScanTrue;
         public bool ScanTrue
         {
@@ -559,73 +710,73 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("ScanTrue");
             }
         }
-        
-        private bool _ConfigFalse;
-        public bool ConfigFalse
+
+        private bool _IsEmpty;
+        public bool IsEmpty
         {
-            get => _ConfigFalse;
+            get => _IsEmpty;
             set
             {
-                _ConfigFalse = value;
-                RaisePropertyChanged("ConfigFalse");
-            }
-        }
-        
-        private bool _ConfigTrue;
-        public bool ConfigTrue
-        {
-            get => _ConfigTrue;
-            set
-            {
-                _ConfigTrue = value;
-                RaisePropertyChanged("ConfigTrue");
+                _IsEmpty = value;
+                RaisePropertyChanged("IsEmpty");
             }
         }
 
-        private string _FalseName;
-        public string FalseName
+        private bool _IsFull;
+        public bool IsFull
         {
-            get => _FalseName;
+            get => _IsFull;
             set
             {
-                _FalseName = value;
-                RaisePropertyChanged("FalseName");
+                _IsFull = value;
+                RaisePropertyChanged("IsFull");
             }
         }
-        
-        private string _TrueName;
-        public string TrueName
+
+        private string _EmptyName;
+        public string EmptyName
         {
-            get => _TrueName;
+            get => _EmptyName;
             set
             {
-                _TrueName = value;
-                RaisePropertyChanged("TrueName");
+                _EmptyName = value;
+                RaisePropertyChanged("EmptyName");
             }
         }
-        
-        private int _FalseId;
-        public int FalseId
+
+        private string _FullName;
+        public string FullName
         {
-            get => _FalseId;
+            get => _FullName;
             set
             {
-                _FalseId = value;
-                RaisePropertyChanged("FalseId");
+                _FullName = value;
+                RaisePropertyChanged("FullName");
             }
         }
-        
-        private int _TrueId;
-        public int TrueId
+
+        private int _EmptyId;
+        public int EmptyId
         {
-            get => _TrueId;
+            get => _EmptyId;
             set
             {
-                _TrueId = value;
-                RaisePropertyChanged("TrueId");
+                _EmptyId = value;
+                RaisePropertyChanged("EmptyId");
             }
         }
-        
+
+        private int _FullId;
+        public int FullId
+        {
+            get => _FullId;
+            set
+            {
+                _FullId = value;
+                RaisePropertyChanged("FullId");
+            }
+        }
+
         private string _CargoCategory;
         public string CargoCategory
         {
@@ -655,7 +806,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 _TQBPkgSizeNoL1 = value;
-                RaisePropertyChanged("TQBPkgSizeNoL1    ");
+                RaisePropertyChanged("TQBPkgSizeNoL1");
             }
         }
 

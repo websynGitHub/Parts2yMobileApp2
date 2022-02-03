@@ -453,7 +453,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        var data = await trackService.SaveScanConfig(SelectedRule, TotalCount);
+                        var data = await trackService.SaveScanConfig(SelectedRule.ID, TotalCount);
 
                         if (data?.status == 1)
                         {

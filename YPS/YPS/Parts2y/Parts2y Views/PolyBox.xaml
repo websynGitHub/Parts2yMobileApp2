@@ -28,7 +28,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <!--<RowDefinition Height="50"/>-->
                 </Grid.RowDefinitions>
 
                 <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*,Auto" 
@@ -45,44 +44,48 @@
                         </LblIcons:FontAwesomeIconLabel>
                     </StackLayout>
 
-
                     <StackLayout Grid.Row="0" Grid.Column="1" Margin="8,10,0,15"
                               HorizontalOptions="StartAndExpand" VerticalOptions="Start">
-                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                       
+                        <Label TextColor="White"
+                               Style="{DynamicResource LableWithQuestionFont}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding labelobj.Rule.Name}"/>
+                                    <Span Text="{Binding SelectedScanRuleHeader}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                       
+                        <Label TextColor="White" 
+                             Style="{DynamicResource LableWithQuestionFont}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding labelobj.TotalPolibox.Name}"/>
+                                    <Span Text="{Binding TotalCountHeader}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
-                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.Rule.Name}"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                            <Label TextColor="White" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedScanRuleHeader}"
-                              Style="{DynamicResource LableWithQuestionFont}"/>
-                        </Grid>
-
-                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.TotalPolibox.Name}"
-                             Style="{DynamicResource LableWithQuestionFont}"/>
-                            <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="{Binding TotalCountHeader}"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        </Grid>
-
-                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-
-                            <Label TextColor="White"  Grid.Column="0" Grid.Row="0" 
-                                   Text="{Binding labelobj.ScannedToday.Name}"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                            <Label TextColor="White"  Grid.Column="1" Grid.Row="0" Text="0"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        </Grid>
-
-                        <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
-                            <Label TextColor="White" Grid.Column="0" Grid.Row="0" Text="{Binding labelobj.ISR.Name}"
-                              Style="{DynamicResource LableWithQuestionFont}"/>
-                            <Label TextColor="White" Grid.Column="1" Grid.Row="0"
-                               Style="{DynamicResource LableWithQuestionFont}"/>
-                        </Grid>
-
+                        <Label TextColor="White" 
+                               Style="{DynamicResource LableWithQuestionFont}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding labelobj.ScannedToday.Name}"/>
+                                    <Span  Text="0"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        
+                        <Label TextColor="White"
+                              Style="{DynamicResource LableWithQuestionFont}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding labelobj.ISR.Name}"/>
+                                    <Span Text=""/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                     </StackLayout>
                 </Grid>
 
@@ -95,7 +98,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <StackLayout IsEnabled="{Binding IsScanEnable}" Grid.Column="0" Grid.Row="0">
+                    <StackLayout  Grid.Column="0" Grid.Row="0">
                         <Label  Text="{Binding labelobj.Scan.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0"
                                 HorizontalOptions="Center" 
@@ -106,6 +109,7 @@
                             <TapGestureRecognizer Command="{Binding ScanTabCmd}"/>
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
+                    
                     <StackLayout Grid.Column="1" Grid.Row="0">
                         <Label Text="{Binding labelobj.Configure.Name}" TextColor="{Binding ConfigTabTextColor}"
                                Style="{DynamicResource LableWithQuestionFont}" Margin="0,2,0,2"
@@ -124,7 +128,7 @@
                               IsVisible="{Binding IsScanContentVisible}"
                               RowDefinitions="*,Auto,*" ColumnDefinitions="*">
 
-                            <Frame Grid.Row="0" CornerRadius="5" Margin="7,10,7,0" HeightRequest="50"
+                            <Frame Grid.Row="0" CornerRadius="5" Margin="7,10,7,0" HeightRequest="115"
                                    VerticalOptions="FillAndExpand" WidthRequest="50"
                                    IsVisible="{Binding IsScanContentVisible}">
 
@@ -132,11 +136,10 @@
                                     <Image HorizontalOptions="Start" 
                                            VerticalOptions="CenterAndExpand" 
                                            Source="qrcodecompare.png"/>
-
                                     <StackLayout HorizontalOptions="Start" 
-                                                 VerticalOptions="Start"
-                                                 
+                                                 VerticalOptions="Center"
                                                  Spacing="0">
+                                        
                                         <Label VerticalTextAlignment="Start"
                                            TextColor="Black"
                                                HorizontalOptions="Start" 
@@ -177,7 +180,6 @@
                                         </Label>
                                     </StackLayout>
                                 </StackLayout>
-
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding StartScanningCmd}"/>
                                 </Frame.GestureRecognizers>
@@ -192,11 +194,10 @@
                                     <sfinput:SfTextInputLayout Hint="{Binding labelobj.ScanDate.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                        ReserveSpaceForAssistiveLabels="False"
-                                                       ContainerBackgroundColor="White"
-                                                               >
-                                        <Entry Text="22/DEC/2021 13:34" FontAttributes="Bold" TextColor="Black"
+                                                       ContainerBackgroundColor="White" >
+                                        <Entry Text="{Binding ScannedDateTime}" FontAttributes="Bold"
                                                            Style="{DynamicResource LableWithQuestionFont}"
-                                               IsEnabled="False">
+                                               IsEnabled="False" PlaceholderColor="LightGray">
                                             <Entry.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <On Platform="iOS">47</On>
@@ -211,18 +212,23 @@
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False"
                                                                >
-                                        <Entry Text="Raja Shekar" FontAttributes="Bold"
-                                               IsEnabled="False"
+                                        <Entry Text="{Binding ScannedBy}" FontAttributes="Bold"
+                                               IsEnabled="False" PlaceholderColor="LightGray"
                                                             Style="{StaticResource EntryTextStyle}"/>
                                     </sfinput:SfTextInputLayout>
 
-                                    <sfinput:SfTextInputLayout  Hint="{Binding labelobj.Location.Name}" 
+                                    <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
-                                                               ReserveSpaceForAssistiveLabels="False">
-                                        <combobox:SfComboBox  SelectedItem="{Binding ScanSelectedFromLoc,Mode=TwoWay}" DisplayMemberPath="Name"
-                                                              VerticalOptions="CenterAndExpand" DataSource="{Binding FromLocList,Mode=TwoWay}"                                              
-                                                                 Style="{StaticResource SfComboBoxTextStyle}">
+                                                               ReserveSpaceForAssistiveLabels="False"
+                                                                >
+                                        <combobox:SfComboBox  SelectedItem="{Binding ConfigSelectedFromLoc}"
+                                                              DisplayMemberPath="Name"
+                                                              VerticalOptions="CenterAndExpand"
+                                                              DataSource="{Binding FromLocList,Mode=TwoWay}"                                              
+                                                                 Style="{StaticResource SfComboBoxTextStyle}"
+                                                              IsEnabled="False"
+                                                              TextColor="LightGray">
                                             <combobox:SfComboBox.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <On Platform="iOS">20</On>
@@ -230,15 +236,34 @@
                                                 </OnPlatform>
                                             </combobox:SfComboBox.HeightRequest>
                                         </combobox:SfComboBox>
-
                                     </sfinput:SfTextInputLayout>
 
+                                    <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
+                                                       Style="{StaticResource SfInputLayout}" 
+                                                       ReserveSpaceForAssistiveLabels="False"
+                                                       ContainerBackgroundColor="White"
+                                                               IsVisible="{Binding IsGPSCorVisible}">
+                                        <Entry Text="{Binding ScanLocText}" FontAttributes="Bold"
+                                               PlaceholderColor="LightGray"
+                                                           Style="{DynamicResource LableWithQuestionFont}"
+                                               IsEnabled="False">
+                                            <Entry.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">47</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </Entry.HeightRequest>
+                                        </Entry>
+                                    </sfinput:SfTextInputLayout>
+                                    
                                     <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remark.Name }" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False">
-                                        <combobox:SfComboBox  SelectedItem="{Binding ScanSelectedEventRemark,Mode=TwoWay}" DisplayMemberPath="Name"
-                                                      VerticalOptions="CenterAndExpand"  DataSource="{Binding EventRemarkList,Mode=TwoWay}"
+                                        <combobox:SfComboBox  SelectedItem="{Binding ConfigSelectedEventRemark}" DisplayMemberPath="Name"
+                                                      VerticalOptions="CenterAndExpand" 
+                                                              IsEnabled="False" TextColor="LightGray"
+                                                              DataSource="{Binding EventRemarkList,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                             <combobox:SfComboBox.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
@@ -254,26 +279,36 @@
                                                        Style="{StaticResource SfInputLayout}"
                                                                ReserveSpaceForAssistiveLabels="False"
                                                                ContainerBackgroundColor="White">
-
                                         <LblIcons:MyEditor FontAttributes="Bold" TextColor="Black"
                                                        HeightRequest="85" HorizontalOptions="FillAndExpand"
-                                               WidthRequest="255" 
-                                            Text="alah hsdv hv ehvf vhffv bv v vhefv hve vev efhfv efv fv j v v hv ghve vnfv dfhv dfg vdf vgdv dvg v
-                                                           jfhvb sfhv fvhg d fv gfv fgv ddf vgf v"
-                                                               PlaceholderColor="Gray" Keyboard="Text"
+                                               WidthRequest="255" Text="" PlaceholderColor="Gray" 
+                                                           Keyboard="Text"
                                                 Style="{StaticResource EditorTextStyle}"
                                                                VerticalOptions="CenterAndExpand"/>
 
                                     </sfinput:SfTextInputLayout>
 
-                                    <sfbuttons:SfRadioGroup Orientation="Horizontal"
-                                                            Padding="2,10,0,0">
-                                        <Label Text="{Binding  labelobj.Status.Name}" 
+                                    <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
+                                                           ContainerBackgroundColor="White"
+                                                           ReserveSpaceForAssistiveLabels="False">
+                                        <sfbuttons:SfRadioGroup Orientation="Horizontal"
+                                                                IsEnabled="False"
+                                                            CheckedChanged="ScanRadioGroupCheckedChanged"
+                                                                HeightRequest="{OnPlatform Android=50,iOS=20 }">
+                                        
+                                            <Label Text="{Binding  labelobj.Status.Name}" 
                                                Style="{DynamicResource LableWithQuestionFont}"
-                                                TextColor="Black"/>
-                                        <sfbuttons:SfRadioButton Text="{Binding FalseName}" ClassId="{Binding FalseId}" IsChecked="{Binding ScanFalse,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ScanRadioChecked"/>
-                                        <sfbuttons:SfRadioButton Text="{Binding TrueName}" ClassId="{Binding TureId}" IsChecked="{Binding ScanTrue,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ScanRadioChecked"/>
+                                                 VerticalOptions="Center" TextColor="LightGray"/>
+                                        <sfbuttons:SfRadioButton Text="{Binding EmptyName}"
+                                                                 ClassId="{Binding EmptyId}" 
+                                                                 IsChecked="{Binding IsEmpty,
+                                            Mode=TwoWay}" TextColor="LightGray"/>
+                                        <sfbuttons:SfRadioButton Text="{Binding FullName}"
+                                                                 ClassId="{Binding FullId}" 
+                                                                 IsChecked="{Binding IsFull,
+                                            Mode=TwoWay}" TextColor="LightGray"/>
                                     </sfbuttons:SfRadioGroup>
+                                    </sfinput:SfTextInputLayout>
                                 </StackLayout>
                             </Frame>
 
@@ -281,17 +316,17 @@
                                CornerRadius="4" Grid.Row="2"
                                        Padding="7,5,7,5" >
 
-                                <StackLayout HorizontalOptions="FillAndExpand"
-                                             VerticalOptions="FillAndExpand" Padding="0">
+                                <Grid HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="Fill">
 
-                                    <Grid HorizontalOptions="Center" VerticalOptions="Center"
+                                    <!--<Grid HorizontalOptions="Center" VerticalOptions="Center"
                              BackgroundColor="White"    >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
+                                        </Grid.RowDefinitions>-->
 
                                         <Label Text="{Binding labelobj.PrintTag.Name}" Grid.Row="0" Grid.Column="0"
                                                FontSize="20" HorizontalOptions="Center"
@@ -300,15 +335,13 @@
                                             Text="{x:Static StaticIcons:Icons.PrintIc}" 
                                             Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
                                                                        VerticalOptions="Center"/>
-                                    </Grid>
+                                    <!--</Grid>-->
 
-                                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="0,0,0,4"
-                                  BackgroundColor="Transparent">
-
-                                        <sfbuttons:SfButton x:Name="clearhistory" Style="{StaticResource SfBtnBlue}" CornerRadius="4" 
+                                    <!--<Grid HorizontalOptions="FillAndExpand" VerticalOptions="End">-->
+                                        <sfbuttons:SfButton Style="{StaticResource SfBtnBlue}" CornerRadius="4" 
                                         BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
-                                        HorizontalOptions="FillAndExpand" VerticalOptions="End" Clicked="ClearHistory" 
-                                        Grid.Column="0">
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="End"
+                                        Grid.Row="1" Grid.Column="0">
                                             <sfbuttons:SfButton.Content>
                                                 <Label Text="{Binding labelobj.Done.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                             </sfbuttons:SfButton.Content>
@@ -320,7 +353,7 @@
                                         <sfbuttons:SfButton Style="{StaticResource SfBtnBlue}"  CornerRadius="4" 
                                         BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
                                         HorizontalOptions="FillAndExpand" VerticalOptions="End" 
-                                        Grid.Column="1">
+                                        Grid.Column="1"  Grid.Row="1" Command="{Binding StartScanningCmd}">
                                             <sfbuttons:SfButton.Content>
                                                 <Label Text="{Binding labelobj.Next.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                             </sfbuttons:SfButton.Content>
@@ -328,8 +361,8 @@
                                                 <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
                                             </sfbuttons:SfButton.Behaviors>
                                         </sfbuttons:SfButton>
-                                    </Grid>
-                                </StackLayout>
+                                    <!--</Grid>-->
+                                </Grid>
                             </Frame>
                         </Grid>
 
@@ -345,7 +378,9 @@
                                 <sfinput:SfTextInputLayout Hint="{Binding labelobj.RuleForHint.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ReserveSpaceForAssistiveLabels="False"
-                                                           ContainerBackgroundColor="White">
+                                                           ContainerBackgroundColor="White"
+                                                           ErrorColor="Red"
+                                                           HasError="{Binding IsRuleError}">
                                     <combobox:SfComboBox x:Name="LanguagePicker"
                                                                   SelectedItem="{Binding ConfigSelectedRule,Mode=TwoWay}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand" DataSource="{Binding RuleList ,Mode=TwoWay}"
@@ -363,7 +398,9 @@
                                 <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ReserveSpaceForAssistiveLabels="False"
-                                                           ContainerBackgroundColor="White">
+                                                           ContainerBackgroundColor="White"
+                                                           ErrorColor="Red"
+                                                           HasError="{Binding IsLocError}">
 
                                     <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedFromLoc,Mode=TwoWay}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand" DataSource="{Binding FromLocList,Mode=TwoWay}"
@@ -381,7 +418,9 @@
                                 <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remark.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ContainerBackgroundColor="White"
-                                                           ReserveSpaceForAssistiveLabels="False">
+                                                           ReserveSpaceForAssistiveLabels="False"
+                                                           ErrorColor="Red" 
+                                                           HasError="{Binding IsRemarkError}">
                                     <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedEventRemark,Mode=TwoWay}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand"  DataSource="{Binding EventRemarkList,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
@@ -395,34 +434,50 @@
 
                                 </sfinput:SfTextInputLayout>
 
+                                <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
+                                                           ContainerBackgroundColor="White"
+                                                           ReserveSpaceForAssistiveLabels="False"
+                                                           ErrorColor="Red"
+                                                           HasError="{Binding IsStatusError}" >
                                 <sfbuttons:SfRadioGroup x:Name="statusRadio" Orientation="Horizontal"
-                                                            Padding="2,6,0,0">
-                                    <Label Text="{Binding labelobj.Status.Name}" Style="{DynamicResource LableWithQuestionFont}"
-                                                TextColor="Black"/>
-                                    <sfbuttons:SfRadioButton Text="{Binding FalseName}" ClassId="{Binding FalseId}" IsChecked="{Binding ConfigFalse,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ConfigRadioChecked"/>
-                                    <sfbuttons:SfRadioButton Text="{Binding TrueName}" ClassId="{Binding TrueId}" IsChecked="{Binding ConfigTrue,Mode=TwoWay}" CheckedColor="{Binding BgColor}" StateChanged="ConfigRadioChecked"/>
+                                                           
+                                                        CheckedChanged="ConfigRadioGroupCheckedChanged"
+                                                        HeightRequest="{OnPlatform Android=50,
+                                    iOS=20}">
+                                    <Label Text="{Binding labelobj.Status.Name}" 
+                                           Style="{DynamicResource LableWithQuestionFont}"
+                                                TextColor="Black" VerticalOptions="Center"/>
+                                    <sfbuttons:SfRadioButton Text="{Binding EmptyName}" ClassId="{Binding EmptyId}" 
+                                                             IsChecked="{Binding IsEmpty,
+                                        Mode=TwoWay}" CheckedColor="{Binding BgColor}" />
+                                    <sfbuttons:SfRadioButton Text="{Binding FullName}" 
+                                                             ClassId="{Binding FullId}" 
+                                                             IsChecked="{Binding IsFull,
+                                        Mode=TwoWay}" CheckedColor="{Binding BgColor}" 
+                                                             />
                                 </sfbuttons:SfRadioGroup>
+                                </sfinput:SfTextInputLayout>
+                                
                             </StackLayout>
                         </Frame>
                     </StackLayout>
                 </ScrollView>
             </Grid>
 
-
-            <ContentView IsVisible="{Binding ConfigTabVisibility}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="End" 
-                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <sfbuttons:SfButton Margin="6,0,6,6" Command="{Binding SaveClickCmd}"
+            <sfbuttons:SfButton Margin="6,0,6,6" Command="{Binding SaveClickCmd}"
                                     Style="{StaticResource SfBtnBlue}" CornerRadius="4"
                                     BackgroundColor="{Binding BgColor}"
-                                    HorizontalOptions="FillAndExpand" VerticalOptions="End">
-                    <sfbuttons:SfButton.Content>
-                        <Label Text="{Binding labelobj.Save.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
-                    </sfbuttons:SfButton.Content>
-                    <sfbuttons:SfButton.Behaviors>
-                        <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
-                    </sfbuttons:SfButton.Behaviors>
-                </sfbuttons:SfButton>
-            </ContentView>
+                                    HorizontalOptions="FillAndExpand" 
+                                    VerticalOptions="End"
+                                    IsVisible="{Binding ConfigTabVisibility}"
+                                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <sfbuttons:SfButton.Content>
+                    <Label Text="{Binding labelobj.Save.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
+                </sfbuttons:SfButton.Content>
+                <sfbuttons:SfButton.Behaviors>
+                    <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                </sfbuttons:SfButton.Behaviors>
+            </sfbuttons:SfButton>
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                          IsVisible="{Binding loadindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
