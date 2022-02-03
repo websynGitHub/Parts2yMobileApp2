@@ -148,7 +148,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (data?.status == 1)
                             {
-                                SelectedScanRuleHeader = ConfigSelectedRule.Name;                     
+                                SelectedScanRuleHeader = ConfigSelectedRule.Name;
 
                                 IsScanEnable = true;
                                 ScanOpacity = 1;
@@ -594,6 +594,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _ConfigSelectedFromLoc = value;
                 NotifyPropertyChanged("ConfigSelectedFromLoc");
+
+                if (value.ID == 8)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
+                        ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
+                        IsGPSCorVisible = true;
+                    });
+                }
+                else
+                {
+                    ScanLocText = ConfigSelectedFromLoc.Name;
+                    IsGPSCorVisible = false;
+                }
             }
         }
 

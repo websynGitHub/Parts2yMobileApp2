@@ -222,11 +222,12 @@
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False"
                                                                 >
-                                        <combobox:SfComboBox  SelectedItem="{Binding ConfigSelectedFromLoc}"
+                                        <combobox:SfComboBox  SelectedItem="{Binding 
+                                            ConfigSelectedFromLoc}"
                                                               DisplayMemberPath="Name"
                                                               VerticalOptions="CenterAndExpand"
                                                               DataSource="{Binding FromLocList,Mode=TwoWay}"                                              
-                                                                 Style="{StaticResource SfComboBoxTextStyle}"
+                                                              Style="{StaticResource SfComboBoxTextStyle}"
                                                               IsEnabled="False"
                                                               TextColor="LightGray">
                                             <combobox:SfComboBox.HeightRequest>
@@ -439,21 +440,16 @@
                                                            ErrorColor="Red"
                                                            HasError="{Binding IsStatusError}" >
                                 <sfbuttons:SfRadioGroup x:Name="statusRadio" Orientation="Horizontal"
-                                                           
                                                         CheckedChanged="ConfigRadioGroupCheckedChanged"
-                                                        HeightRequest="{OnPlatform Android=50,
-                                    iOS=20}">
+                                                        HeightRequest="{OnPlatform Android=50,iOS=20}">
                                     <Label Text="{Binding labelobj.Status.Name}" 
                                            Style="{DynamicResource LableWithQuestionFont}"
                                                 TextColor="Black" VerticalOptions="Center"/>
                                     <sfbuttons:SfRadioButton Text="{Binding EmptyName}" ClassId="{Binding EmptyId}" 
-                                                             IsChecked="{Binding IsEmpty,
-                                        Mode=TwoWay}" CheckedColor="{Binding BgColor}" />
+                                                             IsChecked="{Binding IsEmpty,Mode=TwoWay}"/>
                                     <sfbuttons:SfRadioButton Text="{Binding FullName}" 
                                                              ClassId="{Binding FullId}" 
-                                                             IsChecked="{Binding IsFull,
-                                        Mode=TwoWay}" CheckedColor="{Binding BgColor}" 
-                                                             />
+                                                             IsChecked="{Binding IsFull,Mode=TwoWay}"/>
                                 </sfbuttons:SfRadioGroup>
                                 </sfinput:SfTextInputLayout>
                                 
