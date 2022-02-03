@@ -98,11 +98,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (ConfigSelectedSataus == EmptyId)
                     {
-                        IsEmpty = true;
+                        ScanIsEmpty = IsEmpty = true;
                     }
                     else if (ConfigSelectedSataus == FullId)
                     {
-                        IsFull = true;
+                        ScanIsFull = IsFull = true;
                     }
                 }
 
@@ -150,6 +150,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 SelectedScanRuleHeader = ConfigSelectedRule.Name;
 
+                                if (ConfigSelectedSataus == EmptyId)
+                                {
+                                    ScanIsEmpty = IsEmpty = true;
+                                }
+                                else if (ConfigSelectedSataus == FullId)
+                                {
+                                    ScanIsFull = IsFull = true;
+                                }
+
                                 IsScanEnable = true;
                                 ScanOpacity = 1;
                                 TabChange("scan");
@@ -160,10 +169,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
                     }
-                    IsRuleError = ConfigSelectedRule?.ID == 0 ? true : false;
-                    IsLocError = ConfigSelectedFromLoc?.ID == 0 ? true : false;
-                    IsRemarkError = ConfigSelectedEventRemark?.ID == 0 ? true : false;
-                    IsStatusError = ConfigSelectedSataus == 0 ? true : false;
+                    else
+                    {
+                        IsRuleError = ConfigSelectedRule?.ID == 0 ? true : false;
+                        IsLocError = ConfigSelectedFromLoc?.ID == 0 ? true : false;
+                        IsRemarkError = ConfigSelectedEventRemark?.ID == 0 ? true : false;
+                        IsStatusError = ConfigSelectedSataus == 0 ? true : false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -583,6 +595,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _ConfigSelectedRule = value;
                 NotifyPropertyChanged("ConfigSelectedRule");
+
+                if (IsRuleError == true && value.ID > 0)
+                {
+                    IsRuleError = false;
+                }
             }
         }
 
@@ -594,6 +611,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _ConfigSelectedFromLoc = value;
                 NotifyPropertyChanged("ConfigSelectedFromLoc");
+
+                if (IsLocError == true && value.ID > 0)
+                {
+                    IsLocError = false;
+                }
 
                 if (value.ID == 8)
                 {
@@ -620,6 +642,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _ConfigSelectedEventRemark = value;
                 NotifyPropertyChanged("ConfigSelectedEventRemark");
+
+                if (IsRemarkError == true && value.ID > 0)
+                {
+                    IsRemarkError = false;
+                }
             }
         }
 
@@ -631,6 +658,34 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _ConfigSelectedSataus = value;
                 NotifyPropertyChanged("ConfigSelectedSataus");
+
+                if (IsStatusError == true && value > 0)
+                {
+                    IsStatusError = false;
+                }
+            }
+        }
+
+
+        private bool _ScanIsEmpty;
+        public bool ScanIsEmpty
+        {
+            get => _ScanIsEmpty;
+            set
+            {
+                _ScanIsEmpty = value;
+                RaisePropertyChanged("ScanIsEmpty");
+            }
+        }
+
+        private bool _ScanIsFull;
+        public bool ScanIsFull
+        {
+            get => _ScanIsFull;
+            set
+            {
+                _ScanIsFull = value;
+                RaisePropertyChanged("ScanIsFull");
             }
         }
 

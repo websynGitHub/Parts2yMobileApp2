@@ -194,10 +194,10 @@
                                     <sfinput:SfTextInputLayout Hint="{Binding labelobj.ScanDate.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                        ReserveSpaceForAssistiveLabels="False"
-                                                       ContainerBackgroundColor="White" >
-                                        <Entry Text="{Binding ScannedDateTime}" FontAttributes="Bold"
-                                                           Style="{DynamicResource LableWithQuestionFont}"
-                                               IsEnabled="False" PlaceholderColor="LightGray">
+                                                       ContainerBackgroundColor="White" 
+                                                               IsEnabled="False">
+                                        <Entry Text="{Binding ScannedDateTime}"
+                                               Style="{DynamicResource EntryTextStyle}">
                                             <Entry.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <On Platform="iOS">47</On>
@@ -211,9 +211,8 @@
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False"
-                                                               >
+                                                               IsEnabled="False">
                                         <Entry Text="{Binding ScannedBy}" FontAttributes="Bold"
-                                               IsEnabled="False" PlaceholderColor="LightGray"
                                                             Style="{StaticResource EntryTextStyle}"/>
                                     </sfinput:SfTextInputLayout>
 
@@ -221,15 +220,14 @@
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False"
-                                                                >
+                                                                IsEnabled="False">
                                         <combobox:SfComboBox  SelectedItem="{Binding 
                                             ConfigSelectedFromLoc}"
                                                               DisplayMemberPath="Name"
                                                               VerticalOptions="CenterAndExpand"
-                                                              DataSource="{Binding FromLocList,Mode=TwoWay}"                                              
+                                                              DataSource="{Binding FromLocList}"                                              
                                                               Style="{StaticResource SfComboBoxTextStyle}"
-                                                              IsEnabled="False"
-                                                              TextColor="LightGray">
+                                                             >
                                             <combobox:SfComboBox.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <On Platform="iOS">20</On>
@@ -243,9 +241,9 @@
                                                        Style="{StaticResource SfInputLayout}" 
                                                        ReserveSpaceForAssistiveLabels="False"
                                                        ContainerBackgroundColor="White"
-                                                               IsVisible="{Binding IsGPSCorVisible}">
+                                                               IsVisible="{Binding IsGPSCorVisible}"
+                                                               IsEnabled="False">
                                         <Entry Text="{Binding ScanLocText}" FontAttributes="Bold"
-                                               PlaceholderColor="LightGray"
                                                            Style="{DynamicResource LableWithQuestionFont}"
                                                IsEnabled="False">
                                             <Entry.HeightRequest>
@@ -260,10 +258,11 @@
                                     <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remark.Name }" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
-                                                               ReserveSpaceForAssistiveLabels="False">
+                                                               ReserveSpaceForAssistiveLabels="False"
+                                                               IsEnabled="False">
                                         <combobox:SfComboBox  SelectedItem="{Binding ConfigSelectedEventRemark}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand" 
-                                                              IsEnabled="False" TextColor="LightGray"
+                                                              IsEnabled="False"
                                                               DataSource="{Binding EventRemarkList,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                             <combobox:SfComboBox.HeightRequest>
@@ -279,10 +278,11 @@
                                     <sfinput:SfTextInputLayout Hint="Description"
                                                        Style="{StaticResource SfInputLayout}"
                                                                ReserveSpaceForAssistiveLabels="False"
-                                                               ContainerBackgroundColor="White">
-                                        <LblIcons:MyEditor FontAttributes="Bold" TextColor="Black"
+                                                               ContainerBackgroundColor="White"
+                                                               >
+                                        <LblIcons:MyEditor FontAttributes="Bold"
                                                        HeightRequest="85" HorizontalOptions="FillAndExpand"
-                                               WidthRequest="255" Text="" PlaceholderColor="Gray" 
+                                               WidthRequest="255" Text="" 
                                                            Keyboard="Text"
                                                 Style="{StaticResource EditorTextStyle}"
                                                                VerticalOptions="CenterAndExpand"/>
@@ -291,22 +291,23 @@
 
                                     <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
                                                            ContainerBackgroundColor="White"
-                                                           ReserveSpaceForAssistiveLabels="False">
+                                                           ReserveSpaceForAssistiveLabels="False"
+                                                                IsEnabled="False">
                                         <sfbuttons:SfRadioGroup Orientation="Horizontal"
-                                                                IsEnabled="False"
+                                                                
                                                                 HeightRequest="{OnPlatform Android=50,iOS=20 }">
                                         
                                             <Label Text="{Binding  labelobj.Status.Name}" 
-                                               Style="{DynamicResource LableWithQuestionFont}"
-                                                 VerticalOptions="Center" TextColor="LightGray"/>
+                                               Style="{DynamicResource LableWithQuestionFontBlack}"
+                                                 VerticalOptions="Center" />
                                         <sfbuttons:SfRadioButton Text="{Binding EmptyName}"
                                                                  ClassId="{Binding EmptyId}" 
-                                                                 IsChecked="{Binding IsEmpty,
-                                            Mode=TwoWay}" TextColor="LightGray"/>
+                                                                 IsChecked="{Binding ScanIsEmpty,
+                                            Mode=TwoWay}" />
                                         <sfbuttons:SfRadioButton Text="{Binding FullName}"
                                                                  ClassId="{Binding FullId}" 
-                                                                 IsChecked="{Binding IsFull,
-                                            Mode=TwoWay}" TextColor="LightGray"/>
+                                                                 IsChecked="{Binding ScanIsFull,
+                                            Mode=TwoWay}" />
                                     </sfbuttons:SfRadioGroup>
                                     </sfinput:SfTextInputLayout>
                                 </StackLayout>
