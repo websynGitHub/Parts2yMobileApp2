@@ -1364,14 +1364,19 @@ namespace YPS.RestClientAPI
         /// Get Scan Config
         /// </summary>
         /// <returns></returns>
-        public async Task<SaveScanConfigResponse> SaveScanConfig(CompareModel compareobj, int scancount)
+        public async Task<SaveScanConfigResponse> SaveScanConfig(int compareruleid, int scancount,
+            int polyboxruleid, int polyboxlocid, int polyboxremarkid, int polyboxstatusid)
         {
             try
             {
                 return await requestProvider.PostAsync<SaveScanConfigResponse>(WebServiceUrl +
                     "User/UpdateScanConfiguration?UserID=" + Settings.userLoginID
-                    + "&ScanConfigID=" + compareobj.ID
-                    + "&ScanCount=" + scancount);
+                    + "&ScanConfigID=" + compareruleid
+                    + "&ScanCount=" + scancount
+                    + "&PolyboxRule=" + polyboxruleid
+                    + "&PolyboxLocation=" + polyboxlocid
+                    + "&PolyboxRemarks=" + polyboxremarkid
+                    + "&PolyboxStatus=" + polyboxstatusid);
             }
             catch (Exception ex)
             {
