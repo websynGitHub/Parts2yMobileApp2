@@ -99,7 +99,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackLayout  Grid.Column="0" Grid.Row="0">
-                        <Label  Text="{Binding labelobj.Scan.Name}" Style="{DynamicResource LableWithQuestionFont}" 
+                        <Label  IsEnabled="{Binding IsScanEnable}" Text="{Binding labelobj.Scan.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0"
                                 HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">

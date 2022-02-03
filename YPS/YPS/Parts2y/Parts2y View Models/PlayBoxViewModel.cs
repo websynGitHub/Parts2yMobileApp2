@@ -61,7 +61,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             loadindicator = false;
         }
 
-
         public async Task GetSavedConfigDataFromDB()
         {
             try
@@ -165,10 +164,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     ScanFalse = false;
                                 }
 
+                                IsScanEnable = true;
+                                ScanOpacity = 1;
                                 TabChange("scan");
-                            }
-                            else
-                            {
                             }
                         }
                         else
