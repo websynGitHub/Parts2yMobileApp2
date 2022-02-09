@@ -57,22 +57,22 @@ namespace YPS.Parts2y.Parts2y_Views
                 await trackService.Handleexception(ex);
             }
         }
-                
+
         private void ConfigRadioGroupCheckedChanged(object sender, Syncfusion.XForms.Buttons.CheckedChangedEventArgs e)
         {
             try
             {
-                if (e.CurrentItem.ClassId == Vm.EmptyId.ToString())
+                if (e.CurrentItem.ClassId == Vm.ScanConfigResult?.data?.PolyboxStatus[0]?.ID.ToString())
                 {
                     Vm.IsEmpty = true;
                     Vm.IsFull = false;
-                    Vm.ConfigSelectedSataus = Vm.EmptyId;
+                    Vm.ConfigSelectedSataus = (int)Vm.ScanConfigResult?.data?.PolyboxStatus[0]?.ID;
                 }
                 else
                 {
                     Vm.IsEmpty = false;
                     Vm.IsFull = true;
-                    Vm.ConfigSelectedSataus = Vm.FullId;
+                    Vm.ConfigSelectedSataus = (int)Vm.ScanConfigResult?.data?.PolyboxStatus[1]?.ID;
                 }
             }
             catch (Exception ex)

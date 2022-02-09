@@ -81,26 +81,33 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (resultData?.data != null)
                 {
-                    RuleList = resultData.data.PolyboxRule;
-                    ConfigSelectedRule = ConfigSelectedRule.ID == 0 ? RuleList[0] : RuleList?.Where(wr => wr.ID == ConfigSelectedRule.ID).FirstOrDefault();
+                    ScanConfigResult.data = resultData.data;
+
+                    //RuleList = resultData.data.PolyboxRule;
+                    ConfigSelectedRule = ConfigSelectedRule.ID == 0 ? ScanConfigResult.data.PolyboxRule[0] :
+                        ScanConfigResult.data.PolyboxRule?.Where(wr => wr.ID == ConfigSelectedRule.ID).FirstOrDefault();
                     SelectedScanRuleHeader = ConfigSelectedRule.Name;
 
-                    FromLocList = resultData.data.PolyboxLocation;
-                    ConfigSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ? FromLocList[0] : FromLocList?.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
+                    //FromLocList = resultData.data.PolyboxLocation;
+                    ConfigSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ?
+                        ScanConfigResult.data.PolyboxLocation[0] :
+                        ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
 
-                    EventRemarkList = resultData.data.PolyboxRemarks;
-                    ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ? EventRemarkList[0] : EventRemarkList?.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
+                    //EventRemarkList = resultData.data.PolyboxRemarks;
+                    ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ?
+                        ScanConfigResult.data.PolyboxRemarks[0] : 
+                        ScanConfigResult.data.PolyboxRemarks?.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
 
-                    EmptyName = resultData.data.PolyboxStatus[0].Name;
-                    FullName = resultData.data.PolyboxStatus[1].Name;
-                    EmptyId = resultData.data.PolyboxStatus[0].ID;
-                    FullId = resultData.data.PolyboxStatus[1].ID;
+                    //EmptyName = resultData.data.PolyboxStatus[0].Name;
+                    //FullName = resultData.data.PolyboxStatus[1].Name;
+                    //EmptyId = resultData.data.PolyboxStatus[0].ID;
+                    //FullId = resultData.data.PolyboxStatus[1].ID;
 
-                    if (ConfigSelectedSataus == EmptyId)
+                    if (ConfigSelectedSataus == ScanConfigResult.data.PolyboxStatus[0].ID)
                     {
                         ScanIsEmpty = IsEmpty = true;
                     }
-                    else if (ConfigSelectedSataus == FullId)
+                    else if (ConfigSelectedSataus == ScanConfigResult.data.PolyboxStatus[1].ID)
                     {
                         ScanIsFull = IsFull = true;
                     }
@@ -150,11 +157,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             {
                                 SelectedScanRuleHeader = ConfigSelectedRule.Name;
 
-                                if (ConfigSelectedSataus == EmptyId)
+                                if (ConfigSelectedSataus == ScanConfigResult.data.PolyboxStatus[0].ID)
                                 {
                                     ScanIsEmpty = IsEmpty = true;
                                 }
-                                else if (ConfigSelectedSataus == FullId)
+                                else if (ConfigSelectedSataus == ScanConfigResult.data.PolyboxStatus[1].ID)
                                 {
                                     ScanIsFull = IsFull = true;
                                 }
@@ -466,6 +473,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private ScanConfigResponse _ScanConfigResult = new ScanConfigResponse();
+        public ScanConfigResponse ScanConfigResult
+        {
+            get => _ScanConfigResult;
+            set
+            {
+                _ScanConfigResult = value;
+                NotifyPropertyChanged("ScanConfigResult");
+            }
+        }
+
         private bool _IsGPSCorVisible;
         public bool IsGPSCorVisible
         {
@@ -554,38 +572,38 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private List<YPS.Model.CompareModel> _RuleList;
-        public List<YPS.Model.CompareModel> RuleList
-        {
-            get => _RuleList;
-            set
-            {
-                _RuleList = value;
-                NotifyPropertyChanged("RuleList");
-            }
-        }
+        //private List<YPS.Model.CompareModel> _RuleList;
+        //public List<YPS.Model.CompareModel> RuleList
+        //{
+        //    get => _RuleList;
+        //    set
+        //    {
+        //        _RuleList = value;
+        //        NotifyPropertyChanged("RuleList");
+        //    }
+        //}
 
-        private List<YPS.Model.CompareModel> _FromLocList;
-        public List<YPS.Model.CompareModel> FromLocList
-        {
-            get => _FromLocList;
-            set
-            {
-                _FromLocList = value;
-                NotifyPropertyChanged("FromLocList");
-            }
-        }
+        //private List<YPS.Model.CompareModel> _FromLocList;
+        //public List<YPS.Model.CompareModel> FromLocList
+        //{
+        //    get => _FromLocList;
+        //    set
+        //    {
+        //        _FromLocList = value;
+        //        NotifyPropertyChanged("FromLocList");
+        //    }
+        //}
 
-        private List<YPS.Model.CompareModel> _EventRemarkList;
-        public List<YPS.Model.CompareModel> EventRemarkList
-        {
-            get => _EventRemarkList;
-            set
-            {
-                _EventRemarkList = value;
-                NotifyPropertyChanged("EventRemarkList");
-            }
-        }
+        //private List<YPS.Model.CompareModel> _EventRemarkList;
+        //public List<YPS.Model.CompareModel> EventRemarkList
+        //{
+        //    get => _EventRemarkList;
+        //    set
+        //    {
+        //        _EventRemarkList = value;
+        //        NotifyPropertyChanged("EventRemarkList");
+        //    }
+        //}
 
         private YPS.Model.CompareModel _ConfigSelectedRule = new Model.CompareModel();
         public YPS.Model.CompareModel ConfigSelectedRule
@@ -711,49 +729,49 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _EmptyName;
-        public string EmptyName
-        {
-            get => _EmptyName;
-            set
-            {
-                _EmptyName = value;
-                RaisePropertyChanged("EmptyName");
-            }
-        }
+        //private string _EmptyName;
+        //public string EmptyName
+        //{
+        //    get => _EmptyName;
+        //    set
+        //    {
+        //        _EmptyName = value;
+        //        RaisePropertyChanged("EmptyName");
+        //    }
+        //}
 
-        private string _FullName;
-        public string FullName
-        {
-            get => _FullName;
-            set
-            {
-                _FullName = value;
-                RaisePropertyChanged("FullName");
-            }
-        }
+        //private string _FullName;
+        //public string FullName
+        //{
+        //    get => _FullName;
+        //    set
+        //    {
+        //        _FullName = value;
+        //        RaisePropertyChanged("FullName");
+        //    }
+        //}
 
-        private int _EmptyId;
-        public int EmptyId
-        {
-            get => _EmptyId;
-            set
-            {
-                _EmptyId = value;
-                RaisePropertyChanged("EmptyId");
-            }
-        }
+        //private int _EmptyId;
+        //public int EmptyId
+        //{
+        //    get => _EmptyId;
+        //    set
+        //    {
+        //        _EmptyId = value;
+        //        RaisePropertyChanged("EmptyId");
+        //    }
+        //}
 
-        private int _FullId;
-        public int FullId
-        {
-            get => _FullId;
-            set
-            {
-                _FullId = value;
-                RaisePropertyChanged("FullId");
-            }
-        }
+        //private int _FullId;
+        //public int FullId
+        //{
+        //    get => _FullId;
+        //    set
+        //    {
+        //        _FullId = value;
+        //        RaisePropertyChanged("FullId");
+        //    }
+        //}
 
         private string _CargoCategory;
         public string CargoCategory
