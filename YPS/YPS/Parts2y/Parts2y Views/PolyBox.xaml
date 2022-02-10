@@ -98,8 +98,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <StackLayout  Grid.Column="0" Grid.Row="0">
-                        <Label  IsEnabled="{Binding IsScanEnable}" Text="{Binding labelobj.Scan.Name}" Style="{DynamicResource LableWithQuestionFont}" 
+                    <StackLayout IsEnabled="{Binding IsScanEnable}" Grid.Column="0" Grid.Row="0">
+                        <Label   Text="{Binding labelobj.Scan.Name}" Style="{DynamicResource LableWithQuestionFont}" 
                                 TextColor="{Binding ScanTabTextColor}" Opacity="{Binding ScanOpacity}" Padding="0,8,0,0"
                                 HorizontalOptions="Center" 
                                 VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
@@ -190,7 +190,6 @@
                                    VerticalOptions="FillAndExpand"
                                    IsVisible="{Binding IsScanContentVisible}">
                                 <StackLayout Padding="0,0,0,0" Margin="0" Spacing="0">
-
                                     <sfinput:SfTextInputLayout Hint="{Binding labelobj.ScanDate.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                        ReserveSpaceForAssistiveLabels="False"
@@ -222,10 +221,10 @@
                                                                ReserveSpaceForAssistiveLabels="False"
                                                                 IsEnabled="False">
                                         <combobox:SfComboBox  SelectedItem="{Binding 
-                                            ConfigSelectedFromLoc}"
+                                            ScanSelectedFromLoc}"
                                                               DisplayMemberPath="Name"
                                                               VerticalOptions="CenterAndExpand"
-                                                              DataSource="{Binding FromLocList}"                                              
+                                                              DataSource="{Binding ScanConfigResult.data.PolyboxLocation,Mode=TwoWay}"                                              
                                                               Style="{StaticResource SfComboBoxTextStyle}"
                                                              >
                                             <combobox:SfComboBox.HeightRequest>
@@ -260,10 +259,10 @@
                                                                ContainerBackgroundColor="White"
                                                                ReserveSpaceForAssistiveLabels="False"
                                                                IsEnabled="False">
-                                        <combobox:SfComboBox  SelectedItem="{Binding ConfigSelectedEventRemark}" DisplayMemberPath="Name"
+                                        <combobox:SfComboBox  SelectedItem="{Binding ScanSelectedEventRemark}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand" 
                                                               IsEnabled="False"
-                                                              DataSource="{Binding EventRemarkList,Mode=TwoWay}"
+                                                              DataSource="{Binding ScanConfigResult.data.PolyboxRemarks,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
                                             <combobox:SfComboBox.HeightRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
