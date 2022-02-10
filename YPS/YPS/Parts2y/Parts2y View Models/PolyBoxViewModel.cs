@@ -86,16 +86,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     //RuleList = resultData.data.PolyboxRule;
                     ConfigSelectedRule = ConfigSelectedRule.ID == 0 ? ScanConfigResult.data.PolyboxRule[0] :
                         ScanConfigResult.data.PolyboxRule?.Where(wr => wr.ID == ConfigSelectedRule.ID).FirstOrDefault();
-                    SelectedScanRuleHeader = ConfigSelectedRule.Name;
+                    SelectedScanRuleHeader = result.data.PolyboxRule == 0 ? "" : ConfigSelectedRule.Name;
 
                     //FromLocList = resultData.data.PolyboxLocation;
+                    ScanSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ? null : ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
                     ConfigSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ?
                         ScanConfigResult.data.PolyboxLocation[0] :
                         ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
 
                     //EventRemarkList = resultData.data.PolyboxRemarks;
+                    ScanSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ? null : ScanConfigResult.data.PolyboxRemarks?.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
                     ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ?
-                        ScanConfigResult.data.PolyboxRemarks[0] : 
+                        ScanConfigResult.data.PolyboxRemarks[0] :
                         ScanConfigResult.data.PolyboxRemarks?.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
 
                     //EmptyName = resultData.data.PolyboxStatus[0].Name;
@@ -156,6 +158,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (data?.status == 1)
                             {
                                 SelectedScanRuleHeader = ConfigSelectedRule.Name;
+                                ScanSelectedFromLoc = ConfigSelectedFromLoc;
+                                ScanSelectedEventRemark = ConfigSelectedEventRemark;
 
                                 if (ConfigSelectedSataus == ScanConfigResult.data.PolyboxStatus[0].ID)
                                 {
@@ -173,7 +177,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                            await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
                     }
                     else
@@ -235,7 +240,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
                 }
             }
             catch (Exception ex)
@@ -684,6 +689,42 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private YPS.Model.CompareModel _ScanSelectedFromLoc = new Model.CompareModel();
+        public YPS.Model.CompareModel ScanSelectedFromLoc
+        {
+            get => _ScanSelectedFromLoc;
+            set
+            {
+                _ScanSelectedFromLoc = value;
+                NotifyPropertyChanged("ScanSelectedFromLoc");
+
+                if (value?.ID == 8)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
+                        ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
+                        IsGPSCorVisible = true;
+                    });
+                }
+                else
+                {
+                    ScanLocText = ScanSelectedFromLoc?.Name;
+                    IsGPSCorVisible = false;
+                }
+            }
+        }
+
+        private YPS.Model.CompareModel _ScanSelectedEventRemark = new Model.CompareModel();
+        public YPS.Model.CompareModel ScanSelectedEventRemark
+        {
+            get => _ScanSelectedEventRemark;
+            set
+            {
+                _ScanSelectedEventRemark = value;
+                NotifyPropertyChanged("ScanSelectedEventRemark");
+            }
+        }
 
         private bool _ScanIsEmpty;
         public bool ScanIsEmpty
