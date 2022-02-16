@@ -205,7 +205,7 @@
                                             </Entry.HeightRequest>
                                         </Entry>
                                     </sfinput:SfTextInputLayout>
-
+                                                                       
                                     <sfinput:SfTextInputLayout  Hint="Scan By" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
@@ -213,6 +213,30 @@
                                                                IsEnabled="False">
                                         <Entry Text="{Binding ScannedBy}" FontAttributes="Bold"
                                                             Style="{StaticResource EntryTextStyle}"/>
+                                    </sfinput:SfTextInputLayout>
+
+                                    <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
+                                                           ContainerBackgroundColor="White"
+                                                           ReserveSpaceForAssistiveLabels="False"
+                                                                IsEnabled="False">
+                                        <sfbuttons:SfRadioGroup Orientation="Horizontal"
+                                                                
+                                                                HeightRequest="{OnPlatform Android=50,iOS=20 }">
+
+                                            <Label Text="{Binding  labelobj.Status.Name}" 
+                                               Style="{DynamicResource LableWithQuestionFontBlack}"
+                                                 VerticalOptions="Center" />
+                                            <sfbuttons:SfRadioButton Text="{Binding 
+                                            ScanConfigResult.data.PolyboxStatus[0].Name}"
+                                                                 ClassId="{Binding 
+                                            ScanConfigResult.data.PolyboxStatus[0].ID}" 
+                                                                 IsChecked="{Binding ScanIsEmpty}" />
+                                            <sfbuttons:SfRadioButton Text="{Binding 
+                                            ScanConfigResult.data.PolyboxStatus[1].Name}"
+                                                                 ClassId="{Binding 
+                                            ScanConfigResult.data.PolyboxStatus[1].ID}" 
+                                                                 IsChecked="{Binding ScanIsFull}"/>
+                                        </sfbuttons:SfRadioGroup>
                                     </sfinput:SfTextInputLayout>
 
                                     <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
@@ -288,29 +312,6 @@
 
                                     </sfinput:SfTextInputLayout>
 
-                                    <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
-                                                           ContainerBackgroundColor="White"
-                                                           ReserveSpaceForAssistiveLabels="False"
-                                                                IsEnabled="False">
-                                        <sfbuttons:SfRadioGroup Orientation="Horizontal"
-                                                                
-                                                                HeightRequest="{OnPlatform Android=50,iOS=20 }">
-
-                                            <Label Text="{Binding  labelobj.Status.Name}" 
-                                               Style="{DynamicResource LableWithQuestionFontBlack}"
-                                                 VerticalOptions="Center" />
-                                            <sfbuttons:SfRadioButton Text="{Binding 
-                                            ScanConfigResult.data.PolyboxStatus[0].Name}"
-                                                                 ClassId="{Binding 
-                                            ScanConfigResult.data.PolyboxStatus[0].ID}" 
-                                                                 IsChecked="{Binding ScanIsEmpty}" />
-                                            <sfbuttons:SfRadioButton Text="{Binding 
-                                            ScanConfigResult.data.PolyboxStatus[1].Name}"
-                                                                 ClassId="{Binding 
-                                            ScanConfigResult.data.PolyboxStatus[1].ID}" 
-                                                                 IsChecked="{Binding ScanIsFull}"/>
-                                        </sfbuttons:SfRadioGroup>
-                                    </sfinput:SfTextInputLayout>
                                 </StackLayout>
                             </Frame>
 
@@ -398,6 +399,30 @@
 
                                 </sfinput:SfTextInputLayout>
 
+                                <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
+                                                           ContainerBackgroundColor="White"
+                                                           ReserveSpaceForAssistiveLabels="False"
+                                                           ErrorColor="Red"
+                                                           HasError="{Binding IsStatusError}" >
+                                    <sfbuttons:SfRadioGroup x:Name="statusRadio" Orientation="Horizontal"
+                                                        CheckedChanged="ConfigRadioGroupCheckedChanged"
+                                                        HeightRequest="{OnPlatform Android=50,iOS=20}">
+                                        <Label Text="{Binding labelobj.Status.Name}" 
+                                           Style="{DynamicResource LableWithQuestionFont}"
+                                                TextColor="Black" VerticalOptions="Center"/>
+                                        <sfbuttons:SfRadioButton Text="{Binding 
+                                             ScanConfigResult.data.PolyboxStatus[0].Name}"
+                                                                 ClassId="{Binding 
+                                            ScanConfigResult.data.PolyboxStatus[0].ID}" 
+                                                             IsChecked="{Binding IsEmpty,Mode=TwoWay}"/>
+                                        <sfbuttons:SfRadioButton Text="{Binding 
+                                             ScanConfigResult.data.PolyboxStatus[1].Name}"
+                                                                 ClassId="{Binding 
+                                            ScanConfigResult.data.PolyboxStatus[1].ID}"
+                                                             IsChecked="{Binding IsFull,Mode=TwoWay}"/>
+                                    </sfbuttons:SfRadioGroup>
+                                </sfinput:SfTextInputLayout>
+
                                 <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ReserveSpaceForAssistiveLabels="False"
@@ -437,30 +462,6 @@
                                         </combobox:SfComboBox.HeightRequest>
                                     </combobox:SfComboBox>
 
-                                </sfinput:SfTextInputLayout>
-
-                                <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
-                                                           ContainerBackgroundColor="White"
-                                                           ReserveSpaceForAssistiveLabels="False"
-                                                           ErrorColor="Red"
-                                                           HasError="{Binding IsStatusError}" >
-                                    <sfbuttons:SfRadioGroup x:Name="statusRadio" Orientation="Horizontal"
-                                                        CheckedChanged="ConfigRadioGroupCheckedChanged"
-                                                        HeightRequest="{OnPlatform Android=50,iOS=20}">
-                                        <Label Text="{Binding labelobj.Status.Name}" 
-                                           Style="{DynamicResource LableWithQuestionFont}"
-                                                TextColor="Black" VerticalOptions="Center"/>
-                                        <sfbuttons:SfRadioButton Text="{Binding 
-                                             ScanConfigResult.data.PolyboxStatus[0].Name}"
-                                                                 ClassId="{Binding 
-                                            ScanConfigResult.data.PolyboxStatus[0].ID}" 
-                                                             IsChecked="{Binding IsEmpty,Mode=TwoWay}"/>
-                                        <sfbuttons:SfRadioButton Text="{Binding 
-                                             ScanConfigResult.data.PolyboxStatus[1].Name}"
-                                                                 ClassId="{Binding 
-                                            ScanConfigResult.data.PolyboxStatus[1].ID}"
-                                                             IsChecked="{Binding IsFull,Mode=TwoWay}"/>
-                                    </sfbuttons:SfRadioGroup>
                                 </sfinput:SfTextInputLayout>
 
                             </StackLayout>
