@@ -133,8 +133,10 @@
 
             <Style x:Key="SfComboBoxTextStyle" TargetType="combobox:SfComboBox">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}"/>
+                <Setter Property="DropDownItemFontFamily" Value="{DynamicResource LatoRegular}"/>
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="TextSize" Value="18"/>
+                <Setter Property="DropDownTextSize" Value="18"/>
             </Style>
             <!--Sf related styles End-->
 
