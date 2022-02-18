@@ -112,8 +112,8 @@ namespace YPS.Views
         {
             try
             {
-                //if (Settings.POID > 0)
-                //{
+                if (Settings.TaskID > 0)
+                {
                     if (Navigation?.NavigationStack[2]?.GetType()?.Name.Trim().ToLower() != "LinkPage".Trim().ToLower())
                     {
                         if (Navigation.NavigationStack.Count == 4)
@@ -127,9 +127,9 @@ namespace YPS.Views
                         Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                     }
 
-                    //Settings.POID = 0;
+                    Settings.POID = 0;
                     Settings.TaskID = 0;
-                //}
+                }
 
                 await Navigation.PopAsync(false);
             }
@@ -171,7 +171,8 @@ namespace YPS.Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
