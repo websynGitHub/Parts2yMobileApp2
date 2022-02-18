@@ -133,22 +133,63 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false;
                     });
+
+                    IsSelectAllChecked = false;
                 }
 
                 var item = sender as AllPoData;
 
-                if (item.IsChecked == true)
+                if (item != null)
                 {
-                    item.IsChecked = true;
-                    item.SelectedTagBorderColor = Settings.Bar_Background;
+                    if (item.IsChecked == true)
+                    {
+                        item.IsChecked = true;
+                        item.SelectedTagBorderColor = Settings.Bar_Background;
+                    }
+                    else
+                    {
+                        item.IsChecked = false;
+                        item.SelectedTagBorderColor = Color.Transparent;
+                    }
                 }
                 else
                 {
-                    item.IsChecked = false;
-                    item.SelectedTagBorderColor = Color.Transparent;
+                    var selectall = sender as Plugin.InputKit.Shared.Controls.CheckBox;
+                    //IsSelectAllChecked = selectall?.IsChecked;
+
+                    if(PoDataChildCollections?.All(al=>al.IsChecked==true)==true)
+                    {
+                        PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l =>
+                        {
+                            l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false;
+                        });
+                    }
+                    else
+                    {
+                        PoDataChildCollections.Where(wr => wr.IsChecked == false).ToList().ForEach(l =>
+                        {
+                            l.SelectedTagBorderColor = BgColor; l.IsChecked = true;
+                        });
+                    }
+
+                    //if (selectall?.IsChecked == true)
+                    //{
+                    //    PoDataChildCollections.Where(wr => wr.IsChecked == false).ToList().ForEach(l =>
+                    //      {
+                    //          l.SelectedTagBorderColor = BgColor; l.IsChecked = true;
+                    //      });
+                    //}
+                    //else
+                    //{
+                    //    PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l =>
+                    //    {
+                    //        l.SelectedTagBorderColor = Color.Transparent; l.IsChecked = false;
+                    //    });
+                    //}
                 }
 
                 SelectedTagCountVisible = (SelectedTagCount = PoDataChildCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
+                IsSelectAllChecked = SelectedTagCount == PoDataChildCollections.Count();
             }
             catch (Exception ex)
             {
@@ -248,7 +289,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -292,7 +334,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -336,7 +379,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -380,7 +424,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -555,7 +600,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-
+                IsSelectAllChecked = false;
 
                 if (potaglist != null && potaglist.Count > 0)
                 {
@@ -756,7 +801,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (data == null || data?.Count == 0)
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload photo(s).");
+                                await App.Current.MainPage.DisplayAlert("Select", "Please select " + VinsOrParts + " to start upload photo(s).", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload photo(s).");
                             }
                             else
                             {
@@ -764,7 +810,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 if (restricData.Count > 0)
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
+                                    await App.Current.MainPage.DisplayAlert("Upload", "Photos not required to upload for the selected " + VinsOrParts + ".", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
                                 }
                                 else
                                 {
@@ -810,7 +857,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                         if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
                                         {
-                                            DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected " + VinsOrParts + ".");
+                                            await App.Current.MainPage.DisplayAlert("Upload", "Photo upload is already started for the selected " + VinsOrParts + ".", "Ok");
+                                            //DependencyService.Get<IToastMessage>().ShortAlert("Photo upload is already started for the selected " + VinsOrParts + ".");
                                         }
                                         else
                                         {
@@ -820,26 +868,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                             }
                                             else
                                             {
-                                                DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                                await App.Current.MainPage.DisplayAlert("Alert", "No tags available.", "Ok");
+                                                //DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Please select only one record to upload photo(s).");
+                                        await App.Current.MainPage.DisplayAlert("Select", "Please select only one record to upload photo(s).", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Please select only one record to upload photo(s).");
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                            await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
 
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
@@ -879,7 +931,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (uniq.Count() == 0)
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start conversation.");
+                                await App.Current.MainPage.DisplayAlert("Select", "Please select " + VinsOrParts + " to start conversation.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start conversation.");
                             }
                             else
                             {
@@ -913,18 +966,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 }
                                 else
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                    await App.Current.MainPage.DisplayAlert("Alert", "No tags available.", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
                                 }
                             }
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                            await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
@@ -964,7 +1020,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                 if (data == null || data.Count() == 0)
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload file(s).");
+                                    await App.Current.MainPage.DisplayAlert("Select", "Please select " + VinsOrParts + " to start upload file(s).", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to start upload file(s).");
                                 }
                                 else
                                 {
@@ -1004,7 +1061,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     if (!String.IsNullOrEmpty(selectedTagsData.alreadyExit))
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected " + VinsOrParts + ".");
+                                        await App.Current.MainPage.DisplayAlert("Upload", "File upload is already started for the selected " + VinsOrParts + ".", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("File upload is already started for the selected " + VinsOrParts + ".");
                                     }
                                     else
                                     {
@@ -1014,14 +1072,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         }
                                         else
                                         {
-                                            DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                            await App.Current.MainPage.DisplayAlert("Alert", "No tags available.", "Ok");
+                                            //DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
                                         }
                                     }
                                 }
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                                await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                             }
                         }
                         catch (Exception ex)
@@ -1032,7 +1092,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
@@ -1071,7 +1132,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //else if (selectedTagData.Count() == 0)
                         if (selectedTagData.Count() == 0)
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to mark as done.");
+                            await App.Current.MainPage.DisplayAlert("Select", "Please select " + VinsOrParts + " to mark as done.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + " to mark as done.");
                         }
                         else
                         {
@@ -1125,7 +1187,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         var taskval = await trackService.UpdateTaskStatus(taskstatus);
                                         allPOTagData.All(a => { a.TaskStatus = taskstatus.TaskStatus; return true; });
                                     }
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Selected " + VinsOrParts + " are marked as done.");
+                                    await App.Current.MainPage.DisplayAlert("Done", "Selected " + VinsOrParts + " are marked as done.", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Selected " + VinsOrParts + " are marked as done.");
                                 }
 
                                 Settings.IsRefreshPartsPage = false;
@@ -1136,12 +1199,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -1174,7 +1239,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (uniq?.Count() == 0)
                         {
                             //Please select tag(s) to download the report
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + ".");
+                            await App.Current.MainPage.DisplayAlert("Select", "Please select " + VinsOrParts + ".", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please select " + VinsOrParts + ".");
                         }
                         else
                         {
@@ -1227,18 +1293,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 }
                                 else
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
+                                    await App.Current.MainPage.DisplayAlert("Alert", "No tags available.", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("No tags available.");
                                 }
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                                await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                             }
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
             }
@@ -1290,7 +1359,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     loadindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -1347,7 +1417,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         loadindicator = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
 
@@ -1381,7 +1452,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     loadindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -1419,7 +1491,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     loadindicator = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
                 loadindicator = false;
             }
@@ -1543,6 +1616,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        public bool? _IsSelectAllChecked;
+        public bool? IsSelectAllChecked
+        {
+            get => _IsSelectAllChecked;
+            set
+            {
+                _IsSelectAllChecked = value;
+                RaisePropertyChanged("IsSelectAllChecked");
+            }
+        }
 
         public Color _LoadTextColor = Color.Black;
         public Color LoadTextColor
