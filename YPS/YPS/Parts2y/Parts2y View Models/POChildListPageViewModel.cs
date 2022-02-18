@@ -115,6 +115,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
 
                 SelectedTagCountVisible = (SelectedTagCount = PoDataChildCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
+                IsSelectAllChecked = SelectedTagCount == PoDataChildCollections.Count();
             }
             catch (Exception ex)
             {
