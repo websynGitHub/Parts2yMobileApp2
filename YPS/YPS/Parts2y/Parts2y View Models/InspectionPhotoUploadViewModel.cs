@@ -84,7 +84,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (DeleteIconOpacity == 1.0)
                 {
                     IndicatorVisibility = true;
-                    bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+                    bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "Ok", "Cancel");
 
                     if (conform)
                     {
@@ -104,14 +104,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                                await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                             }
                         });
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
             }
             catch (Exception ex)
@@ -276,7 +278,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                                await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable", "Ok");
                             }
                             btnenable = true;
                         }
@@ -388,7 +390,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
 
             }
@@ -463,8 +466,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                     }
                     else
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-
+                    {
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -535,7 +540,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
 
                 IndicatorVisibility = false;
@@ -590,7 +596,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

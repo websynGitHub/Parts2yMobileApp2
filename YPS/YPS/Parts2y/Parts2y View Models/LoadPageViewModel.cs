@@ -286,7 +286,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             IndicatorVisibility = true;
             try
             {
-                bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+                bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "Ok", "Cancel");
 
                 if (conform)
                 {
@@ -318,7 +318,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                         await GetPhotosData(selectedTagData.TaskID);
 
-                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
+                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "Ok");
                                     }
                                 }
                             }
@@ -425,7 +425,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         }
 
                                         Settings.IsRefreshPartsPage = true;
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
+                                        bool makeitdone = await App.Current.MainPage.DisplayAlert("Success", "", "Ok", "");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Success."); ;
                                     }
                                 }
                             }
@@ -590,7 +591,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable", "Ok");
                     }
                 }
                 else if (action == "Gallery")

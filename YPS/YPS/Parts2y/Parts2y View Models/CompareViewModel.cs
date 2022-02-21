@@ -388,7 +388,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
                 }
             }
             catch (Exception ex)
@@ -671,7 +671,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         return false;
                     }
                 }

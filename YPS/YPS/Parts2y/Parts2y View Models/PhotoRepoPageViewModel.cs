@@ -195,7 +195,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             IndicatorVisibility = true;
             try
             {
-                bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+                bool conform = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "Ok", "Cancel");
 
                 if (conform)
                 {
@@ -218,7 +218,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     if (response?.status == 1)
                                     {
-                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
+                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "Ok");
                                         update = true;
                                     }
                                 }
@@ -228,7 +228,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                                     if (allresponse?.status == 1)
                                     {
-                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
+                                        await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "Ok");
                                         update = true;
                                     }
                                 }
@@ -243,7 +243,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                                await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                             }
                         }
                         catch (Exception ex)
@@ -324,7 +325,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 catch (Exception ex)
@@ -443,11 +445,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions: .png, .jpg, .jpeg, .gif, .bmp only.");
+                        await App.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions: .png, .jpg, .jpeg, .gif, .bmp only.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions: .png, .jpg, .jpeg, .gif, .bmp only.");
                         }
                     }
                     else
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    {
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -543,7 +549,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
                     }
                 }
                 else if (action == "Gallery")

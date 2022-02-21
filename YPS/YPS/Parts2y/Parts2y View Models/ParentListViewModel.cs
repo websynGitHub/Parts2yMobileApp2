@@ -150,7 +150,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.TrackEvent("ParentListViewModel.cs", " in DeleteFilterSearch method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
-                if (await App.Current.MainPage.DisplayAlert("Delete", "you sure you want to delete?", "OK", "Cancel") == true)
+                if (await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete?", "Ok", "Cancel") == true)
                 {
                     var value = sender as SearchPassData;
                     var result = await trackService.DeleteUserSearchFilter(value);
@@ -244,7 +244,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -599,14 +600,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                            await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
                     }
                     else
                     {
                         Exception ex = new Exception();
                         YPSLogger.ReportException(ex, "BindGridData method -> Your phone is rooted , please unroot to use app in ParentListViewModel.cs ");
-                        await App.Current.MainPage.DisplayAlert("Warning", "Your phone is rooted , please unroot to use app", "OK");
+                        await App.Current.MainPage.DisplayAlert("Warning", "Your phone is rooted , please unroot to use app", "Ok");
                         System.Diagnostics.Process.GetCurrentProcess().Kill();
                     }
                 }
@@ -753,12 +755,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                             await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
@@ -850,7 +854,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         loadingindicator = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 catch (Exception ex)
@@ -947,7 +952,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 catch (Exception ex)
@@ -1098,7 +1104,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

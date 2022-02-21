@@ -160,7 +160,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     IndicatorVisibility = false;
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -258,7 +259,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         IndicatorVisibility = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
@@ -453,7 +455,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         }
                                     }
 
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
+                                    await App.Current.MainPage.DisplayAlert("Link", "Photo(s) linked successfully.", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Photo(s) linked successfully.");
                                     await ShowContentsToLink();
                                     //}
                                     //else
@@ -464,19 +467,22 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : " part(s)")
-                                    + " to start linking photo(s).");
+                                await App.Current.MainPage.DisplayAlert("Select", "Please select" + (Settings.VersionID == 2 ? " VIN(s)" : " part(s)") + " to start linking photo(s).", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Please select" + (Settings.VersionID == 2 ? " VIN(s)" : " part(s)")
+                                //    + " to start linking photo(s).");
                             }
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        await App.Current.MainPage.DisplayAlert("Access denied", "You don't have permission to do this action.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                     await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

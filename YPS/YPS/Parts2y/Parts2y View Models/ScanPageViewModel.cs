@@ -166,7 +166,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
                 }
             }
             catch (Exception ex)
@@ -259,7 +259,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -337,7 +338,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -404,7 +406,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 #region PhotoUpload
                                 if (podata.cameImage == "cross.png")
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
+                                    await App.Current.MainPage.DisplayAlert("Upload", "Photo(s) not required to upload for the selected " + VinsOrParts + ".", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
                                 }
                                 else
                                 {
@@ -465,7 +468,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
