@@ -78,7 +78,7 @@ namespace YPS.Droid.Dependencies
         {
             try
             {
-                App.Current.MainPage.DisplayAlert("Alert", "Failed to connect to Google Play Services", "OK");
+                App.Current.MainPage.DisplayAlert("Alert", "Failed to connect to Google Play Services.", "Ok");
             }
             catch (Exception ex)
             {
