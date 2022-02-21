@@ -398,7 +398,8 @@ namespace YPS.Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
             }
             catch (Exception ex)

@@ -213,7 +213,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -245,20 +246,20 @@ namespace YPS.ViewModel
                     if (CompanyName.ToLower().Trim() == "please select company" || string.IsNullOrEmpty(CompanyName))
                     {
                         companyHaserror = true;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select company.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please select company.");
                     }
                     else if (ProjectName.ToLower().Trim() == "please select project" || string.IsNullOrEmpty(ProjectName))
                     {
                         projectHaserror = true;
                         companyHaserror = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select project.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please select project.");
                     }
                     else if (JobName.ToLower().Trim() == "please select job" || string.IsNullOrEmpty(JobName))
                     {
                         jobHaserror = true;
                         companyHaserror = false;
                         projectHaserror = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select job.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please select job.");
                     }
                     else
                     {
@@ -299,7 +300,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     IndicatorVisibility = false;
                 }
             }
@@ -387,7 +389,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -445,7 +448,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -481,13 +485,13 @@ namespace YPS.ViewModel
                     if (string.IsNullOrEmpty(LoginID))
                     {
                         loginIDHaserror = true;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please enter Login ID.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please enter Login ID.");
                     }
                     if (String.IsNullOrEmpty(Email))
                     {
                         emailHaserror = true;
                         loginIDHaserror = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please enter values for all mandatory fields.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please enter values for all mandatory fields.");
                     }
                     else if ((!Regex.IsMatch(Email, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$")))
                     {
@@ -500,7 +504,7 @@ namespace YPS.ViewModel
                         givennameHaserror = true;
                         emailHaserror = false;
                         loginIDHaserror = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please enter values for all mandatory fields.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please enter values for all mandatory fields.");
                     }
                     else if (string.IsNullOrEmpty(TimeZoneTextDisplay) || string.IsNullOrEmpty(TimeZoneTextDisplay))
                     {
@@ -508,7 +512,7 @@ namespace YPS.ViewModel
                         givennameHaserror = false;
                         emailHaserror = false;
                         loginIDHaserror = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select timezone.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please select timezone.");
                     }
                     else if (LangaugeTextDisplay == "Please Select" || string.IsNullOrEmpty(LangaugeTextDisplay))
                     {
@@ -517,7 +521,7 @@ namespace YPS.ViewModel
                         givennameHaserror = false;
                         emailHaserror = false;
                         loginIDHaserror = false;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please select language.");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please select language.");
                     }
                     else
                     {
@@ -562,7 +566,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

@@ -155,7 +155,7 @@ namespace YPS.Views
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Information", "No internet conncetion.", "OK");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
                 }
             }
             catch (Exception ex)

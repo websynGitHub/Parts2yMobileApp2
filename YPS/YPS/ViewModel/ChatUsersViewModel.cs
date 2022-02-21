@@ -232,17 +232,19 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                            await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("YPS!", "Please enter chat title.", "Ok");
+                        await App.Current.MainPage.DisplayAlert("Chat", "Please enter chat title.", "Ok");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
 
             }
@@ -350,7 +352,7 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            await App.Current.MainPage.DisplayAlert("Chat", "No users avaliable to start chat.", "OK");
+                            await App.Current.MainPage.DisplayAlert("Chat", "No users avaliable to start chat.", "Ok");
                             await Navigation.PopToRootAsync(false);
                             //App.Current.MainPage = new MenuPage(typeof(HomePage));
                         }
@@ -362,7 +364,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

@@ -141,13 +141,13 @@ namespace YPS
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Alert", "Invalid LoginID.", "OK");
+                        await App.Current.MainPage.DisplayAlert("Alert", "Invalid LoginID.", "Ok");
                         App.Current.MainPage = new MenuPage(typeof(YPS.Views.LoginPage));
                     }
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Alert", "Invalid LoginID.", "OK");
+                    await App.Current.MainPage.DisplayAlert("Alert", "Invalid LoginID.", "Ok");
                 }
                 OAuthConfig.User = null;
             }

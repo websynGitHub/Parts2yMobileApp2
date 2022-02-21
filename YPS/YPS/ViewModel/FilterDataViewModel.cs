@@ -284,7 +284,8 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 else
@@ -361,7 +362,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -418,12 +420,14 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                        await App.Current.MainPage.DisplayAlert("Alert", "Something went wrong, please try again.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

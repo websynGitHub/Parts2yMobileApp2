@@ -148,7 +148,7 @@ namespace YPS.ViewModel
 
                     if (DeleteIconOpacity == 1.0)
                     {
-                        bool confirm = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "OK", "Cancel");
+                        bool confirm = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure want to delete?", "Ok", "Cancel");
 
                         if (confirm)
                         {
@@ -201,13 +201,14 @@ namespace YPS.ViewModel
                                                     //InspBtnOpacity = 0.5;
                                                     RowHeightcomplete = 0;
                                                 }
-                                                await App.Current.MainPage.DisplayAlert("Success", "Photo deleted successfully.", "OK");
+                                                await App.Current.MainPage.DisplayAlert("Delete", "Photo deleted successfully.", "Ok");
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                                     }
                                 }
                                 catch (Exception ex)
@@ -222,7 +223,8 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
             }
@@ -524,7 +526,8 @@ namespace YPS.ViewModel
                                     }
 
                                     Settings.IsRefreshPartsPage = true;
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                    await App.Current.MainPage.DisplayAlert("Upload", "Uploaded Successfully", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                 }
                             }
                             else if (selectiontype_index == 1 && puid > 0)
@@ -599,7 +602,8 @@ namespace YPS.ViewModel
                                             }
                                         }
                                         Settings.IsRefreshPartsPage = true;
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                        await App.Current.MainPage.DisplayAlert("Upload", "Uploaded Successfully", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
                                 }
                             }
@@ -671,12 +675,14 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions: .png, .jpg, .jpeg, .gif, .bmp only.");
+                            await App.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions: .png, .jpg, .jpeg, .gif, .bmp only.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions: .png, .jpg, .jpeg, .gif, .bmp only.");
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 catch (Exception ex)
@@ -747,7 +753,8 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 catch (Exception ex)
@@ -792,10 +799,11 @@ namespace YPS.ViewModel
                             switch (Device.RuntimePlatform)
                             {
                                 case Device.iOS:
-                                    await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");
+                                    await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Ok");
                                     break;
                                 case Device.Android:
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                    await App.Current.MainPage.DisplayAlert("Completed", "Success", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     break;
                             }
                             await Navigation.PopAsync(false);
@@ -803,7 +811,8 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 else
@@ -852,7 +861,8 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
             }
@@ -978,7 +988,7 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable!", "OK");
+                            await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable", "Ok");
                         }
                         btnenable = true;
                     }
@@ -1054,7 +1064,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
                 IndicatorVisibility = false;
             }

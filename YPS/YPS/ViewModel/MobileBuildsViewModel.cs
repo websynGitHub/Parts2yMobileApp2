@@ -105,7 +105,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -188,12 +189,14 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
                 }
             }
             catch (Exception ex)
@@ -229,10 +232,11 @@ namespace YPS.ViewModel
                         switch (Device.RuntimePlatform)
                         {
                             case Device.iOS:
-                                await App.Current.MainPage.DisplayAlert("Download", "Successfully file saved to Parts2y/Downloads", "Close");
+                                await App.Current.MainPage.DisplayAlert("Download", "Successfully file saved to Parts2y/Downloads", "Ok");
                                 break;
                             case Device.Android:
-                                DependencyService.Get<IToastMessage>().ShortAlert("Successfully file saved to Parts2y/Downloads.");
+                                await App.Current.MainPage.DisplayAlert("Download", "Successfully file saved to Parts2y/Downloads", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Successfully file saved to Parts2y/Downloads.");
                                 break;
                         }
                         downloader.OnFileDownloaded -= OnFileDownloaded;
@@ -242,10 +246,11 @@ namespace YPS.ViewModel
                         switch (Device.RuntimePlatform)
                         {
                             case Device.iOS:
-                                await App.Current.MainPage.DisplayAlert("Download", "Error while saving the file.", "Close");
+                                await App.Current.MainPage.DisplayAlert("Download", "Error while saving the file.", "Ok");
                                 break;
                             case Device.Android:
-                                DependencyService.Get<IToastMessage>().ShortAlert("Error while saving the file.");
+                                await App.Current.MainPage.DisplayAlert("Download", "Error while saving the file.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Error while saving the file.");
                                 break;
                         }
                         downloader.OnFileDownloaded -= OnFileDownloaded;

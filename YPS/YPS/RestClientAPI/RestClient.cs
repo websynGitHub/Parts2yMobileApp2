@@ -526,7 +526,9 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                string url = WebServiceUrl + "QA/Users?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) + "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) + "&UserID=" + Settings.userLoginID + "&QAType=" + qatype + "";
+                string url = WebServiceUrl + "QA/Users?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) 
+                    + "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) 
+                    + "&UserID=" + Settings.userLoginID + "&QAType=" + qatype + "";
                 return await requestProvider.PostAsync<Getuserdata>(url);
             }
             catch (Exception ex)

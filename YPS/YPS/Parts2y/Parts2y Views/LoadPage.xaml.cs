@@ -94,14 +94,16 @@ namespace YPS.Parts2y.Parts2y_Views
 
                         if (result?.status == 1)
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            await App.Current.MainPage.DisplayAlert("Done", "Marked as done.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                             Vm.IsPhotoUploadIconVisible = false;
                             Vm.closeLabelText = false;
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }

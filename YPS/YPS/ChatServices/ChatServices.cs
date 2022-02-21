@@ -107,7 +107,8 @@ namespace YPS.ChatServices
             }
             catch (Exception ex)
             {
-                DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 YPSLogger.ReportException(ex, "Send method -> in ChatServices.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }

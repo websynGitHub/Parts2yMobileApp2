@@ -210,12 +210,14 @@ namespace YPS.Views
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                                     }
                                 }
                                 else
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                                 }
                             }
                         }
@@ -223,12 +225,14 @@ namespace YPS.Views
                         {
                             YPSLogger.ReportException(ex, "ListItemTapped method -> in ChatUsers.xaml.cs " + Settings.userLoginID);
                             await service.Handleexception(ex);
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                            await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
             }
@@ -357,7 +361,7 @@ namespace YPS.Views
                                         if (result.data.QAID == 0)
                                         {
                                             await Navigation.PopAsync(false);
-                                            await App.Current.MainPage.DisplayAlert("Alert", "Conversation is not started, please try again.", "Ok");
+                                            await App.Current.MainPage.DisplayAlert("Chat", "Conversation is not started, please try again.", "Ok");
                                         }
                                         else
                                         {
@@ -409,17 +413,18 @@ namespace YPS.Views
                         }
                         else
                         {
-                            await App.Current.MainPage.DisplayAlert("YPS!", "Please enter chat title.", "Ok");
+                            await App.Current.MainPage.DisplayAlert("Input", "Please enter chat title.", "Ok");
                         }
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("YPS!", "Please select atleast one user.", "Ok");
+                        await App.Current.MainPage.DisplayAlert("Select", "Please select atleast one user.", "Ok");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -484,7 +489,7 @@ namespace YPS.Views
             try
             {
                 vm.IndicatorVisibility = true;
-                bool answer = await App.Current.MainPage.DisplayAlert("Close", "Are you sure?", "Yes,Close", "No");
+                bool answer = await App.Current.MainPage.DisplayAlert("Close", "Are you sure?", "Yes", "No");
 
                 if (answer)//Checking if selected "Yes,Close"
                 {
@@ -496,14 +501,15 @@ namespace YPS.Views
 
                         if (result?.status == 1)
                         {
-                            await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");// Display message for success
+                            await App.Current.MainPage.DisplayAlert("Close", "QA closed Successfully.", "Ok");// Display message for success
                             await Navigation.PopToRootAsync(false);
                             //App.Current.MainPage = App.Current.MainPage = new MenuPage(typeof(HomePage));
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
             }
@@ -559,7 +565,7 @@ namespace YPS.Views
             }
         }
 
-        private void CloseQA_Tapped(object sender, EventArgs e)
+        private async void CloseQA_Tapped(object sender, EventArgs e)
         {
             try
             {
@@ -581,7 +587,8 @@ namespace YPS.Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
             }
             catch (Exception ex)

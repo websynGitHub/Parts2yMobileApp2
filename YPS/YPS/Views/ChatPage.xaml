@@ -19,7 +19,8 @@
     </ContentPage.Resources>
 
     <AbsoluteLayout>
-        <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Source="chatbg2.png" Aspect="AspectFill"/>
+        <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" 
+               Source="chatbg2.png" Aspect="AspectFill"/>
         <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -101,9 +102,11 @@
                         </DataTemplate>
                     </ListView.GroupHeaderTemplate>
                 </ListView>
-                <StackLayout x:Name="MessageEntry" Orientation="Horizontal" Spacing="0" Margin="2">
-                    <Frame IsClippedToBounds="True" OutlineColor="Gray" CornerRadius="15" Padding="5,0,4,2" HasShadow="False" HorizontalOptions="FillAndExpand">
-                        <Grid ColumnSpacing="0" RowSpacing="0" Margin="5,7,0,0">
+                <StackLayout x:Name="MessageEntry" Orientation="Horizontal" Spacing="3" Margin="2">
+                    <Frame IsClippedToBounds="True" OutlineColor="Gray" CornerRadius="15" 
+                           Padding="5,0,4,2" HasShadow="False" HorizontalOptions="FillAndExpand">
+                        <Grid ColumnSpacing="0" RowSpacing="0" Margin="5,0,0,0"
+                              RowDefinitions="60" VerticalOptions="CenterAndExpand">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="30"/>
@@ -111,34 +114,51 @@
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <local21:MyEditor VerticalOptions="FillAndExpand" AutoSize="TextChanges" Keyboard="Chat" 
+                            <local21:MyEditor VerticalOptions="CenterAndExpand" AutoSize="TextChanges" Keyboard="Chat" 
                                               IsVisible="{Binding BaseOnPlatformEditorShowAndroid}" Grid.Column="0" x:Name="message_entry"
                                               TextColor="Black" Placeholder="Enter your message" PlaceholderColor="Gray"
-                                              Text="{Binding ChatMessage.Message}" BackgroundColor="White" Style="{StaticResource EditorTextStyle}"/>
-                            <local21:MyEditor VerticalOptions="FillAndExpand" IsVisible="{Binding BaseOnPlatformEditorShowiOS}"  
+                                              Text="{Binding ChatMessage.Message}"
+                                              Style="{StaticResource EditorTextStyle}" Grid.Row="0"
+                                              Margin="0" HeightRequest="50" />
+                            <local21:MyEditor VerticalOptions="CenterAndExpand" IsVisible="{Binding BaseOnPlatformEditorShowiOS}"  
                                               Grid.Column="0" x:Name="message_entry_iOS" TextColor="Black" 
                                               Placeholder="Enter your message" PlaceholderColor="Gray" Style="{StaticResource EditorTextStyle}"
-                                              Text="{Binding ChatMessage.Message}" BackgroundColor ="White"/>
-                            <LblIcons:FontAwesomeIconLabel IsVisible="{Binding IsEmailenable}" Grid.Column="1" Opacity="5" Text="{Static StaticIcons:Icons.MailIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
+                                              Text="{Binding ChatMessage.Message}"
+                                              BackgroundColor ="White" Grid.Row="0"
+                                              Margin="0" HeightRequest="50"/>
+                            <LblIcons:FontAwesomeIconLabel IsVisible="{Binding IsEmailenable}" 
+                                                           Grid.Column="1" Opacity="5" 
+                                                           Text="{Static StaticIcons:Icons.MailIc}" 
+                                                           Style="{StaticResource LblIconStyleForList}" 
+                                                           HorizontalOptions="End" 
+                                                           VerticalOptions="Center" Grid.Row="0">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SendEmailImageCommand}"/>
                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             </LblIcons:FontAwesomeIconLabel>
                             <LblIcons:FontAwesomeIconLabel Grid.Column="3" Opacity="5" x:Name="attachment"
-                                                           Text="{Static StaticIcons:Icons.FileAttachIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
+                                                           Text="{Static StaticIcons:Icons.FileAttachIc}"
+                                                           Style="{StaticResource LblIconStyleForList}" 
+                                                           HorizontalOptions="End" 
+                                                           VerticalOptions="Center" Grid.Row="0">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SendImageCommand}" CommandParameter="{x:Reference attachment}"/>
                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             </LblIcons:FontAwesomeIconLabel>
                             <LblIcons:FontAwesomeIconLabel Grid.Column="4" Opacity="5" x:Name="photo"
-                                                           Text="{Static StaticIcons:Icons.CameraIc}" Style="{StaticResource LblIconStyleForList}" HorizontalOptions="End">
+                                                           Text="{Static StaticIcons:Icons.CameraIc}"
+                                                           Style="{StaticResource LblIconStyleForList}" 
+                                                           HorizontalOptions="End" 
+                                                           VerticalOptions="Center" Grid.Row="0">
                                 <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SendImageCommand}" CommandParameter="{x:Reference photo}"/>
                                 </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                             </LblIcons:FontAwesomeIconLabel>
                         </Grid>
                     </Frame>
-                    <Button Image="Wsend.png" BackgroundColor="Transparent" Opacity="5" WidthRequest="50" HeightRequest="60" HorizontalOptions="End" Command="{Binding SendMessageCommand}"/>
+                    <ImageButton Source="Wsend.png" BackgroundColor="Transparent" Opacity="5" 
+                            WidthRequest="40" HeightRequest="10" HorizontalOptions="End" 
+                            Command="{Binding SendMessageCommand}"/>
                 </StackLayout>
             </StackLayout>
         </Grid>

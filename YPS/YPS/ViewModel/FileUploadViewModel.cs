@@ -234,10 +234,11 @@ namespace YPS.ViewModel
                                     switch (Device.RuntimePlatform)
                                     {
                                         case Device.iOS:
-                                            await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Close");
+                                            await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Ok");
                                             break;
                                         case Device.Android:
-                                            DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                            await App.Current.MainPage.DisplayAlert("Completed", "Success.", "Ok");
+                                            //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                             break;
                                     }
                                     await Navigation.PopAsync(false);
@@ -246,14 +247,15 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            await App.Current.MainPage.DisplayAlert("Alert", "Please upload a file before click on save button.", "OK");
+                            await App.Current.MainPage.DisplayAlert("Upload", "Please upload a file before click on save button.", "Ok");
                         }
                     }
                     else
                     {
                         CompletedVal = false;
                         NotCompletedVal = true;
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 else
@@ -379,7 +381,8 @@ namespace YPS.ViewModel
                                         }
 
                                         Settings.IsRefreshPartsPage = true;
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                        await App.Current.MainPage.DisplayAlert("Upload", "Uploaded Successfully.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                         UploadType = "fileUpload";
                                     }
                                 }
@@ -428,7 +431,8 @@ namespace YPS.ViewModel
                                         MessagingCenter.Send<string, string>("FilesCounts", "msgF", ListOfFile.Count().ToString() + "," + myFuid);
 
                                         Settings.IsRefreshPartsPage = true;
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                        await App.Current.MainPage.DisplayAlert("Upload", "Uploaded Successfully.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
                                 }
                             }
@@ -469,7 +473,8 @@ namespace YPS.ViewModel
                                         IsFolderVisible = true;
                                         IsCrossVisible = false;
                                         FileDescription = "";
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                        await App.Current.MainPage.DisplayAlert("Upload", "Uploaded Successfully.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                     }
                                 }
                             }
@@ -487,17 +492,20 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions:.png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.");
+                            await App.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions:.png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please upload files having extensions:.png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.");
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -597,7 +605,8 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 catch (Exception ex)
@@ -671,7 +680,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -784,12 +794,14 @@ namespace YPS.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
                 }
             }
             catch (Exception ex)
@@ -825,10 +837,11 @@ namespace YPS.ViewModel
                         switch (Device.RuntimePlatform)
                         {
                             case Device.iOS:
-                                await App.Current.MainPage.DisplayAlert("Download", "Successful file saved to Parts2y/Downloads", "Close");
+                                await App.Current.MainPage.DisplayAlert("Download", "Successfully file saved to Parts2y/Downloads.", "Ok");
                                 break;
                             case Device.Android:
-                                DependencyService.Get<IToastMessage>().ShortAlert("Successful file saved to Parts2y/Downloads.");
+                                await App.Current.MainPage.DisplayAlert("Download", "Successfully file saved to Parts2y/Downloads.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Successful file saved to Parts2y/Downloads.");
                                 break;
                         }
                         downloader.OnFileDownloaded -= OnFileDownloaded;
@@ -838,10 +851,11 @@ namespace YPS.ViewModel
                         switch (Device.RuntimePlatform)
                         {
                             case Device.iOS:
-                                await App.Current.MainPage.DisplayAlert("Download", "Error while saving the file.", "Close");
+                                await App.Current.MainPage.DisplayAlert("Download", "Error while saving the file.", "Ok");
                                 break;
                             case Device.Android:
-                                DependencyService.Get<IToastMessage>().ShortAlert("Error while saving the file.");
+                                await App.Current.MainPage.DisplayAlert("Download", "Error while saving the file.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Error while saving the file.");
                                 break;
                         }
                         downloader.OnFileDownloaded -= OnFileDownloaded;
@@ -883,7 +897,7 @@ namespace YPS.ViewModel
 
                             if (ListOfFile != null && ListOfFile.Count > 0)
                             {
-                                bool result = await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete?", "OK", "Cancel");
+                                bool result = await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete?", "Ok", "Cancel");
                                 if (result)
                                 {
                                     IndicatorVisibility = true;
@@ -903,10 +917,11 @@ namespace YPS.ViewModel
                                             switch (Device.RuntimePlatform)
                                             {
                                                 case Device.iOS:
-                                                    await App.Current.MainPage.DisplayAlert("Delete", "Success.", "Close");
+                                                    await App.Current.MainPage.DisplayAlert("Delete", "Deleted Successfully.", "Ok");
                                                     break;
                                                 case Device.Android:
-                                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                                    await App.Current.MainPage.DisplayAlert("Delete", "Deleted Successfully.", "Ok");
+                                                    //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                                     break;
                                             }
                                             if (ListOfFile.Count() == 0)
@@ -924,7 +939,8 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                            await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                     else
@@ -935,7 +951,7 @@ namespace YPS.ViewModel
 
                             if (PLListOfFile != null && PLListOfFile.Count > 0)
                             {
-                                bool result = await App.Current.MainPage.DisplayAlert("Alert", "Are you sure you want to delete?", "OK", "Cancel");
+                                bool result = await App.Current.MainPage.DisplayAlert("Alert", "Are you sure you want to delete?", "Ok", "Cancel");
 
                                 if (result)
                                 {
@@ -955,10 +971,11 @@ namespace YPS.ViewModel
                                             switch (Device.RuntimePlatform)
                                             {
                                                 case Device.iOS:
-                                                    await App.Current.MainPage.DisplayAlert("Delete", "Success.", "Close");
+                                                    await App.Current.MainPage.DisplayAlert("Delete", "Deleted Successfully.", "Ok");
                                                     break;
                                                 case Device.Android:
-                                                    DependencyService.Get<IToastMessage>().ShortAlert("Success.");
+                                                    await App.Current.MainPage.DisplayAlert("Delete", "Deleted Successfully.", "Ok");
+                                                    //DependencyService.Get<IToastMessage>().ShortAlert("Success.");
                                                     break;
                                             }
 
@@ -977,13 +994,15 @@ namespace YPS.ViewModel
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                            await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -1053,12 +1072,13 @@ namespace YPS.ViewModel
                                         }
                                         else
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
+                                            await Application.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
                                         }
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
+                                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
                                     }
                                     IndicatorVisibility = false;
                                     break;
@@ -1103,12 +1123,13 @@ namespace YPS.ViewModel
                                         }
                                         else
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
+                                            await Application.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
                                         }
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
+                                        await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
                                     }
                                     IndicatorVisibility = false;
                                     break;
@@ -1175,7 +1196,7 @@ namespace YPS.ViewModel
                                         }
                                         else
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
+                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
                                         }
 
                                         IndicatorVisibility = false;
@@ -1208,7 +1229,7 @@ namespace YPS.ViewModel
                                     }
                                     else
                                     {
-                                        await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "OK");
+                                        await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
                                     }
                                     IndicatorVisibility = false;
                                     break;
@@ -1218,7 +1239,8 @@ namespace YPS.ViewModel
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
+                    await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                 }
             }
             catch (Exception ex)

@@ -123,7 +123,7 @@ namespace YPS
                                     {
                                         DependencyService.Get<ISQLite>().deleteReadCountNmsg(Convert.ToInt32(navPages[4]));
                                         App.Current.MainPage = new MenuPage(typeof(HomePage));
-                                        App.Current.MainPage.DisplayAlert("Message", "You have been removed from " + " '" + navPages[7] + "' " + ", Can not view the conversation", "OK");
+                                        App.Current.MainPage.DisplayAlert("Message", "You have been removed from " + " '" + navPages[7] + "' " + ", Can not view the conversation", "Ok");
                                     }
                                     else if (navPages[0].Trim().ToLower() == "JobAssigned".Trim().ToLower())
                                     {
@@ -141,7 +141,7 @@ namespace YPS
                     {
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Close");
+                            await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Ok");
                             CloudFolderKeyVal.Appredirectloginwithoutlogout(false);
                         });
                     }
@@ -340,7 +340,7 @@ namespace YPS
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Close");
+                        await App.Current.MainPage.DisplayAlert("SSL keys not found, closing app", "Try again.", "Ok");
                         CloudFolderKeyVal.Appredirectloginwithoutlogout(false);
                     });
                 }
@@ -413,7 +413,7 @@ namespace YPS
                             //{
                             //    Exception ex = new Exception();
                             //    YPSLogger.ReportException(ex, "LoginMethod method ->Your phone is rooted , please unroot to use app in LoginPageViewModel ");
-                            //    await App.Current.MainPage.DisplayAlert("Warning", "Your phone is rooted , please unroot to use app", "OK");
+                            //    await App.Current.MainPage.DisplayAlert("Warning", "Your phone is rooted , please unroot to use app", "Ok");
                             //    System.Diagnostics.Process.GetCurrentProcess().Kill();
                             //}
                         }
@@ -421,7 +421,7 @@ namespace YPS
                         {
                             Exception ex = new Exception();
                             YPSLogger.ReportException(ex, "LoginMethod method ->Security of this device is compromised. The app will exit. in LoginPageViewModel ");
-                            await App.Current.MainPage.DisplayAlert("Warning", "Security of this device is compromised. The app will exit.", "OK");
+                            await App.Current.MainPage.DisplayAlert("Warning", "Security of this device is compromised. The app will exit.", "Ok");
                             System.Diagnostics.Process.GetCurrentProcess().Kill();
                         }
                     }
@@ -429,7 +429,7 @@ namespace YPS
                     {
                         Exception ex = new Exception();
                         YPSLogger.ReportException(ex, "LoginMethod method -> Hacked with IPAPatch  ");
-                        await App.Current.MainPage.DisplayAlert("Hacked", "Hacked with IPAPatch", "OK");
+                        await App.Current.MainPage.DisplayAlert("Hacked", "Hacked with IPAPatch", "Ok");
                         System.Diagnostics.Process.GetCurrentProcess().Kill();
                     }
                 }
@@ -438,7 +438,7 @@ namespace YPS
                 {
                     Exception ex = new Exception();
                     YPSLogger.ReportException(ex, "LoginMethod method -> Jailbreak detected  ");
-                    await App.Current.MainPage.DisplayAlert("Jailbreak detected", "Device is jailbroken", "Cancel");
+                    await App.Current.MainPage.DisplayAlert("Jailbreak detected", "Device is jailbroken", "Ok");
                     System.Diagnostics.Process.GetCurrentProcess().Kill();
                 }
                 #endregion

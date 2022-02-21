@@ -105,11 +105,14 @@ namespace YPS.Views
             try
             {
                 if (Vm.CompanyName.ToLower().Trim() == "please select company")
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please select company.");
-
+                {
+                    await App.Current.MainPage.DisplayAlert("Select", "Please select project.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please select company.");
+                }
                 else if (Vm.ProjectList.Count == 0)
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Not found any project, please select another company.");
+                    await App.Current.MainPage.DisplayAlert("Select", "Not found any project, please select another company.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Not found any project, please select another company.");
                 }
                 else
                 {
@@ -139,11 +142,13 @@ namespace YPS.Views
             {
                 if (Vm.ProjectName.ToLower().Trim() == "please select project")
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please select project.");
+                    await App.Current.MainPage.DisplayAlert("Select", "Please select project.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please select project.");
                 }
                 else if (Vm.JobList.Count == 0)
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Not found any job, please select another project.");
+                    await App.Current.MainPage.DisplayAlert("Select", "Not found any job, please select another project.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Not found any job, please select another project.");
                 }
                 else
                 {

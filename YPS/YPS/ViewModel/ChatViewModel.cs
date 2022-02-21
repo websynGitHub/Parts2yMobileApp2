@@ -285,7 +285,8 @@ namespace YPS.ViewModels
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -350,13 +351,16 @@ namespace YPS.ViewModels
                             {
                                 count = 0;
                                 dismissCurrentSignalRConnection = true;
-                                DependencyService.Get<IToastMessage>().ShortAlert("Check your internet connection.");
+                                await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Check your internet connection.");
                             }
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please enter text.");
+                        await App.Current.MainPage.DisplayAlert("Input", "Please enter text.", "Ok");
+                        dismissCurrentSignalRConnection = true;
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please enter text.");
                     }
                 }
             }
@@ -466,7 +470,8 @@ namespace YPS.ViewModels
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
 
             }
@@ -534,19 +539,19 @@ namespace YPS.ViewModels
                                     }
                                     else
                                     {
-                                        await App.Current.MainPage.DisplayAlert("Oops", "File not available at location.", "OK");
+                                        await App.Current.MainPage.DisplayAlert("Oops", "File not available at location.", "Ok");
                                     }
                                 }
                                 else
                                 {
-                                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "OK");
+                                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
                                 }
                             }
                             else if (action.Trim().ToLower() == "gallery")
                             {
                                 if (!CrossMedia.Current.IsPickPhotoSupported)
                                 {
-                                    await App.Current.MainPage.DisplayAlert("Permissions Denied", "Unable to pick photos.", "OK");
+                                    await App.Current.MainPage.DisplayAlert("Permissions Denied", "Unable to pick photos.", "Ok");
                                     return;
                                 }
                                 else
@@ -588,7 +593,7 @@ namespace YPS.ViewModels
                             //        }
                             //        else
                             //        {
-                            //            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "OK");
+                            //            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "Ok");
                             //        }
                             //    }
                             //    else
@@ -636,12 +641,13 @@ namespace YPS.ViewModels
                                 }
                                 else
                                 {
-                                    await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "OK");
+                                    await Application.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "Ok");
                                 }
                             }
                             else
                             {
-                                DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
+                                await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to save files, please allow the permission in app permission settings.");
                             }
                         }
                     }
@@ -682,7 +688,7 @@ namespace YPS.ViewModels
                                     }
                                     else
                                     {
-                                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "OK");
+                                        await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
                                     }
 
                                     break;
@@ -712,7 +718,7 @@ namespace YPS.ViewModels
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "OK");
+                                await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "Ok");
                             }
                         }
                     }
@@ -818,7 +824,8 @@ namespace YPS.ViewModels
                             if (ChatMailrespose?.status == 1)
                             {
                                 checkMail = true;
-                                DependencyService.Get<IToastMessage>().ShortAlert("Mail send success.");
+                                await App.Current.MainPage.DisplayAlert("Success", "Mail send success.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Mail send success.");
                                 _chatMessage.Message = string.Empty;
                             }
                             else
@@ -827,7 +834,8 @@ namespace YPS.ViewModels
                         }
                         else
                         {
-                            DependencyService.Get<IToastMessage>().ShortAlert("Please enter text.");
+                            await App.Current.MainPage.DisplayAlert("Input", "Please enter text.", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Please enter text.");
                         }
                         IsBusy = false;
                     }
@@ -838,7 +846,8 @@ namespace YPS.ViewModels
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

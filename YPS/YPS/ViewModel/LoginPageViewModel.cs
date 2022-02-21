@@ -55,7 +55,7 @@ namespace YPS.ViewModel
                 /// Entry control checking is empty or not.
                 if (String.IsNullOrWhiteSpace(userName))
                 {
-                    await App.Current.MainPage.DisplayAlert("Login", "Invalid LoginID.", "OK");
+                    await App.Current.MainPage.DisplayAlert("Login", "Invalid LoginID.", "Ok");
                     pwdInvalidText = "";
                     PwdError = false;
                     invalidLoginText = "Invalid LoginID.";
@@ -199,19 +199,21 @@ namespace YPS.ViewModel
                                     }
                                     else
                                     {
-                                        DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
+                                        await App.Current.MainPage.DisplayAlert("Alert", "Something went wrong, please try again.", "Ok");
+                                        //DependencyService.Get<IToastMessage>().ShortAlert("Something went wrong, please try again.");
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            await App.Current.MainPage.DisplayAlert("Alert!", "Invalid LoginID.", "OK");
+                            await App.Current.MainPage.DisplayAlert("Alert", "Invalid LoginID.", "Ok");
                         }
                     }
                     else
                     {
-                        DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                     }
 
                 }
