@@ -53,7 +53,7 @@
                               Style="{StaticResource HeaderMainGrid}">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" Spacing="15"
-                                         VerticalOptions="StartAndExpand" Margin="10,10,10,0">
+                                         VerticalOptions="StartAndExpand" Margin="10,10,0,0">
                                 <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.arrowLeft}"
                                                   Style="{StaticResource LblIconStyle}" TextColor="#FFFFFF" HorizontalOptions="Start" 
                                                   VerticalOptions="Start">
@@ -75,7 +75,7 @@
 
                             <StackLayout Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding BgColor}"  
                                          Orientation="Vertical" HorizontalOptions="StartAndExpand" 
-                                        VerticalOptions="StartAndExpand" Margin="8,10,0,0">
+                                        VerticalOptions="StartAndExpand" Margin="0,10,0,0">
 
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.TaskName.Status}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
@@ -156,7 +156,7 @@
                                          Orientation="Horizontal" BackgroundColor="{Binding BgColor}">
 
                             <input:CheckBox x:Name="selectallcheck" ClassId="selectall"
-                                            VerticalOptions="Start"
+                                            VerticalOptions="Start" Spacing="26"
                                     Color="White" Margin="10,0,0,0" Padding="0"
                                     IconColor="{Binding BgColor}"
                                                                     CheckChangedCommand="{Binding 
@@ -165,7 +165,7 @@
                                                 IsChecked="{Binding IsSelectAllChecked,Mode=TwoWay}"
                                                                     Type="Material" 
                                             Text="Select All" TextColor="White"
-                                            BoxSizeRequest="33"
+                                            BoxSizeRequest="30"
                                             TextFontSize="19"
                                                      >
                                 <input:CheckBox.Triggers>
@@ -439,7 +439,7 @@
                                                                     CommandParameter="{Binding .}"
                                                 IsChecked="{Binding IsChecked}"
                                                                     Type="Material"
-                                                                    BoxSizeRequest="33"/>
+                                                                    BoxSizeRequest="30"/>
 
                                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
                                                          >

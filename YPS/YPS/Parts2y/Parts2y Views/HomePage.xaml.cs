@@ -100,7 +100,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("No notification(s) available.");
+                    await App.Current.MainPage.DisplayAlert("Notification", "No notification(s) available.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("No notification(s) available.");
                 }
             }
             catch (Exception ex)

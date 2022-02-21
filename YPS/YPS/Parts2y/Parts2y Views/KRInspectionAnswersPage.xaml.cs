@@ -88,7 +88,8 @@ namespace YPS.Parts2y.Parts2y_Views
 
                                     var taskval = await service.UpdateTaskStatus(taskstatus);
                                 }
-                                DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                await App.Current.MainPage.DisplayAlert("Done", "Marked as done.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                             }
                         }
                     }
@@ -108,7 +109,8 @@ namespace YPS.Parts2y.Parts2y_Views
 
                                 if (taskval?.status == 1)
                                 {
-                                    DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                    await App.Current.MainPage.DisplayAlert("Done", "Marked as done.", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
                                 }
                             }
 
@@ -117,7 +119,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

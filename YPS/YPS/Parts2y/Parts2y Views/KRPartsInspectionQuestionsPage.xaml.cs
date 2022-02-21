@@ -119,14 +119,16 @@ namespace YPS.Parts2y.Parts2y_Views
                             selectedTagData.TaskStatus = taskstatus.TaskStatus;
                             //}
 
+                            await App.Current.MainPage.DisplayAlert("Done", "This part is marked as done.", "Ok");
                             await Vm.TabChange("job");
-                            DependencyService.Get<IToastMessage>().ShortAlert("This part is marked as done.");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("This part is marked as done.");
                         }
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

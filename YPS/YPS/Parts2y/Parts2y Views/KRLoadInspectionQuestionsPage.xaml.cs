@@ -97,15 +97,18 @@ namespace YPS.Parts2y.Parts2y_Views
                             tagtaskstatus.CreatedBy = Settings.userLoginID;
 
                             var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                            await App.Current.MainPage.DisplayAlert("Done", "This job is marked as done.", "Ok");
                             await Vm.TabChange("job");
-                            DependencyService.Get<IToastMessage>().ShortAlert("This job is marked as done.");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("This job is marked as done.");
                         }
                         //}
                     }
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)

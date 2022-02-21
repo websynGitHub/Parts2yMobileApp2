@@ -125,7 +125,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 }
                 else
                 {
-                    DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
 
                 Vm.loadingindicator = false;
