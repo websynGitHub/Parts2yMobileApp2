@@ -164,16 +164,9 @@
                                                                     CommandParameter="{x:Reference Name=selectallcheck}"
                                                 IsChecked="{Binding IsSelectAllChecked,Mode=TwoWay}"
                                                                     Type="Material" 
-                                            Text="Select All" TextColor="White"
+                                            Text="All" TextColor="White"
                                             BoxSizeRequest="30"
-                                            TextFontSize="19"
-                                                     >
-                                <input:CheckBox.Triggers>
-                                    <Trigger TargetType="input:CheckBox"
-                                             Property="IsChecked" Value="True">
-                                        <Setter Property="Text" Value="Unselect All"/>
-                                    </Trigger>
-                                </input:CheckBox.Triggers>
+                                            TextFontSize="19">
                             </input:CheckBox>
 
                             <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 

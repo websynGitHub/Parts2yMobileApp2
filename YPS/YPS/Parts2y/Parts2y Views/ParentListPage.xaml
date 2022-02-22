@@ -251,7 +251,30 @@
                                                             <Label Text="{Binding EndTime}"  
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                         </StackLayout>
-                                                       
+                                                        
+                                                        <StackLayout Orientation="Horizontal" Spacing="0">
+                                                            <Label Text="{Binding BindingContext.labelobj.FromLocation.Name, 
+                                                                Source={x:Reference Name=POPage}}"   
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="-"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                            <Label Text="{Binding BindingContext.labelobj.ToLocation.Name, 
+                                                                Source={x:Reference Name=POPage}}"   
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+
+                                                            <Label Text=" : "  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+
+                                                            <Label Text="{Binding FromLocation}"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+
+                                                            <Label Text=" - " IsVisible="{Binding IsLocationGiven}"
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+
+                                                            <Label Text="{Binding ToLocation}"  
+                                                           HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                        </StackLayout>
+                                                                                                                
                                                         <Grid HorizontalOptions="Start" RowSpacing="0"
                                                            IsVisible="{Binding BindingContext.labelobj.ShippingNumber.Status, Source={x:Reference Name=POPage}}"
                                                       VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*" >
