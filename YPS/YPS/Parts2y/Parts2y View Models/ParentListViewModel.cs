@@ -486,6 +486,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                         groupdata.StartTime = val.Select(s => !string.IsNullOrEmpty(s.StartTime) ? Convert.ToDateTime(s.StartTime).ToString("HH:mm") : s.StartTime).FirstOrDefault();
                                         groupdata.EndTime = val.Select(s => !string.IsNullOrEmpty(s.EndTime) ? Convert.ToDateTime(s.EndTime).ToString("HH:mm") : s.EndTime).FirstOrDefault();
                                         groupdata.IsTimeGiven = string.IsNullOrEmpty(groupdata.StartTime) && string.IsNullOrEmpty(groupdata.EndTime) ? false : true;
+                                        groupdata.FromLocation = val.Select(s => s.FromLocation).FirstOrDefault();
+                                        groupdata.ToLocation = val.Select(s => s.ToLocation).FirstOrDefault();
+                                        groupdata.IsLocationGiven = string.IsNullOrEmpty(groupdata.FromLocation) && string.IsNullOrEmpty(groupdata.ToLocation) ? false : true;
                                         groupdata.TaskID = val.Select(s => s.TaskID).FirstOrDefault();
                                         groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
                                         //groupdata.TaskResourceName = val.Select(s => s.TaskResourceName).FirstOrDefault();
@@ -1142,6 +1145,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var starttime = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.StartTime.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var endtime = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.EndTime.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var fromlocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.FromLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tolocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ToLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         //var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var home = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Home.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1178,6 +1183,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.EndTime.Status = endtime?.Status == 1 || endtime?.Status == 2 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
                         labelobj.EventName.Status = eventname?.Status == 1 || eventname?.Status == 2 ? true : false;
+                        labelobj.FromLocation.Name = (fromlocation != null ? (!string.IsNullOrEmpty(fromlocation.LblText) ? fromlocation.LblText : labelobj.FromLocation.Name) : labelobj.FromLocation.Name) /*+ " :"*/;
+                        labelobj.ToLocation.Name = (tolocation != null ? (!string.IsNullOrEmpty(tolocation.LblText) ? tolocation.LblText : labelobj.ToLocation.Name) : labelobj.ToLocation.Name) /*+ " :"*/;
                         //labelobj.Resource.Name = (resource != null ? (!string.IsNullOrEmpty(resource.LblText) ? resource.LblText : labelobj.Resource.Name) : labelobj.Resource.Name) + " :";
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
@@ -1550,6 +1557,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             };
             public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = false, Name = "Start Time" };
             public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = false, Name = "End Time" };
+            public DashboardLabelFields FromLocation { get; set; } = new DashboardLabelFields { Status = false, Name = "FromLocaton" };
+            public DashboardLabelFields ToLocation { get; set; } = new DashboardLabelFields { Status = false, Name = "ToLocaton" };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPending" };
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMProgress" };

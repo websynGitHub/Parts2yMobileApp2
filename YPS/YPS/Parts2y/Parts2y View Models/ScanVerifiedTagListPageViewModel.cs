@@ -97,6 +97,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         values.StartTime = !string.IsNullOrEmpty(values.StartTime) ? Convert.ToDateTime(values.StartTime).ToString("HH:mm") : values.StartTime;
                         values.EndTime = !string.IsNullOrEmpty(values.EndTime) ? Convert.ToDateTime(values.EndTime).ToString("HH:mm") : values.EndTime;
                         values.IsTimeGiven = string.IsNullOrEmpty(values.StartTime) && string.IsNullOrEmpty(values.EndTime) ? false : true;
+                        values.IsLocationGiven = string.IsNullOrEmpty(values.FromLocation) && string.IsNullOrEmpty(values.ToLocation) ? false : true;
                         //values.IsTaskResourceVisible = values.TaskResourceID == 0 ? false : true;
                         values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
                         values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
@@ -339,6 +340,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var assign = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Assign.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var insporphoto = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InspOrPhoto.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var fromlocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.FromLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tolocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ToLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -368,6 +372,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.BagNumber.Status = bagnumber?.Status == 1 || bagnumber?.Status == 2 ? true : false;
                         labelobj.Assign.Name = (assign != null ? (!string.IsNullOrEmpty(assign.LblText) ? assign.LblText : labelobj.Assign.Name) : labelobj.Assign.Name);
                         labelobj.InspOrPhoto.Name = (insporphoto != null ? (!string.IsNullOrEmpty(insporphoto.LblText) ? insporphoto.LblText : labelobj.InspOrPhoto.Name) : labelobj.InspOrPhoto.Name);
+                        labelobj.FromLocation.Name = (fromlocation != null ? (!string.IsNullOrEmpty(fromlocation.LblText) ? fromlocation.LblText : labelobj.FromLocation.Name) : labelobj.FromLocation.Name) /*+ " :"*/;
+                        labelobj.ToLocation.Name = (tolocation != null ? (!string.IsNullOrEmpty(tolocation.LblText) ? tolocation.LblText : labelobj.ToLocation.Name) : labelobj.ToLocation.Name) /*+ " :"*/;
 
                     }
                 }
@@ -441,6 +447,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "Invoice1No" };
             public LabelAndActionFields StartTime { get; set; } = new LabelAndActionFields { Status = false, Name = "Start Time" };
             public LabelAndActionFields EndTime { get; set; } = new LabelAndActionFields { Status = false, Name = "End Time" };
+            public LabelAndActionFields FromLocation { get; set; } = new LabelAndActionFields { Status = false, Name = "FromLocaton" };
+            public LabelAndActionFields ToLocation { get; set; } = new LabelAndActionFields { Status = false, Name = "ToLocaton" };
+
             public LabelAndActionFields Barcode1 { get; set; } = new LabelAndActionFields { Status = false, Name = "Barcode1" };
             public LabelAndActionFields BagNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "BagNumber" };
 

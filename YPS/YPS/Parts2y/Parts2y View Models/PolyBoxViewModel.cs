@@ -444,7 +444,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Scan { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMScan" };
             public DashboardLabelFields Configure { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMConfigure" };
             public DashboardLabelFields Save { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnSave" };
-            public DashboardLabelFields PrintTag { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPrintTag" };
+            public DashboardLabelFields PrintTag { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPrint" };
             public DashboardLabelFields Next { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnNext" };
             public DashboardLabelFields Back { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnBack" };
             public DashboardLabelFields Done { get; set; } = new DashboardLabelFields
