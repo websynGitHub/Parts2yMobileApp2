@@ -48,7 +48,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ScanTabCmd = new Command(async () => await TabChange("scan"));
                 ScanConfigCmd = new Command(async () => await TabChange("config"));
                 SaveClickCmd = new Command(async () => await SaveConfig());
-
+                
                 Task.Run(() => GetSavedConfigDataFromDB()).Wait();
                 ChangeLabel();
                 scansetting = SettingsArchiver.UnarchiveSettings();
@@ -59,7 +59,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var trackResult = trackService.Handleexception(ex);
             }
             loadindicator = false;
-        }
+        }        
 
         public async Task GetSavedConfigDataFromDB()
         {
@@ -198,7 +198,27 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-
+                if((ScanSelectedFromLoc.ID==8 && IsGPSCorVisible==false))
+                {
+                    var requestedLocPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.LocationWhenInUse);
+                    var Status = requestedLocPermissions[Permission.LocationWhenInUse];
+                    if (Status != PermissionStatus.Granted)
+                    {
+                        var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs to access Location.", null, null, "Maybe Later", "Settings");
+                        switch (checkSelect)
+                        {
+                            case "Maybe Later":
+                                return;
+                                break;
+                            case "Settings":
+                                CrossPermissions.Current.OpenAppSettings();
+                                return;
+                                break;
+                        }
+                    }
+                    else
+                        ScanSelectedFromLoc = ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == 8).FirstOrDefault();
+                }
                 var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
                 var requestedPermissionStatus = requestedPermissions[Permission.Camera];
                 var pass1 = requestedPermissions[Permission.Camera];
@@ -480,6 +500,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 NotifyPropertyChanged("ScanConfigResult");
             }
         }
+
 
         private bool _IsGPSCorVisible;
         public bool IsGPSCorVisible
