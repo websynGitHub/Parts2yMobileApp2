@@ -224,6 +224,11 @@ namespace YPS.Model
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public bool IsTimeGiven { get; set; }
+
+        public string FromLocation { get; set; }
+        public string ToLocation { get; set; }
+        public bool IsLocationGiven { get; set; }
+
         public string EventName { get; set; }
         public int TagTaskStatus { get; set; }
         public int TaskStatus { get; set; }
