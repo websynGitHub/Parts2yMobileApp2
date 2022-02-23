@@ -340,8 +340,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var assign = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Assign.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var insporphoto = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InspOrPhoto.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var fromlocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.FromLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var tolocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ToLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var fromlocation = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.FromLocation.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tolocation = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ToLocation.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
 
                         //Assigning the Labels & Show/Hide the controls based on the data
@@ -374,7 +374,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.InspOrPhoto.Name = (insporphoto != null ? (!string.IsNullOrEmpty(insporphoto.LblText) ? insporphoto.LblText : labelobj.InspOrPhoto.Name) : labelobj.InspOrPhoto.Name);
                         labelobj.FromLocation.Name = (fromlocation != null ? (!string.IsNullOrEmpty(fromlocation.LblText) ? fromlocation.LblText : labelobj.FromLocation.Name) : labelobj.FromLocation.Name) /*+ " :"*/;
                         labelobj.ToLocation.Name = (tolocation != null ? (!string.IsNullOrEmpty(tolocation.LblText) ? tolocation.LblText : labelobj.ToLocation.Name) : labelobj.ToLocation.Name) /*+ " :"*/;
-
                     }
                 }
             }
@@ -447,8 +446,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public LabelAndActionFields InvoiceNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "Invoice1No" };
             public LabelAndActionFields StartTime { get; set; } = new LabelAndActionFields { Status = false, Name = "Start Time" };
             public LabelAndActionFields EndTime { get; set; } = new LabelAndActionFields { Status = false, Name = "End Time" };
-            public LabelAndActionFields FromLocation { get; set; } = new LabelAndActionFields { Status = false, Name = "FromLocaton" };
-            public LabelAndActionFields ToLocation { get; set; } = new LabelAndActionFields { Status = false, Name = "ToLocaton" };
+            public LabelAndActionFields FromLocation { get; set; } = new LabelAndActionFields { Status = false, Name = "From Location" };
+            public LabelAndActionFields ToLocation { get; set; } = new LabelAndActionFields { Status = false, Name = "To Location" };
 
             public LabelAndActionFields Barcode1 { get; set; } = new LabelAndActionFields { Status = false, Name = "Barcode1" };
             public LabelAndActionFields BagNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "BagNumber" };

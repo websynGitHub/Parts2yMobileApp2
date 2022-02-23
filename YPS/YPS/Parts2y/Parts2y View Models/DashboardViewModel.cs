@@ -468,7 +468,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else if (Settings.VersionID == 3)
                     {
-                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower())
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X1LoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
 
                     }
@@ -481,6 +481,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else if (Settings.VersionID == 5)
                     {
                         IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PLoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 6)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X2LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 7)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X3LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 8)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X4LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 9)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z1LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 10)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z2LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 11)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z3LoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
                     }
                 }

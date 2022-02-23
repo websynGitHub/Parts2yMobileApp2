@@ -1145,8 +1145,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var starttime = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.StartTime.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var endtime = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.EndTime.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var eventname = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.EventName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var fromlocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.FromLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-                        var tolocation = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.ToLocation.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var fromlocation = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.FromLocation.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var tolocation = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ToLocation.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         //var resource = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Resource.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         var home = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Home.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
@@ -1223,7 +1223,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else if (Settings.VersionID == 3)
                     {
-                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower())
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X1LoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
 
                     }
@@ -1236,6 +1236,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else if (Settings.VersionID == 5)
                     {
                         IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "PLoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 6)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X2LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 7)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X3LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 8)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X4LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 9)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z1LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 10)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z2LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+                    }
+                    else if (Settings.VersionID == 11)
+                    {
+                        IsLoadTabVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z3LoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
                     }
                 }
@@ -1557,8 +1587,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             };
             public DashboardLabelFields StartTime { get; set; } = new DashboardLabelFields { Status = false, Name = "Start Time" };
             public DashboardLabelFields EndTime { get; set; } = new DashboardLabelFields { Status = false, Name = "End Time" };
-            public DashboardLabelFields FromLocation { get; set; } = new DashboardLabelFields { Status = false, Name = "FromLocaton" };
-            public DashboardLabelFields ToLocation { get; set; } = new DashboardLabelFields { Status = false, Name = "ToLocaton" };
+            public DashboardLabelFields FromLocation { get; set; } = new DashboardLabelFields { Status = false, Name = "From Location" };
+            public DashboardLabelFields ToLocation { get; set; } = new DashboardLabelFields { Status = false, Name = "To Location" };
 
             public DashboardLabelFields Pending { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMPending" };
             public DashboardLabelFields Inprogress { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMProgress" };

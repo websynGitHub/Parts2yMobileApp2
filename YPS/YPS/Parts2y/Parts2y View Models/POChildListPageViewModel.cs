@@ -228,7 +228,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else if (Settings.VersionID == 3)
                     {
                         loadindicator = true;
-                        await Navigation.PushAsync(new KRLoadInspectionQuestionsPage(allPOTagData, isalldone), false);
+                        await Navigation.PushAsync(new X1LoadInspectionQuestionsPage(allPOTagData, isalldone), false);
                     }
                     else if (Settings.VersionID == 4)
                     {
@@ -240,14 +240,38 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         loadindicator = true;
                         await Navigation.PushAsync(new PLoadInspectionQuestionsPage(allPOTagData, isalldone), false);
                     }
-                    else
+                    else if (Settings.VersionID == 6)
                     {
-                        if (isalldone == true)
-                        {
-                            loadindicator = true;
-                            await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone), false);
-                        }
+                        await Navigation.PushAsync(new X2LoadInspectionQuestionsPage(allPOTagData, isalldone), false);
                     }
+                    else if (Settings.VersionID == 7)
+                    {
+                        await Navigation.PushAsync(new X3LoadInspectionQuestionsPage(allPOTagData, isalldone), false);
+                    }
+                    else if (Settings.VersionID == 8)
+                    {
+                        await Navigation.PushAsync(new X4LoadInspectionQuestionsPage(allPOTagData, isalldone), false);
+                    }
+                    else if (Settings.VersionID == 9)
+                    {
+                        await Navigation.PushAsync(new Z1LoadInspectionQuestionsPage(allPOTagData, isalldone), false);
+                    }
+                    else if (Settings.VersionID == 10)
+                    {
+                        await Navigation.PushAsync(new Z2LoadInspectionQuestionsPage(allPOTagData, isalldone), false);
+                    }
+                    else if (Settings.VersionID == 11)
+                    {
+                        await Navigation.PushAsync(new Z3LoadInspectionQuestionsPage(allPOTagData, isalldone), false);
+                    }
+                    //else
+                    //{
+                    //    if (isalldone == true)
+                    //    {
+                    //        loadindicator = true;
+                    //        await Navigation.PushAsync(new LoadPage(PoDataChildCollections.FirstOrDefault(), sendPodata, isalldone), false);
+                    //    }
+                    //}
                 }
             }
             catch (Exception ex)
@@ -489,7 +513,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else if (Settings.VersionID == 3)
                         {
-                            await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(POTagDetail, isalldone), false);
+                            await Navigation.PushAsync(new X1PartsInspectionQuestionsPage(POTagDetail, isalldone), false);
                         }
                         else if (Settings.VersionID == 4)
                         {
@@ -498,6 +522,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         else if (Settings.VersionID == 5)
                         {
                             await Navigation.PushAsync(new PPartsInspectionQuestionsPage(POTagDetail, isalldone), false);
+                        }
+                        else if (Settings.VersionID == 6)
+                        {
+                            await Navigation.PushAsync(new X2PartsInspectionQuestionsPage(POTagDetail, isalldone), false);
+                        }
+                        else if (Settings.VersionID == 7)
+                        {
+                            await Navigation.PushAsync(new X3PartsInspectionQuestionsPage(POTagDetail, isalldone), false);
+                        }
+                        else if (Settings.VersionID == 8)
+                        {
+                            await Navigation.PushAsync(new X4PartsInspectionQuestionsPage(POTagDetail, isalldone), false);
+                        }
+                        else if (Settings.VersionID == 9)
+                        {
+                            await Navigation.PushAsync(new Z1PartsInspectionQuestionsPage(POTagDetail, isalldone), false);
+                        }
+                        else if (Settings.VersionID == 10)
+                        {
+                            await Navigation.PushAsync(new Z2PartsInspectionQuestionsPage(POTagDetail, isalldone), false);
+                        }
+                        else if (Settings.VersionID == 11)
+                        {
+                            await Navigation.PushAsync(new Z3PartsInspectionQuestionsPage(POTagDetail, isalldone), false);
                         }
                     }
                 }

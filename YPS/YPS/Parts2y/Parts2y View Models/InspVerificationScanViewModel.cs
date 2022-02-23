@@ -260,7 +260,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else if (Settings.VersionID == 3)
                         {
-                            await Navigation.PushAsync(new KRPartsInspectionQuestionsPage(podata, isAllDone), false);
+                            await Navigation.PushAsync(new X1PartsInspectionQuestionsPage(podata, isAllDone), false);
                         }
                         else if (Settings.VersionID == 4)
                         {
@@ -269,6 +269,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         else if (Settings.VersionID == 5)
                         {
                             await Navigation.PushAsync(new PPartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 6)
+                        {
+                            await Navigation.PushAsync(new X2PartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 7)
+                        {
+                            await Navigation.PushAsync(new X3PartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 8)
+                        {
+                            await Navigation.PushAsync(new X4PartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 9)
+                        {
+                            await Navigation.PushAsync(new Z1PartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 10)
+                        {
+                            await Navigation.PushAsync(new Z2PartsInspectionQuestionsPage(podata, isAllDone), false);
+                        }
+                        else if (Settings.VersionID == 11)
+                        {
+                            await Navigation.PushAsync(new Z3PartsInspectionQuestionsPage(podata, isAllDone), false);
                         }
                     }
                     else
