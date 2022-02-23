@@ -191,13 +191,13 @@ namespace YPS.Parts2y.Parts2y_Views
                     }
                     else if (Settings.VersionID == 3)
                     {
-                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "KrLoadInspection".Trim().ToLower())
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X1LoadInspection".Trim().ToLower())
                             .FirstOrDefault()) != null ? true : false;
 
                         if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
                         {
                             Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
-                             "KrLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                             "X1LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
                         }
 
                     }
@@ -222,6 +222,72 @@ namespace YPS.Parts2y.Parts2y_Views
                         {
                             Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
                              "PLoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+                    }
+                    else if (Settings.VersionID == 6)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X2LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "X2LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+                    }
+                    else if (Settings.VersionID == 7)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X3LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "X3LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+                    }
+                    else if (Settings.VersionID == 8)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "X4LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "X4LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+                    }
+                    else if (Settings.VersionID == 9)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z1LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "Z1LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+                    }
+                    else if (Settings.VersionID == 10)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z2LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "Z2LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
+                        }
+                    }
+                    else if (Settings.VersionID == 11)
+                    {
+                        loadStack.IsVisible = (Settings.AllActionStatus.Where(wr => wr.ActionCode.Trim().ToLower() == "Z3LoadInspection".Trim().ToLower())
+                            .FirstOrDefault()) != null ? true : false;
+
+                        if (loadStack.IsVisible && userActionsForJob != null && userActionsForJob.Count() > 0)
+                        {
+                            Vm.LoadTextColor = (userActionsForJob?.Where(wr => wr.ActionCode.Trim().ToLower() ==
+                             "Z3LoadInspection".Trim().ToLower()).FirstOrDefault()) != null ? Color.Black : Color.Gray;
                         }
                     }
                 }
