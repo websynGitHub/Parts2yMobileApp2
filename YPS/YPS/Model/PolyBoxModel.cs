@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YPS.Model
 {
-    class PolyBoxModel
+    public class PolyBoxModel
     {
         public int CompanyID { get; set; }
         public int ProjectID { get; set; }
@@ -27,5 +27,11 @@ namespace YPS.Model
         public DateTime CreatedDate { get; set; }
         public int UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
+    }
+    public class GetPolyboxScanDetails
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public PolyBoxModel data { get; set; }
     }
 }
