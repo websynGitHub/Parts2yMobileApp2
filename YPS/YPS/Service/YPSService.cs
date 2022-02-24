@@ -869,6 +869,7 @@ namespace YPS.Service
                 polyboxruleid, polyboxlocid, polyboxremarkid, polyboxstatusid);
         }
 
+
         /// <summary>
         /// Get saved compare config.
         /// </summary>
@@ -879,6 +880,27 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.GetSaveScanConfig();
         }
+        /// <summary>
+        /// Get polybox header details
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetPolyboxScanDetails> GetPolyboxHeaderDetails()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetPolyboxHeaderDetails();
+        }
+
+        /// <summary>
+        /// Polybox validation
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<PolyboxValidateResponse> PolyboxScanValidation(string tagnumber)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.PolyboxScanValidation(tagnumber);
+        }
+
 
         /// <summary>
         /// Get Scan Config

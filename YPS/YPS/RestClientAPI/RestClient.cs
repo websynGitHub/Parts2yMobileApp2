@@ -1407,6 +1407,7 @@ namespace YPS.RestClientAPI
                 return null;
             }
         }
+          
 
         /// <summary>
         /// Get Scan Config
@@ -1640,6 +1641,51 @@ namespace YPS.RestClientAPI
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "UpdateTaskStatus method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get polybox header details
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetPolyboxScanDetails> GetPolyboxHeaderDetails()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<GetPolyboxScanDetails>(WebServiceUrl + "Polybox/GetPolyboxScanDetails?UserID=" + Settings.userLoginID
+                    + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "GetPolyboxHeaderDetails method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Polybox.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<PolyboxValidateResponse> PolyboxScanValidation(string tagnumber)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<PolyboxValidateResponse>(WebServiceUrl +
+                    "Polybox/ValidatePolyboxScanDetails?CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID
+                    + "&UserID=" + Settings.userLoginID
+                    + "&TagNumber=" + tagnumber);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "PolyboxScanValidation method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

@@ -34,4 +34,11 @@ namespace YPS.Model
         public int status { get; set; }
         public PolyBoxModel data { get; set; }
     }
+    
+    public class PolyboxValidateResponse
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public PolyBoxModel data { get; set; }
+    }
 }

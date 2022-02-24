@@ -83,7 +83,7 @@
                                    Text="{Binding labelobj.ScannedToday.Name}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White" Grid.Column="1" Grid.Row="0" 
-                                   Text="0"
+                                   Text="{Binding ScannedTodayHeader}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
 
@@ -96,7 +96,7 @@
                                    Text="{Binding labelobj.ISR.Name}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White" Grid.Column="1" Grid.Row="0" 
-                                   Text=""
+                                   Text="{Binding ISRHeader}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
                     </StackLayout>
@@ -152,9 +152,17 @@
                                     <StackLayout HorizontalOptions="Start" 
                                                  VerticalOptions="Center"
                                                  Spacing="0">
+                                        <Label VerticalTextAlignment="Start"
+                                           TextColor="Black" IsVisible="{Binding IsNoRecordsVisible}"
+                                               HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                               Style="{StaticResource LableWithQuestionFont}"
+                                               Text="No records found">
+                                        </Label>
 
                                         <Label VerticalTextAlignment="Start"
-                                           TextColor="Black"
+                                           TextColor="Black" 
+                                               IsVisible="{Binding IsVerifiedDataVisible}"
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                Style="{StaticResource LableWithQuestionFont}">
@@ -168,6 +176,7 @@
 
                                         <Label VerticalTextAlignment="Start"
                                            TextColor="Black"
+                                               IsVisible="{Binding IsVerifiedDataVisible}"
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                             Style="{StaticResource LableWithQuestionFont}">
@@ -181,6 +190,7 @@
 
                                         <Label VerticalTextAlignment="Start"
                                            TextColor="Black"
+                                               IsVisible="{Binding IsVerifiedDataVisible}"
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                 Style="{StaticResource LableWithQuestionFont}">

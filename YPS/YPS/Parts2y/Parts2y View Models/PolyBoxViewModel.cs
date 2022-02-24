@@ -76,6 +76,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     ConfigSelectedEventRemark.ID = result.data.PolyboxRemarks;
                     ConfigSelectedSataus = result.data.PolyboxStatus;
                 }
+                var resultHeader = await trackService.GetPolyboxHeaderDetails();
+                
+                if(resultHeader?.status==1 && resultHeader.data != null)
+                {
+                    TotalCountHeader = resultHeader.data.TotalPolyboxCount;
+                    ScannedTodayHeader = resultHeader.data.TotalScannedToday;
+                    ISRHeader = resultHeader.data.ISR;
+                }
 
                 var resultData = await trackService.GetScanConfig();
 
@@ -197,8 +205,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                loadindicator = true;
-                if((ScanSelectedFromLoc.ID==8 && IsGPSCorVisible==false))
+               loadindicator = true;
+                if ((ScanSelectedFromLoc.ID == 8 && IsGPSCorVisible == false))
                 {
                     var requestedLocPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.LocationWhenInUse);
                     var Status = requestedLocPermissions[Permission.LocationWhenInUse];
@@ -219,6 +227,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                         ScanSelectedFromLoc = ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == 8).FirstOrDefault();
                 }
+
                 var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
                 var requestedPermissionStatus = requestedPermissions[Permission.Camera];
                 var pass1 = requestedPermissions[Permission.Camera];
@@ -280,29 +289,62 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
 
                     string sp = "\n\n";
-                    var scanvalue = scanresult.Split(';');
+                    var scanvalue = scanresult;
 
-                    foreach (var val in scanvalue)
+                    if (!string.IsNullOrEmpty(scanvalue))
                     {
-                        if (CargoCategory != scanvalue[0])
+                        var checkInternet = await App.CheckInterNetConnection();
+
+                        if (checkInternet)
                         {
-                            CargoCategory = val;
-                            continue;
-                        }
-                        else if (BagNumber != scanvalue[1])
-                        {
-                            BagNumber = val;
-                            continue;
+                            var result = await trackService.PolyboxScanValidation(scanvalue);
+
+                            if (result?.status == 1)
+                            {
+                                CargoCategory = result?.data?.CargoCategory1;
+                                BagNumber = result?.data?.BagNumber;
+                                TQBPkgSizeNoL1 = result?.data?.TQB_PkgSizeNo_L1;
+
+                                IsNoRecordsVisible = false;
+                                IsVerifiedDataVisible = true;
+                            }
+                            else
+                            {
+                                IsNoRecordsVisible = true;
+                                IsVerifiedDataVisible = false;
+                            }
+
                         }
                         else
                         {
-                            TQBPkgSizeNoL1 = scanvalue[2];
-                            break;
+                            await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
                         }
                     }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Scanning", "Got no value from the code.", "Ok");
+                    }
+                    //foreach (var val in scanvalue)
+                    //{
+                    //    if (CargoCategory != scanvalue[0])
+                    //    {
+                    //        CargoCategory = val;
+                    //        continue;
+                    //    }
+                    //    else if (BagNumber != scanvalue[1])
+                    //    {
+                    //        BagNumber = val;
+                    //        continue;
+                    //    }
+                    //    else
+                    //    {
+                    //        TQBPkgSizeNoL1 = scanvalue[2];
+                    //        break;
+                    //    }
+                    //}
 
-                    ScannedDateTime = DateTime.Now.ToString("dd/MMM/yyyy HH:mm");
-                    ScannedBy = Settings.Username;
+                    //ScannedDateTime = DateTime.Now.ToString("dd/MMM/yyyy HH:mm");
+                    ////ScannedBy = Settings.Username;
                 });
             }
             catch (Exception ex)
@@ -380,12 +422,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var tqbpkgsizenol1 = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TQBPkgSizeNoL1.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
-                        labelobj.Rule.Name = (rule != null ? (!string.IsNullOrEmpty(rule.LblText) ? rule.LblText : labelobj.Rule.Name) : labelobj.Rule.Name) + " : ";
-                        labelobj.TotalPolibox.Name = (total != null ? (!string.IsNullOrEmpty(total.LblText) ? total.LblText : labelobj.TotalPolibox.Name) : labelobj.TotalPolibox.Name) + " : ";
+                        labelobj.Rule.Name = (rule != null ? (!string.IsNullOrEmpty(rule.LblText) ? rule.LblText : labelobj.Rule.Name) : labelobj.Rule.Name) + " :";
+                        labelobj.TotalPolibox.Name = (total != null ? (!string.IsNullOrEmpty(total.LblText) ? total.LblText : labelobj.TotalPolibox.Name) : labelobj.TotalPolibox.Name) + " :";
                         labelobj.RuleForHint.Name = (rule != null ? (!string.IsNullOrEmpty(rule.LblText) ? rule.LblText : labelobj.Rule.Name) : labelobj.Rule.Name);
                         labelobj.TotalPoliboxlForHint.Name = (total != null ? (!string.IsNullOrEmpty(total.LblText) ? total.LblText : labelobj.TotalPoliboxlForHint.Name) : labelobj.TotalPoliboxlForHint.Name);
-                        labelobj.ScannedToday.Name = (scannedtoday != null ? (!string.IsNullOrEmpty(scannedtoday.LblText) ? scannedtoday.LblText : labelobj.ScannedToday.Name) : labelobj.ScannedToday.Name) + " : ";
-                        labelobj.ISR.Name = (isr != null ? (!string.IsNullOrEmpty(isr.LblText) ? isr.LblText : labelobj.ISR.Name) : labelobj.ISR.Name) + " : ";
+                        labelobj.ScannedToday.Name = (scannedtoday != null ? (!string.IsNullOrEmpty(scannedtoday.LblText) ? scannedtoday.LblText : labelobj.ScannedToday.Name) : labelobj.ScannedToday.Name) + " :";
+                        labelobj.ISR.Name = (isr != null ? (!string.IsNullOrEmpty(isr.LblText) ? isr.LblText : labelobj.ISR.Name) : labelobj.ISR.Name) + " :";
 
                         labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " : ";
                         labelobj.CargoCategory.Name = (cargocategory1 != null ? (!string.IsNullOrEmpty(cargocategory1.LblText) ? cargocategory1.LblText : labelobj.CargoCategory.Name) : labelobj.CargoCategory.Name) + " : ";
@@ -489,6 +531,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private bool _IsNoRecordsVisible;
+        public bool IsNoRecordsVisible
+        {
+            get => _IsNoRecordsVisible;
+            set
+            {
+                _IsNoRecordsVisible = value;
+                RaisePropertyChanged("IsNoRecordsVisible");
+            }
+        }
+
+        private bool _IsVerifiedDataVisible;
+        public bool IsVerifiedDataVisible
+        {
+            get => _IsVerifiedDataVisible;
+            set
+            {
+                _IsVerifiedDataVisible = value;
+                RaisePropertyChanged("IsVerifiedDataVisible");
+            }
+        }
 
         private ScanConfigResponse _ScanConfigResult = new ScanConfigResponse();
         public ScanConfigResponse ScanConfigResult
@@ -889,14 +953,36 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private int? _TotalCountHeader = 0;
-        public int? TotalCountHeader
+        private string _TotalCountHeader;
+        public string TotalCountHeader
         {
             get => _TotalCountHeader;
             set
             {
                 _TotalCountHeader = value;
                 NotifyPropertyChanged("TotalCountHeader");
+            }
+        }
+
+        private string _ScannedTodayHeader;
+        public string ScannedTodayHeader
+        {
+            get => _ScannedTodayHeader;
+            set
+            {
+                _ScannedTodayHeader = value;
+                NotifyPropertyChanged("ScannedTodayHeader");
+            }
+        }
+        
+        private string _ISRHeader;
+        public string ISRHeader
+        {
+            get => _ISRHeader;
+            set
+            {
+                _ISRHeader = value;
+                NotifyPropertyChanged("ISRHeader");
             }
         }
 
