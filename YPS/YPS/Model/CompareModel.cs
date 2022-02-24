@@ -50,7 +50,7 @@ namespace YPS.Model
         public int ScanCount { get; set; }
         public int PolyboxRule { get; set; }
         public int PolyboxStatus { get; set; }
-        public int PolyboxLocation { get; set; }
+        public string PolyboxLocation { get; set; }
         public int PolyboxRemarks { get; set; }
     }
 

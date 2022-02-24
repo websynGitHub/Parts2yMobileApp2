@@ -1367,16 +1367,19 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <returns></returns>
         public async Task<SaveScanConfigResponse> SaveScanConfig(int compareruleid, int scancount,
-            int polyboxruleid, int polyboxlocid, int polyboxremarkid, int polyboxstatusid)
+            int polyboxruleid, string polyboxlocname, int polyboxremarkid, int polyboxstatusid)
         {
             try
             {
                 return await requestProvider.PostAsync<SaveScanConfigResponse>(WebServiceUrl +
                     "User/UpdateScanConfiguration?UserID=" + Settings.userLoginID
+                     + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID
                     + "&ScanConfigID=" + compareruleid
                     + "&ScanCount=" + scancount
                     + "&PolyboxRule=" + polyboxruleid
-                    + "&PolyboxLocation=" + polyboxlocid
+                    + "&PolyboxLocation=" + polyboxlocname
                     + "&PolyboxRemarks=" + polyboxremarkid
                     + "&PolyboxStatus=" + polyboxstatusid);
             }
@@ -1397,8 +1400,12 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                return await requestProvider.PostAsync<GetSavedConfigResponse>(WebServiceUrl + "User/GetScanConfiguration?UserID=" +
-                    Helperclass.Encrypt(Settings.userLoginID.ToString()));
+                return await requestProvider.PostAsync<GetSavedConfigResponse>(WebServiceUrl +
+                    "User/GetScanConfiguration?UserID=" +
+                    Helperclass.Encrypt(Settings.userLoginID.ToString())
+                     + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID);
             }
             catch (Exception ex)
             {

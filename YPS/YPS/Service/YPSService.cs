@@ -862,11 +862,11 @@ namespace YPS.Service
         /// <returns></returns>
         public async Task<SaveScanConfigResponse> SaveScanConfig(int compareruleid = 0,
             int? scancount = 0,
-             int polyboxruleid = 0, int polyboxlocid = 0, int polyboxremarkid = 0, int polyboxstatusid = 0)
+             int polyboxruleid = 0, string polyboxlocname="", int polyboxremarkid = 0, int polyboxstatusid = 0)
         {
             RestClient restClient = new RestClient();
             return await restClient.SaveScanConfig(compareruleid, Convert.ToInt32(scancount),
-                polyboxruleid, polyboxlocid, polyboxremarkid, polyboxstatusid);
+                polyboxruleid, polyboxlocname, polyboxremarkid, polyboxstatusid);
         }
 
 

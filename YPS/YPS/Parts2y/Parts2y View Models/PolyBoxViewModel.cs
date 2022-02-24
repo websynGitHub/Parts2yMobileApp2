@@ -53,7 +53,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ScanConfigCmd = new Command(async () => await TabChange("config"));
                 SaveClickCmd = new Command(async () => await SaveConfig());
 
-                Task.Run(() => GetSavedConfigDataFromDB()).Wait();
+                Task.Run(() => GetSavedDatasFromDB()).Wait();
                 ChangeLabel();
                 scansetting = SettingsArchiver.UnarchiveSettings();
             }
@@ -65,7 +65,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             loadindicator = false;
         }
 
-        public async Task GetSavedConfigDataFromDB()
+        public async Task GetSavedDatasFromDB()
         {
             try
             {
@@ -76,7 +76,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (result?.status == 1 && result?.data != null)
                 {
                     ConfigSelectedRule.ID = result.data.PolyboxRule;
-                    ConfigSelectedFromLoc.ID = result.data.PolyboxLocation;
+                    ConfigSelectedFromLoc.Name = result.data.PolyboxLocation;
                     ConfigSelectedEventRemark.ID = result.data.PolyboxRemarks;
                     ConfigSelectedSataus = result.data.PolyboxStatus;
                 }
@@ -93,10 +93,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         ScanConfigResult.data.PolyboxRule?.Where(wr => wr.ID == ConfigSelectedRule.ID).FirstOrDefault();
                     SelectedScanRuleHeader = result.data.PolyboxRule == 0 ? "" : ConfigSelectedRule.Name;
 
-                    ScanSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ? null : ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
-                    ConfigSelectedFromLoc = ConfigSelectedFromLoc.ID == 0 ?
+                    ScanSelectedFromLoc = (string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) ||
+                        ConfigSelectedFromLoc?.Name == "0") ?
+                        null : ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.Name
+                        == ConfigSelectedFromLoc?.Name).FirstOrDefault();
+
+                    ConfigSelectedFromLoc = (string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) ||
+                        ConfigSelectedFromLoc?.Name == "0") ?
                         ScanConfigResult.data.PolyboxLocation[0] :
-                        ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == ConfigSelectedFromLoc.ID).FirstOrDefault();
+                        ScanConfigResult.data.PolyboxLocation?.
+                        Where(wr => wr.Name == ConfigSelectedFromLoc?.Name).FirstOrDefault();
 
                     ScanSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ? null : ScanConfigResult.data.PolyboxRemarks?.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
                     ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ?
@@ -113,14 +119,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                 }
 
-                if (ConfigSelectedRule?.ID != 0 && ConfigSelectedFromLoc?.ID != 0 &&
+                if (ConfigSelectedRule?.ID != 0 && !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) &&
                 ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
                 {
                     IsScanEnable = true;
                     ScanOpacity = 1;
                     TabChange("scan");
                 }
-
             }
             catch (Exception ex)
             {
@@ -177,7 +182,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (checkInternet)
                         {
                             var data = await trackService.SaveScanConfig(0, 0, ConfigSelectedRule.ID,
-                                ConfigSelectedFromLoc.ID, ConfigSelectedEventRemark.ID, ConfigSelectedSataus);
+                                ConfigSelectedFromLoc.Name, ConfigSelectedEventRemark.ID, ConfigSelectedSataus);
 
                             if (data?.status == 1)
                             {
@@ -230,7 +235,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                if ((ScanSelectedFromLoc?.ID == 8 && IsGPSCorVisible == false))
+                if ((ScanSelectedFromLoc?.Name == "GPS Location" && IsGPSCorVisible == false))
                 {
                     var requestedLocPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.LocationWhenInUse);
                     var Status = requestedLocPermissions[Permission.LocationWhenInUse];
@@ -249,7 +254,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                     }
                     else
-                        ScanSelectedFromLoc = ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.ID == 8).FirstOrDefault();
+                    {
+                        ScanSelectedFromLoc = ScanConfigResult.data.PolyboxLocation?.Where(wr => wr.Name == "GPS Location").FirstOrDefault();
+                    }
                 }
 
                 var requestedPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
@@ -890,7 +897,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 _ScanSelectedFromLoc = value;
                 NotifyPropertyChanged("ScanSelectedFromLoc");
 
-                if (value?.ID == 8)
+                if (value?.Name == "GPS Location")
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
