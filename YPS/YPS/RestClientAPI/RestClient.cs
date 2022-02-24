@@ -526,8 +526,8 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                string url = WebServiceUrl + "QA/Users?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) 
-                    + "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) 
+                string url = WebServiceUrl + "QA/Users?POID=" + Helperclass.Encrypt(Convert.ToString(poid))
+                    + "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid))
                     + "&UserID=" + Settings.userLoginID + "&QAType=" + qatype + "";
                 return await requestProvider.PostAsync<Getuserdata>(url);
             }
@@ -1407,7 +1407,7 @@ namespace YPS.RestClientAPI
                 return null;
             }
         }
-          
+
 
         /// <summary>
         /// Get Scan Config
@@ -1417,7 +1417,11 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                return await requestProvider.PostAsync<ScanConfigResponse>(WebServiceUrl + "Login/ScanConfig?UserID=" + Settings.userLoginID);
+                return await requestProvider.PostAsync<ScanConfigResponse>(WebServiceUrl + "Login/ScanConfig?" +
+                    "UserID=" + Settings.userLoginID
+                     + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID);
             }
             catch (Exception ex)
             {
@@ -1649,11 +1653,11 @@ namespace YPS.RestClientAPI
         /// Get polybox header details
         /// </summary>
         /// <returns></returns>
-        public async Task<GetPolyboxScanDetails> GetPolyboxHeaderDetails()
+        public async Task<PolyboxValidateResponse> GetPolyboxHeaderDetails()
         {
             try
             {
-                return await requestProvider.PostAsync<GetPolyboxScanDetails>(WebServiceUrl + "Polybox/GetPolyboxScanDetails?UserID=" + Settings.userLoginID
+                return await requestProvider.PostAsync<PolyboxValidateResponse>(WebServiceUrl + "Polybox/GetPolyboxScanDetails?UserID=" + Settings.userLoginID
                     + "&CompanyID=" + Settings.CompanyID
                     + "&ProjectID=" + Settings.ProjectID
                     + "&JobID=" + Settings.JobID);
@@ -1667,7 +1671,7 @@ namespace YPS.RestClientAPI
         }
 
         /// <summary>
-        /// Get Polybox.
+        /// Polybox scan validation
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -1686,6 +1690,27 @@ namespace YPS.RestClientAPI
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "PolyboxScanValidation method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Save Polybox Scan Data
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<PolyboxSaveResponse> SavePolyboxScanData(PolyBoxModel polyboxscanobj)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<PolyBoxModel, PolyboxSaveResponse>
+                    (WebServiceUrl +
+                    "Polybox/SavePolyboxScanDetails", polyboxscanobj);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "SavePolyboxScanData method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

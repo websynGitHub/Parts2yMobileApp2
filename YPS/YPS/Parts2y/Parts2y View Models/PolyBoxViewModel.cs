@@ -31,6 +31,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         private ScanerSettings scansetting;
         public INavigation Navigation { get; set; }
         public ICommand StartScanningCmd { get; set; }
+        public ICommand DoneCmd { get; set; }
+        public ICommand NextScanningCmd { get; set; }
         public ICommand ScanTabCmd { get; set; }
         public ICommand ScanConfigCmd { get; set; }
         public ICommand SaveClickCmd { get; set; }
@@ -45,10 +47,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 polyboxPage = polyboxpage;
                 BgColor = YPS.CommonClasses.Settings.Bar_Background;
                 StartScanningCmd = new Command(async () => await StartScanning());
+                DoneCmd = new Command(async () => await DoneClick());
+                NextScanningCmd = new Command(async () => await NextScan());
                 ScanTabCmd = new Command(async () => await TabChange("scan"));
                 ScanConfigCmd = new Command(async () => await TabChange("config"));
                 SaveClickCmd = new Command(async () => await SaveConfig());
-                
+
                 Task.Run(() => GetSavedConfigDataFromDB()).Wait();
                 ChangeLabel();
                 scansetting = SettingsArchiver.UnarchiveSettings();
@@ -59,7 +63,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var trackResult = trackService.Handleexception(ex);
             }
             loadindicator = false;
-        }        
+        }
 
         public async Task GetSavedConfigDataFromDB()
         {
@@ -76,14 +80,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     ConfigSelectedEventRemark.ID = result.data.PolyboxRemarks;
                     ConfigSelectedSataus = result.data.PolyboxStatus;
                 }
-                var resultHeader = await trackService.GetPolyboxHeaderDetails();
-                
-                if(resultHeader?.status==1 && resultHeader.data != null)
-                {
-                    TotalCountHeader = resultHeader.data.TotalPolyboxCount;
-                    ScannedTodayHeader = resultHeader.data.TotalScannedToday;
-                    ISRHeader = resultHeader.data.ISR;
-                }
+
+                await GetPolyboxHeaderData();
 
                 var resultData = await trackService.GetScanConfig();
 
@@ -104,7 +102,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     ConfigSelectedEventRemark = ConfigSelectedEventRemark.ID == 0 ?
                         ScanConfigResult.data.PolyboxRemarks[0] :
                         ScanConfigResult.data.PolyboxRemarks?.Where(wr => wr.ID == ConfigSelectedEventRemark.ID).FirstOrDefault();
-                                        
+
                     if (ConfigSelectedSataus == ScanConfigResult.data.PolyboxStatus[0].ID)
                     {
                         ScanIsEmpty = IsEmpty = true;
@@ -135,6 +133,32 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private async Task GetPolyboxHeaderData()
+        {
+            try
+            {
+                loadindicator = true;
+
+                var resultHeader = await trackService.GetPolyboxHeaderDetails();
+
+                if (resultHeader?.status == 1 && resultHeader.data != null)
+                {
+                    TotalPolyboxCountHeader = resultHeader.data.TotalPolyboxCount;
+                    TotalScannedToday = resultHeader.data.TotalScannedToday;
+                    ISRHeader = resultHeader.data.ISR;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetPolyboxHeaderData method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
         public async Task SaveConfig()
         {
             try
@@ -145,7 +169,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (result)
                 {
-                    if (ConfigSelectedRule?.ID != 0 && ConfigSelectedFromLoc?.ID != 0 &&
+                    if (ConfigSelectedRule?.ID != 0 && !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) &&
                 ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
                     {
                         var checkInternet = await App.CheckInterNetConnection();
@@ -184,7 +208,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         IsRuleError = ConfigSelectedRule?.ID == 0 ? true : false;
-                        IsLocError = ConfigSelectedFromLoc?.ID == 0 ? true : false;
+                        IsLocError = !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) ? true : false;
                         IsRemarkError = ConfigSelectedEventRemark?.ID == 0 ? true : false;
                         IsStatusError = ConfigSelectedSataus == 0 ? true : false;
                     }
@@ -205,8 +229,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-               loadindicator = true;
-                if ((ScanSelectedFromLoc.ID == 8 && IsGPSCorVisible == false))
+                loadindicator = true;
+                if ((ScanSelectedFromLoc?.ID == 8 && IsGPSCorVisible == false))
                 {
                     var requestedLocPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.LocationWhenInUse);
                     var Status = requestedLocPermissions[Permission.LocationWhenInUse];
@@ -263,10 +287,123 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
                 }
+
             }
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "StartScanning method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+        private async Task DoneClick()
+        {
+            try
+            {
+                loadindicator = true;
+
+                if (IsVerifiedDataVisible == false)
+                {
+                    await App.Current.MainPage.DisplayAlert("Alert", "Scan Barcode/QRcode to validate before saving.", "Ok");
+                }
+                else
+                {
+                    await SaveScanData("done");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DoneClick method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+        private async Task NextScan()
+        {
+            try
+            {
+                loadindicator = true;
+
+                if (IsVerifiedDataVisible == false)
+                {
+                    await StartScanning();
+                }
+                else
+                {
+                    await SaveScanData("nextscan");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "NextScan method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+        private async Task SaveScanData(string savefrom = "")
+        {
+            try
+            {
+                loadindicator = true;
+
+                PolyBoxModel savepolyboxscan = new PolyBoxModel();
+
+                savepolyboxscan.CompanyID = Settings.CompanyID;
+                savepolyboxscan.ProjectID = Settings.ProjectID;
+                savepolyboxscan.JobID = Settings.JobID;
+                savepolyboxscan.CargoCategory1 = CargoCategory;
+                savepolyboxscan.BagNumber = BagNumber;
+                savepolyboxscan.TQB_PkgSizeNo_L1 = TQBPkgSizeNoL1;
+                savepolyboxscan.EventDT_L1 = ScannedDateTime;
+                savepolyboxscan.UserID = Settings.userLoginID;
+                savepolyboxscan.Attributes = ScanIsEmpty == true ?
+                    ScanConfigResult?.data?.PolyboxStatus[0]?.Name :
+                    ScanConfigResult?.data?.PolyboxStatus[1]?.Name;
+                savepolyboxscan.FromLoc_L1 = ScanSelectedFromLoc?.Name;
+                savepolyboxscan.EventRemarks_L1 = ScanSelectedEventRemark?.Name;
+                savepolyboxscan.Remarks_Description = ScanRemarkDesc;
+                savepolyboxscan.Location_Details = ScanLocText;
+                savepolyboxscan.TotalPolyboxCount = TotalPolyboxCountHeader;
+                savepolyboxscan.TotalScannedToday = TotalScannedToday;
+                savepolyboxscan.ISR = ISRHeader;
+                savepolyboxscan.TagNumber = TagNumber;
+
+                var result = await trackService.SavePolyboxScanData(savepolyboxscan);
+
+                if (result?.status == 1)
+                {
+                    await GetPolyboxHeaderData();
+
+                    if (savefrom.Trim().ToLower() == "nextscan".Trim().ToLower())
+                    {
+                        await StartScanning();
+                    }
+                    else if (savefrom.Trim().ToLower() == "done".Trim().ToLower())
+                    {
+                        IsVerifiedDataVisible = IsNoRecordsVisible = false;
+                        ScannedBy = ScannedDateTime = "";
+                    }
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Alert", "Scan data did not got saved.", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SaveScanData method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
             finally
@@ -304,6 +441,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 CargoCategory = result?.data?.CargoCategory1;
                                 BagNumber = result?.data?.BagNumber;
                                 TQBPkgSizeNoL1 = result?.data?.TQB_PkgSizeNo_L1;
+                                TagNumber = scanvalue;
+
+                                ScannedDateTime = DateTime.Now.ToString("dd/MMM/yyyy HH:mm");
+                                ScannedBy = Settings.Username;
 
                                 IsNoRecordsVisible = false;
                                 IsVerifiedDataVisible = true;
@@ -532,6 +673,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private string _ScanRemarkDesc;
+        public string ScanRemarkDesc
+        {
+            get => _ScanRemarkDesc;
+            set
+            {
+                _ScanRemarkDesc = value;
+                NotifyPropertyChanged("ScanRemarkDesc");
+            }
+        }
+
+        private string _TagNumber;
+        public string TagNumber
+        {
+            get => _TagNumber;
+            set
+            {
+                _TagNumber = value;
+                NotifyPropertyChanged("TagNumber");
+            }
+        }
+
         private bool _IsNoRecordsVisible;
         public bool IsNoRecordsVisible
         {
@@ -727,20 +890,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 _ScanSelectedFromLoc = value;
                 NotifyPropertyChanged("ScanSelectedFromLoc");
 
-                    if (value?.ID == 8)
+                if (value?.ID == 8)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
-                            ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
-                            IsGPSCorVisible = true;
-                        });
-                    }
-                    else
-                    {
-                        ScanLocText = ScanSelectedFromLoc?.Name;
-                        IsGPSCorVisible = false;
-                    }
+                        var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
+                        ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
+                        IsGPSCorVisible = true;
+                    });
+                }
+                else
+                {
+                    ScanLocText = ScanSelectedFromLoc?.Name;
+                    IsGPSCorVisible = false;
+                }
             }
         }
 
@@ -953,28 +1116,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        private string _TotalCountHeader;
-        public string TotalCountHeader
+        private string _TotalPolyboxCountHeader;
+        public string TotalPolyboxCountHeader
         {
-            get => _TotalCountHeader;
+            get => _TotalPolyboxCountHeader;
             set
             {
-                _TotalCountHeader = value;
-                NotifyPropertyChanged("TotalCountHeader");
+                _TotalPolyboxCountHeader = value;
+                NotifyPropertyChanged("TotalPolyboxCountHeader");
             }
         }
 
-        private string _ScannedTodayHeader;
-        public string ScannedTodayHeader
+        private string _TotalScannedToday;
+        public string TotalScannedToday
         {
-            get => _ScannedTodayHeader;
+            get => _TotalScannedToday;
             set
             {
-                _ScannedTodayHeader = value;
-                NotifyPropertyChanged("ScannedTodayHeader");
+                _TotalScannedToday = value;
+                NotifyPropertyChanged("TotalScannedToday");
             }
         }
-        
+
         private string _ISRHeader;
         public string ISRHeader
         {

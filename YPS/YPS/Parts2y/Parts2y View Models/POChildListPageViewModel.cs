@@ -572,7 +572,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var versionID = Settings.VersionID;
 
                 if (Settings.VersionID == 4 || Settings.VersionID == 3 || Settings.VersionID == 1 || Settings.VersionID == 5
-                    || Settings.VersionID == 2)
+                    || Settings.VersionID == 2|| Settings.VersionID == 6|| Settings.VersionID == 7
+                    || Settings.VersionID == 8|| Settings.VersionID == 9
+                    || Settings.VersionID == 10|| Settings.VersionID == 11)
                 {
                     loadindicator = true;
                     SelectedTagCountVisible = false;

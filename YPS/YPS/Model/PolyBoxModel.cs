@@ -23,22 +23,23 @@ namespace YPS.Model
         public string TotalScannedToday { get; set; }
         public string ISR { get; set; }
         public string TagNumber { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public int UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        //public int CreatedBy { get; set; }
+        //public DateTime CreatedDate { get; set; }
+        //public int UpdatedBy { get; set; }
+        //public DateTime UpdatedDate { get; set; }
     }
-    public class GetPolyboxScanDetails
-    {
-        public string message { get; set; }
-        public int status { get; set; }
-        public PolyBoxModel data { get; set; }
-    }
-    
+
     public class PolyboxValidateResponse
     {
         public string message { get; set; }
         public int status { get; set; }
         public PolyBoxModel data { get; set; }
+    }
+
+    public class PolyboxSaveResponse
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public int data { get; set; }
     }
 }

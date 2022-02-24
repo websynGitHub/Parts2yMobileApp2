@@ -69,7 +69,7 @@
                                    Text="{Binding labelobj.TotalPolibox.Name}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White" Grid.Column="1" Grid.Row="0" 
-                                   Text="{Binding TotalCountHeader}"
+                                   Text="{Binding TotalPolyboxCountHeader}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
 
@@ -83,7 +83,7 @@
                                    Text="{Binding labelobj.ScannedToday.Name}"
                                Style="{DynamicResource LableWithQuestionFont}"/>
                             <Label TextColor="White" Grid.Column="1" Grid.Row="0" 
-                                   Text="{Binding ScannedTodayHeader}"
+                                   Text="{Binding TotalScannedToday}"
                               Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
 
@@ -328,7 +328,7 @@
                                                                >
                                         <LblIcons:MyEditor FontAttributes="Bold"
                                                        HeightRequest="85" HorizontalOptions="FillAndExpand"
-                                               WidthRequest="255" Text="" 
+                                               WidthRequest="255" Text="{Binding ScanRemarkDesc,Mode=TwoWay}" 
                                                            Keyboard="Text"
                                                 Style="{StaticResource EditorTextStyle}"
                                                                VerticalOptions="CenterAndExpand"/>
@@ -367,7 +367,7 @@
                                     <sfbuttons:SfButton Style="{StaticResource SfBtnBlue}" CornerRadius="4" 
                                         BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
                                         HorizontalOptions="FillAndExpand" VerticalOptions="End"
-                                        Grid.Row="1" Grid.Column="0">
+                                        Grid.Row="1" Grid.Column="0" Command="{Binding DoneCmd}">
                                         <sfbuttons:SfButton.Content>
                                             <Label Text="{Binding labelobj.Done.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                         </sfbuttons:SfButton.Content>
@@ -379,7 +379,7 @@
                                     <sfbuttons:SfButton Style="{StaticResource SfBtnBlue}"  CornerRadius="4" 
                                         BackgroundColor="{Binding BgColor}" Padding="10,0,10,0"
                                         HorizontalOptions="FillAndExpand" VerticalOptions="End" 
-                                        Grid.Column="1"  Grid.Row="1" Command="{Binding StartScanningCmd}">
+                                        Grid.Column="1"  Grid.Row="1" Command="{Binding NextScanningCmd}">
                                         <sfbuttons:SfButton.Content>
                                             <Label Text="{Binding labelobj.Next.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
                                         </sfbuttons:SfButton.Content>

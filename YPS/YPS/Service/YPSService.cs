@@ -884,23 +884,11 @@ namespace YPS.Service
         /// Get polybox header details
         /// </summary>
         /// <returns></returns>
-        public async Task<GetPolyboxScanDetails> GetPolyboxHeaderDetails()
+        public async Task<PolyboxValidateResponse> GetPolyboxHeaderDetails()
         {
             RestClient restClient = new RestClient();
             return await restClient.GetPolyboxHeaderDetails();
         }
-
-        /// <summary>
-        /// Polybox validation
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public async Task<PolyboxValidateResponse> PolyboxScanValidation(string tagnumber)
-        {
-            RestClient restClient = new RestClient();
-            return await restClient.PolyboxScanValidation(tagnumber);
-        }
-
 
         /// <summary>
         /// Get Scan Config
@@ -1023,5 +1011,28 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.AssignUnassignedTask(taskid);
         }
+
+        /// <summary>
+        /// Polybox scan validation
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<PolyboxValidateResponse> PolyboxScanValidation(string tagnumber)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.PolyboxScanValidation(tagnumber);
+        }
+
+        /// <summary>
+        /// Save Polybox Scan Data
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<PolyboxSaveResponse> SavePolyboxScanData(PolyBoxModel polyboxscanobj)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.SavePolyboxScanData(polyboxscanobj);
+        }
+
     }
 }
