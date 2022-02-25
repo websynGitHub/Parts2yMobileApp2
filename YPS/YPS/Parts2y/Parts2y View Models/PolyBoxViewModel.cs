@@ -433,6 +433,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ISimpleAudioPlayer okplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
                 okplaybeep.Load(oksr);
 
+                Stream ngsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
+                ISimpleAudioPlayer ngplaybeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                ngplaybeep.Load(ngsr);
+
                 Device.BeginInvokeOnMainThread(async () =>
                 {
 
@@ -449,6 +453,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (result?.status == 1)
                             {
+                                okplaybeep.Play();
+
                                 CargoCategory = result?.data?.CargoCategory1;
                                 BagNumber = result?.data?.BagNumber;
                                 TQBPkgSizeNoL1 = result?.data?.TQB_PkgSizeNo_L1;
@@ -465,8 +471,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 //ScannedBy = ScannedDateTime = "";
                                 IsNoRecordsVisible = true;
                                 IsVerifiedDataVisible = false;
+                                ngplaybeep.Play();
                             }
-
                         }
                         else
                         {
