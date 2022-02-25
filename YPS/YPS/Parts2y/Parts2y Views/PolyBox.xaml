@@ -73,7 +73,7 @@
                               Style="{DynamicResource LableWithQuestionFont}"/>
                         </Grid>
 
-                     
+
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   
                               VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" 
@@ -141,7 +141,8 @@
                               IsVisible="{Binding IsScanContentVisible}"
                               RowDefinitions="*,Auto,Auto" ColumnDefinitions="*">
 
-                            <Frame Grid.Row="0" CornerRadius="5" Margin="7,10,7,0" HeightRequest="115"
+                            <Frame Grid.Row="0" CornerRadius="5" Margin="7,10,7,0"
+                                   HeightRequest="115" Padding="6,6,0,6"
                                    VerticalOptions="FillAndExpand" WidthRequest="50"
                                    IsVisible="{Binding IsScanContentVisible}">
 
@@ -149,59 +150,62 @@
                                     <Image HorizontalOptions="Start" 
                                            VerticalOptions="CenterAndExpand" 
                                            Source="qrcodecompare.png"/>
-                                    <StackLayout HorizontalOptions="Start" 
-                                                 VerticalOptions="Center"
-                                                 Spacing="0">
-                                        <Label VerticalTextAlignment="Start"
-                                           TextColor="Black" IsVisible="{Binding IsNoRecordsVisible}"
+                                    <ScrollView>
+                                        <StackLayout HorizontalOptions="Start" 
+                                                 VerticalOptions="CenterAndExpand"
+                                                 Spacing="0" Padding="0,0,0,0">
+                                            <Label VerticalTextAlignment="Start"
+                                            IsVisible="{Binding IsNoRecordsVisible}"
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
-                                               Style="{StaticResource LableWithQuestionFont}"
-                                               Text="No records found">
-                                        </Label>
+                                               Style="{StaticResource LableWithQuestionFontWhite}"
+                                               Text="Not matched" BackgroundColor="Red">
+                                            </Label>
 
-                                        <Label VerticalTextAlignment="Start"
+                                            <Label VerticalTextAlignment="Start"
                                            TextColor="Black" 
                                                IsVisible="{Binding IsVerifiedDataVisible}"
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                Style="{StaticResource LableWithQuestionFont}">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding labelobj.CargoCategory.Name}"/>
-                                                    <Span Text="{Binding CargoCategory}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding labelobj.CargoCategory.Name}"/>
+                                                        <Span Text="{Binding CargoCategory}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
-                                        <Label VerticalTextAlignment="Start"
+                                            <Label VerticalTextAlignment="Start"
                                            TextColor="Black"
                                                IsVisible="{Binding IsVerifiedDataVisible}"
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                             Style="{StaticResource LableWithQuestionFont}">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding labelobj.BagNumber.Name}"/>
-                                                    <Span Text="{Binding BagNumber}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding labelobj.BagNumber.Name}"/>
+                                                        <Span Text="{Binding BagNumber}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
-                                        <Label VerticalTextAlignment="Start"
+                                            <Label VerticalTextAlignment="Start"
                                            TextColor="Black"
                                                IsVisible="{Binding IsVerifiedDataVisible}"
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                 Style="{StaticResource LableWithQuestionFont}">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding labelobj.TQBPkgSizeNoL1.Name}"/>
-                                                    <Span Text="{Binding TQBPkgSizeNoL1}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </StackLayout>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding labelobj.TQBPkgSizeNoL1.Name}"/>
+                                                        <Span Text="{Binding TQBPkgSizeNoL1}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </StackLayout>
+                                    </ScrollView>
+
                                 </StackLayout>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding StartScanningCmd}"/>
@@ -228,7 +232,7 @@
                                             </Entry.HeightRequest>
                                         </Entry>
                                     </sfinput:SfTextInputLayout>
-                                                                       
+
                                     <sfinput:SfTextInputLayout  Hint="Scan By" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                                ContainerBackgroundColor="White"
