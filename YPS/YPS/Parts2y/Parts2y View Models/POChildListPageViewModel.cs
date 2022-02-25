@@ -158,7 +158,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     var selectall = sender as Plugin.InputKit.Shared.Controls.CheckBox;
                     //IsSelectAllChecked = selectall?.IsChecked;
 
-                    if(PoDataChildCollections?.All(al=>al.IsChecked==true)==true)
+                    if (PoDataChildCollections?.All(al => al.IsChecked == true) == true)
                     {
                         PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l =>
                         {
@@ -572,12 +572,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var versionID = Settings.VersionID;
 
                 if (Settings.VersionID == 4 || Settings.VersionID == 3 || Settings.VersionID == 1 || Settings.VersionID == 5
-                    || Settings.VersionID == 2|| Settings.VersionID == 6|| Settings.VersionID == 7
-                    || Settings.VersionID == 8|| Settings.VersionID == 9
-                    || Settings.VersionID == 10|| Settings.VersionID == 11)
+                    || Settings.VersionID == 2 || Settings.VersionID == 6 || Settings.VersionID == 7
+                    || Settings.VersionID == 8 || Settings.VersionID == 9
+                    || Settings.VersionID == 10 || Settings.VersionID == 11)
                 {
                     loadindicator = true;
-                    SelectedTagCountVisible = false;
+                    IsSelectAllChecked = SelectedTagCountVisible = false;
                     SelectedTagCount = 0;
                     PoDataChildCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(l =>
                     {

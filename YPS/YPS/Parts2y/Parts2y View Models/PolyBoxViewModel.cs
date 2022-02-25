@@ -212,10 +212,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else
                     {
-                        IsRuleError = ConfigSelectedRule?.ID == 0 ? true : false;
-                        IsLocError = !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) ? true : false;
-                        IsRemarkError = ConfigSelectedEventRemark?.ID == 0 ? true : false;
-                        IsStatusError = ConfigSelectedSataus == 0 ? true : false;
+                        IsRuleError = (ConfigSelectedRule == null ||
+                            ConfigSelectedRule?.ID == 0) ? true : false;
+                        IsLocError = (ConfigSelectedFromLoc == null ||
+                            string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name)) ? true : false;
+                        IsRemarkError = (ConfigSelectedEventRemark == null ||
+                            ConfigSelectedEventRemark?.ID == 0) ? true : false;
+                        IsStatusError = (ConfigSelectedSataus == null
+                            || ConfigSelectedSataus == 0) ? true : false;
                     }
                 }
             }
@@ -849,7 +853,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 _ConfigSelectedFromLoc = value;
                 NotifyPropertyChanged("ConfigSelectedFromLoc");
 
-                if (IsLocError == true && value.ID > 0)
+                if (IsLocError == true && !string.IsNullOrEmpty(value.Name))
                 {
                     IsLocError = false;
                 }
