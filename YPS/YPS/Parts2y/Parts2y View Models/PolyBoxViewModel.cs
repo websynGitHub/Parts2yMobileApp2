@@ -454,7 +454,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 TQBPkgSizeNoL1 = result?.data?.TQB_PkgSizeNo_L1;
                                 TagNumber = scanvalue;
 
-                                ScannedDateTime = DateTime.Now.ToString("dd/MMM/yyyy HH:mm");
+                                ScannedDateTime = String.Format(Settings.DateFormat, DateTime.Now);
                                 ScannedBy = Settings.Username;
 
                                 IsNoRecordsVisible = false;
@@ -462,6 +462,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
+                                //ScannedBy = ScannedDateTime = "";
                                 IsNoRecordsVisible = true;
                                 IsVerifiedDataVisible = false;
                             }

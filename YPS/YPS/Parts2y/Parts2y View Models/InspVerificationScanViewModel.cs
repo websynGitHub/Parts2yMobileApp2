@@ -184,7 +184,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (!string.IsNullOrEmpty(ScannedCompareData))
                         {
 
-                            ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
+                            ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
                             StatusText = selectedTagData.TagTaskStatus == 2 ? "Done" : "Verified";
                             StatusTextBgColor = Color.DarkGreen;
                             ScannedValue = ScannedResult;
@@ -208,7 +208,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                            ScannedOn = DateTime.Now.ToString(@"MM/dd/yyyy hh:mm:ss tt");
+                            ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
                             StatusText = "Not matched";
                             StatusTextBgColor = Color.Red;
                             ScannedValue = ScannedResult;
