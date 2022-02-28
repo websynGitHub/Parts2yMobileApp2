@@ -241,9 +241,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 loadindicator = true;
                 if ((ScanSelectedFromLoc?.Name == "GPS Location" && IsGPSCorVisible == false))
                 {
-                    var requestedLocPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.LocationWhenInUse);
-                    var Status = requestedLocPermissions[Permission.LocationWhenInUse];
-                    if (Status != PermissionStatus.Granted)
+                    var status = await Xamarin.Essentials.Permissions.RequestAsync
+                        <Xamarin.Essentials.Permissions.LocationWhenInUse>();
+                    //var requestedLocPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.LocationWhenInUse);
+                    //var Status = requestedLocPermissions[Permission.LocationWhenInUse];
+
+                    if (status != Xamarin.Essentials.PermissionStatus.Granted)
                     {
                         var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needed to access the location.", null, null, "Maybe later", "Settings");
                         switch (checkSelect)
@@ -912,9 +915,31 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
-                        ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
-                        IsGPSCorVisible = true;
+                        var status = await Xamarin.Essentials.Permissions.RequestAsync
+                        <Xamarin.Essentials.Permissions.LocationWhenInUse>();
+
+                        if (status == Xamarin.Essentials.PermissionStatus.Granted)
+                        {
+                            var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
+                            ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
+                            IsGPSCorVisible = true;
+                        }
+                        else
+                        {
+                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs to access Location.", null, null, "Maybe Later", "Settings");
+                            
+                            switch (checkSelect)
+                            {
+                                case "Maybe Later":
+                                    return;
+                                    break;
+                                case "Settings":
+                                    CrossPermissions.Current.OpenAppSettings();
+                                    return;
+                                    break;
+                            }
+                        }
+
                     });
                 }
                 else

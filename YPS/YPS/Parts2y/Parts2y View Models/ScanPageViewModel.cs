@@ -20,6 +20,9 @@ using YPS.Helpers;
 using Newtonsoft.Json;
 using static YPS.Model.SearchModel;
 using ZXing.Mobile;
+using System.Reflection;
+using System.IO;
+using Plugin.SimpleAudioPlayer;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
@@ -182,6 +185,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IndicatorVisibility = true;
 
+                var assembly = typeof(App).GetTypeInfo().Assembly;
+
+                Stream matchedsr = assembly.GetManifestResourceStream("YPS." + "okbeep.mp3");
+                ISimpleAudioPlayer matchedbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                matchedbeep.Load(matchedsr);
+
+                Stream notmatchedsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
+                ISimpleAudioPlayer notmatchedbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                notmatchedbeep.Load(notmatchedsr);
+
                 YPSLogger.TrackEvent("ScanPageViewModel.cs", " in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
                 var checkInternet = await App.CheckInterNetConnection();
@@ -238,6 +251,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             StatusText = selectedPOTagData.TagTaskStatus == 2 ? "Done" : "Verified";
                         }
 
+                        matchedbeep.Play();
                         StatusTextBgColor = Color.DarkGreen;
                         ScannedValue = ScannedResult;
 
@@ -250,6 +264,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
+                        notmatchedbeep.Play();
                         StatusText = "Not matched";
                         StatusTextBgColor = Color.Red;
                         ScannedValue = ScannedResult;
@@ -279,6 +294,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 IndicatorVisibility = true;
+
+                var assembly = typeof(App).GetTypeInfo().Assembly;
+
+                Stream matchedsr = assembly.GetManifestResourceStream("YPS." + "okbeep.mp3");
+                ISimpleAudioPlayer matchedbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                matchedbeep.Load(matchedsr);
+
+                Stream notmatchedsr = assembly.GetManifestResourceStream("YPS." + "ngbeep.mp3");
+                ISimpleAudioPlayer notmatchedbeep = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                notmatchedbeep.Load(notmatchedsr);
 
                 YPSLogger.TrackEvent("ScanPageViewModel.cs", " in GerDataAndVerify method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
@@ -317,6 +342,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             if (PoDataCollections?.Count > 0)
                             {
                                 ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
+                                matchedbeep.Play();
                                 StatusText = "Verified";
                                 StatusTextBgColor = Color.DarkGreen;
                                 ScannedValue = ScannedResult;
@@ -327,6 +353,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             else
                             {
                                 ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
+                                notmatchedbeep.Play();
                                 StatusText = "Not matched";
                                 StatusTextBgColor = Color.Red;
                                 ScannedValue = ScannedResult;
