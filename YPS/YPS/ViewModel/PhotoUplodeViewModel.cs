@@ -914,10 +914,10 @@ namespace YPS.ViewModel
                             /// Checking permission is allowed or denied by the user to access the photo from mobile.
                             if (statusiOS == PermissionStatus.Denied)
                             {
-                                var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the camera to take photos.", null, null, "Maybe Later", "Settings");
+                                var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needed to access the camera.", null, null, "Maybe later", "Settings");
                                 switch (checkSelect)
                                 {
-                                    case "Maybe Later":
+                                    case "Maybe later":
                                         break;
                                     case "Settings":
                                         CrossPermissions.Current.OpenAppSettings();
@@ -1001,10 +1001,10 @@ namespace YPS.ViewModel
                         /// Checking permission is allowed or denied9 by the user to access the photo from mobile.
                         if (statusiOS == PermissionStatus.Denied)
                         {
-                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs access to the gallery to take photos.", null, null, "Maybe Later", "Settings");
+                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needed to access the gallery.", null, null, "Maybe later", "Settings");
                             switch (checkSelect)
                             {
-                                case "Maybe Later":
+                                case "Maybe later":
                                     break;
                                 case "Settings":
                                     CrossPermissions.Current.OpenAppSettings();

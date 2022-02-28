@@ -1151,10 +1151,10 @@ namespace YPS.ViewModel
                                     {
                                         if (Application.Current.Properties.ContainsKey("CheckingPermissionDenied"))
                                         {
-                                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission needs to access the photo gallery", null, null, "Maybe Later", "Settings");
+                                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needed to access the gallery", null, null, "Maybe later", "Settings");
                                             switch (checkSelect)
                                             {
-                                                case "Maybe Later":
+                                                case "Maybe later":
 
                                                     break;
                                                 case "Settings":
