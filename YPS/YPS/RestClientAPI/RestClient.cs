@@ -1367,7 +1367,8 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <returns></returns>
         public async Task<SaveScanConfigResponse> SaveScanConfig(int compareruleid, int scancount,
-            int polyboxruleid, string polyboxlocname, int polyboxremarkid, int polyboxstatusid)
+            int polyboxruleid, string polyboxlocname, int polyboxremarkid, int polyboxstatusid,
+            string polyboxprintfields)
         {
             try
             {
@@ -1381,7 +1382,8 @@ namespace YPS.RestClientAPI
                     + "&PolyboxRule=" + polyboxruleid
                     + "&PolyboxLocation=" + polyboxlocname
                     + "&PolyboxRemarks=" + polyboxremarkid
-                    + "&PolyboxStatus=" + polyboxstatusid);
+                    + "&PolyboxStatus=" + polyboxstatusid
+                    + "&PolyboxPrintFields=" + polyboxprintfields);
             }
             catch (Exception ex)
             {
@@ -1428,7 +1430,8 @@ namespace YPS.RestClientAPI
                     "UserID=" + Settings.userLoginID
                      + "&CompanyID=" + Settings.CompanyID
                     + "&ProjectID=" + Settings.ProjectID
-                    + "&JobID=" + Settings.JobID);
+                    + "&JobID=" + Settings.JobID
+                    + "&PageType=" + "PolyboxPrint");
             }
             catch (Exception ex)
             {
