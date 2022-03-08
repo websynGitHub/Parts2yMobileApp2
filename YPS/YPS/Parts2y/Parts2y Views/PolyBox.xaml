@@ -170,12 +170,12 @@
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                Style="{StaticResource LableWithQuestionFont}">
-                                                <!--<Label.FormattedText>
+                                                <Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="{Binding labelobj.CargoCategory.Name}"/>
                                                         <Span Text="{Binding CargoCategory}"/>
                                                     </FormattedString>
-                                                </Label.FormattedText>-->
+                                                </Label.FormattedText>
                                             </Label>
 
                                             <Label VerticalTextAlignment="Start"
@@ -184,12 +184,12 @@
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                             Style="{StaticResource LableWithQuestionFont}">
-                                                <!--<Label.FormattedText>
+                                                <Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="{Binding labelobj.BagNumber.Name}"/>
                                                         <Span Text="{Binding BagNumber}"/>
                                                     </FormattedString>
-                                                </Label.FormattedText>-->
+                                                </Label.FormattedText>
                                             </Label>
 
                                             <Label VerticalTextAlignment="Start"
@@ -198,12 +198,12 @@
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                 Style="{StaticResource LableWithQuestionFont}">
-                                                <!--<Label.FormattedText>
+                                                <Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="{Binding labelobj.TQBPkgSizeNoL1.Name}"/>
                                                         <Span Text="{Binding TQBPkgSizeNoL1}"/>
                                                     </FormattedString>
-                                                </Label.FormattedText>-->
+                                                </Label.FormattedText>
                                             </Label>
                                         </StackLayout>
                                     </ScrollView>
