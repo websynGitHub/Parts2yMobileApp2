@@ -271,6 +271,7 @@ namespace YPS.CommonClasses
         public static int? notifyJobCount { set; get; } = 0;
         public static bool IsMobileCompareCont { set; get; }
         public static bool CanCallForSettings { get; set; }
+        public static string MobileScanProvider { set; get; }
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }
