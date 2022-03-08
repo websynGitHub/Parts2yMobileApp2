@@ -463,6 +463,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 opacityA = 1;
                                 isEnableBFrame = false;
                                 opacityB = 0.50;
+                                ngplaybeep.Play();
                             }
                             else
                             {
@@ -472,6 +473,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 opacityA = 0.50;
                                 isEnableBFrame = true;
                                 opacityB = 1;
+                                okplaybeep.Play();
                             }
                         }
                         else
