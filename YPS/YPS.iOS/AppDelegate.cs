@@ -302,6 +302,7 @@ namespace YPS.iOS
                     Settings.IsIIJEnabled = userData.IIJEnable;
                     HostingURL.scandItLicencekey = userData.ScanditKey;
                     Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                    Settings.MobileScanProvider = userData.MobileScanProvider;
                     Settings.Bar_Background = Color.FromHex(userData.BgColor);
                     Settings.RoleColorCode = userData.RoleColorCode;
                 }
@@ -620,6 +621,7 @@ namespace YPS.iOS
                                 Settings.IsIIJEnabled = userData.IIJEnable;
                                 HostingURL.scandItLicencekey = userData.ScanditKey;
                                 Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                                Settings.MobileScanProvider = userData.MobileScanProvider;
                                 Settings.Bar_Background = Color.FromHex(userData.BgColor);
                                 Settings.RoleColorCode = userData.RoleColorCode;
                             }
@@ -669,6 +671,7 @@ namespace YPS.iOS
                                 Settings.IsIIJEnabled = userData.IIJEnable;
                                 HostingURL.scandItLicencekey = userData.ScanditKey;
                                 Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                                Settings.MobileScanProvider = userData.MobileScanProvider;
                                 Settings.Bar_Background = Color.FromHex(userData.BgColor);
                                 Settings.RoleColorCode = userData.RoleColorCode;
                             }

@@ -194,6 +194,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.RoleColorCode = Settings.RoleColorCode;
                     saveData.ScanditKey = HostingURL.scandItLicencekey;
                     saveData.IsMobileCompareCont = Settings.IsMobileCompareCont;
+                    saveData.MobileScanProvider = Settings.MobileScanProvider;
                     Db.SaveUserPWd(saveData);
                 }
 

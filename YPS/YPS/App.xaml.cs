@@ -91,6 +91,8 @@ namespace YPS
                             {
                                 HostingURL.scandItLicencekey = globalResult.data.ScanditKey;
                                 Settings.IsMobileCompareCont = globalResult.data.IsMobileCompareCont;
+                                Settings.MobileScanProvider = globalResult.data.MobileScanProvider;
+
 
                                 RememberPwdDB DbParts2y = new RememberPwdDB();
                                 var userParts2y = DbParts2y.GetUserDetails();
@@ -291,6 +293,8 @@ namespace YPS
                             Settings.RoleColorCode = userData.RoleColorCode;
                             HostingURL.scandItLicencekey = userData.ScanditKey;
                             Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                            Settings.MobileScanProvider = userData.MobileScanProvider;
+
 
                             var current = Connectivity.NetworkAccess;
 
@@ -405,7 +409,7 @@ namespace YPS
                                     Settings.IsEmailEnabled = result.data.IsEmailEnabled;
                                     HostingURL.scandItLicencekey = result.data.ScanditKey;
                                     Settings.IsMobileCompareCont = result.data.IsMobileCompareCont;
-                                    Settings.ScanType = result.data.MobileScanProvider;
+                                    Settings.MobileScanProvider = result.data.MobileScanProvider;
                                     // Settings.IsIIJEnabled = true;       
                                 }
                             }
