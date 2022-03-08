@@ -214,6 +214,10 @@ namespace YPS.Model
 
     public class Localsettings
     {
+        Localsettings()
+        {
+
+        }
         public string ApplicationURL { get; set; }
         public string APIURL { get; set; }
         public string BlobConnection { get; set; }
@@ -235,6 +239,10 @@ namespace YPS.Model
     }
     public class ApplicationSettings
     {
+        ApplicationSettings()
+        {
+
+        }
         public string message { get; set; }
         public int status { get; set; }
         public Localsettings data { get; set; }
@@ -243,6 +251,10 @@ namespace YPS.Model
 
     public class SSLkeyData
     {
+        SSLkeyData()
+        {
+
+        }
         public string SecCode { get; set; }
         public List<PublicKeyData> Keys { get; set; }
         public bool IsPinnigEnabled { get; set; }
@@ -250,6 +262,10 @@ namespace YPS.Model
 
     public class PublicKeyData
     {
+        PublicKeyData()
+        {
+
+        }
         public string ActualUrl { get; set; }
         public string Url { get; set; }
         public string CertificateKey { get; set; }
@@ -257,6 +273,10 @@ namespace YPS.Model
 
     public class AppSettings
     {
+        AppSettings()
+        {
+
+        }
         public string BGImage { get; set; }
         public string Message1 { get; set; }
         public string Message2 { get; set; }

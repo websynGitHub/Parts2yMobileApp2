@@ -36,6 +36,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand ScanTabCmd { get; set; }
         public ICommand ScanConfigCmd { get; set; }
         public ICommand SaveClickCmd { get; set; }
+        public ICommand PrintPolyboxCmd { get; set; }
 
         public PolyBoxViewModel(INavigation _Navigation, PolyBox polyboxpage, bool reset)
         {
@@ -52,6 +53,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ScanTabCmd = new Command(async () => await TabChange("scan"));
                 ScanConfigCmd = new Command(async () => await TabChange("config"));
                 SaveClickCmd = new Command(async () => await SaveConfig());
+                PrintPolyboxCmd = new Command(async () => await PrintPolybox());
 
                 Task.Run(() => GetSavedDatasFromDB()).Wait();
                 ChangeLabel();
@@ -120,7 +122,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
 
                 if (ConfigSelectedRule?.ID != 0 && !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) &&
-                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
+                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0
+                && ScanConfigResult.data.PrintFields.Where(wr => wr.Status == 1)
+                .FirstOrDefault() != null)
                 {
                     IsScanEnable = true;
                     ScanOpacity = 1;
@@ -164,6 +168,23 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        private async Task PrintPolybox()
+        {
+            try
+            {
+                loadindicator = true;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ListForPrint method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
         public async Task SaveConfig()
         {
             try
@@ -175,17 +196,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (result)
                 {
                     if (ConfigSelectedRule?.ID != 0 && !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) &&
-                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
+                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0
+                && ScanConfigResult?.data?.PrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() != null)
                     {
                         var checkInternet = await App.CheckInterNetConnection();
 
                         if (checkInternet)
                         {
+                            var checkedprintfields = ScanConfigResult?.data?.PrintFields?.Where(wr => wr.Status == 1).
+                                Select(c => c.Name).ToList();
+
+                            var commafields = string.Join(",", checkedprintfields);
+
                             var data = await trackService.SaveScanConfig(0, 0, ConfigSelectedRule.ID,
-                                ConfigSelectedFromLoc.Name, ConfigSelectedEventRemark.ID, ConfigSelectedSataus);
+                                ConfigSelectedFromLoc.Name, ConfigSelectedEventRemark.ID, ConfigSelectedSataus,
+                                commafields);
 
                             if (data?.status == 1)
                             {
+                                PrintFieldBorderColor = Color.Transparent;
+
                                 SelectedScanRuleHeader = ConfigSelectedRule.Name;
                                 ScanSelectedFromLoc = ConfigSelectedFromLoc;
                                 ScanSelectedEventRemark = ConfigSelectedEventRemark;
@@ -207,7 +237,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         else
                         {
                             await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
-                            //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                         }
                     }
                     else
@@ -220,6 +249,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ConfigSelectedEventRemark?.ID == 0) ? true : false;
                         IsStatusError = (ConfigSelectedSataus == null
                             || ConfigSelectedSataus == 0) ? true : false;
+                        PrintFieldBorderColor = (ScanConfigResult?.data?.PolyboxStatus == null
+                            || ScanConfigResult?.data?.PolyboxStatus?.Where(wr => wr.Status == 1).FirstOrDefault() == null) ?
+                            Color.Red : Color.Transparent;
                     }
                 }
             }
@@ -286,10 +318,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     try
                     {
-                        ScanerSettings scanset = new ScanerSettings();
-                        SettingsArchiver.ArchiveSettings(scanset);
-
-                        await Navigation.PushModalAsync(new ScannerPage(scanset, this));
+                        if (Settings.MobileScanProvider.Trim().ToLower() == "scandit".ToLower())
+                        {
+                            ScanerSettings scanset = new ScanerSettings();
+                            SettingsArchiver.ArchiveSettings(scanset);
+                            await Navigation.PushModalAsync(new ScannerPage(scanset, this));
+                        }
+                        else
+                        {
+                            await ZxingScanner();
+                        }
                     }
                     catch (Exception ex1)
                     {
@@ -314,6 +352,56 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        async Task ZxingScanner()
+        {
+            try
+            {
+                var overlay = new ZXingDefaultOverlay
+                {
+                    ShowFlashButton = true,
+                    TopText = string.Empty,
+                    BottomText = string.Empty,
+                };
+
+                overlay.BindingContext = overlay;
+
+                var ScannerPage = new ZXingScannerPage(null, overlay);
+                ScannerPage = new ZXingScannerPage(null, overlay);
+
+                ScannerPage.OnScanResult += (scanresult) =>
+                {
+                    ScannerPage.IsScanning = false;
+
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.PopAsync(false);
+                                                
+                        if (!string.IsNullOrEmpty(scanresult.Text))
+                        {
+                            await Scanditscan(scanresult.Text);
+                        }
+                    });
+                };
+
+                if (Navigation.ModalStack.Count == 0 ||
+                                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                {
+                    ScannerPage.AutoFocus();
+
+                    await Navigation.PushAsync(ScannerPage, false);
+
+                    overlay.FlashButtonClicked += (s, ed) =>
+                    {
+                        ScannerPage.ToggleTorch();
+                    };
+                }
+            }
+            catch(Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ZxingScanner method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
         private async Task DoneClick()
         {
             try
@@ -609,6 +697,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Location.Name = location != null ? (!string.IsNullOrEmpty(location.LblText) ? location.LblText : labelobj.Location.Name) : labelobj.Location.Name;
                         labelobj.Remark.Name = remarks != null ? (!string.IsNullOrEmpty(remarks.LblText) ? remarks.LblText : labelobj.Remark.Name) : labelobj.Remark.Name;
 
+                        if (ScanConfigResult?.data?.PrintFields?.Count > 0)
+                        {
+                            //var PrintPolyboxList = ScanConfigResult?.data?.PolyboxPrintList;
+
+
+                            ScanConfigResult.data.PrintFields.ForEach(fr => fr.LblText
+                            = labelval.Where(wr => wr.FieldID == fr.Name).Select(c => c.LblText).FirstOrDefault());
+                            //.Where(wr => labelval.Any
+                            //    (a => a.FieldID == wr.FieldID
+                            //    )).(c => { c.LblText = labelval.; return c; }).ToList();
+
+                            //ScanConfigResult.data.PrintFields[0].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[0].Name).Select(c => c.LblText).FirstOrDefault();
+                            //ScanConfigResult.data.PrintFields[1].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[1].Name).Select(c => c.LblText).FirstOrDefault();
+                            //ScanConfigResult.data.PrintFields[2].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[2].Name).Select(c => c.LblText).FirstOrDefault();
+                            //ScanConfigResult.data.PrintFields[3].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[3].Name).Select(c => c.LblText).FirstOrDefault();
+                            //ScanConfigResult.data.PrintFields[4].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[4].Name).Select(c => c.LblText).FirstOrDefault();
+                            //ScanConfigResult.data.PrintFields[5].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[5].Name).Select(c => c.LblText).FirstOrDefault();
+                            //ScanConfigResult.data.PrintFields[6].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[6].Name).Select(c => c.LblText).FirstOrDefault();
+                            //ScanConfigResult.data.PrintFields[7].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[7].Name).Select(c => c.LblText).FirstOrDefault();
+                        }
                     }
                 }
             }
@@ -694,6 +802,28 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private double _PrintIconOpacity;
+        public double PrintIconOpacity
+        {
+            get => _PrintIconOpacity;
+            set
+            {
+                _PrintIconOpacity = value;
+                NotifyPropertyChanged("PrintIconOpacity");
+            }
+        }
+
+        private Color _PrintFieldBorderColor = Color.Transparent;
+        public Color PrintFieldBorderColor
+        {
+            get => _PrintFieldBorderColor;
+            set
+            {
+                _PrintFieldBorderColor = value;
+                NotifyPropertyChanged("PrintFieldBorderColor");
+            }
+        }
+
         private string _ScanRemarkDesc;
         public string ScanRemarkDesc
         {
@@ -749,7 +879,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-
         private bool _IsGPSCorVisible;
         public bool IsGPSCorVisible
         {
@@ -758,6 +887,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _IsGPSCorVisible = value;
                 NotifyPropertyChanged("IsGPSCorVisible");
+            }
+        }
+
+        private bool _IsPrintError;
+        public bool IsPrintError
+        {
+            get => _IsPrintError;
+            set
+            {
+                _IsPrintError = value;
+                NotifyPropertyChanged("IsPrintError");
             }
         }
 
@@ -927,7 +1067,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         else
                         {
                             var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs to access Location.", null, null, "Maybe Later", "Settings");
-                            
+
                             switch (checkSelect)
                             {
                                 case "Maybe Later":

@@ -82,5 +82,22 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
+        private void PrintFieldsCheckChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Vm.PrintFieldBorderColor == Color.Red &&
+                    (sender as Plugin.InputKit.Shared.Controls.CheckBox).IsChecked)
+
+                {
+                    Vm.PrintFieldBorderColor = Color.Transparent;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "PrintFieldsCheckChanged method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                trackService.Handleexception(ex);
+            }
+        }
     }
 }

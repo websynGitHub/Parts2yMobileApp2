@@ -28,6 +28,8 @@ namespace YPS.Parts2y.Parts2y_Views
         public CompareContinuousViewModel comparecontinuousVM;
         public CompareViewModel compareVM;
         public PolyBoxViewModel polyboxVM;
+        public ScanPageViewModel scanPageVM;
+        public InspVerificationScanViewModel inspVerifVM;
         public YPSService trackService;
         public Color BgColor { get; } = CommonClasses.Settings.Bar_Background;
 
@@ -103,7 +105,55 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
+        public ScannerPage(ScanerSettings settings, ScanPageViewModel scanPageViewModel)
+        {
+            try
+            {
+                InitializeComponent();
 
+                Settings = new ScanerSettings();
+                MyNavigationPage = new NavigationPage();
+                Settings = settings;
+                scanPageVM = scanPageViewModel;
+                YPS.CommonClasses.Settings.scanredirectpage = "ScanPage";
+                ChangeLabel();
+                BindingContext = this;
+                BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+
+                PickerView.Delegate = new ScannerDelegate(this);
+                PickerView.Settings = Settings;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ScannerPage constructor with ScanPageViewModel parameter -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
+
+        public ScannerPage(ScanerSettings settings, InspVerificationScanViewModel inspVerificationScanViewModel)
+        {
+            try
+            {
+                InitializeComponent();
+
+                Settings = new ScanerSettings();
+                MyNavigationPage = new NavigationPage();
+                Settings = settings;
+                inspVerifVM = inspVerificationScanViewModel;
+                YPS.CommonClasses.Settings.scanredirectpage = "InspVerificationScan";
+                ChangeLabel();
+                BindingContext = this;
+                BackBtn.BackgroundColor = CommonClasses.Settings.Bar_Background;
+
+                PickerView.Delegate = new ScannerDelegate(this);
+                PickerView.Settings = Settings;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ScannerPage constructor with InspVerificationScan parameter -> in ScannerPage.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
         public ScannerPage(ScanerSettings settings, PolyBoxViewModel polyboxViewModel)
         {
             try
@@ -162,7 +212,14 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                Navigation.PopModalAsync(false);
+                if (YPS.CommonClasses.Settings.scanredirectpage.Trim().ToLower() == "ScanPage".Trim().ToLower() || YPS.CommonClasses.Settings.scanredirectpage.Trim().ToLower() == "InspVerificationScan".Trim().ToLower())
+                {
+                    Navigation.PopAsync(false);
+                }
+                else
+                {
+                    Navigation.PopModalAsync(false);
+                }
             }
             catch (Exception ex)
             {
@@ -319,6 +376,24 @@ namespace YPS.Parts2y.Parts2y_Views
                     if (App.Current.MainPage.Navigation.ModalStack.Count > 0)
                     {
                         await App.Current.MainPage.Navigation.PopModalAsync(false);
+                    }
+                }
+                else if (Settings.scanredirectpage.Trim().ToLower() == "ScanPage".Trim().ToLower())
+                {
+                    await scannerPage.scanPageVM.Scanditscan(Settings.scanQRValuecode);
+
+                    if (scannerPage.scanPageVM.Navigation.NavigationStack.Count > 0)
+                    {
+                        await scannerPage.scanPageVM.Navigation.PopAsync(false);
+                    }
+                }
+                else if (Settings.scanredirectpage.Trim().ToLower() == "InspVerificationScan".Trim().ToLower())
+                {
+                    await scannerPage.inspVerifVM.Scanditscan(Settings.scanQRValuecode);
+
+                    if (scannerPage.inspVerifVM.Navigation.NavigationStack.Count > 0)
+                    {
+                        await scannerPage.inspVerifVM.Navigation.PopAsync(false);
                     }
                 }
                 else

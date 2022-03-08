@@ -13,6 +13,10 @@ namespace YPS.Model
         public int Length { get; set; }
         public int Status { get; set; }
         public int CreatedBy { get; set; }
+        public string FieldID { get; set; }
+        public string LblText { get; set; }
+        public string Field2ID { get; set; }
+        public bool IsChecked { get; set; }
     }
 
     public class GetScanDataModel
@@ -22,6 +26,7 @@ namespace YPS.Model
         public List<CompareModel> PolyboxStatus { get; set; }
         public List<CompareModel> PolyboxLocation { get; set; }
         public List<CompareModel> PolyboxRemarks { get; set; }
+        public List<CompareModel> PrintFields { get; set; }
     }
 
     public class ScanConfigResponse
@@ -52,6 +57,7 @@ namespace YPS.Model
         public int PolyboxStatus { get; set; }
         public string PolyboxLocation { get; set; }
         public int PolyboxRemarks { get; set; }
+        public string PolyboxPrintFields { get; set; }
     }
 
     public class GetSavedConfigResponse

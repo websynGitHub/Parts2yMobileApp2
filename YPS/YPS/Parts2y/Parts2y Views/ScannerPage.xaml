@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YPS" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:behaviours="clr-namespace:YPS.Behaviours" xmlns:local1="clr-namespace:YPS.CustomRenders"
              x:Class="YPS.Parts2y.Parts2y_Views.ScannerPage"
+             NavigationPage.HasNavigationBar="False"
               xmlns:StaticIcons="clr-namespace:YPS.CommonClasses">
     <ContentPage.Content>
         <Grid RowDefinitions="*" VerticalOptions="FillAndExpand" Padding="0,25,0,0" BackgroundColor="Black">

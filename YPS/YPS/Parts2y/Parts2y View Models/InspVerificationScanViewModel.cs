@@ -96,48 +96,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (pass1 == PermissionStatus.Granted)
                 {
-                    var overlay = new ZXingDefaultOverlay
+                    if (Settings.MobileScanProvider.Trim().ToLower() == "scandit".ToLower())
                     {
-                        ShowFlashButton = true,
-                        TopText = string.Empty,
-                        BottomText = string.Empty,
-                    };
-
-                    overlay.BindingContext = overlay;
-
-                    var ScannerPage = new ZXingScannerPage(null, overlay);
-
-                    ScannerPage = new ZXingScannerPage(null, overlay);
-
-                    ScannerPage.OnScanResult += (scanresult) =>
+                        ScanerSettings scanset = new ScanerSettings();
+                        SettingsArchiver.ArchiveSettings(scanset);
+                        await Navigation.PushAsync(new ScannerPage(scanset, this));
+                    }
+                    else
                     {
-                        ScannerPage.IsScanning = false;
-
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await Navigation.PopAsync(false);
-
-                            ScannedResult = scanresult.Text;
-
-                            if (!string.IsNullOrEmpty(ScannedResult))
-                            {
-                                IsPageVisible = true;
-                                await GetDataAndVerify();
-                            }
-                        });
-                    };
-
-                    if (Navigation.ModalStack.Count == 0 ||
-                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
-                    {
-                        ScannerPage.AutoFocus();
-
-                        await Navigation.PushAsync(ScannerPage, false);
-
-                        overlay.FlashButtonClicked += (s, ed) =>
-                        {
-                            ScannerPage.ToggleTorch();
-                        };
+                        await ZxingScanner();
                     }
                 }
                 else
@@ -149,6 +116,80 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "OpenScanner method -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
                 await trackService.Handleexception(ex);
+            }
+        }
+
+        public async Task ZxingScanner()
+        {
+            try
+            {
+                var overlay = new ZXingDefaultOverlay
+                {
+                    ShowFlashButton = true,
+                    TopText = string.Empty,
+                    BottomText = string.Empty,
+                };
+
+                overlay.BindingContext = overlay;
+
+                var ScannerPage = new ZXingScannerPage(null, overlay);
+
+                ScannerPage = new ZXingScannerPage(null, overlay);
+
+                ScannerPage.OnScanResult += (scanresult) =>
+                {
+                    ScannerPage.IsScanning = false;
+
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.PopAsync(false);
+
+                        ScannedResult = scanresult.Text;
+
+                        if (!string.IsNullOrEmpty(ScannedResult))
+                        {
+                            IsPageVisible = true;
+                            await GetDataAndVerify();
+                        }
+                    });
+                };
+
+                if (Navigation.ModalStack.Count == 0 ||
+                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                {
+                    ScannerPage.AutoFocus();
+
+                    await Navigation.PushAsync(ScannerPage, false);
+
+                    overlay.FlashButtonClicked += (s, ed) =>
+                    {
+                        ScannerPage.ToggleTorch();
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ZxingScanner method -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
+
+        public async Task Scanditscan(string scanresult)
+        {
+            try
+            {
+                ScannedResult = scanresult;
+
+                if (!string.IsNullOrEmpty(ScannedResult))
+                {
+                    IsPageVisible = true;
+                    await GetDataAndVerify();
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Scanditscan method -> in InspVerificationScanViewModel.cs " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
             }
         }
 

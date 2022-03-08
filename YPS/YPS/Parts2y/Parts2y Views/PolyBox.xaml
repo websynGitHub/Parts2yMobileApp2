@@ -9,7 +9,9 @@
              xmlns:behaviors="clr-namespace:YPS.Behaviours"
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
               xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
-              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms">
+              xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="BoxView" x:Key="StyleBoxView">
@@ -168,12 +170,12 @@
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                Style="{StaticResource LableWithQuestionFont}">
-                                                <Label.FormattedText>
+                                                <!--<Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="{Binding labelobj.CargoCategory.Name}"/>
                                                         <Span Text="{Binding CargoCategory}"/>
                                                     </FormattedString>
-                                                </Label.FormattedText>
+                                                </Label.FormattedText>-->
                                             </Label>
 
                                             <Label VerticalTextAlignment="Start"
@@ -182,12 +184,12 @@
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                             Style="{StaticResource LableWithQuestionFont}">
-                                                <Label.FormattedText>
+                                                <!--<Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="{Binding labelobj.BagNumber.Name}"/>
                                                         <Span Text="{Binding BagNumber}"/>
                                                     </FormattedString>
-                                                </Label.FormattedText>
+                                                </Label.FormattedText>-->
                                             </Label>
 
                                             <Label VerticalTextAlignment="Start"
@@ -196,12 +198,12 @@
                                                HorizontalOptions="Start" 
                                            VerticalOptions="Start"
                                                 Style="{StaticResource LableWithQuestionFont}">
-                                                <Label.FormattedText>
+                                                <!--<Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="{Binding labelobj.TQBPkgSizeNoL1.Name}"/>
                                                         <Span Text="{Binding TQBPkgSizeNoL1}"/>
                                                     </FormattedString>
-                                                </Label.FormattedText>
+                                                </Label.FormattedText>-->
                                             </Label>
                                         </StackLayout>
                                     </ScrollView>
@@ -362,9 +364,13 @@
                                                FontSize="20" HorizontalOptions="Center"
                                                VerticalOptions="Center" TextColor="Black"/>
                                     <LblIcons:FontAwesomeIconLabel FontSize="50"
-                                            Text="{x:Static StaticIcons:Icons.PrintIc}" 
+                                            Text="{x:Static StaticIcons:Icons.PrintIc}"
                                             Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
-                                                                       VerticalOptions="Center"/>
+                                            VerticalOptions="Center">
+                                        <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding PrintPolyboxCmd}"/>
+                                        </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
+                                    </LblIcons:FontAwesomeIconLabel>
                                     <!--</Grid>-->
 
                                     <!--<Grid HorizontalOptions="FillAndExpand" VerticalOptions="End">-->
@@ -396,103 +402,142 @@
                             </Frame>
                         </Grid>
 
-                        <Frame IsVisible="{Binding IsConfigContentVisible}" BackgroundColor="White"
+                        <Grid IsVisible="{Binding IsConfigContentVisible}"
+                              RowDefinitions="Auto,Auto">
+
+                            <Frame BackgroundColor="White" Grid.Row="0"
                                CornerRadius="5" Padding="10"
                                      VerticalOptions="FillAndExpand" Margin="7">
-
-                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                <StackLayout
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                          Padding="0" Margin="0">
-                                <Label Text="Default Configuration"
+                                    <Label Text="Default Configuration"
                                        TextColor="Black" Style="{StaticResource LableWithQuestionFont}"/>
 
-                                <sfinput:SfTextInputLayout Hint="{Binding labelobj.RuleForHint.Name}" 
+                                    <sfinput:SfTextInputLayout Hint="{Binding labelobj.RuleForHint.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ReserveSpaceForAssistiveLabels="False"
                                                            ContainerBackgroundColor="White"
                                                            ErrorColor="Red"
                                                            HasError="{Binding IsRuleError}">
-                                    <combobox:SfComboBox x:Name="LanguagePicker"
+                                        <combobox:SfComboBox x:Name="LanguagePicker"
                                                                   SelectedItem="{Binding ConfigSelectedRule,Mode=TwoWay}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand" DataSource="{Binding 
                                         ScanConfigResult.data.PolyboxRule,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
-                                        <combobox:SfComboBox.HeightRequest>
-                                            <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="iOS">20</On>
-                                                <On Platform="Android">50</On>
-                                            </OnPlatform>
-                                        </combobox:SfComboBox.HeightRequest>
-                                    </combobox:SfComboBox>
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
 
-                                </sfinput:SfTextInputLayout>
+                                    </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
+                                    <sfinput:SfTextInputLayout  Style="{StaticResource SfInputLayout}" 
                                                            ContainerBackgroundColor="White"
                                                            ReserveSpaceForAssistiveLabels="False"
                                                            ErrorColor="Red"
                                                            HasError="{Binding IsStatusError}" >
-                                    <sfbuttons:SfRadioGroup x:Name="statusRadio" Orientation="Horizontal"
+                                        <sfbuttons:SfRadioGroup x:Name="statusRadio" Orientation="Horizontal"
                                                         CheckedChanged="ConfigRadioGroupCheckedChanged"
                                                         HeightRequest="{OnPlatform Android=50,iOS=20}">
-                                        <Label Text="{Binding labelobj.Status.Name}" 
+                                            <Label Text="{Binding labelobj.Status.Name}" 
                                            Style="{DynamicResource LableWithQuestionFont}"
                                                 TextColor="Black" VerticalOptions="Center"/>
-                                        <sfbuttons:SfRadioButton Text="{Binding 
+                                            <sfbuttons:SfRadioButton Text="{Binding 
                                              ScanConfigResult.data.PolyboxStatus[0].Name}"
                                                                  ClassId="{Binding 
                                             ScanConfigResult.data.PolyboxStatus[0].ID}" 
                                                              IsChecked="{Binding IsEmpty,Mode=TwoWay}"/>
-                                        <sfbuttons:SfRadioButton Text="{Binding 
+                                            <sfbuttons:SfRadioButton Text="{Binding 
                                              ScanConfigResult.data.PolyboxStatus[1].Name}"
                                                                  ClassId="{Binding 
                                             ScanConfigResult.data.PolyboxStatus[1].ID}"
                                                              IsChecked="{Binding IsFull,Mode=TwoWay}"/>
-                                    </sfbuttons:SfRadioGroup>
-                                </sfinput:SfTextInputLayout>
+                                        </sfbuttons:SfRadioGroup>
+                                    </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
+                                    <sfinput:SfTextInputLayout Hint="{Binding labelobj.Location.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ReserveSpaceForAssistiveLabels="False"
                                                            ContainerBackgroundColor="White"
                                                            ErrorColor="Red"
                                                            HasError="{Binding IsLocError}">
 
-                                    <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedFromLoc,Mode=TwoWay}" DisplayMemberPath="Name"
+                                        <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedFromLoc,Mode=TwoWay}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand" DataSource="{Binding 
                                         ScanConfigResult.data.PolyboxLocation,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
-                                        <combobox:SfComboBox.HeightRequest>
-                                            <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="iOS">20</On>
-                                                <On Platform="Android">50</On>
-                                            </OnPlatform>
-                                        </combobox:SfComboBox.HeightRequest>
-                                    </combobox:SfComboBox>
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
 
-                                </sfinput:SfTextInputLayout>
+                                    </sfinput:SfTextInputLayout>
 
-                                <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remark.Name}" 
+                                    <sfinput:SfTextInputLayout Hint="{Binding labelobj.Remark.Name}" 
                                                        Style="{StaticResource SfInputLayout}" 
                                                            ContainerBackgroundColor="White"
                                                            ReserveSpaceForAssistiveLabels="False"
-                                                           ErrorColor="Red" 
+                                                           ErrorColor="Red"
                                                            HasError="{Binding IsRemarkError}">
-                                    <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedEventRemark,Mode=TwoWay}" DisplayMemberPath="Name"
+                                        <combobox:SfComboBox SelectedItem="{Binding ConfigSelectedEventRemark,Mode=TwoWay}" DisplayMemberPath="Name"
                                                       VerticalOptions="CenterAndExpand" DataSource="{Binding 
                                         ScanConfigResult.data.PolyboxRemarks,Mode=TwoWay}"
                                                                  Style="{StaticResource SfComboBoxTextStyle}">
-                                        <combobox:SfComboBox.HeightRequest>
-                                            <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="iOS">20</On>
-                                                <On Platform="Android">50</On>
-                                            </OnPlatform>
-                                        </combobox:SfComboBox.HeightRequest>
-                                    </combobox:SfComboBox>
+                                            <combobox:SfComboBox.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="iOS">20</On>
+                                                    <On Platform="Android">50</On>
+                                                </OnPlatform>
+                                            </combobox:SfComboBox.HeightRequest>
+                                        </combobox:SfComboBox>
 
-                                </sfinput:SfTextInputLayout>
+                                    </sfinput:SfTextInputLayout>
+                                </StackLayout>
+                            </Frame>
 
-                            </StackLayout>
-                        </Frame>
+                            <Frame Grid.Row="1" BackgroundColor="White"
+                                    Margin="7,0,7,60" CornerRadius="5"
+                                   BorderColor="{Binding PrintFieldBorderColor}">
+                                <StackLayout IsVisible="{Binding IsConfigContentVisible}"
+                                             Padding="0"
+                                   BindableLayout.ItemsSource="{Binding ScanConfigResult.data.PrintFields}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="Auto,*"
+                                                  Padding="0" Margin="0">
+                                                <input:CheckBox Grid.Column="0"
+                                                                IsChecked="{Binding Status}"
+                                                                CheckChanged="PrintFieldsCheckChanged"/>
+                                                <Label Text="{Binding LblText}"
+                                                           Grid.Column="1" VerticalTextAlignment="Center"
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </Frame>
+                            <!--<CollectionView ItemsSource="{Binding PrintPolyboxList}"
+                                                    >
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <input:CheckBox Grid.Column="0"/>
+                                                <Label Text="{Binding LblText}"
+                                                           Grid.Column="1" VerticalTextAlignment="Center"
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>-->
+                        </Grid>
                     </StackLayout>
                 </ScrollView>
             </Grid>

@@ -6,7 +6,7 @@
              NavigationPage.HasNavigationBar="False" x:Name="scanpage" 
              xmlns:local="clr-namespace:YPS.CustomRenders" xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:behaviours="clr-namespace:YPS.Behaviours">
-    
+
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowSpacing="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -34,7 +34,7 @@
                         <Label Text="Scan &amp; Retrieve Data" Style="{StaticResource LableWithMediumFontBlack}"
                    TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
                     </StackLayout>
-                        
+
                 </Grid>
 
                 <Grid Grid.Row="1" RowDefinitions="*,50"  Margin="4,0,4,4">
@@ -56,7 +56,7 @@
                                                            Grid.Row="0" Grid.Column="0" 
                                                            HorizontalTextAlignment="Start" 
                                                            Style="{DynamicResource LableWithQuestionFontBlack}"/>
-                            <Label Text="{Binding StatusText}" Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding StatusTextBgColor}"
+                            <Label x:Name="status" Text="{Binding StatusText}" Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding StatusTextBgColor}"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontWhite}"/>
                         </Grid>
                         <Grid  Grid.Row="2" Grid.Column="0"  HorizontalOptions="Start" 
@@ -68,21 +68,32 @@
                             <Label Text="{Binding ScannedResult}" Grid.Row="0" Grid.Column="1"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
                         </Grid>
+
+                        <Grid.Triggers>
+                            <DataTrigger TargetType="Grid"
+                                         Binding="{Binding IsNoJobMsgVisible}" Value="True">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Grid.Triggers>
                     </Grid>
+
+                    <Label Text="{Binding NoJobMessage}" IsVisible="{Binding IsNoJobMsgVisible}"
+                           Style="{DynamicResource LableWithQuestionFontBlack}"
+                           VerticalOptions="Center"/>
 
                     <!--<StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="End"
                   BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" Orientation="Horizontal">-->
-                        <FlexLayout Grid.Row="1" HorizontalOptions="FillAndExpand"
+                    <FlexLayout Grid.Row="1" HorizontalOptions="FillAndExpand"
                                      VerticalOptions="End"
                   BackgroundColor="White" Padding="0,0,0,4" HeightRequest="45" 
                         Direction="Row" AlignItems="Center" JustifyContent="SpaceEvenly"
                                     >
-                            <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Command="{Binding reScanCmd}" 
+                        <sfbuttons:SfButton  HorizontalOptions="FillAndExpand" Command="{Binding reScanCmd}" 
                                      Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                                  FlexLayout.Grow="1" Margin="0,0,2,0" HeightRequest="48">
                             <sfbuttons:SfButton.Content>
                                 <Label Text="{Binding labelobj.ReScanLabel.Name}" Style="{StaticResource SfButtonTextLbl}" Padding="0"/>
-                                </sfbuttons:SfButton.Content>
+                            </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
@@ -91,16 +102,16 @@
                         <sfbuttons:SfButton HorizontalOptions="FillAndExpand" IsVisible="{Binding IsPhotoBtnVisible}" Margin="2,0,0,0"
                                     Command="{Binding MoveNextCmd}" Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}"
                                             IsEnabled="{Binding IsPhotoEnable}" Opacity="{Binding PhotoOpacity}"
-                                            FlexLayout.Grow="1" HeightRequest="48"> 
+                                            FlexLayout.Grow="1" HeightRequest="48">
                             <sfbuttons:SfButton.Content>
                                 <Label Text="{Binding labelobj.PhotoLabel.Name}" Style="{StaticResource SfButtonTextLbl}" 
                                            Padding="0"/>
-                                </sfbuttons:SfButton.Content>
+                            </sfbuttons:SfButton.Content>
                             <sfbuttons:SfButton.Behaviors>
                                 <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                             </sfbuttons:SfButton.Behaviors>
                         </sfbuttons:SfButton>
-                        </FlexLayout>
+                    </FlexLayout>
                     <!--</StackLayout>-->
                 </Grid>
             </Grid>

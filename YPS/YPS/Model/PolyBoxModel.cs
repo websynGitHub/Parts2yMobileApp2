@@ -29,6 +29,14 @@ namespace YPS.Model
         //public DateTime UpdatedDate { get; set; }
     }
 
+    public class PrintPolyBoxModel
+    {
+        public string FieldID { get; set; }
+        public string Field2ID { get; set; }
+        public string LblText { get; set; }
+        public bool IsChecked { get; set; }
+    }
+
     public class PolyboxValidateResponse
     {
         public string message { get; set; }

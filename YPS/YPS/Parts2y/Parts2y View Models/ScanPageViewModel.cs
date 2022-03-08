@@ -115,12 +115,41 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (pass1 == PermissionStatus.Granted)
                 {
-                    var overlay = new ZXingDefaultOverlay
+                    if (Settings.MobileScanProvider.Trim().ToLower() == "scandit".ToLower())
                     {
-                        ShowFlashButton = true,
-                        TopText = string.Empty,
-                        BottomText = string.Empty,
-                    };
+                        ScanerSettings scanset = new ScanerSettings();
+                        SettingsArchiver.ArchiveSettings(scanset);
+                        await Navigation.PushAsync(new ScannerPage(scanset, this));
+                    }
+                    else
+                    {
+                        await ZxingScanner();
+                    }
+                    
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "OpenScanner method -> in ScanPageViewModel.cs " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
+
+
+        public async Task ZxingScanner()
+        {
+            try
+            {
+                var overlay = new ZXingDefaultOverlay
+                {
+                    ShowFlashButton = true,
+                    TopText = string.Empty,
+                    BottomText = string.Empty,
+                };
 
                     overlay.BindingContext = overlay;
 
@@ -161,20 +190,43 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         await Navigation.PushAsync(ScannerPage, false);
 
-                        overlay.FlashButtonClicked += (s, ed) =>
-                        {
-                            ScannerPage.ToggleTorch();
-                        };
-                    }
-                }
-                else
-                {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Camera unavailable.", "Ok");
+                    overlay.FlashButtonClicked += (s, ed) =>
+                    {
+                        ScannerPage.ToggleTorch();
+                    };
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                YPSLogger.ReportException(ex, "OpenScanner method -> in ScanPageViewModel.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "ZxingScanner method -> in ScanPageViewModel.cs " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+        }
+
+        public async Task Scanditscan(string scanresult)
+        {
+            try
+            {
+                ScannedResult = scanresult;
+
+                if (!string.IsNullOrEmpty(ScannedResult))
+                {
+                    IsPageVisible = true;
+
+                    if (uploadType == 0 && selectedTagData == null)
+                    {
+                        await GetDataAndVerify();
+                    }
+                    else
+                    {
+                        IsPhotoBtnVisible = true;
+                        await SingleTagDataVerification();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                YPSLogger.ReportException(ex, "Scanditscan method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
@@ -211,7 +263,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (selectedPOTagData == null && selectedTagData != null && selectedTagData.photoTags != null && result != null && result.data != null && result.data.allPoDataMobile != null)
                     {
+                        IsNoJobMsgVisible = false;
                         selectedPOTagData = result.data.allPoDataMobile.Where(wr => wr.POTagID == selectedTagData.photoTags[0].POTagID).FirstOrDefault();
+                    }
+                    else
+                    {
+                        IsNoJobMsgVisible = true;
                     }
 
                     if (selectedTagData != null)
@@ -319,49 +376,54 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     var result = await trackService.LoadPoDataService(sendPodata);
 
-                    if (result != null && result.data != null)
+                    //if (result != null && result.data != null)
+                    //{
+                    if (result?.status == 1 && result?.data?.allPoDataMobile != null && result?.data?.allPoDataMobile?.Count > 0)
                     {
-                        if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
+                        IsNoJobMsgVisible = false;
+
+                        var groubbyval = result.data.allPoDataMobile.GroupBy(gb => gb.POShippingNumber);
+                        ObservableCollection<AllPoData> PoDataCollections = new ObservableCollection<AllPoData>();
+                        PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoDataMobile
+                            .Where(wr => wr.TagNumber == ScannedResult)?
+                            .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
+                            ThenBy(tob => tob.TaskName));
+
+                        if (PoDataCollections?.Count == 0)
                         {
-
-                            var groubbyval = result.data.allPoDataMobile.GroupBy(gb => gb.POShippingNumber);
-                            ObservableCollection<AllPoData> PoDataCollections = new ObservableCollection<AllPoData>();
                             PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoDataMobile
-                                .Where(wr => wr.TagNumber == ScannedResult)?
-                                .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
-                                ThenBy(tob => tob.TaskName));
+                               .Where(wr => wr.IdentCode == ScannedResult)?
+                               .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
+                               ThenBy(tob => tob.TaskName));
+                        }
 
-                            if (PoDataCollections?.Count == 0)
-                            {
-                                PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoDataMobile
-                                   .Where(wr => wr.IdentCode == ScannedResult)?
-                                   .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
-                                   ThenBy(tob => tob.TaskName));
-                            }
+                        if (PoDataCollections?.Count > 0)
+                        {
+                            ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
+                            matchedbeep.Play();
+                            StatusText = "Verified";
+                            StatusTextBgColor = Color.DarkGreen;
+                            ScannedValue = ScannedResult;
 
-                            if (PoDataCollections?.Count > 0)
-                            {
-                                ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
-                                matchedbeep.Play();
-                                StatusText = "Verified";
-                                StatusTextBgColor = Color.DarkGreen;
-                                ScannedValue = ScannedResult;
-
-                                await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, result.data.allPoDataMobile, uploadType), false);
-                                Navigation.RemovePage(Navigation.NavigationStack[1]);
-                            }
-                            else
-                            {
-                                ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
-                                notmatchedbeep.Play();
-                                StatusText = "Not matched";
-                                StatusTextBgColor = Color.Red;
-                                ScannedValue = ScannedResult;
-                                IsPhotoEnable = false;
-                                PhotoOpacity = 0.5;
-                            }
+                            await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, result.data.allPoDataMobile, uploadType), false);
+                            Navigation.RemovePage(Navigation.NavigationStack[1]);
+                        }
+                        else
+                        {
+                            ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
+                            notmatchedbeep.Play();
+                            StatusText = "Not matched";
+                            StatusTextBgColor = Color.Red;
+                            ScannedValue = ScannedResult;
+                            IsPhotoEnable = false;
+                            PhotoOpacity = 0.5;
                         }
                     }
+                    else
+                    {
+                        IsNoJobMsgVisible = true;
+                    }
+                    //}
                 }
                 else
                 {
@@ -596,6 +658,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        public bool _IsNoJobMsgVisible;
+        public bool IsNoJobMsgVisible
+        {
+            get { return _IsNoJobMsgVisible; }
+            set
+            {
+                _IsNoJobMsgVisible = value;
+                RaisePropertyChanged("IsNoJobMsgVisible");
+            }
+        }
+
         public string _VinsOrParts = Settings.VersionID == 2 ? "VIN(s)" : "part(s)";
         public string VinsOrParts
         {
@@ -605,6 +678,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 _VinsOrParts = value;
                 RaisePropertyChanged("VinsOrParts");
             }
+        }
+
+        //public string _NoJobMessage =
+        //    "The scanned " + VinsOrParts + " does not exist in any of your entity jobs.";
+        public string NoJobMessage
+        {
+            get => "The scanned " + VinsOrParts + " does not exist in any of your entity jobs.";
+            //set
+            //{
+            //    _NoJobMessage = value;
+            //    RaisePropertyChanged("NoJobMessage");
+            //}
         }
 
         public bool _IsAssignMsgVisible;
