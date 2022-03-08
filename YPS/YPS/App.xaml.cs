@@ -405,6 +405,7 @@ namespace YPS
                                     Settings.IsEmailEnabled = result.data.IsEmailEnabled;
                                     HostingURL.scandItLicencekey = result.data.ScanditKey;
                                     Settings.IsMobileCompareCont = result.data.IsMobileCompareCont;
+                                    Settings.ScanType = result.data.MobileScanProvider;
                                     // Settings.IsIIJEnabled = true;       
                                 }
                             }
