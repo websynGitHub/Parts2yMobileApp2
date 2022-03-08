@@ -215,6 +215,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (uploadType == 0 && selectedTagData == null)
                     {
+                        Navigation.RemovePage(Navigation.NavigationStack[2]);
+
                         await GetDataAndVerify();
                     }
                     else
