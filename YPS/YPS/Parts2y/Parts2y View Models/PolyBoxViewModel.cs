@@ -597,12 +597,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 ScannedBy = Settings.Username;
 
                                 IsNoRecordsVisible = false;
-                                IsVerifiedDataVisible = true;
+                                IsPrintEnabled = IsVerifiedDataVisible = true;
                             }
                             else
                             {
                                 IsNoRecordsVisible = true;
-                                IsVerifiedDataVisible = false;
+                                IsPrintEnabled = IsVerifiedDataVisible = false;
                                 ngplaybeep.Play();
                             }
                         }
@@ -806,6 +806,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
+
+        private bool _IsPrintEnabled;
+        public bool IsPrintEnabled
+        {
+            get => _IsPrintEnabled;
+            set
+            {
+                _IsPrintEnabled = value;
+                RaisePropertyChanged("IsPrintEnabled");
+            }
+        }
 
         private double _PrintIconOpacity;
         public double PrintIconOpacity
