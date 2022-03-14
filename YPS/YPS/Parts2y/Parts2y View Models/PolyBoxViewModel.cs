@@ -18,6 +18,7 @@ using YPS.Model;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Parts2y.Parts2y_Views;
 using YPS.Service;
+using YPS.Views;
 using ZXing.Net.Mobile.Forms;
 
 namespace YPS.Parts2y.Parts2y_View_Models
@@ -173,6 +174,48 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
+
+                YPSLogger.TrackEvent("PolyBoxViewModel.cs", " in PrintPolybox method " + DateTime.Now + " UserId: " + Settings.userLoginID);
+
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+                    YPSService pSService = new YPSService();
+                    var printResult = await pSService.PrintPolyboxPDF(TagNumber);
+
+                    PrintPDFModel printPDFModel = new PrintPDFModel();
+
+                    if (printResult?.status == 1)
+                    {
+                        var bArray = printResult.data;
+                        //var bArray = "JVBERi0xLjMNCjEgMCBvYmoNClsvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJXQ0KZW5kb2JqDQo1IDAgb2JqDQo8PCAvTGVuZ3RoIDMzOSAvRmlsdGVyIC9GbGF0ZURlY29kZSA+PiBzdHJlYW0NClgJrZRLS8NAEIDvQv/DgBcVOt3Z56y3ShXEHlq64Fna1FZaU2MV/PduEildaKSvBHKYDN98O5lM6+IDJKGtH0SKkDU4z6gZigye4b1Vpqj4loVAKTWomKuAHLKxm5y7AJ2HGDXovYcwBVHdxSs4qVFFWuhXGCpBCo2XECZwNZrNV6usuLyG8AbhBu7Dnix2aH3KuoVtynAj7hyjsny6uGNC52xVLOT9fHywtWUkkgkotd6L4iz6eJ5tyhOZ9miWLabt0aChC8aiITpDF4xHZq7KDl6K9eHfzpZTxgnomC4IdEInFOq2RbyooQNKozXmDB1QjMLVQzco8snXeA297PPwcSDyaK1OgI1TTBJdRJ1uTxYp/uVlsV62mH9nxU+s1T3C3qFIcLvcy8Vi4kKRlbsp3eNJzJ86yBiq4XU4yR8vofO41NDLYbjN+29bDX8BNsEHrg0KZW5kc3RyZWFtDQplbmRvYmoNCjIgMCBvYmoNCjw8IC9UeXBlIC9QYWdlIC9QYXJlbnQgNiAwIFIgL01lZGlhQm94IFswIDAgMTE3MS40NCA4NDEuNjhdIC9Db250ZW50cyA1IDAgUiAvUmVzb3VyY2VzIDw8IC9Qcm9jU2V0IDEgMCBSIC9YT2JqZWN0IDw8IC9JbTQgNCAwIFIgPj4gL0ZvbnQgPDwgL0YzIDMgMCBSID4+ID4+ID4+DQplbmRvYmoNCjQgMCBvYmoNCjw8IC9UeXBlIC9YT2JqZWN0IC9TdWJ0eXBlIC9JbWFnZSAvQ29sb3JTcGFjZSAvRGV2aWNlUkdCIC9CaXRzUGVyQ29tcG9uZW50IDggL0ZpbHRlciAvRmxhdGVEZWNvZGUgIC9XaWR0aCAzMDAgL0hlaWdodCAxNTAgL0xlbmd0aCAyOTY4ID4+DQpzdHJlYW0NClgJ5ZAxDgNBDALz/08nUqo0QcBhGij38NzY7/ejvL759/L6CX5hvv7rP/mXat408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZldBPdouLC+O+at408QgLNIaZmlUJ/WS3uLgw7qvmTROPsEBjmKlZlWDkAwVsNykNCmVuZHN0cmVhbQ0KZW5kb2JqDQozIDAgb2JqDQo8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4NCmVuZG9iag0KNiAwIG9iag0KPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFsgMiAwIFIgXSAvQ291bnQgMSA+Pg0KZW5kb2JqDQo3IDAgb2JqDQo8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgNiAwIFIgPj4NCmVuZG9iag0KOCAwIG9iag0KPDwgL1RpdGxlIDxmZWZmMDA1MDAwNmYwMDZjMDA3OTAwNjIwMDZmMDA3ODAwNTIwMDY1MDA3MDAwNmYwMDcyMDA3ND4NCi9BdXRob3IgPD4NCi9TdWJqZWN0IDw+DQovQ3JlYXRvciAoTWljcm9zb2Z0IFJlcG9ydGluZyBTZXJ2aWNlcyAxNS4wLjAuMCkNCi9Qcm9kdWNlciAoTWljcm9zb2Z0IFJlcG9ydGluZyBTZXJ2aWNlcyBQREYgUmVuZGVyaW5nIEV4dGVuc2lvbiAxNS4wLjAuMCkNCi9DcmVhdGlvbkRhdGUgKEQ6MjAyMjAzMTAxNzMzMzArMDUnMzAnKQ0KPj4NCmVuZG9iag0KeHJlZg0KMCA5DQowMDAwMDAwMDAwIDY1NTM1IGYNCjAwMDAwMDAwMTAgMDAwMDAgbg0KMDAwMDAwMDQ4MSAwMDAwMCBuDQowMDAwMDAzODAzIDAwMDAwIG4NCjAwMDAwMDA2NTggMDAwMDAgbg0KMDAwMDAwMDA2NSAwMDAwMCBuDQowMDAwMDAzOTAzIDAwMDAwIG4NCjAwMDAwMDM5NjUgMDAwMDAgbg0KMDAwMDAwNDAxNyAwMDAwMCBuDQp0cmFpbGVyIDw8IC9TaXplIDkgL1Jvb3QgNyAwIFIgL0luZm8gOCAwIFIgPj4NCnN0YXJ0eHJlZg0KNDI5OQ0KJSVFT0Y=";
+                        byte[] bytes = Convert.FromBase64String(bArray);
+                        printPDFModel.bArray = bytes;
+                        printPDFModel.FileName = "Polybox" + "_" + String.Format("{0:yyyyMMMdd_hh-mm-ss}", DateTime.Now) + ".pdf";
+                        printPDFModel.PDFFileTitle = "Polybox";
+
+                        switch (Device.RuntimePlatform)
+                        {
+                            case Device.iOS:
+                                if (await FileManager.ExistsAsync(printPDFModel.FileName) == false)
+                                {
+                                    await FileManager.GetByteArrayData(printPDFModel);
+                                }
+
+                                var url = FileManager.GetFilePathFromRoot(printPDFModel.FileName);
+                                DependencyService.Get<NewOpenPdfI>().passPath(url);
+                                break;
+                            case Device.Android:
+                                await Navigation.PushAsync(new PdfViewPage(printPDFModel), false);
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                }
             }
             catch (Exception ex)
             {
@@ -275,8 +318,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     var status = await Xamarin.Essentials.Permissions.RequestAsync
                         <Xamarin.Essentials.Permissions.LocationWhenInUse>();
-                    //var requestedLocPermissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.LocationWhenInUse);
-                    //var Status = requestedLocPermissions[Permission.LocationWhenInUse];
 
                     if (status != Xamarin.Essentials.PermissionStatus.Granted)
                     {
@@ -375,7 +416,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         await Navigation.PopAsync(false);
-                                                
+
                         if (!string.IsNullOrEmpty(scanresult.Text))
                         {
                             await Scanditscan(scanresult.Text);
@@ -396,12 +437,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "ZxingScanner method -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
             }
         }
+
         private async Task DoneClick()
         {
             try
@@ -559,7 +601,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                //ScannedBy = ScannedDateTime = "";
                                 IsNoRecordsVisible = true;
                                 IsVerifiedDataVisible = false;
                                 ngplaybeep.Play();
@@ -574,27 +615,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         await App.Current.MainPage.DisplayAlert("Scanning", "Got no value from the code.", "Ok");
                     }
-                    //foreach (var val in scanvalue)
-                    //{
-                    //    if (CargoCategory != scanvalue[0])
-                    //    {
-                    //        CargoCategory = val;
-                    //        continue;
-                    //    }
-                    //    else if (BagNumber != scanvalue[1])
-                    //    {
-                    //        BagNumber = val;
-                    //        continue;
-                    //    }
-                    //    else
-                    //    {
-                    //        TQBPkgSizeNoL1 = scanvalue[2];
-                    //        break;
-                    //    }
-                    //}
-
-                    //ScannedDateTime = DateTime.Now.ToString("dd/MMM/yyyy HH:mm");
-                    ////ScannedBy = Settings.Username;
                 });
             }
             catch (Exception ex)
@@ -699,23 +719,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         if (ScanConfigResult?.data?.PrintFields?.Count > 0)
                         {
-                            //var PrintPolyboxList = ScanConfigResult?.data?.PolyboxPrintList;
-
-
                             ScanConfigResult.data.PrintFields.ForEach(fr => fr.LblText
                             = labelval.Where(wr => wr.FieldID == fr.Name).Select(c => c.LblText).FirstOrDefault());
-                            //.Where(wr => labelval.Any
-                            //    (a => a.FieldID == wr.FieldID
-                            //    )).(c => { c.LblText = labelval.; return c; }).ToList();
-
-                            //ScanConfigResult.data.PrintFields[0].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[0].Name).Select(c => c.LblText).FirstOrDefault();
-                            //ScanConfigResult.data.PrintFields[1].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[1].Name).Select(c => c.LblText).FirstOrDefault();
-                            //ScanConfigResult.data.PrintFields[2].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[2].Name).Select(c => c.LblText).FirstOrDefault();
-                            //ScanConfigResult.data.PrintFields[3].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[3].Name).Select(c => c.LblText).FirstOrDefault();
-                            //ScanConfigResult.data.PrintFields[4].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[4].Name).Select(c => c.LblText).FirstOrDefault();
-                            //ScanConfigResult.data.PrintFields[5].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[5].Name).Select(c => c.LblText).FirstOrDefault();
-                            //ScanConfigResult.data.PrintFields[6].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[6].Name).Select(c => c.LblText).FirstOrDefault();
-                            //ScanConfigResult.data.PrintFields[7].LblText = labelval.Where(wr => wr.FieldID == ScanConfigResult.data.PrintFields[7].Name).Select(c => c.LblText).FirstOrDefault();
                         }
                     }
                 }
