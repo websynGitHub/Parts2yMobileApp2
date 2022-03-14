@@ -505,9 +505,13 @@
                             <Frame Grid.Row="1" BackgroundColor="White"
                                     Margin="7,0,7,60" CornerRadius="5"
                                    BorderColor="{Binding PrintFieldBorderColor}">
+                                <Grid RowDefinitions="Auto,*">
+                                    <Label Text="Print Fields" Grid.Row="0"
+                                           Style="{StaticResource LableWithQuestionFontBlack}"/>
                                 <StackLayout IsVisible="{Binding IsConfigContentVisible}"
-                                             Padding="0"
+                                             Padding="0" Grid.Row="1"
                                    BindableLayout.ItemsSource="{Binding ScanConfigResult.data.PrintFields}">
+                                    
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate>
                                             <Grid ColumnDefinitions="Auto,*"
@@ -522,6 +526,7 @@
                                         </DataTemplate>
                                     </BindableLayout.ItemTemplate>
                                 </StackLayout>
+                                </Grid>
                             </Frame>
                             <!--<CollectionView ItemsSource="{Binding PrintPolyboxList}"
                                                     >
