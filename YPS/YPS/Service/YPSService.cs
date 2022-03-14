@@ -1035,5 +1035,13 @@ namespace YPS.Service
             return await restClient.SavePolyboxScanData(polyboxscanobj);
         }
 
+        /// <summary>
+        /// Get Byte Array for Polybox PDF File
+        public async Task<PrintPDFModel> PrintPolyboxPDF(string tagnumber)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.PrintPolyboxPDF(tagnumber); ;
+        }
+
     }
 }

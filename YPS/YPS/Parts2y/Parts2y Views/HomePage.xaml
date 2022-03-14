@@ -231,6 +231,14 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding PolyBoxClickCmd}"></TapGestureRecognizer>
                                 </Frame.GestureRecognizers>
+
+                                <Frame.Triggers>
+                                    <DataTrigger TargetType="Frame"
+                                         Binding="{Binding IsMobileCompareCont}" Value="False">
+                                        <Setter Property="Grid.Column" Value="0"/>
+                                    </DataTrigger>
+                                </Frame.Triggers>
+
                             </Frame>
                             <!--<Frame Grid.Row="2" Grid.Column="0"
                                        CornerRadius="4" HasShadow="False">

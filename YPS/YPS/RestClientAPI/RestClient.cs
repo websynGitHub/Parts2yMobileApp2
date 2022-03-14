@@ -1724,6 +1724,30 @@ namespace YPS.RestClientAPI
                 return null;
             }
         }
+
+        /// <summary>
+        /// Get Byte Array for Polybox PDF File by using poTagID
+        /// </summary>
+        /// <param name="poTagID"></param>
+        /// <returns></returns>
+        public async Task<PrintPDFModel> PrintPolyboxPDF(string tagnumber)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<PrintPDFModel>(WebServiceUrl
+                    + "Polybox/PrintPolybox?UserID=" + Settings.userLoginID
+                    + "&TagNumber=" + tagnumber
+                    + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "PrintPolyboxPDF method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
         #endregion
 
         #region Without common API calling methods.
