@@ -366,7 +366,7 @@
                                     <LblIcons:FontAwesomeIconLabel FontSize="50"
                                             Text="{x:Static StaticIcons:Icons.PrintIc}"
                                             Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
-                                            VerticalOptions="Center">
+                                            VerticalOptions="Center" IsEnabled="{Binding IsPrintEnabled}">
                                         <LblIcons:FontAwesomeIconLabel.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding PrintPolyboxCmd}"/>
                                         </LblIcons:FontAwesomeIconLabel.GestureRecognizers>
