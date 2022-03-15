@@ -1068,34 +1068,42 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (value?.Name == "GPS Location")
                 {
-                    Device.BeginInvokeOnMainThread(async () =>
+                    try
                     {
-                        var status = await Xamarin.Essentials.Permissions.RequestAsync
-                        <Xamarin.Essentials.Permissions.LocationWhenInUse>();
-
-                        if (status == Xamarin.Essentials.PermissionStatus.Granted)
+                        Device.BeginInvokeOnMainThread(async () =>
                         {
-                            var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
-                            ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
-                            IsGPSCorVisible = true;
-                        }
-                        else
-                        {
-                            var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs to access Location.", null, null, "Maybe Later", "Settings");
+                            var status = await Xamarin.Essentials.Permissions.RequestAsync
+                            <Xamarin.Essentials.Permissions.LocationWhenInUse>();
 
-                            switch (checkSelect)
+                            if (status == Xamarin.Essentials.PermissionStatus.Granted)
                             {
-                                case "Maybe Later":
-                                    return;
-                                    break;
-                                case "Settings":
-                                    CrossPermissions.Current.OpenAppSettings();
-                                    return;
-                                    break;
+                                var locval = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
+                                ScanLocText = locval?.Latitude.ToString() + ", " + locval?.Longitude.ToString();
+                                IsGPSCorVisible = true;
                             }
-                        }
+                            else
+                            {
+                                var checkSelect = await App.Current.MainPage.DisplayActionSheet("Permission is needs to access Location.", null, null, "Maybe Later", "Settings");
 
-                    });
+                                switch (checkSelect)
+                                {
+                                    case "Maybe Later":
+                                        return;
+                                        break;
+                                    case "Settings":
+                                        CrossPermissions.Current.OpenAppSettings();
+                                        return;
+                                        break;
+                                }
+                            }
+
+                        });
+                    }
+                    catch(Exception ex)
+                    {
+                        YPSLogger.ReportException(ex, "ScanSelectedFromLoc property -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
+                        var trackResult = trackService.Handleexception(ex);
+                    }
                 }
                 else
                 {
