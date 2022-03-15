@@ -415,11 +415,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await Navigation.PopAsync(false);
-
                         if (!string.IsNullOrEmpty(scanresult.Text))
                         {
                             await Scanditscan(scanresult.Text);
+                            await Navigation.PopAsync(false);
                         }
                     });
                 };

@@ -125,7 +125,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                   await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
                     //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
 
@@ -194,6 +194,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.RoleColorCode = Settings.RoleColorCode;
                     saveData.ScanditKey = HostingURL.scandItLicencekey;
                     saveData.IsMobileCompareCont = Settings.IsMobileCompareCont;
+                    saveData.IsMobilePolybox = Settings.IsMobilePolybox;
                     saveData.MobileScanProvider = Settings.MobileScanProvider;
                     Db.SaveUserPWd(saveData);
                 }
@@ -260,7 +261,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     await Navigation.PushAsync(new PhotoRepoPage(), false);
                 }
-                else if(page.Trim().ToLower()== "comparecontinuous".Trim().ToLower())
+                else if (page.Trim().ToLower() == "comparecontinuous".Trim().ToLower())
                 {
                     await Navigation.PushAsync(new CompareContinuous(), false);
                 }
@@ -538,7 +539,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (checkInternet)
                 {
                     var configurationResult = await trackService.GetAllMInspectionConfigurations();
-                    
+
                     if (configurationResult != null && configurationResult.data != null)
                     {
                         Settings.allInspectionConfigurations = configurationResult.data;
@@ -764,6 +765,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _IsMobileCompareCont = value;
                 NotifyPropertyChanged("IsMobileCompareCont");
+            }
+        }
+
+        private bool _IsPolyboxVisible = Settings.IsMobilePolybox;
+        public bool IsPolyboxVisible
+        {
+            get => _IsPolyboxVisible;
+            set
+            {
+                _IsPolyboxVisible = value;
+                NotifyPropertyChanged("IsPolyboxVisible");
             }
         }
 

@@ -270,6 +270,7 @@ namespace YPS.CommonClasses
         public static string scanQRValueB { get; set; } = "";
         public static int? notifyJobCount { set; get; } = 0;
         public static bool IsMobileCompareCont { set; get; }
+        public static bool IsMobilePolybox { set; get; }
         public static bool CanCallForSettings { get; set; }
         public static string MobileScanProvider { set; get; }
 

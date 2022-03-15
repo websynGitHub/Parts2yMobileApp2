@@ -91,8 +91,8 @@ namespace YPS
                             {
                                 HostingURL.scandItLicencekey = globalResult.data.ScanditKey;
                                 Settings.IsMobileCompareCont = globalResult.data.IsMobileCompareCont;
+                                Settings.IsMobilePolybox = globalResult.data.IsMobilePolybox;
                                 Settings.MobileScanProvider = globalResult.data.MobileScanProvider;
-
 
                                 RememberPwdDB DbParts2y = new RememberPwdDB();
                                 var userParts2y = DbParts2y.GetUserDetails();
@@ -104,7 +104,7 @@ namespace YPS
                                     Settings.IsIIJEnabled = userParts2y[0].IIJEnable;
                                     Settings.IsPNEnabled = userParts2y[0].IsPNEnabled;
                                     Settings.IsEmailEnabled = userParts2y[0].IsEmailEnabled;
-                                    
+
                                     Settings.CanCallForSettings = false;
                                     Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
 
@@ -293,6 +293,7 @@ namespace YPS
                             Settings.RoleColorCode = userData.RoleColorCode;
                             HostingURL.scandItLicencekey = userData.ScanditKey;
                             Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                            Settings.IsMobilePolybox = globalResult.data.IsMobilePolybox;
                             Settings.MobileScanProvider = userData.MobileScanProvider;
 
 
@@ -409,6 +410,7 @@ namespace YPS
                                     Settings.IsEmailEnabled = result.data.IsEmailEnabled;
                                     HostingURL.scandItLicencekey = result.data.ScanditKey;
                                     Settings.IsMobileCompareCont = result.data.IsMobileCompareCont;
+                                    Settings.IsMobilePolybox = result.data.IsMobilePolybox;
                                     Settings.MobileScanProvider = result.data.MobileScanProvider;
                                     // Settings.IsIIJEnabled = true;       
                                 }

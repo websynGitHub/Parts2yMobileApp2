@@ -235,6 +235,7 @@ namespace YPS.Model
         public AppSettings appSettings { get; set; }
         public string ScanditKey { get; set; }
         public bool IsMobileCompareCont { get; set; }
+        public bool IsMobilePolybox { get; set; }
         public string MobileScanProvider { get; set; }
     }
     public class ApplicationSettings

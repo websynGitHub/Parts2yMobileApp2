@@ -218,7 +218,8 @@
                             </Frame>
 
                             <Frame Grid.Row="2" Grid.Column="1" Margin="0"
-                                    CornerRadius="4" HasShadow="False">
+                                    CornerRadius="4" HasShadow="False"
+                                   IsVisible="{Binding IsPolyboxVisible}">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                     <Image Source="polybox.png" 
                                                  HorizontalOptions="Start" VerticalOptions="Center"
