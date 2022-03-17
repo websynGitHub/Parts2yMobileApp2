@@ -579,6 +579,7 @@ namespace YPS.Model
         public ObservableCollection<object> poData { get; set; }
         public ObservableCollection<object> poTags { get; set; }
         public ObservableCollection<AllPoData> allPoDataMobile { get; set; }
+        public ObservableCollection<DDLmaster> Events { get; set; }
         //public ObservableCollection<AllPoData> allPoData { get; set; }
         public int listCount { get; set; }
     }

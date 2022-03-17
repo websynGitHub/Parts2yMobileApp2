@@ -115,6 +115,7 @@ namespace YPS.ViewModel
                     if (DBresponse != null && DBresponse.status == 1)
                     {
                         Settings.VersionID = DBresponse.data.VersionID;
+                        Settings.ELevelID = DBresponse.data.EventID;
 
                         if (PDefaultSettingModel != null && PDefaultSettingModel.status == 1 && PDefaultSettingModel.data != null)
                         {
@@ -290,6 +291,7 @@ namespace YPS.ViewModel
                                         //Settings.Bar_Background = Color.FromHex(val.data?.VersionColorCode != null ? val.data.VersionColorCode : "#269DC9");
                                         Settings.Bar_Background = !string.IsNullOrEmpty(Settings.RoleColorCode) ? Color.FromHex(Settings.RoleColorCode) : (val.data?.VersionColorCode != null ? Color.FromHex(val.data.VersionColorCode) : Settings.Bar_Background);
                                         Settings.VersionID = val.data.VersionID;
+                                        Settings.ELevelID = val.data.EventID;
                                     }
                                     Settings.CanCallForSettings = false;
                                     Navigation.PopToRootAsync(false);

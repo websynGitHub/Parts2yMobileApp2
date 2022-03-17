@@ -41,7 +41,7 @@ namespace YPS.Model
         public string TagColumns { get; set; }
         public string yShipColumns { get; set; }
         public string VersionColorCode { get; set; }
-
+        public int EventID { get; set; }
     }
     public class ResponseFromSaveUDSModel
     {

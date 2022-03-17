@@ -81,6 +81,7 @@ namespace YPS.CommonClasses
         public static int CompanyID { get; set; }
         public static int ProjectID { get; set; }
         public static int JobID { get; set; }
+        public static int EventID { get; set; }
         //public static int SupplierID { get; set; }
         public static int FilterParentID { get; set; }
 

@@ -212,13 +212,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Settings.VersionID = DBresponse.data.VersionID;
                             Company = Settings.CompanySelected = DBresponse.data.CompanyName;
 
-
                             ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
                             ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
                             JobName = Settings.JobSelected = DBresponse.data.JobNumber;
                             Settings.CompanyID = DBresponse.data.CompanyID;
                             Settings.ProjectID = DBresponse.data.ProjectID;
                             Settings.JobID = DBresponse.data.JobID;
+                            Settings.ELevelID = DBresponse.data.EventID;
                         }
                     }
                 }

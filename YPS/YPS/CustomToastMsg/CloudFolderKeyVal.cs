@@ -275,7 +275,7 @@ namespace YPS.CustomToastMsg
                 Settings.CompanySelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
                 Settings.IIJConsumerSecret = string.Empty;
                 Settings.ProjectID = Settings.CompanyID = Settings.JobID =
-                Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = 0;
+                Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = Settings.EventID = 0;
                 Settings.IsSearchClicked = Settings.IsIIJEnabled = false;
                 RememberPwdDB Db = new RememberPwdDB();
                 var user = Db.GetUserDetails().FirstOrDefault();
@@ -344,7 +344,7 @@ namespace YPS.CustomToastMsg
                 Settings.CompanySelected = Settings.ProjectSelected = Settings.IIJConsumerKey =
                 Settings.IIJConsumerSecret = string.Empty;
                 Settings.ProjectID = Settings.CompanyID = Settings.JobID =
-                Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = 0;
+                Settings.CompressionQuality = Settings.PhotoSize = Settings.userRoleID = Settings.EventID = 0;
                 Settings.IsEmailEnabled = true;
                 RememberPwdDB Db = new RememberPwdDB();
                 var user = Db.GetUserDetails().FirstOrDefault();
@@ -390,7 +390,6 @@ namespace YPS.CustomToastMsg
     public static class HostingURL
     {
         /// We have to change appcenter key before publish.
-
         #region Local devpit
         public static string WebServiceUrl { get; set; } = "https://ypsdev.devtpit.com/api/";
         public static string HubConnectionUrl { get; set; } = "https://ypsdev.devtpit.com/";

@@ -187,6 +187,7 @@ namespace YPS.ViewModel
                                             Settings.CompanyID = DBresponse.data.CompanyID;
                                             Settings.ProjectID = DBresponse.data.ProjectID;
                                             Settings.JobID = DBresponse.data.JobID;
+                                            Settings.ELevelID = DBresponse.data.EventID;
                                             Settings.CompanySelected = DBresponse.data.CompanyName;
                                             Settings.ProjectSelected = DBresponse.data.ProjectName;
                                             Settings.JobSelected = DBresponse.data.JobNumber;
