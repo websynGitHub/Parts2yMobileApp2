@@ -56,6 +56,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand DeleteFilterSearchCmd { get; set; }
         public ICommand SelectedFilterbyName { get; set; }
         public ICommand SelectedParentDetailsCmd { get; set; }
+        public Command ThreeDotsCmd { get; set; }
 
         YPSService trackService;
         ParentListPage pagename;
@@ -85,7 +86,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ISPoDataListVisible = true;
                 profileSettingVisible = true;
                 mainStack = true;
-
                 //ChangeLabel();
                 Task.Run(() => ChangeLabel()).Wait();
                 Task.Run(() => BindGridData(-1)).Wait();
@@ -423,6 +423,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 sendPodata.UserID = Settings.userLoginID;
                 sendPodata.PageSize = Settings.pageSizeYPS;
                 sendPodata.StartPage = Settings.startPageYPS;
+                if (SelectedEvent != null)
+                {
+                    sendPodata.EventID = SelectedEvent.ID;
+                }
                 await SearchResultGet(sendPodata, isfromsearchfilter);
 
                 result = await trackService.LoadPoDataService(sendPodata);
@@ -465,11 +469,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                             if (result != null)
                             {
+                                if(result.status==1 && result.data.Events != null)
+                                {
+                                    EventsList = result.data.Events;
+                                    EventListHeight = EventsList.Count * 33.3;
+                                    ThreeDotsCmd = new Command(ThreeDots_Tapped);
+                                }
                                 if (result.status == 1 && result.data.allPoDataMobile != null)
                                 {
                                     Settings.AllPOData = new ObservableCollection<AllPoData>();
                                     Settings.AllPOData = result.data.allPoDataMobile;
-
+                                    
                                     var groubbyval = result.data.allPoDataMobile.GroupBy(gb => new { gb.TaskID });
 
                                     ObservableCollection<AllPoData> groupedlist = new ObservableCollection<AllPoData>();
@@ -971,6 +981,57 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
+        void ThreeDots_Tapped()
+        {
+            IsEventPopVisible = IsEventPopVisible == true ? false : true;
+        }
+
+        async Task SelectedEventChanged()
+        {
+            try
+            {
+                loadingindicator = true;
+                if(await App.CheckInterNetConnection())
+                {
+                    var result = await trackService.UpdateDefaultSettingByEventID();
+                    if(result.status==1)
+                    {
+                        if (AllTabVisibility == true)
+                        {
+                            await All_Tap();
+                        }
+                        else if (CompleteTabVisibility == true)
+                        {
+                            await Complete_Tap();
+                        }
+                        else if (InProgressTabVisibility == true)
+                        {
+                            await InProgress_Tap();
+                        }
+                        else
+                        {
+                            await Pending_Tap();
+                        }
+                    }
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SelectedEventChanged method -> in ParentListViewModel! " + Settings.userLoginID);
+                var trackResult = await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadingindicator = false;
+            }
+        }
+
+
         /// <summary>
         /// This method is to clear the search criteria values and save to DB.
         /// </summary>
@@ -1182,6 +1243,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.EndTime.Name = (endtime != null ? (!string.IsNullOrEmpty(endtime.LblText) ? endtime.LblText : labelobj.EndTime.Name) : labelobj.EndTime.Name) /*+ " :"*/;
                         labelobj.EndTime.Status = endtime?.Status == 1 || endtime?.Status == 2 ? true : false;
                         labelobj.EventName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name) + " :";
+                        labelobj.EventPickerName.Name = (eventname != null ? (!string.IsNullOrEmpty(eventname.LblText) ? eventname.LblText : labelobj.EventName.Name) : labelobj.EventName.Name);
                         labelobj.EventName.Status = eventname?.Status == 1 || eventname?.Status == 2 ? true : false;
                         labelobj.FromLocation.Name = (fromlocation != null ? (!string.IsNullOrEmpty(fromlocation.LblText) ? fromlocation.LblText : labelobj.FromLocation.Name) : labelobj.FromLocation.Name) /*+ " :"*/;
                         labelobj.ToLocation.Name = (tolocation != null ? (!string.IsNullOrEmpty(tolocation.LblText) ? tolocation.LblText : labelobj.ToLocation.Name) : labelobj.ToLocation.Name) /*+ " :"*/;
@@ -1278,6 +1340,52 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         #region Properties
+
+        ObservableCollection<DDLmaster> eventsList;
+        public ObservableCollection<DDLmaster> EventsList
+        {
+            get => eventsList;
+            set
+            {
+                eventsList = value;
+                RaisePropertyChanged("eventsList");
+            }
+        }
+        bool _IsEventPopVisible;
+        public bool IsEventPopVisible
+        {
+            get => _IsEventPopVisible;
+            set
+            {
+                _IsEventPopVisible = value;
+                RaisePropertyChanged("IsEventPopVisible");
+            }
+        }
+
+        DDLmaster _SelectedEvent;
+        public DDLmaster SelectedEvent
+        {
+            get => _SelectedEvent;
+            set
+            {
+                IsEventPopVisible = false;
+                _SelectedEvent = value;
+                Settings.EventID = SelectedEvent.ID;
+                SelectedEventChanged();
+                RaisePropertyChanged("SelectedEvent");
+            }
+        }
+
+        double _EventListHeight;
+        public double EventListHeight
+        {
+            get => _EventListHeight;
+            set
+            {
+                _EventListHeight = value;
+                RaisePropertyChanged("EventListHeight");
+            }
+        }
         private bool _IsSearchFilterIconVisible { set; get; }
         public bool IsSearchFilterIconVisible
         {
@@ -1581,6 +1689,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             };
 
             public DashboardLabelFields EventName { get; set; } = new DashboardLabelFields
+            {
+                Status = false,
+                Name = "Event"
+            };public DashboardLabelFields EventPickerName { get; set; } = new DashboardLabelFields
             {
                 Status = false,
                 Name = "Event"

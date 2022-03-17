@@ -104,5 +104,7 @@
         public static readonly string WhiteEnvClose = "\uf003";
         public static readonly string BlEnvOpen = "\uf2b6";
         public static readonly string BlEnvClose = "\uf0e0";
+
+        public static readonly string DotMenu = "\u22ee";
     }
 }
