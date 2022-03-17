@@ -1728,7 +1728,7 @@ namespace YPS.RestClientAPI
         /// <summary>
         /// Get Byte Array for Polybox PDF File by using poTagID
         /// </summary>
-        /// <param name="poTagID"></param>
+        /// <param name="tagnumber"></param>
         /// <returns></returns>
         public async Task<PrintPDFModel> PrintPolyboxPDF(string tagnumber)
         {
@@ -1745,6 +1745,27 @@ namespace YPS.RestClientAPI
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "PrintPolyboxPDF method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Update EventID
+        /// </summary>
+        /// <param name="poTagID"></param>
+        /// <returns></returns>
+        public async Task<PrintPDFModel> UpdateDefaultSettingByEventID()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<PrintPDFModel>(WebServiceUrl
+                    + "PO/UpdateDefaultSettingByEventID?UserID=" + Settings.userLoginID
+                    + "&EventID=" + Settings.EventID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "UpdateDefaultSettingByEventID method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }

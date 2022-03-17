@@ -57,7 +57,7 @@ namespace YPS.RestClientAPI
             {
                 if (!string.IsNullOrEmpty(Settings.LoginID))
                 {
-                    var response = httpClient.PostAsync(url, null).Result;
+                     var response = httpClient.PostAsync(url, null).Result;
                     await HandleResponse(response);
 
                     if (stopresponceconversion == false)

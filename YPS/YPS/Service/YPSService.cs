@@ -1043,5 +1043,12 @@ namespace YPS.Service
             return await restClient.PrintPolyboxPDF(tagnumber); ;
         }
 
+        /// <summary>
+        /// Update EventID
+        public async Task<PrintPDFModel> UpdateDefaultSettingByEventID()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.UpdateDefaultSettingByEventID(); ;
+        }
     }
 }
