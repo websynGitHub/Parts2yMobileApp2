@@ -534,7 +534,7 @@
                     <StackLayout BindableLayout.ItemsSource="{Binding EventsList}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame Margin="0" Padding="10,2,10,2"
+                                    <Frame Margin="0" Padding="10,0,10,0"
                                        BackgroundColor="White" CornerRadius="4"  HasShadow="False">
                                             <Label Text="{Binding Name}" Style="{StaticResource LableWithQuestionFontBlack}"/>
                                         <Frame.GestureRecognizers>
