@@ -526,33 +526,28 @@
             
             <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsEventPopVisible}"
                          BackgroundColor="#22000000" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <Frame  HorizontalOptions="Start" VerticalOptions="Start" BorderColor="{Binding BgColor}" Padding="5" Margin="90,190,00,0" CornerRadius="5">
-                    <StackLayout HeightRequest="{Binding EventListHeight}" WidthRequest="120">
-                        <CollectionView ItemsSource="{Binding EventsList}" SelectionMode="Single" SelectedItem="{Binding SelectedEvent}">
-                            <CollectionView.ItemTemplate>
+                <Frame  HorizontalOptions="Start" VerticalOptions="Start" 
+                        BorderColor="{Binding BgColor}" Margin="90,175,5,0" 
+                        CornerRadius="5"
+                        BindableLayout.ItemsSource="{Binding }">
+                    
+                    <StackLayout BindableLayout.ItemsSource="{Binding EventsList}">
+                            <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <StackLayout>
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup Name="CommonStates">
-                                                <VisualState Name="Normal" />
-                                                <VisualState Name="Selected">
-                                                    <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="LightGray" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <Label Text="{Binding Name}" Style="{StaticResource LableWithQuestionFontBlack}"/>
-                                        <BoxView BackgroundColor="{Binding BgColor}" Color="{Binding BgColor}" HeightRequest="1" HorizontalOptions="FillAndExpand"/>
-                                    </StackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                    <Frame Margin="0" Padding="10,2,10,2"
+                                       BackgroundColor="White" CornerRadius="4"  HasShadow="False">
+                                            <Label Text="{Binding Name}" Style="{StaticResource LableWithQuestionFontBlack}"/>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.SelectedEventCmd,Source={x:Reference Name=POPage}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                            </DataTemplate>
+                            </BindableLayout.ItemTemplate>
                     </StackLayout>
                 </Frame>
-                <ContentView.GestureRecognizers>
+                <!--<ContentView.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ThreeDotsCmd}"/>
-                </ContentView.GestureRecognizers>
+                </ContentView.GestureRecognizers>-->
             </ContentView>
         </AbsoluteLayout>
     </ContentPage.Content>

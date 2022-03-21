@@ -55,6 +55,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public Command LoadCmd { set; get; }
         public ICommand DeleteFilterSearchCmd { get; set; }
         public ICommand SelectedFilterbyName { get; set; }
+        public ICommand SelectedEventCmd { get; set; }
         public ICommand SelectedParentDetailsCmd { get; set; }
         public Command ThreeDotsCmd { get; set; }
 
@@ -101,6 +102,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 DeleteFilterSearchCmd = new Command(DeleteFilterSearch);
                 SelectedFilterbyName = new Command(SelectedFilterbyNameMethod);
+                SelectedEventCmd = new Command(SelectedEventChanged);
 
                 HomeCmd = new Command(async () => await TabChange("home"));
                 JobCmd = new Command(async () => await TabChange("job"));
@@ -1002,7 +1004,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             IsEventPopVisible = IsEventPopVisible == true ? false : true;
         }
 
-        async Task SelectedEventChanged()
+        async void SelectedEventChanged(object sender)
         {
             try
             {
@@ -1010,6 +1012,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (await App.CheckInterNetConnection())
                 {
+                    SelectedEvent = sender as DDLmaster;
+                    Settings.EventID = SelectedEvent.ID;
+
                     var result = await trackService.UpdateDefaultSettingByEventID();
 
                     if (result.status == 1)
@@ -1045,6 +1050,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             finally
             {
                 loadingindicator = false;
+                IsEventPopVisible = false;
             }
         }
 
@@ -1365,7 +1371,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             set
             {
                 eventsList = value;
-                RaisePropertyChanged("eventsList");
+                RaisePropertyChanged("EventsList");
             }
         }
 
@@ -1392,7 +1398,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (SelectedEvent.ID > 0)
                 {
                     Settings.EventID = SelectedEvent.ID;
-                    SelectedEventChanged();
+                    //SelectedEventChanged(null);
                 }
                 RaisePropertyChanged("SelectedEvent");
             }
