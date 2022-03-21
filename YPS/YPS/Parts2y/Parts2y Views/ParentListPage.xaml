@@ -449,7 +449,8 @@
                             </local:FontAwesomeIconLabel>
                         </Grid>
 
-                        <StackLayout BindableLayout.ItemsSource="{Binding SearchFilterList}"  BackgroundColor="Transparent" Margin="2,8,2,0" >
+                        <StackLayout BindableLayout.ItemsSource="{Binding SearchFilterList}"  
+                                     BackgroundColor="Transparent" Margin="2,8,2,0" >
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
                                     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
@@ -523,16 +524,18 @@
                     <TapGestureRecognizer Tapped="ThreeDots_Tapped"/>
                 </ContentView.GestureRecognizers>
             </ContentView>-->
-            
-            <ContentView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsEventPopVisible}"
-                         BackgroundColor="#22000000" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+            <ContentView Style="{StaticResource PopUpContentView}" 
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" 
+                         IsVisible="{Binding IsEventPopVisible}">
                 <Frame  HorizontalOptions="Start" VerticalOptions="Start" 
-                        BorderColor="{Binding BgColor}" Margin="90,175,5,0" 
-                        CornerRadius="5">
-                    <StackLayout BindableLayout.ItemsSource="{Binding EventsList}">
+                        BorderColor="{Binding BgColor}" Margin="90,185,5,0" 
+                        Padding="2" CornerRadius="8" BackgroundColor="White" WidthRequest="150">
+                    <StackLayout BindableLayout.ItemsSource="{Binding EventsList}"
+                                 BackgroundColor="Transparent" Margin="2,5,2,5" >
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame Margin="0" Padding="10,0,10,0"
+                                <Frame Margin="0" Padding="3,0,1,0" BorderColor="{Binding SelectedEventColor}"
                                        BackgroundColor="White" CornerRadius="4"  HasShadow="False">
                                             <Label Text="{Binding Name}" Style="{StaticResource LableWithQuestionFontBlack}"/>
                                         <Frame.GestureRecognizers>
@@ -543,9 +546,9 @@
                             </BindableLayout.ItemTemplate>
                     </StackLayout>
                 </Frame>
-                <!--<ContentView.GestureRecognizers>
+                <ContentView.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ThreeDotsCmd}"/>
-                </ContentView.GestureRecognizers>-->
+                </ContentView.GestureRecognizers>
             </ContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
