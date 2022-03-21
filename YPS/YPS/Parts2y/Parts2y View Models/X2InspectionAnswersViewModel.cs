@@ -333,17 +333,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else if (IsQuickTabVisible == true && IsFullTabVisible == true)
                             {
-                                if (InspectionConfiguration.CategoryID == 4 || InspectionConfiguration.CategoryID == 7)
+                                if (InspectionConfiguration.CategoryID == 16)
                                 {
                                     QuickTabClicked();
                                 }
-                                else if (InspectionConfiguration.CategoryID == 5 || InspectionConfiguration.CategoryID == 8)
+                                else if (InspectionConfiguration.CategoryID == 17)
                                 {
                                     FullTabClicked();
                                 }
                             }
                             else if (IsQuickTabVisible == true &&
-                                (InspectionConfiguration.CategoryID == 4 || InspectionConfiguration.CategoryID == 7))
+                                (InspectionConfiguration.CategoryID == 16))
                             {
                                 IsFullTabVisible = false;
                                 QuickTabClicked();

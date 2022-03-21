@@ -140,6 +140,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.EventID = -1;
 
                     var result = await trackService.LoadPoDataService(sendPodata);
 
@@ -175,7 +176,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(7);
+                await GetConfigurationResults(22);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -203,7 +204,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(8);
+                await GetConfigurationResults(23);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -233,13 +234,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (IsQuickTabVisible == true)
                 {
-                    await GetConfigurationResults(7);
+                    await GetConfigurationResults(22);
                     QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 7).ToList());
                 }
 
                 if (IsFullTabVisible == true)
                 {
-                    await GetConfigurationResults(8);
+                    await GetConfigurationResults(23);
                     FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 8).ToList());
                 }
 

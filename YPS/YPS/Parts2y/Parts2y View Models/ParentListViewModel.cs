@@ -477,8 +477,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 if (result.data?.Events != null)
                                 {
                                     EventsList = result.data.Events;
-                                    EventListHeight = EventsList.Count * 33.3;
                                     ThreeDotsCmd = new Command(ThreeDots_Tapped);
+                                    EventsList?.ToList().ForEach(fe => { fe.SelectedEventColor = Color.Transparent; });
+                                    EventsList.Where(wr => wr.ID == Settings.EventID).Select(c => c.SelectedEventColor = Settings.Bar_Background).FirstOrDefault();
                                     SelectedEvent.Name = EventsList.Where(wr => wr.ID == Settings.EventID).FirstOrDefault()?.Name;
                                 }
 
@@ -1010,11 +1011,15 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadingindicator = true;
 
+                SelectedEvent = sender as DDLmaster;
+                Settings.EventID = SelectedEvent.ID;
+
+                EventsList?.ToList().ForEach(fe => { fe.SelectedEventColor = Color.Transparent; });
+                EventsList.Where(wr => wr.ID == Settings.EventID).Select(c => c.SelectedEventColor = Settings.Bar_Background);
+
                 if (await App.CheckInterNetConnection())
                 {
-                    SelectedEvent = sender as DDLmaster;
-                    Settings.EventID = SelectedEvent.ID;
-
+                   
                     var result = await trackService.UpdateDefaultSettingByEventID();
 
                     if (result.status == 1)

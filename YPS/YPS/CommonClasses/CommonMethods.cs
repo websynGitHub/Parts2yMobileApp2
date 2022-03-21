@@ -144,6 +144,7 @@ namespace YPS.CommonClasses
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.EventID = -1;
 
                     var result = await service.LoadPoDataService(sendPodata);
 

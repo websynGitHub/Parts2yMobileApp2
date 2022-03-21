@@ -260,6 +260,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.EventID = -1;
 
                     var result = await trackService.LoadPoDataService(sendPodata);
 
@@ -300,6 +301,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     if (!string.IsNullOrEmpty(ScannedCompareData))
                     {
                         ScannedOn = String.Format(Settings.DateFormat, DateTime.Now);
+                        IsNoJobMsgVisible = false;
 
                         if (selectedTagData != null)
                         {
@@ -375,6 +377,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.EventID = -1;
 
                     var result = await trackService.LoadPoDataService(sendPodata);
 

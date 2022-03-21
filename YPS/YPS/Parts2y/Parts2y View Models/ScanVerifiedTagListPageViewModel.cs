@@ -393,6 +393,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 sendPodata.UserID = Settings.userLoginID;
                 sendPodata.PageSize = Settings.pageSizeYPS;
                 sendPodata.StartPage = Settings.startPageYPS;
+                sendPodata.EventID = -1;
 
                 result = await service.LoadPoDataService(sendPodata);
             }

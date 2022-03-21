@@ -125,6 +125,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.EventID = -1;
 
                     var result = await trackService.LoadPoDataService(sendPodata);
 
@@ -160,7 +161,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                await GetConfigurationResults(9);
+                await GetConfigurationResults(24);
 
                 IsSignQuestionListVisible = false;
                 IsQuestionListVisible = true;
@@ -185,7 +186,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadindicator = true;
-                await GetConfigurationResults(9);
+                await GetConfigurationResults(24);
 
                 IsSignQuestionListVisible = true;
                 IsQuestionListVisible = false;

@@ -88,6 +88,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.EventID = -1;
 
                     result = await trackService.LoadPoDataService(sendPodata);
 
@@ -105,10 +106,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             AllPoData groupdata = new AllPoData();
                             groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
                             groupdata.TaskResourceID = val.Select(s => s.TaskResourceID).FirstOrDefault();
-                            //IEnumerable<int> poidlist = val.Select(s => s.POID).Distinct();
-                            //groupdata.PONumberForDisplay = poidlist.Count() == 1 ? groupdata.PONumber : "Multiple";
-                            //groupdata.ShippingNumberForDisplay = poidlist.Count() == 1 ? groupdata.ShippingNumber : "Multiple";
-                            //groupdata.REQNoForDisplay = poidlist.Count() == 1 ? groupdata.REQNo : "Multiple";
                             groupedlist.Add(groupdata);
                         }
 
@@ -218,7 +215,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Settings.CompanyID = DBresponse.data.CompanyID;
                             Settings.ProjectID = DBresponse.data.ProjectID;
                             Settings.JobID = DBresponse.data.JobID;
-                            Settings.ELevelID = DBresponse.data.EventID;
+                            Settings.EventID = DBresponse.data.EventID;
                         }
                     }
                 }
