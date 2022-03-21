@@ -528,9 +528,7 @@
                          BackgroundColor="#22000000" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                 <Frame  HorizontalOptions="Start" VerticalOptions="Start" 
                         BorderColor="{Binding BgColor}" Margin="90,175,5,0" 
-                        CornerRadius="5"
-                        BindableLayout.ItemsSource="{Binding }">
-                    
+                        CornerRadius="5">
                     <StackLayout BindableLayout.ItemsSource="{Binding EventsList}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
