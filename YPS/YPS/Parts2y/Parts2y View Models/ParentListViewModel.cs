@@ -423,10 +423,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 sendPodata.UserID = Settings.userLoginID;
                 sendPodata.PageSize = Settings.pageSizeYPS;
                 sendPodata.StartPage = Settings.startPageYPS;
-                if (SelectedEvent != null)
-                {
-                    sendPodata.EventID = SelectedEvent.ID;
-                }
+                sendPodata.EventID = Settings.EventID;
+
+                //if (SelectedEvent != null)
+                //{
+                //    sendPodata.EventID = SelectedEvent.ID;
+                //}
+
                 await SearchResultGet(sendPodata, isfromsearchfilter);
 
                 result = await trackService.LoadPoDataService(sendPodata);
@@ -467,19 +470,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         {
                             var result = await GetRefreshedData(isfromsearchfilter);
 
-                            if (result != null)
+                            if (result?.status == 1)
                             {
-                                if(result.status==1 && result.data.Events != null)
+                                if (result.data?.Events != null)
                                 {
                                     EventsList = result.data.Events;
                                     EventListHeight = EventsList.Count * 33.3;
                                     ThreeDotsCmd = new Command(ThreeDots_Tapped);
+                                    SelectedEvent.Name = EventsList.Where(wr => wr.ID == Settings.EventID).FirstOrDefault()?.Name;
                                 }
-                                if (result.status == 1 && result.data.allPoDataMobile != null)
+
+                                if (result.data?.allPoDataMobile != null)
                                 {
                                     Settings.AllPOData = new ObservableCollection<AllPoData>();
                                     Settings.AllPOData = result.data.allPoDataMobile;
-                                    
+
                                     var groubbyval = result.data.allPoDataMobile.GroupBy(gb => new { gb.TaskID });
 
                                     ObservableCollection<AllPoData> groupedlist = new ObservableCollection<AllPoData>();
@@ -609,6 +614,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     Completed = labelobj.Completed.Name + "\n" + "(0)";
                                     All = labelobj.All.Name + "\n" + "(0)";
                                 }
+                            }
+                            else
+                            {
+                                NoRecordsLbl = true;
+                                await CheckingSearchValues();
+                                ISPoDataListVisible = false;
+                                loadingindicator = false;
+                                PendingText = labelobj.Pending.Name + "\n" + "(0)";
+                                InProgress = labelobj.Inprogress.Name + "\n" + "(0)";
+                                Completed = labelobj.Completed.Name + "\n" + "(0)";
+                                All = labelobj.All.Name + "\n" + "(0)";
                             }
                         }
                         else
@@ -768,7 +784,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         }
                         else
                         {
-                             await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
+                            await App.Current.MainPage.DisplayAlert("Action denied", "You don't have permission to do this action.", "Ok");
                             //DependencyService.Get<IToastMessage>().ShortAlert("You don't have permission to do this action.");
                         }
                     }
@@ -991,10 +1007,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             try
             {
                 loadingindicator = true;
-                if(await App.CheckInterNetConnection())
+
+                if (await App.CheckInterNetConnection())
                 {
                     var result = await trackService.UpdateDefaultSettingByEventID();
-                    if(result.status==1)
+
+                    if (result.status == 1)
                     {
                         if (AllTabVisibility == true)
                         {
@@ -1017,7 +1035,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 else
                 {
                     await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
-                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
             catch (Exception ex)
@@ -1351,6 +1368,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 RaisePropertyChanged("eventsList");
             }
         }
+
         bool _IsEventPopVisible;
         public bool IsEventPopVisible
         {
@@ -1362,7 +1380,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
 
-        DDLmaster _SelectedEvent;
+        DDLmaster _SelectedEvent = new DDLmaster();
         public DDLmaster SelectedEvent
         {
             get => _SelectedEvent;
@@ -1370,8 +1388,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 IsEventPopVisible = false;
                 _SelectedEvent = value;
-                Settings.EventID = SelectedEvent.ID;
-                SelectedEventChanged();
+
+                if (SelectedEvent.ID > 0)
+                {
+                    Settings.EventID = SelectedEvent.ID;
+                    SelectedEventChanged();
+                }
                 RaisePropertyChanged("SelectedEvent");
             }
         }
@@ -1692,7 +1714,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 Status = false,
                 Name = "Event"
-            };public DashboardLabelFields EventPickerName { get; set; } = new DashboardLabelFields
+            }; public DashboardLabelFields EventPickerName { get; set; } = new DashboardLabelFields
             {
                 Status = false,
                 Name = "Event"
