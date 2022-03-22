@@ -1011,11 +1011,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadingindicator = true;
 
-                SelectedEvent = sender as DDLmaster;
-                Settings.EventID = SelectedEvent.ID;
-
-                EventsList?.ToList().ForEach(fe => { fe.SelectedEventColor = Color.Transparent; });
-                EventsList.Where(wr => wr.ID == Settings.EventID).Select(c => c.SelectedEventColor = Settings.Bar_Background);
+                DDLmaster selected = sender as DDLmaster;
+                Settings.EventID = selected.ID;
 
                 if (await App.CheckInterNetConnection())
                 {
@@ -1024,6 +1021,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result.status == 1)
                     {
+                        SelectedEvent = selected;
                         if (AllTabVisibility == true)
                         {
                             await All_Tap();
