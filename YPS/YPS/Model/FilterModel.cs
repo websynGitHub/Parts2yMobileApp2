@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using YPS.Service;
 
 namespace YPS.Model
 {
@@ -85,7 +87,7 @@ namespace YPS.Model
         public HeaderFilter data { get; set; }
     }
 
-    public class DDLmaster
+    public class DDLmaster : IBase
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -93,6 +95,20 @@ namespace YPS.Model
         public string DisplayText { get; set; }
         public int Status { get; set; }
         public string DisplayText1 { get; set; }
+
+        private Color _SelectedEventColor = Color.Transparent;
+        public Color SelectedEventColor
+        {
+            get
+            {
+                return _SelectedEventColor;
+            }
+            set
+            {
+                this._SelectedEventColor = value;
+                RaisePropertyChanged("SelectedEventColor");
+            }
+        }
     }
 
     public class SearchData : DDLmaster

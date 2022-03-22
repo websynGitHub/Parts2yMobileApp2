@@ -465,165 +465,164 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (scancountpermit > 0)
                     {
-                        foreach (var result in scanvalue)
+                        //foreach (var result in scanvalue)
+                        //{
+                        if (!string.IsNullOrEmpty(scanvalue[0]))
                         {
+                            CompareHistoryList comparemodel = new CompareHistoryList();
 
-                            if (!string.IsNullOrEmpty(result))
+                            if (scanFor.Trim().ToLower() == "a".Trim().ToLower())
                             {
-                                CompareHistoryList comparemodel = new CompareHistoryList();
+                                Settings.scanQRValueA = ScannedValueA = scanvalue[0];
 
-                                if (scanFor.Trim().ToLower() == "a".Trim().ToLower())
+                                if (Settings.scanQRValueA.Length < SelectedRule.Length)
                                 {
-                                    Settings.scanQRValueA = ScannedValueA = scanvalue[0];
+                                    await App.Current.MainPage.DisplayAlert("Alert", "Length is less than the scan rule, please scan new Barcode/QR code.", "Ok");
 
-                                    if (Settings.scanQRValueA.Length < SelectedRule.Length)
-                                    {
-                                        await App.Current.MainPage.DisplayAlert("Alert", "Length is less than the scan rule, please scan new Barcode/QR code.", "Ok");
-
-                                        isScannedA = "ok.png";
-                                        resultA = Settings.scanQRValueA;
-                                        isEnableAFrame = true;
-                                        opacityA = 1;
-                                        isEnableBFrame = false;
-                                        opacityB = 0.50;
-                                        ngplaybeep.Play();
-                                    }
-                                    else
-                                    {
-                                        isScannedA = "cross.png";
-                                        resultA = Settings.scanQRValueA;
-                                        isEnableAFrame = false;
-                                        opacityA = 0.50;
-                                        isEnableBFrame = true;
-                                        opacityB = 1;
-                                        okplaybeep.Play();
-                                    }
+                                    isScannedA = "ok.png";
+                                    resultA = Settings.scanQRValueA;
+                                    isEnableAFrame = true;
+                                    opacityA = 1;
+                                    isEnableBFrame = false;
+                                    opacityB = 0.50;
+                                    ngplaybeep.Play();
                                 }
                                 else
                                 {
-                                    int Astartindex;
-                                    int Bstartindex;
+                                    isScannedA = "cross.png";
+                                    resultA = Settings.scanQRValueA;
+                                    isEnableAFrame = false;
+                                    opacityA = 0.50;
+                                    isEnableBFrame = true;
+                                    opacityB = 1;
+                                    okplaybeep.Play();
+                                }
+                            }
+                            else
+                            {
+                                int Astartindex;
+                                int Bstartindex;
 
-                                    Settings.scanQRValueB = ScannedValueB = result;
+                                Settings.scanQRValueB = ScannedValueB = scanvalue[0];
 
-                                    switch (SelectedRule.Position)
-                                    {
-                                        case "First":
+                                switch (SelectedRule.Position)
+                                {
+                                    case "First":
 
-                                            if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(0, SelectedRule.Length) == Settings.scanQRValueB.Substring(0, SelectedRule.Length)))
-                                            {
-                                                isMatch = "MATCHED";
-                                                isMatchImage = "ook.png";
-                                                isScannedB = "ok.png";
-                                                resultB = Settings.scanQRValueB;
-                                                scancountpermit--;
-                                                okplaybeep.Play();
-                                            }
-                                            else
-                                            {
-                                                isMatch = "UNMATCHED";
-                                                isMatchImage = "ng.png";
-                                                isScannedB = "ok.png";
-                                                resultB = Settings.scanQRValueB;
-                                                ngplaybeep.Play();
-                                            }
-                                            break;
+                                        if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(0, SelectedRule.Length) == Settings.scanQRValueB.Substring(0, SelectedRule.Length)))
+                                        {
+                                            isMatch = "MATCHED";
+                                            isMatchImage = "ook.png";
+                                            isScannedB = "ok.png";
+                                            resultB = Settings.scanQRValueB;
+                                            scancountpermit--;
+                                            okplaybeep.Play();
+                                        }
+                                        else
+                                        {
+                                            isMatch = "UNMATCHED";
+                                            isMatchImage = "ng.png";
+                                            isScannedB = "ok.png";
+                                            resultB = Settings.scanQRValueB;
+                                            ngplaybeep.Play();
+                                        }
+                                        break;
 
-                                        case "Last":
+                                    case "Last":
 
-                                            Astartindex = Settings.scanQRValueA.Length - SelectedRule.Length;
-                                            Bstartindex = Settings.scanQRValueB.Length - SelectedRule.Length;
+                                        Astartindex = Settings.scanQRValueA.Length - SelectedRule.Length;
+                                        Bstartindex = Settings.scanQRValueB.Length - SelectedRule.Length;
 
-                                            if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(Astartindex, SelectedRule.Length) == Settings.scanQRValueB.Substring(Bstartindex, SelectedRule.Length)))
-                                            {
-                                                isMatch = "MATCHED";
-                                                isMatchImage = "ook.png";
-                                                isScannedB = "ok.png";
-                                                resultB = Settings.scanQRValueB;
-                                                scancountpermit--;
-                                                okplaybeep.Play();
+                                        if ((Settings.scanQRValueA.Length >= SelectedRule.Length && Settings.scanQRValueB.Length >= SelectedRule.Length) && (Settings.scanQRValueA.Substring(Astartindex, SelectedRule.Length) == Settings.scanQRValueB.Substring(Bstartindex, SelectedRule.Length)))
+                                        {
+                                            isMatch = "MATCHED";
+                                            isMatchImage = "ook.png";
+                                            isScannedB = "ok.png";
+                                            resultB = Settings.scanQRValueB;
+                                            scancountpermit--;
+                                            okplaybeep.Play();
 
-                                            }
-                                            else
-                                            {
-                                                isMatch = "UNMATCHED";
-                                                isMatchImage = "ng.png";
-                                                isScannedB = "ok.png";
-                                                resultB = Settings.scanQRValueB;
-                                                ngplaybeep.Play();
-
-                                            }
-                                            break;
-
-                                        case "Full":
-
-                                            if (Settings.scanQRValueA == Settings.scanQRValueB)
-                                            {
-                                                isMatch = "MATCHED";
-                                                isMatchImage = "ook.png";
-                                                isScannedB = "ok.png";
-                                                resultB = Settings.scanQRValueB;
-                                                scancountpermit--;
-                                                okplaybeep.Play();
-
-                                            }
-                                            else
-                                            {
-                                                isMatch = "UNMATCHED";
-                                                isMatchImage = "ng.png";
-                                                isScannedB = "ok.png";
-                                                resultB = Settings.scanQRValueB;
-                                                ngplaybeep.Play();
-
-                                            }
-                                            break;
-
-                                        default:
+                                        }
+                                        else
+                                        {
                                             isMatch = "UNMATCHED";
                                             isMatchImage = "ng.png";
                                             isScannedB = "ok.png";
                                             resultB = Settings.scanQRValueB;
                                             ngplaybeep.Play();
 
-                                            break;
-                                    }
+                                        }
+                                        break;
 
+                                    case "Full":
+
+                                        if (Settings.scanQRValueA == Settings.scanQRValueB)
+                                        {
+                                            isMatch = "MATCHED";
+                                            isMatchImage = "ook.png";
+                                            isScannedB = "ok.png";
+                                            resultB = Settings.scanQRValueB;
+                                            scancountpermit--;
+                                            okplaybeep.Play();
+
+                                        }
+                                        else
+                                        {
+                                            isMatch = "UNMATCHED";
+                                            isMatchImage = "ng.png";
+                                            isScannedB = "ok.png";
+                                            resultB = Settings.scanQRValueB;
+                                            ngplaybeep.Play();
+
+                                        }
+                                        break;
+
+                                    default:
+                                        isMatch = "UNMATCHED";
+                                        isMatchImage = "ng.png";
+                                        isScannedB = "ok.png";
+                                        resultB = Settings.scanQRValueB;
+                                        ngplaybeep.Play();
+
+                                        break;
                                 }
 
-                                isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
+                            }
 
-                                if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
+                            isShowMatch = isScannedA == "ok.png" && isScannedB == "ok.png" ? true : false;
+
+                            if (!string.IsNullOrEmpty(Settings.scanQRValueA) && !string.IsNullOrEmpty(Settings.scanQRValueB))
+                            {
+                                comparemodel.HistorySerialNo = historySerialNo++;
+                                comparemodel.AValue = Settings.scanQRValueA;
+                                comparemodel.BValue = Settings.scanQRValueB;
+                                comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
+                                compareList.Insert(0, comparemodel);
+
+                                compareHistoryList = new List<CompareHistoryList>(compareList);
+
+                                var val = compareHistoryList.OrderByDescending(w => w.HistorySerialNo).Take(5);
+
+                                latestCompareHistoryList = new List<CompareHistoryList>(val);
+
+                                showLatestViewFrame = true;
+                                showCurrentStatus = true;
+
+                                OKCount = "0";
+                                NGCount = "0";
+                                OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCountHeader;
+                                NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
+
+                                if (scanFor.Trim().ToLower() == "b".Trim().ToLower() && scancountpermit == 0)
                                 {
-                                    comparemodel.HistorySerialNo = historySerialNo++;
-                                    comparemodel.AValue = Settings.scanQRValueA;
-                                    comparemodel.BValue = Settings.scanQRValueB;
-                                    comparemodel.IsMatchedImg = isMatchImage == "ook.png" ? "ookblack.png" : isMatchImage;
-                                    compareList.Insert(0, comparemodel);
-
-                                    compareHistoryList = new List<CompareHistoryList>(compareList);
-
-                                    var val = compareHistoryList.OrderByDescending(w => w.HistorySerialNo).Take(5);
-
-                                    latestCompareHistoryList = new List<CompareHistoryList>(val);
-
-                                    showLatestViewFrame = true;
-                                    showCurrentStatus = true;
-
-                                    OKCount = "0";
-                                    NGCount = "0";
-                                    OKCount = compareHistoryList.Where(w => w.IsMatchedImg == "ookblack.png").Count().ToString() + "/" + TotalCountHeader;
-                                    NGCount = compareHistoryList.Where(w => w.IsMatchedImg == "ng.png").Count().ToString();
-
-                                    if (scanFor.Trim().ToLower() == "b".Trim().ToLower() && scancountpermit == 0)
-                                    {
-                                        playbeep.Play();
-                                        isEnableBFrame = false;
-                                        opacityB = 0.50;
-                                        break;
-                                    }
+                                    playbeep.Play();
+                                    isEnableBFrame = false;
+                                    opacityB = 0.50;
+                                    //break;
                                 }
                             }
                         }
+                        //}
                     }
                 });
             }

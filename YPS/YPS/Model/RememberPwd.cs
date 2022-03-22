@@ -42,6 +42,7 @@ namespace YPS.Model
         public bool IsMobilePolybox { get; set; }
         public string MobileScanProvider { get; set; }
         public string RoleColorCode { get; set; }
+        public string LastUpdatedOn { get; set; }
 
         /// <summary>
         /// Encrypted

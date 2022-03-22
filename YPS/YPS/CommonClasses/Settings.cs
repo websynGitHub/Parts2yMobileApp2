@@ -274,6 +274,7 @@ namespace YPS.CommonClasses
         public static bool IsMobilePolybox { set; get; }
         public static bool CanCallForSettings { get; set; }
         public static string MobileScanProvider { set; get; }
+        public static string LastUpdatedOn { set; get; }
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }

@@ -215,11 +215,13 @@ namespace YPS.Parts2y.Parts2y_Views
                 if (YPS.CommonClasses.Settings.scanredirectpage.Trim().ToLower() == "ScanPage".Trim().ToLower() || YPS.CommonClasses.Settings.scanredirectpage.Trim().ToLower() == "InspVerificationScan".Trim().ToLower())
                 {
                     Navigation.PopAsync(false);
+                    StopScanning();
                 }
                 else
                 {
                     Navigation.PopModalAsync(false);
                 }
+                StopScanning();
             }
             catch (Exception ex)
             {
