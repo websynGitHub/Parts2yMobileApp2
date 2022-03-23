@@ -20,7 +20,7 @@ namespace YPS.CommonClasses
         static SendPodata sendPodata = new SendPodata();
         static int pagecount;
 
-        public static async void BackClickFromPhotoUpload(INavigation Navigation)
+        public static async void BackClickFromPhotoUpload(INavigation Navigation, AllPoData allPoData)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace YPS.CommonClasses
                         }
                         Navigation.RemovePage(Navigation.NavigationStack[1]);
 
-                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                        Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(allPoData?.TaskName), sendPodata), Navigation.NavigationStack[1]);
 
                         Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
                     }
@@ -52,7 +52,7 @@ namespace YPS.CommonClasses
             }
         }
 
-        public static async void BackClickFromInspToParts(INavigation Navigation)
+        public static async void BackClickFromInspToParts(INavigation Navigation, AllPoData allPoData)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace YPS.CommonClasses
                 }
                 else
                 {
-                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(), sendPodata), Navigation.NavigationStack[1]);
+                    Navigation.InsertPageBefore(new POChildListPage(await GetUpdatedAllPOData(allPoData?.TaskName), sendPodata), Navigation.NavigationStack[1]);
                     Navigation.InsertPageBefore(new ParentListPage(), Navigation.NavigationStack[1]);
 
                     pagecount = Navigation.NavigationStack.Count() - 1;
@@ -127,7 +127,7 @@ namespace YPS.CommonClasses
             }
         }
 
-        private static async Task<ObservableCollection<AllPoData>> GetUpdatedAllPOData()
+        private static async Task<ObservableCollection<AllPoData>> GetUpdatedAllPOData(string taskname)
         {
             ObservableCollection<AllPoData> AllPoDataList = new ObservableCollection<AllPoData>();
 
@@ -144,6 +144,7 @@ namespace YPS.CommonClasses
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.TaskName = taskname;
                     sendPodata.EventID = -1;
 
                     var result = await service.LoadPoDataService(sendPodata);
@@ -152,7 +153,8 @@ namespace YPS.CommonClasses
                     {
                         if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile);
+                            //AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
                         }
                     }
                 }
