@@ -88,6 +88,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.ResourceID = Settings.ResourceID;
                     sendPodata.EventID = -1;
 
                     result = await trackService.LoadPoDataService(sendPodata);
@@ -106,6 +107,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             AllPoData groupdata = new AllPoData();
                             groupdata.TaskStatus = val.Select(s => s.TaskStatus).FirstOrDefault();
                             groupdata.TaskResourceID = val.Select(s => s.TaskResourceID).FirstOrDefault();
+                            groupdata.TaskName = val.Select(s => s.TaskName).FirstOrDefault();
+                            groupdata.TaskID = val.Select(s => s.TaskID).FirstOrDefault();
+                            groupdata.EventID = val.Select(s => s.EventID).FirstOrDefault();
                             groupedlist.Add(groupdata);
                         }
 
@@ -193,6 +197,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IsMobileCompareCont = Settings.IsMobileCompareCont;
                     saveData.IsMobilePolybox = Settings.IsMobilePolybox;
                     saveData.MobileScanProvider = Settings.MobileScanProvider;
+                    saveData.LastUpdatedOn = Settings.LastUpdatedOn;
                     Db.SaveUserPWd(saveData);
                 }
 

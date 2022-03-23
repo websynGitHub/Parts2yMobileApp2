@@ -40,7 +40,7 @@ namespace YPS.ViewModel
         PhotoUploadModel Select_Items;
         Stream picStream;
         PhotosList AllPhotosData;
-        AllPoData SelectedTagData;
+        public AllPoData SelectedTagData;
         int puid, poid, selectiontype_index, photoCounts = 0;
         string extension = "", fileName, Mediafile, types = string.Empty;
         bool Access_Photo, multiple_Taps, checkInternet, isuploadcompleted, isAllDone, isSacanIconVisible;
@@ -69,6 +69,7 @@ namespace YPS.ViewModel
                 Access_Photo = accessPhoto;
                 types = SelectionType;
                 SelectedTagData = allPo_Data;
+                Xamarin.Essentials.SecureStorage.SetAsync("podataTastName", allPo_Data?.TaskName);
                 //IsScanIconVisible = isSacanIconVisible = issacaniconvisible;
 
                 isuploadcompleted = select_items != null ? select_items.isCompleted : allPo_Data.photoTickVisible;

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using YPS.Helpers;
 using System.Threading.Tasks;
 using YPS.CustomToastMsg;
+using Xamarin.Essentials;
 
 namespace YPS.Parts2y.Parts2y_View_Models
 {
@@ -57,6 +58,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 REQNo = SelectedPodataList[0].REQNoForDisplay;
                 TaskName = SelectedPodataList[0].TaskName;
                 EventName = SelectedPodataList[0].EventName;
+                SecureStorage.SetAsync("podataTastName", selectedpodatalist[0].TaskName);
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
                 QuestionClickCommand = new Command<InspectionConfiguration>(QuestionClick);
                 LoadInspTabCmd = new Command(LoadInspTabClicked);
@@ -92,7 +94,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else if (tabname == "parts")
                 {
-                    CommonMethods.BackClickFromInspToParts(Navigation);
+                    CommonMethods.BackClickFromInspToParts(Navigation, SelectedPodataList[0]);
                 }
             }
             catch (Exception ex)
@@ -125,6 +127,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.TaskName = SelectedPodataList[0].TaskName;
                     sendPodata.EventID = -1;
 
                     var result = await trackService.LoadPoDataService(sendPodata);
@@ -133,7 +136,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == SelectedPodataList[0]?.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile);
+                            //AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == SelectedPodataList[0]?.TaskID));
                         }
                     }
                 }
@@ -268,7 +272,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                CommonMethods.BackClickFromInspToParts(Navigation);
+                CommonMethods.BackClickFromInspToParts(Navigation, SelectedPodataList[0]);
             }
             catch (Exception ex)
             {

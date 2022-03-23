@@ -158,6 +158,7 @@ namespace YPS.Views
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.TaskName = vm?.SelectedTagData?.TaskName;
                     sendPodata.EventID = -1;
 
                     var result = await service.LoadPoDataService(sendPodata);
@@ -166,7 +167,9 @@ namespace YPS.Views
                     {
                         if (result.status == 1 && result.data.allPoDataMobile != null && result.data.allPoDataMobile.Count > 0)
                         {
-                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
+                            AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile);
+
+                            //AllPoDataList = new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == Settings.TaskID));
                         }
                     }
                 }

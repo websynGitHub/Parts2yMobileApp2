@@ -105,7 +105,7 @@ namespace YPS.iOS
             scanSettings.SetSymbologyEnabled(Symbology.GS1DatabarLimited, settings.Gs1DatabarLimited);
             scanSettings.SetSymbologyEnabled(Symbology.Codabar, settings.Codabar);
             scanSettings.SetSymbologyEnabled(Symbology.QR, settings.Qr);
-            scanSettings.SetSymbologyEnabled(Symbology.Datamatrix, settings.DataMatrix);
+            //scanSettings.SetSymbologyEnabled(Symbology.Datamatrix, settings.DataMatrix);
             scanSettings.SetSymbologyEnabled(Symbology.PDF417, settings.Pdf417);
             scanSettings.SetSymbologyEnabled(Symbology.MicroPDF417, settings.MicroPdf417);
             scanSettings.SetSymbologyEnabled(Symbology.Aztec, settings.Aztec);
@@ -123,25 +123,25 @@ namespace YPS.iOS
             }
 
             var isScanningAreaOverridden = false;
-            if (settings.DataMatrix)
-            {
-                var datamatrixSettings = scanSettings.SettingsForSymbology(Symbology.Datamatrix);
+            //if (settings.DataMatrix)
+            //{
+            //    var datamatrixSettings = scanSettings.SettingsForSymbology(Symbology.Datamatrix);
 
-                datamatrixSettings.ColorInvertedEnabled = settings.DataMatrixInverted;
+            //    datamatrixSettings.ColorInvertedEnabled = settings.DataMatrixInverted;
 
-                if (settings.DpmMode)
-                {
-                    scanSettings.RestrictedAreaScanningEnabled = true;
-                    var scanninArea = new CoreGraphics.CGRect(0.33f, 0.33f, 0.33f, 0.33f);
-                    scanSettings.SetActiveScanningArea(scanninArea);
+            //    if (settings.DpmMode)
+            //    {
+            //        scanSettings.RestrictedAreaScanningEnabled = true;
+            //        var scanninArea = new CoreGraphics.CGRect(0.33f, 0.33f, 0.33f, 0.33f);
+            //        scanSettings.SetActiveScanningArea(scanninArea);
 
-                    isScanningAreaOverridden = true;
+            //        isScanningAreaOverridden = true;
 
-                    // Enabling the direct_part_marking_mode extension comes at the cost of increased frame processing times.
-                    // It is recommended to restrict the scanning area to a smaller part of the image for best performance.
-                    datamatrixSettings.SetExtensionEnabled("direct_part_marking_mode", true);
-                }
-            }
+            //        // Enabling the direct_part_marking_mode extension comes at the cost of increased frame processing times.
+            //        // It is recommended to restrict the scanning area to a smaller part of the image for best performance.
+            //        datamatrixSettings.SetExtensionEnabled("direct_part_marking_mode", true);
+            //    }
+            //}
 
             if (settings.RestrictScanningArea && !isScanningAreaOverridden)
             {
@@ -164,8 +164,8 @@ namespace YPS.iOS
 
             scanSettings.HighDensityModeEnabled = (settings.Resolution == Resolution.HD);
 
-            scanSettings.MatrixScanEnabled = (settings.GuiStyle == CommonClasses.GuiStyle.MatrixScan);
-            scanSettings.MaxNumberOfCodesPerFrame = 10;
+            //scanSettings.MatrixScanEnabled = (settings.GuiStyle == CommonClasses.GuiStyle.MatrixScan);
+            //scanSettings.MaxNumberOfCodesPerFrame = 10;
 
             return scanSettings;
         }

@@ -132,7 +132,7 @@ namespace YPS.Droid
                 scanSettings.SetSymbologyEnabled(Barcode.SymbologyGs1DatabarLimited, settings.Gs1DatabarLimited);
                 scanSettings.SetSymbologyEnabled(Barcode.SymbologyCodabar, settings.Codabar);
                 scanSettings.SetSymbologyEnabled(Barcode.SymbologyQr, settings.Qr);
-                scanSettings.SetSymbologyEnabled(Barcode.SymbologyDataMatrix, settings.DataMatrix);
+                //scanSettings.SetSymbologyEnabled(Barcode.SymbologyDataMatrix, settings.DataMatrix);
                 scanSettings.SetSymbologyEnabled(Barcode.SymbologyPdf417, settings.Pdf417);
                 scanSettings.SetSymbologyEnabled(Barcode.SymbologyMicroPdf417, settings.MicroPdf417);
                 scanSettings.SetSymbologyEnabled(Barcode.SymbologyAztec, settings.Aztec);
@@ -150,26 +150,26 @@ namespace YPS.Droid
                 }
 
                 var isScanningAreaOverridden = false;
-                if (settings.DataMatrix)
-                {
-                    var datamatrixSettings = scanSettings.GetSymbologySettings(Barcode.SymbologyDataMatrix);
+                //if (settings.DataMatrix)
+                //{
+                //    var datamatrixSettings = scanSettings.GetSymbologySettings(Barcode.SymbologyDataMatrix);
 
-                    datamatrixSettings.ColorInvertedEnabled = settings.DataMatrixInverted;
+                //    datamatrixSettings.ColorInvertedEnabled = settings.DataMatrixInverted;
 
-                    if (settings.DpmMode)
-                    {
-                        scanSettings.RestrictedAreaScanningEnabled = true;
-                        var scanninArea = new Android.Graphics.RectF(0.33f, 0.33f, 0.66f, 0.66f);
-                        scanSettings.SetActiveScanningArea(ScanSettings.OrientationPortrait, scanninArea);
-                        scanSettings.SetActiveScanningArea(ScanSettings.OrientationLandscape, scanninArea);
+                //    if (settings.DpmMode)
+                //    {
+                //        scanSettings.RestrictedAreaScanningEnabled = true;
+                //        var scanninArea = new Android.Graphics.RectF(0.33f, 0.33f, 0.66f, 0.66f);
+                //        scanSettings.SetActiveScanningArea(ScanSettings.OrientationPortrait, scanninArea);
+                //        scanSettings.SetActiveScanningArea(ScanSettings.OrientationLandscape, scanninArea);
 
-                        isScanningAreaOverridden = true;
+                //        isScanningAreaOverridden = true;
 
-                        // Enabling the direct_part_marking_mode extension comes at the cost of increased frame processing times.
-                        // It is recommended to restrict the scanning area to a smaller part of the image for best performance.
-                        datamatrixSettings.SetExtensionEnabled("direct_part_marking_mode", true);
-                    }
-                }
+                //        // Enabling the direct_part_marking_mode extension comes at the cost of increased frame processing times.
+                //        // It is recommended to restrict the scanning area to a smaller part of the image for best performance.
+                //        datamatrixSettings.SetExtensionEnabled("direct_part_marking_mode", true);
+                //    }
+                //}
 
                 if (settings.RestrictScanningArea && !isScanningAreaOverridden)
                 {
@@ -186,7 +186,7 @@ namespace YPS.Droid
 
                 scanSettings.HighDensityModeEnabled = (settings.Resolution == Resolution.HD);
 
-                scanSettings.MatrixScanEnabled = (settings.GuiStyle == GuiStyle.MatrixScan);
+                //scanSettings.MatrixScanEnabled = (settings.GuiStyle == GuiStyle.MatrixScan);
             }
             catch(Exception ex)
             {
@@ -239,8 +239,8 @@ namespace YPS.Droid
                         return ScanOverlay.GuiStyleLaser;
                     case GuiStyle.None:
                         return ScanOverlay.GuiStyleNone;
-                    case GuiStyle.MatrixScan:
-                        return ScanOverlay.GuiStyleMatrixScan;
+                    //case GuiStyle.MatrixScan:
+                    //    return ScanOverlay.GuiStyleMatrixScan;
                     default:
                         return ScanOverlay.GuiStyleLocationsOnly;
                 }

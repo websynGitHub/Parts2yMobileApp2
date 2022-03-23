@@ -644,10 +644,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     string sp = "\n\n";
                     var scanvalue = scanresult.Split(sp.ToCharArray());
-                    foreach (var result in scanvalue)
-                    {
+                    //foreach (var result in scanvalue)
+                    //{
 
-                        if (!string.IsNullOrEmpty(result))
+                        if (!string.IsNullOrEmpty(scanvalue[0]))
                         {
                             CompareHistoryList comparemodel = new CompareHistoryList();
                             if (scanFor == "a")
@@ -683,7 +683,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 int Bstartindex;
 
 
-                                Settings.scanQRValueB = ScannedValueB = result;
+                                Settings.scanQRValueB = ScannedValueB = scanvalue[0];
 
                                 switch (SelectedRule.Position)
                                 {
@@ -799,11 +799,11 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                     playbeep.Play();
                                     isEnableBFrame = false;
                                     opacityB = 0.50;
-                                    break;
+                                    //break;
                                 }
                             }
                         }
-                    }
+                    //}
                 });
             }
             catch (Exception ex)

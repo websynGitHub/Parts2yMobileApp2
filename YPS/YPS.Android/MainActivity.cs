@@ -23,6 +23,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using YPS.CommonClasses;
 using YPS.CustomToastMsg;
 using YPS.Droid.Dependencies;
@@ -257,6 +258,7 @@ namespace YPS.Droid
                 if (mainPage != null)
                 {
                     bool canDoBack = mainPage.Detail.Navigation.NavigationStack.Count > 1 || mainPage.IsPresented;
+
                     if (canDoBack)
                     {
                         if (mainPage.Detail.Navigation.ModalStack.Count > 0)
@@ -267,11 +269,11 @@ namespace YPS.Droid
                         {
                             if (mainPage.Detail.Navigation.NavigationStack[mainPage.Detail.Navigation.NavigationStack.Count - 1].GetType().Name.Trim().ToLower() == "PhotoUpload".Trim().ToLower())
                             {
-                                CommonMethods.BackClickFromPhotoUpload(mainPage?.Detail?.Navigation);
+                                CommonMethods.BackClickFromPhotoUpload(mainPage?.Detail?.Navigation, new Model.AllPoData { TaskName = SecureStorage.GetAsync("podataTastName").Result });
                             }
                             else if (mainPage.Detail.Navigation.NavigationStack[mainPage.Detail.Navigation.NavigationStack.Count - 1].GetType().Name.Trim().ToLower().Contains("Insp".Trim().ToLower()))
                             {
-                                CommonMethods.BackClickFromInspToParts(mainPage?.Detail?.Navigation);
+                                CommonMethods.BackClickFromInspToParts(mainPage?.Detail?.Navigation, new Model.AllPoData { TaskName = SecureStorage.GetAsync("podataTastName").Result });
                             }
                             else
                             {

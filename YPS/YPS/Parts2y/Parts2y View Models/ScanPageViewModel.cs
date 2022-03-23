@@ -125,7 +125,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         await ZxingScanner();
                     }
-                    
+
                 }
                 else
                 {
@@ -151,44 +151,44 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     BottomText = string.Empty,
                 };
 
-                    overlay.BindingContext = overlay;
+                overlay.BindingContext = overlay;
 
-                    var ScannerPage = new ZXingScannerPage(null, overlay);
-                    ScannerPage = new ZXingScannerPage(null, overlay);
+                var ScannerPage = new ZXingScannerPage(null, overlay);
+                ScannerPage = new ZXingScannerPage(null, overlay);
 
-                    ScannerPage.OnScanResult += (scanresult) =>
+                ScannerPage.OnScanResult += (scanresult) =>
+                {
+                    ScannerPage.IsScanning = false;
+
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        ScannerPage.IsScanning = false;
+                        await Navigation.PopAsync(false);
 
-                        Device.BeginInvokeOnMainThread(async () =>
+                        ScannedResult = scanresult.Text;
+
+                        if (!string.IsNullOrEmpty(ScannedResult))
                         {
-                            await Navigation.PopAsync(false);
+                            IsPageVisible = true;
 
-                            ScannedResult = scanresult.Text;
-
-                            if (!string.IsNullOrEmpty(ScannedResult))
+                            if (uploadType == 0 && selectedTagData == null)
                             {
-                                IsPageVisible = true;
-
-                                if (uploadType == 0 && selectedTagData == null)
-                                {
-                                    await GetDataAndVerify();
-                                }
-                                else
-                                {
-                                    IsPhotoBtnVisible = true;
-                                    await SingleTagDataVerification();
-                                }
+                                await GetDataAndVerify();
                             }
-                        });
-                    };
+                            else
+                            {
+                                IsPhotoBtnVisible = true;
+                                await SingleTagDataVerification();
+                            }
+                        }
+                    });
+                };
 
-                    if (Navigation.ModalStack.Count == 0 ||
-                                                Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
-                    {
-                        ScannerPage.AutoFocus();
+                if (Navigation.ModalStack.Count == 0 ||
+                                            Navigation.ModalStack.Last().GetType() != typeof(ZXingScannerPage))
+                {
+                    ScannerPage.AutoFocus();
 
-                        await Navigation.PushAsync(ScannerPage, false);
+                    await Navigation.PushAsync(ScannerPage, false);
 
                     overlay.FlashButtonClicked += (s, ed) =>
                     {
@@ -196,7 +196,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     };
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "ZxingScanner method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
@@ -224,7 +224,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "Scanditscan method -> in ScanPageViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
@@ -258,6 +258,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.TagNo = ScannedResult;
                     sendPodata.EventID = -1;
 
                     var result = await trackService.LoadPoDataService(sendPodata);
@@ -375,6 +376,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     sendPodata.UserID = Settings.userLoginID;
                     sendPodata.PageSize = Settings.pageSizeYPS;
                     sendPodata.StartPage = Settings.startPageYPS;
+                    sendPodata.TagNo = ScannedResult;
                     sendPodata.EventID = -1;
 
                     var result = await trackService.LoadPoDataService(sendPodata);
@@ -387,8 +389,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         var groubbyval = result.data.allPoDataMobile.GroupBy(gb => gb.POShippingNumber);
                         ObservableCollection<AllPoData> PoDataCollections = new ObservableCollection<AllPoData>();
-                        PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoDataMobile
-                            .Where(wr => wr.TagNumber == ScannedResult)?
+                        PoDataCollections = new ObservableCollection<AllPoData>(result.data.allPoDataMobile?
                             .OrderBy(o => o.EventID).ThenBy(tob => tob.TaskStatus).
                             ThenBy(tob => tob.TaskName));
 

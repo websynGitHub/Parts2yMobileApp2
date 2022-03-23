@@ -277,7 +277,7 @@ namespace YPS.iOS
                 App.IsIpapatch = true;
                 Exception ex = new Exception();
                 YPSLogger.ReportException(ex, "LoginMethod method -> Hacked with IPAPatch  " + Settings.Username);
-                App.Current.MainPage.DisplayAlert("Hacked", "Hacked with IPAPatch", "OK");
+                App.Current.MainPage.DisplayAlert("Hacked", "Hacked with IPAPatch", "Ok");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
@@ -302,8 +302,10 @@ namespace YPS.iOS
                     Settings.IsIIJEnabled = userData.IIJEnable;
                     HostingURL.scandItLicencekey = userData.ScanditKey;
                     Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                    Settings.IsMobilePolybox = userData.IsMobilePolybox;
                     Settings.MobileScanProvider = userData.MobileScanProvider;
                     Settings.Bar_Background = Color.FromHex(userData.BgColor);
+                    Settings.LastUpdatedOn = userData.LastUpdatedOn;
                     Settings.RoleColorCode = userData.RoleColorCode;
                 }
                 completionHandler(UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Alert);
@@ -482,7 +484,7 @@ namespace YPS.iOS
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
 #pragma warning disable CS0618 // 'UIAlertView.UIAlertView(string, string, UIAlertViewDelegate, string, params string[])' is obsolete: 'Use overload with a IUIAlertViewDelegate parameter'
-            new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
+            new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "Ok", null).Show();
 #pragma warning restore CS0618 // 'UIAlertView.UIAlertView(string, string, UIAlertViewDelegate, string, params string[])' is obsolete: 'Use overload with a IUIAlertViewDelegate parameter'
         }
 
@@ -621,8 +623,10 @@ namespace YPS.iOS
                                 Settings.IsIIJEnabled = userData.IIJEnable;
                                 HostingURL.scandItLicencekey = userData.ScanditKey;
                                 Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                                Settings.IsMobilePolybox = userData.IsMobilePolybox;
                                 Settings.MobileScanProvider = userData.MobileScanProvider;
                                 Settings.Bar_Background = Color.FromHex(userData.BgColor);
+                                Settings.LastUpdatedOn = userData.LastUpdatedOn;
                                 Settings.RoleColorCode = userData.RoleColorCode;
                             }
                             Settings.GetParamVal = paramValues;
@@ -671,9 +675,11 @@ namespace YPS.iOS
                                 Settings.IsIIJEnabled = userData.IIJEnable;
                                 HostingURL.scandItLicencekey = userData.ScanditKey;
                                 Settings.IsMobileCompareCont = userData.IsMobileCompareCont;
+                                Settings.IsMobilePolybox = userData.IsMobilePolybox;
                                 Settings.MobileScanProvider = userData.MobileScanProvider;
                                 Settings.Bar_Background = Color.FromHex(userData.BgColor);
                                 Settings.RoleColorCode = userData.RoleColorCode;
+                                Settings.LastUpdatedOn = userData.LastUpdatedOn;
                             }
                             Settings.GetParamVal = paramValues;
                             if (navPages[0] == "AddUser" || navPages[0] == "Close" || navPages[0] == "receiveMessage" || navPages[0].Trim().ToLower() == "Start".Trim().ToLower())

@@ -302,7 +302,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result?.data?.allPoDataMobile?.Count > 0)
                     {
-                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 0);
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile), 0);
+
+                        //PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 0);
                     }
 
                     PendingTabVisibility = true;
@@ -347,7 +349,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result?.data?.allPoDataMobile?.Count > 0)
                     {
-                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 1);
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile), 1);
+
+                        //PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 1);
                     }
 
                     InProgressTabVisibility = true;
@@ -392,7 +396,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result?.data?.allPoDataMobile?.Count > 0)
                     {
-                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 2);
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile), 2);
+
+                        //PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), 2);
                     }
 
                     CompleteTabVisibility = true;
@@ -437,7 +443,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (result?.data?.allPoDataMobile?.Count > 0)
                     {
-                        PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), -1);
+                        PreparePoTagList(new ObservableCollection<AllPoData>(result?.data?.allPoDataMobile), -1);
+
+                        //PreparePoTagList(new ObservableCollection<AllPoData>(result.data.allPoDataMobile.Where(wr => wr.TaskID == TaskID)), -1);
                     }
 
                     AllTabVisibility = true;
@@ -474,6 +482,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 sendPodata.UserID = Settings.userLoginID;
                 sendPodata.PageSize = Settings.pageSizeYPS;
                 sendPodata.StartPage = Settings.startPageYPS;
+                sendPodata.TaskName = allPOTagData[0]?.TaskName;
+                sendPodata.EventID = (int)allPOTagData[0]?.EventID;
+
 
                 result = await trackService.LoadPoDataService(sendPodata);
             }

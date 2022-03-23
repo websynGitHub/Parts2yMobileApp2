@@ -51,7 +51,7 @@
                             <RowDefinition Height="10"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
-                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10"/>
@@ -77,6 +77,15 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
+
+                        <Label Text="Last updated on" FontAttributes="Bold" Grid.Row="6"  
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="StartAndExpand"  
+                               Style="{StaticResource LableWithSmallFontBoldBlack}"/>
+                        <Label x:Name="lastreleasedon" Grid.Row="7" VerticalOptions="CenterAndExpand" 
+                                HorizontalOptions="StartAndExpand"
+                               Style="{StaticResource LableWithSmallFontBlack}"/>
+
                     </Grid>
                 </Frame>
             </StackLayout>
