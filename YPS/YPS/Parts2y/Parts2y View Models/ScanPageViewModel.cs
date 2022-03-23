@@ -215,8 +215,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (uploadType == 0 && selectedTagData == null)
                     {
-                        Navigation.RemovePage(Navigation.NavigationStack[2]);
-
                         await GetDataAndVerify();
                     }
                     else
@@ -411,6 +409,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ScannedValue = ScannedResult;
 
                             await Navigation.PushAsync(new ScanVerifiedTagListPage(PoDataCollections, result.data.allPoDataMobile, uploadType), false);
+                            if (Settings.scanredirectpage.Trim().ToLower() == "ScanPage".Trim().ToLower())
+                            {
+                                Navigation.RemovePage(Navigation.NavigationStack[2]);
+                            }
                             Navigation.RemovePage(Navigation.NavigationStack[1]);
                         }
                         else
