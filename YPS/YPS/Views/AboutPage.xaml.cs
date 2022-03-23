@@ -26,7 +26,7 @@ namespace YPS.Views
             {
                 InitializeComponent();
 
-                lastreleasedon = Settings.LastUpdatedOn;
+                lastreleasedon.Text = Settings.LastUpdatedOn;
                 headerpart.BackgroundColor = Settings.Bar_Background;
                 var currentVersion = VersionTracking.CurrentVersion;
 
