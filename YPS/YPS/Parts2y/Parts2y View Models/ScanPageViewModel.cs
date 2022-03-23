@@ -430,6 +430,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     else
                     {
                         IsNoJobMsgVisible = true;
+                        notmatchedbeep.Play();
                     }
                     //}
                 }
