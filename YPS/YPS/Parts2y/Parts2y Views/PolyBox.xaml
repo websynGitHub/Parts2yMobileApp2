@@ -505,10 +505,28 @@
                             <Frame Grid.Row="1" BackgroundColor="White"
                                     Margin="7,0,7,60" CornerRadius="5"
                                    BorderColor="{Binding PrintFieldBorderColor}">
-                                <Grid RowDefinitions="Auto,*">
-                                    <Label Text="Print Fields" Grid.Row="0"
+                                <Grid RowDefinitions="Auto,*" RowSpacing="20">
+                                    <Grid ColumnDefinitions="Auto,*" Grid.Row="0"
+                                          ColumnSpacing="30">
+                                        <Label Text="Print Fields" Grid.Column="0" Grid.Row="0"
                                            Style="{StaticResource LableWithQuestionFontBlack}"/>
-                                <StackLayout IsVisible="{Binding IsConfigContentVisible}"
+                                        
+                                        <input:CheckBox x:Name="selectall" Grid.Column="1" Text="Select All" 
+                                                    IsChecked="{Binding IsAllSelected}"
+                                                    CheckChanged="PrintFieldsCheckChanged" Grid.Row="0"
+                                            TextFontSize="19" TextColor="Black" Padding="0"
+                                                    VerticalOptions="Start">
+
+                                            <input:CheckBox.Triggers>
+                                                <DataTrigger TargetType="input:CheckBox"
+                                                         Binding="{Binding IsAllSelected}" Value="True">
+                                                    <Setter Property="Text" Value="Unselect All"/>
+                                                </DataTrigger>
+                                            </input:CheckBox.Triggers>
+                                        </input:CheckBox>
+                                    </Grid>
+                                   
+                                    <StackLayout IsVisible="{Binding IsConfigContentVisible}"
                                              Padding="0" Grid.Row="1"
                                    BindableLayout.ItemsSource="{Binding ScanConfigResult.data.PrintFields}">
                                     
@@ -516,7 +534,7 @@
                                         <DataTemplate>
                                             <Grid ColumnDefinitions="Auto,*"
                                                   Padding="0" Margin="0">
-                                                <input:CheckBox Grid.Column="0"
+                                                    <input:CheckBox x:Name="singleselect" Grid.Column="0"
                                                                 IsChecked="{Binding Status}"
                                                                 CheckChanged="PrintFieldsCheckChanged"/>
                                                 <Label Text="{Binding LblText}"

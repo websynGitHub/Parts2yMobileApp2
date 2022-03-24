@@ -93,7 +93,7 @@ namespace YPS
                                 Settings.IsMobileCompareCont = globalResult.data.IsMobileCompareCont;
                                 Settings.IsMobilePolybox = globalResult.data.IsMobilePolybox;
                                 Settings.MobileScanProvider = globalResult.data.MobileScanProvider;
-                                Settings.LastUpdatedOn = globalResult.data.LastUpdatedOn;
+                                Settings.LastUpdatedOn = globalResult.data.LastReleasedOn;
 
                                 RememberPwdDB DbParts2y = new RememberPwdDB();
                                 var userParts2y = DbParts2y.GetUserDetails();
@@ -414,7 +414,7 @@ namespace YPS
                                     Settings.IsMobileCompareCont = result.data.IsMobileCompareCont;
                                     Settings.IsMobilePolybox = result.data.IsMobilePolybox;
                                     Settings.MobileScanProvider = result.data.MobileScanProvider;
-                                    Settings.LastUpdatedOn = result.data.LastUpdatedOn;
+                                    Settings.LastUpdatedOn = result.data.LastReleasedOn;
                                     // Settings.IsIIJEnabled = true;       
                                 }
                             }

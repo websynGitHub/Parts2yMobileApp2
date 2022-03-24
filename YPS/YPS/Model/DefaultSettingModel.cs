@@ -237,7 +237,7 @@ namespace YPS.Model
         public bool IsMobileCompareCont { get; set; }
         public bool IsMobilePolybox { get; set; }
         public string MobileScanProvider { get; set; }
-        public string LastUpdatedOn { get; set; }
+        public string LastReleasedOn { get; set; }
     }
     public class ApplicationSettings
     {

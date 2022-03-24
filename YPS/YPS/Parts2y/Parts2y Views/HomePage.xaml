@@ -122,7 +122,7 @@
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent">
                         <Grid HorizontalOptions="FillAndExpand" Margin="6,0,6,3"
-                              RowDefinitions="180,180,180">
+                              RowDefinitions="140,140,140">
                             <Frame Grid.Row="0" Grid.Column="0"
                                        CornerRadius="4" HasShadow="False">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
@@ -131,7 +131,7 @@
                                                             HorizontalOptions="EndAndExpand">
                                         <badge:SfBadgeView.Content>
                                             <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Task}" 
-                                                 TextColor="Gray" FontSize="70" 
+                                                 TextColor="Gray" FontSize="50" 
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
                                             </local:FontAwesomeIconLabel>
@@ -155,7 +155,7 @@
                                        CornerRadius="4" HasShadow="False">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                     <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Scan}" 
-                                                 TextColor="Gray" FontSize="70"
+                                                 TextColor="Gray" FontSize="50"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
                                     </local:FontAwesomeIconLabel>
@@ -171,7 +171,7 @@
                             <Frame Grid.Row="1" Grid.Column="0"
                                    IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                    <Image Source="Compare.png"
+                                    <Image Source="Compare.png" HeightRequest="50"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
                                     </Image>
@@ -188,7 +188,7 @@
                                    IsVisible="{Binding isCompareVisible}" CornerRadius="4" HasShadow="False">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                     <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.CameraIc}" 
-                                                 TextColor="Gray" FontSize="70"
+                                                 TextColor="Gray" FontSize="50"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
                                     </local:FontAwesomeIconLabel>
@@ -203,8 +203,9 @@
 
                             <Frame Grid.Row="2" Grid.Column="0" Margin="0"
                                    IsVisible="{Binding IsMobileCompareCont}" CornerRadius="4" HasShadow="False">
-                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                    <Image Source="CompareCont.png" 
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" 
+                                             VerticalOptions="CenterAndExpand">
+                                    <Image Source="CompareCont.png" HeightRequest="70"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
                                     </Image>
@@ -220,8 +221,9 @@
                             <Frame Grid.Row="2" Grid.Column="1" Margin="0"
                                     CornerRadius="4" HasShadow="False"
                                    IsVisible="{Binding IsPolyboxVisible}">
-                                <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                    <Image Source="polybox.png" 
+                                <StackLayout Orientation="Vertical" HorizontalOptions="Center"
+                                             VerticalOptions="CenterAndExpand">
+                                    <Image Source="polybox.png" HeightRequest="60"
                                                  HorizontalOptions="Start" VerticalOptions="Center"
                                                  >
                                     </Image>

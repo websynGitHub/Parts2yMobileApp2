@@ -2,16 +2,29 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using YPS.Service;
 
 namespace YPS.Model
 {
-    public class CompareModel
+    public class CompareModel : IBase
     {
         public int ID { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
         public int Length { get; set; }
-        public int Status { get; set; }
+        public int _Status { get; set; }
+        public int Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                this._Status = value;
+                RaisePropertyChanged("Status");
+            }
+        }
         public int CreatedBy { get; set; }
         public string FieldID { get; set; }
         public string LblText { get; set; }

@@ -806,6 +806,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private bool _IsAllSelected;
+        public bool IsAllSelected
+        {
+            get => _IsAllSelected;
+            set
+            {
+                _IsAllSelected = value;
+                RaisePropertyChanged("IsAllSelected");
+            }
+        }
+
         private bool _IsPrintEnabled;
         public bool IsPrintEnabled
         {
