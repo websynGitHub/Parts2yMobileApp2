@@ -120,6 +120,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         ScanIsFull = IsFull = true;
                     }
+
+                    IsAllSelected = ScanConfigResult?.data?.PrintFields?.All(a => a.Status == 1) == true ? true : false;
                 }
 
                 if (ConfigSelectedRule?.ID != 0 && !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) &&
@@ -292,8 +294,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ConfigSelectedEventRemark?.ID == 0) ? true : false;
                         IsStatusError = (ConfigSelectedSataus == null
                             || ConfigSelectedSataus == 0) ? true : false;
-                        PrintFieldBorderColor = (ScanConfigResult?.data?.PolyboxStatus == null
-                            || ScanConfigResult?.data?.PolyboxStatus?.Where(wr => wr.Status == 1).FirstOrDefault() == null) ?
+                        PrintFieldBorderColor = (ScanConfigResult?.data?.PrintFields == null
+                            || ScanConfigResult?.data?.PrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() == null) ?
                             Color.Red : Color.Transparent;
                     }
                 }
@@ -1110,7 +1112,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         });
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         YPSLogger.ReportException(ex, "ScanSelectedFromLoc property -> in PolyBoxViewModel " + YPS.CommonClasses.Settings.userLoginID);
                         var trackResult = trackService.Handleexception(ex);
