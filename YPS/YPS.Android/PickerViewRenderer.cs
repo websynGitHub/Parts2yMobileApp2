@@ -182,13 +182,13 @@ namespace YPS.Droid
                     scanSettings.SetActiveScanningArea(ScanSettings.OrientationLandscape, scanninArea);
                 }
 
-                scanSettings.MaxNumberOfCodesPerFrame = 10;// settings.TwoDigitAddOn || settings.FiveDigitAddOn ? 2 : 1;
+                //scanSettings.MaxNumberOfCodesPerFrame = 10;// settings.TwoDigitAddOn || settings.FiveDigitAddOn ? 2 : 1;
 
                 scanSettings.HighDensityModeEnabled = (settings.Resolution == Resolution.HD);
 
                 //scanSettings.MatrixScanEnabled = (settings.GuiStyle == GuiStyle.MatrixScan);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "CreateScanSettings method -> in PickerViewRenderer.cs " + YPS.CommonClasses.Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
@@ -231,19 +231,19 @@ namespace YPS.Droid
         {
             //try
             //{
-                switch (guiStyle)
-                {
-                    case GuiStyle.Frame:
-                        return ScanOverlay.GuiStyleDefault;
-                    case GuiStyle.Laser:
-                        return ScanOverlay.GuiStyleLaser;
-                    case GuiStyle.None:
-                        return ScanOverlay.GuiStyleNone;
-                    //case GuiStyle.MatrixScan:
-                    //    return ScanOverlay.GuiStyleMatrixScan;
-                    default:
-                        return ScanOverlay.GuiStyleLocationsOnly;
-                }
+            switch (guiStyle)
+            {
+                case GuiStyle.Frame:
+                    return ScanOverlay.GuiStyleDefault;
+                case GuiStyle.Laser:
+                    return ScanOverlay.GuiStyleLaser;
+                case GuiStyle.None:
+                    return ScanOverlay.GuiStyleNone;
+                //case GuiStyle.MatrixScan:
+                //    return ScanOverlay.GuiStyleMatrixScan;
+                default:
+                    return ScanOverlay.GuiStyleLocationsOnly;
+            }
             //}
             //catch (Exception ex)
             //{
@@ -257,15 +257,15 @@ namespace YPS.Droid
         {
             //try
             //{
-                switch (cameraButton)
-                {
-                    case CameraButton.Always:
-                        return ScanOverlay.CameraSwitchAlways;
-                    case CameraButton.OnTablet:
-                        return ScanOverlay.CameraSwitchOnTablet;
-                    default:
-                        return ScanOverlay.CameraSwitchOnTablet;
-                }
+            switch (cameraButton)
+            {
+                case CameraButton.Always:
+                    return ScanOverlay.CameraSwitchAlways;
+                case CameraButton.OnTablet:
+                    return ScanOverlay.CameraSwitchOnTablet;
+                default:
+                    return ScanOverlay.CameraSwitchOnTablet;
+            }
             //}
             //catch (Exception ex)
             //{

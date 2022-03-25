@@ -153,14 +153,14 @@ namespace YPS.iOS
                 scanSettings.SetActiveScanningArea(scanninArea);
             }
 
-            if (settings.TwoDigitAddOn || settings.FiveDigitAddOn)
-            {
-                scanSettings.MaxNumberOfCodesPerFrame = 2;
-            }
-            else
-            {
-                scanSettings.MaxNumberOfCodesPerFrame = 1;
-            }
+            //if (settings.TwoDigitAddOn || settings.FiveDigitAddOn)
+            //{
+            //    scanSettings.MaxNumberOfCodesPerFrame = 2;
+            //}
+            //else
+            //{
+            //    scanSettings.MaxNumberOfCodesPerFrame = 1;
+            //}
 
             scanSettings.HighDensityModeEnabled = (settings.Resolution == Resolution.HD);
 
