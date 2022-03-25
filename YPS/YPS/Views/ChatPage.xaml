@@ -32,7 +32,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition x:Name="addremoveusercol" Width="40"/>
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
 

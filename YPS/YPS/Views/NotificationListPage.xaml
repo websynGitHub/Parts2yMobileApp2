@@ -98,7 +98,8 @@
 
                                                     <Grid HorizontalOptions="Start"
                                               RowDefinitions="Auto" ColumnDefinitions="Auto,*" 
-                                                               IsVisible="{Binding BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=Notificationpage}}">
+                                                               IsVisible="{Binding IsTagnumberVisible}"
+                                                          >
                                                         <Label x:Name="tagnameD" Text="{Binding  BindingContext.labelobj.TagNumber.Name, Source={x:Reference Name=Notificationpage}}" 
                                                   Grid.Column="0" Style="{StaticResource LblSubTitleBlack}" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation" HorizontalOptions="Start" />
                                                         <Label  Text="{Binding TagNumber}" 
@@ -111,12 +112,12 @@
                                                    Grid.Column="0" Style="{StaticResource LblSubTitleBlack}"
                                                                VerticalOptions="Start" LineBreakMode="TailTruncation"
                                                                HorizontalOptions="Start" Grid.Row="0" 
-                                                               IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=Notificationpage}}"/>
+                                                               IsVisible="{Binding IsTaskVisible}"/>
                                                         <Label  Text="{Binding TaskName}"
                                                                 Grid.Column="1" Style="{StaticResource LblSubTitleBlack}"
                                                                 VerticalOptions="CenterAndExpand" Grid.Row="0"
                                                                 LineBreakMode="WordWrap" HorizontalOptions="Start" 
-                                                                IsVisible="{Binding BindingContext.labelobj.TaskName.Status, Source={x:Reference Name=Notificationpage}}"/>
+                                                                IsVisible="{Binding IsTaskVisible}"/>
 
                                                         <local:FontAwesomeIconLabel x:Name="file" Grid.Row="0" Grid.Column="2"
                                                            Text="{Binding ReadStatusIcon}"

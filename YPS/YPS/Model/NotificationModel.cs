@@ -95,6 +95,28 @@ namespace YPS.Model
         public int RoleId { get; set; }
         public int NotificationType { get; set; }
 
+        private bool _IsTaskVisible = false;
+        public bool IsTaskVisible
+        {
+            get { return _IsTaskVisible; }
+            set
+            {
+                _IsTaskVisible = value;
+                OnPropertyChanged("IsTaskVisible");
+            }
+        }
+
+        private bool _IsTagnumberVisible = false;
+        public bool IsTagnumberVisible
+        {
+            get { return _IsTagnumberVisible; }
+            set
+            {
+                _IsTagnumberVisible = value;
+                OnPropertyChanged("IsTagnumberVisible");
+            }
+        }
+
         private string _ReadStatusIcon = YPS.CommonClasses.Icons.WhiteEnvClose;
         public string ReadStatusIcon
         {

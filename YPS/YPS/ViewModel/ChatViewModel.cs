@@ -184,7 +184,15 @@ namespace YPS.ViewModels
             {
                 string time;
                 Settings.QaId = qaid;
-                var result = await service.ChatHistory(Settings.PoId, qaid, "", Settings.QAType);// Calling The API for chat history
+                var result = new GetMessages();
+                if (qaid > 0)
+                {
+                    result = await service.ChatHistory(Settings.PoId, qaid, "", Settings.QAType);// Calling The API for chat history
+                }
+                else if (qaid == 0)
+                {
+                    result = await service.ChatHistory(Settings.PoId, 0, "", Settings.QAType);// Calling The API for whiteboard chat history
+                }
 
                 bgcount = Settings.ChatUserCount = result.UserCount;
 

@@ -61,6 +61,13 @@ namespace YPS.Views
                         MessageEntry.IsVisible = false;
                         btnchatexit.IsVisible = false;
                     }
+
+                    if (Settings.QaId == 0)
+                    {
+                        btnchatexit.IsVisible = false;
+                        addremoveusercol.Width = 0;
+                    }
+
                     Settings.GetParamVal = string.Empty;
                 }
                 else
@@ -139,6 +146,12 @@ namespace YPS.Views
                     btnchatexit.IsVisible = false;
                 }
 
+                if (Settings.QaId == 0)
+                {
+                    btnchatexit.IsVisible = false;
+                    addremoveusercol.Width = 0;
+                }
+
                 MessagingCenter.Send<string, int>("ChatPage", "ChatCount", qaid);
 
                 Task.Run(() => ShowHideActions()).Wait();
@@ -162,6 +175,12 @@ namespace YPS.Views
                     {
                         MessageEntry.IsVisible = false;
                         btnchatexit.IsVisible = false;
+                    }
+
+                    if (Settings.QaId == 0)
+                    {
+                        btnchatexit.IsVisible = false;
+                        addremoveusercol.Width = 0;
                     }
                 }
             }
@@ -277,6 +296,7 @@ namespace YPS.Views
             {
                 base.OnAppearing();
                 Settings.chatPageCount = 0;
+                bg.IsVisible = Settings.QaId > 0 ? true : false;
 
                 if (Settings.ChatUserCount == 0)
                 {

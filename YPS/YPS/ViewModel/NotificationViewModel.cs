@@ -142,6 +142,8 @@ namespace YPS.ViewModel
                             //{
                             item.isImageVisible = Uri.TryCreate(item.Message, UriKind.Absolute, out uriResult);
                             item.isTextVisible = !Uri.TryCreate(item.Message, UriKind.Absolute, out uriResult);
+                            item.IsTagnumberVisible = item.QAID == 0 ? false : labelobj.TagNumber.Status == true ? true : false;
+                            item.IsTaskVisible = item.QAID == 0 ? false : labelobj.TaskName.Status == true ? true : false;
                             //Message = item.Message,
                             //NotifiedOn = item.NotifiedOn,
                             //UserName = item.UserName,
@@ -265,7 +267,7 @@ namespace YPS.ViewModel
                 Status = false,
                 Name = "TaskName"
             };
-			public DashboardLabelFields MarkAllRead { get; set; } = new DashboardLabelFields
+            public DashboardLabelFields MarkAllRead { get; set; } = new DashboardLabelFields
             {
                 Status = true,
                 Name = "LCMClearAll"

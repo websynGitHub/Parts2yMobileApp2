@@ -150,7 +150,7 @@ namespace YPS.Views
                 {
                     if (string.IsNullOrEmpty((e.Item as NotifyHistory).TagNumber))
                     {
-                        tgs = "--";
+                        tgs = (e.Item as NotifyHistory).QAID > 0 ? "--" : "";
                     }
                     else
                     {
