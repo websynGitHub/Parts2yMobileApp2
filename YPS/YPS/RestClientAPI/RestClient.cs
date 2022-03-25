@@ -630,16 +630,32 @@ namespace YPS.RestClientAPI
         {
             try
             {
-                string url;
+                string url = "";
+
                 if (string.IsNullOrEmpty(PhotoType))
                 {
-                    url = WebServiceUrl + "/QA/Messages?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) +
+                    if (qaid > 0)
+                    {
+                        url = WebServiceUrl + "/QA/Messages?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) +
                         "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) + "&UserID=" +
                         Settings.userLoginID + "&QAType=" + qatype + "";
+                    }
+                    else if (qaid == 0)
+                    {
+                        url = WebServiceUrl + "/QA/GetWhiteBoardMessages?UserID=" + Settings.userLoginID;
+                    }
+
                 }
                 else
                 {
-                    url = WebServiceUrl + "/QA/Messages?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) + "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) + "&UserID=" + Settings.userLoginID + "&QAType=" + qatype + "&MessageType=" + PhotoType + "";
+                    if (qaid > 0)
+                    {
+                        url = WebServiceUrl + "/QA/Messages?POID=" + Helperclass.Encrypt(Convert.ToString(poid)) + "&QAID=" + Helperclass.Encrypt(Convert.ToString(qaid)) + "&UserID=" + Settings.userLoginID + "&QAType=" + qatype + "&MessageType=" + PhotoType + "";
+                    }
+                    else if (qaid == 0)
+                    {
+                        url = WebServiceUrl + "/QA/GetWhiteBoardMessages?UserID=" + Settings.userLoginID + "&QAType=" + qatype + "&MessageType=" + PhotoType + "";
+                    }
                 }
                 return await requestProvider.PostAsync<GetMessages>(url);
             }
@@ -1863,7 +1879,16 @@ namespace YPS.RestClientAPI
                 httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 HttpResponseMessage response = null;
 
-                response = await httpClient.PostAsync(WebServiceUrl + "QA/SaveMessage", httpContent);
+                if (Settings.QaId > 0)
+                {
+                    response = await httpClient.PostAsync(WebServiceUrl + "QA/SaveMessage", httpContent);
+                }
+                else if (Settings.QaId == 0)
+                {
+                    response = await httpClient.PostAsync(WebServiceUrl + "QA/SaveWhiteBoardMessage", httpContent);
+                }
+
+
                 var messageResult = await response.Content.ReadAsStringAsync();
                 sendmessageresult = messageResult;
                 return sendmessageresult;
