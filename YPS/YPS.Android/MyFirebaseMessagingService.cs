@@ -93,11 +93,14 @@ namespace YPS.Droid
         {
             try
             {
-                var intent = new Intent(this, typeof(MainActivity));
-                intent.PutExtra("getParam", param);
-                intent.AddFlags(ActivityFlags.ClearTop);
                 var showNotify = param.Split(';');
-                int PushId = Convert.ToInt32(showNotify[4]);
+                showNotify[4] = showNotify[4] == "-1" ? "0" : showNotify[4];
+
+                var intent = new Intent(this, typeof(MainActivity));
+                intent.PutExtra("getParam", string.Join(";", showNotify));
+                intent.AddFlags(ActivityFlags.ClearTop);
+
+                int PushId = Convert.ToInt32(showNotify[4] == "-1" ? "0" : showNotify[4]);
                 string showMessages = "";
                 Uri uriResult;
 
