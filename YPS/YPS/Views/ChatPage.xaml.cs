@@ -62,7 +62,7 @@ namespace YPS.Views
                         btnchatexit.IsVisible = false;
                     }
 
-                    if (Settings.QaId == 0)
+                    if (Settings.QaId == 0 || Settings.QaId == -1)
                     {
                         btnchatexit.IsVisible = false;
                         addremoveusercol.Width = 0;
@@ -146,7 +146,7 @@ namespace YPS.Views
                     btnchatexit.IsVisible = false;
                 }
 
-                if (Settings.QaId == 0)
+                if (Settings.QaId == 0 || Settings.QaId == -1)
                 {
                     btnchatexit.IsVisible = false;
                     addremoveusercol.Width = 0;
@@ -177,7 +177,7 @@ namespace YPS.Views
                         btnchatexit.IsVisible = false;
                     }
 
-                    if (Settings.QaId == 0)
+                    if (Settings.QaId == 0 || Settings.QaId == -1)
                     {
                         btnchatexit.IsVisible = false;
                         addremoveusercol.Width = 0;
@@ -218,7 +218,7 @@ namespace YPS.Views
         /// <summary>
         /// Gets called when clicked on the any Q&A from Q&A list, to go its conversation page
         /// </summary>
-        private async void GetChatData()
+        public async void GetChatData()
         {
             YPSLogger.TrackEvent("ChatPage.xaml.cs ", " In GetChatData method " + DateTime.Now + " UserId: " + Settings.userLoginID);
 
