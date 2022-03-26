@@ -189,7 +189,7 @@ namespace YPS.ViewModels
                 {
                     result = await service.ChatHistory(Settings.PoId, qaid, "", Settings.QAType);// Calling The API for chat history
                 }
-                else if (qaid == 0)
+                else if (qaid == 0 || qaid == -1)
                 {
                     result = await service.ChatHistory(Settings.PoId, 0, "", Settings.QAType);// Calling The API for whiteboard chat history
                 }
@@ -354,6 +354,19 @@ namespace YPS.ViewModels
                                 // dismissCurrentSignalRConnection = false;
                                 _chatMessage.Message = string.Empty;
                                 checkMail = false;
+
+
+                                if (Settings.QaId == 0 || Settings.QaId == -1)
+                                {
+                                    if (App.CheckSignalRConnection())
+                                    {
+                                        pageName.GetChatData();
+                                    }
+                                    else
+                                    {
+                                        App.Current.MainPage.DisplayAlert("Information", "No internet connection.", "ok");
+                                    }
+                                }
                             }
                             else
                             {
@@ -419,6 +432,18 @@ namespace YPS.ViewModels
                     sendchatdata.FileName = fileNameWithoutExtention;
                     await chatServices.Send(sendchatdata);
                     SaveMessageInDB(sendchatdata);
+
+                    if (Settings.QaId == 0 || Settings.QaId == -1)
+                    {
+                        if (App.CheckSignalRConnection())
+                        {
+                            pageName.GetChatData();
+                        }
+                        else
+                        {
+                            App.Current.MainPage.DisplayAlert("Information", "No internet connection.", "ok");
+                        }
+                    }
 
                     //Checking for device's OS
                     if (Device.OS == TargetPlatform.Android)
@@ -831,6 +856,18 @@ namespace YPS.ViewModels
 
                             if (ChatMailrespose?.status == 1)
                             {
+                                if (Settings.QaId == 0 || Settings.QaId == -1)
+                                {
+                                    if (App.CheckSignalRConnection())
+                                    {
+                                        pageName.GetChatData();
+                                    }
+                                    else
+                                    {
+                                        App.Current.MainPage.DisplayAlert("Information", "No internet connection.", "ok");
+                                    }
+                                }
+
                                 checkMail = true;
                                 await App.Current.MainPage.DisplayAlert("Success", "Mail send success.", "Ok");
                                 //DependencyService.Get<IToastMessage>().ShortAlert("Mail send success.");

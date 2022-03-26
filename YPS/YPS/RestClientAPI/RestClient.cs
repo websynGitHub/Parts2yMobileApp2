@@ -1883,7 +1883,7 @@ namespace YPS.RestClientAPI
                 {
                     response = await httpClient.PostAsync(WebServiceUrl + "QA/SaveMessage", httpContent);
                 }
-                else if (Settings.QaId == 0)
+                else if (Settings.QaId == 0 || Settings.QaId == -1)
                 {
                     response = await httpClient.PostAsync(WebServiceUrl + "QA/SaveWhiteBoardMessage", httpContent);
                 }
