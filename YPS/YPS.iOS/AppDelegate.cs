@@ -545,6 +545,9 @@ namespace YPS.iOS
                 #endregion
 
                 var showNotify = paramValues.Split(';');
+                showNotify[4] = showNotify[4] == "-1" ? "0" : showNotify[4];
+                paramValues = string.Join(";", showNotify);
+
                 string val = await SecureStorage.GetAsync("mainPageisOn");
 
                 if (val == "1")
