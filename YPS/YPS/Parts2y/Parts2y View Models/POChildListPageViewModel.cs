@@ -677,6 +677,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     });
 
                     allPOTagData = potaglist;
+                    sendPodata.TaskName = allPOTagData[0]?.TaskName;
 
                     await UpdateTabCount(potaglist);
 

@@ -53,6 +53,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 JobCmd = new Command(async () => await TabChange("job"));
                 TaskCmd = new Command(async () => await TabChange("task"));
                 LoadCmd = new Command(async () => await TabChange("load"));
+
+                GetActionStatus();
+                Task.Run(async () => await GetallApplabels()).Wait();
             }
             catch (Exception ex)
             {
@@ -217,6 +220,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ProNjobName = DBresponse.data.ProjectName + "/" + DBresponse.data.JobNumber;
                             ProjectName = Settings.ProjectSelected = DBresponse.data.ProjectName;
                             JobName = Settings.JobSelected = DBresponse.data.JobNumber;
+
+
+                            if (Settings.CompanyID != DBresponse.data.CompanyID ||
+                                Settings.ProjectID != DBresponse.data.ProjectID
+                                || Settings.JobID != DBresponse.data.JobID)
+                            {
+                                GetActionStatus();
+                                await GetallApplabels();
+                            }
+
                             Settings.CompanyID = DBresponse.data.CompanyID;
                             Settings.ProjectID = DBresponse.data.ProjectID;
                             Settings.JobID = DBresponse.data.JobID;
@@ -328,7 +341,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This method get all label texts, used in the app.
         /// </summary>
-        public async void GetallApplabels()
+        public async Task GetallApplabels()
         {
             try
             {
