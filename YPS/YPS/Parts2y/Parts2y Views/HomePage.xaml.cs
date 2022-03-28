@@ -137,8 +137,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 await SecureStorage.SetAsync("mainPageisOn", "1");
                 Task.Run(() => Vm.GetTaskData()).Wait();
                 Task.Run(() => Vm.RememberUserDetails()).Wait();
-                Vm.GetActionStatus();
-                Task.Run(() => Vm.GetallApplabels()).Wait();
+                //Vm.GetActionStatus();
+                //Task.Run(() => Vm.GetallApplabels()).Wait();
                 Vm.ChangeLabel();
                 Vm.GetQuestions();
                 Vm.GetPNCount();
