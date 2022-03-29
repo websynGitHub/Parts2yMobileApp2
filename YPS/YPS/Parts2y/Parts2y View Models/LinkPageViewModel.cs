@@ -481,7 +481,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
                 else
                 {
-                     await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
                     //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
                 }
             }
@@ -551,7 +551,24 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         values.TagNumberForDisplay = poidlist.Count() == 1 ? values.TagNumber : "Multiple";
                     }
 
+                    if (AllPoTagCollections != null)
+                    {
+                        var val = AllPoTagCollections.Where(wr => wr.SelectedTagBorderColor == BgColor)
+                            .Select(c => new { c.TaskID, c.POTagID, c.SelectedTagBorderColor, c.IsChecked }).ToList();
+
+                        potagcolections.ForEach(fr =>
+                        {
+                            fr.SelectedTagBorderColor =
+    val.Where(wr => wr.TaskID == fr.TaskID && wr.POTagID == fr.POTagID)?.FirstOrDefault()?.SelectedTagBorderColor;
+                            fr.IsChecked = val.Where(wr => wr.TaskID == fr.TaskID && wr.POTagID == fr.POTagID)?
+                            .FirstOrDefault()?.IsChecked;
+                        }
+                            );
+                    }
+
                     AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
+                    
+                    SelectedTagCountVisible = (SelectedTagCount = AllPoTagCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
 
                     NoRecordsLbl = (IsLinkButtonsVisible = AllPoTagCollections != null && AllPoTagCollections.Count > 0 ? true : false) == true ? false : true;
                 }

@@ -90,7 +90,9 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:Name="datatemplete">
                                     <Grid Padding="6,0,6,6">
-                                        <Frame x:Name="dataframe"  BackgroundColor="White" Margin="0,0,0,0" Padding="0,12,0,12" 
+                                        <BoxView Color="{Binding SelectedTagBorderColor}"
+                                                  CornerRadius="4"/>
+                                        <Frame x:Name="dataframe"  BackgroundColor="White" Margin="2" Padding="15,12,15,12" 
                                            BorderColor="{Binding SelectedTagBorderColor}" CornerRadius="4"  HasShadow="False"
                                                local:LongPressedEffect.Command="{Binding BindingContext.SelectTagItemCmd,Source={x:Reference Name=Link}}"
                                                local:LongPressedEffect.CommandParameter="{Binding .}"
