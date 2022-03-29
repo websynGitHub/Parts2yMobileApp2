@@ -1072,7 +1072,7 @@ namespace YPS.ViewModel
                                         }
                                         else
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx, .xls, .xlsx .ppt .pptx, .jpeg, .jpg, .png, .gif, .bmp only.", "Ok");
+                                            await Application.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
                                         }
                                     }
                                     else
@@ -1208,40 +1208,18 @@ namespace YPS.ViewModel
                                         extension = Path.GetExtension(file.Path);
                                         picStream = file.GetStream();
                                         IndicatorVisibility = true;
-                                        var filesize = File.ReadAllBytes(file.Path).Length;
-                                        var acceptedsize = Settings.MCFileUploadSize * 1000000;
 
-                                        if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
-                                         extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
-                                         extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
+                                        if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
                                         {
-                                            if (UploadType != "plFile")
-                                            {
-                                                if (filesize <= acceptedsize)
-                                                {
-                                                    SetFileName = iOSPhotoName;
-                                                    AddCross = "cross.png";
-                                                    IsCrossVisible = true;
-                                                    IsFolderVisible = false;
-                                                    FilePath64 = file.Path;
-                                                }
-                                                else
-                                                {
-                                                    await Application.Current.MainPage.DisplayAlert("Alert", $"Please make sure file size must not be more than {Settings.MCFileUploadSize} MB.", "Ok");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                SetFileName = iOSPhotoName;
-                                                AddCross = "cross.png";
-                                                IsCrossVisible = true;
-                                                IsFolderVisible = false;
-                                                FilePath64 = file.Path;
-                                            }
+                                            SetFileName = iOSPhotoName;
+                                            AddCross = "cross.png";
+                                            IsCrossVisible = true;
+                                            IsFolderVisible = false;
+                                            FilePath64 = file.Path;
                                         }
                                         else
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx, .xls, .xlsx .ppt .pptx, .jpeg, .jpg, .png, .gif, .bmp only.", "Ok");
+                                            await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
                                         }
 
                                         IndicatorVisibility = false;
@@ -1264,18 +1242,42 @@ namespace YPS.ViewModel
                                     picStream = fileDataForiOS.GetStream();
                                     IndicatorVisibility = true;
 
-                                    if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                                    var filesize = File.ReadAllBytes(iOSfilePath).Length;
+                                    var acceptedsize = Settings.MCFileUploadSize * 1000000;
+
+                                    if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
+                                     extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
+                                     extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
                                     {
-                                        SetFileName = iOSfileName;
-                                        AddCross = "cross.png";
-                                        IsCrossVisible = true;
-                                        IsFolderVisible = false;
-                                        FilePath64 = iOSfilePath;
+                                        if (UploadType != "plFile")
+                                        {
+                                            if (filesize <= acceptedsize)
+                                            {
+                                                SetFileName = iOSfileName;
+                                                AddCross = "cross.png";
+                                                IsCrossVisible = true;
+                                                IsFolderVisible = false;
+                                                FilePath64 = iOSfilePath;
+                                            }
+                                            else
+                                            {
+                                                await Application.Current.MainPage.DisplayAlert("Alert", $"Please make sure file size must not be more than {Settings.MCFileUploadSize} MB.", "Ok");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            SetFileName = iOSfileName;
+                                            AddCross = "cross.png";
+                                            IsCrossVisible = true;
+                                            IsFolderVisible = false;
+                                            FilePath64 = iOSfilePath;
+                                        }
                                     }
                                     else
                                     {
-                                        await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .png, .jpg, .gif, .bmp, .jpeg, .pdf, .txt, .doc, .docx only.", "Ok");
+                                        await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .jpeg, .jpg, .png, .gif, .bmp only.", "Ok");
                                     }
+
                                     IndicatorVisibility = false;
                                     break;
                             }

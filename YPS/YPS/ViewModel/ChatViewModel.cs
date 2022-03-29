@@ -661,7 +661,7 @@ namespace YPS.ViewModels
                                 }
                                 else
                                 {
-                                    await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx, .xls, .xlsx .ppt .pptx, .jpeg, .jpg, .png, .gif, .bmp only.", "Ok");
+                                    await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .jpeg, .jpg, .png, .gif, .bmp only.", "Ok");
                                 }
                             }
                             else
@@ -750,7 +750,7 @@ namespace YPS.ViewModels
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx, .xls, .xlsx .ppt .pptx, .jpeg, .jpg, .png, .gif, .bmp only.", "Ok");
+                                await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .jpeg, .jpg, .png, .gif, .bmp only.", "Ok");
                             }
                         }
                     }
