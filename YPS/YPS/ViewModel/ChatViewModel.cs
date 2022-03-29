@@ -354,19 +354,6 @@ namespace YPS.ViewModels
                                 // dismissCurrentSignalRConnection = false;
                                 _chatMessage.Message = string.Empty;
                                 checkMail = false;
-
-
-                                if (Settings.QaId == 0 || Settings.QaId == -1)
-                                {
-                                    if (App.CheckSignalRConnection())
-                                    {
-                                        pageName.GetChatData();
-                                    }
-                                    else
-                                    {
-                                        App.Current.MainPage.DisplayAlert("Information", "No internet connection.", "ok");
-                                    }
-                                }
                             }
                             else
                             {
@@ -432,18 +419,6 @@ namespace YPS.ViewModels
                     sendchatdata.FileName = fileNameWithoutExtention;
                     await chatServices.Send(sendchatdata);
                     SaveMessageInDB(sendchatdata);
-
-                    if (Settings.QaId == 0 || Settings.QaId == -1)
-                    {
-                        if (App.CheckSignalRConnection())
-                        {
-                            pageName.GetChatData();
-                        }
-                        else
-                        {
-                            App.Current.MainPage.DisplayAlert("Information", "No internet connection.", "ok");
-                        }
-                    }
 
                     //Checking for device's OS
                     if (Device.OS == TargetPlatform.Android)
@@ -665,7 +640,9 @@ namespace YPS.ViewModels
 
                                 picStream = fileData.GetStream();
                                 IndicatorVisibility = true;
-                                if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                                if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
+                                    extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
+                                    extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
                                 {
                                     if (picStream != null)
                                     {
@@ -742,7 +719,9 @@ namespace YPS.ViewModels
                             extension = Path.GetExtension(iOSfilePath).ToLower();
                             picStream = fileDataForiOS.GetStream();
 
-                            if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                            if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
+                                     extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
+                                     extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
                             {
                                 if (picStream != null)
                                 {
@@ -856,18 +835,6 @@ namespace YPS.ViewModels
 
                             if (ChatMailrespose?.status == 1)
                             {
-                                if (Settings.QaId == 0 || Settings.QaId == -1)
-                                {
-                                    if (App.CheckSignalRConnection())
-                                    {
-                                        pageName.GetChatData();
-                                    }
-                                    else
-                                    {
-                                        App.Current.MainPage.DisplayAlert("Information", "No internet connection.", "ok");
-                                    }
-                                }
-
                                 checkMail = true;
                                 await App.Current.MainPage.DisplayAlert("Success", "Mail send success.", "Ok");
                                 //DependencyService.Get<IToastMessage>().ShortAlert("Mail send success.");
