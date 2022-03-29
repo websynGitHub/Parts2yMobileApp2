@@ -149,11 +149,13 @@
             </RelativeLayout>
 
             <ContentView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" 
-                         VerticalOptions="FillAndExpand" IsVisible="{Binding loadingindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                         VerticalOptions="FillAndExpand" IsVisible="{Binding loadingindicator}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                         AbsoluteLayout.LayoutFlags="All">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
                     <Frame Padding="2" CornerRadius="8" HeightRequest="80" WidthRequest="110" BackgroundColor="#80000000">
                         <StackLayout Padding="15">
-                            <ActivityIndicator IsRunning="True" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                            <ActivityIndicator IsRunning="True" Margin="0,0,0,0" VerticalOptions="Center" HorizontalOptions="Center"
+                                               Color="White" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
                             <Label x:Name="lblLoadingText" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Loading..."></Label>
                         </StackLayout>
                     </Frame>

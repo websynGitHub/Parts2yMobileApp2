@@ -43,6 +43,7 @@ namespace YPS.Model
         public string MobileScanProvider { get; set; }
         public string RoleColorCode { get; set; }
         public string LastUpdatedOn { get; set; }
+        public double MCFileUploadSize { get; set; }
 
         /// <summary>
         /// Encrypted

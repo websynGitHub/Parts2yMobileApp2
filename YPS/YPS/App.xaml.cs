@@ -58,7 +58,6 @@ namespace YPS
             YPSLogger.TrackEvent("App.xaml.cs", "Page Loading push notification " + DateTime.Now + " UserId: " + Settings.userLoginID);
             try
             {
-
                 InitializeComponent();
                 FlowListView.Init();
                 MyNavigationPage = new NavigationPage();
@@ -94,6 +93,7 @@ namespace YPS
                                 Settings.IsMobilePolybox = globalResult.data.IsMobilePolybox;
                                 Settings.MobileScanProvider = globalResult.data.MobileScanProvider;
                                 Settings.LastUpdatedOn = globalResult.data.LastReleasedOn;
+                                Settings.MCFileUploadSize = globalResult.data.MCFileUploadSize??5;
 
                                 RememberPwdDB DbParts2y = new RememberPwdDB();
                                 var userParts2y = DbParts2y.GetUserDetails();
@@ -172,10 +172,10 @@ namespace YPS
         public App()
         {
             YPSLogger.TrackEvent("App.xaml.cs", "Page Loading " + DateTime.Now + " UserId: " + Settings.userLoginID);
-
             try
             {
                 InitializeComponent();
+
                 MyNavigationPage = new NavigationPage();
                 Current.MainPage = MyNavigationPage;
 
@@ -297,7 +297,7 @@ namespace YPS
                             Settings.IsMobilePolybox = globalResult.data.IsMobilePolybox;
                             Settings.MobileScanProvider = userData.MobileScanProvider;
                             Settings.LastUpdatedOn = userData.LastUpdatedOn;
-
+                            Settings.MCFileUploadSize = globalResult.data.MCFileUploadSize??5;
 
                             var current = Connectivity.NetworkAccess;
 
@@ -415,6 +415,7 @@ namespace YPS
                                     Settings.IsMobilePolybox = result.data.IsMobilePolybox;
                                     Settings.MobileScanProvider = result.data.MobileScanProvider;
                                     Settings.LastUpdatedOn = result.data.LastReleasedOn;
+                                    Settings.MCFileUploadSize = result.data.MCFileUploadSize??5;
                                     // Settings.IsIIJEnabled = true;       
                                 }
                             }

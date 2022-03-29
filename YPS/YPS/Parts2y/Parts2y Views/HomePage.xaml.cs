@@ -121,28 +121,30 @@ namespace YPS.Parts2y.Parts2y_Views
                 base.OnAppearing();
 
                 Vm.loadindicator = true;
-
-                if (Settings.CanCallForSettings == true)
+                await Task.Run(async () =>
                 {
-                    Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
-                    Settings.CanCallForSettings = false;
-                }
+                    if (Settings.CanCallForSettings == true)
+                    {
+                        Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
+                        Settings.CanCallForSettings = false;
+                    }
 
-                Vm.BgColor = Settings.Bar_Background;
-                //(((App.Current.MainPage) as MenuPage).Detail as NavigationPage).BarBackgroundColor = Vm.BgColor = Settings.Bar_Background;
-                (((App.Current.MainPage) as MenuPage).FindByName("contentpage") as ContentPage).BackgroundColor = Settings.Bar_Background;
+                    Vm.BgColor = Settings.Bar_Background;
+                    //(((App.Current.MainPage) as MenuPage).Detail as NavigationPage).BarBackgroundColor = Vm.BgColor = Settings.Bar_Background;
+                    (((App.Current.MainPage) as MenuPage).FindByName("contentpage") as ContentPage).BackgroundColor = Settings.Bar_Background;
 
-                Settings.ShowSuccessAlert = true;
-                Settings.countmenu = 1;
-                await SecureStorage.SetAsync("mainPageisOn", "1");
-                //Task.Run(() => Vm.GetTaskData()).Wait();
-                Task.Run(() => Vm.RememberUserDetails()).Wait();
-                //Vm.GetActionStatus();
-                //Task.Run(() => Vm.GetallApplabels()).Wait();
-                Vm.ChangeLabel();
-                Vm.GetQuestions();
-                Vm.GetCounts();
-                //Vm.GetPNCount();
+                    Settings.ShowSuccessAlert = true;
+                    Settings.countmenu = 1;
+                    await SecureStorage.SetAsync("mainPageisOn", "1");
+                    //Task.Run(() => Vm.GetTaskData()).Wait();
+                    Task.Run(() => Vm.RememberUserDetails()).Wait();
+                    //Vm.GetActionStatus();
+                    //Task.Run(() => Vm.GetallApplabels()).Wait();
+                    Vm.ChangeLabel();
+                    Vm.GetQuestions();
+                    Vm.GetCounts();
+                    //Vm.GetPNCount();
+                });
             }
             catch (Exception ex)
             {

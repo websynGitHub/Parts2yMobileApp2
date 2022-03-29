@@ -238,6 +238,7 @@ namespace YPS.Model
         public bool IsMobilePolybox { get; set; }
         public string MobileScanProvider { get; set; }
         public string LastReleasedOn { get; set; }
+        public double? MCFileUploadSize { get; set; } = 0;
     }
     public class ApplicationSettings
     {

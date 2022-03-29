@@ -53,7 +53,7 @@ namespace YPS.Views
                 {
                     Task.Run(() => getPNdata()).Wait();
                     list.IsRefreshing = false;
-                });
+                }); 
             }
             catch (Exception ex)
             {
@@ -73,13 +73,13 @@ namespace YPS.Views
 
                 base.OnAppearing();
 
-                vm.loadingindicator = true;
+                // vm.loadingindicator = true;
 
                 var checkInternet = await App.CheckInterNetConnection();
 
                 if (checkInternet)
                 {
-                    await getPNdata();
+                    await getPNdata(); 
                 }
                 else
                 {
@@ -94,7 +94,7 @@ namespace YPS.Views
             }
             finally
             {
-                vm.loadingindicator = false;
+                // vm.loadingindicator = false;
             }
         }
 
@@ -106,18 +106,21 @@ namespace YPS.Views
             try
             {
                 vm.loadingindicator = true;
-                var data = await vm.GetNotificationHistory();
-
-                if (data?.Count() > 0)
+                Acr.UserDialogs.UserDialogs.Instance.ShowLoading();
+                //await Task.Delay(1000);
+                await Task.Run(async () =>
                 {
-                    Settings.notifyCount = (int)data[0]?.listCount;
-
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        clearAllLbl.IsVisible = (data?.Where(wr => wr.IsRead == false).FirstOrDefault()) != null ? true : false;
-                    });
-                    list.ItemsSource = data;
-                }
+                    var data = await vm.GetNotificationHistory();
+                    if (data?.Count() > 0)
+                     {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            Settings.notifyCount = (int)data?.FirstOrDefault()?.listCount;
+                            list.ItemsSource = data;
+                            clearAllLbl.IsVisible = (data?.Where(wr => wr?.IsRead == false)?.FirstOrDefault()) != null ? true : false;
+                        });
+                    }
+                 });
             }
             catch (Exception ex)
             {
@@ -127,6 +130,7 @@ namespace YPS.Views
             finally
             {
                 vm.loadingindicator = false;
+                Acr.UserDialogs.UserDialogs.Instance.HideLoading();
             }
         }
 

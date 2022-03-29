@@ -640,18 +640,28 @@ namespace YPS.ViewModels
 
                                 picStream = fileData.GetStream();
                                 IndicatorVisibility = true;
+                                var filesize = File.ReadAllBytes(fileData.FilePath).Length;
+                                var acceptedsize = Settings.MCFileUploadSize * 1000000;//Convertion of MB to Bytes
+
                                 if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
-                                    extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
-                                    extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
+                                         extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
+                                         extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
                                 {
-                                    if (picStream != null)
+                                    if (filesize <= acceptedsize)
                                     {
-                                        selectPhoto("Document");
+                                        if (picStream != null)
+                                        {
+                                            selectPhoto("Document");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        await Application.Current.MainPage.DisplayAlert("Alert", $"Please make sure file size must not be more than {Settings.MCFileUploadSize} MB.", "Ok");
                                     }
                                 }
                                 else
                                 {
-                                    await Application.Current.MainPage.DisplayAlert("Upload", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "Ok");
+                                    await Application.Current.MainPage.DisplayAlert("Alert", "Please upload files having extensions: .pdf, .txt, .doc, .docx only.", "Ok");
                                 }
                             }
                             else
@@ -719,13 +729,23 @@ namespace YPS.ViewModels
                             extension = Path.GetExtension(iOSfilePath).ToLower();
                             picStream = fileDataForiOS.GetStream();
 
+                            var filesize = File.ReadAllBytes(iOSfilePath).Length;
+                            var acceptedsize = Settings.MCFileUploadSize * 1000000;//Convertion of MB to Bytes
+
                             if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
                                      extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
                                      extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
                             {
-                                if (picStream != null)
+                                if (filesize <= acceptedsize)
                                 {
-                                    selectPhoto("Document");
+                                    if (picStream != null)
+                                    {
+                                        selectPhoto("Document");
+                                    }
+                                }
+                                else
+                                {
+                                    await Application.Current.MainPage.DisplayAlert("Alert", $"Please make sure file size must not be more than {Settings.MCFileUploadSize} MB.", "Ok");
                                 }
                             }
                             else

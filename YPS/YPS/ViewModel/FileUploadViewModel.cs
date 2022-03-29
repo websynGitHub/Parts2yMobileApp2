@@ -1113,13 +1113,36 @@ namespace YPS.ViewModel
                                         picStream = fileData.GetStream();
                                         IndicatorVisibility = true;
 
-                                        if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                                        var filesize = File.ReadAllBytes(fileData.FilePath).Length;
+                                        var acceptedsize = Settings.MCFileUploadSize * 1000000;
+
+                                        if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
+                                         extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
+                                         extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
                                         {
-                                            SetFileName = AndroidfileName;
-                                            AddCross = "cross.png";
-                                            IsCrossVisible = true;
-                                            IsFolderVisible = false;
-                                            FilePath64 = AndroidfilePath;
+                                            if (UploadType != "plFile")
+                                            {
+                                                if (filesize <= acceptedsize)
+                                                {
+                                                    SetFileName = AndroidfileName;
+                                                    AddCross = "cross.png";
+                                                    IsCrossVisible = true;
+                                                    IsFolderVisible = false;
+                                                    FilePath64 = AndroidfilePath;
+                                                }
+                                                else
+                                                {
+                                                    await Application.Current.MainPage.DisplayAlert("Alert", $"Please make sure file size must not be more than {Settings.MCFileUploadSize} MB.", "Ok");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                SetFileName = AndroidfileName;
+                                                AddCross = "cross.png";
+                                                IsCrossVisible = true;
+                                                IsFolderVisible = false;
+                                                FilePath64 = AndroidfilePath;
+                                            }
                                         }
                                         else
                                         {
@@ -1185,14 +1208,36 @@ namespace YPS.ViewModel
                                         extension = Path.GetExtension(file.Path);
                                         picStream = file.GetStream();
                                         IndicatorVisibility = true;
+                                        var filesize = File.ReadAllBytes(file.Path).Length;
+                                        var acceptedsize = Settings.MCFileUploadSize * 1000000;
 
-                                        if (extension == ".png" || extension == ".jpg" || extension == ".gif" || extension == ".bmp" || extension == ".jpeg" || extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx")
+                                        if (extension == ".pdf" || extension == ".txt" || extension == ".doc" || extension == ".docx" ||
+                                         extension == ".xls" || extension == ".xlsx" || extension == ".ppt" || extension == ".pptx" ||
+                                         extension == ".jpeg" || extension == ".jpg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
                                         {
-                                            SetFileName = iOSPhotoName;
-                                            AddCross = "cross.png";
-                                            IsCrossVisible = true;
-                                            IsFolderVisible = false;
-                                            FilePath64 = file.Path;
+                                            if (UploadType != "plFile")
+                                            {
+                                                if (filesize <= acceptedsize)
+                                                {
+                                                    SetFileName = iOSPhotoName;
+                                                    AddCross = "cross.png";
+                                                    IsCrossVisible = true;
+                                                    IsFolderVisible = false;
+                                                    FilePath64 = file.Path;
+                                                }
+                                                else
+                                                {
+                                                    await Application.Current.MainPage.DisplayAlert("Alert", $"Please make sure file size must not be more than {Settings.MCFileUploadSize} MB.", "Ok");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                SetFileName = iOSPhotoName;
+                                                AddCross = "cross.png";
+                                                IsCrossVisible = true;
+                                                IsFolderVisible = false;
+                                                FilePath64 = file.Path;
+                                            }
                                         }
                                         else
                                         {

@@ -201,6 +201,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     saveData.IsMobilePolybox = Settings.IsMobilePolybox;
                     saveData.MobileScanProvider = Settings.MobileScanProvider;
                     saveData.LastUpdatedOn = Settings.LastUpdatedOn;
+                    saveData.MCFileUploadSize = Settings.MCFileUploadSize;
                     Db.SaveUserPWd(saveData);
                 }
 
@@ -300,7 +301,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         /// <summary>
         /// This method get all label texts, used in the app.
         /// </summary>
-        public async Task GetCounts()
+        public async void GetCounts()
         {
             try
             {

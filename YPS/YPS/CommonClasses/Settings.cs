@@ -275,6 +275,7 @@ namespace YPS.CommonClasses
         public static bool CanCallForSettings { get; set; }
         public static string MobileScanProvider { set; get; }
         public static string LastUpdatedOn { set; get; }
+        public static double MCFileUploadSize { get; set; }
 
         #region For Image Display
         public static string SPhotoDescription { get; set; }

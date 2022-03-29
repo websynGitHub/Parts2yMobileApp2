@@ -256,7 +256,6 @@ namespace YPS.ViewModel
         }
         public class DashboardLabelChangeClass
         {
-
             public DashboardLabelFields TagNumber { get; set; } = new DashboardLabelFields
             {
                 Status = false,
@@ -348,7 +347,8 @@ namespace YPS.ViewModel
         private bool _loadingindicator = false;
         public bool loadingindicator
         {
-            get => _loadingindicator; set
+            get => _loadingindicator;
+            set
             {
                 _loadingindicator = value;
                 NotifyPropertyChanged("loadingindicator");
