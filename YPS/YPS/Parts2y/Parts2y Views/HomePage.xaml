@@ -18,7 +18,7 @@
 
     <!--<NavigationPage.TitleView>
         <Grid Padding="0,0,5,0" ColumnDefinitions="*,40,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0">
-            <Label Text="{Binding labelobj.Home.Name,StringFormat='{0}-WS'}" TextColor="White" VerticalTextAlignment="Center" 
+            <Label Text="{Binding labelobj.Home.Name,StringFormat='{0}-UAT'}" TextColor="White" VerticalTextAlignment="Center" 
                    HorizontalOptions="Start" VerticalOptions="Center" 
                    Style="{DynamicResource LableWithQuestionFont}">
             </Label>
@@ -59,7 +59,7 @@ Style="{DynamicResource LableWithQuestionFont}">
 
 
                 <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
-Margin="0,0,0,0" Grid.Column="3" >
+Margin="0,0,0,20" Grid.Column="3" >
                     <badge:SfBadgeView.Content>
                         <local:FontAwesomeIconLabel x:Name="BellIcon" Text="{x:Static local1:Icons.Notifications}" HeightRequest="40"
 WidthRequest="35" Style="{StaticResource LblIconStyle}"
