@@ -106,5 +106,6 @@
         public static readonly string BlEnvClose = "\uf0e0";
 
         public static readonly string DotMenu = "\u22ee";
+        public static readonly string MenuBar = "\uf0c9";
     }
 }

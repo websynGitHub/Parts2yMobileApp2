@@ -28,6 +28,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand viewExistingBUPhotos { get; set; }
         public ICommand viewExistingAUPhotos { get; set; }
         public Command SelectTagItemCmd { set; get; }
+        public Command TagCheckboxCheckItemCmd { set; get; }
 
         YPSService service;
         LinkPage pagename;
@@ -48,6 +49,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 LinkBeforePackingPhotoCmd = new Command(LinkPhotoToTag);
                 LinkAfterPackingPhotoCmd = new Command(LinkPhotoToTag);
                 SelectTagItemCmd = new Command(TagLongPessed);
+                TagCheckboxCheckItemCmd = new Command(TagCheckbox);
 
                 DynamicTextChange();
                 ShowContentsToLink();
@@ -77,6 +79,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
 
                 SelectedTagCountVisible = (SelectedTagCount = AllPoTagCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
+                IsSelectAllChecked = SelectedTagCount == AllPoTagCollections.Count();
             }
             catch (Exception ex)
             {
@@ -84,7 +87,62 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var trackResult = service.Handleexception(ex);
             }
         }
+        public void TagCheckbox(object sender)
+        {
+            try
+            {
+                if (SelectedTagCount == 0)
+                {
+                    AllPoTagCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList().ForEach(fr =>
+                        {
+                            fr.SelectedTagBorderColor = Color.Transparent;
+                            fr.IsChecked = false;
+                        });
+                    IsSelectAllChecked = false;
+                }
+                var item = sender as AllPoData;
 
+                if (item != null)
+                {
+                    if (item.IsChecked == true)
+                    {
+                        item.IsChecked = true;
+                        item.SelectedTagBorderColor = Settings.Bar_Background;
+                    }
+                    else
+                    {
+                        item.IsChecked = false;
+                        item.SelectedTagBorderColor = Color.Transparent;
+                    }
+                }
+                else
+                {
+                    if(AllPoTagCollections?.All(all=>all.IsChecked==true)==true)
+                    {
+                        AllPoTagCollections.Where(wr => wr.SelectedTagBorderColor == BgColor).ToList()?.ForEach(fr =>
+                        {
+                            fr.SelectedTagBorderColor = Color.Transparent;
+                            fr.IsChecked = false;
+                        });
+                    }
+                    else
+                    {
+                        AllPoTagCollections?.Where(wr => wr.IsChecked == false).ToList()?.ForEach(fr =>
+                        {
+                            fr.SelectedTagBorderColor = BgColor;
+                            fr.IsChecked = true;
+                        });
+                    }
+                }
+                SelectedTagCountVisible = (SelectedTagCount = AllPoTagCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
+                IsSelectAllChecked = SelectedTagCount == AllPoTagCollections.Count();
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "TagCheckbox method -> in LinkPageViewModel.cs " + Settings.userLoginID);
+                var trackResult = service.Handleexception(ex);
+            }
+        }
         private async void tap_eachCamB(object obj)
         {
             try
@@ -558,23 +616,21 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                         potagcolections.ForEach(fr =>
                         {
-                            fr.SelectedTagBorderColor =
-    val.Where(wr => wr.TaskID == fr.TaskID && wr.POTagID == fr.POTagID)?.FirstOrDefault()?.SelectedTagBorderColor;
-                            fr.IsChecked = val.Where(wr => wr.TaskID == fr.TaskID && wr.POTagID == fr.POTagID)?
-                            .FirstOrDefault()?.IsChecked;
-                        }
-                            );
+                            fr.SelectedTagBorderColor = val.Where(wr => wr.TaskID == fr.TaskID && wr.POTagID == fr.POTagID).Select(s => { return s.SelectedTagBorderColor; }).FirstOrDefault();
+                            fr.IsChecked = val.Where(wr => wr.TaskID == fr.TaskID && wr.POTagID == fr.POTagID).Select(s => { return s.IsChecked; }).FirstOrDefault();
+                        });
                     }
 
                     AllPoTagCollections = new ObservableCollection<AllPoData>(potagcolections);
                     
                     SelectedTagCountVisible = (SelectedTagCount = AllPoTagCollections.Where(wr => wr.IsChecked == true).ToList().Count()) > 0 ? true : false;
 
-                    NoRecordsLbl = (IsLinkButtonsVisible = AllPoTagCollections != null && AllPoTagCollections.Count > 0 ? true : false) == true ? false : true;
+                    SelectAllVisible=NoRecordsLbl = (IsLinkButtonsVisible = AllPoTagCollections != null && AllPoTagCollections.Count > 0 ? true : false) == true ? false : true;
+                    SelectAllVisible = !NoRecordsLbl;
                 }
                 else
                 {
-                    IsLinkButtonsVisible = false;
+                    SelectAllVisible = IsLinkButtonsVisible = false;
                     NoRecordsLbl = true;
                 }
             }
@@ -765,6 +821,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        public bool? _IsSelectAllChecked;
+        public bool? IsSelectAllChecked
+        {
+            get => _IsSelectAllChecked;
+            set
+            {
+                _IsSelectAllChecked = value;
+                RaisePropertyChanged("IsSelectAllChecked");
+            }
+        }
         private double _PackingButtonOpacity = 1.0;
         public double PackingButtonOpacity
         {
@@ -787,6 +853,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 this._NoRecordsLbl = value;
                 RaisePropertyChanged("NoRecordsLbl");
+            }
+        }
+
+        private bool _SelectAllVisible { set; get; }
+        public bool SelectAllVisible
+        {
+            get
+            {
+                return _SelectAllVisible;
+            }
+            set
+            {
+                this._SelectAllVisible = value;
+                RaisePropertyChanged("SelectAllVisible");
             }
         }
 

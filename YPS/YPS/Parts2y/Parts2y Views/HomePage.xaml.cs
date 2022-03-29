@@ -127,21 +127,21 @@ namespace YPS.Parts2y.Parts2y_Views
                     Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
                     Settings.CanCallForSettings = false;
                 }
-
-                (((App.Current.MainPage) as MenuPage).Detail as NavigationPage).BarBackgroundColor = Vm.BgColor = Settings.Bar_Background;
+                Vm.BgColor = Settings.Bar_Background;
+                //(((App.Current.MainPage) as MenuPage).Detail as NavigationPage).BarBackgroundColor = Vm.BgColor = Settings.Bar_Background;
                 (((App.Current.MainPage) as MenuPage).FindByName("contentpage") as ContentPage).BackgroundColor = Settings.Bar_Background;
 
                 Settings.ShowSuccessAlert = true;
-
                 Settings.countmenu = 1;
                 await SecureStorage.SetAsync("mainPageisOn", "1");
-                Task.Run(() => Vm.GetTaskData()).Wait();
-                Task.Run(() => Vm.RememberUserDetails()).Wait();
-                //Vm.GetActionStatus();
-                //Task.Run(() => Vm.GetallApplabels()).Wait();
-                Vm.ChangeLabel();
-                Vm.GetQuestions();
-                Vm.GetPNCount();
+                    Task.Run(() => Vm.GetTaskData()).Wait();
+                    Task.Run(() => Vm.RememberUserDetails()).Wait();
+                    //Vm.GetActionStatus();
+                    //Task.Run(() => Vm.GetallApplabels()).Wait();
+                    Vm.ChangeLabel();
+                    Vm.GetQuestions();
+                    Vm.GetPNCount();
+                
             }
             catch (Exception ex)
             {
@@ -170,5 +170,12 @@ namespace YPS.Parts2y.Parts2y_Views
                 await trackService.Handleexception(ex);
             }
         }
+
+        private void NavigationClick(object sender, EventArgs e)
+        {
+            ((App.Current.MainPage) as MenuPage).IsPresented = !((App.Current.MainPage) as MenuPage).IsPresented;
+        }
+
+
     }
 }

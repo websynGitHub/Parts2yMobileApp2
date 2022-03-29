@@ -6,7 +6,7 @@
              x:Name="Link" BackgroundColor="#E9E9E9" 
              NavigationPage.HasNavigationBar="False"
               xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
-             xmlns:behaviours="clr-namespace:YPS.Behaviours">
+             xmlns:behaviours="clr-namespace:YPS.Behaviours" xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
 
 
     <ContentPage.Resources>
@@ -49,7 +49,7 @@
                             <RowDefinition Height="57"/>
                         </Grid.RowDefinitions>
                         
-                        <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*" 
+                        <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*,Auto" 
                               Style="{StaticResource HeaderMainGrid}">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal"
@@ -82,6 +82,15 @@
                                 </Grid>
                             </StackLayout>
 
+                            <input:CheckBox x:Name="selectallcheck" ClassId="selectall" Spacing="15" Grid.Column="2" VerticalOptions="Start" IsVisible="{Binding SelectAllVisible}"
+                                    Color="White" Margin="0,10,10,0" Padding="0" IconColor="{Binding BgColor}"
+                                                                    CheckChangedCommand="{Binding TagCheckboxCheckItemCmd}"
+                                                IsChecked="{Binding IsSelectAllChecked,Mode=TwoWay}"
+                                                                    Type="Material" 
+                                            Text="All" TextColor="White"
+                                            BoxSizeRequest="30"
+                                            TextFontSize="19">
+                            </input:CheckBox>
                         </Grid>
 
                         <CollectionView x:Name="LinkListData" Grid.Row="1" VerticalOptions="FillAndExpand"
@@ -195,7 +204,13 @@
                                                     </StackLayout>
 
                                                     <StackLayout VerticalOptions="EndAndExpand" Grid.Row="1"
-                                                      HorizontalOptions="FillAndExpand" Orientation="Vertical">
+                                                      HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                                        
+                                                        <input:CheckBox Color="{Binding BindingContext.BgColor,Source={x:Reference Name=Link}}"
+                                                                    CheckChangedCommand="{Binding BindingContext.TagCheckboxCheckItemCmd,Source={x:Reference Name=Link}}"
+                                                                    CommandParameter="{Binding .}" IsChecked="{Binding IsChecked}"
+                                                                    Type="Material"
+                                                                    BoxSizeRequest="30"/>
 
                                                         <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                                                             <Frame Padding="3,2,3,2" Margin="0,5,12,8" CornerRadius="2" 

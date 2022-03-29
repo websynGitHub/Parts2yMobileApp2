@@ -70,8 +70,8 @@ namespace YPS.Model
             }
         }
 
-        private Color? _SelectedTagBorderColor = Color.Transparent;
-        public Color? SelectedTagBorderColor
+        private Color _SelectedTagBorderColor = Color.Transparent;
+        public Color SelectedTagBorderColor
         {
             get
             {
@@ -163,8 +163,8 @@ namespace YPS.Model
             }
         }
 
-        private bool? _IsChecked;
-        public bool? IsChecked
+        private bool _IsChecked;
+        public bool IsChecked
         {
             get
             {
