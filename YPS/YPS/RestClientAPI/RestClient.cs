@@ -1785,6 +1785,26 @@ namespace YPS.RestClientAPI
                 return null;
             }
         }
+
+        /// <summary>
+        /// Notification count
+        /// </summary>
+        /// <param name="poTagID"></param>
+        /// <returns></returns>
+        public async Task<NotificationcountResponse> GetCount()
+        {
+            try
+            {
+                return await requestProvider.PostAsync<NotificationcountResponse>(WebServiceUrl
+                    + "Notification/NotificationCount?UserID=" + Settings.userLoginID);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "UpdateDefaultSettingByEventID method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
         #endregion
 
         #region Without common API calling methods.

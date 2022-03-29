@@ -166,12 +166,14 @@ namespace YPS.Model
         public string TaskName { get; set; }
 
     }
+
     public class Readnotification
     {
         public string message { get; set; }
         public int status { get; set; }
         public int data { get; set; }
     }
+
     public class PNData
     {
 
@@ -181,6 +183,18 @@ namespace YPS.Model
         public string message { get; set; }
         public int status { get; set; }
         public PNData data { get; set; }
+    }
 
+    public class NotificationcountResponse
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public Notificationcount data { get; set; }
+    }
+
+    public class Notificationcount
+    {
+        public int QAPendingCount { get; set; }
+        public int TaskPendingCount { get; set; }
     }
 }

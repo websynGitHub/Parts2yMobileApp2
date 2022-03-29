@@ -1050,5 +1050,16 @@ namespace YPS.Service
             RestClient restClient = new RestClient();
             return await restClient.UpdateDefaultSettingByEventID(); ;
         }
+
+        /// <summary>
+        /// Notification count
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<NotificationcountResponse> GetCount()
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.GetCount();
+        }
     }
 }

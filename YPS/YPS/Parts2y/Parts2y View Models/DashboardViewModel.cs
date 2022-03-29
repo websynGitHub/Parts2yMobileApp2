@@ -298,6 +298,39 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         /// <summary>
+        /// This method get all label texts, used in the app.
+        /// </summary>
+        public async Task GetCounts()
+        {
+            try
+            {
+                loadindicator = true;
+
+
+                var result = await trackService.GetCount();
+
+                if (result != null && result.data != null)
+                {
+                    Settings.notifyJobCount = result.data.TaskPendingCount;
+                    NotificationListCount = Settings.notifyCount = result.data.QAPendingCount;
+
+                    JobCountText = result.data.TaskPendingCount > 0 ? result.data.TaskPendingCount.ToString() : null;
+                    NotifyCountTxt = result.data.QAPendingCount > 0 ? result.data.QAPendingCount.ToString() : null;
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetCounts method -> in DashboardViewModel.cs " + Settings.userLoginID);
+                await trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
+            }
+        }
+
+
+        /// <summary>
         /// This method is for getting PN count.
         /// </summary>
         public async void GetPNCount()
