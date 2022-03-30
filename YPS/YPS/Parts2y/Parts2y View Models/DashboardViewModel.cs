@@ -318,6 +318,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     JobCountText = result.data.TaskPendingCount > 0 ? result.data.TaskPendingCount.ToString() : null;
                     NotifyCountTxt = result.data.QAPendingCount > 0 ? result.data.QAPendingCount.ToString() : null;
                 }
+                Task.Run(homePage.MoveBell);
             }
             catch (Exception ex)
             {

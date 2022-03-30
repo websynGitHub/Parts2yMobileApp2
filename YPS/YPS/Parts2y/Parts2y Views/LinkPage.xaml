@@ -104,12 +104,11 @@
                                         <Frame x:Name="dataframe"  BackgroundColor="White" Margin="2" Padding="15,12,15,12" 
                                            BorderColor="{Binding SelectedTagBorderColor}" CornerRadius="4"  HasShadow="False"
                                                local:LongPressedEffect.Command="{Binding BindingContext.SelectTagItemCmd,Source={x:Reference Name=Link}}"
-                                               local:LongPressedEffect.CommandParameter="{Binding .}"
-                                             >
+                                               local:LongPressedEffect.CommandParameter="{Binding .}">
                                             <StackLayout Orientation="Vertical">
-                                                <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+                                                <Grid RowDefinitions="*" ColumnDefinitions="*">
 
-                                                    <StackLayout Orientation="Vertical" Grid.Row="0" Margin="10,0,10,0">
+                                                    <StackLayout Orientation="Vertical">
                                                         <Grid HorizontalOptions="Start" 
                                                               IsVisible="{Binding  BindingContext.labelobj.TagNumber.Status, Source={x:Reference Name=Link}}"
                                                        VerticalOptions="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
@@ -202,8 +201,9 @@
                                                             </Grid>
                                                         </Frame>
                                                     </StackLayout>
+                                                </Grid>
 
-                                                    <StackLayout VerticalOptions="EndAndExpand" Grid.Row="1"
+                                                <StackLayout VerticalOptions="Start"
                                                       HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                                                         
                                                         <input:CheckBox Color="{Binding BindingContext.BgColor,Source={x:Reference Name=Link}}"
@@ -259,15 +259,12 @@
                                                                                     />
                                                         </StackLayout>
                                                     </StackLayout>
-                                                </Grid>
                                             </StackLayout>
                                             <Frame.Effects>
                                                 <local:LongPressedEffect />
                                             </Frame.Effects>
                                         </Frame>
                                     </Grid>
-
-
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
