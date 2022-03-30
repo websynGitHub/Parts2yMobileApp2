@@ -135,7 +135,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                     Settings.ShowSuccessAlert = true;
                     Settings.countmenu = 1;
-                    //await SecureStorage.SetAsync("mainPageisOn", "1");
+                    await SecureStorage.SetAsync("mainPageisOn", "1");
                     //Task.Run(() => Vm.GetTaskData()).Wait();
                     Task.Run(() => Vm.RememberUserDetails()).Wait();
                     //Vm.GetActionStatus();
@@ -165,7 +165,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 base.OnDisappearing();
                 isswing = false;
                 Settings.CanCallForSettings = true;
-                //await SecureStorage.SetAsync("mainPageisOn", "0");
+                await SecureStorage.SetAsync("mainPageisOn", "0");
             }
             catch (Exception ex)
             {
