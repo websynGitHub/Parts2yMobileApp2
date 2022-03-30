@@ -121,8 +121,8 @@ namespace YPS.Parts2y.Parts2y_Views
                 base.OnAppearing();
 
                 Vm.loadindicator = true;
-                await Task.Run(async () =>
-                {
+                //await Task.Run(async () =>
+                //{
                     if (Settings.CanCallForSettings == true)
                     {
                         Task.Run(async () => await CloudFolderKeyVal.GetToken()).Wait();
@@ -135,7 +135,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
                     Settings.ShowSuccessAlert = true;
                     Settings.countmenu = 1;
-                    await SecureStorage.SetAsync("mainPageisOn", "1");
+                    //await SecureStorage.SetAsync("mainPageisOn", "1");
                     //Task.Run(() => Vm.GetTaskData()).Wait();
                     Task.Run(() => Vm.RememberUserDetails()).Wait();
                     //Vm.GetActionStatus();
@@ -144,7 +144,7 @@ namespace YPS.Parts2y.Parts2y_Views
                     Vm.GetQuestions();
                     Vm.GetCounts();
                     //Vm.GetPNCount();
-                });
+                //});
             }
             catch (Exception ex)
             {
@@ -165,7 +165,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 base.OnDisappearing();
                 isswing = false;
                 Settings.CanCallForSettings = true;
-                await SecureStorage.SetAsync("mainPageisOn", "0");
+                //await SecureStorage.SetAsync("mainPageisOn", "0");
             }
             catch (Exception ex)
             {
@@ -173,7 +173,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 await trackService.Handleexception(ex);
             }
         }
-
+            
         private async void NavigationClick(object sender, EventArgs e)
         {
             try

@@ -43,7 +43,8 @@
 
     <ContentPage.Content>
         <StackLayout Spacing="0">
-            <Grid Padding="0,10,5,0" ColumnDefinitions="60,*,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0">
+            <!--<Grid ColumnDefinitions="60,*,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Column="0"
+                   Style="{StaticResource HeaderMainGrid}">
                 <ContentView Grid.Column="0" Margin="5,5,5,5" HeightRequest="60" WidthRequest="60" BackgroundColor="Transparent">
                     <local:FontAwesomeIconLabel Margin="5" x:Name="MenuBar" Text="{x:Static local1:Icons.MenuBar}" Style="{StaticResource LblIconStyle}" FontSize="25" HorizontalTextAlignment="Start"/>
                     <ContentView.GestureRecognizers>
@@ -55,8 +56,6 @@
 HorizontalOptions="Start" VerticalOptions="Center"
 Style="{DynamicResource LableWithQuestionFont}">
                 </Label>
-
-
 
                 <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
 Margin="0,0,0,20" Grid.Column="3" >
@@ -73,13 +72,47 @@ FontSize="20">
                         <badge:BadgeSetting BadgeType="Error" Offset="-7,2"/>
                     </badge:SfBadgeView.BadgeSettings>
                 </badge:SfBadgeView>
-            </Grid>
+            </Grid>-->
 
 
             <AbsoluteLayout>
-                <Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                <Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                   RowSpacing="0">
-                    <StackLayout Grid.Row="0" BackgroundColor="{Binding BgColor}" Padding="74,5,10,25" Margin="0" Orientation="Vertical">
+
+                    <Grid ColumnDefinitions="60,*,40,Auto" BackgroundColor="{Binding BgColor}" Grid.Row="0"
+                       Padding="0,30,0,0">
+                        <ContentView Grid.Column="0" Margin="5,0,5,5" WidthRequest="60" BackgroundColor="Transparent">
+                            <local:FontAwesomeIconLabel  Margin="5,0,5,5" x:Name="MenuBar" 
+                              Text="{x:Static local1:Icons.MenuBar}" Style="{StaticResource LblIconStyle}" 
+                             FontSize="25" HorizontalTextAlignment="Start"/>
+                            <ContentView.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="NavigationClick"/>
+                            </ContentView.GestureRecognizers>
+                        </ContentView>
+
+                        <Label Grid.ColumnSpan="2" Grid.Column="1" Margin="6,0,0,0" Text="{Binding labelobj.Home.Name,StringFormat='{0}-WS'}" TextColor="White" VerticalTextAlignment="Center"
+HorizontalOptions="Start" VerticalOptions="Center"
+Style="{DynamicResource LableWithQuestionFont}">
+                        </Label>
+
+                        <badge:SfBadgeView x:Name="bg" IsVisible="{Binding IsPNenable}" BadgeText="{Binding NotifyCountTxt}"
+Margin="0,0,0,20" Grid.Column="3" >
+                            <badge:SfBadgeView.Content>
+                                <local:FontAwesomeIconLabel x:Name="BellIcon" Text="{x:Static local1:Icons.Notifications}" HeightRequest="40"
+WidthRequest="35" Style="{StaticResource LblIconStyle}"
+FontSize="20">
+                                    <local:FontAwesomeIconLabel.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Notification_Tap" />
+                                    </local:FontAwesomeIconLabel.GestureRecognizers>
+                                </local:FontAwesomeIconLabel>
+                            </badge:SfBadgeView.Content>
+                            <badge:SfBadgeView.BadgeSettings>
+                                <badge:BadgeSetting BadgeType="Error" Offset="-7,2"/>
+                            </badge:SfBadgeView.BadgeSettings>
+                        </badge:SfBadgeView>
+                    </Grid>
+                    
+                    <StackLayout Grid.Row="1" BackgroundColor="{Binding BgColor}" Padding="74,5,10,25" Margin="0" Orientation="Vertical">
                         <Grid RowSpacing="0" BackgroundColor="{Binding BgColor}"   VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*"
                           IsVisible="{Binding labelobj.Company.Status}">
@@ -107,7 +140,7 @@ FontSize="20">
                         </Grid>
                     </StackLayout>
 
-                    <StackLayout Grid.Row="1" Padding="0" Margin="0" BackgroundColor="Transparent" 
+                    <StackLayout Grid.Row="2" Padding="0" Margin="0" BackgroundColor="Transparent" 
                              HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
                         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" 
                               BackgroundColor="Transparent" Padding="0" Margin="0,0,0,0" Orientation="Horizontal">
@@ -150,7 +183,7 @@ FontSize="20">
                         </StackLayout>
                     </StackLayout>
 
-                    <ScrollView  Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                    <ScrollView  Grid.Row="3" Grid.Column="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                              BackgroundColor="Transparent" Margin="0,6,0,6">
                         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                                  BackgroundColor="Transparent">
