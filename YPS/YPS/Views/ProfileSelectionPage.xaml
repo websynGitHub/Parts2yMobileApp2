@@ -2,15 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:YPS.Behaviours"
-             x:Class="YPS.Views.ProfileSelectionPage"
-           
+             x:Class="YPS.Views.ProfileSelectionPage"           
              NavigationPage.HasNavigationBar="False" 
              BackgroundColor="#E9E9E9"
               xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:FontAwsmLbl="clr-namespace:YPS.CustomRenders"
               xmlns:StaticIcons="clr-namespace:YPS.CommonClasses"
-             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms">
+             xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -55,8 +55,9 @@
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Grid x:Name="headerpart" Grid.Row="0" RowDefinitions="*" ColumnDefinitions="60,*" Style="{StaticResource HeaderMainGrid}">
 
@@ -89,9 +90,61 @@
 
                 </Grid>
 
-                <Grid Grid.Row="1" ColumnSpacing="2"   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                <ScrollView Grid.Row="1" Orientation="Horizontal" x:Name="scrollview"
+                            HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never" Padding="0" Margin="6,0,6,0">
+                    <Grid ColumnSpacing="2" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.Column="0" x:Name="settingStack">
+                            <Label Text="{Binding DefaultSettinglabel}" Style="{DynamicResource LableWithMediumFont}"
+                                 Padding="0,8,0,0" HorizontalOptions="Center" TextColor="{Binding settingsTextColor}"
+                                VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,2,0,2">
+                            </Label>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding settingsVisibility}" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SettingsTapped"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" x:Name="profileStack">
+                            <Label x:Name="UpdatePBtn" Text="{Binding UpdateProfilelabel}" Style="{DynamicResource LableWithMediumFont}" 
+                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
+                               HorizontalTextAlignment="Center" TextColor="{Binding profileTextColor}" Margin="0,2,0,2">
+                            </Label>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding profileVisibility}"/>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ProfileTapped"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Column="2" x:Name="jobprintfieldStack">
+                            <Label Text="Job Print Fields" Style="{DynamicResource LableWithMediumFont}" 
+                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
+                               HorizontalTextAlignment="Center" TextColor="{Binding JobprintFieldTextColor}" Margin="0,2,0,2">
+                            </Label>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding JobprintfieldVisibility}"/>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="JobPrintFieldTapped"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Column="3" x:Name="polyprintfieldStack">
+                            <Label Text="Polybox Print Fields" Style="{DynamicResource LableWithMediumFont}" 
+                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
+                               HorizontalTextAlignment="Center" TextColor="{Binding PolyprintFieldTextColor}" Margin="0,2,0,2">
+                            </Label>
+                            <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding PolyprintfieldVisibility}"/>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PolyPrintFieldTapped"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </Grid>
+                </ScrollView>
+                <!--<Grid Grid.Row="1" ColumnSpacing="2"   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                     Padding="0" RowSpacing="0" Margin="6,0,6,0">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.30*"/>
                         <ColumnDefinition Width="0.30*"/>
                         <ColumnDefinition Width="0.30*"/>
                     </Grid.ColumnDefinitions>
@@ -115,18 +168,28 @@
                             <TapGestureRecognizer Command="{Binding ICommandProfile}"/>
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
-                </Grid>
+                    <StackLayout Grid.Column="2">
+                        <Label Text="Print Fields" Style="{DynamicResource LableWithMediumFont}" 
+                                Padding="0,8,0,0" HorizontalOptions="Center" VerticalOptions="Center"
+                               HorizontalTextAlignment="Center" TextColor="{Binding JobprintFieldTextColor}" Margin="0,2,0,2">
+                        </Label>
+                        <BoxView Style="{StaticResource StyleBoxView}" IsVisible="{Binding Jobprintfieldbox}"/>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ICommandPrintFields}"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Grid>-->
 
                 <StackLayout Grid.Row="2" Orientation="Vertical" VerticalOptions="FillAndExpand"
                              Margin="6,0,6,0">
                     <StackLayout.Resources>
                         <ResourceDictionary>
-                            <Style TargetType="Frame">
+                            <!--<Style TargetType="Frame">
                                 <Setter Property="HasShadow" Value="False"/>
                                 <Setter Property="OutlineColor" Value="Gray"/>
                                 <Setter Property="CornerRadius" Value="7"/>
                                 <Setter Property="Padding" Value="4"/>
-                            </Style>
+                            </Style>-->
                             <Style TargetType="Label">
                                 <Setter Property="TextColor" Value="Black"/>
                             </Style>
@@ -310,6 +373,96 @@
                             </Grid>
                         </ScrollView>
                     </StackLayout>
+
+                    <StackLayout IsVisible="{Binding JobprintfieldVisibility}" Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand">
+                        <ScrollView>
+                                <Frame CornerRadius="5" BackgroundColor="Transparent" Padding="20,10,10,5"  Margin="0,5,0,0" HasShadow="False"
+                                   BorderColor="{Binding JobPrintFieldBorderColor}">
+                                <Grid RowDefinitions="Auto,*" RowSpacing="20">
+                                    <Grid ColumnDefinitions="Auto,*" Grid.Row="0" ColumnSpacing="30">
+                                        
+                                        <input:CheckBox x:Name="selectall" Grid.Column="0" Text="Select All" 
+                                                    IsChecked="{Binding IsAllSelected}"
+                                                    CheckChanged="JobPrintFieldsCheckChanged" Grid.Row="0"
+                                            TextFontSize="19" TextColor="Black" Padding="0"
+                                                    VerticalOptions="Start">
+
+                                            <input:CheckBox.Triggers>
+                                                <DataTrigger TargetType="input:CheckBox"
+                                                         Binding="{Binding IsAllSelected}" Value="True">
+                                                    <Setter Property="Text" Value="Unselect All"/>
+                                                </DataTrigger>
+                                            </input:CheckBox.Triggers>
+                                        </input:CheckBox>
+                                    </Grid>
+
+                                    <StackLayout Padding="0" Grid.Row="1" x:Name="PrintListStack"
+                                   BindableLayout.ItemsSource="{Binding JobPrintFields}">
+
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid ColumnDefinitions="Auto,*"
+                                                  Padding="0" Margin="0">
+                                                    <input:CheckBox x:Name="singleselect" Grid.Column="0"
+                                                                IsChecked="{Binding Status}"
+                                                                CheckChanged="JobPrintFieldsCheckChanged"/>
+                                                    <Label Text="{Binding LblText}"
+                                                           Grid.Column="1" VerticalTextAlignment="Center"
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                        </ScrollView>
+                    </StackLayout>
+
+                    <StackLayout IsVisible="{Binding  PolyprintfieldVisibility}" Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand">
+                        <ScrollView>
+                            <Frame CornerRadius="5" BackgroundColor="Transparent" Padding="20,10,10,5"  Margin="0,5,0,0" HasShadow="False"
+                                   BorderColor="{Binding PolyPrintFieldBorderColor}">
+                                <Grid RowDefinitions="Auto,*" RowSpacing="20">
+                                    <Grid ColumnDefinitions="Auto,*" Grid.Row="0" ColumnSpacing="30">
+
+                                        <input:CheckBox x:Name="polyselectall" Grid.Column="0" Text="Select All" 
+                                                    IsChecked="{Binding PolyAllSelected}"
+                                                    CheckChanged="PolyPrintFieldsCheckChanged" Grid.Row="0"
+                                            TextFontSize="19" TextColor="Black" Padding="0"
+                                                    VerticalOptions="Start">
+
+                                            <input:CheckBox.Triggers>
+                                                <DataTrigger TargetType="input:CheckBox"
+                                                         Binding="{Binding PolyAllSelected}" Value="True">
+                                                    <Setter Property="Text" Value="Unselect All"/>
+                                                </DataTrigger>
+                                            </input:CheckBox.Triggers>
+                                        </input:CheckBox>
+                                    </Grid>
+
+                                    <StackLayout Padding="0" Grid.Row="1"
+                                   BindableLayout.ItemsSource="{Binding PolyPrintFields}">
+
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid ColumnDefinitions="Auto,*"
+                                                  Padding="0" Margin="0">
+                                                    <input:CheckBox x:Name="polysingleselect" Grid.Column="0"
+                                                                IsChecked="{Binding Status}"
+                                                                CheckChanged="PolyPrintFieldsCheckChanged"/>
+                                                    <Label Text="{Binding LblText}"
+                                                           Grid.Column="1" VerticalTextAlignment="Center"
+                                                           Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </ScrollView>
+                    </StackLayout>
                 </StackLayout>
             </Grid>
 
@@ -335,6 +488,30 @@
                                                 Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
                         <sfbuttons:SfButton.Content>
                             <Label Text="{Binding UpdateBtn,Mode=TwoWay}" Style="{StaticResource SfButtonTextLbl}"
+                                   Padding="0"/>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+
+                    <sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding JobprintfieldVisibility}" Grid.Row="7"
+                                            HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandJobSave}" 
+                                                Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Content>
+                            <Label Text="{Binding SaveBtn,Mode=TwoWay}" Style="{StaticResource SfButtonTextLbl}"
+                                   Padding="0"/>
+                        </sfbuttons:SfButton.Content>
+                        <sfbuttons:SfButton.Behaviors>
+                            <behaviors:ViewTappedButtonBehavior AnimationType="Scale"/>
+                        </sfbuttons:SfButton.Behaviors>
+                    </sfbuttons:SfButton>
+
+                    <sfbuttons:SfButton  VerticalOptions="End" IsVisible="{Binding PolyprintfieldVisibility}" Grid.Row="7"
+                                            HorizontalOptions="FillAndExpand" Margin="0,0,0,4" Command="{Binding ICommandPolySave}" 
+                                                Style="{StaticResource SfBtnBlue}" BackgroundColor="{Binding BgColor}">
+                        <sfbuttons:SfButton.Content>
+                            <Label Text="{Binding SaveBtn,Mode=TwoWay}" Style="{StaticResource SfButtonTextLbl}"
                                    Padding="0"/>
                         </sfbuttons:SfButton.Content>
                         <sfbuttons:SfButton.Behaviors>

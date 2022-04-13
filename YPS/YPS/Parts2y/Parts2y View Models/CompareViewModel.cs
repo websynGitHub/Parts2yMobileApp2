@@ -74,7 +74,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                var result = await trackService.GetSaveScanConfig();
+                var result = await trackService.GetSaveScanConfig(Settings.CompanyID, Settings.ProjectID, Settings.JobID);
 
                 if (result?.status == 1 && result?.data != null)
                 {
@@ -854,7 +854,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (checkInternet)
                     {
-                        var data = await trackService.SaveScanConfig(SelectedRule.ID, TotalCount);
+                        var data = await trackService.SaveScanConfig(Settings.CompanyID, Settings.ProjectID, Settings.JobID, SelectedRule.ID, TotalCount);
 
                         if (data?.status == 1)
                         {

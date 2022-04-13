@@ -81,47 +81,5 @@ namespace YPS.Parts2y.Parts2y_Views
                 trackService.Handleexception(ex);
             }
         }
-
-        private void PrintFieldsCheckChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var checkbox = sender as Plugin.InputKit.Shared.Controls.CheckBox;
-
-                if (Vm.PrintFieldBorderColor == Color.Red && checkbox.IsChecked)
-
-                {
-                    Vm.PrintFieldBorderColor = Color.Transparent;
-                }
-
-                if (checkbox.StyleId == "selectall")
-                {
-                    if (Vm?.ScanConfigResult?.data?.PrintFields?.All(al => al.Status == 1) == true)
-                    {
-                        Vm?.ScanConfigResult?.data?.PrintFields.ToList().ForEach(fe => { fe.Status = 0; });
-                    }
-                    else
-                    {
-                        Vm?.ScanConfigResult?.data?.PrintFields.ToList().ForEach(fe => { fe.Status = 1; });
-                    }
-                }
-                else if (checkbox.StyleId == "singleselect")
-                {
-                    if (Vm?.ScanConfigResult?.data?.PrintFields?.All(al => al.Status == 1) == true)
-                    {
-                        Vm.IsAllSelected = true;
-                    }
-                    else
-                    {
-                        Vm.IsAllSelected = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "PrintFieldsCheckChanged method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
-                trackService.Handleexception(ex);
-            }
-        }
     }
 }

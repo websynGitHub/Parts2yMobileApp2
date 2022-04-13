@@ -39,7 +39,8 @@ namespace YPS.Model
         public List<CompareModel> PolyboxStatus { get; set; }
         public List<CompareModel> PolyboxLocation { get; set; }
         public List<CompareModel> PolyboxRemarks { get; set; }
-        public List<CompareModel> PrintFields { get; set; }
+        public List<CompareModel> PrintFields_Polybox { get; set; }
+        public List<CompareModel> PrintFields_JobPart { get; set; }
     }
 
     public class ScanConfigResponse
@@ -71,6 +72,7 @@ namespace YPS.Model
         public string PolyboxLocation { get; set; }
         public int PolyboxRemarks { get; set; }
         public string PolyboxPrintFields { get; set; }
+        public string JobPrintFields { get; set; }
     }
 
     public class GetSavedConfigResponse

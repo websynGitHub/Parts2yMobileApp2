@@ -860,14 +860,24 @@ namespace YPS.Service
         /// Get Scan Config
         /// </summary>
         /// <returns></returns>
-        public async Task<SaveScanConfigResponse> SaveScanConfig(int compareruleid = 0,
+        public async Task<SaveScanConfigResponse> SaveScanConfig(int companyid,int projectid,int jobid,int compareruleid = 0,
             int? scancount = 0,
              int polyboxruleid = 0, string polyboxlocname = "", int polyboxremarkid = 0,
-             int polyboxstatusid = 0, string polyboxprintfields = "")
+             int polyboxstatusid = 0)
         {
             RestClient restClient = new RestClient();
-            return await restClient.SaveScanConfig(compareruleid, Convert.ToInt32(scancount),
-                polyboxruleid, polyboxlocname, polyboxremarkid, polyboxstatusid, polyboxprintfields);
+            return await restClient.SaveScanConfig(companyid, projectid, jobid, compareruleid, Convert.ToInt32(scancount),
+                polyboxruleid, polyboxlocname, polyboxremarkid, polyboxstatusid);
+        }
+
+        /// <summary>
+        /// Update Scan Configuration
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SaveScanConfigResponse> UpdatePrintField(string PageType, string PrintFields)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.UpdatePrintField(PageType,PrintFields);
         }
 
 
@@ -876,10 +886,10 @@ namespace YPS.Service
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<GetSavedConfigResponse> GetSaveScanConfig()
+        public async Task<GetSavedConfigResponse> GetSaveScanConfig(int companyid, int projectid, int jobid)
         {
             RestClient restClient = new RestClient();
-            return await restClient.GetSaveScanConfig();
+            return await restClient.GetSaveScanConfig(companyid,projectid,jobid);
         }
         /// <summary>
         /// Get polybox header details

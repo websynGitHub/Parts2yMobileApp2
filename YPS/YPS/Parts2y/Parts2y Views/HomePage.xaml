@@ -222,7 +222,7 @@ FontSize="20">
                                     <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                         <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.Scan}" 
                                                  TextColor="Gray" FontSize="50"
-                                                 HorizontalOptions="Start" VerticalOptions="Center"
+                                                 HorizontalOptions="Center" VerticalOptions="Center"
                                                  >
                                         </local:FontAwesomeIconLabel>
 

@@ -132,17 +132,16 @@
 
                                 <Grid ColumnDefinitions="8*,*">
                                     <StackLayout x:Name="EventName" VerticalOptions="Center" HorizontalOptions="Start" Orientation="Horizontal">
-                                        <Frame BackgroundColor="#FFBB00" CornerRadius="5" Padding="4,1,4,1">
+                                        <Frame BorderColor="Red" BackgroundColor="#FFBB00" CornerRadius="5" Padding="4,1,4,1">
                                             <StackLayout HorizontalOptions="Start" Orientation="Horizontal"                                                            
                                                       VerticalOptions="Center">
                                                 <Label Text="{Binding labelobj.EventName.Name}" HorizontalTextAlignment="Start"
                                                    Style="{DynamicResource LableWithQuestionFontBlack}"/>
                                                 <Label Text="{Binding SelectedEvent.Name}"  
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFontBlack}"/>
+                                                <local:FontAwesomeIconLabel Text="{x:Static local1:Icons.DropDown}" Margin="3,0,3,0" FontSize="19" TextColor="Black" VerticalOptions="Center"/>
                                             </StackLayout>
                                         </Frame>
-                                        <local:FontAwesomeIconLabel 
-                                                Text="{x:Static local1:Icons.DotMenu}" Margin="3,0,0,0" FontSize="19" TextColor="White" VerticalOptions="Center"/>
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding ThreeDotsCmd}"/>
                                         </StackLayout.GestureRecognizers>

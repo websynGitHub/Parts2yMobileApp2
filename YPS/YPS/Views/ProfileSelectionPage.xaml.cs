@@ -10,6 +10,7 @@ using YPS.Helpers;
 using YPS.Model;
 using YPS.Service;
 using YPS.ViewModel;
+using System.Threading.Tasks;
 
 namespace YPS.Views
 {
@@ -20,6 +21,7 @@ namespace YPS.Views
         ProfileSelectionViewModel Vm;
         YPSService service;
         bool DefaultSettingSupplier;
+        string TabName = "";
         #endregion
 
         /// <summary>
@@ -57,6 +59,24 @@ namespace YPS.Views
                 Settings.currentPage = "ProfileSelectionPage";
                 Settings.PerviousPage = "ProfileSelectionPage";
                 BindingContext = Vm = new ProfileSelectionViewModel(Navigation, pagetype);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ProfileSelectionPage constructor -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
+            }
+        }
+        
+        public ProfileSelectionPage(string tabName)
+        {
+            try
+            {
+                InitializeComponent();
+
+                YPSLogger.TrackEvent("ProfileSelectionPage.xaml.cs", " ProfileSelectionPage constructor " + DateTime.Now + " UserId: " + Settings.userLoginID);
+                Settings.currentPage = "ProfileSelectionPage";
+                Settings.PerviousPage = "ProfileSelectionPage";
+                BindingContext = Vm = new ProfileSelectionViewModel(Navigation, 3);
+                TabName = tabName;
             }
             catch (Exception ex)
             {
@@ -462,6 +482,193 @@ namespace YPS.Views
             {
                 service = new YPSService();
                 YPSLogger.ReportException(ex, "TimeZoneClosePopUp method -> in ProfileSelectionPage.xaml.cs " + Settings.userLoginID);
+                service.Handleexception(ex);
+            }
+        }
+
+        private void JobPrintFieldsCheckChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var checkbox = sender as Plugin.InputKit.Shared.Controls.CheckBox;
+
+                if (Vm.JobPrintFieldBorderColor == Color.Red && checkbox.IsChecked)
+
+                {
+                    Vm.JobPrintFieldBorderColor = Color.Transparent;
+                }
+
+                if (checkbox.StyleId == "selectall")
+                {
+                    if (Vm?.JobPrintFields?.All(al => al.Status == 1) == true)
+                    {
+                        Vm?.JobPrintFields.ToList().ForEach(fe => { fe.Status = 0; });
+                    }
+                    else
+                    {
+                        Vm?.JobPrintFields.ToList().ForEach(fe => { fe.Status = 1; });
+                    }
+                }
+                else if (checkbox.StyleId == "singleselect")
+                {
+                    if (Vm?.JobPrintFields?.All(al => al.Status == 1) == true)
+                    {
+                        Vm.IsAllSelected = true;
+                    }
+                    else
+                    {
+                        Vm.IsAllSelected = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "JobPrintFieldsCheckChanged method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
+                service.Handleexception(ex);
+            }
+        }
+
+        
+        private async void SettingsTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                TabName = "";
+                ResetToDefault();
+                Vm.settingsTextColor = Settings.Bar_Background;
+                Vm.settingsVisibility = true;
+                await scrollview.ScrollToAsync(settingStack, ScrollToPosition.Start, false);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SettingsTapped method -> in PlayBox.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        private async void ProfileTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                TabName = "";
+                ResetToDefault();
+                Vm.profileTextColor = Settings.Bar_Background;
+                Vm.profileVisibility = true;
+                await scrollview.ScrollToAsync(profileStack, ScrollToPosition.Center, false);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "ProfileTapped method -> in PlayBox.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+       
+        private async void JobPrintFieldTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                TabName = "";
+                if(Vm.PrintApiStatus == false)
+                {
+                    Vm.IndicatorVisibility = true;
+                    Task.Run(() => Vm.GetPrintFieldData()).Wait();
+                }
+                await scrollview.ScrollToAsync(jobprintfieldStack, ScrollToPosition.Center, false);
+                ResetToDefault();
+                Vm.JobprintFieldTextColor = Settings.Bar_Background;
+                Vm.JobprintfieldVisibility  = true;
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "JobPrintFieldTapped method -> in PlayBox.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                Vm.IndicatorVisibility = false;
+            }
+        }
+        
+        public async void PolyPrintFieldTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                TabName = "PolyboxPrintSettings";
+                if (Vm.PrintApiStatus == false)
+                {
+                    Vm.IndicatorVisibility = true;
+                    Task.Run(() => Vm.GetPrintFieldData()).Wait();
+                }
+                await scrollview.ScrollToAsync(polyprintfieldStack, ScrollToPosition.End, false);
+                ResetToDefault();
+                Vm.PolyprintFieldTextColor = Settings.Bar_Background;
+                Vm.PolyprintfieldVisibility = true;
+                
+            }
+            catch(Exception ex)
+            {
+                YPSLogger.ReportException(ex, "PolyPrintFieldTapped method -> in PlayBox.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+            finally
+            {
+                Vm.IndicatorVisibility = false;
+            }
+        }
+
+        void ResetToDefault()
+        {
+            Vm.PolyprintFieldTextColor = Vm.JobprintFieldTextColor = Vm.settingsTextColor = Vm.profileTextColor = Color.Black;
+            Vm.PolyprintfieldVisibility = Vm.JobprintfieldVisibility = Vm.settingsVisibility = Vm.profileVisibility = false;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (TabName == "PolyboxPrintSettings")
+            {
+                PolyPrintFieldTapped(null, null);
+            }
+        }
+        private void PolyPrintFieldsCheckChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var checkbox = sender as Plugin.InputKit.Shared.Controls.CheckBox;
+
+                if (Vm.PolyPrintFieldBorderColor == Color.Red && checkbox.IsChecked)
+
+                {
+                    Vm.PolyPrintFieldBorderColor = Color.Transparent;
+                }
+
+                if (checkbox.StyleId == "polyselectall")
+                {
+                    if (Vm?.PolyPrintFields?.All(al => al.Status == 1) == true)
+                    {
+                        Vm?.PolyPrintFields.ToList().ForEach(fe => { fe.Status = 0; });
+                    }
+                    else
+                    {
+                        Vm?.PolyPrintFields.ToList().ForEach(fe => { fe.Status = 1; });
+                    }
+                }
+                else if (checkbox.StyleId == "polysingleselect")
+                {
+                    if (Vm?.PolyPrintFields?.All(al => al.Status == 1) == true)
+                    {
+                        Vm.PolyAllSelected = true;
+                    }
+                    else
+                    {
+                        Vm.PolyAllSelected = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "PolyPrintFieldsCheckChanged method -> in PlayBox.xaml.cs " + YPS.CommonClasses.Settings.userLoginID);
                 service.Handleexception(ex);
             }
         }

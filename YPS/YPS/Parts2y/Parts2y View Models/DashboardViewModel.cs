@@ -235,6 +235,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             Settings.ProjectID = DBresponse.data.ProjectID;
                             Settings.JobID = DBresponse.data.JobID;
                             Settings.EventID = DBresponse.data.EventID;
+                            Settings.PBCompanyID = DBresponse.data.PBCompanyID;
+                            Settings.PBProjectID = DBresponse.data.PBProjectID;
+                            Settings.PBJobID = DBresponse.data.PBJobID;
+                            Settings.PBVersionID = DBresponse.data.PBVersionID;
                         }
                     }
                 }

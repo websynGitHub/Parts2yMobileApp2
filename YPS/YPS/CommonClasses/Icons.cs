@@ -107,5 +107,7 @@
 
         public static readonly string DotMenu = "\u22ee";
         public static readonly string MenuBar = "\uf0c9";
+        //public static readonly string DropDown = "\u25BC";
+        public static readonly string DropDown = "\uf0d7";
     }
 }

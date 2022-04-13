@@ -42,6 +42,11 @@ namespace YPS.Model
         public string yShipColumns { get; set; }
         public string VersionColorCode { get; set; }
         public int EventID { get; set; }
+        public int PBCompanyID { get; set; }
+        public int PBProjectID { get; set; }
+        public int PBJobID { get; set; }
+        public int PBVersionID { get; set; }
+
     }
     public class ResponseFromSaveUDSModel
     {

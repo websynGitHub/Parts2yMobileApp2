@@ -1382,29 +1382,47 @@ namespace YPS.RestClientAPI
         /// Get Scan Config
         /// </summary>
         /// <returns></returns>
-        public async Task<SaveScanConfigResponse> SaveScanConfig(int compareruleid, int scancount,
-            int polyboxruleid, string polyboxlocname, int polyboxremarkid, int polyboxstatusid,
-            string polyboxprintfields)
+        public async Task<SaveScanConfigResponse> SaveScanConfig(int companyid, int projectid, int jobid, int compareruleid, int scancount,
+            int polyboxruleid, string polyboxlocname, int polyboxremarkid, int polyboxstatusid)
         {
             try
             {
                 return await requestProvider.PostAsync<SaveScanConfigResponse>(WebServiceUrl +
                     "User/UpdateScanConfiguration?UserID=" + Settings.userLoginID
-                     + "&CompanyID=" + Settings.CompanyID
-                    + "&ProjectID=" + Settings.ProjectID
-                    + "&JobID=" + Settings.JobID
+                     + "&CompanyID=" + companyid
+                    + "&ProjectID=" + projectid
+                    + "&JobID=" + jobid
                     + "&ScanConfigID=" + compareruleid
                     + "&ScanCount=" + scancount
                     + "&PolyboxRule=" + polyboxruleid
                     + "&PolyboxLocation=" + polyboxlocname
                     + "&PolyboxRemarks=" + polyboxremarkid
-                    + "&PolyboxStatus=" + polyboxstatusid
-                    + "&PolyboxPrintFields=" + polyboxprintfields);
+                    + "&PolyboxStatus=" + polyboxstatusid);
             }
             catch (Exception ex)
             {
                 await service.Handleexception(ex);
                 YPSLogger.ReportException(ex, "GetScanConfig method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+        
+        public async Task<SaveScanConfigResponse> UpdatePrintField(string PageType,string PrintFields)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<SaveScanConfigResponse>(WebServiceUrl +
+                    "User/UpdatePrintFieldsByUser?UserID=" + Settings.userLoginID
+                     + "&CompanyID=" + Settings.CompanyID
+                    + "&ProjectID=" + Settings.ProjectID
+                    + "&JobID=" + Settings.JobID
+                    + "&PageType=" + PageType
+                    + "&PrintFields=" + PrintFields);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "UpdatePrintField method -> in RestClient.cs" + Settings.userLoginID);
                 return null;
             }
         }
@@ -1414,16 +1432,16 @@ namespace YPS.RestClientAPI
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<GetSavedConfigResponse> GetSaveScanConfig()
+        public async Task<GetSavedConfigResponse> GetSaveScanConfig(int companyid, int projectid, int jobid)
         {
             try
             {
                 return await requestProvider.PostAsync<GetSavedConfigResponse>(WebServiceUrl +
                     "User/GetScanConfiguration?UserID=" +
                     Helperclass.Encrypt(Settings.userLoginID.ToString())
-                     + "&CompanyID=" + Settings.CompanyID
-                    + "&ProjectID=" + Settings.ProjectID
-                    + "&JobID=" + Settings.JobID);
+                     + "&CompanyID=" + companyid
+                    + "&ProjectID=" + projectid
+                    + "&JobID=" + jobid);
             }
             catch (Exception ex)
             {
@@ -1684,9 +1702,9 @@ namespace YPS.RestClientAPI
             try
             {
                 return await requestProvider.PostAsync<PolyboxValidateResponse>(WebServiceUrl + "Polybox/GetPolyboxScanDetails?UserID=" + Settings.userLoginID
-                    + "&CompanyID=" + Settings.CompanyID
-                    + "&ProjectID=" + Settings.ProjectID
-                    + "&JobID=" + Settings.JobID);
+                    + "&CompanyID=" + Settings.PBCompanyID
+                    + "&ProjectID=" + Settings.PBProjectID
+                    + "&JobID=" + Settings.PBJobID);
             }
             catch (Exception ex)
             {
@@ -1706,9 +1724,9 @@ namespace YPS.RestClientAPI
             try
             {
                 return await requestProvider.PostAsync<PolyboxValidateResponse>(WebServiceUrl +
-                    "Polybox/ValidatePolyboxScanDetails?CompanyID=" + Settings.CompanyID
-                    + "&ProjectID=" + Settings.ProjectID
-                    + "&JobID=" + Settings.JobID
+                    "Polybox/ValidatePolyboxScanDetails?CompanyID=" + Settings.PBCompanyID
+                    + "&ProjectID=" + Settings.PBProjectID
+                    + "&JobID=" + Settings.PBJobID
                     + "&UserID=" + Settings.userLoginID
                     + "&TagNumber=" + tagnumber);
             }
@@ -1753,9 +1771,9 @@ namespace YPS.RestClientAPI
                 return await requestProvider.PostAsync<PrintPDFModel>(WebServiceUrl
                     + "Polybox/PrintPolybox?UserID=" + Settings.userLoginID
                     + "&TagNumber=" + tagnumber
-                    + "&CompanyID=" + Settings.CompanyID
-                    + "&ProjectID=" + Settings.ProjectID
-                    + "&JobID=" + Settings.JobID);
+                    + "&CompanyID=" + Settings.PBCompanyID
+                    + "&ProjectID=" + Settings.PBProjectID
+                    + "&JobID=" + Settings.PBJobID);
             }
             catch (Exception ex)
             {

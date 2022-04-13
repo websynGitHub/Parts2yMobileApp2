@@ -20,15 +20,16 @@ namespace YPS.ViewModel
     {
         #region IComman and data members declaration
         public ICommand ICommandSetAsDefault { get; set; }
-        public ICommand ICommandProfile { set; get; }
-        public ICommand ICommandSettings { set; get; }
         public ICommand ICommandUpdate { get; set; }
         public ICommand Backevnttapped { set; get; }
+        public ICommand ICommandJobSave { set; get; }
+        public ICommand ICommandPolySave { set; get; }
         public INavigation Navigation { get; set; }
 
         YPSService service;
         SaveUserDefaultSettingsModel SaveUDS;
         bool checkInternet;
+        public bool PrintApiStatus;
         #endregion
 
         /// <summary>
@@ -47,19 +48,19 @@ namespace YPS.ViewModel
                 SaveUDS = new SaveUserDefaultSettingsModel();
 
                 ICommandSetAsDefault = new Command(async () => await SetAsDefaultClick(pagetype));
-                ICommandProfile = new Command(async () => await UpdateProfileClick());
-                ICommandSettings = new Command(async () => await DefaultSettingsClick());
                 ICommandUpdate = new Command(async () => await UpdateClick());
                 Backevnttapped = new Command(async () => await Backevnttapped_click());
+                ICommandJobSave = new Command(async () => await JobSaveClick());
+                ICommandPolySave = new Command(async () => await PolySaveClick());
 
                 profileBgColor = Color.LightBlue;
                 settingsBgColor = Color.FromHex("#269DC9");
-                settingsVisibility = settingbox = true;
-                profileVisibility = profilebox = false;
+                settingsVisibility = true;
+                PolyprintFieldTextColor = JobprintFieldTextColor = Color.Black;
+                PolyprintfieldVisibility = JobprintfieldVisibility = profileVisibility = false;
 
                 Task.Run(() => GetProfileData()).Wait();
                 Task.Run(() => GetDefaultSettingsData()).Wait();
-
                 Task.Run(() => GetSettingsData()).Wait();
             }
             catch (Exception ex)
@@ -68,7 +69,133 @@ namespace YPS.ViewModel
                 YPSLogger.ReportException(ex, "ProfileSelectionViewModel constructor -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
             }
         }
+        
+        private async Task PolySaveClick()
+        {
+            try
+            {
+                bool result = await App.Current.MainPage.DisplayAlert("Save Polybox Print Fields", "Are you sure?", "Yes", "No");
 
+                if (result)
+                {
+                    if (PolyPrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() != null)
+                    {
+                        var checkInternet = await App.CheckInterNetConnection();
+
+                        if (checkInternet)
+                        {
+                            var checkedJobPrintFields = PolyPrintFields?.Where(wr => wr.Status == 1).Select(c => c.Name).ToList();
+
+                            var commafields = string.Join(",", checkedJobPrintFields);
+
+                            var data = await service.UpdatePrintField("PolyboxPrint", commafields);
+
+                            if (data?.status == 1)
+                            {
+                                PolyPrintFieldBorderColor = Color.Transparent;
+                                Navigation.PopAsync(false);
+                            }
+                        }
+                        else
+                        {
+                            await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        }
+                    }
+                    else
+                    {
+                        PolyPrintFieldBorderColor = (PolyPrintFields == null
+                            || PolyPrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() == null) ?
+                            Color.Red : Color.Transparent;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "PolySaveClick constructor -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
+            }
+        }
+      
+        private async Task JobSaveClick()
+        {
+            try
+            {
+                bool result = await App.Current.MainPage.DisplayAlert("Save Print Fields", "Are you sure?", "Yes", "No");
+
+                if (result)
+                {
+                    if (JobPrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() != null)
+                    {
+                        var checkInternet = await App.CheckInterNetConnection();
+
+                        if (checkInternet)
+                        {
+                            var checkedJobPrintFields = JobPrintFields?.Where(wr => wr.Status == 1).Select(c => c.Name).ToList();
+
+                            var commafields = string.Join(",", checkedJobPrintFields);
+
+                            var data = await service.UpdatePrintField("JobPrint", commafields);
+
+                            if (data?.status == 1)
+                            {
+                                JobPrintFieldBorderColor = Color.Transparent;
+                                Navigation.PopToRootAsync(false);
+                            }
+                        }
+                        else
+                        {
+                            await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        }
+                    }
+                    else
+                    {
+                        JobPrintFieldBorderColor = (JobPrintFields == null
+                            || JobPrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() == null) ?
+                            Color.Red : Color.Transparent;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "JobSaveClick constructor -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
+            }
+        }
+
+        public async void GetPrintFieldData()
+        {
+            try
+            {
+                var resultData = await service.GetScanConfig();
+
+                if (resultData?.data != null)
+                {
+                    JobPrintFields = resultData.data?.PrintFields_JobPart;
+                    IsAllSelected = JobPrintFields?.All(a => a.Status == 1) == true ? true : false;
+                    PrintApiStatus = resultData.status == 1 ? true : false;
+                    if (JobPrintFields?.Count > 0)
+                    {
+                        JobPrintFields.ForEach(fr => fr.LblText
+                        = verfieldsforID?.Where(wr => wr.FieldID == fr.Name).Select(c => c.LblText).FirstOrDefault());
+                    }
+
+                    PolyPrintFields = resultData.data?.PrintFields_Polybox;
+                    PolyAllSelected = PolyPrintFields?.All(a => a.Status == 1) == true ? true : false;
+                    PrintApiStatus = resultData.status == 1 ? true : false;
+                    if (PolyPrintFields?.Count > 0)
+                    {
+                        var polyfields = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.PBVersionID && wr.LanguageID == Settings.LanguageID).ToList();
+                        PolyPrintFields.ForEach(fr => fr.LblText
+                        = polyfields?.Where(wr => wr.FieldID == fr.Name).Select(c => c.LblText).FirstOrDefault());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "GetPrintFieldData method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
 
         public async Task Backevnttapped_click()
         {
@@ -122,7 +249,7 @@ namespace YPS.ViewModel
                             // Getting all Label values based on the language Id and version Id from the settings page. 
                             if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
                             {
-                                var verfieldsforID = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+                                verfieldsforID = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
 
                                 if (verfieldsforID != null && verfieldsforID.Count > 0)
                                 {
@@ -139,6 +266,7 @@ namespace YPS.ViewModel
                                     string timeZone = verfieldsforID.Where(wr => wr.FieldID == Settings.TimeZonelabel1).Select(s => s.LblText).FirstOrDefault();
                                     string language = verfieldsforID.Where(wr => wr.FieldID == Settings.Languagelabel1).Select(s => s.LblText).FirstOrDefault();
                                     string update = verfieldsforID.Where(wr => wr.FieldID == Settings.UpdateBtn1).Select(s => s.LblText).FirstOrDefault();
+                                    string save = verfieldsforID.Where(wr => wr.FieldID == Settings.SaveBtn).Select(s => s.LblText).FirstOrDefault();
                                     //var supplierstatus = verfieldsforID.Where(wr => wr.FieldID == Settings.supplierlabel1).FirstOrDefault();
                                     var loginid = verfieldsforID.Where(wr => wr.FieldID == LoginLbl).Select(s => s.LblText).FirstOrDefault();
                                     //suppliestatus = supplierstatus.Status;
@@ -155,7 +283,13 @@ namespace YPS.ViewModel
                                     TimeZoneLbl = !string.IsNullOrEmpty(timeZone) ? timeZone + " *" : "Time Zone" + " *";
                                     LangaugeLbl = !string.IsNullOrEmpty(language) ? language + " *" : "Language" + " *";
                                     UpdateBtn = !string.IsNullOrEmpty(update) ? update : "Update";
+                                    SaveBtn = !string.IsNullOrEmpty(save) ? save : "Save";
                                     LoginLbl = !string.IsNullOrEmpty(loginid) ? loginid + " *" : "Login ID" + " *";
+                                    if (JobPrintFields?.Count > 0)
+                                    {
+                                        JobPrintFields.ForEach(fr => fr.LblText
+                                        = verfieldsforID.Where(wr => wr.FieldID == fr.Name).Select(c => c.LblText).FirstOrDefault());
+                                    }
                                 }
                             }
 
@@ -321,45 +455,8 @@ namespace YPS.ViewModel
         }
         #endregion
 
-        /// <summary>
-        /// Gets called when clicking on "Default Setting" button.
-        /// </summary>
-        /// <returns></returns>
-        private async Task DefaultSettingsClick()
-        {
-            try
-            {
-                settingsTextColor = Settings.Bar_Background;
-                profileTextColor = Color.Black;
-                settingsVisibility = settingbox = true;
-                profileVisibility = profilebox = false;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "DefaultSettingsClick method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
+        
 
-        /// <summary>
-        /// Gets called when clicked on "Update Profile" button.
-        /// </summary>
-        /// <returns></returns>
-        private async Task UpdateProfileClick()
-        {
-            try
-            {
-                settingsTextColor = Color.Black;
-                profileTextColor = Settings.Bar_Background;
-                settingsVisibility = settingbox = false;
-                profileVisibility = profilebox = true;
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "UpdateProfileClick method -> in ProfileSelectionViewModel.cs " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
 
         #region Methods related to Update Profile
         /// <summary>
@@ -588,6 +685,76 @@ namespace YPS.ViewModel
 
         #region Properties
 
+        private List<Alllabeslvalues> verfieldsforID { get; set; }
+
+        private List<CompareModel> _JobPrintFields { get; set; }
+        public List<CompareModel> JobPrintFields
+        {
+            get => _JobPrintFields;
+            set
+            {
+                _JobPrintFields = value;
+                NotifyPropertyChanged("JobPrintFields");
+            }
+        }
+        
+        private List<CompareModel> _PolyPrintFields { get; set; }
+        public List<CompareModel> PolyPrintFields
+        {
+            get => _PolyPrintFields;
+            set
+            {
+                _PolyPrintFields = value;
+                NotifyPropertyChanged("PolyPrintFields");
+            }
+        }
+
+
+
+        private Color _JobPrintFieldBorderColor = Color.Transparent;
+        public Color JobPrintFieldBorderColor
+        {
+            get => _JobPrintFieldBorderColor;
+            set
+            {
+                _JobPrintFieldBorderColor = value;
+                NotifyPropertyChanged("JobPrintFieldBorderColor");
+            }
+        }
+
+         private Color _PolyPrintFieldBorderColor = Color.Transparent;
+        public Color PolyPrintFieldBorderColor
+        {
+            get => _PolyPrintFieldBorderColor;
+            set
+            {
+                _PolyPrintFieldBorderColor = value;
+                NotifyPropertyChanged("PolyPrintFieldBorderColor");
+            }
+        }
+
+        private bool _IsAllSelected;
+        public bool IsAllSelected
+        {
+            get => _IsAllSelected;
+            set
+            {
+                _IsAllSelected = value;
+                NotifyPropertyChanged("IsAllSelected");
+            }
+        }
+        
+        private bool _PolyAllSelected;
+        public bool PolyAllSelected
+        {
+            get => _PolyAllSelected;
+            set
+            {
+                _PolyAllSelected = value;
+                NotifyPropertyChanged("PolyAllSelected");
+            }
+        }
+
         private Color _SetAsDefaultTextColor = Color.LightBlue;
         public Color SetAsDefaultTextColor
         {
@@ -752,6 +919,27 @@ namespace YPS.ViewModel
                 RaisePropertyChanged("settingsTextColor");
             }
         }
+        
+        private Color _JobprintFieldTextColor = Settings.Bar_Background;
+        public Color JobprintFieldTextColor
+        {
+            get { return _JobprintFieldTextColor; }
+            set
+            {
+                _JobprintFieldTextColor = value;
+                RaisePropertyChanged("JobprintFieldTextColor");
+            }
+        }
+        private Color _PolyprintFieldTextColor = Settings.Bar_Background;
+        public Color PolyprintFieldTextColor
+        {
+            get { return _PolyprintFieldTextColor; }
+            set
+            {
+                _PolyprintFieldTextColor = value;
+                RaisePropertyChanged("PolyprintFieldTextColor");
+            }
+        }
 
         bool _profileVisibility = true;
         public bool profileVisibility
@@ -760,6 +948,28 @@ namespace YPS.ViewModel
             set
             {
                 _profileVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+        
+        bool _JobprintfieldVisibility = true;
+        public bool JobprintfieldVisibility
+        {
+            get { return _JobprintfieldVisibility; }
+            set
+            {
+                _JobprintfieldVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+        
+        bool _PolyprintfieldVisibility = true;
+        public bool PolyprintfieldVisibility
+        {
+            get { return _PolyprintfieldVisibility; }
+            set
+            {
+                _PolyprintfieldVisibility = value;
                 NotifyPropertyChanged();
             }
         }
@@ -1008,6 +1218,19 @@ namespace YPS.ViewModel
                 NotifyPropertyChanged();
             }
         }
+        
+        private string _SaveBtn = "Save";
+        public string SaveBtn
+        {
+            get { return _SaveBtn; }
+            set
+            {
+                _SaveBtn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         private ObservableCollection<string> _ListOfLanguageName;
         public ObservableCollection<string> ListOfLanguageName
         {
@@ -1039,26 +1262,6 @@ namespace YPS.ViewModel
             }
         }
 
-        private bool _settingbox = true;
-        public bool settingbox
-        {
-            get { return _settingbox; }
-            set
-            {
-                _settingbox = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private bool _profilebox = false;
-        public bool profilebox
-        {
-            get { return _profilebox; }
-            set
-            {
-                _profilebox = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private bool _loginIDHaserror = false;
         public bool loginIDHaserror

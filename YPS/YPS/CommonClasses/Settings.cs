@@ -85,6 +85,11 @@ namespace YPS.CommonClasses
         //public static int SupplierID { get; set; }
         public static int FilterParentID { get; set; }
 
+        public static int PBCompanyID { get; set; }
+        public static int PBProjectID { get; set; }
+        public static int PBJobID { get; set; }
+        public static int PBVersionID { get; set; }
+
         #endregion
         public static int qaListPageCount { set; get; } = 0;
         public static int photoUploadPageCount { set; get; } = 0;
@@ -307,6 +312,7 @@ namespace YPS.CommonClasses
         public static string TimeZonelabel1 { set; get; } = "TimeZone";
         public static string Languagelabel1 { set; get; } = "Language";
         public static string UpdateBtn1 { set; get; } = "Update";
+        public static string SaveBtn { set; get; } = "Save";
 
         public static List<Alllabeslvalues> alllabeslvalues { set; get; }
         public static List<ActionsForUserData> AllActionStatus { set; get; }

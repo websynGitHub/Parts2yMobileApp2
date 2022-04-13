@@ -38,6 +38,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand ScanConfigCmd { get; set; }
         public ICommand SaveClickCmd { get; set; }
         public ICommand PrintPolyboxCmd { get; set; }
+        public ICommand GoToSettingsCmd { get; set; }
 
         public PolyBoxViewModel(INavigation _Navigation, PolyBox polyboxpage, bool reset)
         {
@@ -55,6 +56,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 ScanConfigCmd = new Command(async () => await TabChange("config"));
                 SaveClickCmd = new Command(async () => await SaveConfig());
                 PrintPolyboxCmd = new Command(async () => await PrintPolybox());
+                GoToSettingsCmd = new Command(async () =>
+                {
+                    loadindicator = true;
+                    await Navigation.PushAsync(new ProfileSelectionPage("PolyboxPrintSettings"));
+                    TabChange("scan");
+                    loadindicator = false;
+                });
 
                 Task.Run(() => GetSavedDatasFromDB()).Wait();
                 ChangeLabel();
@@ -74,7 +82,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
 
-                var result = await trackService.GetSaveScanConfig();
+                var result = await trackService.GetSaveScanConfig(Settings.CompanyID, Settings.ProjectID, Settings.JobID);
 
                 if (result?.status == 1 && result?.data != null)
                 {
@@ -120,14 +128,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         ScanIsFull = IsFull = true;
                     }
-
-                    IsAllSelected = ScanConfigResult?.data?.PrintFields?.All(a => a.Status == 1) == true ? true : false;
                 }
 
                 if (ConfigSelectedRule?.ID != 0 && !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) &&
-                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0
-                && ScanConfigResult.data.PrintFields.Where(wr => wr.Status == 1)
-                .FirstOrDefault() != null)
+                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
                 {
                     IsScanEnable = true;
                     ScanOpacity = 1;
@@ -241,26 +245,18 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (result)
                 {
                     if (ConfigSelectedRule?.ID != 0 && !string.IsNullOrEmpty(ConfigSelectedFromLoc?.Name) &&
-                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0
-                && ScanConfigResult?.data?.PrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() != null)
+                ConfigSelectedEventRemark?.ID != 0 && ConfigSelectedSataus != 0)
                     {
                         var checkInternet = await App.CheckInterNetConnection();
 
                         if (checkInternet)
                         {
-                            var checkedprintfields = ScanConfigResult?.data?.PrintFields?.Where(wr => wr.Status == 1).
-                                Select(c => c.Name).ToList();
 
-                            var commafields = string.Join(",", checkedprintfields);
-
-                            var data = await trackService.SaveScanConfig(0, 0, ConfigSelectedRule.ID,
-                                ConfigSelectedFromLoc.Name, ConfigSelectedEventRemark.ID, ConfigSelectedSataus,
-                                commafields);
+                            var data = await trackService.SaveScanConfig(Settings.CompanyID, Settings.ProjectID, Settings.JobID, 0, 0, ConfigSelectedRule.ID,
+                                ConfigSelectedFromLoc.Name, ConfigSelectedEventRemark.ID, ConfigSelectedSataus);
 
                             if (data?.status == 1)
                             {
-                                PrintFieldBorderColor = Color.Transparent;
-
                                 SelectedScanRuleHeader = ConfigSelectedRule.Name;
                                 ScanSelectedFromLoc = ConfigSelectedFromLoc;
                                 ScanSelectedEventRemark = ConfigSelectedEventRemark;
@@ -294,9 +290,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             ConfigSelectedEventRemark?.ID == 0) ? true : false;
                         IsStatusError = (ConfigSelectedSataus == null
                             || ConfigSelectedSataus == 0) ? true : false;
-                        PrintFieldBorderColor = (ScanConfigResult?.data?.PrintFields == null
-                            || ScanConfigResult?.data?.PrintFields?.Where(wr => wr.Status == 1).FirstOrDefault() == null) ?
-                            Color.Red : Color.Transparent;
                     }
                 }
             }
@@ -505,9 +498,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 PolyBoxModel savepolyboxscan = new PolyBoxModel();
 
-                savepolyboxscan.CompanyID = Settings.CompanyID;
-                savepolyboxscan.ProjectID = Settings.ProjectID;
-                savepolyboxscan.JobID = Settings.JobID;
+                savepolyboxscan.CompanyID = Settings.PBCompanyID;
+                savepolyboxscan.ProjectID = Settings.PBProjectID;
+                savepolyboxscan.JobID = Settings.PBJobID;
                 savepolyboxscan.CargoCategory1 = CargoCategory;
                 savepolyboxscan.BagNumber = BagNumber;
                 savepolyboxscan.TQB_PkgSizeNo_L1 = TQBPkgSizeNoL1;
@@ -537,7 +530,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     }
                     else if (savefrom.Trim().ToLower() == "done".Trim().ToLower())
                     {
-                        IsVerifiedDataVisible = IsNoRecordsVisible = false;
+                        IsPrintEnabled = IsVerifiedDataVisible = IsNoRecordsVisible = false;
                         ScannedBy = ScannedDateTime = "";
                     }
                 }
@@ -667,7 +660,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                 if (Settings.alllabeslvalues != null && Settings.alllabeslvalues.Count > 0)
                 {
-                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.VersionID && wr.LanguageID == Settings.LanguageID).ToList();
+                    List<Alllabeslvalues> labelval = Settings.alllabeslvalues.Where(wr => wr.VersionID == Settings.PBVersionID && wr.LanguageID == Settings.LanguageID).ToList();
 
                     if (labelval.Count > 0)
                     {
@@ -717,12 +710,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Status.Name = (status != null ? (!string.IsNullOrEmpty(status.LblText) ? status.LblText : labelobj.Status.Name) : labelobj.Status.Name) + " : ";
                         labelobj.Location.Name = location != null ? (!string.IsNullOrEmpty(location.LblText) ? location.LblText : labelobj.Location.Name) : labelobj.Location.Name;
                         labelobj.Remark.Name = remarks != null ? (!string.IsNullOrEmpty(remarks.LblText) ? remarks.LblText : labelobj.Remark.Name) : labelobj.Remark.Name;
-
-                        if (ScanConfigResult?.data?.PrintFields?.Count > 0)
-                        {
-                            ScanConfigResult.data.PrintFields.ForEach(fr => fr.LblText
-                            = labelval.Where(wr => wr.FieldID == fr.Name).Select(c => c.LblText).FirstOrDefault());
-                        }
                     }
                 }
             }
@@ -807,18 +794,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             }
         }
         #endregion
-
-        private bool _IsAllSelected;
-        public bool IsAllSelected
-        {
-            get => _IsAllSelected;
-            set
-            {
-                _IsAllSelected = value;
-                RaisePropertyChanged("IsAllSelected");
-            }
-        }
-
+                
         private bool _IsPrintEnabled;
         public bool IsPrintEnabled
         {
@@ -842,16 +818,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
 
         private Color _PrintFieldBorderColor = Color.Transparent;
-        public Color PrintFieldBorderColor
-        {
-            get => _PrintFieldBorderColor;
-            set
-            {
-                _PrintFieldBorderColor = value;
-                NotifyPropertyChanged("PrintFieldBorderColor");
-            }
-        }
-
+       
         private string _ScanRemarkDesc;
         public string ScanRemarkDesc
         {
