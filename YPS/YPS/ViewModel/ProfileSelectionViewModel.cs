@@ -62,6 +62,10 @@ namespace YPS.ViewModel
                 Task.Run(() => GetProfileData()).Wait();
                 Task.Run(() => GetDefaultSettingsData()).Wait();
                 Task.Run(() => GetSettingsData()).Wait();
+
+                Settings.OldCompanyID = Settings.CompanyID;
+                Settings.OldProjectID = Settings.ProjectID;
+                Settings.OldJobID = Settings.JobID;
             }
             catch (Exception ex)
             {
@@ -409,7 +413,7 @@ namespace YPS.ViewModel
 
                             SaveUDS.CompanyID = Settings.CompanyID = allCompanyValues.ID;
                             SaveUDS.ProjectID = Settings.ProjectID = allProjectValues.ID;
-                            SaveUDS.JobID = Settings.JobID = allJobValues.ID;
+                            SaveUDS.JobID =     Settings.JobID = allJobValues.ID;
                             SaveUDS.UserID = Settings.userLoginID;
                             // Calling API to save and upadate default settings data.
                             var DBresponse = await service.SaveUserDefaultSettings(SaveUDS);

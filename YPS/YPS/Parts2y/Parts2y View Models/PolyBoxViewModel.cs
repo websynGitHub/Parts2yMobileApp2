@@ -60,7 +60,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 {
                     loadindicator = true;
                     await Navigation.PushAsync(new ProfileSelectionPage("PolyboxPrintSettings"));
-                    TabChange("scan");
                     loadindicator = false;
                 });
 

@@ -223,12 +223,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             JobName = Settings.JobSelected = DBresponse.data.JobNumber;
 
 
-                            if (Settings.CompanyID != DBresponse.data.CompanyID ||
-                                Settings.ProjectID != DBresponse.data.ProjectID
-                                || Settings.JobID != DBresponse.data.JobID)
+                            //if (Settings.CompanyID != DBresponse.data.CompanyID ||
+                            //    Settings.ProjectID != DBresponse.data.ProjectID
+                            //    || Settings.JobID != DBresponse.data.JobID)
+                                
+                                if (Settings.OldCompanyID != DBresponse.data.CompanyID ||
+                                Settings.OldProjectID != DBresponse.data.ProjectID
+                                || Settings.OldJobID != DBresponse.data.JobID)
                             {
                                 GetActionStatus();
                                 await GetallApplabels();
+                                ChangeLabel();
                             }
 
                             Settings.CompanyID = DBresponse.data.CompanyID;
