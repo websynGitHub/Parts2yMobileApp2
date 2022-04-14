@@ -436,7 +436,7 @@
 
                                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
                                                          >
-                                                        <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
+                                                        <Frame Padding="3,2,3,2" Margin="0,5,2,8" CornerRadius="2"
                                                         IsVisible="{Binding IsFilesVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="file"
@@ -455,7 +455,7 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
+                                                        <Frame Padding="3,2,3,2" Margin="0,5,2,8" CornerRadius="2"
                                                        IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="photoBU" Text="{x:Static local1:Icons.CameraIc}" 
@@ -476,7 +476,7 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
+                                                        <Frame Padding="3,2,3,2" Margin="0,5,2,8" CornerRadius="2" 
                                                         IsVisible="{Binding IsPhotosVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="photoAU" Text="{x:Static local1:Icons.CameraIc}" 
@@ -496,7 +496,7 @@
                                                             </Frame.GestureRecognizers>
                                                         </Frame>
 
-                                                        <Frame Padding="3,2,3,2" Margin="0,5,10,8" CornerRadius="2" 
+                                                        <Frame Padding="3,2,3,2" Margin="0,5,2,8" CornerRadius="2" 
                                                         IsVisible="{Binding IsChatsVisible}" HasShadow="False">
                                                             <StackLayout Orientation="Horizontal">
                                                                 <local:FontAwesomeIconLabel x:Name="chat" Text="{x:Static local1:Icons.ChatIc}" 
