@@ -529,7 +529,7 @@
                          IsVisible="{Binding IsEventPopVisible}">
                 <Frame  HorizontalOptions="Start" VerticalOptions="Start" 
                         BorderColor="{Binding BgColor}" Margin="90,190,5,0" 
-                        Padding="2" CornerRadius="8" BackgroundColor="White" WidthRequest="200">
+                        Padding="2" CornerRadius="8" BackgroundColor="White" WidthRequest="220">
                     <StackLayout BindableLayout.ItemsSource="{Binding EventsList}"
                                  BackgroundColor="Transparent" Margin="2,5,2,5"  Spacing="0.5">
                             <BindableLayout.ItemTemplate>
