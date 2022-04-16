@@ -240,13 +240,13 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 if (IsQuickTabVisible == true)
                 {
                     await GetConfigurationResults(16);
-                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 7).ToList());
+                    QuickSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 16).ToList());
                 }
 
                 if (IsFullTabVisible == true)
                 {
                     await GetConfigurationResults(17);
-                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 8).ToList());
+                    FullSignQuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionListCategory?.Where(wr => wr.CategoryID == 17).ToList());
                 }
 
                 IsSignQuestionListVisible = true;
