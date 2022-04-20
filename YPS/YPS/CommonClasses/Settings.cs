@@ -361,7 +361,7 @@ namespace YPS.CommonClasses
 
         #endregion
 
-        public static string scanredirectpage { get; set; }
+        public static string scanredirectpage { get; set; } = "";
         public static string scanQRValuecode { get; set; } = "";
     }
 

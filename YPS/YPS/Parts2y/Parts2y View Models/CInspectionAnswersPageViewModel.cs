@@ -308,6 +308,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             var bagnumber = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.BagNumber.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var quick = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Quick.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                             var full = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.Full.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                            var taskanme = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.TaskName.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                             labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
                             labelobj.TagNumber.Status = tagnumber?.Status == 1 || tagnumber?.Status == 2 ? true : false;
@@ -321,6 +322,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             labelobj.BagNumber.Status = bagnumber?.Status == 1 || bagnumber?.Status == 2 ? true : false;
                             labelobj.Quick.Name = quick != null ? (!string.IsNullOrEmpty(quick.LblText) ? quick.LblText : labelobj.Quick.Name) : labelobj.Quick.Name;
                             labelobj.Full.Name = full != null ? (!string.IsNullOrEmpty(full.LblText) ? full.LblText : labelobj.Full.Name) : labelobj.Full.Name;
+                            labelobj.TaskName.Name = (taskanme != null ? (!string.IsNullOrEmpty(taskanme.LblText) ? taskanme.LblText : labelobj.TaskName.Name) : labelobj.TaskName.Name) + " :";
+                            labelobj.TaskName.Status = taskanme == null ? true : (taskanme.Status == 1 || taskanme.Status == 2 ? true : false); 
                             IsResourcecVisible = false;
 
                             IsQuickTabVisible = VINQueVm.IsQuickTabVisible;

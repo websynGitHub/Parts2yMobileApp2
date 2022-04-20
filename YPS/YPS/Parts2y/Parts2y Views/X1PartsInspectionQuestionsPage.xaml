@@ -110,7 +110,7 @@
                                     <Label Text="{Binding ConditionName}" TextColor="#FFFFFF"
                                                                    IsVisible="{Binding IsConditionNameLabelVisible}"
                                                            HorizontalTextAlignment="Start" Style="{DynamicResource LableWithQuestionFont}"/>
-                                </StackLayout>
+                                </StackLayout>-->
 
                                 <Grid RowSpacing="0" VerticalOptions="CenterAndExpand"  IsVisible="{Binding labelobj.TaskName.Status}" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
@@ -118,7 +118,7 @@
                                           Style="{DynamicResource LableWithQuestionFont}"/>
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding TaskName}" TextColor="#FFFFFF" 
                                           Style="{DynamicResource LableWithQuestionFont}"/>
-                                </Grid>-->
+                                </Grid>
 
                                 <!--<Grid RowSpacing="0" VerticalOptions="CenterAndExpand" 
                           HorizontalOptions="FillAndExpand" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
