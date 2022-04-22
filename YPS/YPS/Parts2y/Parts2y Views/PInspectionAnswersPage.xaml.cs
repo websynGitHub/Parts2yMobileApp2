@@ -133,7 +133,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                var rb = (RadioButton)sender;
+                var rb = (Plugin.InputKit.Shared.Controls.RadioButton)sender;
                 if (rb.ClassId == "0")
                 {
                     Vm.PlaneTrue = true;
@@ -156,7 +156,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                var rb = (RadioButton)sender;
+                var rb = (Plugin.InputKit.Shared.Controls.RadioButton)sender;
                 if (rb.ClassId == "0")
                 {
                     Vm.RearRightTrue = true;
@@ -179,7 +179,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                var rb = (RadioButton)sender;
+                var rb = (Plugin.InputKit.Shared.Controls.RadioButton)sender;
                 if (rb.ClassId == "0")
                 {
                     Vm.RearLeftTrue = true;
@@ -202,7 +202,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                var rb = (RadioButton)sender;
+                var rb = (Plugin.InputKit.Shared.Controls.RadioButton)sender;
                 if (rb.ClassId == "0")
                 {
                     Vm.FrontRightTrue = true;
@@ -226,7 +226,7 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             try
             {
-                var rb = (RadioButton)sender;
+                var rb = (Plugin.InputKit.Shared.Controls.RadioButton)sender;
                 if (rb.ClassId == "0")
                 {
                     Vm.FrontLeftTrue = true;
