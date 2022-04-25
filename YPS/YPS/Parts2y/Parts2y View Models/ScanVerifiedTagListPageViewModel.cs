@@ -101,7 +101,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         //values.IsTaskResourceVisible = values.TaskResourceID == 0 ? false : true;
                         values.IsTagDescLabelVisible = string.IsNullOrEmpty(values.IDENT_DEVIATED_TAG_DESC) ? false : true;
                         values.IsConditionNameLabelVisible = string.IsNullOrEmpty(values.ConditionName) ? false : true;
-                        values.PhotoInspText = values.TaskResourceID == 0 ? labelobj.Assign.Name + " & " + labelobj.InspOrPhoto.Name : labelobj.InspOrPhoto.Name;
+                        values.PhotoInspText = values.TaskResourceID == 0 ? labelobj.Assign.Name + " & " + labelobj.InspLabel.Name : labelobj.InspLabel.Name;
+                        //values.PhotoInspText = values.TaskResourceID == 0 ? labelobj.Assign.Name + " & " + labelobj.InspOrPhoto.Name : labelobj.InspOrPhoto.Name;
                         //values.PhotoInspText = values.TaskResourceID == 0 ? "Assign & " + inspphoto : inspphoto;
                         values.PhotoInspLabelOpacity = values.IsPhotoRequired == 0 ? 0.4 : 1.0;
 
@@ -173,6 +174,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 Settings.POID = podata.POID;
                                 Settings.TaskID = podata.TaskID;
 
+
+
                                 Device.BeginInvokeOnMainThread(async () =>
                                 {
                                     IndicatorVisibility = true;
@@ -181,79 +184,145 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             }
                             else
                             {
-                                #region PhotoUpload
-                                if (podata.IsPhotoRequired == 0)
+                                Settings.POID = podata.POID;
+                                Settings.TaskID = podata.TaskID;
+                                if (Settings.VersionID == 1)
                                 {
-                                    await App.Current.MainPage.DisplayAlert("Upload", "Photos not required to upload for the selected " + VinsOrParts + ".", "Ok");
-                                    //DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
+                                    await Navigation.PushAsync(new EPartsInspectionQuestionsPage(podata, isalldone), false);
                                 }
-                                else
+                                else if (Settings.VersionID == 2)
                                 {
-                                    PhotoUploadModel selectedTagsData = new PhotoUploadModel();
-                                    Settings.POID = podata.POID;
-                                    Settings.TaskID = podata.TaskID;
-                                    selectedTagsData.POID = podata.POID;
-                                    selectedTagsData.isCompleted = podata.photoTickVisible;
-
-                                    List<PhotoTag> lstdat = new List<PhotoTag>();
-
-                                    if (podata.TagAPhotoCount == 0 && podata.TagBPhotoCount == 0 && podata.PUID == 0)
-                                    {
-                                        PhotoTag tg = new PhotoTag();
-
-                                        if (podata.POTagID != 0)
-                                        {
-                                            tg.POTagID = podata.POTagID;
-                                            tg.TagNumber = podata.TagNumber;
-                                            tg.TaskID = podata.TaskID;
-                                            tg.TaskStatus = podata.TaskStatus;
-                                            tg.TagTaskStatus = podata.TagTaskStatus;
-                                            Settings.Tagnumbers = podata.TagNumber;
-                                            lstdat.Add(tg);
-
-                                            selectedTagsData.photoTags = lstdat;
-                                            Settings.currentPoTagId_Inti = lstdat;
-
-
-                                            if (selectedTagsData.photoTags.Count != 0)
-                                            {
-                                                Device.BeginInvokeOnMainThread(async () =>
-                                                {
-                                                    IndicatorVisibility = true;
-                                                    await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false), false);
-                                                });
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        selectedTagsData.alreadyExit = "alreadyExit";
-
-                                        if (podata.imgCamOpacityB != 0.5)
-                                        {
-                                            try
-                                            {
-                                                Settings.POID = podata.POID;
-                                                Settings.TaskID = podata.TaskID;
-                                                Settings.currentPuId = podata.PUID;
-                                                Settings.BphotoCount = podata.TagBPhotoCount;
-
-                                                Device.BeginInvokeOnMainThread(async () =>
-                                                {
-                                                    IndicatorVisibility = true;
-                                                    await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible, isalldone, false), false);
-                                                });
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
-                                                await service.Handleexception(ex);
-                                            }
-                                        }
-                                    }
+                                    await Navigation.PushAsync(new CVinInspectQuestionsPage(podata, isalldone), false);
                                 }
-                                #endregion PhotoUpload
+                                else if (Settings.VersionID == 3)
+                                {
+                                    await Navigation.PushAsync(new X1PartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 4)
+                                {
+                                    await Navigation.PushAsync(new KPPartsInspectionQuestionPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 5)
+                                {
+                                    await Navigation.PushAsync(new PPartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 6)
+                                {
+                                    await Navigation.PushAsync(new X2PartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 7)
+                                {
+                                    await Navigation.PushAsync(new X3PartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 8)
+                                {
+                                    await Navigation.PushAsync(new X4PartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 9)
+                                {
+                                    await Navigation.PushAsync(new Z1PartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 10)
+                                {
+                                    await Navigation.PushAsync(new Z2PartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
+                                else if (Settings.VersionID == 11)
+                                {
+                                    await Navigation.PushAsync(new Z3PartsInspectionQuestionsPage(podata, isalldone), false);
+                                }
                             }
+
+                            #region 22-Aprl-2022 Client modifications
+                            //else
+                            //{
+                            // #region PhotoUpload
+                            // if (podata.IsPhotoRequired == 0)
+                            // {
+                            // await App.Current.MainPage.DisplayAlert("Upload", "Photos not required to upload for the selected " + VinsOrParts + ".", "Ok");
+                            // //DependencyService.Get<IToastMessage>().ShortAlert("Photos not required to upload for the selected " + VinsOrParts + ".");
+                            // }
+                            // else
+                            // {
+                            // PhotoUploadModel selectedTagsData = new PhotoUploadModel();
+                            // Settings.POID = podata.POID;
+                            // Settings.TaskID = podata.TaskID;
+                            // selectedTagsData.POID = podata.POID;
+                            // selectedTagsData.isCompleted = podata.photoTickVisible;
+
+
+
+                            // List<PhotoTag> lstdat = new List<PhotoTag>();
+
+
+
+                            // if (podata.TagAPhotoCount == 0 && podata.TagBPhotoCount == 0 && podata.PUID == 0)
+                            // {
+                            // PhotoTag tg = new PhotoTag();
+
+
+
+                            // if (podata.POTagID != 0)
+                            // {
+                            // tg.POTagID = podata.POTagID;
+                            // tg.TagNumber = podata.TagNumber;
+                            // tg.TaskID = podata.TaskID;
+                            // tg.TaskStatus = podata.TaskStatus;
+                            // tg.TagTaskStatus = podata.TagTaskStatus;
+                            // Settings.Tagnumbers = podata.TagNumber;
+                            // lstdat.Add(tg);
+
+
+
+                            // selectedTagsData.photoTags = lstdat;
+                            // Settings.currentPoTagId_Inti = lstdat;
+
+
+
+
+                            // if (selectedTagsData.photoTags.Count != 0)
+                            // {
+                            // Device.BeginInvokeOnMainThread(async () =>
+                            // {
+                            // IndicatorVisibility = true;
+                            // await Navigation.PushAsync(new PhotoUpload(selectedTagsData, podata, "initialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, false, isalldone, false), false);
+                            // });
+                            // }
+                            // }
+                            // }
+                            // else
+                            // {
+                            // selectedTagsData.alreadyExit = "alreadyExit";
+
+
+
+                            // if (podata.imgCamOpacityB != 0.5)
+                            // {
+                            // try
+                            // {
+                            // Settings.POID = podata.POID;
+                            // Settings.TaskID = podata.TaskID;
+                            // Settings.currentPuId = podata.PUID;
+                            // Settings.BphotoCount = podata.TagBPhotoCount;
+
+
+
+                            // Device.BeginInvokeOnMainThread(async () =>
+                            // {
+                            // IndicatorVisibility = true;
+                            // await Navigation.PushAsync(new PhotoUpload(null, podata, "NotInitialPhoto", (int)UploadTypeEnums.GoodsPhotos_BP, podata.photoTickVisible, isalldone, false), false);
+                            // });
+                            // }
+                            // catch (Exception ex)
+                            // {
+                            // YPSLogger.ReportException(ex, "tap_eachCamB method -> in POChildListPageViewModel " + Settings.userLoginID);
+                            // await service.Handleexception(ex);
+                            // }
+                            // }
+                            // }
+                            // }
+                            // #endregion PhotoUpload
+                            //}
+                            #endregion
                         }
 
                     });
@@ -287,7 +356,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
                     if (val?.status == 1)
                     {
-                        podata.PhotoInspText = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
+                        //podata.PhotoInspText = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
+                        podata.PhotoInspText = labelobj.InspLabel.Name;
                         podata.JobTileColor = Color.White;
                         podata.TaskName = val.data;
                         podata.TaskResourceID = Settings.userLoginID;
@@ -342,7 +412,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var insporphoto = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InspOrPhoto.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var fromlocation = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.FromLocation.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var tolocation = labelval.Where(wr => wr.FieldID.Trim().ToLower().Replace(" ", string.Empty) == labelobj.ToLocation.Name.Trim().ToLower().Replace(" ", string.Empty)).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
-
+                        var insplabel = labelval.Where(wr => wr.FieldID.Trim().ToLower() == labelobj.InspLabel.Name.Trim().ToLower()).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.POID.Name = (poid != null ? (!string.IsNullOrEmpty(poid.LblText) ? poid.LblText : labelobj.POID.Name) : labelobj.POID.Name) + " :";
@@ -374,6 +444,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.InspOrPhoto.Name = (insporphoto != null ? (!string.IsNullOrEmpty(insporphoto.LblText) ? insporphoto.LblText : labelobj.InspOrPhoto.Name) : labelobj.InspOrPhoto.Name);
                         labelobj.FromLocation.Name = (fromlocation != null ? (!string.IsNullOrEmpty(fromlocation.LblText) ? fromlocation.LblText : labelobj.FromLocation.Name) : labelobj.FromLocation.Name) /*+ " :"*/;
                         labelobj.ToLocation.Name = (tolocation != null ? (!string.IsNullOrEmpty(tolocation.LblText) ? tolocation.LblText : labelobj.ToLocation.Name) : labelobj.ToLocation.Name) /*+ " :"*/;
+                        labelobj.InspLabel.Name = (insplabel != null ? (!string.IsNullOrEmpty(insplabel.LblText) ? insplabel.LblText : labelobj.InspLabel.Name) : labelobj.InspLabel.Name);
                     }
                 }
             }
@@ -455,7 +526,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
 
             public LabelAndActionFields Assign { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMAssign" };
             public LabelAndActionFields InspOrPhoto { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMInspOrPhoto" };
-            //public LabelAndActionFields InspLabel { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMbtnInsp" };
+            public LabelAndActionFields InspLabel { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMbtnInsp" };
             //public LabelAndActionFields PhotoLabel { get; set; } = new LabelAndActionFields { Status = true, Name = "LCMbtnPhoto" };
 
             public LabelAndActionFields ShippingNumber { get; set; } = new LabelAndActionFields { Status = false, Name = "Shipping Number" };

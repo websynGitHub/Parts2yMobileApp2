@@ -82,7 +82,7 @@
                             </LblIcons:FontAwesomeIconLabel>
                         </badge:SfBadgeView.Content>
                         <badge:SfBadgeView.BadgeSettings>
-                            <badge:BadgeSetting BadgeType="Error" Offset="{OnPlatform iOS='-5,5',Android='-4,1'}"/>
+                            <badge:BadgeSetting BadgeType="Error" Offset="{OnPlatform iOS='-5,5',Android='-1,10'}"/>
                         </badge:SfBadgeView.BadgeSettings>
                     </badge:SfBadgeView>
                     <LblIcons:FontAwesomeIconLabel Grid.Row="0" Grid.Column="4" Text="{Static StaticIcons:Icons.HomeIc}" Style="{StaticResource LblIconStyle}" HorizontalTextAlignment="Start">
