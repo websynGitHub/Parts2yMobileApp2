@@ -28,6 +28,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand SignalTabCmd { set; get; }
         public ICommand QuickTabCmd { set; get; }
         public ICommand FullTabCmd { set; get; }
+        public ICommand SaveClick { set; get; }
+
         PInspectionAnswersPage pagename;
         AllPoData selectedTagData;
         YPSService trackService;
@@ -83,6 +85,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 this.inspectionResultsList = inspectionResultsList;
                 ShowConfigurationOptions();
 
+                SaveClick = new Command(SaveClicked);
                 ViewallClick = new Command(ViewallClickMethod);
                 NextClick = new Command(NextClickMethod);
                 QuickTabCmd = new Command(QuickTabClicked);
@@ -98,6 +101,81 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 YPSLogger.ReportException(ex, "PInspectionAnswersViewModel constructor -> in PInspectionAnswersViewModel.cs " + Settings.userLoginID);
                 var trackResult = trackService.Handleexception(ex);
+            }
+        }
+
+        public async void SaveClicked()
+        {
+            try
+            {
+                loadindicator = true;
+                if (FrontRightTrue || FrontRightFalse || FrontLeftTrue || FrontLeftFalse || RearLeftTrue
+                    || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse)
+                {
+                    var checkInternet = await App.CheckInterNetConnection();
+                    if (checkInternet)
+                    {
+                        await DoneClicked();
+                        UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest();
+                        updateInspectionRequest.QID = InspectionConfiguration.MInspectionConfigID;
+
+                        if (RearLeftTrue == true || RearLeftFalse == true)
+                        {
+                            updateInspectionRequest.BackLeft = RearLeftTrue ? 2 : 1;
+                        }
+
+                        if (RearRightTrue == true || RearRightFalse == true)
+                        {
+                            updateInspectionRequest.BackRight = RearRightTrue ? 2 : 1;
+                        }
+
+                        if (PlaneTrue == true || PlaneFalse == true)
+                        {
+                            updateInspectionRequest.Direct = PlaneTrue ? 2 : 1;
+                        }
+
+                        if (FrontLeftTrue == true || FrontLeftFalse == true)
+                        {
+                            updateInspectionRequest.FrontLeft = FrontLeftTrue ? 2 : 1;
+                        }
+
+                        if (FrontRightTrue == true || FrontRightFalse == true)
+                        {
+                            updateInspectionRequest.FrontRight = FrontRightTrue ? 2 : 1;
+                        }
+
+                        if (IsInspTabVisible == false)
+                        {
+                            updateInspectionRequest.POTagID = tagId;
+                        }
+
+                        updateInspectionRequest.TaskID = taskid;
+                        updateInspectionRequest.Remarks = Remarks;
+                        updateInspectionRequest.UserID = Settings.userLoginID;
+                        var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
+
+                        //if (result != null && result.status == 1)
+                        //{
+                        //    loadindicator = false;
+                        //    await App.Current.MainPage.DisplayAlert("Updated", "Changed Saved .", "Ok");
+                        //    //DependencyService.Get<IToastMessage>().ShortAlert("Updated", "Changed Saved .", "Ok");
+                        //}
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
+                        //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SaveClicked method -> in CInspectionAnswersPageViewModel " + Settings.userLoginID);
+                var trackResult = trackService.Handleexception(ex);
+            }
+            finally
+            {
+                loadindicator = false;
             }
         }
 
@@ -291,12 +369,14 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var viewall = labelval.Where(wr => wr.FieldID == labelobj.ViewAll.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var next = labelval.Where(wr => wr.FieldID == labelobj.Next.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var complete = labelval.Where(wr => wr.FieldID == labelobj.Complete.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var save = labelval.Where(wr => wr.FieldID == labelobj.Save.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         SignTabText = labelobj.Checklist.Name = checklist != null ? (!string.IsNullOrEmpty(checklist.LblText) ? checklist.LblText : labelobj.Checklist.Name) : labelobj.Checklist.Name;
                         labelobj.Remarks.Name = remark != null ? (!string.IsNullOrEmpty(remark.LblText) ? remark.LblText : labelobj.Remarks.Name) : labelobj.Remarks.Name;
                         labelobj.ViewAll.Name = viewall != null ? (!string.IsNullOrEmpty(viewall.LblText) ? viewall.LblText : labelobj.ViewAll.Name) : labelobj.ViewAll.Name;
                         NextButtonText = labelobj.Next.Name = next != null ? (!string.IsNullOrEmpty(next.LblText) ? next.LblText : labelobj.Next.Name) : labelobj.Next.Name;
                         labelobj.Complete.Name = complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Complete.Name) : labelobj.Complete.Name;
+                        labelobj.Save.Name = save != null ? (!string.IsNullOrEmpty(save.LblText) ? save.LblText : labelobj.Save.Name) : labelobj.Save.Name;
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         if (isInspVIN == true)
@@ -545,7 +625,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         {
             try
             {
-                await Navigation.PopAsync(false);
+                SignTabClicked();
             }
             catch (Exception ex)
             {
@@ -776,6 +856,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields ViewAll { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnViewAll" };
             public DashboardLabelFields Next { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnNext" };
             public DashboardLabelFields Complete { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnComplete" };
+            public DashboardLabelFields Save { get; set; } = new DashboardLabelFields { Status = true, Name = Settings.SaveBtn };
         }
         public class DashboardLabelFields : IBase
         {

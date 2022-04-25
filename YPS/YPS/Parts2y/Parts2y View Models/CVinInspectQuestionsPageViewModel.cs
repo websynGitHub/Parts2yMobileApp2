@@ -410,6 +410,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
                     }
+                    NextScanEnable = QuestionListCategory.All(a => a.Status == 1) ? true : false;
+                    NextScanOpacity = NextScanEnable == false ? 0.5 : 1.0;
                 }
             }
             catch (Exception ex)
@@ -507,6 +509,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var driversignature = labelval.Where(wr => wr.FieldID == labelobj.DriverSignature.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var dealersignature = labelval.Where(wr => wr.FieldID == labelobj.DealerSignature.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var done = labelval.Where(wr => wr.FieldID == labelobj.Done.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var next = labelval.Where(wr => wr.FieldID == labelobj.Next.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var scan = labelval.Where(wr => wr.FieldID == labelobj.Scan.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var viewall = labelval.Where(wr => wr.FieldID == labelobj.ViewAll.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         labelobj.TagNumber.Name = (tagnumber != null ? (!string.IsNullOrEmpty(tagnumber.LblText) ? tagnumber.LblText : labelobj.TagNumber.Name) : labelobj.TagNumber.Name) + " :";
@@ -523,6 +528,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         labelobj.Barcode1.Status = barcode1?.Status == 1 || barcode1?.Status == 2 ? true : false;
                         labelobj.BagNumber.Name = (bagnumber != null ? (!string.IsNullOrEmpty(bagnumber.LblText) ? bagnumber.LblText : labelobj.BagNumber.Name) : labelobj.BagNumber.Name) + " :";
                         labelobj.BagNumber.Status = bagnumber?.Status == 1 || bagnumber?.Status == 2 ? true : false;
+                        labelobj.ViewAll.Name = viewall != null ? (!string.IsNullOrEmpty(viewall.LblText) ? viewall.LblText : labelobj.ViewAll.Name) : labelobj.ViewAll.Name;
+                        labelobj.Scan.Name = scan != null ? (!string.IsNullOrEmpty(scan.LblText) ? scan.LblText : labelobj.Scan.Name) : labelobj.Scan.Name;
+                        labelobj.Next.Name = next != null ? (!string.IsNullOrEmpty(next.LblText) ? next.LblText + " " + scan.LblText : labelobj.Next.Name + " " + labelobj.Scan.Name) : labelobj.Next.Name + " " + labelobj.Scan.Name;
 
                         labelobj.Home.Name = (home != null ? (!string.IsNullOrEmpty(home.LblText) ? home.LblText : labelobj.Home.Name) : labelobj.Home.Name);
                         labelobj.Jobs.Name = jobs != null ? (!string.IsNullOrEmpty(jobs.LblText) ? jobs.LblText : labelobj.Jobs.Name) : labelobj.Jobs.Name;
@@ -652,6 +660,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields DriverSignature { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMDriver" };
             public DashboardLabelFields DealerSignature { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMDealer" };
             public DashboardLabelFields Done { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnDone" };
+            public DashboardLabelFields Next { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnNext" };
+            public DashboardLabelFields Scan { get; set; } = new DashboardLabelFields { Status = true, Name = "TBMScan" };
+            public DashboardLabelFields ViewAll { get; set; } = new DashboardLabelFields { Status = false, Name = "LCMbtnViewAll" };
         }
         public class DashboardLabelFields : IBase
         {
@@ -671,6 +682,26 @@ namespace YPS.Parts2y.Parts2y_View_Models
         }
         #endregion
 
+        private double _NextScanOpacity = 0.5;
+        public double NextScanOpacity
+        {
+            get { return _NextScanOpacity; }
+            set
+            {
+                _NextScanOpacity = value;
+                RaisePropertyChanged("NextScanOpacity");
+            }
+        }
+        private bool _NextScanEnable;
+        public bool NextScanEnable
+        {
+            get { return _NextScanEnable; }
+            set
+            {
+                _NextScanEnable = value;
+                RaisePropertyChanged("NextScanEnable");
+            }
+        }
         private bool _IsConditionNameLabelVisible = true;
         public bool IsConditionNameLabelVisible
         {

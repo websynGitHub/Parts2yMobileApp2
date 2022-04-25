@@ -122,5 +122,24 @@ namespace YPS.Parts2y.Parts2y_Views
                 await service.Handleexception(ex);
             }
         }
+
+        private async void NextScanClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new ScanPage(0, null, false, null), false);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SfButton_Clicked method -> in KPLoadInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        private void ViewAllClicked(object sender, EventArgs e)
+        {
+            Vm.SignTabClicked();
+        }
+
     }
 }

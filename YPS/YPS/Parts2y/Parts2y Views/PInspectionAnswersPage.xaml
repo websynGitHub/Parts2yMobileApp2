@@ -321,12 +321,23 @@
                                     <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
                                 </syncfusion:SfButton.Behaviors>
                             </syncfusion:SfButton>
+                            <syncfusion:SfButton Text="{Binding labelobj.Save.Name}"
+                                    Command="{Binding SaveClick}"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="End" Style="{StaticResource SfBtnBlue}"
+                                    Grid.Row="0" Grid.Column="1" TextColor="White"
+                                    BackgroundColor="{Binding BgColor}"  FontSize="Medium">
+
+                                <syncfusion:SfButton.Behaviors>
+                                    <behaviours:ViewTappedButtonBehavior AnimationType="Scale"/>
+                                </syncfusion:SfButton.Behaviors>
+                            </syncfusion:SfButton>
 
                             <syncfusion:SfButton Text="{Binding NextButtonText,Mode=TwoWay}"  
                                     Command="{Binding NextClick}"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="End" Style="{StaticResource SfBtnBlue}"
-                                    Grid.Row="0" Grid.Column="1" TextColor="White"
+                                    Grid.Row="0" Grid.Column="2" TextColor="White"
                                     BackgroundColor="{Binding BgColor}"  FontSize="Medium">
 
                                 <syncfusion:SfButton.Behaviors>

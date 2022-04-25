@@ -181,43 +181,72 @@
                             </StackLayout>
                         </StackLayout>
 
-                        <CollectionView Grid.Row="3" x:Name="QuestionList" BackgroundColor="Transparent"
-                                SelectionMode="Single" ItemsSource="{Binding QuestionListCategory}" IsVisible="{Binding IsQuestionListVisible}"
-                                Margin="6,6,6,0">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="0,0,0,6">
-                                        <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="-1" 
+                        <Grid RowDefinitions="*,50" Grid.Row="3"  IsVisible="{Binding IsQuestionListVisible}" Margin="6,6,6,0">
+                            <CollectionView  x:Name="QuestionList" BackgroundColor="Transparent"
+                                SelectionMode="Single" ItemsSource="{Binding QuestionListCategory}" VerticalScrollBarVisibility="Always">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="0,0,0,6">
+                                            <Frame BackgroundColor="White" Margin="0,0,0,0" Padding="-1" 
                                            BorderColor="{Binding SelectedTagBorderColor}"
                                            CornerRadius="4"  HasShadow="False">
-                                            <Grid>
-                                                <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=X2LoadInspQuestionPage}}"
+                                                <Grid>
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.QuestionClickCommand,Source={x:Reference Name=X2LoadInspQuestionPage}}"
                                                           CommandParameter="{Binding .}"/>
-                                                </Grid.GestureRecognizers>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="80"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.04*"/>
-                                                    <ColumnDefinition Width="0.10*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Frame Grid.Row="0" Grid.Column="2" CornerRadius="3"  Margin="0"  HasShadow="False" Padding="0"  BackgroundColor="{Binding AreBgColor}" HorizontalOptions="End" HeightRequest="20" VerticalOptions="Start" >
-                                                    <Label  VerticalTextAlignment="Start"  HorizontalTextAlignment="Start" Style="{StaticResource LableWithMicroFontBlack}"  Text="{Binding Area}" Padding="5,2,5,3" />
-                                                </Frame>
-                                                <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Column="0" BackgroundColor="{Binding ItemBackground}"/>
-                                                <Label Grid.Row="0" Grid.Column="1" Padding="5,0,0,0" HorizontalOptions="Start" VerticalOptions="Center" Text="{Binding SerialNo}" TextColor="Black"
+                                                    </Grid.GestureRecognizers>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="80"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.04*"/>
+                                                        <ColumnDefinition Width="0.10*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Frame Grid.Row="0" Grid.Column="2" CornerRadius="3"  Margin="0"  HasShadow="False" Padding="0"  BackgroundColor="{Binding AreBgColor}" HorizontalOptions="End" HeightRequest="20" VerticalOptions="Start" >
+                                                        <Label  VerticalTextAlignment="Start"  HorizontalTextAlignment="Start" Style="{StaticResource LableWithMicroFontBlack}"   Text="{Binding Area}" Padding="5,2,5,3" />
+                                                    </Frame>
+                                                    <BoxView Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Column="0" BackgroundColor="{Binding ItemBackground}"/>
+                                                    <Label Grid.Row="0" Grid.Column="1" Padding="5,0,0,0"  HorizontalOptions="Start" VerticalOptions="Center" Text="{Binding SerialNo}" TextColor="Black"
                                                             Style="{DynamicResource LableWithQuestionFont}"/>
-                                                <Label Grid.Row="0" Grid.Column="2" Padding="5,0,0,0" VerticalOptions="Center" Text="{Binding Question}" TextColor="Black"
+                                                    <Label  Grid.Row="0" Grid.Column="2" Padding="5,0,5,0"  VerticalOptions="Center" Text="{Binding Question}" TextColor="Black"
                                                            Style="{DynamicResource LableWithQuestionFont}"/>
-                                            </Grid>
-                                        </Frame>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                                </Grid>
+                                            </Frame>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Grid  Grid.Row="1" VerticalOptions="End" HorizontalOptions="FillAndExpand" Margin="0,0,0,4">
+                                <sfbuttons:SfButton Clicked="ViewAllClicked" HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="End" Style="{StaticResource SfBtnBlue}"
+                                    Grid.Row="0" Grid.Column="0" TextColor="White"
+                                    BackgroundColor="{Binding BgColor}"  FontSize="Medium">
+                                    <sfbuttons:SfButton.Content>
+                                        <Label Text="{Binding labelobj.ViewAll.Name}" Style="{StaticResource SfButtonTextLbl}" 
+                                           Padding="0"/>
+                                    </sfbuttons:SfButton.Content>
+                                    <sfbuttons:SfButton.Behaviors>
+                                        <behaviors1:ViewTappedButtonBehavior AnimationType="Scale"/>
+                                    </sfbuttons:SfButton.Behaviors>
+                                </sfbuttons:SfButton>
 
+
+                                <sfbuttons:SfButton Clicked="NextScanClicked"  IsEnabled="{Binding NextScanEnable}"
+                                                Style="{StaticResource SfBtnBlue}" Opacity="{Binding NextScanOpacity}"
+                                                VerticalOptions="End" HorizontalOptions="FillAndExpand"
+                                                    Grid.Row="0" Grid.Column="1"
+                                        BackgroundColor="{Binding BgColor}">
+                                    <sfbuttons:SfButton.Content>
+                                        <Label Text="{Binding labelobj.Next.Name}"  Style="{StaticResource SfButtonTextLbl}" 
+                                               Padding="0"/>
+                                    </sfbuttons:SfButton.Content>
+                                    <sfbuttons:SfButton.Behaviors>
+                                        <behaviors1:ViewTappedButtonBehavior AnimationType="Scale"/>
+                                    </sfbuttons:SfButton.Behaviors>
+                                </sfbuttons:SfButton>
+                            </Grid>
+                        </Grid>
 
                         <Grid Grid.Row="3" Margin="6,6,6,0" IsVisible="{Binding IsSignQuestionListVisible}"
                                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"

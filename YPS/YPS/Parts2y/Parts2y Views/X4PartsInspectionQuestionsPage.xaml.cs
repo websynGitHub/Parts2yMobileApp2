@@ -36,7 +36,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "X4PartsInspectionQuestionPage constructor -> in KPPartsInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "X4PartsInspectionQuestionPage constructor -> in X4PartsInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
@@ -76,7 +76,7 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "OnAppearing OnAppearing -> in KPPartsInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "OnAppearing OnAppearing -> in X4PartsInspectionQuestionPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }
@@ -129,9 +129,26 @@ namespace YPS.Parts2y.Parts2y_Views
             }
             catch (Exception ex)
             {
-                YPSLogger.ReportException(ex, "DoneClicked method -> in KPPartsInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
+                YPSLogger.ReportException(ex, "DoneClicked method -> in X4PartsInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
+        }
+        private async void NextScanClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new ScanPage(0, null, false, null), false);
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "SfButton_Clicked method -> in X4PartsInspectionQuestionPage.xaml.cs  " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+
+        private void ViewAllClicked(object sender, EventArgs e)
+        {
+            Vm.SignTabClicked();
         }
     }
 }
