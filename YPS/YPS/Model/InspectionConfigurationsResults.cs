@@ -82,7 +82,7 @@ namespace YPS.Model
             }
         }
 
-        private Color _SignQuesBgColor = Color.Black;
+        private Color _SignQuesBgColor = Color.Gray;
         public Color SignQuesBgColor
         {
             get => _SignQuesBgColor;
@@ -249,12 +249,12 @@ namespace YPS.Model
                 if (value == 1)
                 {
                     ItemBackground = YPS.CommonClasses.Settings.Bar_Background;
-                    SignQuesBgColor = Color.FromHex("#005800");
+                    SignQuesBgColor = Color.Black;
                 }
                 else
                 {
                     ItemBackground = Color.Transparent;
-                    SignQuesBgColor = Color.Black;
+                    SignQuesBgColor = Color.Gray;
                 }
                 RaisePropertyChanged("Status");
             }
