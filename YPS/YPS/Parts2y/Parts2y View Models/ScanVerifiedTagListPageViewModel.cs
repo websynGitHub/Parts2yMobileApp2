@@ -69,7 +69,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     SelectedTagCountVisible = false;
                     IsPhotoUploadIconVisible = false;
 
-                    var inspphoto = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
+                    //var inspphoto = (Settings.VersionID == 2 && uploadType == 0) == true ? "Insp" : "Photo";
 
                     foreach (var values in matchedtaglist)
                     {
@@ -104,7 +104,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         values.PhotoInspText = values.TaskResourceID == 0 ? labelobj.Assign.Name + " & " + labelobj.InspLabel.Name : labelobj.InspLabel.Name;
                         //values.PhotoInspText = values.TaskResourceID == 0 ? labelobj.Assign.Name + " & " + labelobj.InspOrPhoto.Name : labelobj.InspOrPhoto.Name;
                         //values.PhotoInspText = values.TaskResourceID == 0 ? "Assign & " + inspphoto : inspphoto;
-                        values.PhotoInspLabelOpacity = values.IsPhotoRequired == 0 ? 0.4 : 1.0;
+                        //values.PhotoInspLabelOpacity = values.IsPhotoRequired == 0 ? 0.4 : 1.0;
 
                         IEnumerable<int> poidlist = AllPoDataList.Where(wr => wr.TaskID == values.TaskID).Select(s => s.POID).Distinct();
                         values.PONumberForDisplay = poidlist.Count() == 1 ? values.PONumber : "Multiple";
