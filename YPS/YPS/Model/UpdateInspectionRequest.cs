@@ -24,6 +24,11 @@ namespace YPS.Model
         public string RoleName { get; set; }
         public string CreatedDate { get; set; }
         public int PhotoCount { get; set; }
+        public string PalletNo_L2 { get; set; }
+        public string ExpiryDate { get; set; }
+        public string Attributes { get; set; }
+        public int InnerQty { get; set; }
+        public int additional_entry { get; set; }
     }
 
     public class UpdateInsertInspectionResponse

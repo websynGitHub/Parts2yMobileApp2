@@ -43,5 +43,11 @@ namespace YPS.Model
         public int SignType { get; set; }
         public string Signature { get; set; }
 
+        public string PalletNo_L2 { get; set; }
+        public string ExpiryDate { get; set; }
+        public string Attributes { get; set; }
+        public int InnerQty { get; set; }
+        public bool additional_entry { get; set; }
+
     }
 }

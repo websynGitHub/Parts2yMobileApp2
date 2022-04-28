@@ -36,6 +36,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 selectedTagData = selectedtagdata;
                 BindingContext = Vm = new KPInspectionAnswersViewModel(Navigation, this, inspectionConfiguration,
                     inspectionConfigurationList, inspectionResultsLists, selectedtagdata, isVINInsp, PartsQueVm, LoadQueVm, isalldone, pendingTagIDs);
+
             }
             catch (Exception ex)
             {
@@ -43,6 +44,7 @@ namespace YPS.Parts2y.Parts2y_Views
                 Task.Run(() => service.Handleexception(ex)).Wait();
             }
         }
+
 
         protected async override void OnAppearing()
         {
@@ -136,15 +138,33 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 var rb = (RadioButton)sender;
-                if (rb.ClassId == "0")
+                //if (rb.ClassId == "0")
+                //{
+                //    Vm.PlaneTrue = true;
+                //    Vm.PlaneFalse = false;
+                //}
+                //else
+                //{
+                //    Vm.PlaneFalse = true;
+                //    Vm.PlaneTrue = false;
+                //}
+                switch (rb.ClassId)
                 {
-                    Vm.PlaneTrue = true;
-                    Vm.PlaneFalse = false;
-                }
-                else
-                {
-                    Vm.PlaneFalse = true;
-                    Vm.PlaneTrue = false;
+                    case "0":
+                        Vm.PlaneTrue = true;
+                        Vm.PlaneFalse = false;
+                        Vm.PlaneNA = false;
+                        break;
+                    case "1":
+                        Vm.PlaneFalse = true;
+                        Vm.PlaneTrue = false;
+                        Vm.PlaneNA = false;
+                        break;
+                    case "2":
+                        Vm.PlaneTrue = false;
+                        Vm.PlaneFalse = false;
+                        Vm.PlaneNA = true;
+                        break;
                 }
             }
             catch (Exception ex)

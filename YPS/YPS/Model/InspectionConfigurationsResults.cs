@@ -287,5 +287,16 @@ namespace YPS.Model
                 RaisePropertyChanged("SelectedTagBorderColor");
             }
         }
+
+        private InspectionResultsList inspectionResult;
+        public InspectionResultsList InspectionResult
+        {
+            get => inspectionResult;
+            set
+            {
+                inspectionResult = value;
+                RaisePropertyChanged("InspectionResult");
+            }
+        }
     }
 }
