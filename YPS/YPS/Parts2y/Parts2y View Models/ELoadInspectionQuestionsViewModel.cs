@@ -26,7 +26,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
         public ICommand LoadInspTabCmd { set; get; }
         public ICommand SignalTabCmd { set; get; }
         public ICommand QuestionClickCommand { get; set; }
-        ObservableCollection<AllPoData> SelectedPodataList;
+        public ObservableCollection<AllPoData> SelectedPodataList;
         public QuestiionsPageHeaderData QuestiionsPageHeaderData { get; set; }
         ELoadInspectionQuestionsPage pageName;
         YPSService trackService;
@@ -226,16 +226,30 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 var checkInternet = await App.CheckInterNetConnection();
                 if (checkInternet)
                 {
+
                     QuestionsList?.All(a => { a.SelectedTagBorderColor = Color.Transparent; return true; });
                     QuestionsList?.All(x => { x.Status = 0; return true; });
+                    QuestionsList?.All(x => { x.Direct = 0; return true; });
 
                     var result = await trackService.GetInspectionResultsByTask(taskid);
 
                     if (result != null && result.data != null && result.data.listData != null)
                     {
                         inspectionResultsLists = result.data.listData;
-                        QuestionsList?.Where(x => inspectionResultsLists.Any(z => z.QID == x.MInspectionConfigID)).Select(x => { x.Status = 1; return x; }).ToList();
 
+
+                        foreach (InspectionConfiguration qustlist in QuestionsList)
+                        {
+                            foreach (InspectionResultsList anslist in inspectionResultsLists)
+                            {
+                                if (qustlist?.MInspectionConfigID == anslist?.QID)
+                                {
+                                    qustlist.Status = 1;
+                                    qustlist.Direct = anslist.Direct;
+                                    break;
+                                }
+                            }
+                        }
                         QuestionListCategory = new ObservableCollection<InspectionConfiguration>(QuestionsList?.Where(wr => wr.CategoryID == categoryID && wr.VersionID == Settings.VersionID).ToList());
                     }
                     else
@@ -295,7 +309,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     var value = Helperclass.Encrypt(data.POTagID.ToString());
                     EncPOTagID.Add(value);
                 }
-
+                await GetConfigurationResults(inspectionConfiguration.CategoryID);
                 inspectionConfiguration.SelectedTagBorderColor = Settings.Bar_Background;
                 await Navigation.PushAsync(new EInspectionAnswersPage(inspectionConfiguration, QuestionListCategory,
                     inspectionResultsLists, SelectedPodataList[0],
