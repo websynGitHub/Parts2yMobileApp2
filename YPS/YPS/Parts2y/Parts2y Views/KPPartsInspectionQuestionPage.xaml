@@ -499,7 +499,7 @@
                                                                     ClassId="{Binding MInspectionConfigID}"
                                                                     Clicked="RadioButton_Clicked"
                                                                     Style="{DynamicResource InputKitRadioTextQuestionFont}"
-                                                                    Text="N.A"
+                                                                    Text="N.A."
                                                                     Value="3">
                                                                     <input:RadioButton.Triggers>
                                                                         <DataTrigger

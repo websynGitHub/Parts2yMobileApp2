@@ -590,11 +590,13 @@
                                             HorizontalOptions="CenterAndExpand"
                                             IsVisible="{Binding PlaneOptions}"
                                             Orientation="Horizontal"
+                                            Spacing="20"
                                             VerticalOptions="CenterAndExpand">
                                             <input:RadioButton
                                                 ClassId="0"
                                                 Clicked="PlaneradioClicked"
                                                 IsChecked="{Binding PlaneTrue, Mode=TwoWay}"
+                                                Style="{DynamicResource InputKitRadioTextQuestionFont}"
                                                 Text="OK"
                                                 TextColor="Black"
                                                 TextFontSize="18" />
@@ -603,6 +605,7 @@
                                                 ClassId="1"
                                                 Clicked="PlaneradioClicked"
                                                 IsChecked="{Binding PlaneFalse, Mode=TwoWay}"
+                                                Style="{DynamicResource InputKitRadioTextQuestionFont}"
                                                 Text="NG"
                                                 TextColor="Black"
                                                 TextFontSize="18" />
@@ -611,7 +614,8 @@
                                                 ClassId="2"
                                                 Clicked="PlaneradioClicked"
                                                 IsChecked="{Binding PlaneNA, Mode=TwoWay}"
-                                                Text="NA"
+                                                Style="{DynamicResource InputKitRadioTextQuestionFont}"
+                                                Text="N.A."
                                                 TextColor="Black"
                                                 TextFontSize="18" />
 
