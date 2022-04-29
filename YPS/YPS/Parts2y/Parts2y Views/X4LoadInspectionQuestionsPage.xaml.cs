@@ -134,5 +134,35 @@ namespace YPS.Parts2y.Parts2y_Views
         {
             Vm.SignTabClicked();
         }
+        private async void RadioButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var question = sender as Plugin.InputKit.Shared.Controls.RadioButton;
+                if (question != null)
+                {
+                    int QID = Convert.ToInt32(question.ClassId);
+                    UpdateInspectionRequest updateInspectionRequest = new UpdateInspectionRequest();
+                    updateInspectionRequest.Direct = Convert.ToInt32(question.Value);
+                    updateInspectionRequest.QID = QID;
+                    updateInspectionRequest.UserID = Settings.userLoginID;
+                    updateInspectionRequest.TaskID = Vm.SelectedPodataList[0].TaskID;
+                    updateInspectionRequest.ExpiryDate = "";
+
+                    var result = await service.InsertUpdateInspectionResult_QListPage(updateInspectionRequest);
+                    if (result != null && result.status == 1)
+                    {
+                        Vm.QuestionListCategory?.Where(wr => wr.MInspectionConfigID == QID).Select(x => { x.Status = 1; return x; }).ToList();
+                        Vm.NextScanEnable = Vm.QuestionListCategory.All(a => a.Status == 1) ? true : false;
+                        Vm.NextScanOpacity = Vm.NextScanEnable == false ? 0.5 : 1.0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "RadioButton_Clicked method -> in X4LoadInspectionQuestionsPage.xaml.cs  " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
     }
 }
