@@ -1239,6 +1239,25 @@ namespace YPS.RestClientAPI
         }
 
         /// <summary>
+        /// Insert or update Inspection result from question list
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<UpdateInspectionResponse> InsertUpdateInspectionResult_QListPage(UpdateInspectionRequest updateInspectionRequest)
+        {
+            try
+            {
+                return await requestProvider.PostAsync<UpdateInspectionRequest, UpdateInspectionResponse>(WebServiceUrl + "Inspection/InsertUpdateInspectionResult_ListPage", updateInspectionRequest);
+            }
+            catch (Exception ex)
+            {
+                await service.Handleexception(ex);
+                YPSLogger.ReportException(ex, "InsertUpdateInspectionResult_QListPage method -> in RestClient.cs" + Settings.userLoginID);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// DeletInspection result
         /// </summary>
         /// <param name="obj"></param>

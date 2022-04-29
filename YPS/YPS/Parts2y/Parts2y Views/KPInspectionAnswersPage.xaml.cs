@@ -267,5 +267,50 @@ namespace YPS.Parts2y.Parts2y_Views
                 await service.Handleexception(ex);
             }
         }
+
+        private void OnKeyboardAppear(object sender, EventArgs e)
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    {
+                        Device.BeginInvokeOnMainThread(() => controlLayout.HeightRequest = 0);
+                        break;
+                    }
+            }
+        }
+        private void OnKeyboardDisppear(object sender, EventArgs e)
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    {
+                        Device.BeginInvokeOnMainThread(() => controlLayout.HeightRequest = 45);
+                        break;
+                    }
+            }
+        }
+
+        private void ExpiryDateClick(object sender, EventArgs e)
+        {
+ Device.BeginInvokeOnMainThread(()=>pkExpiryDate.Focus());
+        }
+
+        private void DateSelected(object sender, DateChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                txtExpiryDate.Text = pkExpiryDate.Date.ToString("dd MMM yyyy");
+                pkExpiryDate.Unfocus();
+            });
+        }
+
+        private void NextQuestionClicked(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async() =>
+            {
+                await scrQustionView.ScrollToAsync(scrQustionView.Content as Element, ScrollToPosition.Start, true);
+            });
+        }
     }
 }

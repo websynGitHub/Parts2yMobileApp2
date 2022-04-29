@@ -835,6 +835,17 @@ namespace YPS.Service
             return await restClient.InsertUpdateInspectionResult(updateInspectionRequest);
         }
 
+         /// <summary>
+        /// Insert or Update Inspection Result form question list
+        /// </summary>
+        /// <param name="updateInspectionRequest"></param>
+        /// <returns></returns>
+        public async Task<UpdateInspectionResponse> InsertUpdateInspectionResult_QListPage(UpdateInspectionRequest updateInspectionRequest)
+        {
+            RestClient restClient = new RestClient();
+            return await restClient.InsertUpdateInspectionResult_QListPage(updateInspectionRequest);
+        }
+
         /// <summary>
         /// Delete inspection Photos
         /// </summary>

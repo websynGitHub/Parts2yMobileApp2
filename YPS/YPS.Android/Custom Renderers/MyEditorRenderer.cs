@@ -19,6 +19,7 @@ namespace YPS.Droid.Custom_Renderers
         /// </summary>
         /// <param name="context"></param>
         public MyEditorRenderer(Context context) : base(context){}
+        MyEditor myEditor;
         public static void Init() { }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace YPS.Droid.Custom_Renderers
             if (e.NewElement != null)
             {
                 var element = e.NewElement as MyEditor;
+               myEditor = e.NewElement as MyEditor;
                 this.Control.Hint = element.Placeholder;
                 Control.ImeOptions = (ImeAction)ImeFlags.NoExtractUi;
             }
@@ -62,9 +64,15 @@ namespace YPS.Droid.Custom_Renderers
         private void Control_FocusChange(object sender, FocusChangeEventArgs e)
         {
             if (e.HasFocus)
+            {
+                myEditor?.NotifyKeyBoardAppear(sender, null);
                 (Forms.Context as Activity).Window.SetSoftInputMode(SoftInput.AdjustResize);
+            }
             else
+            {
+                myEditor?.NotifyKeyBoardDisappear(sender, null);
                 (Forms.Context as Activity).Window.SetSoftInputMode(SoftInput.AdjustNothing);
+            }
         }
 
         /// <summary>

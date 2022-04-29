@@ -4,7 +4,9 @@
              xmlns:sfInputlayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              xmlns:sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+
               xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              x:Class="YPS.App">
 
@@ -224,6 +226,12 @@
             <Style TargetType="Label" x:Key="LableWithQuestionFont">
                 <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
                 <Setter Property="FontSize" Value="19"/>
+            </Style>
+            
+            <Style TargetType="input:RadioButton" x:Key="InputKitRadioTextQuestionFont">
+                <Setter Property="FontFamily" Value="{DynamicResource LatoRegular}" />
+                <Setter Property="TextFontSize" Value="19"/>
+                <Setter Property="TextColor" Value="Black"/>
             </Style>
             
             <Style TargetType="Label" x:Key="LableWithQuestionFontBlack">

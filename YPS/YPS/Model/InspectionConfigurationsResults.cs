@@ -158,6 +158,34 @@ namespace YPS.Model
             }
         }
 
+        private int _Direct = 0;
+        public int Direct
+        {
+            get
+            {
+                return _Direct;
+            }
+            set
+            {
+                this._Direct = value;
+                RaisePropertyChanged("Direct");
+            }
+        }
+        
+        private int _additional_entry = 0;
+        public int additional_entry
+        {
+            get
+            {
+                return _additional_entry;
+            }
+            set
+            {
+                this._additional_entry = value;
+                RaisePropertyChanged("additional_entry");
+            }
+        }
+        
         private int _IsFront;
         public int IsFront
         {

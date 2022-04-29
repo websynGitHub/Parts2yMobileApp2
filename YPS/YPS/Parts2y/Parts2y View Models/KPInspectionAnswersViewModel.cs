@@ -82,7 +82,6 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 this.inspectionResultsList = inspectionResultsList;
                 ShowConfigurationOptions();
 
-                InspectionConfiguration.InspectionResult = inspectionResultsList?.Where(x => x.QID == InspectionConfiguration.MInspectionConfigID).FirstOrDefault();
 
                 SaveClick = new Command(SaveClicked);
                 ViewallClick = new Command(ViewallClickMethod);
@@ -152,11 +151,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         updateInspectionRequest.Remarks = Remarks;
                         updateInspectionRequest.UserID = Settings.userLoginID;
 
-                        updateInspectionRequest.PalletNo_L2 = InspectionConfiguration.InspectionResult.PalletNo_L2;
-                        updateInspectionRequest.ExpiryDate = InspectionConfiguration.InspectionResult.ExpiryDate;
-                        updateInspectionRequest.Attributes = InspectionConfiguration.InspectionResult.Attributes;
-                        updateInspectionRequest.InnerQty = InspectionConfiguration.InspectionResult.InnerQty;
-                        updateInspectionRequest.additional_entry = Convert.ToInt32(InspectionConfiguration.InspectionResult.additional_entry);
+                        updateInspectionRequest.PalletNo_L2 = InspectionConfiguration?.InspectionResult?.PalletNo_L2;
+                        updateInspectionRequest.ExpiryDate = string.IsNullOrEmpty(InspectionConfiguration?.InspectionResult?.ExpiryDate) ? "" : InspectionConfiguration?.InspectionResult?.ExpiryDate;
+                        updateInspectionRequest.Attributes = InspectionConfiguration?.InspectionResult?.Attributes;
+                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty;
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
 
                         //if (result != null && result.status == 1)
@@ -567,6 +565,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         updateInspectionRequest.TaskID = taskid;
                         updateInspectionRequest.Remarks = Remarks;
                         updateInspectionRequest.UserID = Settings.userLoginID;
+
+                        updateInspectionRequest.PalletNo_L2 = InspectionConfiguration?.InspectionResult?.PalletNo_L2;
+                        updateInspectionRequest.ExpiryDate = string.IsNullOrEmpty(InspectionConfiguration?.InspectionResult?.ExpiryDate) ? "" : InspectionConfiguration?.InspectionResult?.ExpiryDate;
+                        updateInspectionRequest.Attributes = InspectionConfiguration?.InspectionResult?.Attributes;
+                        updateInspectionRequest.InnerQty =  InspectionConfiguration?.InspectionResult?.InnerQty;
+
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
 
                         if (result != null && result.status == 1)
@@ -731,7 +735,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 LeftLabel = InspectionConfiguration.FrontLeft == 1 || InspectionConfiguration.BackLeft == 1;
                 RightLabel = InspectionConfiguration.FrontRight == 1 || InspectionConfiguration.BackRight == 1;
                 var answer = inspectionResultsList?.Find(x => x.QID == InspectionConfiguration.MInspectionConfigID);
-
+                InspectionConfiguration.InspectionResult = inspectionResultsList?.Where(x => x.QID == InspectionConfiguration.MInspectionConfigID).FirstOrDefault();
+                
                 if (answer != null)
                 {
                     ImagesCount = answer.PhotoCount;
