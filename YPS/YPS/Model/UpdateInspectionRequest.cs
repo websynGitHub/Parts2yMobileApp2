@@ -27,7 +27,7 @@ namespace YPS.Model
         public string PalletNo_L2 { get; set; }
         public string ExpiryDate { get; set; }
         public string Attributes { get; set; }
-        public int? InnerQty {get; set; }
+        public decimal? InnerQty {get; set; }
         public int additional_entry { get; set; }
     }
 
