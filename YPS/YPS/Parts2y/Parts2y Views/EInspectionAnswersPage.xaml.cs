@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YPS.CommonClasses;
+using YPS.CustomRender;
 using YPS.CustomToastMsg;
 using YPS.Helpers;
 using YPS.Model;
@@ -302,18 +303,31 @@ namespace YPS.Parts2y.Parts2y_Views
 
         private void InnerQuantityInput(object sender, TextChangedEventArgs e)
         {
-            var input = ((Editor)sender).Text;
+            var input = ((MyEntry)sender).Text;
             try
             {
+                //if (string.IsNullOrEmpty(input)) return;
                 if (e.OldTextValue.Contains('.'))
                 {
-                    var split = e.NewTextValue.Split('.')[1].Length;
-                    ((Editor)sender).Text = !(split <= 2) ? e.NewTextValue.Remove(e.NewTextValue.Length - 1) : e.NewTextValue;
+                    var split1 = e.NewTextValue.Split('.');
+                    if (e.NewTextValue.Contains('.'))
+                    {
+                        var split = e.NewTextValue.Split('.')[1].Length;
+                        if (split > 0 && e.NewTextValue.Length > 1)
+                            ((MyEntry)sender).Text = !(split <= 2) ? e.NewTextValue.Remove(e.NewTextValue.Length - 1) : e.NewTextValue;
+                    }
+                    else
+                    {
+                        Vm.InspectionConfiguration.InspectionResult.InnerQty = string.IsNullOrEmpty(entry.Text) ? (double?)null : double.Parse(entry.Text);
+                    }
                 }
             }
             catch
             {
-
+            }
+            finally
+            {
+                Vm.InspectionConfiguration.InspectionResult.InnerQty = string.IsNullOrEmpty(entry.Text) ? (double?)null : double.Parse(entry.Text);
             }
         }
     }
