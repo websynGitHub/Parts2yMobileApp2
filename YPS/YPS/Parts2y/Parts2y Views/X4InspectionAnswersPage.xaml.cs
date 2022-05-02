@@ -58,93 +58,29 @@ namespace YPS.Parts2y.Parts2y_Views
             }
         }
 
-        private async void DoneClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                var checkInternet = await App.CheckInterNetConnection();
-
-                if (checkInternet)
-                {
-                    if (Vm.isInspVIN == true)
-                    {
-                        if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
-                        {
-                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
-                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                            tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
-                            tagtaskstatus.Status = 2;
-                            tagtaskstatus.CreatedBy = Settings.userLoginID;
-
-                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
-
-                            if (result?.status == 1)
-                            {
-                                if (selectedTagData.TaskStatus == 0)
-                                {
-                                    TagTaskStatus taskstatus = new TagTaskStatus();
-                                    taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                                    taskstatus.TaskStatus = 1;
-                                    taskstatus.CreatedBy = Settings.userLoginID;
-
-                                    var taskval = await service.UpdateTaskStatus(taskstatus);
-                                }
-                                await App.Current.MainPage.DisplayAlert("Done", "Marked as done.", "Ok");
-                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (selectedTagData.TaskID != 0)
-                        {
-
-                            if (selectedTagData.TaskStatus != 2)
-                            {
-                                TagTaskStatus taskstatus = new TagTaskStatus();
-                                taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
-                                taskstatus.TaskStatus = 2;
-                                taskstatus.CreatedBy = Settings.userLoginID;
-
-                                var taskval = await service.UpdateTaskStatus(taskstatus);
-
-                                if (taskval?.status == 1)
-                                {
-                                    await App.Current.MainPage.DisplayAlert("Done", "Marked as done.", "Ok");
-                                    //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
-                                }
-                            }
-
-                        }
-                    }
-                }
-                else
-                {
-                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok");
-                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
-                }
-            }
-            catch (Exception ex)
-            {
-                YPSLogger.ReportException(ex, "DoneClicked method -> in KPInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
-                await service.Handleexception(ex);
-            }
-        }
 
         private async void PlaneradioClicked(object sender, EventArgs e)
         {
             try
             {
                 var rb = (RadioButton)sender;
-                if (rb.ClassId == "0")
+                switch (rb.ClassId)
                 {
-                    Vm.PlaneTrue = true;
-                    Vm.PlaneFalse = false;
-                }
-                else
-                {
-                    Vm.PlaneFalse = true;
-                    Vm.PlaneTrue = false;
+                    case "0":
+                        Vm.PlaneTrue = true;
+                        Vm.PlaneFalse = false;
+                        Vm.PlaneNA = false;
+                        break;
+                    case "1":
+                        Vm.PlaneFalse = true;
+                        Vm.PlaneTrue = false;
+                        Vm.PlaneNA = false;
+                        break;
+                    case "2":
+                        Vm.PlaneTrue = false;
+                        Vm.PlaneFalse = false;
+                        Vm.PlaneNA = true;
+                        break;
                 }
             }
             catch (Exception ex)
@@ -244,6 +180,140 @@ namespace YPS.Parts2y.Parts2y_Views
             catch (Exception ex)
             {
                 YPSLogger.ReportException(ex, "FrontLeftClicked method -> in KPInspectionAnswersPage.xaml.cs " + Settings.userLoginID);
+                await service.Handleexception(ex);
+            }
+        }
+        private void OnKeyboardAppear(object sender, EventArgs e)
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    {
+                        Device.BeginInvokeOnMainThread(() => controlLayout.HeightRequest = 0);
+                        break;
+                    }
+            }
+        }
+        private void OnKeyboardDisppear(object sender, EventArgs e)
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    {
+                        Device.BeginInvokeOnMainThread(() => controlLayout.HeightRequest = 45);
+                        break;
+                    }
+            }
+        }
+
+        private void ExpiryDateClick(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() => pkExpiryDate.Focus());
+        }
+
+        private void DateSelected(object sender, DateChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                txtExpiryDate.Text = pkExpiryDate.Date.ToString("dd MMM yyyy");
+                pkExpiryDate.Unfocus();
+            });
+        }
+
+        private void NextQuestionClicked(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await scrQustionView.ScrollToAsync(scrQustionView.Content as Element, ScrollToPosition.Start, true);
+            });
+        }
+
+        private void InnerQuantityInput(object sender, TextChangedEventArgs e)
+        {
+            var input = ((Editor)sender).Text;
+            try
+            {
+                if (e.OldTextValue.Contains('.'))
+                {
+                    var split = e.NewTextValue.Split('.')[1].Length;
+                    ((Editor)sender).Text = !(split <= 2) ? e.NewTextValue.Remove(e.NewTextValue.Length - 1) : e.NewTextValue;
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private async void DoneClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var checkInternet = await App.CheckInterNetConnection();
+
+                if (checkInternet)
+                {
+                    if (Vm.isInspVIN == true)
+                    {
+                        if (selectedTagData.TaskID != 0 && selectedTagData.TagTaskStatus != 2)
+                        {
+                            TagTaskStatus tagtaskstatus = new TagTaskStatus();
+                            tagtaskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                            tagtaskstatus.POTagID = Helperclass.Encrypt(selectedTagData.POTagID.ToString());
+                            tagtaskstatus.Status = 2;
+                            tagtaskstatus.CreatedBy = Settings.userLoginID;
+
+                            var result = await service.UpdateTagTaskStatus(tagtaskstatus);
+
+                            if (result?.status == 1)
+                            {
+                                if (selectedTagData.TaskStatus == 0)
+                                {
+                                    TagTaskStatus taskstatus = new TagTaskStatus();
+                                    taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                                    taskstatus.TaskStatus = 1;
+                                    taskstatus.CreatedBy = Settings.userLoginID;
+
+                                    var taskval = await service.UpdateTaskStatus(taskstatus);
+                                }
+                                await App.Current.MainPage.DisplayAlert("Done", "Marked as done.", "Ok");
+                                //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (selectedTagData.TaskID != 0)
+                        {
+
+                            if (selectedTagData.TaskStatus != 2)
+                            {
+                                TagTaskStatus taskstatus = new TagTaskStatus();
+                                taskstatus.TaskID = Helperclass.Encrypt(selectedTagData.TaskID.ToString());
+                                taskstatus.TaskStatus = 2;
+                                taskstatus.CreatedBy = Settings.userLoginID;
+
+                                var taskval = await service.UpdateTaskStatus(taskstatus);
+
+                                if (taskval?.status == 1)
+                                {
+                                    await App.Current.MainPage.DisplayAlert("Done", "Marked as done.", "Ok");
+                                    //DependencyService.Get<IToastMessage>().ShortAlert("Marked as done.");
+                                }
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Internet", "Please check your internet connection.", "Ok", "");
+                    //DependencyService.Get<IToastMessage>().ShortAlert("Please check your internet connection.");
+                }
+            }
+            catch (Exception ex)
+            {
+                YPSLogger.ReportException(ex, "DoneClicked method -> in CInspectionAnswersPage.xaml.cs  " + Settings.userLoginID);
                 await service.Handleexception(ex);
             }
         }

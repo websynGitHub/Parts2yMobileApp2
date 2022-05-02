@@ -110,7 +110,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 loadindicator = true;
                 if (FrontRightTrue || FrontRightFalse || FrontLeftTrue || FrontLeftFalse || RearLeftTrue
-                    || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse)
+                    || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse|| PlaneNA)
                 {
                     var checkInternet = await App.CheckInterNetConnection();
                     if (checkInternet)
@@ -129,9 +129,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             updateInspectionRequest.BackRight = RearRightTrue ? 2 : 1;
                         }
 
-                        if (PlaneTrue == true || PlaneFalse == true)
+                        if (PlaneTrue == true || PlaneFalse == true || PlaneNA)
                         {
-                            updateInspectionRequest.Direct = PlaneTrue ? 2 : 1;
+                            updateInspectionRequest.Direct = PlaneTrue ? 2 : PlaneFalse ? 1 : 3;
                         }
 
                         if (FrontLeftTrue == true || FrontLeftFalse == true)
@@ -152,6 +152,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         updateInspectionRequest.TaskID = taskid;
                         updateInspectionRequest.Remarks = Remarks;
                         updateInspectionRequest.UserID = Settings.userLoginID;
+                        updateInspectionRequest.PalletNo_L2 = InspectionConfiguration?.InspectionResult?.PalletNo_L2;
+                        updateInspectionRequest.ExpiryDate = string.IsNullOrEmpty(InspectionConfiguration?.InspectionResult?.ExpiryDate) ? "" : InspectionConfiguration?.InspectionResult?.ExpiryDate;
+                        updateInspectionRequest.Attributes = InspectionConfiguration?.InspectionResult?.Attributes;
+                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty ?? 0;
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
 
                         //if (result != null && result.status == 1)
@@ -370,6 +374,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         var next = labelval.Where(wr => wr.FieldID == labelobj.Next.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var complete = labelval.Where(wr => wr.FieldID == labelobj.Complete.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
                         var save = labelval.Where(wr => wr.FieldID == labelobj.Save.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var palletno = labelval.Where(wr => wr.FieldID == labelobj.PalletNo.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var expirydate = labelval.Where(wr => wr.FieldID == labelobj.ExpiryDate.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var attributes = labelval.Where(wr => wr.FieldID == labelobj.Attributes.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
+                        var innerqty = labelval.Where(wr => wr.FieldID == labelobj.InnerQty.Name).Select(c => new { c.LblText, c.Status }).FirstOrDefault();
 
                         SignTabText = labelobj.Checklist.Name = checklist != null ? (!string.IsNullOrEmpty(checklist.LblText) ? checklist.LblText : labelobj.Checklist.Name) : labelobj.Checklist.Name;
                         labelobj.Remarks.Name = remark != null ? (!string.IsNullOrEmpty(remark.LblText) ? remark.LblText : labelobj.Remarks.Name) : labelobj.Remarks.Name;
@@ -377,6 +385,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         NextButtonText = labelobj.Next.Name = next != null ? (!string.IsNullOrEmpty(next.LblText) ? next.LblText : labelobj.Next.Name) : labelobj.Next.Name;
                         labelobj.Complete.Name = complete != null ? (!string.IsNullOrEmpty(complete.LblText) ? complete.LblText : labelobj.Complete.Name) : labelobj.Complete.Name;
                         labelobj.Save.Name = save != null ? (!string.IsNullOrEmpty(save.LblText) ? save.LblText : labelobj.Save.Name) : labelobj.Save.Name;
+                        labelobj.PalletNo.Name = palletno != null ? (!string.IsNullOrEmpty(palletno.LblText) ? palletno.LblText : labelobj.PalletNo.Name) : labelobj.PalletNo.Name;
+                        labelobj.ExpiryDate.Name = expirydate != null ? (!string.IsNullOrEmpty(expirydate.LblText) ? expirydate.LblText : labelobj.ExpiryDate.Name) : labelobj.ExpiryDate.Name;
+                        labelobj.Attributes.Name = attributes != null ? (!string.IsNullOrEmpty(attributes.LblText) ? attributes.LblText : labelobj.Attributes.Name) : labelobj.Attributes.Name;
+                        labelobj.InnerQty.Name = innerqty != null ? (!string.IsNullOrEmpty(innerqty.LblText) ? innerqty.LblText : labelobj.InnerQty.Name) : labelobj.InnerQty.Name;
 
                         //Assigning the Labels & Show/Hide the controls based on the data
                         if (isInspVIN == true)
@@ -510,7 +522,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 }
 
                 if (FrontRightTrue || FrontRightFalse || FrontLeftTrue || FrontLeftFalse || RearLeftTrue
-                    || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse)
+                    || RearLeftFalse || RearRightTrue || RearRightFalse || PlaneTrue || PlaneFalse || PlaneNA)
                 {
                     var checkInternet = await App.CheckInterNetConnection();
 
@@ -530,9 +542,9 @@ namespace YPS.Parts2y.Parts2y_View_Models
                             updateInspectionRequest.BackRight = RearRightTrue ? 2 : 1;
                         }
 
-                        if (PlaneTrue == true || PlaneFalse == true)
+                        if (PlaneTrue == true || PlaneFalse == true || PlaneNA)
                         {
-                            updateInspectionRequest.Direct = PlaneTrue ? 2 : 1;
+                            updateInspectionRequest.Direct = PlaneTrue ? 2 : PlaneFalse ? 1 : 3;
                         }
 
                         if (FrontLeftTrue == true || FrontLeftFalse == true)
@@ -553,6 +565,12 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         updateInspectionRequest.TaskID = taskid;
                         updateInspectionRequest.Remarks = Remarks;
                         updateInspectionRequest.UserID = Settings.userLoginID;
+
+                        updateInspectionRequest.PalletNo_L2 = InspectionConfiguration?.InspectionResult?.PalletNo_L2;
+                        updateInspectionRequest.ExpiryDate = string.IsNullOrEmpty(InspectionConfiguration?.InspectionResult?.ExpiryDate) ? "" : InspectionConfiguration?.InspectionResult?.ExpiryDate;
+                        updateInspectionRequest.Attributes = InspectionConfiguration?.InspectionResult?.Attributes;
+                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty ?? 0;
+
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
 
                         if (result != null && result.status == 1)
@@ -574,6 +592,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                                 RearRightFalse = false;
                                 PlaneTrue = false;
                                 PlaneFalse = false;
+                                PlaneNA = false;
                                 Remarks = string.Empty;
 
                                 AnswersGridVisibility = false;
@@ -716,6 +735,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                 LeftLabel = InspectionConfiguration.FrontLeft == 1 || InspectionConfiguration.BackLeft == 1;
                 RightLabel = InspectionConfiguration.FrontRight == 1 || InspectionConfiguration.BackRight == 1;
                 var answer = inspectionResultsList?.Find(x => x.QID == InspectionConfiguration.MInspectionConfigID);
+                InspectionConfiguration.InspectionResult = inspectionResultsList?.Where(x => x.QID == InspectionConfiguration.MInspectionConfigID).FirstOrDefault();
 
                 if (answer != null)
                 {
@@ -773,12 +793,20 @@ namespace YPS.Parts2y.Parts2y_View_Models
                     {
                         PlaneTrue = true;
                         PlaneFalse = false;
+                        PlaneNA = false;
                     }
 
                     if (PlaneOptions && answer.Direct == 1)
                     {
                         PlaneTrue = false;
                         PlaneFalse = true;
+                        PlaneNA = false;
+                    }
+                    if (PlaneOptions && answer.Direct == 3)
+                    {
+                        PlaneTrue = false;
+                        PlaneFalse = false;
+                        PlaneNA = true;
                     }
                 }
             }
@@ -857,6 +885,10 @@ namespace YPS.Parts2y.Parts2y_View_Models
             public DashboardLabelFields Next { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnNext" };
             public DashboardLabelFields Complete { get; set; } = new DashboardLabelFields { Status = true, Name = "LCMbtnComplete" };
             public DashboardLabelFields Save { get; set; } = new DashboardLabelFields { Status = true, Name = Settings.SaveBtn };
+            public DashboardLabelFields PalletNo { get; set; } = new DashboardLabelFields { Status = false, Name = "PalletNo_L2" };
+            public DashboardLabelFields ExpiryDate { get; set; } = new DashboardLabelFields { Status = false, Name = "ExpiryDate" };
+            public DashboardLabelFields Attributes { get; set; } = new DashboardLabelFields { Status = false, Name = "Attributes" };
+            public DashboardLabelFields InnerQty { get; set; } = new DashboardLabelFields { Status = false, Name = "InnerQty" };
         }
         public class DashboardLabelFields : IBase
         {
@@ -1473,6 +1505,17 @@ namespace YPS.Parts2y.Parts2y_View_Models
             {
                 _PlaneFalse = value;
                 RaisePropertyChanged("PlaneFalse");
+            }
+        }
+
+        private bool planeNA;
+        public bool PlaneNA
+        {
+            get => planeNA;
+            set
+            {
+                planeNA = value;
+                RaisePropertyChanged("PlaneNA");
             }
         }
 

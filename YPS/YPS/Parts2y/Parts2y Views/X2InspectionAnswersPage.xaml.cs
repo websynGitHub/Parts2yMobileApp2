@@ -136,15 +136,23 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 var rb = (RadioButton)sender;
-                if (rb.ClassId == "0")
+                switch (rb.ClassId)
                 {
-                    Vm.PlaneTrue = true;
-                    Vm.PlaneFalse = false;
-                }
-                else
-                {
-                    Vm.PlaneFalse = true;
-                    Vm.PlaneTrue = false;
+                    case "0":
+                        Vm.PlaneTrue = true;
+                        Vm.PlaneFalse = false;
+                        Vm.PlaneNA = false;
+                        break;
+                    case "1":
+                        Vm.PlaneFalse = true;
+                        Vm.PlaneTrue = false;
+                        Vm.PlaneNA = false;
+                        break;
+                    case "2":
+                        Vm.PlaneTrue = false;
+                        Vm.PlaneFalse = false;
+                        Vm.PlaneNA = true;
+                        break;
                 }
             }
             catch (Exception ex)
@@ -245,6 +253,69 @@ namespace YPS.Parts2y.Parts2y_Views
             {
                 YPSLogger.ReportException(ex, "FrontLeftClicked method -> in X2InspectionAnswersPage.xaml.cs " + Settings.userLoginID);
                 await service.Handleexception(ex);
+            }
+        }
+
+
+        private void OnKeyboardAppear(object sender, EventArgs e)
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    {
+                        Device.BeginInvokeOnMainThread(() => controlLayout.HeightRequest = 0);
+                        break;
+                    }
+            }
+        }
+        private void OnKeyboardDisppear(object sender, EventArgs e)
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    {
+                        Device.BeginInvokeOnMainThread(() => controlLayout.HeightRequest = 45);
+                        break;
+                    }
+            }
+        }
+
+        private void ExpiryDateClick(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() => pkExpiryDate.Focus());
+        }
+
+        private void DateSelected(object sender, DateChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                txtExpiryDate.Text = pkExpiryDate.Date.ToString("dd MMM yyyy");
+                pkExpiryDate.Unfocus();
+            });
+        }
+
+        private void NextQuestionClicked(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await scrQustionView.ScrollToAsync(scrQustionView.Content as Element, ScrollToPosition.Start, true);
+            });
+        }
+
+        private void InnerQuantityInput(object sender, TextChangedEventArgs e)
+        {
+            var input = ((Editor)sender).Text;
+            try
+            {
+                if (e.OldTextValue.Contains('.'))
+                {
+                    var split = e.NewTextValue.Split('.')[1].Length;
+                    ((Editor)sender).Text = !(split <= 2) ? e.NewTextValue.Remove(e.NewTextValue.Length - 1) : e.NewTextValue;
+                }
+            }
+            catch
+            {
+
             }
         }
     }

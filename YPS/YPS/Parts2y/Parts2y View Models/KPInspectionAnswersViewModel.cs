@@ -154,7 +154,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         updateInspectionRequest.PalletNo_L2 = InspectionConfiguration?.InspectionResult?.PalletNo_L2;
                         updateInspectionRequest.ExpiryDate = string.IsNullOrEmpty(InspectionConfiguration?.InspectionResult?.ExpiryDate) ? "" : InspectionConfiguration?.InspectionResult?.ExpiryDate;
                         updateInspectionRequest.Attributes = InspectionConfiguration?.InspectionResult?.Attributes;
-                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty;
+                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty ?? 0;
+
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
 
                         //if (result != null && result.status == 1)
@@ -569,7 +570,7 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         updateInspectionRequest.PalletNo_L2 = InspectionConfiguration?.InspectionResult?.PalletNo_L2;
                         updateInspectionRequest.ExpiryDate = string.IsNullOrEmpty(InspectionConfiguration?.InspectionResult?.ExpiryDate) ? "" : InspectionConfiguration?.InspectionResult?.ExpiryDate;
                         updateInspectionRequest.Attributes = InspectionConfiguration?.InspectionResult?.Attributes;
-                        updateInspectionRequest.InnerQty =  InspectionConfiguration?.InspectionResult?.InnerQty;
+                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty;
 
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
 

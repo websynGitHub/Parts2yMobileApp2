@@ -14,6 +14,7 @@ using YPS.Helpers;
 using YPS.Model;
 using YPS.Parts2y.Parts2y_View_Models;
 using YPS.Service;
+using System.Text.RegularExpressions;
 
 namespace YPS.Parts2y.Parts2y_Views
 {
@@ -138,16 +139,6 @@ namespace YPS.Parts2y.Parts2y_Views
             try
             {
                 var rb = (RadioButton)sender;
-                //if (rb.ClassId == "0")
-                //{
-                //    Vm.PlaneTrue = true;
-                //    Vm.PlaneFalse = false;
-                //}
-                //else
-                //{
-                //    Vm.PlaneFalse = true;
-                //    Vm.PlaneTrue = false;
-                //}
                 switch (rb.ClassId)
                 {
                     case "0":
@@ -293,7 +284,7 @@ namespace YPS.Parts2y.Parts2y_Views
 
         private void ExpiryDateClick(object sender, EventArgs e)
         {
- Device.BeginInvokeOnMainThread(()=>pkExpiryDate.Focus());
+            Device.BeginInvokeOnMainThread(() => pkExpiryDate.Focus());
         }
 
         private void DateSelected(object sender, DateChangedEventArgs e)
@@ -307,10 +298,27 @@ namespace YPS.Parts2y.Parts2y_Views
 
         private void NextQuestionClicked(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(async() =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
                 await scrQustionView.ScrollToAsync(scrQustionView.Content as Element, ScrollToPosition.Start, true);
             });
+        }
+
+        private void InnerQuantityInput(object sender, TextChangedEventArgs e)
+        {
+            var input = ((Editor)sender).Text;
+            try
+            {
+                if (e.OldTextValue.Contains('.'))
+                {
+                    var split = e.NewTextValue.Split('.')[1].Length;
+                    ((Editor)sender).Text = !(split <= 2) ? e.NewTextValue.Remove(e.NewTextValue.Length - 1) : e.NewTextValue;
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

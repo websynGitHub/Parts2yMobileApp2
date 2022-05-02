@@ -47,7 +47,7 @@ namespace YPS.Model
         public string ExpiryDate { get; set; }
         public string Attributes { get; set; }
         public int? InnerQty { get; set; }
-        public bool additional_entry { get; set; }
+        public int additional_entry { get; set; }
 
     }
 }

@@ -624,10 +624,23 @@
                                     <!--  IsVisible="{Binding InspectionConfiguration.InspectionResult.additional_entry, TargetNullValue=False}"  -->
                                     <StackLayout
                                         BackgroundColor="Transparent"
-                                        IsVisible="{Binding InspectionConfiguration.additional_entry, TargetNullValue=False}"
                                         Orientation="Vertical"
                                         Spacing="0"
                                         VerticalOptions="StartAndExpand">
+                                        <StackLayout.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding InspectionConfiguration.additional_entry}"
+                                                TargetType="StackLayout"
+                                                Value="1">
+                                                <Setter Property="IsVisible" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding InspectionConfiguration.additional_entry}"
+                                                TargetType="StackLayout"
+                                                Value="0">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </StackLayout.Triggers>
                                         <sfinput:SfTextInputLayout
                                             Margin="0,0,0,0"
                                             ContainerBackgroundColor="White"
@@ -726,6 +739,7 @@
                                                 PlaceholderColor="#4c4c4c"
                                                 Style="{StaticResource EntryTextStyle}"
                                                 Text="{Binding InspectionConfiguration.InspectionResult.InnerQty}"
+                                                TextChanged="InnerQuantityInput"
                                                 TextColor="Black">
                                                 <local:MyEditor.HeightRequest>
                                                     <OnPlatform x:TypeArguments="x:Double">
