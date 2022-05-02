@@ -8,7 +8,7 @@
     xmlns:local="clr-namespace:YPS.CustomRenders"
     xmlns:local1="clr-namespace:YPS.CommonClasses"
     xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
-    xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:local2="clr-namespace:YPS.CustomRender"
     x:Name="LoadInspAnswerPage"
     BackgroundColor="#E9E9E9"
     NavigationPage.HasNavigationBar="False">
@@ -647,23 +647,31 @@
                                             Hint="{Binding labelobj.PalletNo.Name}"
                                             Style="{StaticResource SfInputLayout}">
 
-                                            <local:MyEditor
+                                            <local2:MyEntry
                                                 Margin="0"
                                                 HorizontalOptions="FillAndExpand"
                                                 KeyBoardAppear="OnKeyboardAppear"
                                                 KeyBoardDisappear="OnKeyboardDisppear"
                                                 Placeholder="{Binding labelobj.PalletNo.Name}"
                                                 PlaceholderColor="#4c4c4c"
-                                                Style="{StaticResource EntryTextStyle}"
+                                                VerticalOptions="CenterAndExpand"  Style="{StaticResource EntryTextStyle}"
                                                 Text="{Binding InspectionConfiguration.InspectionResult.PalletNo_L2}"
                                                 TextColor="Black">
-                                                <local:MyEditor.HeightRequest>
+                                                <local2:MyEntry.HeightRequest>
                                                     <OnPlatform x:TypeArguments="x:Double">
-                                                        <On Platform="iOS">47</On>
+                                                        <On Platform="iOS">30</On>
                                                         <On Platform="Android">50</On>
                                                     </OnPlatform>
-                                                </local:MyEditor.HeightRequest>
-                                            </local:MyEditor>
+                                                </local2:MyEntry.HeightRequest>
+                                            </local2:MyEntry>
+                                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                                <sfinput:LabelStyle FontSize="18">
+                                                    <sfinput:LabelStyle.FontFamily>
+                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                    </sfinput:LabelStyle.FontFamily>
+                                                </sfinput:LabelStyle>
+                                            </sfinput:SfTextInputLayout.HintLabelStyle>
                                         </sfinput:SfTextInputLayout>
 
                                         <sfinput:SfTextInputLayout
@@ -672,7 +680,7 @@
                                             Hint="{Binding labelobj.ExpiryDate.Name}"
                                             Style="{StaticResource SfInputLayout}">
 
-                                            <local:MyEditor
+                                            <local2:MyEntry
                                                 x:Name="txtExpiryDate"
                                                 Margin="0"
                                                 HorizontalOptions="FillAndExpand"
@@ -682,16 +690,24 @@
                                                 Style="{StaticResource EntryTextStyle}"
                                                 Text="{Binding InspectionConfiguration.InspectionResult.ExpiryDate}"
                                                 TextColor="Black">
-                                                <local:MyEditor.HeightRequest>
+                                                <local2:MyEntry.HeightRequest>
                                                     <OnPlatform x:TypeArguments="x:Double">
-                                                        <On Platform="iOS">47</On>
+                                                        <On Platform="iOS">25</On>
                                                         <On Platform="Android">50</On>
                                                     </OnPlatform>
-                                                </local:MyEditor.HeightRequest>
-                                            </local:MyEditor>
+                                                </local2:MyEntry.HeightRequest>
+                                            </local2:MyEntry>
                                             <sfinput:SfTextInputLayout.GestureRecognizers>
                                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ExpiryDateClick" />
                                             </sfinput:SfTextInputLayout.GestureRecognizers>
+                                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                                <sfinput:LabelStyle FontSize="18">
+                                                    <sfinput:LabelStyle.FontFamily>
+                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                    </sfinput:LabelStyle.FontFamily>
+                                                </sfinput:LabelStyle>
+                                            </sfinput:SfTextInputLayout.HintLabelStyle>
                                         </sfinput:SfTextInputLayout>
                                         <DatePicker
                                             x:Name="pkExpiryDate"
@@ -703,7 +719,7 @@
                                             Hint="{Binding labelobj.Attributes.Name}"
                                             Style="{StaticResource SfInputLayout}">
 
-                                            <local:MyEditor
+                                            <local2:MyEntry
                                                 Margin="0"
                                                 HorizontalOptions="FillAndExpand"
                                                 KeyBoardAppear="OnKeyboardAppear"
@@ -713,13 +729,21 @@
                                                 Style="{StaticResource EntryTextStyle}"
                                                 Text="{Binding InspectionConfiguration.InspectionResult.Attributes}"
                                                 TextColor="Black">
-                                                <local:MyEditor.HeightRequest>
+                                                <local2:MyEntry.HeightRequest>
                                                     <OnPlatform x:TypeArguments="x:Double">
-                                                        <On Platform="iOS">47</On>
+                                                        <On Platform="iOS">25</On>
                                                         <On Platform="Android">50</On>
                                                     </OnPlatform>
-                                                </local:MyEditor.HeightRequest>
-                                            </local:MyEditor>
+                                                </local2:MyEntry.HeightRequest>
+                                            </local2:MyEntry>
+                                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                                <sfinput:LabelStyle FontSize="18">
+                                                    <sfinput:LabelStyle.FontFamily>
+                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                    </sfinput:LabelStyle.FontFamily>
+                                                </sfinput:LabelStyle>
+                                            </sfinput:SfTextInputLayout.HintLabelStyle>
                                         </sfinput:SfTextInputLayout>
 
                                         <sfinput:SfTextInputLayout
@@ -728,7 +752,7 @@
                                             Hint="{Binding labelobj.InnerQty.Name}"
                                             Style="{StaticResource SfInputLayout}">
 
-                                            <local:MyEditor
+                                            <local2:MyEntry
                                                 x:Name="entry"
                                                 Margin="0"
                                                 HorizontalOptions="FillAndExpand"
@@ -741,13 +765,21 @@
                                                 Text="{Binding InspectionConfiguration.InspectionResult.InnerQty}"
                                                 TextChanged="InnerQuantityInput"
                                                 TextColor="Black">
-                                                <local:MyEditor.HeightRequest>
+                                                <local2:MyEntry.HeightRequest>
                                                     <OnPlatform x:TypeArguments="x:Double">
-                                                        <On Platform="iOS">47</On>
+                                                        <On Platform="iOS">25</On>
                                                         <On Platform="Android">50</On>
                                                     </OnPlatform>
-                                                </local:MyEditor.HeightRequest>
-                                            </local:MyEditor>
+                                                </local2:MyEntry.HeightRequest>
+                                            </local2:MyEntry>
+                                            <sfinput:SfTextInputLayout.HintLabelStyle>
+                                                <sfinput:LabelStyle FontSize="18">
+                                                    <sfinput:LabelStyle.FontFamily>
+                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
+                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                    </sfinput:LabelStyle.FontFamily>
+                                                </sfinput:LabelStyle>
+                                            </sfinput:SfTextInputLayout.HintLabelStyle>
                                         </sfinput:SfTextInputLayout>
                                     </StackLayout>
 

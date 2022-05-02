@@ -21,7 +21,7 @@ namespace YPS.Droid.Custom_Renderers
         /// </summary>
         /// <param name="context"></param>
         public MyEntryRenderer(Context context) : base(context) { }
-
+        MyEntry myEntry;
         /// <summary>
         /// Gets called when any changes occur to the MyEditor.
         /// </summary>
@@ -35,7 +35,7 @@ namespace YPS.Droid.Custom_Renderers
                 if (Control != null)
                 {
                     var entry = Element as Entry;
-
+                    myEntry = e.NewElement as MyEntry;
                     GradientDrawable gd = new GradientDrawable();
                     gd.SetColor(global::Android.Graphics.Color.Transparent);
                     this.Control.SetBackgroundDrawable(gd);
@@ -70,9 +70,15 @@ namespace YPS.Droid.Custom_Renderers
         private void Control_FocusChange(object sender, FocusChangeEventArgs e)
         {
             if (e.HasFocus)
+            {
+                myEntry?.NotifyKeyBoardAppear(sender, null);
                 (Forms.Context as Activity).Window.SetSoftInputMode(SoftInput.AdjustResize);
+            }
             else
+            {
+                myEntry?.NotifyKeyBoardDisappear(sender, null);
                 (Forms.Context as Activity).Window.SetSoftInputMode(SoftInput.AdjustNothing);
+            }
         }
     }
 
