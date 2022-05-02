@@ -154,16 +154,16 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         updateInspectionRequest.PalletNo_L2 = InspectionConfiguration?.InspectionResult?.PalletNo_L2;
                         updateInspectionRequest.ExpiryDate = string.IsNullOrEmpty(InspectionConfiguration?.InspectionResult?.ExpiryDate) ? "" : InspectionConfiguration?.InspectionResult?.ExpiryDate;
                         updateInspectionRequest.Attributes = InspectionConfiguration?.InspectionResult?.Attributes;
-                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty ?? 0;
+                        updateInspectionRequest.InnerQty = InspectionConfiguration?.InspectionResult?.InnerQty;
 
                         var result = await trackService.InsertUpdateInspectionResult(updateInspectionRequest);
 
-                        //if (result != null && result.status == 1)
-                        //{
-                        //    loadindicator = false;
-                        //    await App.Current.MainPage.DisplayAlert("Updated", "Changed Saved .", "Ok");
-                        //    //DependencyService.Get<IToastMessage>().ShortAlert("Updated", "Changed Saved .", "Ok");
-                        //}
+                        if (result != null && result.status == 1)
+                        {
+                            loadindicator = false;
+                            await App.Current.MainPage.DisplayAlert("Updated", "Changed Saved .", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Updated", "Changed Saved .", "Ok");
+                        }
                     }
                     else
                     {
