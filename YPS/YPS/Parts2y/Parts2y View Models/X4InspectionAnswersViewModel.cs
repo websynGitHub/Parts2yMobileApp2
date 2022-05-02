@@ -163,8 +163,8 @@ namespace YPS.Parts2y.Parts2y_View_Models
                         if (result != null && result.status == 1)
                         {
                             loadindicator = false;
-                            await App.Current.MainPage.DisplayAlert("Updated", "Changed Saved .", "Ok");
-                            //DependencyService.Get<IToastMessage>().ShortAlert("Updated", "Changed Saved .", "Ok");
+                            await App.Current.MainPage.DisplayAlert("Update", "Data Saved .", "Ok");
+                            //DependencyService.Get<IToastMessage>().ShortAlert("Update", "Data Saved .", "Ok");
                         }
                     }
                     else
