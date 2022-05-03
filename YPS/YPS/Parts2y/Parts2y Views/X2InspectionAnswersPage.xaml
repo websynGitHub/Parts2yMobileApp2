@@ -7,8 +7,9 @@
     xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
     xmlns:local="clr-namespace:YPS.CustomRenders"
     xmlns:local1="clr-namespace:YPS.CommonClasses"
+    xmlns:local2="clr-namespace:YPS.CustomRender"
     xmlns:sfinput="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
-    xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:local2="clr-namespace:YPS.CustomRender"
+    xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
     x:Name="X2InspAnswerPage"
     BackgroundColor="#E9E9E9"
     NavigationPage.HasNavigationBar="False">
@@ -654,12 +655,13 @@
                                                 KeyBoardDisappear="OnKeyboardDisppear"
                                                 Placeholder="{Binding labelobj.PalletNo.Name}"
                                                 PlaceholderColor="#4c4c4c"
-                                                VerticalOptions="CenterAndExpand"  Style="{StaticResource EntryTextStyle}"
+                                                Style="{StaticResource EntryTextStyle}"
                                                 Text="{Binding InspectionConfiguration.InspectionResult.PalletNo_L2}"
-                                                TextColor="Black">
+                                                TextColor="Black"
+                                                VerticalOptions="CenterAndExpand">
                                                 <local2:MyEntry.HeightRequest>
                                                     <OnPlatform x:TypeArguments="x:Double">
-                                                        <On Platform="iOS">30</On>
+                                                        <On Platform="iOS">25</On>
                                                         <On Platform="Android">50</On>
                                                     </OnPlatform>
                                                 </local2:MyEntry.HeightRequest>
@@ -667,8 +669,10 @@
                                             <sfinput:SfTextInputLayout.HintLabelStyle>
                                                 <sfinput:LabelStyle FontSize="18">
                                                     <sfinput:LabelStyle.FontFamily>
-                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
-                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                        <OnPlatform
+                                                            x:TypeArguments="x:String"
+                                                            Android="Lato-Regular.ttf#Lato-Regular"
+                                                            iOS="Lato-Regular" />
                                                     </sfinput:LabelStyle.FontFamily>
                                                 </sfinput:LabelStyle>
                                             </sfinput:SfTextInputLayout.HintLabelStyle>
@@ -703,8 +707,10 @@
                                             <sfinput:SfTextInputLayout.HintLabelStyle>
                                                 <sfinput:LabelStyle FontSize="18">
                                                     <sfinput:LabelStyle.FontFamily>
-                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
-                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                        <OnPlatform
+                                                            x:TypeArguments="x:String"
+                                                            Android="Lato-Regular.ttf#Lato-Regular"
+                                                            iOS="Lato-Regular" />
                                                     </sfinput:LabelStyle.FontFamily>
                                                 </sfinput:LabelStyle>
                                             </sfinput:SfTextInputLayout.HintLabelStyle>
@@ -739,8 +745,10 @@
                                             <sfinput:SfTextInputLayout.HintLabelStyle>
                                                 <sfinput:LabelStyle FontSize="18">
                                                     <sfinput:LabelStyle.FontFamily>
-                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
-                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                        <OnPlatform
+                                                            x:TypeArguments="x:String"
+                                                            Android="Lato-Regular.ttf#Lato-Regular"
+                                                            iOS="Lato-Regular" />
                                                     </sfinput:LabelStyle.FontFamily>
                                                 </sfinput:LabelStyle>
                                             </sfinput:SfTextInputLayout.HintLabelStyle>
@@ -775,8 +783,10 @@
                                             <sfinput:SfTextInputLayout.HintLabelStyle>
                                                 <sfinput:LabelStyle FontSize="18">
                                                     <sfinput:LabelStyle.FontFamily>
-                                                        <OnPlatform x:TypeArguments="x:String" iOS="Lato-Regular"
-                                                        Android="Lato-Regular.ttf#Lato-Regular" />
+                                                        <OnPlatform
+                                                            x:TypeArguments="x:String"
+                                                            Android="Lato-Regular.ttf#Lato-Regular"
+                                                            iOS="Lato-Regular" />
                                                     </sfinput:LabelStyle.FontFamily>
                                                 </sfinput:LabelStyle>
                                             </sfinput:SfTextInputLayout.HintLabelStyle>
