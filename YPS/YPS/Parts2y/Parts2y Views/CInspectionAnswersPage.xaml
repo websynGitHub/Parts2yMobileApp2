@@ -385,10 +385,11 @@
                             VerticalOptions="FillAndExpand">
                             <ScrollView
                                 x:Name="scrQustionView"
-                                Margin="10,12,10,10"
+                                Margin="3,4,3,3"
                                 Orientation="Vertical"
                                 VerticalOptions="FillAndExpand">
                                 <StackLayout
+                                    Margin="7,8,7,7"
                                     Orientation="Vertical"
                                     Spacing="2"
                                     VerticalOptions="FillAndExpand">
